@@ -1,26 +1,53 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { deleteCookie } from 'cookies-next';
-// import toast from 'react-hot-toast';
-import { ILogin } from '../../types';
 
-export const loginUser = createAsyncThunk("/users/sign-in", async ({router, ...rest}: ILogin, {rejectWithValue}) => {
-  try {
-    console.log(">>>>>>>rest", rest)
-    const rs = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/sign-in`, rest)
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+// import toast from 'react-hot-toast';
+import { deleteCookie } from 'cookies-next';
+import { ILogin } from '../../types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>("/users/sign-in", async ({ navigation, ...rest }: ILogin, { rejectWithValue }) => {
   
-    if (rs.status === 200) {
-      localStorage?.setItem("accessToken", rs.data.data.token)
-      localStorage?.setItem("refreshToken", rs.data.data.refreshToken)
+  try {
+
+    const rs = await fetch(`https://errand-app.herokuapp.com/v1/user/sign-in`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(rest),
+    })
+
+    const _rs = await rs.json()
+
+    // console.log(">>>>>>_rs", _rs.data.access_token);
+    
+    if (_rs.success === true) {
+      await AsyncStorage.setItem('accessToken', _rs.data.access_token )
+      await AsyncStorage.setItem('refreshToken', _rs.data.refresh_token )
+
+      // setCookie("access_token", rs.data.data.access_token)
+      // localStorage.setItem('user_id', rs.data.data.id)
+      // localStorage.setItem("accessToken", rs.data.data.access_token)
+      // localStorage.setItem("refreshToken", rs.data.data.refresh_token)
+      // localStorage?.setItem("last_name", rs.data.data.last_name)
+      // localStorage?.setItem("first_name", rs.data.data.first_name)
+
+      // setSuccess(true)
+
       // toast.success('Login Successful')
-      router.push('/profile')
+      navigation.navigate('Main')
     }
+
   } catch (e: any) {
-     if (e.response.status === 404) {
+     if (e.response.status === 400) {
       // toast.error("Invalid Login Credentials")
-      return 'Invalid Login Credentials'
+      return rejectWithValue(e.response.data.message)
+     }
+    if (e.response.status === 404) {
+      // console.log(">>>>>>e,respomse", e.response)
+      return rejectWithValue(e.response.data.message)
     }
-    return rejectWithValue(e.response.message)
   }
 })
 
@@ -28,7 +55,6 @@ export const loginUser = createAsyncThunk("/users/sign-in", async ({router, ...r
 interface initState {
   error: any,
   loading: boolean,
-
 }
 
 
@@ -41,9 +67,9 @@ const loginSlice = createSlice({
   name: "/users/login",
   initialState,
   reducers: {
-    logout: (state) => {
+     logout: (state) => {
         localStorage.clear();
-        deleteCookie('accessToken');
+        deleteCookie('access_token');
         state.loading = false;
         state.error = ""
         window.location.pathname = "/"
@@ -51,9 +77,9 @@ const loginSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.rejected, (state, action) => {
+      console.log(">>>>rejecgt", state.error)
       state.error = action.payload;
       state.loading = false;
-
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.loading = false;
@@ -62,6 +88,7 @@ const loginSlice = createSlice({
     builder.addCase(loginUser.pending, (state, action) => {
       state.loading = true;
       state.error = action.payload;
+      
     });
   },
 

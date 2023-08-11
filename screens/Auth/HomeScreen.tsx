@@ -48,7 +48,7 @@ export default function HomeScreen() {
               <Text className="text-white text-base">Login</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('Main')}
+              onPress={() => navigation.navigate('VerifyPhone')}
               style={{ borderWidth: 1 }}
               className="border-[#243763] border-solid border-1 text-[#243763] py-3 w-60 flex-row items-center justify-center rounded-lg cursor-pointer"
             >

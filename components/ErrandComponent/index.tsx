@@ -2,9 +2,17 @@ import { Entypo } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
+import { getTimeDiff } from '../../constants/utility'
+import { MarketData } from '../../types'
 
-export default function ErrandComp() {
+interface ErrandCardProp {
+  errand: MarketData
+}
+
+export default function ErrandComp({ errand }: ErrandCardProp) {
   const navigation = useNavigation()
+  const budgetInNaira = Number(errand?.budget / Number(100))
+
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('ErrandDetails')}
@@ -13,7 +21,7 @@ export default function ErrandComp() {
       <View className="px-3">
         <View className="flex-row items-center">
           <View className="w-10 border h-10 rounded-full "></View>
-          <View className="pl-2 flex-row space-x-40 justify-between">
+          <View className="pl-2 flex-row space-x-48 justify-between">
             <View className="">
               <Text>Jane Doe</Text>
               <View className="flex-row items-center">
@@ -21,18 +29,20 @@ export default function ErrandComp() {
                 <Text className="text-xs text-[#a8a8a8]">Ajah, Lagos</Text>
               </View>
             </View>
-            <Text className="text-xs text-[#a8a8a8]">2 hrs to go</Text>
+            <Text className="text-xs text-[#a8a8a8]">
+              {getTimeDiff(errand?.created_at)}
+            </Text>
           </View>
         </View>
         <View className="pl-12">
-          <Text className="text-xs pt-2">
-            I Am at Ajah, I need someone to help me pick up my clothes from a
-            friend in ikeja Along before 6:00pm today
-          </Text>
+          <Text className="text-xs pt-2">{errand.description}</Text>
           <View className="flex-row justify-between items-center pt-1 ">
-            <Text className="text-xs text-[#243763] font-bold">N 2,000</Text>
             <Text className="text-xs text-[#243763] font-bold">
-              Pick-up & Delivery
+              {' '}
+              &#x20A6; {budgetInNaira.toLocaleString()}
+            </Text>
+            <Text className="text-xs text-[#243763] font-bold">
+              {errand?.category.name}
             </Text>
           </View>
         </View>

@@ -4,7 +4,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export const createAccount = createAsyncThunk("/user/createAccount", async ({router, newData}: any, {rejectWithValue}) => {
   try {
     // console.log(">>>>>>>newDATA", newData)
-
     await fetch('https://errand-app.herokuapp.com/v1/user/sign-up', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

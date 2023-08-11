@@ -1,62 +1,57 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { deleteCookie } from 'cookies-next';
-import { ILogin } from '../../types';
-import { http } from '../axios/http';
+import { GetSecurityQuestionRequest, GetSecurityQuestionState, SecurityQuestionResponse } from '../../types';
+import { _fetch } from '../axios/http';
 
-export const getQuestions = createAsyncThunk("/users/security-questions", async ({router, ...rest}: ILogin, {rejectWithValue}) => {
+export const securityQuesitions = createAsyncThunk<SecurityQuestionResponse, GetSecurityQuestionRequest, { rejectValue: string }>(
+  "securityQuestions/get",
+  async ({ phone_number, navigate }: GetSecurityQuestionRequest, { rejectWithValue }) => {
+    
   try {
-    const rs = await http.post(`${process.env.NEXT_PUBLIC_BASE_URL}/users/security-questions`, rest)
+    const url = `/security-question?phone_number=${phone_number}`
 
-    if (rs.data.statusCode === '0000') {
-      // setCookie so that I can use it for serverside prop 
-      return rs.data
-    }
+    const _rs = await _fetch({ _url: url, method: 'GET' })
+    const rs =  await _rs.json()
 
-    if (rs.data.statusCode === "9000") {
-      return rejectWithValue(rs.data.statusCode)
+    
+
+    if (rs.data.success === true) {
+      localStorage.setItem("phone", phone_number)
+      localStorage.setItem("question", rs.data.data.question)
+      return rs.data.data
     }
-  } catch (e) {
-    console.log(">>>>>>e", e)
-    return rejectWithValue(e)
+  } catch (e: any) {
+    console.log('eeee', e.response.data.message)
+    if (e.response.status === 400) {
+      // toast.error("Sorry, we are unable to get your security question at this time, please try again later. If this persist please contact our customer care center");
+      navigate("/auth/password-recovery-otp")
+      return rejectWithValue(e.response.data.message)
+     }
+    return rejectWithValue(e.response.data.message)
   }
 })
 
-
-interface initState {
-  error: any,
-  loading: boolean,
-
-}
-
-
-const initialState: initState = {
+const initialState: GetSecurityQuestionState= {
   error: "",
   loading: false,
+  data: {question:""}
 }
 
-const questionSlice = createSlice({
-  name: "/users/login",
+const securityQuestionSlice = createSlice({
+  name: "/auth/security-questions",
   initialState,
-  reducers: {
-    logout: (state) => {
-        localStorage.clear();
-        deleteCookie('accessToken');
-        state.loading = false;
-        state.error = ""
-        window.location.pathname = "/"
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getQuestions.rejected, (state, action) => {
+    builder.addCase(securityQuesitions.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
 
     });
-    builder.addCase(getQuestions.fulfilled, (state, action) => {
+    builder.addCase(securityQuesitions.fulfilled, (state, action) => {
       state.loading = false;
       state.error = "";
+      state.data = action.payload.data
     });
-    builder.addCase(getQuestions.pending, (state, action) => {
+    builder.addCase(securityQuesitions.pending, (state, action) => {
       state.loading = true;
       state.error = action.payload;
     });
@@ -64,4 +59,4 @@ const questionSlice = createSlice({
 
 })
 
-export default questionSlice.reducer
+export const securityQuestionReducer = securityQuestionSlice.reducer

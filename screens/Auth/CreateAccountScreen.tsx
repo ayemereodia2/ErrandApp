@@ -1,11 +1,23 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useLayoutEffect } from 'react'
+import { useForm } from 'react-hook-form'
 import { SafeAreaView, ScrollView, Text, View } from 'react-native'
 import Button from '../../components/Button'
 import InputField from '../../components/InputField'
 
 export default function CreateAccountScreen() {
   const navigation = useNavigation()
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      phone_number: '',
+      password: '',
+    },
+  })
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -33,29 +45,37 @@ export default function CreateAccountScreen() {
               Let’s get started and create a Profile for you
             </Text>
 
-            <View className="pt-2 space-y-4">
+            {/* <View className="pt-2 space-y-4">
               <InputField
                 label="First Name"
-                placeHolder="Enter your Name"
+                placeholder="Enter your Name"
                 keyboardType="default"
+                name="first_name"
+                control={control}
               />
 
               <InputField
                 label="Last Name"
-                placeHolder="Enter your Name"
+                placeholder="Enter your Name"
                 keyboardType="default"
+                name="last_name"
+                control={control}
               />
 
               <InputField
                 label="Phone Number"
-                placeHolder="Enter your Name"
+                placeholder="Enter your Name"
                 keyboardType="default"
+                name="phone_number"
+                control={control}
               />
 
               <InputField
                 label="Password"
-                placeHolder="Enter your Name"
+                placeholder="Enter your Name"
                 keyboardType="default"
+                name="password"
+                control={control}
               />
 
               <Button
@@ -74,7 +94,7 @@ export default function CreateAccountScreen() {
                   Login
                 </Text>
               </Text>
-            </View>
+            </View> */}
           </View>
         </View>
       </ScrollView>

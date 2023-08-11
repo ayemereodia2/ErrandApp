@@ -11,9 +11,9 @@ import { TouchableOpacity } from 'react-native'
 import AccountRecoveryScreen from '../screens/Auth/AccountRecovery'
 import {
   default as CreateAccountScreen,
-  default as LoginScreen,
 } from '../screens/Auth/CreateAccountScreen'
 import HomeScreen from '../screens/Auth/HomeScreen'
+import LoginScreen from '../screens/Auth/LoginScreen'
 import RecoverPasswordScreen from '../screens/Auth/RecoverPassword'
 import VerifyOtpScreen from '../screens/Auth/VerifyOtp'
 import VerifyPhone from '../screens/Auth/VerifyPhone'
@@ -23,6 +23,7 @@ import ProfileScreen from '../screens/ProfileScreen/index'
 import { RootStackParamList } from '../types'
 import BottomTab from './BottomTab'
 import DrawerNavigator from './DrawerNav'
+
 // import DrawerNav from './DrawerNav'
 
 export default function Navigation() {
