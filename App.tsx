@@ -2,8 +2,8 @@
 
 // import { SafeAreaProvider } from 'react-native-safe-area-context'
 // import { Provider } from 'react-redux'
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 import { Provider } from 'react-redux';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
@@ -22,12 +22,14 @@ export default function App() {
     return (
       
       // <GestureHandlerRootView style={{ flex: 1 }}>
-
+      <>
       <Provider store={store}>
         <SafeAreaProvider>
           <Navigation />
-        </SafeAreaProvider>
+          </SafeAreaProvider>
+          <Toast />
       </Provider>
+        </>
     // </GestureHandlerRootView>
 
     )

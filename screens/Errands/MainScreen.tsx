@@ -1,33 +1,61 @@
 import {
   AbrilFatface_400Regular,
-  useFonts,
+  useFonts
 } from '@expo-google-fonts/abril-fatface'
 import { Entypo, EvilIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 // import { ScrollView } from 'native-base'
-import React, { useEffect, useLayoutEffect } from 'react'
-// import AppLoading from 'expo-app-loading';
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
   SafeAreaView,
   ScrollView,
   Text,
-  View,
+  View
 } from 'react-native'
-import { useSelector } from 'react-redux'
+import Toast from 'react-native-toast-message'
 import ErrandComp from '../../components/ErrandComponent'
-import { market } from '../../services/errands/market'
-import { RootState, useAppDispatch } from '../../services/store'
+import { _fetch } from '../../services/axios/http'
+import { useAppDispatch } from '../../services/store'
 
 export default function MainScreen() {
   const navigation = useNavigation()
   const dispatch = useAppDispatch()
+  const [loading, setLoading] = useState(false)
+  const [errands, setErrands] = useState([])
 
-  const { data: errands, loading } = useSelector(
-    (state: RootState) => state.marketReducer,
-  )
+
+  // const { data: errands, loading:  } = useSelector(
+  //   (state: RootState) => state.marketReducer,
+  // )
 
   // console.log('>>>>>>errands', errands)
+
+    const getMarket = async () => {
+
+      try {
+        setLoading(true)
+        const _rs = await _fetch({
+          _url: '/errand/market',
+          method: 'GET',
+        })
+        const rs = await _rs.json()
+          setLoading(false)
+          // console.log(">>>>>rs", rs)
+          setErrands(rs.data)
+      } catch (e) {
+        Toast.show({
+          type: 'error',
+          text1: 'Sorry, something went wrong',
+        })
+        setLoading(false)
+      }
+    }
+  
+    useEffect(() => {
+    // dispatch(market({}))
+    getMarket()
+  }, [])
 
   let [fontsLoaded] = useFonts({
     AbrilFatface_400Regular,
@@ -39,9 +67,7 @@ export default function MainScreen() {
     })
   }, [])
 
-  useEffect(() => {
-    dispatch(market({}))
-  }, [])
+
 
   if (!fontsLoaded) {
     return (
@@ -80,12 +106,11 @@ export default function MainScreen() {
             </View>
           ) : (
             <View className="">
-              {errands.map((errand) => {
-                return <ErrandComp errand={errand} />
+              {errands?.map((errand, index) => {
+                return <ErrandComp errand={errand} key={index} />
               })}
-
             </View>
-          )}
+          )} 
         </ScrollView>
       </SafeAreaView>
     )

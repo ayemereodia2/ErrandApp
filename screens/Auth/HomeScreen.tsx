@@ -5,7 +5,14 @@ import {
 import { useNavigation } from '@react-navigation/native'
 import React, { useLayoutEffect } from 'react'
 // import AppLoading from 'expo-app-loading';
-import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
+import {
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 
 export default function HomeScreen() {
   const navigation = useNavigation()
@@ -13,7 +20,7 @@ export default function HomeScreen() {
   let [fontsLoaded] = useFonts({
     AbrilFatface_400Regular,
   })
-
+  const size = 20
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -29,14 +36,20 @@ export default function HomeScreen() {
   } else {
     return (
       <SafeAreaView>
-        <View className="flex-row items-center justify-center mx-10 mt-20">
+        <View className="flex-row items-center justify-center mt-20">
           <Text
             style={{ fontFamily: 'AbrilFatface_400Regular' }}
             className=" text-black text-4xl"
           >
-            Gofer
+            <Image
+              style={{
+                width: 80,
+                height: 80,
+                resizeMode: 'contain',
+              }}
+              source={require('../../assets/images/Swave_2.png')}
+            />
           </Text>
-          <View className="w-2 h-2 bg-[#33A532] rounded-full mt-4"></View>
         </View>
 
         <View className=" mt-44 flex-row items-center justify-center w-full">
@@ -60,3 +73,12 @@ export default function HomeScreen() {
     )
   }
 }
+
+const logoContainer = StyleSheet.create({
+  image: {
+    // flex: 1,
+    width: undefined,
+    height: undefined,
+    resizeMode: 'cover',
+  },
+})

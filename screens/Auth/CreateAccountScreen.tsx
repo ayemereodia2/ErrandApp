@@ -1,23 +1,69 @@
+import { yupResolver } from '@hookform/resolvers/yup'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import React, { useLayoutEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { SafeAreaView, ScrollView, Text, View } from 'react-native'
+import * as yup from 'yup'
 import Button from '../../components/Button'
 import InputField from '../../components/InputField'
+import { Logo } from '../../components/Logo'
+import { createAccount } from '../../services/auth/create-account'
+import { useAppDispatch } from '../../services/store'
+import { ICreateAccount } from '../../types'
 
 export default function CreateAccountScreen() {
   const navigation = useNavigation()
+  const dispatch = useAppDispatch()
+
+  const schema = yup.object({
+    first_name: yup.string().required('First name is required').trim(),
+    email: yup
+      .string()
+      .email('Please enter a correct email address')
+      .required()
+      .trim(),
+    // phone_number: yup
+    //   .string()
+    //   .min(11, 'Phone must be 11 digits')
+    //   .required()
+    //   .trim(),
+    last_name: yup.string().required('Last name is required').trim(),
+    referralCode: yup.string().required('Referral Code is required').trim(),
+    password: yup
+      .string()
+      .min(8, 'Password must be more than 8 chars')
+      .required()
+      .trim(),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref('password')], 'Password must match')
+      .trim()
+      .required(),
+  })
 
   const {
-    control,
     handleSubmit,
+    watch,
+    setValue,
+    control,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      phone_number: '',
-      password: '',
-    },
+  } = useForm<ICreateAccount>({
+    resolver: yupResolver(schema),
   })
+
+  const onSubmit = async (data: ICreateAccount) => {
+    console.log('>>>>data', data)
+
+    const phone_number = (await AsyncStorage.getItem('phone')) || ''
+    const newData = {
+      navigation,
+      phone_number,
+      client: 'web',
+      ...data,
+    }
+    dispatch(createAccount(newData))
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -29,15 +75,7 @@ export default function CreateAccountScreen() {
     <SafeAreaView>
       <ScrollView>
         <View className="px-4">
-          <View className="flex-row mt-10">
-            <Text
-              style={{ fontFamily: 'AbrilFatface_400Regular' }}
-              className=" text-black text-4xl"
-            >
-              Gofer
-            </Text>
-            <View className="w-2 h-2 bg-[#33A532] rounded-full mt-6"></View>
-          </View>
+          <Logo />
 
           <View className="text-[#333333] font-inter py-4 space-y-1">
             <Text className="font-semibold text-sm">Create an Account</Text>
@@ -45,13 +83,16 @@ export default function CreateAccountScreen() {
               Let’s get started and create a Profile for you
             </Text>
 
-            {/* <View className="pt-2 space-y-4">
+            <View className="pt-2 space-y-4">
               <InputField
                 label="First Name"
                 placeholder="Enter your Name"
                 keyboardType="default"
                 name="first_name"
                 control={control}
+                required
+                errors={errors.first_name}
+                message={errors?.first_name?.message}
               />
 
               <InputField
@@ -60,28 +101,59 @@ export default function CreateAccountScreen() {
                 keyboardType="default"
                 name="last_name"
                 control={control}
+                required
+                errors={errors.last_name}
+                message={errors?.last_name?.message}
               />
 
               <InputField
-                label="Phone Number"
-                placeholder="Enter your Name"
+                label="Email"
+                placeholder="Enter your email"
                 keyboardType="default"
-                name="phone_number"
+                name="email"
                 control={control}
+                required
+                errors={errors.email}
+                message={errors?.email?.message}
               />
 
               <InputField
                 label="Password"
                 placeholder="Enter your Name"
-                keyboardType="default"
+                keyboardType="visible-password"
                 name="password"
                 control={control}
+                required
+                errors={errors.password}
+                message={errors?.password?.message}
+              />
+
+              <InputField
+                label="Confirm Password"
+                placeholder="re-enter password"
+                keyboardType="visible-password"
+                name="confirmPassword"
+                control={control}
+                required
+                errors={errors.confirmPassword}
+                message={errors?.confirmPassword?.message}
+              />
+
+              <InputField
+                label="Referral Code"
+                placeholder="Enter referral code"
+                control={control}
+                keyboardType="default"
+                name="referralCode"
+                errors={errors.referralCode}
+                message={errors.referralCode?.message}
               />
 
               <Button
                 style={{}}
                 className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-sm mt-8"
                 child="Create Account"
+                onPress={handleSubmit(onSubmit)}
               />
               <Text className="text-black text-center pb-6">
                 Already Have an Account?{' '}
@@ -94,7 +166,7 @@ export default function CreateAccountScreen() {
                   Login
                 </Text>
               </Text>
-            </View> */}
+            </View>
           </View>
         </View>
       </ScrollView>

@@ -43,10 +43,7 @@ axiosInstance.interceptors.response.use(
 export async function _fetch({ _url, body, method }: FetchProps) {
   const url = `https://errand-app.herokuapp.com/v1${_url}`
   const token = await AsyncStorage.getItem('accessToken');
-
-    console.log(">>>>>>rs lets gor", url);
-
-
+  
   let options
 
   if (token === null && url.includes("/sign")) {

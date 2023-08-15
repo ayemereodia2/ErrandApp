@@ -64,6 +64,7 @@ export type RootStackParamList = {
   Feeds: undefined
   Welcome: undefined
   VerifyPhone: undefined
+  SecurityQuestions: undefined
 }
 
 export type RootStackScreenProps<
@@ -198,7 +199,7 @@ export interface GetSecurityQuestionRequest {
   phone_number: string;
   question?: string;
   answer?: string;
-  navigate?: any;
+  navigation?: any;
   newPassword?: string;
   dispatch?: any;
 }
@@ -232,6 +233,18 @@ export interface SecurityQuestionResponse {
 export interface ISecurityQA {
   question: string;
   answer: string;
-  navigate: any;
+  navigation: any;
   phone_number?: string;
+}
+
+export interface ICreateAccount {
+  first_name: string;
+  last_name: string;
+  client?: string;
+  phone_number?: string;
+  password: string;
+  confirmPassword: string;
+  email: string;
+  referralCode: string;
+  navigation?: any
 }

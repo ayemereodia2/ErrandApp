@@ -1,32 +1,34 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { securityQuesitions } from './questions';
+import Toast from 'react-native-toast-message';
 import { _fetch } from '../axios/http';
+import { securityQuesitions } from './questions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 type Props = {
   phone_number: string,
   dispatch?: any
-  navigate?: any
+  navigation?: any
   setVerifySuccess?: any
   from: string
 }
 
-export const verifyPhone = createAsyncThunk("/user/verifyPhone", async ({ navigate, dispatch, phone_number, setVerifySuccess, from}: Props, {rejectWithValue}) => {
+export const verifyPhone = createAsyncThunk("/user/verifyPhone", async ({ navigation, dispatch, phone_number, from}: Props, {rejectWithValue}) => {
   try {
-    // const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_BASE_URL}/user/verify-phone`, {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ phone_number}),
-    // })  
+
+
 
     const _rs = await _fetch({ _url: '/user/verify-phone', method: 'POST', body: JSON.stringify({ phone_number }) })
-    
     const rs = await _rs.json()
+
+    // console.log(">>>>>dta", rs);
+    
 
     if (from === 'passwordRecovery') {
         if (rs.success === false) {
             dispatch(
-                securityQuesitions({navigate, phone_number: `${phone_number.substring(1)}` }),
+                securityQuesitions({navigation, phone_number: `${phone_number.substring(1)}` }),
             )
         }
         if (rs.success === true) {
@@ -37,17 +39,21 @@ export const verifyPhone = createAsyncThunk("/user/verifyPhone", async ({ naviga
 
     if (from === "createAccount") {
         if (rs.success === false) {
-            // toast.error("Sorry, This phone number already exist in our database");
+            // toast.error("");
+            Toast.show({
+              type: 'error',
+              text1: 'Sorry, This phone number already exist in our database',
+            });
             return 
         }
-        if (rs.success === true) {
-            localStorage.setItem("phone", phone_number)
-            setVerifySuccess(true)
+      if (rs.success === true) {
+          await AsyncStorage.setItem('phone', phone_number )
+          navigation.navigate('VerifyOtp')
         }
     } 
   } catch (err) {
     if (err instanceof AxiosError) {
-        console.log(">>>>>>>", err.response?.status)
+        // console.log(">>>>>>>", err.response?.status)
         // toast.error("We are Sorry, something went wrong please try again")
         return rejectWithValue(err)
     }

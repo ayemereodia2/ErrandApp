@@ -1,28 +1,39 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import Toast from 'react-native-toast-message';
+import { ICreateAccount } from '../../types';
+import { _fetch } from '../axios/http';
 // import toast from 'react-hot-toast';
 
-export const createAccount = createAsyncThunk("/user/createAccount", async ({router, newData}: any, {rejectWithValue}) => {
+export const createAccount = createAsyncThunk("/user/createAccount", async ({navigation, ...data}: ICreateAccount, {rejectWithValue}) => {
   try {
     // console.log(">>>>>>>newDATA", newData)
-    await fetch('https://errand-app.herokuapp.com/v1/user/sign-up', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newData),
-    }).then(response => response.json())
-      .then(data => {
-        // console.log(">>>>>>>exact", data)
-        if (data.success === true) {
-          // toast.success(data.message)
-          router.push("/profile")
-          return data.message
-        }
-         if (data.success === false) {
-          // router.push("/profile")
-          //  toast.error(data.message)
-          //  console.log(">>>>>>data.message", data.message)
-          return data.message
-        }
-      })
+    const _rs = await _fetch({ _url: `/user/sign-up`, method: "POST", body: JSON.stringify(data) })
+    const rs = await _rs.json();
+
+    console.log("<<<<<_rs",rs);
+    
+
+    if (rs.success === true) {
+       await AsyncStorage.setItem('accessToken', rs.data.access_token )
+      await AsyncStorage.setItem('refreshToken', rs.data.refresh_token )
+          // setCookie("access_token", rs.data.data.access_token)
+      Toast.show({
+        type: 'success',
+        text1: rs.message,
+      });
+      navigation.navigate("SecurityQuestions")
+    }
+    if (rs.success === false) {
+        Toast.show({
+          type: 'error',
+          text1: rs.message,
+        });
+      // navigation.navigate("SecurityQuestions")
+      
+        return rejectWithValue(rs.message)
+      }
+
   } catch (e) {
     // console.log(">>>>>err", e)
     return rejectWithValue(e)

@@ -1,8 +1,13 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigation } from '@react-navigation/native'
 import React, { useLayoutEffect } from 'react'
+import { useForm } from 'react-hook-form'
 import { SafeAreaView, Text, View } from 'react-native'
 import Button from '../../components/Button'
 import InputField from '../../components/InputField'
+import { Logo } from '../../components/Logo'
+import { ISecurityQA } from '../../types'
+
 
 export default function RecoverPasswordScreen() {
   const navigation = useNavigation()
@@ -13,18 +18,20 @@ export default function RecoverPasswordScreen() {
     })
   }, [])
 
+  const {
+    handleSubmit,
+    watch,
+    setValue,
+    control,
+    formState: { errors },
+  } = useForm<ISecurityQA>({
+    // resolver: yupResolver(schema),
+  })
+
   return (
     <SafeAreaView>
       <View className="px-4">
-        <View className="flex-row mt-10">
-          <Text
-            style={{ fontFamily: 'AbrilFatface_400Regular' }}
-            className=" text-black text-4xl"
-          >
-            Gofer
-          </Text>
-          <View className="w-2 h-2 bg-[#33A532] rounded-full mt-6"></View>
-        </View>
+        <Logo/>
 
         <View className="text-[#333333] font-inter py-4 space-y-1">
           <Text className="font-semibold text-sm">Password Recovery</Text>
@@ -34,22 +41,20 @@ export default function RecoverPasswordScreen() {
 
           <View className="pt-2 space-y-4">
             <InputField
-              label="Phone Number"
-              placeHolder="Enter your phone"
-              keyboardType="default"
-            />
-
-            <InputField
               label="Security Question"
-              placeHolder="Enter your password"
+              placeholder="Enter your password"
               keyboardType="visible-password"
+              name="question"
+              control={control}
+              required
+             
             />
 
-            <InputField
+            {/* <InputField
               label="Answer"
-              placeHolder="Enter answer to your Security Question"
+              placeholder="Enter answer to your Security Question"
               keyboardType="visible-password"
-            />
+            /> */}
 
             <Button
               style={{ marginTop: 20 }}

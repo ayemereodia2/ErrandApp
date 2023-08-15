@@ -1,10 +1,11 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useLayoutEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { SafeAreaView, Text, View } from 'react-native'
+import { ActivityIndicator, SafeAreaView, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import Button from '../../components/Button'
 import InputField from '../../components/InputField'
+import { Logo } from '../../components/Logo'
 import { loginUser } from '../../services/auth/login'
 import { RootState, useAppDispatch } from '../../services/store'
 import { ILogin } from '../../types'
@@ -40,15 +41,7 @@ export default function LoginScreen() {
   return (
     <SafeAreaView>
       <View className="px-4">
-        <View className="flex-row mt-10">
-          <Text
-            style={{ fontFamily: 'AbrilFatface_400Regular' }}
-            className=" text-black text-4xl"
-          >
-            Gofer
-          </Text>
-          <View className="w-2 h-2 bg-[#33A532] rounded-full mt-6"></View>
-        </View>
+       <Logo/>
 
         <View className="text-[#333333] font-inter py-4 space-y-1">
           <Text className="font-semibold text-sm">
@@ -84,7 +77,7 @@ export default function LoginScreen() {
 
             <Button
               className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
-              child={"Login"}
+              child={loading ? <ActivityIndicator size="small" color="#000000" />: "Login"}
               onPress={handleSubmit(onSubmit)}
               // className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
             />

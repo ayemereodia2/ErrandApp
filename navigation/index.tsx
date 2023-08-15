@@ -9,12 +9,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { TouchableOpacity } from 'react-native'
 import AccountRecoveryScreen from '../screens/Auth/AccountRecovery'
-import {
-  default as CreateAccountScreen,
-} from '../screens/Auth/CreateAccountScreen'
+import { default as CreateAccountScreen } from '../screens/Auth/CreateAccountScreen'
 import HomeScreen from '../screens/Auth/HomeScreen'
 import LoginScreen from '../screens/Auth/LoginScreen'
 import RecoverPasswordScreen from '../screens/Auth/RecoverPassword'
+import SecurityQuestion from '../screens/Auth/SecurityQuestionScreen'
 import VerifyOtpScreen from '../screens/Auth/VerifyOtp'
 import VerifyPhone from '../screens/Auth/VerifyPhone'
 import ErrandDetails from '../screens/Errands/ErrandDetails'
@@ -46,6 +45,12 @@ export function RootNavigator() {
   return (
     <Stack.Navigator>
       {/* <Stack.Screen name="Root" component={BottomTab} options={{ headerShown: false }} /> */}
+
+      {/* <Stack.Screen
+        name="SecurityQuestions"
+        component={SecurityQuestion}
+        options={{ title: 'Security Question' }}
+      /> */}
       <Stack.Screen
         name="Home"
         component={HomeScreen}
@@ -60,6 +65,11 @@ export function RootNavigator() {
         name="Login"
         component={LoginScreen}
         options={{ title: 'Login' }}
+      />
+      <Stack.Screen
+        name="SecurityQuestions"
+        component={SecurityQuestion}
+        options={{ title: 'Security Question' }}
       />
       <Stack.Screen
         name="CreateAccount"

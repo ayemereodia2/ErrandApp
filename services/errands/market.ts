@@ -16,32 +16,34 @@ export const market = createAsyncThunk<ErrandMarketResponse, LocationProps, { re
   async ({ lat, lng, minPrice, maxPrice, category }, { rejectWithValue }) => {
 
 
+    console.log(">>>>>jello");
+    
+
     
   try {
     let url = "/errand/market"
 
-    if (lat !== 0 || lng !== 0) {
-      url = `/errand/market?lat=${lat}&lng=${lng}`
-    }
+    // if (lat !== 0 || lng !== 0) {
+    //   url = `/errand/market?lat=${lat}&lng=${lng}`
+    // }
 
-    if (minPrice !== undefined || maxPrice !== undefined) {
-      url = `/errand/market?minPrice=${minPrice}&maxPrice=${maxPrice}`
-    }
+    // if (minPrice !== undefined || maxPrice !== undefined) {
+    //   url = `/errand/market?minPrice=${minPrice}&maxPrice=${maxPrice}`
+    // }
 
-    if (category) {
-      url = `/errand/market?category=${category}`
-    }
+    // if (category) {
+    //   url = `/errand/market?category=${category}`
+    // }
     const _rs = await _fetch({ _url: url, method: 'GET' })
     const rs = await _rs.json()
 
-    // console.log(">>>>>rs", rs);
+    // console.log(">>>>>rs", rs.data);
     // if (rs.data.success === true) {
       return rs
     // }
   } catch (err) {
-    if (err instanceof AxiosError) {
-        console.log('error fetching errands', err.response?.data.message)
-       return rejectWithValue(err.response?.data.message)
+    if (err) {
+       return err
     } 
   }
 })
@@ -74,7 +76,7 @@ const _market = createSlice({
     builder.addCase(market.fulfilled, (state, {payload}) => {
       state.loading = false;
       state.error = "";
-      // console.log(">>>>>payload", payload.data);
+      console.log(">>>>>payload", payload.data);
       
       state.data = payload.data
     });

@@ -4,7 +4,7 @@ import { _fetch } from '../axios/http';
 
 export const securityQuesitions = createAsyncThunk<SecurityQuestionResponse, GetSecurityQuestionRequest, { rejectValue: string }>(
   "securityQuestions/get",
-  async ({ phone_number, navigate }: GetSecurityQuestionRequest, { rejectWithValue }) => {
+  async ({ phone_number, navigation }: GetSecurityQuestionRequest, { rejectWithValue }) => {
     
   try {
     const url = `/security-question?phone_number=${phone_number}`
@@ -23,7 +23,7 @@ export const securityQuesitions = createAsyncThunk<SecurityQuestionResponse, Get
     console.log('eeee', e.response.data.message)
     if (e.response.status === 400) {
       // toast.error("Sorry, we are unable to get your security question at this time, please try again later. If this persist please contact our customer care center");
-      navigate("/auth/password-recovery-otp")
+      // navigate("/auth/password-recovery-otp")
       return rejectWithValue(e.response.data.message)
      }
     return rejectWithValue(e.response.data.message)

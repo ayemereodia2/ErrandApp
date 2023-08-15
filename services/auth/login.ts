@@ -1,9 +1,10 @@
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 // import toast from 'react-hot-toast';
-import { deleteCookie } from 'cookies-next';
-import { ILogin } from '../../types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { deleteCookie } from 'cookies-next';
+import Toast from 'react-native-toast-message';
+import { ILogin } from '../../types';
 
 export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>("/users/sign-in", async ({ navigation, ...rest }: ILogin, { rejectWithValue }) => {
   
@@ -36,6 +37,10 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
       // setSuccess(true)
 
       // toast.success('Login Successful')
+       Toast.show({
+        type: 'success',
+        text1: 'Login Successful',
+      });
       navigation.navigate('Main')
     }
 
