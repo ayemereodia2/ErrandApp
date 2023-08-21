@@ -2,15 +2,16 @@ import {
   AntDesign,
   FontAwesome5,
   Ionicons,
-  MaterialCommunityIcons,
+  MaterialCommunityIcons
 } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import AccountScreen from '../screens/Accounts'
 import ErrandScreen from '../screens/Errands'
 import MainScreen from '../screens/Errands/MainScreen'
 import PostErrand from '../screens/PostErrand/PostErrand'
+import WalletScreen from '../screens/Wallets'
 
 const Tab = createBottomTabNavigator()
 
@@ -24,11 +25,13 @@ const BottomTab = () => {
         tabBarStyle: {
           position: 'absolute',
           bottom: 5,
-          left: 25,
-          right: 20,
+          // left: 25,
+          // right: 20,
           backgroundColor: '#ffffff',
           borderRadius: 15,
-          height: 90,
+          height: 70,
+          // width:100
+          paddingTop: 10,
           ...styles.shadow,
         },
         headerShown: false,
@@ -46,12 +49,12 @@ const BottomTab = () => {
               ) : (
                 <AntDesign name="home" size={24} color="black" />
               )}
-              <Text
+              {/* <Text
                 style={{ fontSize: 10, paddingTop: 1 }}
                 className={focused ? 'text-[#243763]' : ''}
               >
                 Feeds
-              </Text>
+              </Text> */}
             </View>
           ),
         }}
@@ -68,12 +71,12 @@ const BottomTab = () => {
               ) : (
                 <FontAwesome5 name="running" size={24} color="black" />
               )}
-              <Text
+              {/* <Text
                 style={{ fontSize: 10, paddingTop: 1 }}
                 className={focused ? 'text-[#243763]' : ''}
               >
                 Errand
-              </Text>
+              </Text> */}
             </View>
           ),
         }}
@@ -87,23 +90,25 @@ const BottomTab = () => {
             display: 'none'
           },
           tabBarIcon: ({ focused }) => (
-            <View style={{ ...styles.shadow }}>
+            <View>
               {focused ? (
-                <Ionicons
-                  name="add-circle"
-                  size={75}
-                  color="#243763"
-                  style={{ top: -40 }}
-                  className="shadow-lg"
-                />
+                // <Ionicons
+                //   name="add-circle"
+                //   size={75}
+                //   color="#243763"
+                //   style={{ top: -40 }}
+                //   className="shadow-lg"
+                // />
+              <></>
               ) : (
                 <Ionicons
                   name="add-circle"
-                  size={75}
+                  size={30}
                   color="#243763"
-                  style={{ top: -40 }}
+                  // style={{ top: -40 }}
                   className="shadow-lg"
                 />
+                  // <></>
               )}
             </View>
           ),
@@ -111,8 +116,9 @@ const BottomTab = () => {
       />
       <Tab.Screen
         name="Wallet"
-        component={MainScreen}
+        component={WalletScreen}
         options={{
+          
           // tabBarLabel:"Wallet",
           tabBarIcon: ({ focused }) => (
             <View>
@@ -121,12 +127,12 @@ const BottomTab = () => {
               ) : (
                 <Ionicons name="wallet-outline" size={24} color="black" />
               )}
-              <Text
+              {/* <Text
                 style={{ fontSize: 10, paddingTop: 2 }}
                 className={focused ? 'text-[#243763]' : ''}
               >
                 Wallet
-              </Text>
+              </Text> */}
             </View>
           ),
         }}
@@ -152,12 +158,12 @@ const BottomTab = () => {
                   color="black"
                 />
               )}
-              <Text
+              {/* <Text
                 style={{ fontSize: 10 }}
                 className={focused ? 'text-[#243763]' : ''}
               >
                 Account
-              </Text>
+              </Text> */}
             </View>
           ),
         }}
@@ -170,7 +176,7 @@ const styles = StyleSheet.create({
   shadow: {
     shadowColor: 'black',
     shadowOffset: {
-      width: 0,
+      width: 100,
       height: 10,
     },
     shadowOpacity: 0.25,

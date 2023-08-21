@@ -6,6 +6,8 @@ import login from "./auth/login";
 import verifyPhone from "./auth/verify-phone";
 import modalsReducer from "./modals";
 import { marketReducer } from "../services/errands/market"
+import { errandDetailsReducer } from "./errands/errandDetails";
+import { userDetailsReducer } from "./auth/userInfo";
 
 export const store = configureStore({
   reducer: {
@@ -13,8 +15,9 @@ export const store = configureStore({
     login,
     verifyPhone,
     modals: modalsReducer,
-    marketReducer
-
+    marketReducer,
+    errandDetailsReducer,
+    userDetailsReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 })

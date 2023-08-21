@@ -3,11 +3,12 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { AntDesign, FontAwesome } from '@expo/vector-icons'
+import { AntDesign, EvilIcons, FontAwesome } from '@expo/vector-icons'
 import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import * as React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { Image, TouchableOpacity, View } from 'react-native'
+import { ProfileInitials } from '../components/ProfileInitials'
 import AccountRecoveryScreen from '../screens/Auth/AccountRecovery'
 import { default as CreateAccountScreen } from '../screens/Auth/CreateAccountScreen'
 import HomeScreen from '../screens/Auth/HomeScreen'
@@ -19,6 +20,7 @@ import VerifyPhone from '../screens/Auth/VerifyPhone'
 import ErrandDetails from '../screens/Errands/ErrandDetails'
 import Modal from '../screens/Modal'
 import ProfileScreen from '../screens/ProfileScreen/index'
+import WalletScreen from '../screens/Wallets'
 import { RootStackParamList } from '../types'
 import BottomTab from './BottomTab'
 import DrawerNavigator from './DrawerNav'
@@ -59,7 +61,57 @@ export function RootNavigator() {
       <Stack.Screen
         name="Main"
         component={BottomTab}
-        options={{ title: 'Main', headerShown: false }}
+        options={{
+          title: '',
+          headerStyle: {},
+          headerLeft: () => (
+            <View className="flex-row items-center justify-between mx-0 px-3 py-3 shadow-sm mt-2 bg-white">
+              <TouchableOpacity
+                onPress={() => navigate.openDrawer()}
+                className="flex-row items-center"
+              >
+                <ProfileInitials firstName="Azubike" lastName="Orji" />
+              </TouchableOpacity>
+            </View>
+          ),
+          headerTitle: () => (
+            <View className="flex-row items-center justify-center">
+              <Image
+                style={{
+                  width: 34,
+                  height: 34,
+                  resizeMode: 'contain',
+                }}
+                source={require('../assets/images/cropped.jpg')}
+              />
+            </View>
+          ),
+          // header
+
+          headerRight: () => (
+            <EvilIcons name="search" size={30} color="#243763" />
+          ),
+          headerTitleStyle: {
+            fontSize: 20,
+            fontWeight: '300',
+          },
+          headerShadowVisible: true,
+        }}
+      />
+      <Stack.Screen
+        name="Wallet"
+        component={WalletScreen}
+        options={{
+          headerShown: false,
+          title: '',
+          headerStyle: {},
+
+          headerTitleStyle: {
+            fontSize: 20,
+            fontWeight: '300',
+          },
+          headerShadowVisible: false,
+        }}
       />
       <Stack.Screen
         name="Login"

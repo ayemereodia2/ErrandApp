@@ -4,23 +4,30 @@ import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { getTimeDiff } from '../../constants/utility'
 import { MarketData } from '../../types'
+import { ProfileInitials } from '../ProfileInitials'
 
 interface ErrandCardProp {
   errand: MarketData
+  navigate: any
 }
 
-export default function ErrandComp({ errand }: ErrandCardProp) {
+export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
   const navigation = useNavigation()
   const budgetInNaira = Number(errand?.budget / Number(100))
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('ErrandDetails')}
+      onPress={() =>
+        navigate.navigate('ErrandDetails', {
+          errand_id: errand.id,
+          user_id: errand.user_id,
+        })
+      }
       className="mt-4 border-[0.5px] border-t-0 pb-2 border-[#a8a8a8]"
     >
       <View className="px-3">
         <View className="flex-row items-center">
-          <View className="w-10 border h-10 rounded-full "></View>
+          <ProfileInitials firstName="Kzu" lastName="Soo" />
           <View className="pl-2 flex-row space-x-48 justify-between">
             <View className="">
               <Text>Jane Doe</Text>

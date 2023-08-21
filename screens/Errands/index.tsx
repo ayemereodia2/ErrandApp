@@ -54,7 +54,7 @@ const ErrandScreen = () => {
 
   return (
     <>
-      <View className="flex-row items-center mx-0 px-2 pt-5 shadow-lg bg-white">
+      {/* <View className="flex-row items-center mx-0 px-2 pt-5 shadow-lg bg-white">
         <MaterialIcons name="keyboard-arrow-left" size={30} color="black" />
         <View className="flex-row items-center">
           <View className="flex-row items-center justify-center">
@@ -66,8 +66,7 @@ const ErrandScreen = () => {
             </Text>
           </View>
         </View>
-        {/* <EvilIcons name="search" size={30} color="#243763" /> */}
-      </View>
+      </View> */}
       <TabView
         style={{ backgroundColor: 'white' }}
         navigationState={{ index, routes }}

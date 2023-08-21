@@ -248,3 +248,91 @@ export interface ICreateAccount {
   referralCode: string;
   navigation?: any
 }
+
+export interface UserDetailsResponse extends CommonState {
+  data: UserDetail;
+}
+
+export interface UserDetail {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string | undefined;
+  client: string;
+  created_by: string;
+  token: string;
+  account_numbers: string;
+  is_admin: boolean;
+  phone_number: string;
+  verification: number;
+  rating: number;
+  errands_completed: number;
+  errands_cancelled: number;
+  is_suspended: boolean;
+  created_at: string;
+  updated_at: string;
+  occupation: string;
+  referral_code: string;
+  referral_info: string; //Please create an endpoint for this
+  image: string; //temporary, till we have an endpoint for user profile image
+  bio: string;
+  dob: string
+  has_verified_address: boolean
+  has_verified_email: boolean
+  has_verified_phone: boolean
+  has_insurance: boolean,
+  insurance_amount: number  
+  profile_picture: string
+}
+
+export interface SingleErrandDetail extends CommonState {
+  data: MarketData;
+}
+
+export interface MarketData {
+  latitude: any;
+  longitude: any;
+  id: string;
+  user_id: string;
+  restriction: string;
+  pickup_address: {
+    type: string;
+    coordinates: Array<Number>;
+  };
+  // dropoff_address: {
+  //   lat: number;
+  //   lng: number;
+  // };
+    dropoff_address: {
+      type: string;
+      coordinates: Array<Number>;
+  };
+  budget: number;
+  description: string;
+  type: string;
+  step: number;
+  category: CategoriesList;
+  created_at: string;
+  updated_at: string;
+  status: string;
+  total_bids: number;
+  bids: Bids[];
+  expiry_date: string;
+  timeline: Timelines;
+  runner_id: string;
+  amount: number
+  has_insurance: boolean,
+  insurance_amount: number
+}
+
+export interface CategoriesList {
+  id: string;
+  image_url: any;
+  identifier: string;
+  name: string;
+  type: string;
+  created_by: string;
+  modified_by: [];
+  created_at: string;
+  updated_at: string;
+}
