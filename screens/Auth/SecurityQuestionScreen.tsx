@@ -3,13 +3,14 @@ import { Picker } from '@react-native-picker/picker'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { ActivityIndicator, SafeAreaView, Text, View } from 'react-native'
+import { ActivityIndicator, Keyboard, SafeAreaView, Text, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import Button from '../../components/Button'
 import InputField from '../../components/InputField'
 import { Logo } from '../../components/Logo'
 import { _fetch } from '../../services/axios/http'
 import { ISecurityQA } from '../../types'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 export default function SecurityQuestion() {
   const navigation = useNavigation()
@@ -107,6 +108,7 @@ export default function SecurityQuestion() {
 
   return (
     <SafeAreaView>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View className="px-4">
         <Logo/>
 
@@ -138,6 +140,8 @@ export default function SecurityQuestion() {
               errors={errors.answer}
               message={errors?.answer?.message}
             />
+            
+            
 
             <Button
               style={{ marginTop: 20 }}
@@ -154,6 +158,9 @@ export default function SecurityQuestion() {
           </View>
         </View>
       </View>
+
+      </TouchableWithoutFeedback>
+      
     </SafeAreaView>
   )
 }

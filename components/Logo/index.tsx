@@ -3,7 +3,7 @@ import { Image, Text, View } from 'react-native'
 
 export const Logo = () => {
   return (
-    <View className="flex-row items-center justify-start mt-20">
+    <View className="flex-row items-center justify-center mt-16">
       <Text
         style={{ fontFamily: 'AbrilFatface_400Regular' }}
         className=" text-black text-4xl"
@@ -14,7 +14,7 @@ export const Logo = () => {
             height: 80,
             resizeMode: 'contain',
           }}
-          source={require('../../assets/images/Swave_3-1-2.png')}
+          source={require('../../assets/images/new_Swave_2.png')}
         />
       </Text>
     </View>
