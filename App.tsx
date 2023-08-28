@@ -9,6 +9,9 @@ import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import { store } from './services/store';
+import "react-native-gesture-handler";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 
 // import { store } from './services/store'
 
@@ -21,7 +24,7 @@ export default function App() {
   } else {
     return (
       
-      // <GestureHandlerRootView style={{ flex: 1 }}>
+       <GestureHandlerRootView style={{ flex: 1 }}>
       <>
       <Provider store={store}>
         <SafeAreaProvider>
@@ -30,7 +33,7 @@ export default function App() {
           <Toast />
       </Provider>
         </>
-    // </GestureHandlerRootView>
+     </GestureHandlerRootView>
 
     )
   }

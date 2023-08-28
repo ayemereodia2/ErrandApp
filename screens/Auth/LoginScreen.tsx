@@ -43,11 +43,11 @@ export default function LoginScreen() {
       <View className="px-4">
        <Logo/>
 
-        <View className="text-[#333333] font-inter py-4 space-y-1">
-          <Text className="font-semibold text-sm">
+        <View className="text-[#333333] font-inter mt-4 py-4 space-y-1">
+          <Text className="font-semibold text-sm text-center">
             Welcome Back, Please Login
           </Text>
-          <Text className="text-xs">
+          <Text className="text-xs text-center">
             Enter your Gofer credentials and Login
           </Text>
 

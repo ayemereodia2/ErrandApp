@@ -3,11 +3,11 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { AntDesign, FontAwesome } from '@expo/vector-icons'
+import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons'
 import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import * as React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 import AccountRecoveryScreen from '../screens/Auth/AccountRecovery'
 import { default as CreateAccountScreen } from '../screens/Auth/CreateAccountScreen'
 import HomeScreen from '../screens/Auth/HomeScreen'
@@ -17,6 +17,8 @@ import SecurityQuestion from '../screens/Auth/SecurityQuestionScreen'
 import VerifyOtpScreen from '../screens/Auth/VerifyOtp'
 import VerifyPhone from '../screens/Auth/VerifyPhone'
 import ErrandDetails from '../screens/Errands/ErrandDetails'
+import ErrandAndBids from '../screens/ErrandsAndBids/ErrandsAndBids'
+import Bids from '../screens/ErrandsAndBids/Bids'
 import Modal from '../screens/Modal'
 import ProfileScreen from '../screens/ProfileScreen/index'
 import { RootStackParamList } from '../types'
@@ -105,6 +107,56 @@ export function RootNavigator() {
         name="VerifyPhone"
         component={VerifyPhone}
         options={{ title: 'Verify Phone' }}
+      />
+      <Stack.Screen
+        name="ErrandsAndBids"
+        component={ErrandAndBids}
+        options={{ 
+          
+        headerStyle: {
+        backgroundColor: '#243763',
+        },
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigate.navigate('Errands')} >
+            <Ionicons name="arrow-back" size={32} color="#fff" />           
+          </TouchableOpacity>
+        ),
+        headerTitle: () => (
+          <View style={{ flexDirection: 'row', alignItems: 'center',  }}>
+            <Image
+              source={require('../assets/images/timothy.jpg')} // Replace with your image path
+              style={{ width: 30, height: 30, borderRadius: 50, marginRight: 20 }} // Adjust width, height, and margins as needed
+            />
+            <Text style={{ fontSize: 20, color: '#fff', fontWeight: 'bold' }}>Timothy Weah James</Text>
+          </View>
+        ),
+        
+       }}
+      />
+      <Stack.Screen
+        name="Bids"
+        component={Bids}
+        options={{ 
+          
+        headerStyle: {
+        backgroundColor: '#243763',
+        },
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigate.navigate('Errands')} >
+            <Ionicons name="arrow-back" size={32} color="#fff" />           
+          </TouchableOpacity>
+        ),
+        headerTitle: () => (
+          <View style={{ flexDirection: 'row', alignItems: 'center',  }}>
+            <Image
+              source={require('../assets/images/timothy.jpg')} // Replace with your image path
+              style={{ width: 30, height: 30, borderRadius: 50, marginRight: 20 }} // Adjust width, height, and margins as needed
+            />
+            <Text style={{ fontSize: 20, color: '#fff', fontWeight: 'bold' }}>Timothy Weah James</Text>
+          </View>
+        ),
+        
+       }}
       />
       <Stack.Screen
         name="ErrandDetails"
