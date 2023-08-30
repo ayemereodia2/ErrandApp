@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { ActivityIndicator, ImageBackground, SafeAreaView, Text, View } from 'react-native'
+import { ActivityIndicator, ImageBackground, SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import Button from '../../components/Button'
 import InputField from '../../components/InputField'
@@ -10,10 +10,13 @@ import { loginUser } from '../../services/auth/login'
 import { RootState, useAppDispatch } from '../../services/store'
 import { ILogin } from '../../types'
 import { ScrollView } from 'react-native-gesture-handler'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function LoginScreen() {
   const navigation = useNavigation()
   const dispatch = useAppDispatch()
+  const [showPassword, setShowPassword] = useState(true);
+
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -66,26 +69,39 @@ export default function LoginScreen() {
           <View className="pt-2 space-y-4">
             <InputField
               label="Phone Number"
-              placeholder="Enter your phone"
+              placeholder="Enter your Phone Number"
               keyboardType="numeric"
               name="phone_number"
               required={true}
               control={control}
               errors={errors.phone_number}
+              
+
               message={"phone is required"}
             />
 
+            <View className='relative'>
             <InputField
               label="Password"
               placeholder="Enter your password"
-              keyboardType="visible-password"
+              keyboardType='default'
               name='password'
               required={true}
               control={control}
               errors={errors.password}
               message={"password is required"}
-
+              secureTextEntry={!showPassword}
             />
+          
+
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)} className='absolute right-7 bottom-3'>
+              <Icon
+                name={showPassword ? 'eye' : 'eye-slash'}
+                size={24}
+                color="gray"
+                />
+             </TouchableOpacity>
+             </View>
 
             <Button
               className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
