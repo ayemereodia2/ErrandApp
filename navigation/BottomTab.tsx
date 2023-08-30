@@ -11,6 +11,8 @@ import AccountScreen from '../screens/Accounts'
 import ErrandScreen from '../screens/Errands'
 import MainScreen from '../screens/Errands/MainScreen'
 import PostErrand from '../screens/PostErrand/PostErrand'
+import PostErrand1 from '../screens/PostErrand/PostErrand1'
+import CreateErrand from '../screens/CreateErrand/CreateTasks'
 
 const Tab = createBottomTabNavigator()
 
@@ -81,7 +83,7 @@ const BottomTab = () => {
 
       <Tab.Screen
         name="PostErrands"
-        component={PostErrand}
+        component={PostErrand1}
         options={{
            tabBarStyle: {
             display: 'none'

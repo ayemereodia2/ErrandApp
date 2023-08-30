@@ -38,7 +38,7 @@ const ErrandsAndBids = ({navigation}:any) => {
     
     <ScrollView>
       <SafeAreaView>
-      <View className='flex-row mr-[16px] ml-[16px] '>
+      <View className='flex-row mr-[16px] ml-[16px] md:w-[398px] mx-auto '>
         <TouchableOpacity  onPress={handleBoth1}>
         <View className='w-[199px] h-[52px] bg-[#243763]  items-center justify-center '>
           <Text className='text-center text-white' >Errand Details</Text>
@@ -46,7 +46,7 @@ const ErrandsAndBids = ({navigation}:any) => {
         </TouchableOpacity>
         
         <TouchableOpacity onPress={handleBoth2}>
-        <View className='w-[193px] h-[52px] bg-[#fff]  items-center justify-center '>
+        <View className='w-[190px] h-[52px] bg-[#fff]  items-center justify-center '>
           <Text className='text-center text-[#243763]' >Bids</Text>
           </View>
         </TouchableOpacity>
@@ -138,9 +138,13 @@ const ErrandsAndBids = ({navigation}:any) => {
         <Text>Supportive Audio</Text>
       </View>
 
-      <View className='ml-[16px] mt-2'>
-        <Text><AntDesign name="playcircleo" size={32} color="#3F60AC" /></Text>
-      </View>
+      <View className='flex-row mt-3 w-[375px] h-[70px] mx-auto bg-[#011E3E] items-center justify-center b rounded-lg'>
+    <Text className=''><AntDesign name="play" size={24} color="white" /></Text>
+    <Text className='text-white p-2'>0:22</Text>
+    <Image source={require('../../assets/images/slider.jpg')} className='w-[175px] h-1 mr-2' />
+    <Text className='text-white p-2'>1:40</Text>
+    <Text><AntDesign name="delete" size={22} color="white" /></Text>
+   </View>
 
 
       

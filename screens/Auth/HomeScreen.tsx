@@ -4,9 +4,9 @@ import {
 } from '@expo-google-fonts/abril-fatface'
 import { useNavigation } from '@react-navigation/native'
 import React, { useLayoutEffect } from 'react'
-// import AppLoading from 'expo-app-loading';
 import {
   Image,
+  ImageBackground,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -20,7 +20,7 @@ export default function HomeScreen() {
   let [fontsLoaded] = useFonts({
     AbrilFatface_400Regular,
   })
-  const size = 20
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -35,24 +35,16 @@ export default function HomeScreen() {
     )
   } else {
     return (
-      <SafeAreaView>
-        <View className="flex-row items-center justify-center mt-28">
-          <Text
-            style={{ fontFamily: 'AbrilFatface_400Regular' }}
-            className=" text-black text-4xl"
-          >
-            <Image
-              style={{
-                width: 120,
-                height: 100,
-                resizeMode: 'contain',
-              }}
-              source={require('../../assets/images/new_Swave_2.png')}
-            />
-          </Text>
-        </View>
+      <SafeAreaView className="flex-1">
+        <ImageBackground
+          source={require('../../assets/images/new_Swave_2.png')}
+          className="mt-[250px] mx-auto justify-center items-center w-[120] h-[100]"
+          resizeMode="contain"
+        >
+         
+        </ImageBackground>
 
-        <View className=" mt-36 flex-row items-center justify-center w-full">
+        <View className="mb-24 mt-8 flex-row justify-center">
           <View className="space-y-6">
             <TouchableOpacity
               onPress={() => navigation.navigate('Login')}
@@ -73,12 +65,3 @@ export default function HomeScreen() {
     )
   }
 }
-
-const logoContainer = StyleSheet.create({
-  image: {
-    // flex: 1,
-    width: undefined,
-    height: undefined,
-    resizeMode: 'cover',
-  },
-})

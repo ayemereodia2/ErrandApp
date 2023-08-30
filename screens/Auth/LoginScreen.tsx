@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useLayoutEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { ActivityIndicator, SafeAreaView, Text, View } from 'react-native'
+import { ActivityIndicator, ImageBackground, SafeAreaView, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import Button from '../../components/Button'
 import InputField from '../../components/InputField'
@@ -9,6 +9,7 @@ import { Logo } from '../../components/Logo'
 import { loginUser } from '../../services/auth/login'
 import { RootState, useAppDispatch } from '../../services/store'
 import { ILogin } from '../../types'
+import { ScrollView } from 'react-native-gesture-handler'
 
 export default function LoginScreen() {
   const navigation = useNavigation()
@@ -40,8 +41,19 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView>
+      <ScrollView showsVerticalScrollIndicator={false}>
       <View className="px-4">
-       <Logo/>
+        <View className='mt-20'>
+        <ImageBackground
+          source={require('../../assets/images/new_Swave_2.png')}
+          className="mt-[30px] mx-auto justify-center items-center w-[120] h-[100]"
+          resizeMode="contain"
+        >
+         
+        </ImageBackground>
+
+        </View>
+       
 
         <View className="text-[#333333] font-inter mt-4 py-4 space-y-1">
           <Text className="font-semibold text-sm text-center">
@@ -88,6 +100,7 @@ export default function LoginScreen() {
           </View>
         </View>
       </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
