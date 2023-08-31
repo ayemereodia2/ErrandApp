@@ -53,7 +53,7 @@ const CreateFinance = ({navigation}:any) => {
     <DropdownComponent />
 
     <View className='mt-[41px] ml-4'>
-      <Text className='text-[#243763]'>How much insurance amount do you require from Bidders for this errand?</Text>
+      <Text className='text-[#243763]'>How much insurance amount do you require from Bidders for this errand?</Text>
     </View>
     <TextInput className='md:w-[390px] mt-2 p-2 h-[50px] b rounded-md mx-[16px] bg-[#E6E6E6]' placeholder='Enter your Insurance Amount' placeholderTextColor={'#B3B3B3'}></TextInput>
 
