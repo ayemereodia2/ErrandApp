@@ -24,6 +24,11 @@ import ProfileScreen from '../screens/ProfileScreen/index'
 import { RootStackParamList } from '../types'
 import BottomTab from './BottomTab'
 import DrawerNavigator from './DrawerNav'
+import CreateTasks from '../screens/CreateErrand/CreateTasks'
+import ErrandLocation from '../screens/CreateErrand/ErrandLocation'
+import CreateFinance from '../screens/CreateErrand/CreateFinance'
+import ErrandReview from '../screens/CreateErrand/ErrandReview'
+
 
 // import DrawerNav from './DrawerNav'
 
@@ -98,6 +103,8 @@ export function RootNavigator() {
         component={ProfileScreen}
         options={{ title: 'Profile' }}
       />
+
+
       <Stack.Screen
         name="Modal"
         component={Modal}
@@ -108,6 +115,36 @@ export function RootNavigator() {
         component={VerifyPhone}
         options={{ title: 'Verify Phone' }}
       />
+
+      <Stack.Screen
+        name="CreateErrand"
+        component={CreateTasks}
+        options={{headerShown: false}}
+        
+      />
+
+      <Stack.Screen
+        name="ErrandLocation"
+        component={ErrandLocation}
+        options={{headerShown: false}}
+        
+      />
+
+      <Stack.Screen
+        name="CreateFinance"
+        component={CreateFinance}
+        options={{headerShown: false}}
+        
+      />
+
+      <Stack.Screen
+        name="ErrandReview"
+        component={ErrandReview}
+        options={{headerShown: false}}
+        
+      />
+
+
       <Stack.Screen
         name="ErrandsAndBids"
         component={ErrandAndBids}

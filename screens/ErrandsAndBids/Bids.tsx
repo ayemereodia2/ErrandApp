@@ -135,9 +135,9 @@ const Bids = ({navigation}:any) => {
     <BottomSheetModalProvider>
     <ScrollView>
         <SafeAreaView>
-        <View className='flex-row  ml-[16px] '>
+        <View className='flex-row mr-[16px] ml-[16px] md:w-[398px] mx-auto '>
         <TouchableOpacity  onPress={handleBoth1}>
-        <View className='w-[199px] h-[52px] bg-white  items-center justify-center '>
+        <View className='w-[195px] h-[52px] bg-white  items-center justify-center '>
           <Text className='text-center text-[#243763]' >Errand Details</Text>
           </View>
         </TouchableOpacity>
@@ -419,13 +419,13 @@ const Bids = ({navigation}:any) => {
                </View>
 
               <TouchableOpacity onPress={handlePresentModal1}>
-               <View className='w-[399px] h-[48px] bg-[#243763] mx-auto items-center justify-center mt-[45px]'>
+               <View className='w-[380px] h-[48px] bg-[#243763] mx-auto items-center justify-center mt-[45px]'>
                 <Text className='text-white text-center leading-[24px] font-semibold text-[16px]'>Accept Bid</Text>
                  </View>
                </TouchableOpacity>
 
                <TouchableOpacity onPress={closeBottomSheet}>
-               <View className='w-[399px] h-[48px] border-red-600 border-solid border bg-[#fff] mx-auto items-center justify-center mt-[16px]'>
+               <View className='w-[380px] h-[48px] border-red-600 border-solid border bg-[#fff] mx-auto items-center justify-center mt-[16px]'>
                 <Text className='text-[#C82332] text-center leading-[24px] font-semibold text-[16px]'>Cancel</Text>
                  </View>
                </TouchableOpacity>
@@ -450,7 +450,7 @@ const Bids = ({navigation}:any) => {
 
 
                <TouchableOpacity onPress={closeBottomSheet1}>
-               <View className='w-[399px] h-[48px]  bg-[#243763] mx-auto items-center justify-center mt-[48px]'>
+               <View className='w-[380px] h-[48px]  bg-[#243763] mx-auto items-center justify-center mt-[48px]'>
                 <Text className='text-[#fff] text-center leading-[24px] font-semibold text-[16px]'>Close</Text>
                  </View>
                </TouchableOpacity>
@@ -478,7 +478,7 @@ const Bids = ({navigation}:any) => {
                 value={inputValue}
                 placeholder='Enter an Amount'
                 placeholderTextColor={'#A5B6DE'}
-                className='w-[399px] h-[48px] bg-[#DAE1F1] mx-auto mt-6 pl-4 items-center rounded'>
+                className='w-[380px] h-[48px] bg-[#DAE1F1] mx-auto mt-6 pl-4 items-center rounded'>
 
                 </TextInput>
                </View>
@@ -490,14 +490,14 @@ const Bids = ({navigation}:any) => {
                <TextInput 
                 placeholder='Enter an Amount'
                 placeholderTextColor={'#A5B6DE'}
-                className='w-[399px] h-[80px] bg-[#DAE1F1] mx-auto mt-6 pl-4 items-center rounded'>
+                className='w-[380px] h-[80px] bg-[#DAE1F1] mx-auto mt-6 pl-4 items-center rounded'>
 
                 </TextInput>
                  </View>
               
 
                <TouchableOpacity onPress={handleSubmitBid}>
-               <View className='w-[399px] h-[48px] bg-[#243763] mx-auto items-center justify-center mt-[32px]'>
+               <View className='w-[380px] h-[48px] bg-[#243763] mx-auto items-center justify-center mt-[32px]'>
                 <Text className='text-[#fff] text-center leading-[24px] font-semibold text-[16px]'>Cancel</Text>
                  </View>
                </TouchableOpacity>

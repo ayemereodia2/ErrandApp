@@ -141,14 +141,14 @@ const ErrandScreen = ({navigation}:any)  => {
 
           <ScrollView>
           <TouchableWithoutFeedback className='b bottom-2 border-b border-gray-200 shadow-sm rounded-sm' onPress={navigateToNewScreen} >
-              <View className='w-[398px] h-[66px] mt-[28px] mb-8  ml-[16px] mr-[16px]'>
+              <View className='md:w-[398px] h-[66px] mt-[28px] mb-8  ml-[16px] mr-[16px]'>
               <View className=' flex-row items-start justify-between pr-2'>
                 <View className='flex-row items-start gap-3'>
                 <Image
                   source={require('../../assets/images/timothy.jpg')}
-                  style={{ width: 50, height: 50, borderRadius: 50 }}
+                  style={{ width: 45, height: 45, borderRadius: 50 }}
                /> 
-               <View><Text className='text-[#011E3E] text-base'>I need someone to help with laundry</Text></View>
+               <View ><Text className='text-[#011E3E] text-base'>I need someone to help with laundry</Text></View>
                 <View >
               <Text className='pt-1.5 text-xs'>4 days ago</Text>
               </View>
@@ -178,7 +178,7 @@ const ErrandScreen = ({navigation}:any)  => {
                 <View className='flex-row items-start gap-3'>
                 <Image
                   source={require('../../assets/images/giana.jpg')}
-                  style={{ width: 50, height: 50, borderRadius: 50 }}
+                  style={{ width: 45, height: 45, borderRadius: 50 }}
                /> 
                <View><Text className='text-[#011E3E] text-base'>I need someone to help with laundry</Text></View>
               

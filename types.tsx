@@ -34,7 +34,8 @@ export type InputProps = {
   control?: any
   errors?: any
   name: string;
-  message?: string
+  message?: string,
+  secureTextEntry?: boolean;
 }
 
 export type ButtonProps = {
