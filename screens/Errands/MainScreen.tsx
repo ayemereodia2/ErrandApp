@@ -2,13 +2,17 @@ import {
   AbrilFatface_400Regular,
   useFonts,
 } from '@expo-google-fonts/abril-fatface'
+import { Entypo, EvilIcons } from '@expo/vector-icons'
 // import { ScrollView } from 'native-base'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
+  Image,
   SafeAreaView,
   ScrollView,
   Text,
+  TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native'
 import Toast from 'react-native-toast-message'
@@ -59,7 +63,19 @@ export default function MainScreen({ navigation }: any) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerShown: false,
+      headerShown: true,
+      title: 'Errand Market',
+      headerLeft: () => (
+        <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
+          <TouchableOpacity
+            onPress={() => navigation.openDrawer()}
+            className="flex-row items-center"
+          >
+            {/* <ProfileInitials firstName="Azubike" lastName="Orji" /> */}
+            <Entypo name="menu" size={24} />
+          </TouchableOpacity>
+        </View>
+      ),
     })
   }, [])
 
@@ -78,17 +94,37 @@ export default function MainScreen({ navigation }: any) {
               <ActivityIndicator size={'large'} />
             </View>
           ) : (
-            <View className="">
-              {errands?.map((errand, index) => {
-                return (
-                  <ErrandComp
-                    errand={errand}
-                    navigate={navigation}
-                    key={index}
-                  />
-                )
-              })}
-            </View>
+            <>
+              <View className="bg-white ">
+                <View className='mx-4'>
+                  <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
+                    <EvilIcons name="search" size={22} className="w-1/12" />
+                    <TextInput
+                      className=" w-9/12"
+                      placeholder="Search for Errands"
+                    />
+                    <Image
+                      style={{
+                        width: 30,
+                        height: 30,
+                        resizeMode: 'contain',
+                      }}
+                      source={require('../../assets/images/filter.png')}
+                    />
+                  </View>
+
+                  {errands?.map((errand, index) => {
+                    return (
+                      <ErrandComp
+                        errand={errand}
+                        navigate={navigation}
+                        key={index}
+                      />
+                    )
+                  })}
+                </View>
+              </View>
+            </>
           )}
         </ScrollView>
       </SafeAreaView>

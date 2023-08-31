@@ -25,7 +25,8 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
     
     if (_rs.success === true) {
       await AsyncStorage.setItem('accessToken', _rs.data.access_token )
-      await AsyncStorage.setItem('refreshToken', _rs.data.refresh_token )
+      await AsyncStorage.setItem('refreshToken', _rs.data.refresh_token)
+      await AsyncStorage.setItem('user_id', _rs.data.id)
 
       // setCookie("access_token", rs.data.data.access_token)
       // localStorage.setItem('user_id', rs.data.data.id)

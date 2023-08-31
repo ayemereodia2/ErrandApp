@@ -8,6 +8,8 @@ import modalsReducer from "./modals";
 import { marketReducer } from "../services/errands/market"
 import { errandDetailsReducer } from "./errands/errandDetails";
 import { userDetailsReducer } from "./auth/userInfo";
+import { externalUserDetailsReducer } from "./auth/externalUserInfo";
+import postBidReducer from "./errands/placeBid";
 
 export const store = configureStore({
   reducer: {
@@ -17,7 +19,9 @@ export const store = configureStore({
     modals: modalsReducer,
     marketReducer,
     errandDetailsReducer,
-    userDetailsReducer
+    userDetailsReducer,
+    externalUserDetailsReducer,
+    postBidReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 })

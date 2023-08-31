@@ -36,23 +36,23 @@ export default function HomeScreen() {
   } else {
     return (
       <SafeAreaView>
-        <View className="flex-row items-center justify-center mt-20">
+        <View className="flex-row items-center justify-center mt-28">
           <Text
             style={{ fontFamily: 'AbrilFatface_400Regular' }}
             className=" text-black text-4xl"
           >
             <Image
               style={{
-                width: 80,
-                height: 80,
+                width: 120,
+                height: 100,
                 resizeMode: 'contain',
               }}
-              source={require('../../assets/images/Swave_2.png')}
+              source={require('../../assets/images/new_Swave_2.png')}
             />
           </Text>
         </View>
 
-        <View className=" mt-44 flex-row items-center justify-center w-full">
+        <View className=" mt-36 flex-row items-center justify-center w-full">
           <View className="space-y-6">
             <TouchableOpacity
               onPress={() => navigation.navigate('Login')}

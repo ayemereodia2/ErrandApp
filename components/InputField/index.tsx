@@ -12,7 +12,8 @@ export default function InputField({
   control,
   errors,
   name,
-  message
+  message,
+  className
 }: InputProps): JSX.Element {
 
   // const { control, handleSubmit, formState: { errors } } = useForm({
@@ -40,7 +41,7 @@ export default function InputField({
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            className="w-full border border-[#E6E6E6] text-xs py-3.5 mt-2 rounded-lg px-3"
+            className={"w-full border border-[#E6E6E6] text-xs py-3.5 mt-2 rounded-lg px-3"}
             placeholder={placeholder}
             onBlur={onBlur}
             onChangeText={onChange}

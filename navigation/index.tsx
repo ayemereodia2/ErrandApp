@@ -3,11 +3,11 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { AntDesign, EvilIcons, FontAwesome } from '@expo/vector-icons'
+import { AntDesign, EvilIcons, FontAwesome, Ionicons } from '@expo/vector-icons'
 import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import * as React from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
+import { Image, TouchableOpacity, View, Text } from 'react-native'
 import { ProfileInitials } from '../components/ProfileInitials'
 import AccountRecoveryScreen from '../screens/Auth/AccountRecovery'
 import { default as CreateAccountScreen } from '../screens/Auth/CreateAccountScreen'
@@ -18,6 +18,8 @@ import SecurityQuestion from '../screens/Auth/SecurityQuestionScreen'
 import VerifyOtpScreen from '../screens/Auth/VerifyOtp'
 import VerifyPhone from '../screens/Auth/VerifyPhone'
 import ErrandDetails from '../screens/Errands/ErrandDetails'
+import ErrandAndBids from '../screens/ErrandsAndBids/ErrandsAndBids'
+import Bids from '../screens/ErrandsAndBids/Bids'
 import Modal from '../screens/Modal'
 import ProfileScreen from '../screens/ProfileScreen/index'
 import WalletScreen from '../screens/Wallets'
@@ -62,41 +64,44 @@ export function RootNavigator() {
         name="Main"
         component={BottomTab}
         options={{
-          title: '',
-          headerStyle: {},
-          headerLeft: () => (
-            <View className="flex-row items-center justify-between mx-0 px-3 py-3 shadow-sm mt-2 bg-white">
-              <TouchableOpacity
-                onPress={() => navigate.openDrawer()}
-                className="flex-row items-center"
-              >
-                <ProfileInitials firstName="Azubike" lastName="Orji" />
-              </TouchableOpacity>
-            </View>
-          ),
-          headerTitle: () => (
-            <View className="flex-row items-center justify-center">
-              <Image
-                style={{
-                  width: 34,
-                  height: 34,
-                  resizeMode: 'contain',
-                }}
-                source={require('../assets/images/cropped.jpg')}
-              />
-            </View>
-          ),
-          // header
-
-          headerRight: () => (
-            <EvilIcons name="search" size={30} color="#243763" />
-          ),
-          headerTitleStyle: {
-            fontSize: 20,
-            fontWeight: '300',
-          },
-          headerShadowVisible: true,
+          headerShown: false
         }}
+        // options={{
+        //   title: '',
+        //   headerStyle: {},
+        //   headerLeft: () => (
+        //     <View className="flex-row items-center justify-between mx-0 px-3 py-3 shadow-sm mt-2 bg-white">
+        //       <TouchableOpacity
+        //         onPress={() => navigate.openDrawer()}
+        //         className="flex-row items-center"
+        //       >
+        //         <ProfileInitials firstName="Azubike" lastName="Orji" />
+        //       </TouchableOpacity>
+        //     </View>
+        //   ),
+        //   headerTitle: () => (
+        //     <View className="flex-row items-center justify-center">
+        //       <Image
+        //         style={{
+        //           width: 34,
+        //           height: 34,
+        //           resizeMode: 'contain',
+        //         }}
+        //         source={require('../assets/images/cropped.jpg')}
+        //       />
+        //     </View>
+        //   ),
+        //   // header
+
+        //   headerRight: () => (
+        //     <EvilIcons name="search" size={30} color="#243763" />
+        //   ),
+        //   headerTitleStyle: {
+        //     fontSize: 20,
+        //     fontWeight: '300',
+        //   },
+        //   headerShadowVisible: true,
+        // }}
       />
       <Stack.Screen
         name="Wallet"
@@ -157,6 +162,56 @@ export function RootNavigator() {
         name="VerifyPhone"
         component={VerifyPhone}
         options={{ title: 'Verify Phone' }}
+      />
+      <Stack.Screen
+        name="ErrandsAndBids"
+        component={ErrandAndBids}
+        options={{ 
+          
+        headerStyle: {
+        backgroundColor: '#243763',
+        },
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigate.navigate('Errands')} >
+            <Ionicons name="arrow-back" size={32} color="#fff" />           
+          </TouchableOpacity>
+        ),
+        headerTitle: () => (
+          <View style={{ flexDirection: 'row', alignItems: 'center',  }}>
+            <Image
+              source={require('../assets/images/timothy.jpg')} // Replace with your image path
+              style={{ width: 30, height: 30, borderRadius: 50, marginRight: 20 }} // Adjust width, height, and margins as needed
+            />
+            <Text style={{ fontSize: 20, color: '#fff', fontWeight: 'bold' }}>Timothy Weah James</Text>
+          </View>
+        ),
+        
+       }}
+      />
+      <Stack.Screen
+        name="Bids"
+        component={Bids}
+        options={{ 
+          
+        headerStyle: {
+        backgroundColor: '#243763',
+        },
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigate.navigate('Errands')} >
+            <Ionicons name="arrow-back" size={32} color="#fff" />           
+          </TouchableOpacity>
+        ),
+        headerTitle: () => (
+          <View style={{ flexDirection: 'row', alignItems: 'center',  }}>
+            <Image
+              source={require('../assets/images/timothy.jpg')} // Replace with your image path
+              style={{ width: 30, height: 30, borderRadius: 50, marginRight: 20 }} // Adjust width, height, and margins as needed
+            />
+            <Text style={{ fontSize: 20, color: '#fff', fontWeight: 'bold' }}>Timothy Weah James</Text>
+          </View>
+        ),
+        
+       }}
       />
       <Stack.Screen
         name="ErrandDetails"

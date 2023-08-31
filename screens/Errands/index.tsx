@@ -1,83 +1,69 @@
-import { MaterialIcons } from '@expo/vector-icons'
-import React from 'react'
-import { Text, useWindowDimensions, View } from 'react-native'
-import { SceneMap, TabBar, TabView } from 'react-native-tab-view'
-import OngoingErrands from '../../components/Ongoing'
+import { Entypo, EvilIcons, Ionicons } from '@expo/vector-icons'
+import React, { useLayoutEffect } from 'react'
+import {
+  TextInput,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from 'react-native'
+import {
+  ScrollView,
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler'
+import MyErrandCard from '../../components/MyErrandCard'
 
-const FirstRoute = () => (
-  <View>
-    <OngoingErrands />
-    <OngoingErrands />
-  </View>
-)
-
-const SecondRoute = () => (
-  <View>
-    <OngoingErrands />
-    <OngoingErrands />
-  </View>
-)
-
-const ThirdRoute = () => (
-  <View>
-    <OngoingErrands />
-    <OngoingErrands />
-  </View>
-)
-
-const renderScene = SceneMap({
-  first: FirstRoute,
-  second: SecondRoute,
-  third: ThirdRoute,
-})
-
-const ErrandScreen = () => {
+const ErrandScreen = ({ navigation }: any) => {
   const layout = useWindowDimensions()
-  const [index, setIndex] = React.useState(0)
-  const [routes] = React.useState([
-    { key: 'first', title: 'ongoing' },
-    { key: 'second', title: 'Bids' },
-    { key: 'third', title: 'Completed' },
-  ])
 
-  const renderTabBar = (props: any) => (
-    <TabBar
-      {...props}
-      // indicatorStyle={{ backgroundColor: 'white' }}
-      style={{ backgroundColor: 'white' }}
-      labelStyle={{ color: 'black', fontSize: 10, textTransform: 'capitalize' }}
-      // indicatorContainerStyle={{ backgroundColor: 'red' }}
-      // renderIndicator={{}}
-      indicatorStyle={{ backgroundColor: '#243763' }}
-    />
-  )
+  const navigateToNewScreen = () => {
+    navigation.navigate('ErrandsAndBids')
+  }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      title: 'My Errands',
+      headerLeft: () => (
+        <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
+          <TouchableOpacity
+            onPress={() => navigation.openDrawer()}
+            className="flex-row items-center"
+          >
+            {/* <ProfileInitials firstName="Azubike" lastName="Orji" /> */}
+            <Entypo name="menu" size={24} />
+          </TouchableOpacity>
+        </View>
+      ),
+    })
+  }, [])
 
   return (
-    <>
-      {/* <View className="flex-row items-center mx-0 px-2 pt-5 shadow-lg bg-white">
-        <MaterialIcons name="keyboard-arrow-left" size={30} color="black" />
-        <View className="flex-row items-center">
-          <View className="flex-row items-center justify-center">
-            <Text
-              // style={{ fontFamily: 'AbrilFatface_400Regular' }}
-              className=" text-[#243763] text-xl pl-24 pb-0 pt-2"
-            >
-              My Errands
-            </Text>
+    <ScrollView>
+      <View className="">
+        <View className="flex-row justify-center items-center gap-2 mt-2 relative">
+          <View className="bg-[#DAE1F1] flex-row p-2 py-3 rounded-lg w-4/5 space-x-2">
+            <EvilIcons name="search" size={24} color="black" />
+            <TextInput className="w-5/6" placeholder="Find an Errand" />
+          </View>
+
+          <View className="w-[40px] h-[40px] bg-[#243763] justify-center items-center b rounded-md">
+            <Ionicons name="filter" size={24} color="white" />
           </View>
         </View>
-      </View> */}
-      <TabView
-        style={{ backgroundColor: 'white' }}
-        navigationState={{ index, routes }}
-        renderScene={renderScene}
-        onIndexChange={setIndex}
-        initialLayout={{ width: layout.width }}
-        renderTabBar={renderTabBar}
-      />
-    </>
 
-    // </View>
+        <ScrollView>
+          <TouchableWithoutFeedback
+            className="mx-3 mt-3 shadow-sm rounded-sm"
+            onPress={navigateToNewScreen}
+          >
+            <MyErrandCard />
+            <MyErrandCard />
+            <MyErrandCard />
+            <MyErrandCard />
+          </TouchableWithoutFeedback>
+        </ScrollView>
+      </View>
+    </ScrollView>
   )
 }
 

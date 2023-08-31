@@ -62,7 +62,7 @@ export async function _fetch({ _url, body, method }: FetchProps) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
         },
-      body
+      body: JSON.stringify(body)
   };
 
   // Your interceptor logic here
