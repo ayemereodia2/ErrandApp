@@ -35,8 +35,8 @@ export type InputProps = {
   control?: any
   errors?: any
   name: string;
-  message?: string
-
+  message?: string,
+  secureTextEntry?: boolean;
 }
 
 export type ButtonProps = {
@@ -63,6 +63,8 @@ export type RootStackParamList = {
   ErrandDetails: undefined
   Modal: undefined
   Errands: undefined
+  MyErrands: undefined
+  MyErrandDetails: undefined
   Feeds: undefined
   Welcome: undefined
   VerifyPhone: undefined

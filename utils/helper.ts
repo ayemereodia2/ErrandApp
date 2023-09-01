@@ -69,5 +69,26 @@ interface AddressProps {
 
  export const parseAmount = (numberString: string) => {
   return parseInt(parseFloat(numberString.replace(/,/gi, '')).toFixed(0));
-}
+ }
+
+ export function getTimeAgo(dateString: string): string {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMilliseconds = now.getTime() - date.getTime();
+
+  // Calculate the time difference in minutes
+  const diffMinutes = Math.floor(diffMilliseconds / (1000 * 60));
+
+  if (diffMinutes < 1) {
+    return "just now";
+  } else if (diffMinutes < 60) {
+    return diffMinutes + " mins ago";
+  } else if (diffMinutes < 1440) {
+    const diffHours = Math.floor(diffMinutes / 60);
+    return diffHours + " hours ago";
+  } else {
+    const diffDays = Math.floor(diffMinutes / 1440);
+    return diffDays + " days ago";
+  }
+  }
 

@@ -10,6 +10,7 @@ import { errandDetailsReducer } from "./errands/errandDetails";
 import { userDetailsReducer } from "./auth/userInfo";
 import { externalUserDetailsReducer } from "./auth/externalUserInfo";
 import postBidReducer from "./errands/placeBid";
+import { myErrandReducer } from "./errands/myErrands";
 
 export const store = configureStore({
   reducer: {
@@ -21,7 +22,8 @@ export const store = configureStore({
     errandDetailsReducer,
     userDetailsReducer,
     externalUserDetailsReducer,
-    postBidReducer
+    postBidReducer,
+    myErrandReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 })

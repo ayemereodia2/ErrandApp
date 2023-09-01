@@ -1,22 +1,27 @@
 import { Entypo, EvilIcons, Ionicons } from '@expo/vector-icons'
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import {
   TextInput,
   TouchableOpacity,
   useWindowDimensions,
   View,
 } from 'react-native'
-import {
-  ScrollView,
-  TouchableWithoutFeedback,
-} from 'react-native-gesture-handler'
+import { ScrollView } from 'react-native-gesture-handler'
+import { useSelector } from 'react-redux'
 import MyErrandCard from '../../components/MyErrandCard'
+import { myErrandList } from '../../services/errands/myErrands'
+import { RootState, useAppDispatch } from '../../services/store'
 
 const ErrandScreen = ({ navigation }: any) => {
+  const dispatch = useAppDispatch()
   const layout = useWindowDimensions()
 
+  const { data: myErrands } = useSelector(
+    (state: RootState) => state.myErrandReducer,
+  )
+
   const navigateToNewScreen = () => {
-    navigation.navigate('ErrandsAndBids')
+    navigation.navigate('MyErrandDetails')
   }
 
   useLayoutEffect(() => {
@@ -29,12 +34,15 @@ const ErrandScreen = ({ navigation }: any) => {
             onPress={() => navigation.openDrawer()}
             className="flex-row items-center"
           >
-            {/* <ProfileInitials firstName="Azubike" lastName="Orji" /> */}
             <Entypo name="menu" size={24} />
           </TouchableOpacity>
         </View>
       ),
     })
+  }, [])
+
+  useEffect(() => {
+    dispatch(myErrandList({}))
   }, [])
 
   return (
@@ -52,15 +60,15 @@ const ErrandScreen = ({ navigation }: any) => {
         </View>
 
         <ScrollView>
-          <TouchableWithoutFeedback
-            className="mx-3 mt-3 shadow-sm rounded-sm"
-            onPress={navigateToNewScreen}
-          >
-            <MyErrandCard />
-            <MyErrandCard />
-            <MyErrandCard />
-            <MyErrandCard />
-          </TouchableWithoutFeedback>
+          {myErrands?.map((errand, index) => {
+            return (
+              <MyErrandCard
+                index={index}
+                errand={errand}
+                navigation={navigation}
+              />
+            )
+          })}
         </ScrollView>
       </View>
     </ScrollView>

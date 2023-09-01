@@ -223,8 +223,6 @@ export default function ErrandDetails({ route, navigation }: any) {
               )
             })}
 
-            {/* {showBid && <PlaceBidInput toggleShowBid={toggleShowBid} />} */}
-
             <BottomSheetModal
               ref={bottomSheetRef}
               index={0}

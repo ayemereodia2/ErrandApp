@@ -18,6 +18,9 @@ export const userDetails = createAsyncThunk<UserDetailsResponse, UserProps, { re
         })
       
       const rs = await _rs.json()
+
+      // console.log(">>>rs", rs);
+      
         if (rs.success === true) {
         return rs
         }

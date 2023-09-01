@@ -8,10 +8,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import AccountScreen from '../screens/Accounts'
-import ErrandScreen from '../screens/Errands'
-import MainScreen from '../screens/Errands/MainScreen'
+import ErrandScreen from '../screens/MyErrands'
+import MainScreen from '../screens/Market/MainScreen'
 import PostErrand from '../screens/PostErrand/PostErrand'
 import WalletScreen from '../screens/Wallets'
+import PostErrand1 from '../screens/PostErrand/PostErrand1'
+import CreateErrand from '../screens/CreateErrand/CreateTasks'
 
 const Tab = createBottomTabNavigator()
 
@@ -84,7 +86,7 @@ const BottomTab = () => {
 
       <Tab.Screen
         name="PostErrands"
-        component={PostErrand}
+        component={PostErrand1}
         options={{
            tabBarStyle: {
             display: 'none'
