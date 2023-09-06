@@ -11,6 +11,7 @@ import { userDetailsReducer } from "./auth/userInfo";
 import { externalUserDetailsReducer } from "./auth/externalUserInfo";
 import postBidReducer from "./errands/placeBid";
 import { myErrandReducer } from "./errands/myErrands";
+import contactUsReducer from './Contacts/ContactUsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -23,7 +24,8 @@ export const store = configureStore({
     userDetailsReducer,
     externalUserDetailsReducer,
     postBidReducer,
-    myErrandReducer
+    myErrandReducer,
+   contactUsReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 })

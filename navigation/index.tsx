@@ -29,6 +29,7 @@ import WalletScreen from '../screens/Wallets'
 import { RootStackParamList } from '../types'
 import BottomTab from './BottomTab'
 import DrawerNavigator from './DrawerNav'
+import EditProfileTitle from '../screens/EditProfile/EditProfileTitle'
 
 // import DrawerNav from './DrawerNav'
 
@@ -189,6 +190,12 @@ export function RootNavigator() {
       <Stack.Screen
         name="ErrandReview"
         component={ErrandReview}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfileTitle}
         options={{ headerShown: false }}
       />
 
