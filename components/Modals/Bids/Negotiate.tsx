@@ -1,3 +1,4 @@
+import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
 import React, { useState } from 'react'
 import {
   ActivityIndicator,
@@ -6,7 +7,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { TextInput } from 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { bidAction } from '../../../services/bids/bidsAction'
@@ -41,8 +41,8 @@ const NegotiateBid = ({
   const { loading } = useSelector((state: RootState) => state.bidActionReducer)
 
   const negotiateBid = () => {
-    console.log("<<<<<<hello");
-    
+    console.log('<<<<<<hello')
+
     if (!amount) {
       return setError('Please, make sure you enter all fields for this bid')
     }
@@ -75,7 +75,7 @@ const NegotiateBid = ({
         <View className="border border-[#E6E6E6] bg-[#CBD5EC]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
           <Text className="text-lg ">&#x20A6;</Text>
 
-          <TextInput
+          <BottomSheetTextInput
             className="w-full"
             placeholder="Enter amount"
             onChangeText={(e) => setAmount(currencyMask(e))}
@@ -91,18 +91,20 @@ const NegotiateBid = ({
           Enter Comment{' '}
         </Text>
 
-        <TextInput
-          className={
-            'w-full border bg-[#CBD5EC] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3'
-          }
-          placeholder="Enter your bids comment"
-          onChangeText={(e) => setComment(e)}
-          value={comment}
-          multiline={true}
-          numberOfLines={10}
-          style={{ height: 100, textAlignVertical: 'top' }}
-          keyboardType="phone-pad"
-        />
+        <View className="w-full border bg-[#CBD5EC] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3">
+          <BottomSheetTextInput
+            className={
+              'w-full border bg-[#CBD5EC] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3'
+            }
+            placeholder="Enter your bids comment"
+            onChangeText={(e) => setComment(e)}
+            value={comment}
+            multiline={true}
+            numberOfLines={10}
+            style={{ height: 100, textAlignVertical: 'top' }}
+            keyboardType="phone-pad"
+          />
+        </View>
       </View>
 
       <View className="flex-row justify-center items-center px-4">

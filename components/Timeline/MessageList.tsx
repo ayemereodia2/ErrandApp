@@ -5,22 +5,55 @@ import Message from "./Message";
 
 import { theme } from "../../theme";
 import { ChatInputProp } from "./ChatInput";
+import { getTimeAgo } from "../../utils/helper";
 
-const MessagesList = ({ onSwipeToReply }: ChatInputProp) => {
+const MessagesList = ({ onSwipeToReply, timeline }: ChatInputProp) => {
 	const [messages, setMessages] = useState([
 		{
-			user: 0,
+			user: 'sender',
 			time: "12:07",
 			content: "7 o'clock?",
 		},
 		{
-			user: 1,
+			user: 'runner',
 			time: "12:09",
 			content: "Sounds good",
+    },
+    {
+			user: 'runner',
+			time: "12:07",
+			content: "7 o'clock?",
+		},
+		{
+			user: 'sender',
+			time: "12:09",
+			content: "Sounds good",
+		},{
+			user: 'runner',
+			time: "12:07",
+			content: "7 o'clock?",
+		},
+		{
+			user: 'sender',
+			time: "12:09",
+			content: "Sounds good",
+		},{
+			user: 'runner',
+			time: "12:07",
+			content: "7 o'clock?",
+		},
+		{
+			user: 'sender',
+			time: "12:09",
+			content: "Sounds good",
+		},{
+			user: 'runner',
+			time: "12:07",
+			content: "7 o'clock?",
 		},
 	]);
 
-	const user = useRef<any>(0);
+	const user = useRef<any>('sender');
 	const scrollView = useRef<any>();
 
 	return (
@@ -30,12 +63,12 @@ const MessagesList = ({ onSwipeToReply }: ChatInputProp) => {
 				scrollView.current.scrollToEnd({ animated: true })
 			}}
 		> 
-			{messages.map((message, index) => (
+			{timeline?.updates.map((message, index) => (
 				<Message
 					key={index}
-					time={message.time}
-					isLeft={message.user !== user.current}
-					message={message.content}
+					time={getTimeAgo(message.created_at) }
+					isLeft={message.source !== user.current}
+					message={message.message}
 					onSwipe={onSwipeToReply}
 				/>
 			))}

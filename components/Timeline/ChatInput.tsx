@@ -21,6 +21,7 @@ import EmojiPicker from "./Emoji";
 import { useKeyboard } from "@react-native-community/hooks";
 
 import { theme } from "../../theme";
+import { Timelines } from "../../types";
 
 export interface ChatInputProp {
   reply?: string
@@ -31,6 +32,7 @@ export interface ChatInputProp {
   onSwipe?: any
   time?: string
   onSwipeToReply?: any
+  timeline?: Timelines
 }
 
 const ChatInput = ({ reply, closeReply, isLeft, username }: ChatInputProp) => {

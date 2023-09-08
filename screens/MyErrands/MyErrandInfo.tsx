@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useRef, useState } from 'react'
 import { Text, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useSelector } from 'react-redux'
 import BidWrapper from '../../components/BidWrapper'
 import NegotiateBid from '../../components/Modals/Bids/Negotiate'
@@ -103,61 +104,75 @@ const MyErrandInfo = ({ navigation }: any) => {
   }, [user, negotiateRef, successDialogueRef])
 
   return (
-    <BottomSheetModalProvider>
-      <ScrollView className="px-3 relative">
-        {errand.status === 'active' ? (
-          // timeline screen
+    <>
+      {errand?.status === 'active' || errand?.status === 'completed' ? (
+        <KeyboardAwareScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          enableOnAndroid={true}
+          extraScrollHeight={30}
+        >
+          <Timeline
+            errand={errand}
+            user_id={userId}
+            singleSubErrand={subErrand}
+          />
+        </KeyboardAwareScrollView>
+      ) : (
+        <BottomSheetModalProvider>
+          <ScrollView className="px-3">
+            {/* // errand details and bid screen */}
+            <View>
+              <MyErrandToggle
+                selectedTab={selectedTab}
+                setSelectedItem={setSelectedItem}
+              />
 
-          <Timeline errand={errand} user_id={userId} singleSubErrand={subErrand} />
-
-          
-        ) : (
-          // errand details and bid screen
-          <View>
-            <MyErrandToggle
-              selectedTab={selectedTab}
-              setSelectedItem={setSelectedItem}
-            />
-
-            {selectedTab === 'details' && <MyErrandDetails errand={errand} user_id={userId} />}
-            {selectedTab === 'bids' && (
-              <BidWrapper
+              {selectedTab === 'details' && (
+                <MyErrandDetails errand={errand} user_id={userId} />
+              )}
+              {selectedTab === 'bids' && (
+                <BidWrapper
+                  errand={errand}
+                  userId={userId}
+                  navigation={navigation}
+                  toggleNegotiateModal={toggleNegotiateModal}
+                  toggleSuccessDialogue={toggleSuccessDialogue}
+                />
+              )}
+            </View>
+            {/* Negotiate bid modal */}
+            <BottomSheetModal
+              ref={negotiateRef}
+              index={0}
+              snapPoints={snapPoints}
+            >
+              <NegotiateBid
+                bid={errand.bids[0]}
+                owner={user}
                 errand={errand}
-                userId={userId}
                 navigation={navigation}
+                user_id={userId}
                 toggleNegotiateModal={toggleNegotiateModal}
                 toggleSuccessDialogue={toggleSuccessDialogue}
               />
-            )}
-          </View>
-        )}
+            </BottomSheetModal>
 
-        {/* Negotiate bid modal */}
-        <BottomSheetModal ref={negotiateRef} index={0} snapPoints={snapPoints}>
-          <NegotiateBid
-            bid={errand.bids[0]}
-            owner={user}
-            errand={errand}
-            navigation={navigation}
-            user_id={userId}
-            toggleNegotiateModal={toggleNegotiateModal}
-            toggleSuccessDialogue={toggleSuccessDialogue}
-          />
-        </BottomSheetModal>
-
-        {/* success Dialogue */}
-        <BottomSheetModal
-          ref={successDialogueRef}
-          index={0}
-          snapPoints={successPoints}
-        >
-          <SuccessDialogue
-            toggleSuccessDialogue={toggleSuccessDialogue}
-            toggleNegotiateModal={toggleNegotiateModal}
-          />
-        </BottomSheetModal>
-      </ScrollView>
-    </BottomSheetModalProvider>
+            {/* success Dialogue */}
+            <BottomSheetModal
+              ref={successDialogueRef}
+              index={0}
+              snapPoints={successPoints}
+            >
+              <SuccessDialogue
+                toggleSuccessDialogue={toggleSuccessDialogue}
+                toggleNegotiateModal={toggleNegotiateModal}
+              />
+            </BottomSheetModal>
+          </ScrollView>
+        </BottomSheetModalProvider>
+      )}
+    </>
   )
 }
 

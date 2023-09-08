@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Toast from 'react-native-toast-message'
 import Button from '../../components/Button'
 import InputField from '../../components/InputField'
@@ -113,49 +114,57 @@ export default function SecurityQuestion() {
         <View className="px-4">
           <Logo />
 
-          <View className="text-[#333333] font-inter py-4 space-y-1">
-            <Text className="font-semibold text-sm">Security Question</Text>
-            <Text className="text-xs">
-              Enter your details for security questions
-            </Text>
+          <KeyboardAwareScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{ flexGrow: 1 }}
+            enableOnAndroid={true}
+          >
+            <View className="text-[#333333] font-inter py-4 space-y-1">
+              <Text className="font-semibold text-sm">Security Question</Text>
+              <Text className="text-xs">
+                Enter your details for security questions
+              </Text>
 
-            <View className="pt-2 mt-10 space-y-4">
-              <Text>Select Question</Text>
-              <Picker
-                selectedValue={question}
-                onValueChange={(itemValue, itemIndex) => setQuestion(itemValue)}
-                mode={'dialog'}
-              >
-                {arr.map((question) => (
-                  <Picker.Item label={question.text} value={question.value} />
-                ))}
-              </Picker>
+              <View className="pt-2 mt-10 space-y-4">
+                <Text>Select Question</Text>
+                <Picker
+                  selectedValue={question}
+                  onValueChange={(itemValue, itemIndex) =>
+                    setQuestion(itemValue)
+                  }
+                  mode={'dialog'}
+                >
+                  {arr.map((question) => (
+                    <Picker.Item label={question.text} value={question.value} />
+                  ))}
+                </Picker>
 
-              <InputField
-                label="Answer"
-                placeholder="Enter your answer"
-                keyboardType="default"
-                name="answer"
-                control={control}
-                required
-                errors={errors.answer}
-                message={errors?.answer?.message}
-              />
+                <InputField
+                  label="Answer"
+                  placeholder="Enter your answer"
+                  keyboardType="default"
+                  name="answer"
+                  control={control}
+                  required
+                  errors={errors.answer}
+                  message={errors?.answer?.message}
+                />
 
-              <Button
-                style={{ marginTop: 20 }}
-                className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-20"
-                child={
-                  loading ? (
-                    <ActivityIndicator size="small" color="#00ff00" />
-                  ) : (
-                    'Submit Answer'
-                  )
-                }
-                onPress={handleSubmit(submitQuestion)}
-              />
+                <Button
+                  style={{ marginTop: 20 }}
+                  className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-20"
+                  child={
+                    loading ? (
+                      <ActivityIndicator size="small" color="#00ff00" />
+                    ) : (
+                      'Submit Answer'
+                    )
+                  }
+                  onPress={handleSubmit(submitQuestion)}
+                />
+              </View>
             </View>
-          </View>
+          </KeyboardAwareScrollView>
         </View>
       </TouchableWithoutFeedback>
     </SafeAreaView>

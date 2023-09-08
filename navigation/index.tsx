@@ -20,6 +20,7 @@ import CreateFinance from '../screens/CreateErrand/CreateFinance'
 import CreateTasks from '../screens/CreateErrand/CreateTasks'
 import ErrandLocation from '../screens/CreateErrand/ErrandLocation'
 import ErrandReview from '../screens/CreateErrand/ErrandReview'
+import EditProfileTitle from '../screens/EditProfile/EditProfileTitle'
 import ErrandDetails from '../screens/Market/ErrandDetails'
 import Modal from '../screens/Modal'
 import MyErrandInfo from '../screens/MyErrands/MyErrandInfo'
@@ -192,6 +193,12 @@ export function RootNavigator() {
       />
 
       <Stack.Screen
+        name="EditProfile"
+        component={EditProfileTitle}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
         name="MyErrandDetails"
         component={MyErrandInfo}
         options={{
@@ -205,15 +212,14 @@ export function RootNavigator() {
         component={ErrandDetails}
         options={{
           title: 'Errand',
-          headerStyle: {},
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigate.navigate('Main')}>
-              <AntDesign name="home" size={24} color="#243763" />
+              <AntDesign name="arrowleft" size={24} color="#243763" />
             </TouchableOpacity>
           ),
           headerTitleStyle: {
-            fontSize: 20,
-            fontWeight: '300',
+            fontSize: 16,
+            fontWeight: '600',
           },
           headerShadowVisible: false,
         }}

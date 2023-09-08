@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData, SingleSubErrand } from '../../types'
-import ChatHeader from './ChatHeader'
 import ChatInput from './ChatInput'
 import MessagesList from './MessageList'
 
@@ -59,87 +58,8 @@ const Timeline = ({
   }, [])
 
   return (
-    // <View style={styles.container}>
-    //   {timeline?.updates?.map((update) => {
-    //     return (
-    //       <View
-    //         key={update.id}
-    //         className={`flex-row py-4 ${
-    //           update.source === 'sender' ? 'justify-end' : 'justify-start'
-    //         }`}
-    //       >
-    //         <View
-    //           className={`rounded-lg ${
-    //             update.source === 'sender'
-    //               ? 'mr-auto max-w-[80%]'
-    //               : 'ml-auto max-w-[80%]'
-    //           }`}
-    //         >
-    //           <View>
-    //             {update.source === 'sender' && (
-    //               <View className="flex-row space-x-2 text-xs items-center justify-start pb-1">
-    //                 <Image
-    //                   style={{
-    //                     width: 20,
-    //                     height: 20,
-    //                     resizeMode: 'contain',
-    //                     borderRadius: 40,
-    //                   }}
-    //                   source={require('../../assets/images/alena.jpg')}
-    //                 />
-    //                 <Text className="text-black capitalize">
-    //                   {sender?.first_name}
-    //                 </Text>
-    //                 <Text className="text-[#969494]">
-    //                   {getTimeAgo(update.created_at)}
-    //                 </Text>
-    //               </View>
-    //             )}
-    //             {update.source === 'runner' && (
-    //               <View className="flex-row space-x-2 text-xs items-center justify-end pb-1">
-    //                 <Text className="text-[#969494]">
-    //                   {getTimeAgo(update.created_at)}
-    //                 </Text>
-    //                 <Text className="text-black capitalize">
-    //                   {runner.first_name}
-    //                 </Text>
-    //                 <Image
-    //                   style={{
-    //                     width: 20,
-    //                     height: 20,
-    //                     resizeMode: 'contain',
-    //                     borderRadius: 40,
-    //                   }}
-    //                   source={require('../../assets/images/alena.jpg')}
-    //                 />
-    //               </View>
-    //             )}
-    //             <Text
-    //               className={
-    //                 update.source === 'sender'
-    //                   ? 'text-blue-900 bg-blue-100 shadow-md p-2 rounded-lg'
-    //                   : 'text-gray-800 bg-white shadow-md p-2 rounded-lg'
-    //               }
-    //             >
-    //               {update.message}
-    //             </Text>
-    //           </View>
-    //         </View>
-    //       </View>
-    //     )
-    //   })}
-
-    // </View>
-
-    <View style={{ flex: 1}}>
-      <ChatHeader
-          onPress={() => {}}
-          username={"name"}
-        picture={""}
-        bio=""
-          onlineStatus={'Online'}
-        />
-      <MessagesList onSwipeToReply={swipeToReply} />
+    <View style={{ flex: 1 }}>
+      <MessagesList timeline={timeline} onSwipeToReply={swipeToReply} />
       <ChatInput
         reply={reply}
         isLeft={isLeft}

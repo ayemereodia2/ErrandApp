@@ -6,13 +6,14 @@ import { externalUserDetailsReducer } from "./auth/externalUserInfo";
 import login from "./auth/login";
 import { userDetailsReducer } from "./auth/userInfo";
 import verifyPhone from "./auth/verify-phone";
+import { bidActionReducer } from "./bids/bidsAction";
+import contactUsReducer from './Contacts/ContactUsSlice';
+import { startErrandReducer } from "./errands/beginErrand";
 import { errandDetailsReducer } from "./errands/errandDetails";
 import { marketReducer } from "./errands/market";
 import { myErrandReducer } from "./errands/myErrands";
 import postBidReducer from "./errands/placeBid";
 import modalsReducer from "./modals";
-import { bidActionReducer } from "./bids/bidsAction";
-import { startErrandReducer } from "./errands/beginErrand";
 
 export const store = configureStore({
   reducer: {
@@ -27,7 +28,8 @@ export const store = configureStore({
     postBidReducer,
     myErrandReducer,
     bidActionReducer,
-    startErrandReducer
+    startErrandReducer,
+   contactUsReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 })

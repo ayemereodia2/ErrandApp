@@ -160,8 +160,14 @@ export interface ICreateAccount {
 export interface ILogin {
   phone_number: string
   password: string
-  router: any
-  setSuccess: any
+  navigation: any
+}
+
+export interface ContactData {
+  name: string;
+  email: string;
+  message: string;
+  phone_number: string;
 }
 
 export interface TaskBtnProps {

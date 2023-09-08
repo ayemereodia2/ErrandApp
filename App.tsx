@@ -2,7 +2,6 @@
 
 // import { SafeAreaProvider } from 'react-native-safe-area-context'
 // import { Provider } from 'react-redux'
-import { useOnlineManager } from './hooks/useOnlineManager'
 import { AppStateStatus, Platform } from 'react-native'
 import 'react-native-gesture-handler'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -12,6 +11,7 @@ import { focusManager, QueryClient, QueryClientProvider } from 'react-query'
 import { Provider } from 'react-redux'
 import useCachedResources from './hooks/useCachedResources'
 import useColorScheme from './hooks/useColorScheme'
+import { useOnlineManager } from './hooks/useOnlineManager'
 import Navigation from './navigation'
 import { store } from './services/store'
 
@@ -30,7 +30,7 @@ export default function App() {
   const isLoadingComplete = useCachedResources()
   const colorScheme = useColorScheme()
 
-  useOnlineManager();
+  useOnlineManager()
 
   // useAppState(onAppStateChange);
 
@@ -38,18 +38,18 @@ export default function App() {
     return null
   } else {
     return (
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <>
-          <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <>
             <Provider store={store}>
               <SafeAreaProvider>
                 <Navigation />
               </SafeAreaProvider>
               <Toast />
             </Provider>
-          </QueryClientProvider>
-        </>
-      </GestureHandlerRootView>
+          </>
+        </GestureHandlerRootView>
+      </QueryClientProvider>
     )
   }
 }

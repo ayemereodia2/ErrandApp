@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useLayoutEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { SafeAreaView, ScrollView, Text, View } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as yup from 'yup'
 import Button from '../../components/Button'
 import InputField from '../../components/InputField'
@@ -74,101 +75,107 @@ export default function CreateAccountScreen() {
   return (
     <SafeAreaView>
       <ScrollView>
-        <View className="px-4">
-          <Logo />
+        <KeyboardAwareScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          enableOnAndroid={true}
+        >
+          <View className="px-4">
+            <Logo />
 
-          <View className="text-[#333333] font-inter py-4 space-y-1">
-            <Text className="font-semibold text-sm">Create an Account</Text>
-            <Text className="text-xs">
-              Let’s get started and create a Profile for you
-            </Text>
-
-            <View className="pt-2 space-y-4">
-              <InputField
-                label="First Name"
-                placeholder="Enter your Name"
-                keyboardType="default"
-                name="first_name"
-                control={control}
-                required
-                errors={errors.first_name}
-                message={errors?.first_name?.message}
-              />
-
-              <InputField
-                label="Last Name"
-                placeholder="Enter your Name"
-                keyboardType="default"
-                name="last_name"
-                control={control}
-                required
-                errors={errors.last_name}
-                message={errors?.last_name?.message}
-              />
-
-              <InputField
-                label="Email"
-                placeholder="Enter your email"
-                keyboardType="default"
-                name="email"
-                control={control}
-                required
-                errors={errors.email}
-                message={errors?.email?.message}
-              />
-
-              <InputField
-                label="Password"
-                placeholder="Enter your Name"
-                keyboardType="visible-password"
-                name="password"
-                control={control}
-                required
-                errors={errors.password}
-                message={errors?.password?.message}
-              />
-
-              <InputField
-                label="Confirm Password"
-                placeholder="re-enter password"
-                keyboardType="visible-password"
-                name="confirmPassword"
-                control={control}
-                required
-                errors={errors.confirmPassword}
-                message={errors?.confirmPassword?.message}
-              />
-
-              <InputField
-                label="Referral Code"
-                placeholder="Enter referral code"
-                control={control}
-                keyboardType="default"
-                name="referralCode"
-                errors={errors.referralCode}
-                message={errors.referralCode?.message}
-              />
-
-              <Button
-                style={{}}
-                className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-sm mt-8"
-                child="Create Account"
-                onPress={handleSubmit(onSubmit)}
-              />
-              <Text className="text-black text-center pb-6">
-                Already Have an Account?{' '}
-                <Text
-                  onPress={() => {
-                    navigation.navigate('Login')
-                  }}
-                  className="font-bold text-[#243763]"
-                >
-                  Login
-                </Text>
+            <View className="text-[#333333] font-inter py-4 space-y-1">
+              <Text className="font-semibold text-sm">Create an Account</Text>
+              <Text className="text-xs">
+                Let’s get started and create a Profile for you
               </Text>
+
+              <View className="pt-2 space-y-4">
+                <InputField
+                  label="First Name"
+                  placeholder="Enter your Name"
+                  keyboardType="default"
+                  name="first_name"
+                  control={control}
+                  required
+                  errors={errors.first_name}
+                  message={errors?.first_name?.message}
+                />
+
+                <InputField
+                  label="Last Name"
+                  placeholder="Enter your Name"
+                  keyboardType="default"
+                  name="last_name"
+                  control={control}
+                  required
+                  errors={errors.last_name}
+                  message={errors?.last_name?.message}
+                />
+
+                <InputField
+                  label="Email"
+                  placeholder="Enter your email"
+                  keyboardType="default"
+                  name="email"
+                  control={control}
+                  required
+                  errors={errors.email}
+                  message={errors?.email?.message}
+                />
+
+                <InputField
+                  label="Password"
+                  placeholder="Enter your Name"
+                  keyboardType="visible-password"
+                  name="password"
+                  control={control}
+                  required
+                  errors={errors.password}
+                  message={errors?.password?.message}
+                />
+
+                <InputField
+                  label="Confirm Password"
+                  placeholder="re-enter password"
+                  keyboardType="visible-password"
+                  name="confirmPassword"
+                  control={control}
+                  required
+                  errors={errors.confirmPassword}
+                  message={errors?.confirmPassword?.message}
+                />
+
+                <InputField
+                  label="Referral Code"
+                  placeholder="Enter referral code"
+                  control={control}
+                  keyboardType="default"
+                  name="referralCode"
+                  errors={errors.referralCode}
+                  message={errors.referralCode?.message}
+                />
+
+                <Button
+                  style={{}}
+                  className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-sm mt-8"
+                  child="Create Account"
+                  onPress={handleSubmit(onSubmit)}
+                />
+                <Text className="text-black text-center pb-6">
+                  Already Have an Account?{' '}
+                  <Text
+                    onPress={() => {
+                      navigation.navigate('Login')
+                    }}
+                    className="font-bold text-[#243763]"
+                  >
+                    Login
+                  </Text>
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
+        </KeyboardAwareScrollView>
       </ScrollView>
     </SafeAreaView>
   )
