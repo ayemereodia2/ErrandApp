@@ -9,13 +9,40 @@ import { Text, TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useSelector } from 'react-redux'
 import BidWrapper from '../../components/BidWrapper'
+import NegotiateBid from '../../components/Modals/Bids/Negotiate'
+import { SuccessDialogue } from '../../components/Modals/Success/SuccessDialogue'
 import MyErrandDetails from '../../components/MyErrandDetails'
+import MyErrandToggle from '../../components/MyErrandToggle'
 import { ProfileInitials } from '../../components/ProfileInitials'
+import Timeline from '../../components/Timeline'
 import { RootState } from '../../services/store'
+import { SingleSubErrand } from '../../types'
 
 const MyErrandInfo = ({ navigation }: any) => {
   const [userId, setUserId] = useState('')
-  const bottomSheetRef = useRef<BottomSheetModal>(null)
+  const negotiateRef = useRef<BottomSheetModal>(null)
+  const successDialogueRef = useRef<BottomSheetModal>(null)
+  const acceptBidRef = useRef<BottomSheetModal>(null)
+
+  const [subErrand, setSubErrand] = useState<SingleSubErrand>({
+    id: '',
+    original_errand_id: '',
+    sender_id: '',
+    runner_id: '',
+    amount: 0,
+    timeline: {
+      id: '',
+      errand_id: '',
+      updates: [],
+      created_at: '',
+      updated_at: '',
+    },
+    status: '',
+    cancellation_reason: '',
+    created_at: '',
+    updated_at: '',
+  })
+
   const [selectedTab, setSelectedItem] = useState('details')
   const layout = useWindowDimensions()
 
@@ -27,13 +54,19 @@ const MyErrandInfo = ({ navigation }: any) => {
     (state: RootState) => state.errandDetailsReducer,
   )
 
-  const snapPoints = ['50%']
+  const snapPoints = ['55%']
+  const successPoints = ['30%']
+  const acceptPoints = ['40%']
 
-  function openBidModal() {
-    bottomSheetRef.current?.present()
+  function toggleNegotiateModal(open: boolean) {
+    open ? negotiateRef.current?.present() : negotiateRef.current?.dismiss()
   }
 
-  console.log('>>>>>>', errand.status, errand.bids)
+  function toggleSuccessDialogue(open: boolean) {
+    open
+      ? successDialogueRef.current?.present()
+      : successDialogueRef.current?.dismiss()
+  }
 
   const getUserId = async () => {
     const userId = (await AsyncStorage.getItem('user_id')) || ''
@@ -51,11 +84,6 @@ const MyErrandInfo = ({ navigation }: any) => {
       ),
       headerTitle: () => (
         <View className="flex-row items-center space-x-2">
-          {/* <Image
-            source={require('../../assets/images/timothy.jpg')}
-            style={{ width: 30, height: 30, borderRadius: 50, marginRight: 20 }}
-          /> */}
-
           {loading ? (
             <Text>loading....</Text>
           ) : (
@@ -72,69 +100,62 @@ const MyErrandInfo = ({ navigation }: any) => {
       ),
     })
     getUserId()
-  }, [user])
+  }, [user, negotiateRef, successDialogueRef])
 
   return (
     <BottomSheetModalProvider>
-      <ScrollView className="px-3">
-        {/* <SafeAreaView className='px-3'> */}
-        <View className="w-full border-[#243763] border-[0.6px] h-10 flex-row mt-6">
-          <View
-            className={`${
-              selectedTab === 'details' ? 'bg-[#243763] text-white' : 'bg-white'
-            }  w-1/2 justify-center items-center text-sm cursor-pointer`}
-          >
-            <TouchableOpacity onPress={() => setSelectedItem('details')}>
-              <Text
-                className={
-                  selectedTab === 'details' ? 'text-white' : 'text-[#243763]'
-                }
-              >
-                Errand Details
-              </Text>
-            </TouchableOpacity>
-          </View>
+      <ScrollView className="px-3 relative">
+        {errand.status === 'active' ? (
+          // timeline screen
 
-          <View
-            className={`${
-              selectedTab === 'bids' ? 'bg-[#243763] text-white' : 'bg-white'
-            } w-1/2 text-sm justify-center items-center cursor-pointer`}
-          >
-            <TouchableOpacity onPress={() => setSelectedItem('bids')}>
-              <Text
-                className={
-                  selectedTab === 'bids' ? 'text-white' : 'text-[#243763]'
-                }
-              >
-                Bids
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+          <Timeline errand={errand} user_id={userId} singleSubErrand={subErrand} />
 
-        {selectedTab === 'details' && <MyErrandDetails errand={errand} />}
-        {selectedTab === 'bids' && (
-          <BidWrapper
-            errand={errand}
-            userId={userId}
-            navigation={navigation}
-            openBidModal={openBidModal}
-          />
+          
+        ) : (
+          // errand details and bid screen
+          <View>
+            <MyErrandToggle
+              selectedTab={selectedTab}
+              setSelectedItem={setSelectedItem}
+            />
+
+            {selectedTab === 'details' && <MyErrandDetails errand={errand} user_id={userId} />}
+            {selectedTab === 'bids' && (
+              <BidWrapper
+                errand={errand}
+                userId={userId}
+                navigation={navigation}
+                toggleNegotiateModal={toggleNegotiateModal}
+                toggleSuccessDialogue={toggleSuccessDialogue}
+              />
+            )}
+          </View>
         )}
 
-        <BottomSheetModal
-          ref={bottomSheetRef}
-          index={0}
-          snapPoints={snapPoints}
-        >
-          {/* <NegotiateBid
-            owner={owner}
+        {/* Negotiate bid modal */}
+        <BottomSheetModal ref={negotiateRef} index={0} snapPoints={snapPoints}>
+          <NegotiateBid
+            bid={errand.bids[0]}
+            owner={user}
             errand={errand}
             navigation={navigation}
-          /> */}
+            user_id={userId}
+            toggleNegotiateModal={toggleNegotiateModal}
+            toggleSuccessDialogue={toggleSuccessDialogue}
+          />
         </BottomSheetModal>
 
-        {/* </SafeAreaView> */}
+        {/* success Dialogue */}
+        <BottomSheetModal
+          ref={successDialogueRef}
+          index={0}
+          snapPoints={successPoints}
+        >
+          <SuccessDialogue
+            toggleSuccessDialogue={toggleSuccessDialogue}
+            toggleNegotiateModal={toggleNegotiateModal}
+          />
+        </BottomSheetModal>
       </ScrollView>
     </BottomSheetModalProvider>
   )

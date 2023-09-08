@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import { ErrandMarketResponse, MarketData } from '../../types';
+import { ErrandMarketResponse } from '../../types';
 import { _fetch } from '../axios/http';
-import { errandDetails } from './errandDetails';
 
 interface Props {
     setSearchedErrand?: any
@@ -20,7 +19,7 @@ export const myErrandList = createAsyncThunk<ErrandMarketResponse, Props, { reje
 
           const rs = await _rs.json()
 
-          console.log(">>>>errands", rs.data);
+          // console.log(">>>>errands", rs.data);
           
 
             if (rs.success === true) {

@@ -5,24 +5,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { deleteCookie } from 'cookies-next';
 import Toast from 'react-native-toast-message';
 import { ILogin } from '../../types';
+import { _fetch } from '../../services/axios/http';
 
 export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>("/users/sign-in", async ({ navigation, ...rest }: ILogin, { rejectWithValue }) => {
   
   try {
-
-    const rs = await fetch(`https://errand-app.herokuapp.com/v1/user/sign-in`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(rest),
+    const rs = await _fetch({
+      method: "POST",
+      _url: `/user/sign-in`,
+      body: rest
     })
 
     const _rs = await rs.json()
 
-    // console.log(">>>>>>_rs", _rs.data.access_token);
-    
     if (_rs.success === true) {
       await AsyncStorage.setItem('accessToken', _rs.data.access_token )
       await AsyncStorage.setItem('refreshToken', _rs.data.refresh_token)

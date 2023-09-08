@@ -96,7 +96,7 @@ export default function MainScreen({ navigation }: any) {
           ) : (
             <>
               <View className="bg-white ">
-                <View className='mx-4'>
+                <View className="mx-4">
                   <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
                     <EvilIcons name="search" size={22} className="w-1/12" />
                     <TextInput

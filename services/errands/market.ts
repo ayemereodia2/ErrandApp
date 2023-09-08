@@ -1,6 +1,5 @@
-import { ErrandMarketResponse, MarketData } from '../../types';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
+import { ErrandMarketResponse, MarketData } from '../../types';
 import { _fetch } from '../axios/http';
 
 export interface LocationProps {

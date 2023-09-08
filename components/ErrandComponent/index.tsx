@@ -1,7 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
-import { useDispatch } from 'react-redux'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { errandDetails } from '../../services/errands/errandDetails'
 import { useAppDispatch } from '../../services/store'
@@ -50,7 +49,7 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
           user_id: errand.user_id,
         })
         dispatch(errandDetails({ errandId: errand.id }))
-        dispatch(externalUserDetails({user_id: errand.user_id}))
+        dispatch(externalUserDetails({ user_id: errand.user_id }))
       }}
       className="mt-4 border-[0.5px] pb-2 border-[#CBD5EC] bg-[#F4F6FB] rounded-lg py-3 px-4"
     >

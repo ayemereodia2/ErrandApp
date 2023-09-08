@@ -90,5 +90,6 @@ interface AddressProps {
     const diffDays = Math.floor(diffMinutes / 1440);
     return diffDays + " days ago";
   }
-  }
+ }
+  
 

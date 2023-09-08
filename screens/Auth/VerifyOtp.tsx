@@ -92,7 +92,7 @@ export default function VerifyOtpScreen() {
   return (
     <SafeAreaView>
       <View className="px-4">
-        <Logo/>
+        <Logo />
         <View className="text-[#333333] font-inter py-4 space-y-1">
           <Text className="font-semibold text-sm">OTP verification</Text>
           <Text className="text-xs mb-4">

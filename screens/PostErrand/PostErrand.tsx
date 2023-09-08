@@ -27,7 +27,7 @@ const PostErrand = () => {
     if (selectedStep === 4) {
       return <Finance />
     } else {
-      return <Review/>
+      return <Review />
     }
   }
 
@@ -63,9 +63,11 @@ const PostErrand = () => {
           />
         )}
         <Button
-          child={selectedStep > 4 ? "Submit" : "Next"}
+          child={selectedStep > 4 ? 'Submit' : 'Next'}
           className="bg-[#243763] w-20 flex justify-center items-center py-2 rounded-lg "
-          onPress={() => {selectedStep < 5 ? setselectedStep(selectedStep + 1) : null}}
+          onPress={() => {
+            selectedStep < 5 ? setselectedStep(selectedStep + 1) : null
+          }}
         />
       </View>
     </ScrollView>

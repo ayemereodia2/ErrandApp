@@ -27,11 +27,9 @@ export default function AccountRecoveryScreen() {
         </View>
 
         <View className="text-[#333333] font-inter py-4 space-y-1">
-          <Text className="font-semibold text-sm">
-            Account Recovery
-          </Text>
+          <Text className="font-semibold text-sm">Account Recovery</Text>
           <Text className="text-xs">
-           Enter your details to recover your Account
+            Enter your details to recover your Account
           </Text>
 
           <View className="pt-2 space-y-4">
@@ -48,11 +46,10 @@ export default function AccountRecoveryScreen() {
             />
 
             <Button
-              style={{ marginTop: 20}}
+              style={{ marginTop: 20 }}
               className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-20"
               child="Submit"
             />
-          
           </View>
         </View>
       </View>
