@@ -7,6 +7,8 @@ import { boolean } from 'yup';
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import DateTimePicker from "@react-native-community/datetimepicker"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { _fetch } from '../../services/axios/http';
 
 
 
@@ -47,41 +49,70 @@ const UpdateProfile = () => {
    }
     
    
+   const updateUserProfile = async (userData:any) => {
+    console.log('get user profile is called')
+    const token = await AsyncStorage.getItem('accessToken');
 
-      const updateUserProfile = async (userData:any) => {
-        try {
-          const response = await axios.put(`https://blue-star-4866.fly.dev/v1/user/profile`, userData);
-          return response.data; // Assuming the server returns the updated user data
-        } catch (error) {
-          throw new Error('Error updating user profile');
-        }
+
+    const _rs = await _fetch({
+      method: "PUT",
+      _url: `/user/profile`,
+      body: userData
+  })
+  console.log('response', _rs)
+  console.log(token)
+  return await _rs.json()
+
+  }
+   
+
+
+      // const updateUserProfile = async (userData:any) => {
+      //   const token = await AsyncStorage.getItem('accessToken');
+      //   try {
+      //     const response = await axios.put(`https://blue-star-4866.fly.dev/v1/user/profile`, userData);
+      //     return response.data; // Assuming the server returns the updated user data
+      //     console.log(response.data)
+      //     console.log('data', userData)
+      //   } catch (error) {
+      //     throw new Error('Error updating user profile');
+      //   }
+      // };
+
+      const handleUpdate = useMutation( updateUserProfile );
+
+      const updatedData = {
+        // Includes the fields user would want to update in the user's profile
+        first_name: name,
+        // email: email,
+        bio: about,
+        phone_number: number,
+        dob: dateOfBirth
+        // ...
       };
 
-      const { mutate, isLoading, isError } = useMutation(updateUserProfile);
-
       const handleUpdateProfile = () => {
-        try{
+        
           const updatedData = {
             // Includes the fields user would want to update in the user's profile
-            name: name,
-            email: email,
-            about: about,
-            number: number,
-            dateOfBirth: dateOfBirth
+            first_name: name,
+            // email: email,
+            bio: about,
+            phone_number: number,
+            dob: dateOfBirth
             // ...
           };
-          mutate(updatedData);
+           handleUpdate.mutate(updatedData)
+          console.log(updatedData)
           navigation.navigate('Account')
 
         }
-       catch(error){
-        console.log(error)
-        'error updating profile'
-       }
+      
 
        
-      };
     
+    
+      
 
 
   return (
@@ -142,7 +173,7 @@ const UpdateProfile = () => {
             value={date}
             onChange={onChange}
             className='h-[120px] mt-[-10px] text-black'
-            style={{ backgroundColor: 'black'}}
+           
            
 
             />
