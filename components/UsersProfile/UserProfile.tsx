@@ -4,26 +4,42 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { _fetch } from '../../services/axios/http'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const getUserProfile = async () => {
-  const _rs = await _fetch({
-    method: "GET",
-    _url: `/user/profile`,
-})
-console.log('response', _rs)
-return await _rs.json()
 
-}
+
+
+  const getUserProfile = async () => {
+    console.log('get user profile is called')
+    const token = await AsyncStorage.getItem('accessToken');
+
+
+    const _rs = await _fetch({
+      method: "GET",
+      _url: `/user/profile`,
+  })
+  console.log('response', _rs)
+  console.log(token)
+  return await _rs.json()
+
+  }
 
 const UserProfile = () => {
 
-    const {isLoading, isError, data} = useQuery(['user-profile'], getUserProfile)
-
+    const {isLoading, isError, data} = useQuery({ queryKey: ['user-profile'], queryFn: getUserProfile })
+    console.log(data);
+    
    
     
   if (isLoading){
     return (
       <Text>Loading...</Text>
+    )
+  }
+
+  if (isError){
+    return (
+      <Text>{isError}</Text>
     )
   }
 
@@ -39,7 +55,7 @@ const UserProfile = () => {
           <Text><MaterialIcons name="edit" size={20} color="black" /></Text>
         </View>
         <Text className=' ml-4 pb-10 leading-6'>
-        Lorem ipsum dolor sit amet consectetur. At convallis lacus sodales lorem et.  MakakdacConsectetur est posuere fermentum egestas congue lectus purus. Mattis libero  ultrices at massa hendrerit purus. Ege
+          {data?.data.bio}
         </Text>
       </View>
 
@@ -50,7 +66,7 @@ const UserProfile = () => {
           <Text><MaterialIcons name="edit" size={20} color="black" /></Text>
         </View>
         <Text className=' ml-4 leading-6  pb-10'>
-        {data?.email} <Text>adeoti3123@gmail.com</Text>   </Text>
+        {data?.data.email}   <Text>{data?.data.phone_number}</Text>   </Text>
       </View>
 
 
@@ -60,7 +76,7 @@ const UserProfile = () => {
           <Text><MaterialIcons name="edit" size={20} color="black" /></Text>
         </View>
         <Text className=' ml-4 pb-10 leading-6'>
-        QE35FG0   <Text>December 18, 2023</Text>     </Text>
+        {data?.data.referral_code}  <Text>{data?.data.dob}</Text>     </Text>
       </View>
 
 
