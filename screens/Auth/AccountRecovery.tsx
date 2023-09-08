@@ -40,17 +40,17 @@ export default function AccountRecoveryScreen() {
             </Text>
 
             <View className="pt-2 space-y-4">
-              <InputField
+              {/* <InputField
                 label="New Password"
-                placeHolder="Enter your New Password"
+                placeholder="Enter your New Password"
                 keyboardType="default"
-              />
+              /> */}
 
-              <InputField
+              {/* <InputField
                 label="Confirm New Password"
                 placeHolder="Confirm your New Password"
                 keyboardType="visible-password"
-              />
+              /> */}
 
               <Button
                 style={{ marginTop: 20 }}

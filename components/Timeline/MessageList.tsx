@@ -59,9 +59,9 @@ const MessagesList = ({ onSwipeToReply, timeline }: ChatInputProp) => {
 	return (
 		<ScrollView style={{ backgroundColor: theme.colors.white, flex: 1 }}
 			ref={ref => scrollView.current = ref}
-			onContentChange={() => {
-				scrollView.current.scrollToEnd({ animated: true })
-			}}
+			// onContentChange={() => {
+			// 	scrollView.current.scrollToEnd({ animated: true })
+			// }}
 		> 
 			{timeline?.updates.map((message, index) => (
 				<Message
