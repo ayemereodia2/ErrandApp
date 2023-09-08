@@ -1,12 +1,12 @@
-import { View, Text, Platform, TouchableOpacity, SafeAreaView } from 'react-native'
+import { View, Text, Platform, TouchableOpacity, SafeAreaView, Pressable } from 'react-native'
 import React, {useState} from 'react'
 import { ScrollView, TextInput } from 'react-native-gesture-handler'
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import { boolean } from 'yup';
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
+import DateTimePicker from "@react-native-community/datetimepicker"
 
 
 
@@ -16,35 +16,41 @@ const UpdateProfile = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [number, setNumber] = useState('');
+    const [date, setDate] = useState(new Date());
+    const [showPicker, setShowPicker] = useState(false);
+    const [dateOfBirth, setDateOfBirth] = useState('')
 
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
+   const toggleDatepicker = () => {
+    setShowPicker(!showPicker)
+
+   };
+
+   const onChange = ({ type }:any, selectedDate:any) => {
+    if (type == 'set') {
+      const currentDate = selectedDate;
+      setDate(currentDate);
+
+      if (Platform.OS === "android") {
+        toggleDatepicker();
+        setDateOfBirth(currentDate.toDateString());
+      }
+    } else {
+      toggleDatepicker();
+    }
+
+   };
+
+   const confirmIOSDate = () => {
+    setDateOfBirth(date.toDateString());
+    toggleDatepicker();
+   }
     
-    const handleDateChange = (event:any, selectedDate:any) => {
-        setShowDatePicker(false);
-        if (selectedDate !== undefined) {
-          setSelectedDate(selectedDate);
-        }
-        hideDatePicker();
-
-      };
-
-      const showDatepicker = () => {
-        setShowDatePicker(true);
-        setDatePickerVisibility(true);
-
-      };
-
-      const hideDatePicker = () => {
-        setDatePickerVisibility(false);
-      };
-      
+   
 
       const updateUserProfile = async (userData:any) => {
         try {
-          const response = await axios.put(`https://errand-app.herokuapp.com/v1/user/profile`, userData); // Replace with your API endpoint
+          const response = await axios.put(`https://blue-star-4866.fly.dev/v1/user/profile`, userData);
           return response.data; // Assuming the server returns the updated user data
         } catch (error) {
           throw new Error('Error updating user profile');
@@ -54,18 +60,26 @@ const UpdateProfile = () => {
       const { mutate, isLoading, isError } = useMutation(updateUserProfile);
 
       const handleUpdateProfile = () => {
-        const updatedData = {
-          // Includes the fields user would want to update in the user's profile
-          name: name,
-          email: email,
-          about: about,
-          number: number,
-          selectedDate: selectedDate
-          // ...
-        };
+        try{
+          const updatedData = {
+            // Includes the fields user would want to update in the user's profile
+            name: name,
+            email: email,
+            about: about,
+            number: number,
+            dateOfBirth: dateOfBirth
+            // ...
+          };
+          mutate(updatedData);
+          navigation.navigate('Account')
 
-        mutate(updatedData);
-        navigation.navigate('Account')
+        }
+       catch(error){
+        console.log(error)
+        'error updating profile'
+       }
+
+       
       };
     
 
@@ -116,32 +130,64 @@ const UpdateProfile = () => {
       </View>
 
 
-      <View className='mb-10 mt-8'>
-      <Text className='ml-8'></Text>
-      <TouchableOpacity onPress={showDatepicker}>
-        <TextInput
-          placeholder="Select a date"
-          
-          style={styles.input}
-          editable={false}
-          value={selectedDate.toLocaleDateString()}
-        />
-      </TouchableOpacity>
-
-      {showDatePicker && (
-        <DateTimePicker
-          value={selectedDate}
-          mode="date"
-          display="default"
-          isVisible={isDatePickerVisible}
-          
-          onConfirm={handleDateChange}
-          onCancel={hideDatePicker}
-          onChange={handleDateChange}
-        />
-      )}
       
-    </View>
+      <View className='mt-8'>
+        <Text className='ml-4 font-medium text-lg text-[#1E3A79]'>Date of Birth</Text>
+
+        {showPicker && (
+
+            <DateTimePicker 
+            mode='date'
+            display='spinner'
+            value={date}
+            onChange={onChange}
+            className='h-[120px] mt-[-10px] text-black'
+            style={{ backgroundColor: 'black'}}
+           
+
+            />
+        )}
+
+          {showPicker && Platform.OS === "ios" && (
+
+            <View className='flex-row justify-around mt-2'>
+              <TouchableOpacity onPress={toggleDatepicker}>
+                <Text>Cancel</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={confirmIOSDate}>
+                <Text>Confirm</Text>
+              </TouchableOpacity>
+
+            </View>
+          )}
+        
+
+          {!showPicker  && (
+            <Pressable>
+            <TextInput 
+             className='w-[380px] mt-2 b rounded-md h-[120px] pl-3 pb-[70px] mx-auto bg-[#E6E6E6] text-sm text-black'
+             placeholder='Sat Aug 21 2004'
+             value={dateOfBirth}
+             onChangeText={setDateOfBirth}
+             editable={false}
+             onPressIn={toggleDatepicker}
+             placeholderTextColor='black'
+            
+            />
+  
+  
+          </Pressable>
+
+
+          )}
+       
+       
+      </View>
+
+
+      
+      
 
     <View className='mb-8 mt-8'>
         <Text className='ml-4 font-medium text-lg text-[#1E3A79]'>Referral information</Text>

@@ -41,7 +41,7 @@ axiosInstance.interceptors.response.use(
 );
 
 export async function _fetch({ _url, body, method }: FetchProps) {
-  const url = `https://blue-star-4866.fly.dev /v1${_url}`
+  const url = `https://blue-star-4866.fly.dev/v1${_url}`
   const token = await AsyncStorage.getItem('accessToken');
   
   let options

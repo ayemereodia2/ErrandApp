@@ -11,10 +11,13 @@ import Navigation from './navigation';
 import { store } from './services/store';
 import "react-native-gesture-handler";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 
 
 // import { store } from './services/store'
+
+const queryClient = new QueryClient()
 
 export default function App() {
   const isLoadingComplete = useCachedResources()
@@ -24,7 +27,7 @@ export default function App() {
     return null
   } else {
     return (
-      
+      <QueryClientProvider client={queryClient}>
        <GestureHandlerRootView style={{ flex: 1 }}>
       <>
           <Provider store={store}>
@@ -36,6 +39,7 @@ export default function App() {
       </Provider>
         </>
      </GestureHandlerRootView>
+     </QueryClientProvider>
 
     )
   }
