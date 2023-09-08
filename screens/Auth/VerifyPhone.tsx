@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { ActivityIndicator, SafeAreaView, Text, View } from 'react-native'
+import { ActivityIndicator, SafeAreaView, Text, TouchableOpacity, View, Keyboard, TouchableWithoutFeedback } from 'react-native'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Button from '../../components/Button'
@@ -78,10 +78,15 @@ export default function VerifyPhone() {
         from: 'createAccount',
       }),
     )
+   
+ console.log()
   }
+ 
 
   return (
-    <SafeAreaView>
+    
+    <SafeAreaView className='mt-24'>
+      <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
       <View className="px-4">
        <Logo/>
         <View className="text-[#333333] font-inter py-4 space-y-1">
@@ -111,6 +116,8 @@ export default function VerifyPhone() {
           </View>
         </View>
       </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
+    
   )
 }

@@ -165,6 +165,13 @@ export interface ILogin {
   setSuccess: any;
 }
 
+export interface ContactData {
+  name: string;
+  email: string;
+  message: string;
+  phone_number: string;
+}
+
 export interface TaskBtnProps {
   image: string;
   description: string;

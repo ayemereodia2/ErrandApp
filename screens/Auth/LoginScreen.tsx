@@ -42,6 +42,8 @@ export default function LoginScreen() {
 
   const {loading} = useSelector((state: RootState) => state.login)
 
+  
+
   return (
     <SafeAreaView>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -49,7 +51,7 @@ export default function LoginScreen() {
         <View className='mt-20'>
         <ImageBackground
           source={require('../../assets/images/new_Swave_2.png')}
-          className="mt-[30px] mx-auto justify-center items-center w-[120] h-[100]"
+          className="mt-[27px] mx-auto justify-center items-center w-[120] h-[100]"
           resizeMode="contain"
         >
          
@@ -94,7 +96,7 @@ export default function LoginScreen() {
             />
           
 
-            <TouchableOpacity onPress={() => setShowPassword(!showPassword)} className='absolute right-7 bottom-3'>
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)} className='absolute right-7 bottom-7'>
               <Icon
                 name={showPassword ? 'eye' : 'eye-slash'}
                 size={24}
