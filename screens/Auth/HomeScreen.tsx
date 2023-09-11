@@ -5,10 +5,8 @@ import {
 import { useNavigation } from '@react-navigation/native'
 import React, { useLayoutEffect } from 'react'
 import {
-  Image,
   ImageBackground,
   SafeAreaView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -40,9 +38,7 @@ export default function HomeScreen() {
           source={require('../../assets/images/new_Swave_2.png')}
           className="mt-[250px] mx-auto justify-center items-center w-[120] h-[100]"
           resizeMode="contain"
-        >
-         
-        </ImageBackground>
+        ></ImageBackground>
 
         <View className="mb-24 mt-8 flex-row justify-center">
           <View className="space-y-6">

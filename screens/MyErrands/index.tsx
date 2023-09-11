@@ -1,16 +1,21 @@
+// import { fetchMyErrands } from '@app/lib/errand/api'
 import { Entypo, EvilIcons, Ionicons } from '@expo/vector-icons'
 import React, { useEffect, useLayoutEffect } from 'react'
 import {
+  ActivityIndicator,
   TextInput,
   TouchableOpacity,
   useWindowDimensions,
   View,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import { useQuery } from 'react-query'
 import { useSelector } from 'react-redux'
 import MyErrandCard from '../../components/MyErrandCard'
+import { fetchMyErrands } from '../../lib/errand/api'
 import { myErrandList } from '../../services/errands/myErrands'
 import { RootState, useAppDispatch } from '../../services/store'
+import { MarketData } from '../../types'
 
 const ErrandScreen = ({ navigation }: any) => {
   const dispatch = useAppDispatch()

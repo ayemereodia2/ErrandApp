@@ -6,6 +6,7 @@ interface Props {
   lastName?: string
   className?: string
   profile_pic?: string
+  textClass?: string
 }
 
 export function ProfileInitials({
@@ -13,6 +14,7 @@ export function ProfileInitials({
   lastName,
   className = '',
   profile_pic,
+  textClass
 }: Props) {
   const defaultClasses = `${
     profile_pic ? 'bg-white rounded-full' : 'bg-[#616161] rounded-full'
@@ -21,12 +23,9 @@ export function ProfileInitials({
 
   return (
     <View className={componentClasses}>
-      <View
-        style={styles.headline}
-        className="uppercase text-xl items-center"
-      >
+      <View style={styles.headline} className="uppercase items-center">
         {!profile_pic && (
-          <Text className='text-white'>
+          <Text className={textClass}>
             {firstName && lastName
               ? firstName.charAt(0).toUpperCase() +
                 lastName.charAt(0).toUpperCase()
@@ -54,3 +53,14 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
 })
+
+export const Initials = ({ firstName, lastName }: Props) => {
+  return (
+    <View className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center">
+      <Text className="uppercase text-lg items-center text-white">
+        {firstName?.charAt(0).toUpperCase()}
+        {lastName?.charAt(0).toUpperCase()}
+      </Text>
+    </View>
+  )
+}

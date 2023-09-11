@@ -9,7 +9,7 @@ export const showStars = (rate: number) => {
 
   const starImages = Array.from({ length: rate }, (_, index) => (
     <View>
-        <AntDesign name="star" color={'#243763'} />
+      <AntDesign name="star" color={'#243763'} />
     </View>
   ))
 

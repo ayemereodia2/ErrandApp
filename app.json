@@ -7,6 +7,9 @@
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
+     "experiments": {
+      "tsconfigPaths": true
+    },
     "splash": {
       "image": "./assets/images/logo.png",
       "resizeMode": "contain",

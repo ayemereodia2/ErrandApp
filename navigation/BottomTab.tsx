@@ -2,18 +2,16 @@ import {
   AntDesign,
   FontAwesome5,
   Ionicons,
-  MaterialCommunityIcons
+  MaterialCommunityIcons,
 } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import AccountScreen from '../screens/Accounts'
-import ErrandScreen from '../screens/MyErrands'
 import MainScreen from '../screens/Market/MainScreen'
-import PostErrand from '../screens/PostErrand/PostErrand'
-import WalletScreen from '../screens/Wallets'
+import ErrandScreen from '../screens/MyErrands'
 import PostErrand1 from '../screens/PostErrand/PostErrand1'
-import CreateErrand from '../screens/CreateErrand/CreateTasks'
+import WalletScreen from '../screens/Wallets'
 
 const Tab = createBottomTabNavigator()
 
@@ -88,8 +86,8 @@ const BottomTab = () => {
         name="PostErrands"
         component={PostErrand1}
         options={{
-           tabBarStyle: {
-            display: 'none'
+          tabBarStyle: {
+            display: 'none',
           },
           tabBarIcon: ({ focused }) => (
             <View>
@@ -101,7 +99,7 @@ const BottomTab = () => {
                 //   style={{ top: -40 }}
                 //   className="shadow-lg"
                 // />
-              <></>
+                <></>
               ) : (
                 <Ionicons
                   name="add-circle"
@@ -110,7 +108,7 @@ const BottomTab = () => {
                   // style={{ top: -40 }}
                   className="shadow-lg"
                 />
-                  // <></>
+                // <></>
               )}
             </View>
           ),
@@ -120,7 +118,6 @@ const BottomTab = () => {
         name="Wallet"
         component={WalletScreen}
         options={{
-          
           // tabBarLabel:"Wallet",
           tabBarIcon: ({ focused }) => (
             <View>

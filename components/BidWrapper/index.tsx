@@ -1,40 +1,232 @@
-import React from 'react'
-import { MarketData } from '../../types'
-import Bids from '../MyBidDetails'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import React, { useRef } from 'react'
+import { SafeAreaView, ScrollView, Text, View } from 'react-native'
+import { HaggleComponent } from '../../components/MyBidDetails/HaggleDetail'
+import { Bids, Haggles, MarketData } from '../../types'
+import ErrandBid from '../MyBidDetails'
 
 interface BidWrapperProp {
   userId: string
   errand: MarketData
   navigation: any
-  openBidModal: any
+  toggleNegotiateModal: any
+  toggleSuccessDialogue?: any
 }
 const BidWrapper = ({
   userId,
   errand,
-  openBidModal,
+  toggleNegotiateModal,
   navigation,
+  toggleSuccessDialogue,
 }: BidWrapperProp) => {
-  return (
-    <>
-      {userId === errand.user_id && errand.status === 'open' && (
-        <>
-          {errand?.bids.map((bid) => {
-            if (bid.state === 'rejected') {
-              return null
-            }
-            let hags = bid.haggles
-            let hag = {}
-            hags.map((h) => {
-              if (h.source === 'runner') {
-                hag = h
-              }
-            })
+  // const acceptBidRef = useRef<BottomSheetModal>(null)
+  // const beginErrandRef = useRef<BottomSheetModal>(null)
 
-            return <Bids navigation={navigation} openBidModal={openBidModal} />
-          })}
-        </>
-      )}
-    </>
+  const acceptPoints = ['40%']
+
+  // function toggleAcceptModal(open: boolean) {
+  //   open ? acceptBidRef.current?.present() : acceptBidRef.current?.dismiss()
+  // }
+
+  // function toggleBeginErrandModal(open: boolean) {
+  //   open ? acceptBidRef.current?.present() : acceptBidRef.current?.dismiss()
+  // }
+
+  let lastHaggle: Haggles = {
+    id: '',
+    source: '',
+    created_at: '',
+    amount: 0,
+    description: '',
+  }
+
+  let currentBid: Bids = {
+    id: '',
+    description: '',
+    errand_id: '',
+    runner: {
+      id: '',
+      first_name: '',
+      last_name: '',
+      is_offline: false,
+      profile_picture: '',
+      phone: '',
+      errands_completed: 0,
+      rating: 0,
+    },
+    state: '',
+    haggles: [],
+    created_at: '',
+    updated_at: '',
+    amount: 0,
+  }
+
+  let otherHaggles: Haggles[] = []
+
+  errand?.bids.map((bid, index) => {
+    try {
+      if (bid.runner.id === userId) {
+        otherHaggles = bid.haggles
+
+        lastHaggle = otherHaggles.slice(-1)[0]
+        currentBid = bid
+
+        if (otherHaggles.length < 2) {
+          otherHaggles = []
+        } else {
+          otherHaggles?.pop()
+        }
+
+        if (otherHaggles.length > 0) {
+          otherHaggles.reverse()
+        }
+      }
+    } catch (e) {}
+  })
+
+  console.log('>>>>>bid', userId, errand.user_id, errand.status)
+
+  return (
+    // <BottomSheetModalProvider>
+    <SafeAreaView style={{ flex: 1 }} className="">
+      <ScrollView scrollEventThrottle={16}>
+        <View className="mt-10 mb-4">
+          <Text className="text-[16px] font-bold">Existing Bids</Text>
+        </View>
+
+        {errand?.bids.length === 0 && (
+          <Text>No Bids has been attached to the errand selected.</Text>
+        )}
+
+        {userId === errand.user_id && errand.status === 'open' && (
+          <>
+            {errand?.bids.map((bid) => {
+              if (bid.state === 'rejected') {
+                return null
+              }
+              let hags = bid.haggles
+              let hag = {}
+              hags.map((h) => {
+                if (h.source === 'runner') {
+                  hag = h
+                }
+              })
+
+              return (
+                <ErrandBid
+                  bid={bid}
+                  user_id={userId}
+                  haggle={hag}
+                  errand={errand}
+                  navigation={navigation}
+                  toggleNegotiateModal={toggleNegotiateModal}
+                  toggleSuccessDialogue={toggleSuccessDialogue}
+                />
+              )
+            })}
+          </>
+        )}
+
+        {userId === errand.user_id && errand.status === 'pending' && (
+          <>
+            {errand.bids.map((bid) => {
+              if (bid.state === 'accepted') {
+                let hags = bid.haggles
+                let hag = hags[hags.length - 1]
+                let runner = bid.runner
+                return (
+                  <ErrandBid
+                    errand={errand}
+                    bid={bid}
+                    user_id={userId}
+                    haggle={hag}
+                    otherHaggles={otherHaggles}
+                    // setSearchedErrand={setSearchedErrand}
+                  />
+                )
+              }
+            })}
+          </>
+        )}
+
+        {userId !== errand.user_id && errand.status === 'open' && (
+          <>
+            <HaggleComponent
+              haggle={lastHaggle}
+              last={true}
+              bid={currentBid}
+              errand={errand}
+              user_id={userId}
+              toggleSuccessDialogue={toggleSuccessDialogue}
+              toggleNegotiateModal={toggleNegotiateModal}
+            />
+          </>
+        )}
+
+        {userId !== errand.user_id && errand.status === 'pending' && (
+          <>
+            {/* last haggle */}
+            <HaggleComponent
+              haggle={lastHaggle}
+              last={true}
+              bid={currentBid}
+              errand={errand}
+              user_id={userId}
+              toggleSuccessDialogue={toggleSuccessDialogue}
+              // toggleBeginErrandModal={toggleB}
+
+              // setSearchedErrand={setSearchedErrand}
+              // singleSubErrand={singleSubErrand}
+            />
+          </>
+        )}
+
+        {/* {userId !== errand.user_id && errand.status === 'open' && (
+            <>
+              {otherHaggles?.map((haggle) => {
+                return (
+                  <LastHaggle
+                    bid={currentBid}
+                    haggle={haggle}
+                    errand={errand}
+                    user_id={userId}
+                    lastHaggle={lastHaggle}
+                    toggleSuccessDialogue={toggleSuccessDialogue}
+                  />
+                )
+              })}
+            </>
+          )} */}
+
+        {/* <BottomSheetModal
+            ref={acceptBidRef}
+            index={0}
+            snapPoints={acceptPoints}
+          >
+            <AcceptBid
+              toggleSuccessDialogue={toggleSuccessDialogue}
+              toggleAcceptModal={toggleAcceptModal}
+              bid={bid}
+              errand={errand}
+              user_id={userId}
+            />
+        </BottomSheetModal> */}
+
+        {/* <BottomSheetModal
+            ref={beginErrandRef}
+            index={0}
+            snapPoints={acceptPoints}
+          >
+            <BeginErrandModal
+              toggleSuccessDialogue={toggleSuccessDialogue}
+              toggleBeginErrandModal={toggleBeginErrandModal}
+              bid={errand.bids[0]}
+              errand={errand}
+              user_id={userId}
+            />
+          </BottomSheetModal> */}
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 

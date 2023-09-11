@@ -1,3 +1,5 @@
+import { Entypo, MaterialIcons } from '@expo/vector-icons'
+import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
 import React, { useState } from 'react'
 import {
   ActivityIndicator,
@@ -6,7 +8,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { TextInput } from 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { postBid } from '../../../services/errands/placeBid'
@@ -60,17 +61,26 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
             firstName={owner.first_name}
             lastName={owner.last_name}
             className="w-12 h-12 bg-[#616161] rounded-full text-xl"
+            textClass="text-white text-lg"
           />
 
           <View className="pt-2">
-            <Text className="text-center">
-              {owner?.first_name} {owner?.last_name}
+            <View className="flex-row space-x-2 items-center justify-center">
+              <Text className="text-center text-base font-semibold">
+                {owner?.first_name} {owner?.last_name}
+              </Text>
+              <MaterialIcons name="verified" color="green" size={20} />
+            </View>
+            <Text className="text-[#555555] text-center py-2 text-base font-semibold">
+              Swave User
             </Text>
-            <View className="flex items-center space-x-2">
-              <Text>{owner?.rating}</Text>
+            <View className="flex-row items-center">
               {/* {showStars(data.rating)} */}
+              <Text>
+                {owner?.rating} <Entypo name="star" size={16} color="#FBB955" />{' '}
+              </Text>
               <Text className="text-[#6D6D6D] text-sm">
-                ({owner?.errands_completed}{' '}
+                ( {owner?.errands_completed}{' '}
                 {owner.errands_completed > 1 ? 'errands' : 'errand'} Completed)
               </Text>
             </View>
@@ -83,10 +93,10 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
           Enter your bid Amount
         </Text>
 
-        <View className="border border-[#E6E6E6] w-3/6  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
+        <View className="border border-[#E6E6E6] bg-[#CBD5EC]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
           <Text className="text-lg ">&#x20A6;</Text>
 
-          <TextInput
+          <BottomSheetTextInput
             className="w-full"
             placeholder="Enter amount"
             onChangeText={(e) => setAmount(currencyMask(e))}
@@ -105,18 +115,20 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
           </Text>
         </Text>
 
-        <TextInput
-          className={
-            'w-full border border-[#E6E6E6] text-xs py-3.5 mt-2 rounded-lg px-3'
-          }
-          placeholder="Describe the issue that you need help with."
-          onChangeText={(e) => setComment(e)}
-          value={comment}
-          multiline={true}
-          numberOfLines={10}
-          style={{ height: 100, textAlignVertical: 'top' }}
-          keyboardType="phone-pad"
-        />
+        <View className="w-full border bg-[#CBD5EC] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3">
+          <BottomSheetTextInput
+            className={
+              'w-full border bg-[#CBD5EC] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3'
+            }
+            placeholder="Describe the issue that you need help with."
+            onChangeText={(e) => setComment(e)}
+            value={comment}
+            multiline={true}
+            numberOfLines={10}
+            style={{ height: 100, textAlignVertical: 'top' }}
+            keyboardType="phone-pad"
+          />
+        </View>
       </View>
 
       <View className="flex-row justify-center items-center">
@@ -126,7 +138,7 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
             handlePlaceBid()
           }}
         >
-          <Text className="text-white text-xs">
+          <Text className="text-white text-base">
             {loading ? (
               <ActivityIndicator size="small" color="#000000" />
             ) : (

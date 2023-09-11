@@ -2,16 +2,18 @@ import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { useDispatch } from "react-redux";
 import createAccount from "./auth/create-account";
-import login from "./auth/login";
-import verifyPhone from "./auth/verify-phone";
-import modalsReducer from "./modals";
-import { marketReducer } from "../services/errands/market"
-import { errandDetailsReducer } from "./errands/errandDetails";
-import { userDetailsReducer } from "./auth/userInfo";
 import { externalUserDetailsReducer } from "./auth/externalUserInfo";
-import postBidReducer from "./errands/placeBid";
-import { myErrandReducer } from "./errands/myErrands";
+import login from "./auth/login";
+import { userDetailsReducer } from "./auth/userInfo";
+import verifyPhone from "./auth/verify-phone";
+import { bidActionReducer } from "./bids/bidsAction";
 import contactUsReducer from './Contacts/ContactUsSlice';
+import { startErrandReducer } from "./errands/beginErrand";
+import { errandDetailsReducer } from "./errands/errandDetails";
+import { marketReducer } from "./errands/market";
+import { myErrandReducer } from "./errands/myErrands";
+import postBidReducer from "./errands/placeBid";
+import modalsReducer from "./modals";
 
 export const store = configureStore({
   reducer: {
@@ -25,6 +27,8 @@ export const store = configureStore({
     externalUserDetailsReducer,
     postBidReducer,
     myErrandReducer,
+    bidActionReducer,
+    startErrandReducer,
    contactUsReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),

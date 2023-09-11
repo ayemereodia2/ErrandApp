@@ -14,7 +14,7 @@ const index = () => {
         </Text>
       </View>
 
-      <View className='space-y-6'>
+      <View className="space-y-6">
         <View className="flex-row mt-3 justify-between space-x-4">
           <AntDesign name="swap" size={20} />
           <Text>Errand Details</Text>

@@ -11,6 +11,12 @@ import React, {
 } from 'react'
 // import AppLoading from 'expo-app-loading';
 import {
+  Entypo,
+  FontAwesome,
+  Ionicons,
+  MaterialIcons,
+} from '@expo/vector-icons'
+import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
@@ -34,7 +40,7 @@ export default function ErrandDetails({ route, navigation }: any) {
   const dispatch = useAppDispatch()
   const [showBid, setShowBid] = useState(false)
   const bottomSheetRef = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ['48%', '65%'], [])
+  const snapPoints = useMemo(() => ['70%'], [])
   const [userId, setUserId] = useState('')
 
   function openPlaceBid() {
@@ -68,16 +74,17 @@ export default function ErrandDetails({ route, navigation }: any) {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
+      headerStyle: { backgroundColor: '#F8F9FC' },
       title: 'Errand Details',
       headerRight: () => (
         <TouchableOpacity
-          className="bg-[#3F60AC] h-6 w-16 flex-row justify-center items-center rounded-lg"
+          className="bg-[#3F60AC] h-6 px-1 flex-row justify-center items-center rounded-lg"
           onPress={() => {
             openPlaceBid()
             dispatch(userDetails({ user_id: userId }))
           }}
         >
-          <Text className="text-white text-xs">Bid</Text>
+          <Text className="text-white text-xs px-1">Place Bid</Text>
         </TouchableOpacity>
       ),
     })
@@ -103,31 +110,44 @@ export default function ErrandDetails({ route, navigation }: any) {
   } else {
     return (
       <BottomSheetModalProvider>
-        <SafeAreaView style={{ flex: 1 }} className="">
+        <SafeAreaView style={{ flex: 1 }} className="bg-[#F8F9FC]">
           <ScrollView scrollEventThrottle={16}>
             {loading ? (
               <View>
                 <ActivityIndicator size={'large'} />
               </View>
             ) : (
-              <View className="p-4">
+              <View className="p-4 mt-2">
                 <View className="">
                   <View className="items-center justify-center">
                     <ProfileInitials
+                      textClass="text-white text-2xl"
                       firstName={user.first_name}
                       lastName={user.last_name}
-                      className="w-12 h-12 bg-[#616161] rounded-full text-xl"
+                      className="w-20 h-20 bg-[#616161] rounded-full text-2xl"
                     />
-
                     <View className="pt-2">
-                      <Text className="text-center">
-                        {user?.first_name} {user?.last_name}
+                      <View className="flex-row space-x-2 items-center justify-center">
+                        <Text className="text-center text-base font-semibold">
+                          {user?.first_name} {user?.last_name}
+                        </Text>
+                        <MaterialIcons
+                          name="verified"
+                          color="green"
+                          size={20}
+                        />
+                      </View>
+                      <Text className="text-[#555555] text-center py-2 text-base font-semibold">
+                        Swave User
                       </Text>
-                      <View className="flex items-center space-x-2">
-                        <Text>{user?.rating}</Text>
+                      <View className="flex-row items-center">
                         {/* {showStars(data.rating)} */}
+                        <Text>
+                          {user?.rating}{' '}
+                          <Entypo name="star" size={16} color="#FBB955" />{' '}
+                        </Text>
                         <Text className="text-[#6D6D6D] text-sm">
-                          ({user?.errands_completed}{' '}
+                          ( {user?.errands_completed}{' '}
                           {user.errands_completed > 1 ? 'errands' : 'errand'}{' '}
                           Completed)
                         </Text>
@@ -136,88 +156,128 @@ export default function ErrandDetails({ route, navigation }: any) {
                   </View>
                 </View>
 
-                <View className="pt-6">
-                  <Text className=" font-medium">Description</Text>
-                  <Text className="text-sm pt-1 text-[#383737] border-[0.4px]">
+                <View className="pt-6 ">
+                  <Text className=" font-bold text-base text-[#555555]">
+                    Description
+                  </Text>
+                  <Text className="text-sm pt-1 text-[#383737] border-[0.4px] font-light">
                     {errand.description}
                   </Text>
                 </View>
 
-                <View className="pt-6">
-                  <Text className=" font-medium">Status</Text>
-                  <Text className="text-sm pt-1 text-[#383737] border-[0.4px]">
-                    {errand.status}
+                <View className="pt-6 ">
+                  <Text className=" font-bold text-base text-[#555555]">
+                    Budget
                   </Text>
+
+                  <View className="flex-row items-center">
+                    <View className="bg-[#FEE1CD] rounded-2xl py-2 px-3 mt-2 ">
+                      <Text className="text-[#642B02] text-base font-bold">
+                        &#x20A6; {budgetInNaira.toLocaleString()}
+                      </Text>
+                    </View>
+                  </View>
                 </View>
 
-                <View className="pt-4">
-                  <Text className=" font-medium">Category</Text>
-                  <Text className="text-sm pt-1 text-[#383737] border-[0.4px]">
-                    {errand?.category.name}
-                  </Text>
+                <View className="space-y-3 mt-3">
+                  <View className="space-x-2 flex-row mt-6">
+                    <Text className=" text-[14px] text-[#999999] w-28 font-medium">
+                      Status
+                    </Text>
+
+                    <Text className="capitalize font-semibold">
+                      {errand?.status}
+                    </Text>
+                  </View>
+
+                  <View className="space-x-2 flex-row mt-6">
+                    <Text className=" text-[14px] text-[#999999] w-28 font-medium">
+                      Duration
+                    </Text>
+                    <Text className=" text-sm text-[#000] w-60 font-semibold">
+                      <Ionicons
+                        name="calendar-outline"
+                        size={18}
+                        color="black"
+                      />{' '}
+                      {formatDate(errand.expiry_date)}
+                    </Text>
+                  </View>
+
+                  <View className="space-x-2 flex-row mt-6">
+                    <Text className=" text-[14px] text-[#999999] w-28 font-medium">
+                      Location
+                    </Text>
+                    <Text className=" text-sm text-[#000] w-60 font-semibold">
+                      From Road 1, ikota shopping complex, Ajah, lagos. To No.
+                      126, Mende, Maryland, Lagos
+                    </Text>
+                  </View>
+
+                  <View className="space-x-6 mt-6 flex-row">
+                    <Text className=" text-[14px] text-[#999999] font-medium pb-2">
+                      Requirements
+                    </Text>
+                    <View className="flex-row space-x-3 w-60">
+                      {errand?.restriction && (
+                        <View className="w-20 h-[24px] bg-[#DAE1F1] justify-center  border-[#3F60AC] border rounded-2xl">
+                          <Text className="text-center text-[#3F60AC] text-xs">
+                            <FontAwesome
+                              name="check-circle"
+                              size={12}
+                              color={'#3F60AC'}
+                            />{' '}
+                            Insurance
+                          </Text>
+                        </View>
+                      )}
+                    </View>
+                  </View>
                 </View>
-
-                <Text className="pt-4 font-medium ">
-                  Budget{' '}
-                  <Text className="text-[#b2b1b1]">
-                    (this includes all cost of running the errand)
-                  </Text>{' '}
-                </Text>
-                <Text className="text-sm pt-1 text-[#383737]">
-                  {' '}
-                  &#x20A6; {budgetInNaira.toLocaleString()}
-                </Text>
-
-                <Text className="pt-4 t font-medium">Deadline</Text>
-                <Text className="text-sm pt-1 ext-[#383737]">
-                  {formatDate(errand.expiry_date)}
-                </Text>
-
-                <Text className="pt-4 font-medium">Location</Text>
-                <Text className="text-sm pt-1 text-[#383737]">
-                  From Road 1, ikota shopping complex, Ajah, lagos. To No. 126,
-                  Mende, Maryland, Lagos
-                </Text>
               </View>
             )}
 
-            <View className="h-[0.4px] bg-slate-400"></View>
-
-            <Text className="font-semibold text-base px-3 pt-4">
+            <Text className="pl-3 mt-8 font-bold text-base text-[#555555]">
               Existing Bids
             </Text>
 
             {errand.bids.map((bid) => {
               return (
-                <View className="border-[0.4px] border-[#ccc] shadow-2xl mx-3 p-3 rounded-lg mt-4 ">
-                  <View className="flex-row justify-between mt-4">
-                    <View className="flex-row space-x-2">
-                      <ProfileInitials
-                        firstName={bid?.runner?.first_name}
-                        lastName={bid?.runner?.last_name}
-                      />
+                <View className=" shadow-2xl mx-3 p-3 rounded-lg mt-4 ">
+                  <View className="flex-row space-x-4">
+                    <ProfileInitials
+                      textClass="text-white text-2xl"
+                      firstName={bid?.runner?.first_name}
+                      lastName={bid?.runner?.last_name}
+                      className="w-14 h-14 bg-[#616161] rounded-full text-lg"
+                    />
+                    <View className="flex-row justify-between items-center">
                       <View className="">
-                        <Text className="text-sm">
-                          {' '}
+                        <Text className="text-[#000000] text-sm font-bold">
                           {bid?.runner.first_name} {bid?.runner.last_name}
                         </Text>
-                        <Text className="text-[#6D6D6D] text-xs">
-                          ({bid?.runner.errands_completed}{' '}
-                          {bid?.runner.errands_completed > 1
-                            ? 'errands'
-                            : 'errand'}{' '}
-                          Completed)
-                        </Text>
-                        <Text className=" w-60 text-sm pt-1">
-                          {bid.description}
+                        <Text className="text-sm font-semibold">
+                          1.5
+                          <Text className="text-[14px] text-[#777777] font-medium">
+                            {' '}
+                            <Entypo name="star" size={16} color="#FBB955" /> (
+                            {/* {sender.errands_completed} */}1 Errands
+                            Completed)
+                          </Text>
                         </Text>
                       </View>
                     </View>
-
-                    <Text>
-                      {' '}
-                      &#x20A6; {(bid?.haggles[0].amount / 100).toLocaleString()}
-                    </Text>
+                  </View>
+                  <Text className="text-sm pt-1 text-[#444444] font-light">
+                    {bid.description}
+                  </Text>
+                  <View className="flex-row items-center mt-2">
+                    <View className="bg-[#FEE1CD] rounded-2xl py-2 px-3 mt-2 ">
+                      <Text className="text-[#642B02] text-base font-bold">
+                        &#x20A6;{' '}
+                        {(bid?.haggles[0].amount / 100).toLocaleString()}
+                      </Text>
+                    </View>
                   </View>
                 </View>
               )

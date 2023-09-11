@@ -1,19 +1,22 @@
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
-import { Text, View } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import { MarketData } from '../../types'
 import { formatDate, getAddress } from '../../utils/helper'
 
 interface MyErrandDetailsProps {
   errand: MarketData
+  user_id: string
 }
 
-const MyErrandDetails = ({ errand }: MyErrandDetailsProps) => {
+const MyErrandDetails = ({ errand, user_id }: MyErrandDetailsProps) => {
   const [address, setAddress] = useState('')
 
   useEffect(() => {
     getAddress({ errand, setAddress })
   }, [])
+
+  // console.log('>>>>>>errand.satsts', errand.status)
 
   return (
     <View>
@@ -120,14 +123,30 @@ const MyErrandDetails = ({ errand }: MyErrandDetailsProps) => {
         </View>
       </View>
 
-      <View className='mt-[24px]'>
+      {/* errand cost and budget */}
+      <View className="mt-[24px]">
         <Text className=" text-[14px] text-[#666] w-28 font-bold pb-2">
-          Errand Cost
+          {errand?.status === 'open' && 'Errand Budget'}
+          {errand?.status === 'pending' && 'Errand Budget'}
+
+          {errand?.status === 'completed' && 'Errand Cost'}
         </Text>
-        <View  className="flex-row rounded-lg ">
-          <Text  className="text-center rounded-lg bg-[#115A38]  p-1 text-white font-bold text-[16px] py-1">
-             &#x20A6;{(errand?.amount / 100).toLocaleString()}
-          </Text>
+        <View className="flex-row rounded-lg ">
+          {errand?.status === 'active' && (
+            <Text className="text-center rounded-lg bg-[#115A38]  p-1 text-white font-bold text-[16px] py-1">
+              &#x20A6;{(errand?.amount / 100).toLocaleString()}
+            </Text>
+          )}
+          {errand?.status === 'open' && (
+            <Text className="text-center rounded-lg bg-[#115A38]  p-1 text-white font-bold text-[16px] py-1">
+              &#x20A6;{(errand?.budget / 100).toLocaleString()}
+            </Text>
+          )}
+          {errand?.status === 'pending' && (
+            <Text className="text-center rounded-lg bg-[#115A38]  p-1 text-white font-bold text-[16px] py-1">
+              &#x20A6;{(errand?.budget / 100).toLocaleString()}
+            </Text>
+          )}
         </View>
       </View>
 
@@ -139,6 +158,69 @@ const MyErrandDetails = ({ errand }: MyErrandDetailsProps) => {
           {errand?.description}
         </Text>
       </View>
+
+      {errand?.status === 'cancelled' && (
+        <View
+          className={
+            'w-full bg-red-100  rounded-xl p-3 mt-2 flex justify-between items-center text-sm'
+          }
+        >
+          <Text className=" font-semibold text-red-700 w-2/3 text-left">
+            This errand has been cancelled
+          </Text>
+        </View>
+      )}
+
+      {errand.user_id === user_id && errand?.status === 'active' && (
+        <TouchableOpacity className="bg-[#1E3A79] h-12 w-full mx-4 mt-6 flex-row justify-center items-center rounded-lg">
+          <Text className="text-white text-base">Completed</Text>
+        </TouchableOpacity>
+      )}
+
+      {errand?.user_id === user_id && errand?.status === 'pending' && (
+        <TouchableOpacity className="bg-white h-12 w-full mx-4 mt-6 flex-row justify-center items-center rounded-lg border-[#e90c0c] border-[0.5px]">
+          <Text className="text-base text-red-600">Cancel</Text>
+        </TouchableOpacity>
+      )}
+
+      {errand.status === 'completed' && (
+        <View
+          className={
+            'w-full rounded-xl p-3 mt-2 flex justify-between items-center text-sm bg-green-100'
+          }
+        >
+          <Text className=" font-semibold text-[#757373] w-full text-left">
+            This errand has already been completed
+          </Text>
+        </View>
+      )}
+
+      {errand.user_id !== user_id && errand.status === 'active' && (
+        <View
+          className={
+            'w-full bg-[#f8f6f6] rounded-xl p-3 mt-2 flex justify-between items-center text-sm'
+          }
+        >
+          <Text className=" font-semibold text-[#757373] w-2/3 text-left">
+            If you wish to abandon this errand and stop running it, click this
+            button. Please note that you will be fined for this action
+          </Text>
+          <View className=" border-1 rounded-xl flex space-x-1 justify-center items-center p-2 w-20 mx-auto bg-white shadow cursor-pointer">
+            <Text>Abandon</Text>
+          </View>
+        </View>
+      )}
+
+      {/* <View>
+        <TouchableOpacity>
+          {' '}
+          <Text>Completed</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          {' '}
+          <Text>Cancel</Text>
+        </TouchableOpacity>
+      </View> */}
 
       {/* <TouchableOpacity>
         <View className="mt-2">

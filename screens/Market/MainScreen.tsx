@@ -65,6 +65,7 @@ export default function MainScreen({ navigation }: any) {
     navigation.setOptions({
       headerShown: true,
       title: 'Errand Market',
+      headerStyle: { backgroundColor: '#F8F9FC' },
       headerLeft: () => (
         <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
           <TouchableOpacity
@@ -95,8 +96,8 @@ export default function MainScreen({ navigation }: any) {
             </View>
           ) : (
             <>
-              <View className="bg-white ">
-                <View className='mx-4'>
+              <View className="bg-[#F8F9FC] ">
+                <View className="mx-4">
                   <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
                     <EvilIcons name="search" size={22} className="w-1/12" />
                     <TextInput

@@ -3,11 +3,11 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons'
+import { AntDesign, FontAwesome } from '@expo/vector-icons'
 import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import * as React from 'react'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import AccountRecoveryScreen from '../screens/Auth/AccountRecovery'
 import { default as CreateAccountScreen } from '../screens/Auth/CreateAccountScreen'
 import HomeScreen from '../screens/Auth/HomeScreen'
@@ -20,7 +20,7 @@ import CreateFinance from '../screens/CreateErrand/CreateFinance'
 import CreateTasks from '../screens/CreateErrand/CreateTasks'
 import ErrandLocation from '../screens/CreateErrand/ErrandLocation'
 import ErrandReview from '../screens/CreateErrand/ErrandReview'
-import Bids from '../screens/ErrandsAndBids/Bids'
+import EditProfileTitle from '../screens/EditProfile/EditProfileTitle'
 import ErrandDetails from '../screens/Market/ErrandDetails'
 import Modal from '../screens/Modal'
 import MyErrandInfo from '../screens/MyErrands/MyErrandInfo'
@@ -29,7 +29,6 @@ import WalletScreen from '../screens/Wallets'
 import { RootStackParamList } from '../types'
 import BottomTab from './BottomTab'
 import DrawerNavigator from './DrawerNav'
-import EditProfileTitle from '../screens/EditProfile/EditProfileTitle'
 
 // import DrawerNav from './DrawerNav'
 
@@ -213,15 +212,14 @@ export function RootNavigator() {
         component={ErrandDetails}
         options={{
           title: 'Errand',
-          headerStyle: {},
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigate.navigate('Main')}>
-              <AntDesign name="home" size={24} color="#243763" />
+              <AntDesign name="arrowleft" size={24} color="#243763" />
             </TouchableOpacity>
           ),
           headerTitleStyle: {
-            fontSize: 20,
-            fontWeight: '300',
+            fontSize: 16,
+            fontWeight: '600',
           },
           headerShadowVisible: false,
         }}

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Controller } from "react-hook-form";
-import { Text, TextInput, View } from 'react-native';
-import { InputProps } from '../../types';
+import React from 'react'
+import { Controller } from 'react-hook-form'
+import { Text, TextInput, View } from 'react-native'
+import { InputProps } from '../../types'
 
 export default function InputField({
   onChangeText,
@@ -14,9 +14,8 @@ export default function InputField({
   name,
   message,
   className,
-  secureTextEntry
+  secureTextEntry,
 }: InputProps): JSX.Element {
-
   // const { control, handleSubmit, formState: { errors } } = useForm({
   //   defaultValues: {
   //     firstName: '',
@@ -26,7 +25,6 @@ export default function InputField({
 
   // console.log(">>>eorrrso", errors);
 
-  
   return (
     <View className="pt-6">
       <Text className="text-[#243763] text-sm">{label}</Text>
@@ -39,11 +37,11 @@ export default function InputField({
       <Controller
         control={control}
         rules={{
-         required,
+          required,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            className="w-full border border-[#E6E6E6] text-xs py-3.5 mt-2 h-[60px] rounded-lg px-3 bg-[#E6E6E6]"
+            className="w-full border border-[#E6E6E6] text-sm py-3.5 mt-2 h-[60px] rounded-lg px-3 bg-[#E6E6E6]"
             placeholder={placeholder}
             onBlur={onBlur}
             onChangeText={onChange}
@@ -55,7 +53,7 @@ export default function InputField({
         name={name}
       />
 
-      {errors && <Text className='text-red-700 text-xs pt-2'>{message}</Text>}
+      {errors && <Text className="text-red-700 text-xs pt-2">{message}</Text>}
     </View>
   )
 }
