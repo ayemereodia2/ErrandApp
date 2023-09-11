@@ -5,8 +5,52 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { TextInput } from 'react-native'
 import { Image } from 'react-native'
 import UserProfile from '../../components/UsersProfile/UserProfile'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { _fetch } from '../../services/axios/http'
+import { useQuery } from '@tanstack/react-query'
+
+
 
 const AccountScreen = ({navigation}:any) => {
+
+  const getUserProfile = async () => {
+    console.log('get user profile is called')
+    const token = await AsyncStorage.getItem('accessToken');
+  
+  
+    const _rs = await _fetch({
+      method: "GET",
+      _url: `/user/profile`,
+  })
+  console.log('response', _rs)
+  console.log(token)
+  return await _rs.json()
+  
+  }
+
+ 
+
+    const {isLoading, isError, data} = useQuery({ queryKey: ['user-profile'], queryFn: getUserProfile })
+    console.log(data);
+    
+   
+    
+  if (isLoading){
+    return (
+      <Text>Loading...</Text>
+    )
+  }
+
+  if (isError){
+    return (
+      <Text>{isError}</Text>
+    )
+  }
+
+
+  // console.log('data', data?.last_name)
+
+
   return (
     <SafeAreaView>
        {/* Header */}
@@ -39,13 +83,13 @@ const AccountScreen = ({navigation}:any) => {
       {/* Name Area */}
 
       <View className='flex-row justify-center items-center mt-10'>
-      <Text>Zebrudaya Owonikoko </Text> 
+      <Text>{data?.data.first_name} {data?.data.last_name} </Text> 
       <Text><MaterialIcons name="verified" size={20} color="green" /></Text>
       </View>
 
       {/*Occupation */}
 
-      <Text className='text-center mt-3'>UI/UX Designer</Text>
+      <Text className='text-center mt-3'>{data?.data.occupation}</Text>
       <View className='flex-row justify-center items-center mt-3'>
         <Text className='pl-1 text-[#6604C8]'>Rating</Text>
         <Text className='pl-1'><Entypo name="star" size={20} color="gold" /></Text>
@@ -65,13 +109,13 @@ const AccountScreen = ({navigation}:any) => {
         </View>
 
         <View className='ml-3 b border-r-[1px]'>
-          <Text className='text-center'>400</Text>
-          <Text>total Errands </Text>
+          <Text className='text-center'>{data?.data.errands_completed}</Text>
+          <Text>Errands Completed </Text>
         </View>
 
         <View className='ml-3 '>
-          <Text className='text-center'>400</Text>
-          <Text>total Errands </Text>
+          <Text className='text-center'>{data?.data.errands_cancelled}</Text>
+          <Text>Errands Cancelled </Text>
         </View>
       </View>
 
@@ -97,7 +141,7 @@ const AccountScreen = ({navigation}:any) => {
           
       </View>
 
-      <UserProfile />
+      <UserProfile data={data}/>
 
 
       
@@ -106,6 +150,7 @@ const AccountScreen = ({navigation}:any) => {
     </ScrollView>
     </SafeAreaView>
   )
+
 }
 
 export default AccountScreen
