@@ -3,7 +3,7 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { AntDesign, FontAwesome } from '@expo/vector-icons'
+import { AntDesign, Entypo, FontAwesome } from '@expo/vector-icons'
 import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import * as React from 'react'

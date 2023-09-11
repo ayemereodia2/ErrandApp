@@ -2,20 +2,16 @@
 import { Entypo, EvilIcons, Ionicons } from '@expo/vector-icons'
 import React, { useEffect, useLayoutEffect } from 'react'
 import {
-  ActivityIndicator,
   TextInput,
   TouchableOpacity,
   useWindowDimensions,
   View,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { useQuery } from 'react-query'
 import { useSelector } from 'react-redux'
 import MyErrandCard from '../../components/MyErrandCard'
-import { fetchMyErrands } from '../../lib/errand/api'
 import { myErrandList } from '../../services/errands/myErrands'
 import { RootState, useAppDispatch } from '../../services/store'
-import { MarketData } from '../../types'
 
 const ErrandScreen = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
@@ -33,6 +29,7 @@ const ErrandScreen = ({ navigation }: any) => {
     navigation.setOptions({
       headerShown: true,
       title: 'My Errands',
+      headerStyle: { backgroundColor: '#F8F9FC' },
       headerLeft: () => (
         <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
           <TouchableOpacity
@@ -40,6 +37,13 @@ const ErrandScreen = ({ navigation }: any) => {
             className="flex-row items-center"
           >
             <Entypo name="menu" size={24} />
+          </TouchableOpacity>
+        </View>
+      ),
+      headerRight: () => (
+        <View className="pr-3">
+          <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
+            <Entypo name="dots-three-vertical" color={'black'} size={20} />
           </TouchableOpacity>
         </View>
       ),
@@ -52,15 +56,20 @@ const ErrandScreen = ({ navigation }: any) => {
 
   return (
     <ScrollView>
-      <View className="">
+      <View className="bg-[#F8F9FC]">
         <View className="flex-row justify-center items-center gap-2 mt-2 relative">
-          <View className="bg-[#DAE1F1] flex-row p-2 py-3 rounded-lg w-4/5 space-x-2">
-            <EvilIcons name="search" size={24} color="black" />
-            <TextInput className="w-5/6" placeholder="Find an Errand" />
-          </View>
+          <View className="bg-white flex-row py-1.5 px-3 items-center justify-between rounded-lg border-[#808080] border-[0.5px] space-x-2">
+            <View className="flex-row items-center space-x-2 ">
+              <EvilIcons name="search" size={20} color="black" />
+              <TextInput
+                className="w-[270px]"
+                placeholder="Search for Errands or Bids"
+              />
+            </View>
 
-          <View className="w-[40px] h-[40px] bg-[#243763] justify-center items-center b rounded-md">
-            <Ionicons name="filter" size={24} color="white" />
+            <View className="w-8 h-[30px] bg-[#243763] justify-center items-center rounded-md">
+              <Ionicons name="filter" size={24} color="white" />
+            </View>
           </View>
         </View>
 

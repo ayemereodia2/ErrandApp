@@ -1,7 +1,7 @@
-import { MaterialIcons } from '@expo/vector-icons'
+import { Entypo, MaterialIcons } from '@expo/vector-icons'
 import {
   BottomSheetModal,
-  BottomSheetModalProvider,
+  BottomSheetModalProvider
 } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useRef, useState } from 'react'

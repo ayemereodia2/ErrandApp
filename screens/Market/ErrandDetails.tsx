@@ -160,7 +160,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                   <Text className=" font-bold text-base text-[#555555]">
                     Description
                   </Text>
-                  <Text className="text-sm pt-1 text-[#383737] border-[0.4px] font-light">
+                  <Text className="text-sm pt-1 text-[#383737] font-light">
                     {errand.description}
                   </Text>
                 </View>
@@ -237,7 +237,7 @@ export default function ErrandDetails({ route, navigation }: any) {
               </View>
             )}
 
-            <Text className="pl-3 mt-8 font-bold text-base text-[#555555]">
+            <Text className="p-4 mt-8 font-bold text-base text-[#555555]">
               Existing Bids
             </Text>
 
