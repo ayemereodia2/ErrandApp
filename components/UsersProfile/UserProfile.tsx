@@ -9,39 +9,40 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 
-  const getUserProfile = async () => {
-    console.log('get user profile is called')
-    const token = await AsyncStorage.getItem('accessToken');
+  // const getUserProfile = async () => {
+  //   console.log('get user profile is called')
+  //   const token = await AsyncStorage.getItem('accessToken');
 
 
-    const _rs = await _fetch({
-      method: "GET",
-      _url: `/user/profile`,
-  })
-  console.log('response', _rs)
-  console.log(token)
-  return await _rs.json()
+  //   const _rs = await _fetch({
+  //     method: "GET",
+  //     _url: `/user/profile`,
+  // })
+  // console.log('response', _rs)
+  // console.log(token)
+  // return await _rs.json()
 
-  }
+  // }
 
-const UserProfile = () => {
 
-    const {isLoading, isError, data} = useQuery({ queryKey: ['user-profile'], queryFn: getUserProfile })
-    console.log(data);
+const UserProfile = ({data}:any) => {
+
+  //   const {isLoading, isError, data} = useQuery({ queryKey: ['user-profile'], queryFn: getUserProfile })
+  //   console.log(data);
     
    
     
-  if (isLoading){
-    return (
-      <Text>Loading...</Text>
-    )
-  }
+  // if (isLoading){
+  //   return (
+  //     <Text>Loading...</Text>
+  //   )
+  // }
 
-  if (isError){
-    return (
-      <Text>{isError}</Text>
-    )
-  }
+  // if (isError){
+  //   return (
+  //     <Text>{isError}</Text>
+  //   )
+  // }
 
   // console.log('data', data?.last_name)
 
