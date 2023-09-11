@@ -8,6 +8,14 @@ const SettingsTest = () => {
   const [errandsInArea, setErrandsInArea] = useState (false)
   const [bidsOnErrand, setBidsOnErrand] = useState (false)
   const [errandStatus, setErrandStatus] = useState (false)
+  const [accountUpdate, setAccountUpdate] = useState (false)
+  const [newsletter, setNewsletter] = useState (false)
+  const [promotions, setPromotions] = useState (false)
+  const [adverts, setAdverts] = useState (false)
+
+
+
+
 
 
 
@@ -29,6 +37,21 @@ const SettingsTest = () => {
     setErrandStatus(!errandStatus)
   }
 
+  const handleAccountUpdate = () => {
+    setAccountUpdate(!accountUpdate)
+  }
+
+  const handleNewsLetter = () => {
+    setNewsletter(!newsletter)
+  }
+  const handleAdverts = () => {
+    setAdverts(!adverts)
+  }
+
+  const handlePromotion = () => {
+    setPromotions(!promotions)
+  }
+
 
 
   return (
@@ -44,14 +67,16 @@ const SettingsTest = () => {
         <View className=' w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]'>
             <View className='flex-row items-center justify-between'>
                 <Text className='font-medium text-[18px]'>Account Update Notification</Text>
+                <TouchableWithoutFeedback onPress={handleAccountUpdate}>
                 <Switch
-                trackColor={{ false: '#767577', true: '#81b0ff' }}
+                trackColor={{ false: '#767577', true: 'green' }}
                 // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                ios_backgroundColor="green"
+                // ios_backgroundColor="green"
                 // onValueChange={toggleSwitch}
-                // value={isEnabled}
+                 value={accountUpdate}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
+              </TouchableWithoutFeedback>
         
             </View>
             <Text className='text-[14px]'>You will be notified when an update is available</Text>     
@@ -62,14 +87,16 @@ const SettingsTest = () => {
         <View className=' w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]'>
             <View className='flex-row items-center justify-between'>
                 <Text className='font-medium text-[18px]'>Newsletters and offers</Text>
+                <TouchableWithoutFeedback onPress={handleNewsLetter}>
                 <Switch
-                trackColor={{ false: '#767577', true: '#81b0ff' }}
+                trackColor={{ false: '#767577', true: 'green' }}
                 // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
                 ios_backgroundColor="green"
                 // onValueChange={toggleSwitch}
-                // value={isEnabled}
+                 value={newsletter}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
+              </TouchableWithoutFeedback>
         
             </View>
             <Text className='text-[14px]'>Be in the know when we publish any information</Text>     
@@ -80,14 +107,17 @@ const SettingsTest = () => {
         <View className=' w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]'>
             <View className='flex-row items-center justify-between'>
                 <Text className='font-medium text-[18px]'>Promotions and adverts</Text>
+                <TouchableWithoutFeedback onPress={handlePromotion}>
+
                 <Switch
-                trackColor={{ false: '#767577', true: '#81b0ff' }}
+                trackColor={{ false: '#767577', true: 'green' }}
                 // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
                 ios_backgroundColor="grey"
                 // onValueChange={toggleSwitch}
-                // value={isEnabled}
+                 value={promotions}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
+              </TouchableWithoutFeedback>
         
             </View>
             <Text className='text-[14px]'>Stay informed about our amazing offers</Text>     
@@ -97,15 +127,17 @@ const SettingsTest = () => {
 
         <View className=' w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]'>
             <View className='flex-row items-center justify-between'>
+              <TouchableWithoutFeedback onPress={handleAdverts}>
                 <Text className='font-medium text-[18px]'>Promotions and adverts</Text>
                 <Switch
-                trackColor={{ false: '#767577', true: '#81b0ff' }}
+                trackColor={{ false: '#767577', true: 'green' }}
                 // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
                 ios_backgroundColor="green"
                 // onValueChange={toggleSwitch}
-                // value={isEnabled}
+                 value={adverts}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
+              </TouchableWithoutFeedback>
         
             </View>
             <Text className='text-[14px]'>Stay informed about our amazing offers</Text>     

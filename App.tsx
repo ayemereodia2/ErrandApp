@@ -7,13 +7,15 @@ import 'react-native-gesture-handler'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
-import { focusManager, QueryClient, QueryClientProvider } from 'react-query'
+import { focusManager} from 'react-query'
 import { Provider } from 'react-redux'
 import useCachedResources from './hooks/useCachedResources'
 import useColorScheme from './hooks/useColorScheme'
 import { useOnlineManager } from './hooks/useOnlineManager'
 import Navigation from './navigation'
 import { store } from './services/store'
+import {QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 
 const queryClient = new QueryClient()
 
