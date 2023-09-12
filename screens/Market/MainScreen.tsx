@@ -2,7 +2,7 @@ import {
   AbrilFatface_400Regular,
   useFonts,
 } from '@expo-google-fonts/abril-fatface'
-import { Entypo, EvilIcons } from '@expo/vector-icons'
+import { Entypo, EvilIcons, Ionicons } from '@expo/vector-icons'
 // import { ScrollView } from 'native-base'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
@@ -99,19 +99,24 @@ export default function MainScreen({ navigation }: any) {
               <View className="bg-[#F8F9FC] ">
                 <View className="mx-4">
                   <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
-                    <EvilIcons name="search" size={22} className="w-1/12" />
+                    <EvilIcons name="search" size={22} className="w-1/12" color='#808080' />
                     <TextInput
                       className=" w-9/12"
                       placeholder="Search for Errands"
+                      placeholderTextColor='#808080'
                     />
-                    <Image
+                    {/* <Image
                       style={{
                         width: 30,
                         height: 30,
                         resizeMode: 'contain',
                       }}
                       source={require('../../assets/images/filter.png')}
-                    />
+                    /> */}
+                     <View className='bg-[#3F60AC] mr-1 b rounded-md w-[38px]'>
+                      <Text className='p-2 text-center'><Ionicons name="md-filter-outline" size={18} color="white" /></Text>
+                    </View>
+                
                   </View>
 
                   {errands?.map((errand, index) => {

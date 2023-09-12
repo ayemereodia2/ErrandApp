@@ -5,6 +5,7 @@ import { RootNavigator } from '.'
 import ContactUs from '../screens/Contact/ContactUs'
 import NotificationScreen from '../screens/Notification/NotficationScreen'
 import SettingScreen from '../screens/Setting/SettingScreen'
+import MyErrandsTest from '../screens/MyErrandsTest/MyErrandsTest'
 
 // function NotificationsScreen({ navigation }: any) {
 //   return (
@@ -29,6 +30,7 @@ export default function DrawerNavigator() {
       <Drawer.Screen name="Notifications" component={NotificationScreen} />
       <Drawer.Screen name="Contact Us" component={ContactUs} />
       <Drawer.Screen name="Settings" component={SettingScreen} />
+      <Drawer.Screen name="MyErrandsTest" component={MyErrandsTest} />
     </Drawer.Navigator>
   )
 }
