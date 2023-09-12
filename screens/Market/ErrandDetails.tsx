@@ -40,7 +40,7 @@ export default function ErrandDetails({ route, navigation }: any) {
   const dispatch = useAppDispatch()
   const [showBid, setShowBid] = useState(false)
   const bottomSheetRef = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ['70%'], [])
+  const snapPoints = useMemo(() => ['63%'], [])
   const [userId, setUserId] = useState('')
 
   function openPlaceBid() {
@@ -117,7 +117,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                 <ActivityIndicator size={'large'} />
               </View>
             ) : (
-              <View className="p-4 mt-2">
+              <View className="p-4 px-6 mt-2">
                 <View className="">
                   <View className="items-center justify-center">
                     <ProfileInitials
@@ -237,7 +237,7 @@ export default function ErrandDetails({ route, navigation }: any) {
               </View>
             )}
 
-            <Text className="p-4 mt-8 font-bold text-base text-[#555555]">
+            <Text className="p-4 px-6 mt-8 font-bold text-base text-[#555555]">
               Existing Bids
             </Text>
 
@@ -287,6 +287,7 @@ export default function ErrandDetails({ route, navigation }: any) {
               ref={bottomSheetRef}
               index={0}
               snapPoints={snapPoints}
+              containerStyle={{ marginHorizontal: 10 }}
             >
               <PlaceBidModal
                 owner={owner}

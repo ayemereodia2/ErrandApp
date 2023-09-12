@@ -96,7 +96,7 @@ export const HaggleComponent = ({
     dispatch(externalUserDetails({ user_id: bid?.runner.id }))
   }, [])
 
-  const negotiatorIsSender = bid?.haggles.slice(-1)[0].source === 'sender'
+  const negotiatorIsSender = bid?.haggles.slice(-1)[0]?.source === 'sender'
 
   return (
     <View className="py-5 border-b-[0.2px] border-[#ccc] shadow-lg">

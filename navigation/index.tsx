@@ -203,7 +203,7 @@ export function RootNavigator() {
         component={MyErrandInfo}
         options={{
           headerStyle: {
-            backgroundColor: '#243763',
+            backgroundColor: '#F8F9FC',
           },
         }}
       />

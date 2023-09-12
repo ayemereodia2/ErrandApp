@@ -69,15 +69,15 @@ export default function LoginScreen() {
               ></ImageBackground>
             </View>
 
-            <View className="text-[#333333] font-inter mt-4 py-4 space-y-1">
-              <Text className="font-semibold text-sm text-center">
+            <View className="text-[#333333] font-inter mt-0 py-4 space-y-1">
+              <Text className="font-semibold text-xl text-center">
                 Welcome Back, Please Login
               </Text>
-              <Text className="text-xs text-center">
+              <Text className="text-sm text-center">
                 Enter your Gofer credentials and Login
               </Text>
 
-              <View className="pt-2 space-y-4">
+              <View className="pt-2 space-y-2">
                 <InputField
                   label="Phone Number"
                   placeholder="Enter your Phone Number"
@@ -89,7 +89,7 @@ export default function LoginScreen() {
                   message={'phone is required'}
                 />
 
-                <View className="relative">
+                <View className="relative mb-6">
                   <InputField
                     label="Password"
                     placeholder="Enter your password"
@@ -126,7 +126,7 @@ export default function LoginScreen() {
                   onPress={handleSubmit(onSubmit)}
                   // className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
                 />
-                <Text className="text-black text-center pb-6">
+                <Text className="text-black text-center pb-6 pt-3">
                   Don’t Have an Account?
                   <Text
                     onPress={() => {

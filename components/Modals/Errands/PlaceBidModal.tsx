@@ -1,4 +1,3 @@
-import { Entypo, MaterialIcons } from '@expo/vector-icons'
 import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
 import React, { useState } from 'react'
 import {
@@ -14,7 +13,6 @@ import { postBid } from '../../../services/errands/placeBid'
 import { RootState, useAppDispatch } from '../../../services/store'
 import { MarketData, UserDetail } from '../../../types'
 import { currencyMask, parseAmount } from '../../../utils/helper'
-import { ProfileInitials } from '../../ProfileInitials'
 interface PlaceBidModalProp {
   owner: UserDetail
   errand: MarketData
@@ -55,7 +53,7 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
 
   return (
     <View className="py-4 pb-10">
-      <View>
+      {/* <View>
         <View className="items-center justify-center">
           <ProfileInitials
             firstName={owner.first_name}
@@ -75,7 +73,6 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
               Swave User
             </Text>
             <View className="flex-row items-center">
-              {/* {showStars(data.rating)} */}
               <Text>
                 {owner?.rating} <Entypo name="star" size={16} color="#FBB955" />{' '}
               </Text>
@@ -86,14 +83,14 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
             </View>
           </View>
         </View>
-      </View>
+      </View> */}
 
-      <View className="px-4 mt-4">
-        <Text className="text-sm text-[#243763] font-semibold">
-          Enter your bid Amount
-        </Text>
+      <Text className="text-lg text-center font-semibold">Enter Your Bid</Text>
 
-        <View className="border border-[#E6E6E6] bg-[#CBD5EC]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
+      <View className="px-4 mt-6">
+        <Text className="text-sm text-[#243763] font-semibold">Amount</Text>
+
+        <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
           <Text className="text-lg ">&#x20A6;</Text>
 
           <BottomSheetTextInput
@@ -107,15 +104,9 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
       </View>
 
       <View className="px-4 mt-4">
-        <Text className="text-sm font-semibold text-[#243763]">
-          {' '}
-          Enter your bid Comment{' '}
-          <Text className="text-xs font-medium">
-            (Sell your skills to the poster)
-          </Text>
-        </Text>
+        <Text className="text-sm font-semibold text-[#243763]"> Comment </Text>
 
-        <View className="w-full border bg-[#CBD5EC] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3">
+        <View className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3">
           <BottomSheetTextInput
             className={
               'w-full border bg-[#CBD5EC] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3'
@@ -133,7 +124,7 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
 
       <View className="flex-row justify-center items-center">
         <TouchableOpacity
-          className="bg-[#3F60AC] h-12 w-3/6 mt-6 flex-row justify-center items-center rounded-lg"
+          className="bg-[#1E3A79] h-12 w-4/6 mt-6 flex-row justify-center items-center rounded-lg"
           onPress={() => {
             handlePlaceBid()
           }}
@@ -142,7 +133,7 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
             {loading ? (
               <ActivityIndicator size="small" color="#000000" />
             ) : (
-              'Place Bid'
+              'Submit Your Bid'
             )}
           </Text>
         </TouchableOpacity>

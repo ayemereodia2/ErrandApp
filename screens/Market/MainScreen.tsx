@@ -2,7 +2,7 @@ import {
   AbrilFatface_400Regular,
   useFonts,
 } from '@expo-google-fonts/abril-fatface'
-import { Entypo, EvilIcons } from '@expo/vector-icons'
+import { Entypo, EvilIcons, MaterialIcons } from '@expo/vector-icons'
 // import { ScrollView } from 'native-base'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
@@ -17,6 +17,7 @@ import {
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import ErrandComp from '../../components/ErrandComponent'
+import { ProfileInitials } from '../../components/ProfileInitials'
 import { _fetch } from '../../services/axios/http'
 import { useAppDispatch } from '../../services/store'
 
@@ -70,10 +71,24 @@ export default function MainScreen({ navigation }: any) {
         <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
           <TouchableOpacity
             onPress={() => navigation.openDrawer()}
-            className="flex-row items-center"
+            className="flex-row items-center mb-2"
           >
-            {/* <ProfileInitials firstName="Azubike" lastName="Orji" /> */}
-            <Entypo name="menu" size={24} />
+            <ProfileInitials
+              firstName="Azubike"
+              lastName="Orji"
+              textClass="text-white text-base"
+            />
+            {/* <Entypo name="menu" size={24} /> */}
+          </TouchableOpacity>
+        </View>
+      ),
+      headerRight: () => (
+        <View className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-3 ">
+          <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
+            <MaterialIcons name="notifications" color={'black'} size={22} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
+            <Entypo name="dots-three-vertical" color={'black'} size={16} />
           </TouchableOpacity>
         </View>
       ),

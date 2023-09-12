@@ -1,20 +1,17 @@
-import { Entypo, MaterialIcons } from '@expo/vector-icons'
+import { AntDesign, Entypo } from '@expo/vector-icons'
 import {
   BottomSheetModal,
-  BottomSheetModalProvider
+  BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useRef, useState } from 'react'
-import { Text, TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import { TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useSelector } from 'react-redux'
 import BidWrapper from '../../components/BidWrapper'
 import NegotiateBid from '../../components/Modals/Bids/Negotiate'
 import { SuccessDialogue } from '../../components/Modals/Success/SuccessDialogue'
-import MyErrandDetails from '../../components/MyErrandDetails'
-import MyErrandToggle from '../../components/MyErrandToggle'
-import { ProfileInitials } from '../../components/ProfileInitials'
 import Timeline from '../../components/Timeline'
 import { RootState } from '../../services/store'
 import { SingleSubErrand } from '../../types'
@@ -44,7 +41,7 @@ const MyErrandInfo = ({ navigation }: any) => {
     updated_at: '',
   })
 
-  const [selectedTab, setSelectedItem] = useState('details')
+  // const [selectedTab, setSelectedItem] = useState('details')
   const layout = useWindowDimensions()
 
   const { data: user, loading } = useSelector(
@@ -77,26 +74,20 @@ const MyErrandInfo = ({ navigation }: any) => {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      title: 'Errand Details',
+      title:
+        errand?.status === 'active' || errand?.status === 'completed'
+          ? 'Errand Timeline'
+          : 'Bids on your Errand',
       headerLeft: () => (
         <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
-          <MaterialIcons name="arrow-back-ios" color={'white'} size={20} />
+          <AntDesign name="arrowleft" size={24} color="#243763" />
         </TouchableOpacity>
       ),
-      headerTitle: () => (
-        <View className="flex-row items-center space-x-2">
-          {loading ? (
-            <Text>loading....</Text>
-          ) : (
-            <ProfileInitials
-              firstName={user?.first_name}
-              lastName={user?.last_name}
-            />
-          )}
-
-          <Text className="text-white ">
-            {user?.first_name} {user?.last_name}
-          </Text>
+      headerRight: () => (
+        <View className="pr-3">
+          <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
+            <Entypo name="dots-three-vertical" color={'black'} size={20} />
+          </TouchableOpacity>
         </View>
       ),
     })
@@ -123,23 +114,23 @@ const MyErrandInfo = ({ navigation }: any) => {
           <ScrollView className="px-3">
             {/* // errand details and bid screen */}
             <View>
-              <MyErrandToggle
+              {/* <MyErrandToggle
                 selectedTab={selectedTab}
                 setSelectedItem={setSelectedItem}
-              />
+              /> */}
 
-              {selectedTab === 'details' && (
+              {/* {selectedTab === 'details' && (
                 <MyErrandDetails errand={errand} user_id={userId} />
-              )}
-              {selectedTab === 'bids' && (
-                <BidWrapper
-                  errand={errand}
-                  userId={userId}
-                  navigation={navigation}
-                  toggleNegotiateModal={toggleNegotiateModal}
-                  toggleSuccessDialogue={toggleSuccessDialogue}
-                />
-              )}
+              )} */}
+              {/* {selectedTab === 'bids' && ( */}
+              <BidWrapper
+                errand={errand}
+                userId={userId}
+                navigation={navigation}
+                toggleNegotiateModal={toggleNegotiateModal}
+                toggleSuccessDialogue={toggleSuccessDialogue}
+              />
+              {/* )} */}
             </View>
             {/* Negotiate bid modal */}
             <BottomSheetModal

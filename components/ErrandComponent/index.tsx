@@ -110,7 +110,7 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
         </Text>
         {/* <ProfileInitials firstName="Kzu" lastName="Soo" /> */}
 
-        <View className="bg-[#FEE1CD] rounded-2xl py-2 px-2 w-[65px] mt-2">
+        <View className="bg-[#FEE1CD] rounded-2xl py-2 px-2 w-[65px] ">
           <Text className="text-[#642B02] text-sm font-semibold">
             {' '}
             {errand?.total_bids} {errand?.total_bids <= 1 ? 'Bid' : 'Bids'}

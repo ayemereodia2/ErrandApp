@@ -84,15 +84,12 @@ const BidWrapper = ({
     } catch (e) {}
   })
 
-  console.log('>>>>>bid', userId, errand.user_id, errand.status)
+  console.log('>>>>>bid', userId, errand.total_bids, errand.status)
 
   return (
     // <BottomSheetModalProvider>
     <SafeAreaView style={{ flex: 1 }} className="">
       <ScrollView scrollEventThrottle={16}>
-        <View className="mt-10 mb-4">
-          <Text className="text-[16px] font-bold">Existing Bids</Text>
-        </View>
 
         {errand?.bids.length === 0 && (
           <Text>No Bids has been attached to the errand selected.</Text>
@@ -111,6 +108,8 @@ const BidWrapper = ({
                   hag = h
                 }
               })
+
+
 
               return (
                 <ErrandBid
@@ -134,6 +133,9 @@ const BidWrapper = ({
                 let hags = bid.haggles
                 let hag = hags[hags.length - 1]
                 let runner = bid.runner
+
+                console.log(">>>haggle", hag.source);
+                
                 return (
                   <ErrandBid
                     errand={errand}

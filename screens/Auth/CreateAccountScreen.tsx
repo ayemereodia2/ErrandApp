@@ -84,8 +84,8 @@ export default function CreateAccountScreen() {
             <Logo />
 
             <View className="text-[#333333] font-inter py-4 space-y-1">
-              <Text className="font-semibold text-sm">Create an Account</Text>
-              <Text className="text-xs">
+              <Text className="font-semibold text-xl">Create an Account</Text>
+              <Text className="text-sm">
                 Let’s get started and create a Profile for you
               </Text>
 
@@ -157,7 +157,7 @@ export default function CreateAccountScreen() {
 
                 <Button
                   style={{}}
-                  className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-sm mt-8"
+                  className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
                   child="Create Account"
                   onPress={handleSubmit(onSubmit)}
                 />
