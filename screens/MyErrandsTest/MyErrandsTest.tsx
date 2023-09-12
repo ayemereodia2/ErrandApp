@@ -6,24 +6,32 @@ import ErrandTexts from '../../components/ErrandTexts/ErrandTexts'
 
 const MyErrandsTest = ({navigation}:any) => {
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-          headerShown: true,
-          title: 'My Errands',
-          headerStyle: { backgroundColor: '#F8F9FC' },
-          headerLeft: () => (
-            <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
-              <TouchableOpacity
-                onPress={() => navigation.openDrawer()}
-                className="flex-row items-center"
-              >
-                {/* <ProfileInitials firstName="Azubike" lastName="Orji" /> */}
-                <Entypo name="menu" size={24} />
-              </TouchableOpacity>
-            </View>
-          ),
-        })
-      }, [])
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      title: 'My Errands',
+      headerStyle: { backgroundColor: '#F8F9FC' },
+      headerLeft: () => (
+        <View className="flex-row items-center justify-between mx-0 px-3 py-3">
+          <TouchableOpacity
+            onPress={() => navigation.openDrawer()}
+            className="flex-row items-center"
+          >
+            {/* <ProfileInitials firstName="Azubike" lastName="Orji" /> */}
+            <Entypo name="menu" size={24} />
+          </TouchableOpacity>
+        </View>
+      ),
+      headerRight: () => (
+        <View className="flex-row items-center justify-between mx-0 px-3 py-3 mr-2">
+          <TouchableWithoutFeedback>
+            <Text><Entypo name="dots-three-vertical" size={21} color="black" /></Text>
+          </TouchableWithoutFeedback>
+        </View>
+      ),
+    });
+  }, []);
+  
 
 
   return (
@@ -77,7 +85,7 @@ const MyErrandsTest = ({navigation}:any) => {
                     </View>
                 </View>
 
-                <ErrandTexts />
+                <ErrandTexts navigation={navigation}/>
                 
             </ScrollView>
 

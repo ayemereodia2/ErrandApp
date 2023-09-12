@@ -76,17 +76,6 @@ export default function ErrandDetails({ route, navigation }: any) {
       headerShown: true,
       headerStyle: { backgroundColor: '#F8F9FC' },
       title: 'Errand Details',
-      headerRight: () => (
-        <TouchableOpacity
-          className="bg-[#3F60AC] h-6 px-1 flex-row justify-center items-center rounded-lg"
-          onPress={() => {
-            openPlaceBid()
-            dispatch(userDetails({ user_id: userId }))
-          }}
-        >
-          <Text className="text-white text-xs px-1">Place Bid</Text>
-        </TouchableOpacity>
-      ),
     })
   }, [])
 
@@ -294,7 +283,18 @@ export default function ErrandDetails({ route, navigation }: any) {
                 navigation={navigation}
               />
             </BottomSheetModal>
+
+           
           </ScrollView>
+          <TouchableOpacity className='w-full h-16 absolute bottom-6 flex-row justify-center items-center rounded bg-[#3F60AC]'
+             onPress={() => {
+              openPlaceBid()
+              dispatch(userDetails({ user_id: userId }))
+            }}
+          
+          >
+              <Text className='text-white text-base font-medium'>Place Your Bid</Text>
+            </TouchableOpacity>
         </SafeAreaView>
       </BottomSheetModalProvider>
     )

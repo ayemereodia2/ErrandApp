@@ -130,7 +130,7 @@ export default function LoginScreen() {
                   Don’t Have an Account?
                   <Text
                     onPress={() => {
-                      navigation.navigate('CreateAccount')
+                      navigation.navigate('VerifyOtp')
                     }}
                     className="font-bold text-[#243763]"
                   >

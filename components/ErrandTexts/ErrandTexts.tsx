@@ -1,11 +1,15 @@
-import { View, Text, Image, SafeAreaView } from 'react-native'
+import { View, Text, Image, SafeAreaView, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
+import { useNavigation } from '@react-navigation/native'
 
-const ErrandTexts = () => {
+
+const ErrandTexts = ({navigation}:any) => {
+   
   return (
     <SafeAreaView  className='mb-4'>
     <ScrollView>
+        <TouchableOpacity onPress={()=> navigation.navigate('ErrandTimeline')}>
         <View className='w-[380px] bg-[#f7F0FF] mx-4 mt-6 py-4 px-6'>
             <View className='flex-row items-center justify-between'>
                 <Image source={require('../../assets/images/jagger.jpg')}
@@ -36,6 +40,7 @@ const ErrandTexts = () => {
             </View>
             
         </View>
+        </TouchableOpacity>
 
 
                      {/* Second Part */}
