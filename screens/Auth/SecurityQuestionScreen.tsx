@@ -114,19 +114,19 @@ export default function SecurityQuestion() {
         <View className="px-4">
           <Logo />
 
-          <KeyboardAwareScrollView
+          {/* <KeyboardAwareScrollView
             style={{ flex: 1 }}
             contentContainerStyle={{ flexGrow: 1 }}
             enableOnAndroid={true}
-          >
+          > */}
             <View className="text-[#333333] font-inter py-4 space-y-1">
-              <Text className="font-semibold text-sm">Security Question</Text>
-              <Text className="text-xs">
+              <Text className="font-semibold text-lg text-center">Security Question</Text>
+              <Text className="text-sm text-center">
                 Enter your details for security questions
               </Text>
 
-              <View className="pt-2 mt-10 space-y-4">
-                <Text>Select Question</Text>
+              <View className="pt-4 space-y-4">
+                <Text className='text-[#243763]'>Select Question</Text>
                 <Picker
                   selectedValue={question}
                   onValueChange={(itemValue, itemIndex) =>
@@ -164,7 +164,7 @@ export default function SecurityQuestion() {
                 />
               </View>
             </View>
-          </KeyboardAwareScrollView>
+          {/* </KeyboardAwareScrollView> */}
         </View>
       </TouchableWithoutFeedback>
     </SafeAreaView>

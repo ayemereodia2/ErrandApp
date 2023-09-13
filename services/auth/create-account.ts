@@ -8,7 +8,7 @@ import { _fetch } from '../axios/http';
 export const createAccount = createAsyncThunk("/user/createAccount", async ({navigation, ...data}: ICreateAccount, {rejectWithValue}) => {
   try {
     // console.log(">>>>>>>newDATA", newData)
-    const _rs = await _fetch({ _url: `/user/sign-up`, method: "POST", body: JSON.stringify(data) })
+    const _rs = await _fetch({ _url: `/user/sign-up`, method: "POST", body: data })
     const rs = await _rs.json();
 
     console.log("<<<<<_rs",rs);

@@ -22,7 +22,6 @@ export default function CreateAccountScreen() {
     email: yup
       .string()
       .email('Please enter a correct email address')
-      .required()
       .trim(),
     // phone_number: yup
     //   .string()
@@ -118,7 +117,6 @@ export default function CreateAccountScreen() {
                   keyboardType="default"
                   name="email"
                   control={control}
-                  required
                   errors={errors.email}
                   message={errors?.email?.message}
                 />
