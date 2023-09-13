@@ -1,4 +1,4 @@
-import { Entypo } from '@expo/vector-icons'
+import { Entypo, EvilIcons, FontAwesome5 } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
@@ -51,7 +51,7 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
         dispatch(errandDetails({ errandId: errand.id }))
         dispatch(externalUserDetails({ user_id: errand.user_id }))
       }}
-      className="mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6"
+      className="mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border-2 border-[#f3f3f3]"
     >
       <View className=" flex-row items-start mt-4">
         <View className="flex-row items-start justify-between gap-3">
@@ -70,11 +70,11 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
             <View className="w-60">
               <Text className="text-[#000000] text-sm font-bold">Sean Orj</Text>
               <Text className="text-sm font-semibold">
-                1.5
+                  <Entypo name="star" size={16} color="#FBB955" />
                 <Text className="text-[14px] text-[#777777] font-medium">
                   {' '}
-                  <Entypo name="star" size={16} color="#FBB955" /> (
-                  {/* {sender.errands_completed} */}1 Errands Completed)
+                  1.5  <Text className='text-xs text-[#777777]'>|</Text> 
+                  {/* {sender.errands_completed} */}  <FontAwesome5 name="running" size={12} color="black" />  1
                 </Text>
               </Text>
             </View>
@@ -90,19 +90,20 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
 
       <Text className="text-sm text-[#666666] font-light">
         {' '}
-        {!truncatedAddress ? truncatedAddressText : truncatedAddress}
+        <Text><EvilIcons name="location" size={14} color="green" />  </Text>
+        {errand.dropoff_address?.address_text ? truncatedAddressText : <Text>No Location</Text>}
       </Text>
 
       <View className="flex-row items-center">
-        <View className=" bg-[#CBD5EC] rounded-3xl mt-2">
-          <Text className="px-2 my-2 font-medium text-sm inline-block">
+        <View className=" rounded-3xl mt-2">
+          <Text className="font-medium text-sm inline-block">
             {' '}
-            {errand?.category.name?.substring(0, 20)}
+            {errand?.category.name} {/*?.substring(0, 20)} */}
           </Text>
         </View>
       </View>
 
-      <View className="h-[0.3px] bg-[#AAAAAA] mt-3"></View>
+      <View className="h-[0.3px] bg-[#AAAAAA] mt-3 items-center"></View>
 
       <View className="flex-row justify-between items-center mt-2">
         <Text className="text-[20px] font-bold text-[#1E3A79] ">
@@ -110,8 +111,8 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
         </Text>
         {/* <ProfileInitials firstName="Kzu" lastName="Soo" /> */}
 
-        <View className="bg-[#FEE1CD] rounded-2xl py-2 px-2 w-[65px] ">
-          <Text className="text-[#642B02] text-sm font-semibold">
+        <View className=" rounded-2xl py-2 px-2 w-[65px] items-center mt-2">
+          <Text className="text-orange-500 text-center text-[17px] mb-1 font-semibold">
             {' '}
             {errand?.total_bids} {errand?.total_bids <= 1 ? 'Bid' : 'Bids'}
           </Text>
