@@ -1,4 +1,4 @@
-import { Entypo } from '@expo/vector-icons'
+import { Entypo, FontAwesome5 } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
@@ -70,11 +70,11 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
             <View className="w-60">
               <Text className="text-[#000000] text-sm font-bold">Sean Orj</Text>
               <Text className="text-sm font-semibold">
-                1.5
+                  <Entypo name="star" size={16} color="#FBB955" />
                 <Text className="text-[14px] text-[#777777] font-medium">
                   {' '}
-                  <Entypo name="star" size={16} color="#FBB955" /> (
-                  {/* {sender.errands_completed} */}1 Errands Completed)
+                  1.5  |
+                  {/* {sender.errands_completed} */} <FontAwesome5 name="running" size={12} color="black" />  1
                 </Text>
               </Text>
             </View>
@@ -110,8 +110,8 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
         </Text>
         {/* <ProfileInitials firstName="Kzu" lastName="Soo" /> */}
 
-        <View className="bg-[#FEE1CD] rounded-2xl py-2 px-2 w-[65px] mt-2">
-          <Text className="text-[#642B02] text-sm font-semibold">
+        <View className=" rounded-2xl py-2 px-2 w-[65px] mt-2">
+          <Text className="text-orange-500 text-sm font-semibold">
             {' '}
             {errand?.total_bids} {errand?.total_bids <= 1 ? 'Bid' : 'Bids'}
           </Text>
