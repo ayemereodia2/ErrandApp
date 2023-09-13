@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu'
 import { useSelector } from 'react-redux'
 import MyErrandCard from '../../components/MyErrandCard'
 import { ProfileInitials } from '../../components/ProfileInitials'
@@ -53,8 +54,29 @@ const ErrandScreen = ({ navigation }: any) => {
           <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
             <MaterialIcons name="notifications" color={'black'} size={22} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
-            <Entypo name="dots-three-vertical" color={'black'} size={16} />
+          <TouchableOpacity onPress={() => {}}>
+            <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
+              <MenuTrigger>
+                <Entypo name="dots-three-vertical" color={'black'} size={16} />
+              </MenuTrigger>
+              <MenuOptions
+                customStyles={{
+                  optionsContainer: {
+                    padding: 4,
+                    width: 100,
+                    marginTop: 20,
+                  },
+                }}
+              >
+                <MenuOption
+                  onSelect={() => alert(`Save`)}
+                  text="Refresh"
+                  customStyles={{
+                    optionText: { textAlign: 'center', fontWeight: '600' },
+                  }}
+                />
+              </MenuOptions>
+            </Menu>
           </TouchableOpacity>
         </View>
       ),

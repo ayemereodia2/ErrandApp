@@ -1,6 +1,9 @@
 import { AntDesign } from '@expo/vector-icons'
 import React from 'react'
 import { Image, Text, View } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { useNavigation } from '@react-navigation/native'
+
 
 export const showStars = (rate: number) => {
   if (rate === 0) {
@@ -17,21 +20,31 @@ export const showStars = (rate: number) => {
 }
 
 export const Logo = () => {
+  const navigation = useNavigation()
+
   return (
-    <View className="flex-row items-center justify-center mt-16">
-      <Text
-        style={{ fontFamily: 'AbrilFatface_400Regular' }}
-        className=" text-black text-4xl"
+    <>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Home')}
+        className="flex-row justify-end mt-4 mr-3"
       >
-        <Image
-          style={{
-            width: 80,
-            height: 80,
-            resizeMode: 'contain',
-          }}
-          source={require('../../assets/images/new_Swave_2.png')}
-        />
-      </Text>
-    </View>
+        <AntDesign name="close" size={26} />
+      </TouchableOpacity>
+      <View className="flex-row items-center justify-center mt-2">
+        <Text
+          style={{ fontFamily: 'AbrilFatface_400Regular' }}
+          className=" text-black text-4xl"
+        >
+          <Image
+            style={{
+              width: 90,
+              height: 90,
+              resizeMode: 'contain',
+            }}
+            source={require('../../assets/images/new_Swave_2.png')}
+          />
+        </Text>
+      </View>
+    </>
   )
 }

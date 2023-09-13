@@ -3,7 +3,6 @@ import React, { useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   ActivityIndicator,
-  ImageBackground,
   SafeAreaView,
   Text,
   TouchableOpacity,
@@ -15,6 +14,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import { useSelector } from 'react-redux'
 import Button from '../../components/Button'
 import InputField from '../../components/InputField'
+import { Logo } from '../../components/Logo'
 import { loginUser } from '../../services/auth/login'
 import { RootState, useAppDispatch } from '../../services/store'
 import { ILogin } from '../../types'
@@ -61,15 +61,9 @@ export default function LoginScreen() {
           enableOnAndroid={true}
         >
           <View className="px-4">
-            <View className="mt-20">
-              <ImageBackground
-                source={require('../../assets/images/new_Swave_2.png')}
-                className="mt-[30px] mx-auto justify-center items-center w-[120] h-[100]"
-                resizeMode="contain"
-              ></ImageBackground>
-            </View>
+            <Logo />
 
-            <View className="text-[#333333] font-inter mt-0 py-4 space-y-1">
+            <View className="text-[#333333] font-inter mt-0 pb-4 space-y-1">
               <Text className="font-semibold text-xl text-center">
                 Welcome Back, Please Login
               </Text>
@@ -130,7 +124,7 @@ export default function LoginScreen() {
                   Don’t Have an Account?
                   <Text
                     onPress={() => {
-                      navigation.navigate('CreateAccount')
+                      navigation.navigate('VerifyOtp')
                     }}
                     className="font-bold text-[#243763]"
                   >

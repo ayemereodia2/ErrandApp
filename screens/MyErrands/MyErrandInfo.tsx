@@ -8,8 +8,15 @@ import React, { useEffect, useRef, useState } from 'react'
 import { TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import {
+  Menu,
+  MenuOption,
+  MenuOptions,
+  MenuTrigger,
+} from 'react-native-popup-menu'
 import { useSelector } from 'react-redux'
 import BidWrapper from '../../components/BidWrapper'
+import { DetailHeader } from '../../components/DetailHeader'
 import NegotiateBid from '../../components/Modals/Bids/Negotiate'
 import { SuccessDialogue } from '../../components/Modals/Success/SuccessDialogue'
 import Timeline from '../../components/Timeline'
@@ -48,7 +55,7 @@ const MyErrandInfo = ({ navigation }: any) => {
     (state: RootState) => state.userDetailsReducer,
   )
 
-  const { data: errand } = useSelector(
+  const { data: errand, loading: loadingErrand } = useSelector(
     (state: RootState) => state.errandDetailsReducer,
   )
 
@@ -74,10 +81,12 @@ const MyErrandInfo = ({ navigation }: any) => {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      title:
-        errand?.status === 'active' || errand?.status === 'completed'
-          ? 'Errand Timeline'
-          : 'Bids on your Errand',
+      title: DetailHeader({
+        errand,
+        user_id: userId,
+        singleSubErrand: subErrand,
+        manageErrandClicked: false,
+      }),
       headerLeft: () => (
         <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
           <AntDesign name="arrowleft" size={24} color="#243763" />
@@ -85,14 +94,59 @@ const MyErrandInfo = ({ navigation }: any) => {
       ),
       headerRight: () => (
         <View className="pr-3">
-          <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
-            <Entypo name="dots-three-vertical" color={'black'} size={20} />
+          <TouchableOpacity onPress={() => {}}>
+            <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
+              <MenuTrigger>
+                <Entypo name="dots-three-vertical" color={'black'} size={16} />
+              </MenuTrigger>
+              <MenuOptions
+                customStyles={{
+                  optionsContainer: {
+                    padding: 4,
+                    width: 150,
+                    marginTop: 20,
+                  },
+                }}
+              >
+                {errand.user_id === userId && errand?.status === 'active' && (
+                  <MenuOption
+                    onSelect={() => alert(`Save`)}
+                    text="Completed Errand"
+                    customStyles={{
+                      optionWrapper: {
+                        borderBottomWidth: 0.2,
+                        borderBottomColor: '#AAAAAA',
+                      },
+                      optionText: { textAlign: 'center', fontWeight: '600' },
+                    }}
+                  />
+                )}
+                <MenuOption
+                  onSelect={() => alert(`Save`)}
+                  text="Details"
+                  customStyles={{
+                    optionWrapper: {
+                      borderBottomWidth: 0.2,
+                      borderBottomColor: '#AAAAAA',
+                    },
+                    optionText: { textAlign: 'center', fontWeight: '600' },
+                  }}
+                />
+                <MenuOption
+                  onSelect={() => alert(`Save`)}
+                  text="Refresh"
+                  customStyles={{
+                    optionText: { textAlign: 'center', fontWeight: '600' },
+                  }}
+                />
+              </MenuOptions>
+            </Menu>
           </TouchableOpacity>
         </View>
       ),
     })
     getUserId()
-  }, [user, negotiateRef, successDialogueRef])
+  }, [user, errand])
 
   return (
     <>
@@ -107,6 +161,7 @@ const MyErrandInfo = ({ navigation }: any) => {
             errand={errand}
             user_id={userId}
             singleSubErrand={subErrand}
+            loadingErrand={loadingErrand}
           />
         </KeyboardAwareScrollView>
       ) : (
@@ -114,15 +169,6 @@ const MyErrandInfo = ({ navigation }: any) => {
           <ScrollView className="px-3">
             {/* // errand details and bid screen */}
             <View>
-              {/* <MyErrandToggle
-                selectedTab={selectedTab}
-                setSelectedItem={setSelectedItem}
-              /> */}
-
-              {/* {selectedTab === 'details' && (
-                <MyErrandDetails errand={errand} user_id={userId} />
-              )} */}
-              {/* {selectedTab === 'bids' && ( */}
               <BidWrapper
                 errand={errand}
                 userId={userId}

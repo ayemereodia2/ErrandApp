@@ -29,6 +29,7 @@ import WalletScreen from '../screens/Wallets'
 import { RootStackParamList } from '../types'
 import BottomTab from './BottomTab'
 import DrawerNavigator from './DrawerNav'
+import ErrandTimeline from '../screens/ErrandTimeline/ErrandTimeline'
 
 // import DrawerNav from './DrawerNav'
 
@@ -195,6 +196,12 @@ export function RootNavigator() {
       <Stack.Screen
         name="EditProfile"
         component={EditProfileTitle}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="ErrandTimeline"
+        component={ErrandTimeline}
         options={{ headerShown: false }}
       />
 

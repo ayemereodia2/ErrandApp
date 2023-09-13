@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData, SingleSubErrand } from '../../types'
+import { formatDate } from '../../utils/helper'
 import ChatInput from './ChatInput'
 import MessagesList from './MessageList'
 
@@ -21,6 +22,7 @@ const Timeline = ({
   user_id,
   manageErrandClicked,
   singleSubErrand,
+  loadingErrand,
 }: Props) => {
   // const { username, bio, picture, isBlocked, isMuted } = route.params;
   const [reply, setReply] = useState('')
@@ -58,14 +60,36 @@ const Timeline = ({
   }, [])
 
   return (
-    <View style={{ flex: 1 }}>
-      <MessagesList timeline={timeline} onSwipeToReply={swipeToReply} />
-      <ChatInput
-        reply={reply}
-        isLeft={isLeft}
-        closeReply={closeReply}
-        username={'helllo'}
-      />
+    <View style={{ flex: 1, backgroundColor: '#F8F9FC' }}>
+      {loadingErrand ? (
+        <View>
+          <ActivityIndicator size={'large'} />
+        </View>
+      ) : (
+        <>
+          <View className="h-[56px] bg-[#FEE1CD] mx-4 items-center justify-center border border-[#C85604] mt-4 rounded-lg">
+            {errand.status === 'active' && (
+              <Text className="font-medium text-sm px-4">
+                This Errand is expected to be Completed on{' '}
+                {formatDate(errand.updated_at)}
+              </Text>
+            )}
+            {errand.status === 'completed' && (
+              <Text className="font-medium text-sm px-4">
+                This Errand has been completed
+              </Text>
+            )}
+          </View>
+
+          <MessagesList timeline={timeline} onSwipeToReply={swipeToReply} />
+          <ChatInput
+            reply={reply}
+            isLeft={isLeft}
+            closeReply={closeReply}
+            username={'helllo'}
+          />
+        </>
+      )}
     </View>
   )
 }

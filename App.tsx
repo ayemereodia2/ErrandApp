@@ -2,20 +2,20 @@
 
 // import { SafeAreaProvider } from 'react-native-safe-area-context'
 // import { Provider } from 'react-redux'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AppStateStatus, Platform } from 'react-native'
 import 'react-native-gesture-handler'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { MenuProvider } from 'react-native-popup-menu'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
-import { focusManager} from 'react-query'
+import { focusManager } from 'react-query'
 import { Provider } from 'react-redux'
 import useCachedResources from './hooks/useCachedResources'
 import useColorScheme from './hooks/useColorScheme'
 import { useOnlineManager } from './hooks/useOnlineManager'
 import Navigation from './navigation'
 import { store } from './services/store'
-import {QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
 
 const queryClient = new QueryClient()
 
@@ -43,12 +43,14 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <>
-            <Provider store={store}>
-              <SafeAreaProvider>
-                <Navigation />
-              </SafeAreaProvider>
-              <Toast />
-            </Provider>
+            <MenuProvider>
+              <Provider store={store}>
+                <SafeAreaProvider>
+                  <Navigation />
+                </SafeAreaProvider>
+                <Toast />
+              </Provider>
+            </MenuProvider>
           </>
         </GestureHandlerRootView>
       </QueryClientProvider>

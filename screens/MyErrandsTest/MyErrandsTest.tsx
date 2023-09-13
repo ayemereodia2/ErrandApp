@@ -7,18 +7,20 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native'
-import ErrandTexts from '../../components/ErrandTexts/ErrandTexts'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+// import ErrandTexts from '../../components/ErrandTexts/ErrandTexts'
 
-const MyErrandsTest = ({ navigation }: any) => {
+const MyErrandsTest = ({navigation}:any) => {
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
       title: 'My Errands',
       headerStyle: { backgroundColor: '#F8F9FC' },
       headerLeft: () => (
-        <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
+        <View className="flex-row items-center justify-between mx-0 px-3 py-3">
           <TouchableOpacity
             onPress={() => navigation.openDrawer()}
             className="flex-row items-center"
@@ -28,8 +30,17 @@ const MyErrandsTest = ({ navigation }: any) => {
           </TouchableOpacity>
         </View>
       ),
-    })
-  }, [])
+      headerRight: () => (
+        <View className="flex-row items-center justify-between mx-0 px-3 py-3 mr-2">
+          <TouchableWithoutFeedback>
+            <Text><Entypo name="dots-three-vertical" size={21} color="black" /></Text>
+          </TouchableWithoutFeedback>
+        </View>
+      ),
+    });
+  }, []);
+  
+
 
   return (
     <SafeAreaView className="bg-[#F8F9FC]">
@@ -57,7 +68,7 @@ const MyErrandsTest = ({ navigation }: any) => {
 
       {/* Main Body */}
 
-      <ScrollView>
+      {/* <ScrollView>
         <View className="mt-4 mx-4 flex-row">
           <View className="w-[176px] h-[40px] px-6 bg-[#E6E6E6] justify-center mr-7">
             <View className="flex-row items-center justify-around">
@@ -69,22 +80,12 @@ const MyErrandsTest = ({ navigation }: any) => {
             </View>
           </View>
 
-          {/*Second Part */}
-          <View className="w-[176px] h-[40px] px-6 bg-[#E6E6E6] justify-center mr-7">
-            <View className="flex-row items-center justify-around">
-              <Text className="text-center text-base font-medium">
-                All Errands
-              </Text>
-              <Text>
-                {' '}
-                <AntDesign name="down" size={16} color="black" />{' '}
-              </Text>
-            </View>
-          </View>
-        </View>
+                <ErrandTexts navigation={navigation}/>
+                
+            </ScrollView>
 
         <ErrandTexts />
-      </ScrollView>
+      </ScrollView> */}
     </SafeAreaView>
   )
 }

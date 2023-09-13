@@ -1,9 +1,9 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import Toast from 'react-native-toast-message';
 import { _fetch } from '../axios/http';
 import { securityQuesitions } from './questions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 type Props = {
@@ -19,10 +19,10 @@ export const verifyPhone = createAsyncThunk("/user/verifyPhone", async ({ naviga
 
 
 
-    const _rs = await _fetch({ _url: '/user/verify-phone', method: 'POST', body: JSON.stringify({ phone_number }) })
+    const _rs = await _fetch({ _url: '/user/verify-phone', method: 'POST', body: { phone_number } })
     const rs = await _rs.json()
 
-    // console.log(">>>>>dta", rs);
+    console.log(">>>>>dta", rs);
     
 
     if (from === 'passwordRecovery') {
@@ -37,7 +37,7 @@ export const verifyPhone = createAsyncThunk("/user/verifyPhone", async ({ naviga
         }
     } else 
 
-    if (from === "createAccount") {
+      if (from === "createAccount") {      
         if (rs.success === false) {
             // toast.error("");
             Toast.show({
@@ -88,7 +88,7 @@ const verifyPhoneSlice = createSlice({
     builder.addCase(verifyPhone.fulfilled, (state, action) => {
       state.loading = false;
       state.error = "";
-      console.log(">>>>>action,", action.payload);
+      // console.log(">>>>>action,", action.payload);
       
       state.status = action.payload
     });

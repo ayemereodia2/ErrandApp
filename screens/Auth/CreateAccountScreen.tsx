@@ -83,9 +83,9 @@ export default function CreateAccountScreen() {
           <View className="px-4">
             <Logo />
 
-            <View className="text-[#333333] font-inter py-4 space-y-1">
-              <Text className="font-semibold text-xl">Create an Account</Text>
-              <Text className="text-sm">
+            <View className="text-[#333333] font-inter pb-4 space-y-1">
+              <Text className="font-semibold text-xl text-center">Create an Account</Text>
+              <Text className="text-sm text-center">
                 Let’s get started and create a Profile for you
               </Text>
 
