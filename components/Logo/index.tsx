@@ -26,7 +26,7 @@ export const Logo = () => {
     <>
       <TouchableOpacity
         onPress={() => navigation.navigate('Home')}
-        className="flex-row justify-end mt-4 mr-3"
+        className="flex-row justify-end mt-16 mr-3"
       >
         <AntDesign name="close" size={26} />
       </TouchableOpacity>

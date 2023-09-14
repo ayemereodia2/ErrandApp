@@ -3,6 +3,7 @@ import { Entypo, EvilIcons, MaterialIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useLayoutEffect } from 'react'
 import {
+  ActivityIndicator,
   Image,
   TextInput,
   TouchableOpacity,
@@ -30,7 +31,7 @@ const ErrandScreen = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
   const layout = useWindowDimensions()
 
-  const { data: myErrands } = useSelector(
+  const { data: myErrands, loading } = useSelector(
     (state: RootState) => state.myErrandReducer,
   )
 
@@ -102,43 +103,51 @@ const ErrandScreen = ({ navigation }: any) => {
         {!myErrands ? (
           <MyErrandEmptyState />
         ) : (
-          <View>
-            <View className="bg-[#F8F9FC] ">
-              <View className="mx-4 mt-4">
-                <View className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
-                  <EvilIcons name="search" size={22} className="w-1/12" />
-                  <TextInput
-                    className=" w-9/12"
-                    placeholder="Search for Errands or Bids"
-                    placeholderTextColor="#808080"
-                  />
+          <>
+            {loading ? (
+              <ActivityIndicator color="blue" size="large" />
+            ) : (
+              <View>
+                <View className="bg-[#F8F9FC] ">
+                  <View className="mx-4 mt-4">
+                    <View className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
+                      <EvilIcons name="search" size={22} className="w-1/12" />
+                      <TextInput
+                        className=" w-9/12"
+                        placeholder="Search for Errands or Bids"
+                        placeholderTextColor="#808080"
+                      />
 
-                  <Image
-                    style={{
-                      width: 30,
-                      height: 30,
-                      resizeMode: 'contain',
-                    }}
-                    source={require('../../assets/images/filter.png')}
-                  />
+                      <Image
+                        style={{
+                          width: 30,
+                          height: 30,
+                          resizeMode: 'contain',
+                        }}
+                        source={require('../../assets/images/filter.png')}
+                      />
+                    </View>
+                  </View>
                 </View>
+
+                <MyErrandToggle />
+
+                <ScrollView className="mt-6">
+                  {myErrands?.map((errand, index) => {
+                    return (
+                      <View key={index}>
+                        <MyErrandCard
+                          index={index}
+                          errand={errand}
+                          navigation={navigation}
+                        />
+                      </View>
+                    )
+                  })}
+                </ScrollView>
               </View>
-            </View>
-
-            <MyErrandToggle />
-
-            <ScrollView className="mt-6">
-              {myErrands?.map((errand, index) => {
-                return (
-                  <MyErrandCard
-                    index={index}
-                    errand={errand}
-                    navigation={navigation}
-                  />
-                )
-              })}
-            </ScrollView>
-          </View>
+            )}
+          </>
         )}
       </View>
     </ScrollView>

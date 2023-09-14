@@ -1,24 +1,16 @@
-import React, { useState, useEffect, useRef, memo } from "react";
+import React, { useEffect, useState } from "react";
 import {
-	View,
-	Text,
-	StyleSheet,
-	TextInput,
-	Platform,
-	TouchableOpacity,
+  Platform, StyleSheet, Text, TextInput, TouchableOpacity, View
 } from "react-native";
 
 import Animated, {
-	useSharedValue,
-	withSpring,
-	withTiming,
-	useAnimatedStyle,
+  useAnimatedStyle, useSharedValue,
+  withSpring,
+  withTiming
 } from "react-native-reanimated";
 
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
-import EmojiPicker from "./Emoji";
 
-import { useKeyboard } from "@react-native-community/hooks";
 
 import { theme } from "../../theme";
 import { Timelines } from "../../types";
@@ -64,7 +56,7 @@ const ChatInput = ({ reply, closeReply, isLeft, username }: ChatInputProp) => {
 
 
 	return (
-		<Animated.View style={[styles.container, heightAnimatedStyle]}>
+		<Animated.View  className="" style={[styles.container, heightAnimatedStyle]}>
 			{reply ? (
 				<View style={styles.replyContainer}>
 					<TouchableOpacity
@@ -129,7 +121,7 @@ const ChatInput = ({ reply, closeReply, isLeft, username }: ChatInputProp) => {
 };
 
 const styles = StyleSheet.create({
-	container: {
+  container: {
 		justifyContent: "center",
 		backgroundColor: theme.colors.white,
 	},

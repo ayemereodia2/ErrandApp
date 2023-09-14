@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 45,
     borderWidth: 0,
-    borderBottomWidth: 1,
+    // borderBottomWidth: 1,
     color: '#243763',
     fontSize: 20,
   },

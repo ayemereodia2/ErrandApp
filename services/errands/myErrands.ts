@@ -19,24 +19,15 @@ export const myErrandList = createAsyncThunk<ErrandMarketResponse, Props, { reje
 
           const rs = await _rs.json()
 
-          // console.log(">>>>>rs", rs);
+          console.log(">>>>>rs----", rs);
           
 
           // console.log(">>>>errands", rs.data);
           
 
-            if (rs.success === true) {
-                // setSearchedErrand(rs.data?.sort(
-                //     (a: MarketData, b: MarketData) =>
-                //         new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
-                // ))
-                // dispatch(errandDetails({ errandId: rs?.data.data[0].id }))
-                // return rs.data?.sort(
-                //     (a: MarketData, b: MarketData) =>
-                //         new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
-                // )
+            
               return rs
-            }
+            
         } catch (err) {
             if (err instanceof AxiosError) {
                 if (err.response?.status === 400) {

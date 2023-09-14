@@ -63,7 +63,7 @@ export default function LoginScreen() {
           <View className="px-4">
             <Logo />
 
-            <View className="text-[#333333] font-inter mt-0 pb-4 space-y-1">
+            <View className="text-[#333333] font-inter mt-4 pb-4 space-y-1">
               <Text className="font-semibold text-xl text-center">
                 Welcome Back, Please Login
               </Text>

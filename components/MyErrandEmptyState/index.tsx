@@ -29,7 +29,7 @@ export const MyErrandEmptyState = () => {
 
       <View className=" items-center">
         <TouchableOpacity
-          className="bg-[#314B87] h-12 w-4/6 mt-6 flex-row justify-center items-center rounded-lg"
+          className="bg-[#314B87] h-12 w-[300px] mt-6 flex-row justify-center items-center rounded-lg"
           onPress={() => {}}
         >
           <Text className="text-white text-base">Create Errand</Text>
@@ -39,7 +39,7 @@ export const MyErrandEmptyState = () => {
           onPress={() => {
             navigate.navigate('Main')
           }}
-          className="bg-white h-12 w-4/6 mt-6 flex-row justify-center items-center rounded-lg border-[0.6px] border-[#314B87]"
+          className="bg-white h-12 w-[300px] mt-6 flex-row justify-center items-center rounded-lg border-[0.6px] border-[#314B87]"
         >
           <Text className="text-base text-[#314B87]">Visit Market</Text>
         </TouchableOpacity>

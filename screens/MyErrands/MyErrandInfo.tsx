@@ -5,9 +5,14 @@ import {
 } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useRef, useState } from 'react'
-import { TouchableOpacity, useWindowDimensions, View } from 'react-native'
+import {
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import {
   Menu,
   MenuOption,
@@ -114,7 +119,7 @@ const MyErrandInfo = ({ navigation }: any) => {
                     text="Completed Errand"
                     customStyles={{
                       optionWrapper: {
-                        borderBottomWidth: 0.2,
+                        // borderBottomWidth: 0.2,
                         borderBottomColor: '#AAAAAA',
                       },
                       optionText: { textAlign: 'center', fontWeight: '600' },
@@ -126,7 +131,7 @@ const MyErrandInfo = ({ navigation }: any) => {
                   text="Details"
                   customStyles={{
                     optionWrapper: {
-                      borderBottomWidth: 0.2,
+                      // borderBottomWidth: 0.2,
                       borderBottomColor: '#AAAAAA',
                     },
                     optionText: { textAlign: 'center', fontWeight: '600' },
@@ -151,11 +156,9 @@ const MyErrandInfo = ({ navigation }: any) => {
   return (
     <>
       {errand?.status === 'active' || errand?.status === 'completed' ? (
-        <KeyboardAwareScrollView
+        <KeyboardAvoidingView
           style={{ flex: 1 }}
-          contentContainerStyle={{ flexGrow: 1 }}
-          enableOnAndroid={true}
-          extraScrollHeight={30}
+          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
         >
           <Timeline
             errand={errand}
@@ -163,7 +166,7 @@ const MyErrandInfo = ({ navigation }: any) => {
             singleSubErrand={subErrand}
             loadingErrand={loadingErrand}
           />
-        </KeyboardAwareScrollView>
+        </KeyboardAvoidingView>
       ) : (
         <BottomSheetModalProvider>
           <ScrollView className="px-3">

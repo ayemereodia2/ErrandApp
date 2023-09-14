@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useSelector } from 'react-redux'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -7,6 +8,7 @@ import { MarketData, SingleSubErrand } from '../../types'
 import { formatDate } from '../../utils/helper'
 import ChatInput from './ChatInput'
 import MessagesList from './MessageList'
+import { Dimensions } from 'react-native';
 
 interface Props {
   errand: MarketData
@@ -60,13 +62,13 @@ const Timeline = ({
   }, [])
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#F8F9FC' }}>
+    <KeyboardAvoidingView style={{ flex: 1 }}behavior={Platform.OS == "ios" ? "padding" : "height"}>
       {loadingErrand ? (
         <View>
           <ActivityIndicator size={'large'} />
         </View>
       ) : (
-        <>
+        <View>
           <View className="h-[56px] bg-[#FEE1CD] mx-4 items-center justify-center border border-[#C85604] mt-4 rounded-lg">
             {errand.status === 'active' && (
               <Text className="font-medium text-sm px-4">
@@ -80,17 +82,16 @@ const Timeline = ({
               </Text>
             )}
           </View>
-
-          <MessagesList timeline={timeline} onSwipeToReply={swipeToReply} />
-          <ChatInput
-            reply={reply}
-            isLeft={isLeft}
-            closeReply={closeReply}
-            username={'helllo'}
-          />
-        </>
+            <MessagesList timeline={timeline} onSwipeToReply={swipeToReply} />
+            <ChatInput
+              reply={reply}
+              isLeft={isLeft}
+              closeReply={closeReply}
+              username={'helllo'}
+            />
+        </View>
       )}
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 

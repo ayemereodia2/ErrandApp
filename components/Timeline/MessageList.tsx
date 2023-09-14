@@ -3,6 +3,7 @@ import { ScrollView } from 'react-native'
 
 import Message from './Message'
 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { getTimeAgo } from '../../utils/helper'
 import { ChatInputProp } from './ChatInput'
 
@@ -60,21 +61,23 @@ const MessagesList = ({ onSwipeToReply, timeline }: ChatInputProp) => {
 
   return (
     <ScrollView
-      style={{ backgroundColor: '#F8F9FC', flex: 1 }}
+      style={{ backgroundColor: '#F8F9FC', height: '80%' }}
       ref={(ref) => (scrollView.current = ref)}
       // onContentChange={() => {
       // 	scrollView.current.scrollToEnd({ animated: true })
       // }}
     >
-      {timeline?.updates.map((message, index) => (
-        <Message
-          key={index}
-          time={getTimeAgo(message.created_at)}
-          isLeft={message.source !== user.current}
-          message={message.message}
-          onSwipe={onSwipeToReply}
-        />
-      ))}
+      <KeyboardAwareScrollView>
+        {timeline?.updates.map((message, index) => (
+          <Message
+            key={index}
+            time={getTimeAgo(message.created_at)}
+            isLeft={message.source !== user.current}
+            message={message.message}
+            onSwipe={onSwipeToReply}
+          />
+        ))}
+      </KeyboardAwareScrollView>
     </ScrollView>
   )
 }

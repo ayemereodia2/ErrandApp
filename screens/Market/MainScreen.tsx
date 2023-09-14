@@ -111,7 +111,7 @@ export default function MainScreen({ navigation }: any) {
                 text="Profile"
                 customStyles={{
                   optionWrapper: {
-                    borderBottomWidth: 0.2,
+                    // borderBottomWidth: 0.2,
                     borderBottomColor: '#AAAAAA',
                   },
                   optionText: { textAlign: 'center', fontWeight: '600' },

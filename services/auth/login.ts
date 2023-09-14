@@ -18,6 +18,8 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
 
     const _rs = await rs.json()
 
+    
+
     if (_rs.success === true) {
       await AsyncStorage.setItem('accessToken', _rs.data.access_token )
       await AsyncStorage.setItem('refreshToken', _rs.data.refresh_token)
@@ -41,6 +43,8 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
     }
 
   } catch (e: any) {
+    console.log(">>>>>>> e");
+    
      if (e.response.status === 400) {
       // toast.error("Invalid Login Credentials")
       return rejectWithValue(e.response.data.message)
@@ -78,7 +82,7 @@ const loginSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.rejected, (state, action) => {
-      console.log(">>>>rejecgt", state.error)
+      console.log(">>>>rejecgt", state)
       state.error = action.payload;
       state.loading = false;
     });
