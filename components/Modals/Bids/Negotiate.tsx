@@ -72,7 +72,7 @@ const NegotiateBid = ({
       <View className="px-4 mt-4">
         <Text className="text-sm text-[#243763] font-semibold">Amount</Text>
 
-        <View className="border border-[#E6E6E6] bg-[#CBD5EC]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
+        <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
           <Text className="text-lg ">&#x20A6;</Text>
 
           <BottomSheetTextInput
@@ -91,7 +91,7 @@ const NegotiateBid = ({
           Enter Comment{' '}
         </Text>
 
-        <View className="w-full border bg-[#CBD5EC] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3">
+        <View className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3">
           <BottomSheetTextInput
             className={
               'w-full border bg-[#CBD5EC] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3'

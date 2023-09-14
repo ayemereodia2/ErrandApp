@@ -1,43 +1,38 @@
+import { AntDesign } from '@expo/vector-icons'
 import React from 'react'
 import { Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 
 interface ToggleProp {
   selectedTab: string
   setSelectedItem: React.Dispatch<React.SetStateAction<string>>
 }
 
-const MyErrandToggle = ({ selectedTab, setSelectedItem }: ToggleProp) => {
+const MyErrandToggle = () => {
   return (
-    <View className="w-full border-[#243763] border-[0.6px] h-10 flex-row mt-6">
-      <View
-        className={`${
-          selectedTab === 'details' ? 'bg-[#243763] text-white' : 'bg-white'
-        }  w-1/2 justify-center items-center text-sm cursor-pointer`}
-      >
-        <TouchableOpacity onPress={() => setSelectedItem('details')}>
-          <Text
-            className={
-              selectedTab === 'details' ? 'text-white' : 'text-[#243763]'
-            }
-          >
-            Errand Details
+    <View className="mt-4 mx-4 flex-row space-x-3">
+      <View className=" h-[40px] px-6 bg-[#E6E6E6] justify-center rounded-lg border-black border-3">
+        <View className="flex-row items-center justify-around space-x-10">
+          <Text className="text-center text-base font-medium text-[#4D4D4D]">
+            My Bids
           </Text>
-        </TouchableOpacity>
+          <Text>
+            {' '}
+            <AntDesign name="down" size={12} color="black" />{' '}
+          </Text>
+        </View>
       </View>
 
-      <View
-        className={`${
-          selectedTab === 'bids' ? 'bg-[#243763] text-white' : 'bg-white'
-        } w-1/2 text-sm justify-center items-center cursor-pointer`}
-      >
-        <TouchableOpacity onPress={() => setSelectedItem('bids')}>
-          <Text
-            className={selectedTab === 'bids' ? 'text-white' : 'text-[#243763]'}
-          >
-            Bids
+      {/*Second Part */}
+      <View className=" h-[40px] px-6 bg-[#E6E6E6] justify-center rounded-lg">
+        <View className="flex-row items-center space-x-8">
+          <Text className="text-center text-base font-medium text-[#4D4D4D]">
+            All Errands
           </Text>
-        </TouchableOpacity>
+          <Text>
+            {' '}
+            <AntDesign name="down" size={12} color="black" />{' '}
+          </Text>
+        </View>
       </View>
     </View>
   )

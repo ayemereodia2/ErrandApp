@@ -1,6 +1,6 @@
 import {
   Feather,
-  FontAwesome,
+  FontAwesome5,
   Ionicons,
   MaterialCommunityIcons,
 } from '@expo/vector-icons'
@@ -21,16 +21,18 @@ const ActionButton = ({
   onPress,
 }: ActionBtnProp) => {
   return (
-    <TouchableOpacity onPress={onPress} className="mx-2">
+    <TouchableOpacity onPress={onPress} className="mx-1">
       <View className={className}>
         {name === 'x' ? (
-          <Feather name="x" size={24} color="#FF0000" />
+          <Feather name="x" size={16} color="#FF0000" />
         ) : name === 'run-fast' ? (
-          <MaterialCommunityIcons color={'green'} name="run-fast"  size={22} />
-        ) : name === 'comment ' ? (
-          <FontAwesome name="commenting-o" size={24} color="#317ACF" />
+          <MaterialCommunityIcons color={'green'} name="run-fast" size={16} />
+        ) : name === 'checkmark' ? (
+          <Ionicons name="checkmark" size={16} color={iconColor} />
+        ) : name === 'commenting ' ? (
+          <FontAwesome5 name="comment" size={24} color="#317ACF" />
         ) : (
-          <Ionicons name={name} size={24} color={iconColor} />
+          ''
         )}
       </View>
     </TouchableOpacity>

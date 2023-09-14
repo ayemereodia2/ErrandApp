@@ -1,7 +1,7 @@
 import { Entypo, EvilIcons, FontAwesome5 } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { errandDetails } from '../../services/errands/errandDetails'
 import { useAppDispatch } from '../../services/store'
@@ -56,25 +56,39 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
       <View className=" flex-row items-start mt-4">
         <View className="flex-row items-start justify-between gap-3">
           <View className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center">
-            <Text className="uppercase text-lg items-center text-white">
-              {/* {haggle.source === 'sender'
-                  ? sender.first_name.charAt(0).toUpperCase()
-                  : bid?.runner?.first_name.charAt(0).toUpperCase()} */}
-              SO
-              {/* {haggle.source === 'sender'
-                  ? sender.last_name.charAt(0).toUpperCase()
-                  : bid?.runner?.last_name.charAt(0).toUpperCase()} */}
-            </Text>
+            {errand.user.profile_picture ? (
+              <Image
+                style={{
+                  width: 40,
+                  height: 40,
+                  resizeMode: 'contain',
+                  borderRadius:20
+                }}
+                alt="okay"
+                src={errand.user.profile_picture}
+                // source={require(errand.user.profile_picture)}
+              />
+            ) : (
+              <Text className="uppercase text-lg items-center text-white">
+                {errand.user.first_name.charAt(0).toUpperCase()}
+                {errand.user.last_name.charAt(0).toUpperCase()}
+              </Text>
+            )}
           </View>
+
           <View className="flex-row justify-between items-center">
             <View className="w-60">
-              <Text className="text-[#000000] text-sm font-bold">Sean Orj</Text>
+              <Text className="text-[#000000] text-sm font-bold"></Text>
               <Text className="text-sm font-semibold">
-                  <Entypo name="star" size={16} color="#FBB955" />
+                <Entypo name="star" size={16} color="#FBB955" />
                 <Text className="text-[14px] text-[#777777] font-medium">
-                  {' '}
-                  1.5  <Text className='text-xs text-[#777777]'>|</Text> 
-                  {/* {sender.errands_completed} */}  <FontAwesome5 name="running" size={12} color="black" />  1
+                  <View className="px-1">
+                    <Text>{errand.user.rating}</Text>
+                  </View>
+                  <Text className="text-[#ccc] font-light text-2xl ">|</Text>
+                  {/* {sender.errands_completed} */}{' '}
+                  <FontAwesome5 name="running" size={14} color="black" />{' '}
+                  {errand.user.errands_completed}
                 </Text>
               </Text>
             </View>
@@ -90,8 +104,14 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
 
       <Text className="text-sm text-[#666666] font-light">
         {' '}
-        <Text><EvilIcons name="location" size={14} color="green" />  </Text>
-        {errand.dropoff_address?.address_text ? truncatedAddressText : <Text>No Location</Text>}
+        <Text>
+          <EvilIcons name="location" size={14} color="green" />{' '}
+        </Text>
+        {errand.dropoff_address?.address_text ? (
+          truncatedAddressText
+        ) : (
+          <Text>No Location</Text>
+        )}
       </Text>
 
       <View className="flex-row items-center">

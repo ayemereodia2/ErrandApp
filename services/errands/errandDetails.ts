@@ -17,6 +17,9 @@ export const errandDetails = createAsyncThunk<SingleErrandDetail, DetailProps, {
           
           const rs = await _rs.json()
 
+          // console.log(">>>>>>>>>rs", rs.data);
+          
+
             if (rs.success === true) {
                 return rs
             }
@@ -32,17 +35,24 @@ const initialState: SingleErrandDetail = {
     error: "",
     loading: true,
 
-    data: {
+  data: {
+         multi_data: {
+          num_of_subErrands: 0,
+          total_amount_spent: 0
+        },
+        errand_type: 0,
         latitude: "",
         longitude: "",
         id: "",
         user_id: "",
         restriction: "",
         pickup_address: {
+          address_text:"",
             type: "",
             coordinates: []
         },
         dropoff_address: {
+          address_text:"",
              type: "",
             coordinates: []
         },
@@ -51,6 +61,7 @@ const initialState: SingleErrandDetail = {
         type: "",
         step: 0,
         category: {
+          icon: "",
             id: "",
             image_url: "",
             identifier: "",
@@ -74,11 +85,41 @@ const initialState: SingleErrandDetail = {
             created_at: "",
             updated_at: "",
         },
-
+      user: {
+        id: "",
+        first_name: "",
+        last_name: "",
+        client: "",
+        created_by: "",
+        token: "",
+        account_numbers: "",
+        is_admin: false,
+        phone_number: "",
+        verification: 0,
+        rating: 0,
+        errands_completed: 0,
+        is_suspended: false,
+        created_at: "",
+        updated_at: "",
+        referral_code: '',
+        email: '',
+        occupation: '',
+        errands_cancelled: 0,
+        image: '',
+        bio: '',
+        dob: '',
+        has_verified_address: false,
+        has_verified_email: false,
+        has_verified_phone: false,
+        has_insurance: false,
+        insurance_amount: 0,
+        referral_info: "",
+        profile_picture:""
+        },
         runner_id: "",
-      amount: 0,
-           has_insurance: false,
-    insurance_amount: 0
+        amount: 0,
+        has_insurance: false,
+        insurance_amount: 0,
     }
 }
 

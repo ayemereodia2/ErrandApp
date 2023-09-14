@@ -1,8 +1,9 @@
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import React, { useRef } from 'react'
-import { SafeAreaView, ScrollView, Text, View } from 'react-native'
+import { SafeAreaView, ScrollView, Text } from 'react-native'
 import { HaggleComponent } from '../../components/MyBidDetails/HaggleDetail'
 import { Bids, Haggles, MarketData } from '../../types'
+import BeginErrandModal from '../Modals/Errands/BeginErrand'
 import ErrandBid from '../MyBidDetails'
 
 interface BidWrapperProp {
@@ -19,18 +20,18 @@ const BidWrapper = ({
   navigation,
   toggleSuccessDialogue,
 }: BidWrapperProp) => {
-  // const acceptBidRef = useRef<BottomSheetModal>(null)
-  // const beginErrandRef = useRef<BottomSheetModal>(null)
+  const acceptBidRef = useRef<BottomSheetModal>(null)
+  const beginErrandRef = useRef<BottomSheetModal>(null)
 
   const acceptPoints = ['40%']
 
-  // function toggleAcceptModal(open: boolean) {
-  //   open ? acceptBidRef.current?.present() : acceptBidRef.current?.dismiss()
-  // }
+  function toggleAcceptModal(open: boolean) {
+    open ? acceptBidRef.current?.present() : acceptBidRef.current?.dismiss()
+  }
 
-  // function toggleBeginErrandModal(open: boolean) {
-  //   open ? acceptBidRef.current?.present() : acceptBidRef.current?.dismiss()
-  // }
+  function toggleBeginErrandModal(open: boolean) {
+    open ? acceptBidRef.current?.present() : acceptBidRef.current?.dismiss()
+  }
 
   let lastHaggle: Haggles = {
     id: '',
@@ -90,14 +91,13 @@ const BidWrapper = ({
     // <BottomSheetModalProvider>
     <SafeAreaView style={{ flex: 1 }} className="">
       <ScrollView scrollEventThrottle={16}>
-
         {errand?.bids.length === 0 && (
           <Text>No Bids has been attached to the errand selected.</Text>
         )}
 
         {userId === errand.user_id && errand.status === 'open' && (
           <>
-            {errand?.bids.map((bid) => {
+            {errand?.bids.map((bid: Bids) => {
               if (bid.state === 'rejected') {
                 return null
               }
@@ -109,8 +109,6 @@ const BidWrapper = ({
                 }
               })
 
-
-
               return (
                 <ErrandBid
                   bid={bid}
@@ -118,6 +116,7 @@ const BidWrapper = ({
                   haggle={hag}
                   errand={errand}
                   navigation={navigation}
+                  toggleAcceptModal={toggleAcceptModal}
                   toggleNegotiateModal={toggleNegotiateModal}
                   toggleSuccessDialogue={toggleSuccessDialogue}
                 />
@@ -134,8 +133,8 @@ const BidWrapper = ({
                 let hag = hags[hags.length - 1]
                 let runner = bid.runner
 
-                console.log(">>>haggle", hag.source);
-                
+                console.log('>>>haggle', hag.source)
+
                 return (
                   <ErrandBid
                     errand={errand}
@@ -200,33 +199,19 @@ const BidWrapper = ({
             </>
           )} */}
 
-        {/* <BottomSheetModal
-            ref={acceptBidRef}
-            index={0}
-            snapPoints={acceptPoints}
-          >
-            <AcceptBid
-              toggleSuccessDialogue={toggleSuccessDialogue}
-              toggleAcceptModal={toggleAcceptModal}
-              bid={bid}
-              errand={errand}
-              user_id={userId}
-            />
-        </BottomSheetModal> */}
-
-        {/* <BottomSheetModal
-            ref={beginErrandRef}
-            index={0}
-            snapPoints={acceptPoints}
-          >
-            <BeginErrandModal
-              toggleSuccessDialogue={toggleSuccessDialogue}
-              toggleBeginErrandModal={toggleBeginErrandModal}
-              bid={errand.bids[0]}
-              errand={errand}
-              user_id={userId}
-            />
-          </BottomSheetModal> */}
+        <BottomSheetModal
+          ref={beginErrandRef}
+          index={0}
+          snapPoints={acceptPoints}
+        >
+          <BeginErrandModal
+            toggleSuccessDialogue={toggleSuccessDialogue}
+            toggleBeginErrandModal={toggleBeginErrandModal}
+            bid={errand.bids[0]}
+            errand={errand}
+            user_id={userId}
+          />
+        </BottomSheetModal>
       </ScrollView>
     </SafeAreaView>
   )

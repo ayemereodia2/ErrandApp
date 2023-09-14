@@ -47,7 +47,7 @@ export default function MainScreen({ navigation }: any) {
       })
       const rs = await _rs.json()
       setLoading(false)
-      // console.log(">>>>>rs", rs)
+      // console.log(">>>>>--------------------------------rs", rs)
       setErrands(rs.data)
     } catch (e) {
       Toast.show({
@@ -92,7 +92,7 @@ export default function MainScreen({ navigation }: any) {
           <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
             <MaterialIcons name="notifications" color={'black'} size={22} />
           </TouchableOpacity>
-          <Menu style={{shadowColor:"none", shadowOpacity:0}}>
+          <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
             <MenuTrigger>
               <Entypo name="dots-three-vertical" color={'black'} size={20} />
             </MenuTrigger>
@@ -161,14 +161,7 @@ export default function MainScreen({ navigation }: any) {
                       placeholder="Search for Errands"
                       placeholderTextColor="#808080"
                     />
-                    {/* <Image
-                      style={{
-                        width: 30,
-                        height: 30,
-                        resizeMode: 'contain',
-                      }}
-                      source={require('../../assets/images/filter.png')}
-                    /> */}
+
                     <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
                       <Text className="p-2 text-center">
                         <Ionicons

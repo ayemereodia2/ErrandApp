@@ -106,7 +106,7 @@ export default function ErrandDetails({ route, navigation }: any) {
     return (
       <BottomSheetModalProvider>
         <SafeAreaView style={{ flex: 1 }} className="bg-[#F8F9FC]">
-          <ScrollView scrollEventThrottle={16}>
+          <ScrollView scrollEventThrottle={16} className={!showBidBtn ? 'mb-10': ''}>
             <TouchableNativeFeedback
               onPress={() => {
                 setShowBidBtn(true)
@@ -126,6 +126,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                           textClass="text-white text-2xl"
                           firstName={user.first_name}
                           lastName={user.last_name}
+                          profile_pic={user.profile_picture}
                           className="w-20 h-20 bg-[#616161] rounded-full text-2xl"
                         />
                         <View className="pt-2">
@@ -245,6 +246,12 @@ export default function ErrandDetails({ route, navigation }: any) {
                   Existing Bids
                 </Text>
 
+                {errand.bids.length === 0 && (
+                  <Text className="p-4 px-6 text-base text-[#555555]">
+                    No existing bids yet
+                  </Text>
+                )}
+
                 {errand.bids.map((bid) => {
                   return (
                     <View className=" shadow-2xl mx-3 p-3 rounded-lg mt-4 ">
@@ -307,19 +314,26 @@ export default function ErrandDetails({ route, navigation }: any) {
               />
             </BottomSheetModal>
           </ScrollView>
+
           {showBidBtn && (
-            <TouchableOpacity
-              className="w-full h-16 absolute bottom-6 flex-row justify-center items-center bg-[#1E3A79]"
-              onPress={() => {
-                openPlaceBid()
-                dispatch(userDetails({ user_id: userId }))
-                setShowBidBtn(false)
-              }}
-            >
-              <Text className="text-white text-base font-medium">
-                Place Your Bid
-              </Text>
-            </TouchableOpacity>
+            <>
+              {errand.user_id !== userId && errand?.status !== 'completed' ? (
+                <TouchableOpacity
+                  className="w-full h-[60px] absolute bottom-0 flex-row justify-center items-center bg-[#1E3A79]"
+                  onPress={() => {
+                    openPlaceBid()
+                    dispatch(userDetails({ user_id: userId }))
+                    setShowBidBtn(false)
+                  }}
+                >
+                  <Text className="text-white text-lg font-medium">
+                    Place Your Bid
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                ''
+              )}
+            </>
           )}
         </SafeAreaView>
       </BottomSheetModalProvider>

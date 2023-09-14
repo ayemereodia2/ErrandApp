@@ -7,18 +7,22 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { BidsProps } from '../../types'
 import { getTimeAgo } from '../../utils/helper'
 import ActionButton from '../ActionButtons'
+import AcceptBid from '../Modals/Bids/Accept'
 
 const ErrandBid = ({
   navigation,
   toggleNegotiateModal,
   toggleSuccessDialogue,
+  toggleAcceptBidModal,
   errand,
   bid,
   user_id,
   haggle,
+  setcurBid,
 }: BidsProps) => {
   const acceptBidRef = useRef<BottomSheetModal>(null)
-  const acceptPoints = ['40%']
+  const acceptPoints = ['46%']
+
   function toggleAcceptModal(open: boolean) {
     open ? acceptBidRef.current?.present() : acceptBidRef.current?.dismiss()
   }
@@ -108,8 +112,16 @@ const ErrandBid = ({
 
         {/* Third one */}
 
-        <View className="flex-row items-center">
-          <View className="bg-[#FEE1CD] rounded-2xl py-2 px-3 mt-2 ">
+        <View className="flex-row justify-between items-center">
+          {bid.state === 'accepted' && (
+            <View className="bg-[#ADF0D1]  rounded-2xl py-1 px-3 mt-2 ">
+              <Text className="text-[#115A38] capitalize text-base font-md">
+                {bid.state}
+              </Text>
+            </View>
+          )}
+
+          <View className="bg-[#FEE1CD] rounded-2xl py-1 px-3 mt-2 ">
             <Text className="text-[#642B02] text-base font-bold">
               &#x20A6;{(haggle?.amount / 100).toLocaleString()}
             </Text>
@@ -123,7 +135,10 @@ const ErrandBid = ({
             <View className="flex-row ml-1 mt-6 items-center justify-between">
               <View className="flex-row gap-2 flex-1 w-3/5">
                 <ActionButton
-                  onPress={() => toggleAcceptModal(true)}
+                  onPress={() => {
+                    toggleAcceptModal(true)
+                    // setcurBid(bid)
+                  }}
                   name="checkmark"
                   iconColor="#33A532"
                   className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#33A532]"
@@ -152,6 +167,20 @@ const ErrandBid = ({
               </TouchableOpacity>
             </View>
           )}
+
+        <BottomSheetModal
+          ref={acceptBidRef}
+          index={0}
+          snapPoints={acceptPoints}
+        >
+          <AcceptBid
+            toggleSuccessDialogue={toggleSuccessDialogue}
+            toggleAcceptModal={toggleAcceptModal}
+            bid={bid}
+            errand={errand}
+            user_id={user_id}
+          />
+        </BottomSheetModal>
       </View>
     </>
   )

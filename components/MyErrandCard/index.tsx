@@ -15,6 +15,7 @@ interface MyErrandCard {
 const MyErrandCard = ({ errand, navigation, index }: MyErrandCard) => {
   const dispatch = useAppDispatch()
 
+
   return (
     <TouchableOpacity
       onPress={() => {
@@ -37,7 +38,17 @@ const MyErrandCard = ({ errand, navigation, index }: MyErrandCard) => {
               <Image
                 source={require('../../assets/images/jagger.jpg')}
                 className="w-8 h-8 b rounded-full"
-              />
+                />
+              // <Image
+              //   style={{
+              //     width: 60,
+              //     height: 60,
+              //     resizeMode: 'contain',
+              //     borderRadius: 30,
+              //   }}
+              //   alt="okay"
+              //   src={errand?.user.profile_picture}
+              // />
             )}
             <Text className="text-sm font-medium">
               {' '}

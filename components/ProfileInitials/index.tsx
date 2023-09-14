@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 
 interface Props {
   firstName?: string
@@ -14,7 +14,7 @@ export function ProfileInitials({
   lastName,
   className = '',
   profile_pic,
-  textClass
+  textClass,
 }: Props) {
   const defaultClasses = `${
     profile_pic ? 'bg-white rounded-full' : 'bg-[#616161] rounded-full'
@@ -22,26 +22,34 @@ export function ProfileInitials({
   const componentClasses = className ? className : defaultClasses
 
   return (
-    <View className={componentClasses}>
-      <View style={styles.headline} className="uppercase items-center">
-        {!profile_pic && (
-          <Text className={textClass}>
-            {firstName && lastName
-              ? firstName.charAt(0).toUpperCase() +
-                lastName.charAt(0).toUpperCase()
-              : ''}
-          </Text>
-        )}
-
-        {profile_pic && (
-          <img
+    <>
+      {profile_pic ? (
+        <View className="border-1 border-[#000] shadow-lg">
+          <Image
+            style={{
+              width: 60,
+              height: 60,
+              resizeMode: 'contain',
+              borderRadius: 30,
+            }}
+            alt="okay"
             src={profile_pic}
-            alt="profile_pic"
-            className={componentClasses}
+            // source={require(errand.user.profile_picture)}
           />
-        )}
-      </View>
-    </View>
+        </View>
+      ) : (
+        <View className={componentClasses}>
+          <View style={styles.headline} className="uppercase items-center">
+            <Text className={textClass}>
+              {firstName && lastName
+                ? firstName.charAt(0).toUpperCase() +
+                  lastName.charAt(0).toUpperCase()
+                : ''}
+            </Text>
+          </View>
+        </View>
+      )}
+    </>
   )
 }
 

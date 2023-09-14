@@ -36,15 +36,15 @@ const AcceptBid = ({
 
   return (
     <View className="py-4 pb-10">
-      <Text className="text-xl text-center font-semibold">Accept Bid</Text>
+      <Text className="text-xl text-center font-semibold mt-2">Accept Bid</Text>
 
-        <Text className="text-sm font-semibold text-[#243763] text-center">
-          Are you sure you want to Accept this bid on your errand?
-        </Text>
+      <Text className="text-sm font-light text-[#4D4D4D] text-center px-8 mt-4">
+        Are you sure you want to accept <Text className='font-semibold'>Enoobong George’s</Text>  bid on your errand?
+      </Text>
 
-      <View className="space-y-4 items-center px-4">
+      <View className="space-y-4 items-center px-4 mt-4">
         <TouchableOpacity
-          className="bg-[#1E3A79] h-12 w-full mx-4 mt-6 flex-row justify-center items-center rounded-lg"
+          className="bg-[#1E3A79] h-14 w-[300px] mt-6 flex-row justify-center items-center rounded-md"
           onPress={() => {
             dispatch(
               bidAction({
@@ -73,7 +73,7 @@ const AcceptBid = ({
         </TouchableOpacity>
 
         <TouchableOpacity
-          className="bg-white h-12 w-full mx-4 mt-6 flex-row justify-center items-center rounded-lg border-[#e90c0c] border-[0.5px]"
+          className="bg-white h-12 w-full mx-4 mt-6 flex-row justify-center items-center rounded-lg"
           onPress={() => {
             toggleAcceptModal(false)
           }}

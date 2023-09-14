@@ -52,13 +52,6 @@ export function RootNavigator() {
   const navigate = useNavigation()
   return (
     <Stack.Navigator>
-      {/* <Stack.Screen name="Root" component={BottomTab} options={{ headerShown: false }} /> */}
-
-      {/* <Stack.Screen
-        name="SecurityQuestions"
-        component={SecurityQuestion}
-        options={{ title: 'Security Question' }}
-      /> */}
       <Stack.Screen
         name="Home"
         component={HomeScreen}

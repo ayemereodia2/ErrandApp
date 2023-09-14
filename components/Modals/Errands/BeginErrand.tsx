@@ -1,17 +1,17 @@
 import React from 'react'
 import {
   ActivityIndicator,
+  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native'
+import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { startErrand } from '../../../services/errands/beginErrand'
 import { RootState, useAppDispatch } from '../../../services/store'
 import { Bids, MarketData } from '../../../types'
-import Toast from 'react-native-toast-message'
-
 
 interface BeginErrandModalProp {
   errand: MarketData
@@ -26,19 +26,24 @@ const BeginErrandModal = ({
   errand,
   user_id,
   toggleSuccessDialogue,
-  toggleBeginErrandModal
+  toggleBeginErrandModal,
 }: BeginErrandModalProp) => {
   const dispatch = useAppDispatch()
 
-  const { loading } = useSelector((state: RootState) => state.startErrandReducer)
+  const { loading } = useSelector(
+    (state: RootState) => state.startErrandReducer,
+  )
 
   return (
     <View className="py-4 pb-10">
-      <Text className="text-xl text-center font-semibold">Begin Errand</Text>
+      <Text className="text-xl text-center font-semibold">Bid Accepted</Text>
 
-        <Text className="text-sm font-semibold text-[#243763] text-center">
-          Are you sure you want to begin this errand?
-        </Text>
+      <Image
+        width={60}
+        height={60}
+        source={require('../../../assets/images/business_men.png')}
+        className="mx-auto"
+      />
 
       <View className="space-y-4 items-center px-4">
         <TouchableOpacity
@@ -51,7 +56,7 @@ const BeginErrandModal = ({
                 toggleBeginErrandModal,
                 toggleSuccessDialogue,
                 Toast,
-                bid_id: bid.id
+                bid_id: bid.id,
               }),
             )
           }}

@@ -164,10 +164,10 @@ export interface ILogin {
 }
 
 export interface ContactData {
-  name: string;
-  email: string;
-  message: string;
-  phone_number: string;
+  name: string
+  email: string
+  message: string
+  phone_number: string
 }
 
 export interface TaskBtnProps {
@@ -349,16 +349,13 @@ export interface MarketData {
   pickup_address: {
     address_text: string
     type: string
-    coordinates: Array<Number>
+    coordinates: number[]
   }
-  // dropoff_address: {
-  //   lat: number;
-  //   lng: number;
-  // };
+  user: UserDetail
   dropoff_address: {
     address_text: string
     type: string
-    coordinates: Array<Number>
+    coordinates: number[]
   }
   budget: number
   description: string
@@ -482,10 +479,11 @@ export interface CategoriesList {
   identifier: string
   name: string
   type: string
-  // created_by: string;
-  // modified_by: [];
-  // created_at: string;
-  // updated_at: string;
+  image_url: string
+  created_by: string
+  modified_by: []
+  created_at: string
+  updated_at: string
 }
 
 export interface StartErrandProps {
@@ -682,4 +680,7 @@ export interface BidsProps {
   last?: boolean
   lastHaggle?: Haggles
   toggleBeginErrandModal?: any
+  toggleAcceptBidModal?: any
+  setcurBid?: React.Dispatch<React.SetStateAction<Bids>>
+  curBid?: Bids
 }
