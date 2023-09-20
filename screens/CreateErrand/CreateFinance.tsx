@@ -1,7 +1,7 @@
 import { AntDesign } from '@expo/vector-icons'
 import React from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
-import { ScrollView, TextInput } from 'react-native-gesture-handler'
+import { Text, TouchableOpacity, View, ScrollView, TextInput } from 'react-native'
+// import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import DropdownComponent from '../../components/Picker/DropdownComponent'
 
 const CreateFinance = ({ navigation }: any) => {

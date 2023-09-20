@@ -3,8 +3,8 @@ import React, { useLayoutEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Entypo, Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { ScrollView } from 'react-native-gesture-handler'
-import SettingsTest from '../../components/SettingTest/SettingsTest'
-import SettingsCategory from '../../components/SettingTest/SettingsCategory'
+import SettingsTest from '../../components/SettingTestFolder/SettingsTest'
+import SettingsCategory from '../../components/SettingTestFolder/SettingsCategory'
 
 
 
@@ -48,10 +48,13 @@ const SettingScreen = ({navigation}:any) => {
       </View>
     </View>
 
-    
-    <SettingsTest />
+      <View>
+      <SettingsTest />
+      </View>
 
-    <SettingsCategory />
+        <View>
+        <SettingsCategory />
+        </View>
 
     <View className='mt-8 ml-4'>
       <Text className='pb-2 text-base font-bold leading-6'>REFERRAL CODE</Text>

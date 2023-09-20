@@ -50,44 +50,52 @@ const UserProfile = ({data}:any) => {
 
   return (
     <ScrollView>
-     <View className='w-[380px] mx-auto mt-6 bg-[#FAFAFA]'>
+     <View className='w-[380px] mx-auto mt-6 '>
         <View className='flex-row justify-between items-center ml-4 mr-4 '>
-          <Text className='text-base text-[#1E3A79] font-semibold pt-6 pb-6'>About</Text>
-          <Text><MaterialIcons name="edit" size={20} color="black" /></Text>
+          <Text className='text-base  font-semibold pt-1 pb-3'>About</Text>
         </View>
-        <Text className=' ml-4 pb-10 leading-6'>
+        <Text className=' ml-4 pb-6 leading-6'>
           {data?.data.bio}
         </Text>
       </View>
 
 
-      <View className='w-[380px] mx-auto mt-6 bg-[#FAFAFA]'>
+      <View className='w-[380px] mx-auto mt-6 '>
         <View className='flex-row justify-between items-center ml-4 mr-4 '>
-          <Text className='text-base text-[#1E3A79] font-semibold pt-6 pb-6'>Email address / Phone number</Text>
-          <Text><MaterialIcons name="edit" size={20} color="black" /></Text>
+          <Text className='text-base font-semibold pt-1 pb-3'>Email address</Text>
         </View>
-        <Text className=' ml-4 leading-6  pb-10'>
-        {data?.data.email}   <Text>{data?.data.phone_number}</Text>   </Text>
+        <Text className=' ml-4 leading-6  pb-6'>{data?.data.email} </Text>
+      </View>
+
+      <View className='w-[380px] mx-auto mt-6 '>
+        <View className='flex-row justify-between items-center ml-4 mr-4 '>
+          <Text className='text-base font-semibold pt-1 pb-3'>Phone number</Text>
+        </View>
+        <Text className=' ml-4 leading-6 pb-6'>{data?.data.phone_number}</Text>
+      </View>
+
+      <View className='w-[380px] mx-auto mt-6 '>
+        <View className='flex-row justify-between items-center ml-4 mr-4 '>
+          <Text className='text-base font-semibold pt-1 pb-3'>Date of birth</Text>
+        </View>
+        <Text className=' ml-4 leading-6  pb-6'>{data?.data.dob}</Text>
       </View>
 
 
-      <View className='w-[380px] mx-auto mt-6 bg-[#FAFAFA]'>
-        <View className='flex-row justify-between items-center ml-4 mr-4 pt-6 pb-6'>
-          <Text className='text-base text-[#1E3A79] font-semibold'>Referral code / Date of birth</Text>
-          <Text><MaterialIcons name="edit" size={20} color="black" /></Text>
+      <View className='w-[380px] mx-auto mt-6 '>
+        <View className='flex-row justify-between items-center ml-4 mr-4 pt-1 pb-3'>
+          <Text className='text-base font-semibold'>Referral code</Text>
         </View>
-        <Text className=' ml-4 pb-10 leading-6'>
-        {data?.data.referral_code}  <Text>{data?.data.dob}</Text>     </Text>
+        <Text className=' ml-4 pb-6 leading-6'>{data?.data.referral_code}</Text>
       </View>
 
 
-      <View className='w-[380px] mx-auto mt-6 bg-[#FAFAFA]'>
+      <View className='w-[380px] mx-auto mt-6 mb-24'>
         <View className='flex-row justify-between items-center ml-4 mr-4'>
-          <Text className='text-base text-[#1E3A79] font-semibold pt-6 pb-6'>Referral information</Text>
-          <Text><MaterialIcons name="edit" size={20} color="black" /></Text>
+          <Text className='text-base font-semibold pt-1 pb-3'>Referral information</Text>
         </View>
-        <Text className=' ml-4 pb-10 leading-6 mb-20'>
-        Lorem ipsum dolor sit amet consectetur. At convallis lacus sodales lorem et.  MakakdacConsectetur est posuere fermentum egestas congue lectus purus. Mattis libero  ultrices at massa hendrerit purus. Ege
+        <Text className=' ml-4 pb-6 leading-6 '>
+        {data?.data.referred_by ? data.referred_by : 'N/A'}
         </Text>
       </View>
 

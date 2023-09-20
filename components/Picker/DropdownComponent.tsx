@@ -12,7 +12,7 @@ const data = [
  
 ];
 
-const DropdownComponent = () => {
+const DropdownComponent = ({placeHolder, bg}:any) => {
   const [value, setValue] = useState(null);
 
   return (
@@ -27,7 +27,9 @@ const DropdownComponent = () => {
       maxHeight={300}
       labelField="label"
       valueField="value"
-      placeholder="Select Option "
+    
+      
+      placeholder={placeHolder ? placeHolder : 'Select'}
       value={value}
       onChange={item => {
         setValue(item.value);
@@ -43,8 +45,10 @@ export default DropdownComponent;
 const styles = StyleSheet.create({
   dropdown: {
     margin: 16,
+    
     height: 50,
     borderBottomColor: 'gray',
+    backgroundColor: '#FCFCFC'
     // borderBottomWidth: 1,
   },
   icon: {
