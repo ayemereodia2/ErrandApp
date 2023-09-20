@@ -7,8 +7,9 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ScrollView
 } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+// import { ScrollView } from 'react-native-gesture-handler'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { useSelector } from 'react-redux'
@@ -23,6 +24,8 @@ export default function LoginScreen() {
   const navigation = useNavigation()
   const dispatch = useAppDispatch()
   const [showPassword, setShowPassword] = useState(true)
+  const [errorMessage, setErrorMessage] = useState('');
+
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -36,7 +39,13 @@ export default function LoginScreen() {
       password: data.password,
       navigation,
     }
+    
+    
     dispatch(loginUser(loginData))
+    .catch((error) => {
+      // Handle login error here
+      setErrorMessage('Incorrect phone number or password.');
+    });
   }
 
   const {
@@ -53,10 +62,10 @@ export default function LoginScreen() {
   const { loading } = useSelector((state: RootState) => state.login)
 
   return (
-    <SafeAreaView>
+    <SafeAreaView >
       <ScrollView showsVerticalScrollIndicator={false}>
         <KeyboardAwareScrollView
-          style={{ flex: 1 }}
+          style={{ flex: 1, marginTop: 52 }}
           contentContainerStyle={{ flexGrow: 1 }}
           enableOnAndroid={true}
         >
@@ -120,6 +129,13 @@ export default function LoginScreen() {
                   onPress={handleSubmit(onSubmit)}
                   // className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
                 />
+
+                 {errorMessage ? (
+                  <Text style={{ color: 'red', textAlign: 'center', marginBottom: 4 }}>
+                    {errorMessage}
+                  </Text>
+                ) : ''}
+
                 <Text className="text-black text-center pb-6 pt-3">
                   Don’t Have an Account?
                   <Text

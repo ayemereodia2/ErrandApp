@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+// import { TouchableOpacity } from 'react-native-gesture-handler'
 import Balance from '../../components/Balance'
 import Transactions from '../../components/Transactions'
 

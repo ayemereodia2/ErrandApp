@@ -1,7 +1,7 @@
 import { AntDesign, Feather, FontAwesome } from '@expo/vector-icons'
 import React from 'react'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
-import { ScrollView, TextInput } from 'react-native-gesture-handler'
+import { Image, Text, TouchableOpacity, View, ScrollView, TextInput } from 'react-native'
+// import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import DropdownComponent from '../../components/Picker/DropdownComponent'
 
 const CreateTasks = ({ navigation }: any) => {

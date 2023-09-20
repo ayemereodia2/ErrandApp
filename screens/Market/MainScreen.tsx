@@ -25,13 +25,18 @@ import ErrandComp from '../../components/ErrandComponent'
 import { ProfileInitials } from '../../components/ProfileInitials'
 import { _fetch } from '../../services/axios/http'
 import { useAppDispatch } from '../../services/store'
+import Filter from '../../components/Filter/Filter'
 
 export default function MainScreen({ navigation }: any) {
   // const navigation = useNavigation()
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false)
   const [errands, setErrands] = useState([])
+  const [filterOn, setFilterOn] = useState(false)
 
+  const handleFilter = () => {
+    setFilterOn(!filterOn)
+  }
   // const { data: errands, loading:  } = useSelector(
   //   (state: RootState) => state.marketReducer,
   // )
@@ -49,6 +54,7 @@ export default function MainScreen({ navigation }: any) {
       setLoading(false)
       // console.log(">>>>>--------------------------------rs", rs)
       setErrands(rs.data)
+      console.log(rs.data)
     } catch (e) {
       Toast.show({
         type: 'error',
@@ -67,69 +73,72 @@ export default function MainScreen({ navigation }: any) {
     AbrilFatface_400Regular,
   })
 
+
   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      title: 'Errand Market',
-      headerStyle: { backgroundColor: '#F8F9FC' },
-      headerLeft: () => (
-        <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
-          <TouchableOpacity
-            onPress={() => navigation.openDrawer()}
-            className="flex-row items-center mb-2"
+  navigation.setOptions({
+    headerShown: !filterOn,
+    title:  'Errand Market',
+    headerStyle: { backgroundColor: '#F8F9FC' },
+    headerLeft: () => (
+      <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
+        <TouchableOpacity
+          onPress={() => navigation.openDrawer()}
+          className="flex-row items-center mb-2"
+        >
+          <ProfileInitials
+            firstName="Azubike"
+            lastName="Orji"
+            textClass="text-white text-base"
+          />
+          {/* <Entypo name="menu" size={24} /> */}
+        </TouchableOpacity>
+      </View>
+    ),
+    headerRight: () => (
+      <View className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-3 " >
+        <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
+          <MaterialIcons name="notifications" color={'black'} size={22} />
+        </TouchableOpacity>
+        <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
+          <MenuTrigger>
+            <Entypo name="dots-three-vertical" color={'black'} size={20} />
+          </MenuTrigger>
+          <MenuOptions
+            customStyles={{
+              optionsContainer: {
+                padding: 4,
+                width: 140,
+                marginTop: 20,
+                alignContent: 'center',
+              },
+            }}
           >
-            <ProfileInitials
-              firstName="Azubike"
-              lastName="Orji"
-              textClass="text-white text-base"
-            />
-            {/* <Entypo name="menu" size={24} /> */}
-          </TouchableOpacity>
-        </View>
-      ),
-      headerRight: () => (
-        <View className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-3 ">
-          <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
-            <MaterialIcons name="notifications" color={'black'} size={22} />
-          </TouchableOpacity>
-          <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
-            <MenuTrigger>
-              <Entypo name="dots-three-vertical" color={'black'} size={20} />
-            </MenuTrigger>
-            <MenuOptions
+            <MenuOption
+              onSelect={() => alert(`Save`)}
+              text="Profile"
               customStyles={{
-                optionsContainer: {
-                  padding: 4,
-                  width: 140,
-                  marginTop: 20,
-                  alignContent: 'center',
+                optionWrapper: {
+                  // borderBottomWidth: 0.2,
+                  borderBottomColor: '#AAAAAA',
                 },
+                optionText: { textAlign: 'center', fontWeight: '600' },
               }}
-            >
-              <MenuOption
-                onSelect={() => alert(`Save`)}
-                text="Profile"
-                customStyles={{
-                  optionWrapper: {
-                    // borderBottomWidth: 0.2,
-                    borderBottomColor: '#AAAAAA',
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-              <MenuOption
-                onSelect={() => alert(`Save`)}
-                text="Contact Us"
-                customStyles={{
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-            </MenuOptions>
-          </Menu>
-        </View>
-      ),
-    })
-  }, [])
+            />
+            <MenuOption
+              onSelect={() => alert(`Save`)}
+              text="Contact Us"
+              customStyles={{
+                optionText: { textAlign: 'center', fontWeight: '600' },
+              }}
+            />
+          </MenuOptions>
+        </Menu>
+        
+      </View>
+    ),
+  })
+}, [filterOn])
+ 
 
   if (!fontsLoaded) {
     return (
@@ -147,7 +156,12 @@ export default function MainScreen({ navigation }: any) {
             </View>
           ) : (
             <>
-              <View className="bg-[#F8F9FC] ">
+
+
+
+            {filterOn && <Filter onClose={handleFilter} filterOn={filterOn} /> }
+          
+              <View className="bg-[#F8F9FC]" style={{display: filterOn ? 'none' : 'flex'}}>
                 <View className="mx-4">
                   <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
                     <EvilIcons
@@ -161,7 +175,7 @@ export default function MainScreen({ navigation }: any) {
                       placeholder="Search for Errands"
                       placeholderTextColor="#808080"
                     />
-
+                    <TouchableOpacity onPress={handleFilter}>
                     <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
                       <Text className="p-2 text-center">
                         <Ionicons
@@ -171,7 +185,9 @@ export default function MainScreen({ navigation }: any) {
                         />
                       </Text>
                     </View>
+                    </TouchableOpacity>
                   </View>
+                  
 
                   {errands?.map((errand, index) => {
                     return (
@@ -184,8 +200,11 @@ export default function MainScreen({ navigation }: any) {
                   })}
                 </View>
               </View>
+             
             </>
           )}
+
+         
         </ScrollView>
       </SafeAreaView>
     )

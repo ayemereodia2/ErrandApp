@@ -1,7 +1,7 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native'
 import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { ScrollView, TextInput} from 'react-native-gesture-handler'
+// import { SafeAreaView } from 'react-native-safe-area-context'
+// import { ScrollView, TextInput} from 'react-native-gesture-handler'
 import { AntDesign, Feather, FontAwesome } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 

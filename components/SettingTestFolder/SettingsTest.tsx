@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, SafeAreaView, TouchableWithoutFeedback } from 'react-native'
+import { View, Text, ScrollView, SafeAreaView, TouchableWithoutFeedback, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { Switch } from 'react-native-gesture-handler'
 
@@ -91,7 +91,7 @@ const SettingsTest = () => {
                 <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                ios_backgroundColor="green"
+                // ios_backgroundColor="green"
                 // onValueChange={toggleSwitch}
                  value={newsletter}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
@@ -112,7 +112,7 @@ const SettingsTest = () => {
                 <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                ios_backgroundColor="grey"
+                // ios_backgroundColor="grey"
                 // onValueChange={toggleSwitch}
                  value={promotions}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
@@ -132,7 +132,7 @@ const SettingsTest = () => {
                 <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                ios_backgroundColor="green"
+                // ios_backgroundColor="green"
                 // onValueChange={toggleSwitch}
                  value={adverts}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
@@ -218,7 +218,7 @@ const SettingsTest = () => {
         <View className=' w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]'>
             <View className='flex-row items-center justify-between'>
                 <Text className='font-medium text-[18px]'>Errand status updates</Text>
-                <TouchableWithoutFeedback onPress={handleErrandStatus}>
+                <TouchableOpacity onPress={handleErrandStatus}>
                 <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
@@ -228,7 +228,7 @@ const SettingsTest = () => {
                 // value={isEnabled}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
-              </TouchableWithoutFeedback>
+              </TouchableOpacity>
         
             </View>
             <Text className='text-[14px]'>Stay informed about our amazing offers</Text>     
