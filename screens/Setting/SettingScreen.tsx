@@ -1,10 +1,9 @@
-import { Entypo, Ionicons, MaterialIcons } from '@expo/vector-icons'
+import { Entypo, MaterialIcons } from '@expo/vector-icons'
 import React, { useLayoutEffect } from 'react'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
+import { Image, SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import SettingsCategory from '../../components/SettingTest/SettingsCategory'
-import SettingsTest from '../../components/SettingTest/SettingsTest'
+import SettingsCategory from '../../components/SettingTestFolder/SettingsCategory'
+import SettingsTest from '../../components/SettingTestFolder/SettingsTest'
 
 const SettingScreen = ({ navigation }: any) => {
   useLayoutEffect(() => {
@@ -53,9 +52,13 @@ const SettingScreen = ({ navigation }: any) => {
             </View>
           </View>
 
-          <SettingsTest />
+          <View>
+            <SettingsTest />
+          </View>
 
-          {/* <SettingsCategory /> */}
+          <View>
+            <SettingsCategory />
+          </View>
 
           {/* <View className="mt-8 ml-4">
             <Text className="pb-2 text-base font-bold leading-6">

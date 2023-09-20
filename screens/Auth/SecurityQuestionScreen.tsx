@@ -9,8 +9,9 @@ import {
   SafeAreaView,
   Text,
   View,
+  TouchableWithoutFeedback
 } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+// import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Toast from 'react-native-toast-message'
 import Button from '../../components/Button'

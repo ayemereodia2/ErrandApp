@@ -23,7 +23,7 @@ const SettingsCategory = () => {
     <View>
 
        <View className='mt-8 ml-4'>
-      <Text className='pb-2 text-base font-bold leading-6'>CATEGORY INTERESTSS</Text>
+      <Text className='pb-2 text-base font-bold leading-6'>CATEGORY INTERESTS</Text>
       <Text className='text-[14px]'>Notifications on all general activities on Swave</Text>
     </View>
 
@@ -72,8 +72,6 @@ const SettingsCategory = () => {
   )
 }
 
-export default SettingsCategory
-
 const styles = StyleSheet.create({
   container: { padding: 16 },
   dropdown: {
@@ -109,3 +107,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
 });
+
+export default SettingsCategory
+

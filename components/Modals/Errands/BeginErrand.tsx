@@ -19,7 +19,7 @@ interface BeginErrandModalProp {
   user_id: string
   toggleSuccessDialogue: (open: boolean) => void
   toggleBeginErrandModal: (open: boolean) => void
-  toggleRejectErrandModal: (open: boolean) => void
+  toggleRejectErrandModal?: (open: boolean) => void
 }
 
 const BeginErrandModal = ({

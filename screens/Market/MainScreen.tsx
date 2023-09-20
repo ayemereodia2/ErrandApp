@@ -23,6 +23,7 @@ import {
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import ErrandComp from '../../components/ErrandComponent'
+import Filter from '../../components/Filter/Filter'
 import { ProfileInitials } from '../../components/ProfileInitials'
 import { _fetch } from '../../services/axios/http'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -39,7 +40,11 @@ export default function MainScreen({ navigation }: any) {
   const [profilePic, setProfilePic] = useState('')
 
   const { data } = useSelector((state: RootState) => state.userDetailsReducer)
+  const [filterOn, setFilterOn] = useState(false)
 
+  const handleFilter = () => {
+    setFilterOn(!filterOn)
+  }
   // const { data: errands, loading:  } = useSelector(
   //   (state: RootState) => state.marketReducer,
   // )
@@ -54,6 +59,7 @@ export default function MainScreen({ navigation }: any) {
       const rs = await _rs.json()
       setLoading(false)
       setErrands(rs.data)
+      console.log(rs.data)
     } catch (e) {
       Toast.show({
         type: 'error',
@@ -103,12 +109,11 @@ export default function MainScreen({ navigation }: any) {
             </MenuTrigger>
             <MenuOptions
               customStyles={{
-                optionsContainer: {
-                  padding: 4,
-                  width: 140,
-                  marginTop: 20,
-                  alignContent: 'center',
+                optionWrapper: {
+                  // borderBottomWidth: 0.2,
+                  borderBottomColor: '#AAAAAA',
                 },
+                optionText: { textAlign: 'center', fontWeight: '600' },
               }}
             >
               <MenuOption
@@ -145,7 +150,7 @@ export default function MainScreen({ navigation }: any) {
         </View>
       ),
     })
-  }, [])
+  }, [filterOn])
 
   if (!fontsLoaded) {
     return (
@@ -163,7 +168,14 @@ export default function MainScreen({ navigation }: any) {
             </View>
           ) : (
             <>
-              <View className="bg-[#F8F9FC] ">
+              {filterOn && (
+                <Filter onClose={handleFilter} filterOn={filterOn} />
+              )}
+
+              <View
+                className="bg-[#F8F9FC]"
+                style={{ display: filterOn ? 'none' : 'flex' }}
+              >
                 <View className="mx-4">
                   <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
                     <EvilIcons
@@ -177,16 +189,17 @@ export default function MainScreen({ navigation }: any) {
                       placeholder="Search for Errands"
                       placeholderTextColor="#808080"
                     />
-
-                    <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
-                      <Text className="p-2 text-center">
-                        <Ionicons
-                          name="md-filter-outline"
-                          size={18}
-                          color="white"
-                        />
-                      </Text>
-                    </View>
+                    <TouchableOpacity onPress={handleFilter}>
+                      <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
+                        <Text className="p-2 text-center">
+                          <Ionicons
+                            name="md-filter-outline"
+                            size={18}
+                            color="white"
+                          />
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
                   </View>
 
                   {errands?.map((errand, index) => {
