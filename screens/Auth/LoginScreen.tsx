@@ -130,11 +130,11 @@ export default function LoginScreen() {
                   // className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
                 />
 
-                 {errorMessage ? 
+                 {errorMessage ? (
                   <Text style={{ color: 'red', textAlign: 'center', marginBottom: 4 }}>
                     {errorMessage}
                   </Text>
-                 : ''}
+                ) : ''}
 
                 <Text className="text-black text-center pb-6 pt-3">
                   Don’t Have an Account?
