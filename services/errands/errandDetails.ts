@@ -16,10 +16,6 @@ export const errandDetails = createAsyncThunk<SingleErrandDetail, DetailProps, {
             })
           
           const rs = await _rs.json()
-
-          // console.log(">>>>>>>>>rs", rs.data);
-          
-
             if (rs.success === true) {
                 return rs
             }

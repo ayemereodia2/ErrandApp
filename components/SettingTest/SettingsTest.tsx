@@ -1,25 +1,16 @@
-import { View, Text, ScrollView, SafeAreaView, TouchableWithoutFeedback } from 'react-native'
 import React, { useState } from 'react'
+import { ScrollView, Text, TouchableWithoutFeedback, View } from 'react-native'
 import { Switch } from 'react-native-gesture-handler'
 
 const SettingsTest = () => {
-
-  const [newErrands, setNewErrands] = useState (false)
-  const [errandsInArea, setErrandsInArea] = useState (false)
-  const [bidsOnErrand, setBidsOnErrand] = useState (false)
-  const [errandStatus, setErrandStatus] = useState (false)
-  const [accountUpdate, setAccountUpdate] = useState (false)
-  const [newsletter, setNewsletter] = useState (false)
-  const [promotions, setPromotions] = useState (false)
-  const [adverts, setAdverts] = useState (false)
-
-
-
-
-
-
-
-
+  const [newErrands, setNewErrands] = useState(false)
+  const [errandsInArea, setErrandsInArea] = useState(false)
+  const [bidsOnErrand, setBidsOnErrand] = useState(false)
+  const [errandStatus, setErrandStatus] = useState(false)
+  const [accountUpdate, setAccountUpdate] = useState(false)
+  const [newsletter, setNewsletter] = useState(false)
+  const [promotions, setPromotions] = useState(false)
+  const [adverts, setAdverts] = useState(false)
 
   const handleNewErrands = () => {
     setNewErrands(!newErrands)
@@ -52,174 +43,183 @@ const SettingsTest = () => {
     setPromotions(!promotions)
   }
 
-
-
   return (
-    
     <ScrollView>
-        
-    <View className='mt-8 ml-4'>
-      <Text className='pb-2 text-base font-bold leading-6'>GENERAL NOTIFICATIONS</Text>
-      <Text className='text-[14px]'>Notifications on all general activities on Swave</Text>
-    </View>
+      <View className="mt-8 ml-4">
+        <Text className="pb-2 text-base font-bold leading-6">
+          GENERAL NOTIFICATIONS
+        </Text>
+        <Text className="text-[14px]">
+          Notifications on all general activities on Swave
+        </Text>
+      </View>
 
-    <View className='w-[390px] h-[350px] bg-[#ECF0F8] mx-auto mt-5 rounded-md pb-4'>
-        <View className=' w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]'>
-            <View className='flex-row items-center justify-between'>
-                <Text className='font-medium text-[18px]'>Account Update Notification</Text>
-                <TouchableWithoutFeedback onPress={handleAccountUpdate}>
-                <Switch
+      <View className="w-[390px] h-[350px] bg-[#ECF0F8] mx-auto mt-5 rounded-md pb-4">
+        <View className=" w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
+          <View className="flex-row items-center justify-between">
+            <Text className="font-medium text-[18px]">
+              Account Update Notification
+            </Text>
+            <TouchableWithoutFeedback onPress={handleAccountUpdate}>
+              <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
                 // ios_backgroundColor="green"
                 // onValueChange={toggleSwitch}
-                 value={accountUpdate}
+                value={accountUpdate}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
-              </TouchableWithoutFeedback>
-        
-            </View>
-            <Text className='text-[14px]'>You will be notified when an update is available</Text>     
+            </TouchableWithoutFeedback>
+          </View>
+          <Text className="text-[14px]">
+            You will be notified when an update is available
+          </Text>
         </View>
 
-
-
-        <View className=' w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]'>
-            <View className='flex-row items-center justify-between'>
-                <Text className='font-medium text-[18px]'>Newsletters and offers</Text>
-                <TouchableWithoutFeedback onPress={handleNewsLetter}>
-                <Switch
+        <View className=" w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
+          <View className="flex-row items-center justify-between">
+            <Text className="font-medium text-[18px]">
+              Newsletters and offers
+            </Text>
+            <TouchableWithoutFeedback onPress={handleNewsLetter}>
+              <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
                 ios_backgroundColor="green"
                 // onValueChange={toggleSwitch}
-                 value={newsletter}
+                value={newsletter}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
-              </TouchableWithoutFeedback>
-        
-            </View>
-            <Text className='text-[14px]'>Be in the know when we publish any information</Text>     
+            </TouchableWithoutFeedback>
+          </View>
+          <Text className="text-[14px]">
+            Be in the know when we publish any information
+          </Text>
         </View>
 
-
-
-        <View className=' w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]'>
-            <View className='flex-row items-center justify-between'>
-                <Text className='font-medium text-[18px]'>Promotions and adverts</Text>
-                <TouchableWithoutFeedback onPress={handlePromotion}>
-
-                <Switch
+        <View className=" w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
+          <View className="flex-row items-center justify-between">
+            <Text className="font-medium text-[18px]">
+              Promotions and adverts
+            </Text>
+            <TouchableWithoutFeedback onPress={handlePromotion}>
+              <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
                 ios_backgroundColor="grey"
                 // onValueChange={toggleSwitch}
-                 value={promotions}
+                value={promotions}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
-              </TouchableWithoutFeedback>
-        
-            </View>
-            <Text className='text-[14px]'>Stay informed about our amazing offers</Text>     
+            </TouchableWithoutFeedback>
+          </View>
+          <Text className="text-[14px]">
+            Stay informed about our amazing offers
+          </Text>
         </View>
 
-
-
-        <View className=' w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]'>
-            <View className='flex-row items-center justify-between'>
-              <TouchableWithoutFeedback onPress={handleAdverts}>
-                <Text className='font-medium text-[18px]'>Promotions and adverts</Text>
-                <Switch
+        {/* <View className=" w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
+          <View className="flex-row items-center justify-between">
+            <TouchableWithoutFeedback onPress={handleAdverts}>
+              <Text className="font-medium text-[18px]">
+                Promotions and adverts
+              </Text>
+              <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
                 ios_backgroundColor="green"
                 // onValueChange={toggleSwitch}
-                 value={adverts}
+                value={adverts}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
-              </TouchableWithoutFeedback>
-        
-            </View>
-            <Text className='text-[14px]'>Stay informed about our amazing offers</Text>     
-        </View>
-        
+            </TouchableWithoutFeedback>
+          </View>
+          <Text className="text-[14px]">
+            Stay informed about our amazing offers
+          </Text>
+        </View> */}
+      </View>
 
-    </View>
+      <View className="mt-8 ml-4">
+        <Text className="pb-2 text-base font-bold leading-6">
+          ERRAND NOTIFICATIONS
+        </Text>
+        <Text className="text-[14px]">
+          Errands and bids specific notifications
+        </Text>
+      </View>
 
-
-    <View className='mt-8 ml-4'>
-      <Text className='pb-2 text-base font-bold leading-6'>ERRAND NOTIFICATIONS</Text>
-      <Text className='text-[14px]'>Errands and bids specific notifications</Text>
-    </View>
-
-
-    <View className='w-[390px] h-[350px] bg-[#ECF0F8] mx-auto mt-5 rounded-md pb-4'>
-        <View className=' w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]'>
-            <View className='flex-row items-center justify-between'>
-                <Text className='font-medium text-[18px]'>New errands in your category interest</Text>
-                <TouchableWithoutFeedback onPress={handleNewErrands}>
-                <Switch
-                 trackColor={{ false: '#767577', true: 'green' }}
+      <View className="w-[390px] h-[350px] bg-[#ECF0F8] mx-auto mt-5 rounded-md pb-4">
+        <View className=" w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
+          <View className="flex-row items-center justify-between">
+            <Text className="font-medium text-[18px]">
+              New errands in your category interest
+            </Text>
+            <TouchableWithoutFeedback onPress={handleNewErrands}>
+              <Switch
+                trackColor={{ false: '#767577', true: 'green' }}
                 // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
                 // ios_backgroundColor={!newErrands ? 'green' : 'grey'}
                 // onValueChange={toggleSwitch}
-                 value={newErrands}
-                
+                value={newErrands}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
-              </TouchableWithoutFeedback>
-        
-            </View>
-            <Text className='text-[14px]'>You will be notified when an update is available</Text>     
+            </TouchableWithoutFeedback>
+          </View>
+          <Text className="text-[14px]">
+            You will be notified when an update is available
+          </Text>
         </View>
 
-
-
-        <View className=' w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]'>
-            <View className='flex-row items-center justify-between'>
-                <Text className='font-medium text-[18px]'>Errands within your area</Text>
-                <TouchableWithoutFeedback onPress={handleErrandsInArea}>
-                <Switch
+        <View className=" w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
+          <View className="flex-row items-center justify-between">
+            <Text className="font-medium text-[18px]">
+              Errands within your area
+            </Text>
+            <TouchableWithoutFeedback onPress={handleErrandsInArea}>
+              <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
                 // ios_backgroundColor={!errandsInArea ? 'green' : 'grey'}
                 // onValueChange={toggleSwitch}
-                 value={errandsInArea}
+                value={errandsInArea}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
-              </TouchableWithoutFeedback>
-        
-            </View>
-            <Text className='text-[14px]'>Be in the know when we publish any information</Text>     
+            </TouchableWithoutFeedback>
+          </View>
+          <Text className="text-[14px]">
+            Be in the know when we publish any information
+          </Text>
         </View>
 
-
-
-        <View className=' w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]'>
-            <View className='flex-row items-center justify-between'>
-                <Text className='font-medium text-[18px]'>Bids on your errands</Text>
-                <TouchableWithoutFeedback onPress={handleBidsOnErrand}>
-                <Switch
+        <View className=" w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
+          <View className="flex-row items-center justify-between">
+            <Text className="font-medium text-[18px]">
+              Bids on your errands
+            </Text>
+            <TouchableWithoutFeedback onPress={handleBidsOnErrand}>
+              <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
                 // ios_backgroundColor={!bidsOnErrand ? 'green' : 'grey'}
                 // onValueChange={toggleSwitch}
-                 value={bidsOnErrand}
+                value={bidsOnErrand}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
-              </TouchableWithoutFeedback>
-        
-            </View>
-            <Text className='text-[14px]'>Stay informed about our amazing offers</Text>     
+            </TouchableWithoutFeedback>
+          </View>
+          <Text className="text-[14px]">
+            Stay informed about our amazing offers
+          </Text>
         </View>
 
-
-
-        <View className=' w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]'>
-            <View className='flex-row items-center justify-between'>
-                <Text className='font-medium text-[18px]'>Errand status updates</Text>
-                <TouchableWithoutFeedback onPress={handleErrandStatus}>
-                <Switch
+        <View className=" w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
+          <View className="flex-row items-center justify-between">
+            <Text className="font-medium text-[18px]">
+              Errand status updates
+            </Text>
+            <TouchableWithoutFeedback onPress={handleErrandStatus}>
+              <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
                 // ios_backgroundColor={!errandStatus ? 'grey' : 'green'}
@@ -228,22 +228,14 @@ const SettingsTest = () => {
                 // value={isEnabled}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
-              </TouchableWithoutFeedback>
-        
-            </View>
-            <Text className='text-[14px]'>Stay informed about our amazing offers</Text>     
+            </TouchableWithoutFeedback>
+          </View>
+          <Text className="text-[14px]">
+            Stay informed about our amazing offers
+          </Text>
         </View>
-
-
-     
-        
-
-    </View>
-
-    
-
+      </View>
     </ScrollView>
-   
   )
 }
 

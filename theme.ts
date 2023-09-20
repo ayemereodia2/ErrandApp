@@ -12,7 +12,7 @@ export const theme = {
 		description: '#9f9f9f',
 		inputBackground: '#f0f0f0',
 		inputText: '#000',
-		messageBackground: '#F2E6FF',
+		messageBackground: '#CBD5EC',
 		danger: '#df4759',
 		success: "#4b0",
 		light: '#ccc',

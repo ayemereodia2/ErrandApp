@@ -7,6 +7,8 @@ interface Props {
   className?: string
   profile_pic?: string
   textClass?: string
+  width?: number
+  height?: number
 }
 
 export function ProfileInitials({
@@ -15,26 +17,28 @@ export function ProfileInitials({
   className = '',
   profile_pic,
   textClass,
+  width,
+  height,
 }: Props) {
   const defaultClasses = `${
     profile_pic ? 'bg-white rounded-full' : 'bg-[#616161] rounded-full'
-  } w-8 h-8   grid place-content-center`
+  } w-8 h-8 grid place-content-center`
   const componentClasses = className ? className : defaultClasses
 
   return (
     <>
       {profile_pic ? (
-        <View className="border-1 border-[#000] shadow-lg">
+        <View className="border-1 border-[#000] shadow-xl">
           <Image
             style={{
-              width: 60,
-              height: 60,
+              width: width ? width : 60,
+              height: height ? height : 60,
               resizeMode: 'contain',
               borderRadius: 30,
             }}
             alt="okay"
-            src={profile_pic}
-            // source={require(errand.user.profile_picture)}
+            // src={profile_pic}
+            source={{uri: profile_pic}}
           />
         </View>
       ) : (

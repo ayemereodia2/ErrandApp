@@ -2,8 +2,9 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import React, { useRef } from 'react'
 import { SafeAreaView, ScrollView, Text } from 'react-native'
 import { HaggleComponent } from '../../components/MyBidDetails/HaggleDetail'
-import { Bids, Haggles, MarketData } from '../../types'
+import { Bids, Haggles, MarketData, SingleSubErrand } from '../../types'
 import BeginErrandModal from '../Modals/Errands/BeginErrand'
+import RejectErrandModal from '../Modals/Errands/RejectErrandModal'
 import ErrandBid from '../MyBidDetails'
 
 interface BidWrapperProp {
@@ -12,6 +13,9 @@ interface BidWrapperProp {
   navigation: any
   toggleNegotiateModal: any
   toggleSuccessDialogue?: any
+  singleSubErrand: SingleSubErrand
+  setManageErrandClicked: React.Dispatch<React.SetStateAction<boolean>>
+  setSubErrand: React.Dispatch<React.SetStateAction<SingleSubErrand>>
 }
 const BidWrapper = ({
   userId,
@@ -19,9 +23,13 @@ const BidWrapper = ({
   toggleNegotiateModal,
   navigation,
   toggleSuccessDialogue,
+  setManageErrandClicked,
+  setSubErrand,
 }: BidWrapperProp) => {
   const acceptBidRef = useRef<BottomSheetModal>(null)
   const beginErrandRef = useRef<BottomSheetModal>(null)
+  const RejectErrandRef = useRef<BottomSheetModal>(null)
+
 
   const acceptPoints = ['40%']
 
@@ -31,6 +39,10 @@ const BidWrapper = ({
 
   function toggleBeginErrandModal(open: boolean) {
     open ? acceptBidRef.current?.present() : acceptBidRef.current?.dismiss()
+  }
+
+  function toggleRejectErrandModal(open: boolean) {
+    open ? RejectErrandRef.current?.present() : RejectErrandRef.current?.dismiss()
   }
 
   let lastHaggle: Haggles = {
@@ -85,7 +97,7 @@ const BidWrapper = ({
     } catch (e) {}
   })
 
-  console.log('>>>>>bid', userId, errand.total_bids, errand.status)
+  // console.log('>>>>>bid', userId, errand.total_bids, errand.status)
 
   return (
     // <BottomSheetModalProvider>
@@ -119,6 +131,8 @@ const BidWrapper = ({
                   toggleAcceptModal={toggleAcceptModal}
                   toggleNegotiateModal={toggleNegotiateModal}
                   toggleSuccessDialogue={toggleSuccessDialogue}
+                  setManageErrandClicked={setManageErrandClicked}
+                  setSubErrand={setSubErrand}
                 />
               )
             })}
@@ -142,6 +156,7 @@ const BidWrapper = ({
                     user_id={userId}
                     haggle={hag}
                     otherHaggles={otherHaggles}
+                    setManageErrandClicked={setManageErrandClicked}
                     // setSearchedErrand={setSearchedErrand}
                   />
                 )
@@ -160,6 +175,7 @@ const BidWrapper = ({
               user_id={userId}
               toggleSuccessDialogue={toggleSuccessDialogue}
               toggleNegotiateModal={toggleNegotiateModal}
+              setManageErrandClicked={setManageErrandClicked}
             />
           </>
         )}
@@ -174,7 +190,8 @@ const BidWrapper = ({
               errand={errand}
               user_id={userId}
               toggleSuccessDialogue={toggleSuccessDialogue}
-              // toggleBeginErrandModal={toggleB}
+              toggleNegotiateModal={toggleNegotiateModal}
+              setManageErrandClicked={setManageErrandClicked}
 
               // setSearchedErrand={setSearchedErrand}
               // singleSubErrand={singleSubErrand}
@@ -207,9 +224,26 @@ const BidWrapper = ({
           <BeginErrandModal
             toggleSuccessDialogue={toggleSuccessDialogue}
             toggleBeginErrandModal={toggleBeginErrandModal}
+            toggleRejectErrandModal={toggleRejectErrandModal}
             bid={errand.bids[0]}
             errand={errand}
             user_id={userId}
+          />
+        </BottomSheetModal>
+
+        <BottomSheetModal
+          ref={RejectErrandRef}
+          index={0}
+          snapPoints={['50%']}
+        >
+          <RejectErrandModal
+            toggleSuccessDialogue={toggleSuccessDialogue}
+            toggleRejectErrandModal={toggleRejectErrandModal}
+            bid={errand.bids[0]}
+            errand={errand}
+            user_id={userId}
+            navigation={navigation}
+            haggle={lastHaggle}
           />
         </BottomSheetModal>
       </ScrollView>

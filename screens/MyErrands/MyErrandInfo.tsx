@@ -28,11 +28,20 @@ import Timeline from '../../components/Timeline'
 import { RootState } from '../../services/store'
 import { SingleSubErrand } from '../../types'
 
-const MyErrandInfo = ({ navigation }: any) => {
+const MyErrandInfo = ({ navigation, route }: any) => {
   const [userId, setUserId] = useState('')
   const negotiateRef = useRef<BottomSheetModal>(null)
   const successDialogueRef = useRef<BottomSheetModal>(null)
+  const completeDialogueRef = useRef<BottomSheetModal>(null)
+
+  const bids = route?.params?.bids
+
   const acceptBidRef = useRef<BottomSheetModal>(null)
+  const [manageErrandClicked, setManageErrandClicked] = useState(false)
+
+  const { data: singleSubErrand } = useSelector(
+    (state: RootState) => state.subErrandReducer,
+  )
 
   const [subErrand, setSubErrand] = useState<SingleSubErrand>({
     id: '',
@@ -55,6 +64,7 @@ const MyErrandInfo = ({ navigation }: any) => {
 
   // const [selectedTab, setSelectedItem] = useState('details')
   const layout = useWindowDimensions()
+  const [isModalVisible, setModalVisible] = useState(false)
 
   const { data: user, loading } = useSelector(
     (state: RootState) => state.userDetailsReducer,
@@ -64,9 +74,16 @@ const MyErrandInfo = ({ navigation }: any) => {
     (state: RootState) => state.errandDetailsReducer,
   )
 
+  // console.log(
+  //   '>>>>errandssss',
+  //   manageErrandClicked,
+  //   errand.errand_type,
+  //   singleSubErrand?.status,
+  //   bids
+  // )
+
   const snapPoints = ['55%']
   const successPoints = ['30%']
-  const acceptPoints = ['40%']
 
   function toggleNegotiateModal(open: boolean) {
     open ? negotiateRef.current?.present() : negotiateRef.current?.dismiss()
@@ -76,6 +93,12 @@ const MyErrandInfo = ({ navigation }: any) => {
     open
       ? successDialogueRef.current?.present()
       : successDialogueRef.current?.dismiss()
+  }
+
+  function toggleCompleteDialogue(open: boolean) {
+    open
+      ? completeDialogueRef.current?.present()
+      : completeDialogueRef.current?.dismiss()
   }
 
   const getUserId = async () => {
@@ -99,7 +122,7 @@ const MyErrandInfo = ({ navigation }: any) => {
       ),
       headerRight: () => (
         <View className="pr-3">
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity>
             <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
               <MenuTrigger>
                 <Entypo name="dots-three-vertical" color={'black'} size={16} />
@@ -115,28 +138,68 @@ const MyErrandInfo = ({ navigation }: any) => {
               >
                 {errand.user_id === userId && errand?.status === 'active' && (
                   <MenuOption
-                    onSelect={() => alert(`Save`)}
+                    onSelect={() => {
+                      // console.log(">>>>>>>errand", errand);
+
+                      navigation.navigate('CompleteErrandModal', {
+                        errand,
+                        userId,
+                        singleSubErrand,
+                        bids
+                      })
+                    }}
                     text="Completed Errand"
                     customStyles={{
                       optionWrapper: {
-                        // borderBottomWidth: 0.2,
+                        borderBottomWidth: 1,
                         borderBottomColor: '#AAAAAA',
                       },
                       optionText: { textAlign: 'center', fontWeight: '600' },
                     }}
                   />
                 )}
-                <MenuOption
-                  onSelect={() => alert(`Save`)}
-                  text="Details"
-                  customStyles={{
-                    optionWrapper: {
-                      // borderBottomWidth: 0.2,
-                      borderBottomColor: '#AAAAAA',
-                    },
-                    optionText: { textAlign: 'center', fontWeight: '600' },
-                  }}
-                />
+                {errand.errand_type === 1 && manageErrandClicked && (
+                  <MenuOption
+                    onSelect={() =>
+                      navigation.navigate('ErrandUserDetails', {
+                        errand,
+                        userId,
+                        singleSubErrand,
+                        manageErrandClicked,
+                        bids
+                      })
+                    }
+                    text="Details"
+                    customStyles={{
+                      optionWrapper: {
+                        borderBottomWidth: 1,
+                        borderBottomColor: '#AAAAAA',
+                      },
+                      optionText: { textAlign: 'center', fontWeight: '600' },
+                    }}
+                  />
+                )}
+                {errand.errand_type !== 1 && (
+                  <MenuOption
+                    onSelect={() =>
+                      navigation.navigate('ErrandUserDetails', {
+                        errand,
+                        userId,
+                        singleSubErrand,
+                        manageErrandClicked,
+                        bids
+                      })
+                    }
+                    text="Details"
+                    customStyles={{
+                      optionWrapper: {
+                        borderBottomWidth: 1,
+                        borderBottomColor: '#AAAAAA',
+                      },
+                      optionText: { textAlign: 'center', fontWeight: '600' },
+                    }}
+                  />
+                )}
                 <MenuOption
                   onSelect={() => alert(`Save`)}
                   text="Refresh"
@@ -151,22 +214,43 @@ const MyErrandInfo = ({ navigation }: any) => {
       ),
     })
     getUserId()
-  }, [user, errand])
+  }, [user, errand, manageErrandClicked, singleSubErrand])
 
   return (
     <>
-      {errand?.status === 'active' || errand?.status === 'completed' ? (
+      {errand?.status === 'active' ||
+      errand?.status === 'completed' ||
+      (errand?.user_id === userId &&
+        singleSubErrand?.status === 'active' &&
+        manageErrandClicked) ||
+      (singleSubErrand?.status === 'completed' && manageErrandClicked) ? (
         <KeyboardAvoidingView
           style={{ flex: 1 }}
           behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
         >
+          {/* sender's timeline */}
           <Timeline
             errand={errand}
             user_id={userId}
-            singleSubErrand={subErrand}
+            singleSubErrand={singleSubErrand}
             loadingErrand={loadingErrand}
+            setManageErrandClicked={setManageErrandClicked}
+            toggleCompleteDialogue={toggleCompleteDialogue}
+            toggleSuccessDialogue={toggleSuccessDialogue}
           />
         </KeyboardAvoidingView>
+      ) : (errand?.user_id !== userId &&
+          singleSubErrand?.status === 'active') ||
+        (errand?.user_id !== userId &&
+          singleSubErrand?.status === 'completed') ? (
+        // runner's timeline
+        <Timeline
+          errand={errand}
+          user_id={userId}
+          singleSubErrand={singleSubErrand}
+          loadingErrand={loadingErrand}
+          setManageErrandClicked={setManageErrandClicked}
+        />
       ) : (
         <BottomSheetModalProvider>
           <ScrollView className="px-3">
@@ -178,25 +262,28 @@ const MyErrandInfo = ({ navigation }: any) => {
                 navigation={navigation}
                 toggleNegotiateModal={toggleNegotiateModal}
                 toggleSuccessDialogue={toggleSuccessDialogue}
+                singleSubErrand={subErrand}
+                setManageErrandClicked={setManageErrandClicked}
+                setSubErrand={setSubErrand}
               />
               {/* )} */}
             </View>
+
             {/* Negotiate bid modal */}
-            <BottomSheetModal
+            {/* <BottomSheetModal
               ref={negotiateRef}
               index={0}
               snapPoints={snapPoints}
             >
               <NegotiateBid
                 bid={errand.bids[0]}
-                owner={user}
                 errand={errand}
                 navigation={navigation}
                 user_id={userId}
                 toggleNegotiateModal={toggleNegotiateModal}
                 toggleSuccessDialogue={toggleSuccessDialogue}
               />
-            </BottomSheetModal>
+            </BottomSheetModal> */}
 
             {/* success Dialogue */}
             <BottomSheetModal
@@ -209,6 +296,8 @@ const MyErrandInfo = ({ navigation }: any) => {
                 toggleNegotiateModal={toggleNegotiateModal}
               />
             </BottomSheetModal>
+
+            {/* completed Errand */}
           </ScrollView>
         </BottomSheetModalProvider>
       )}

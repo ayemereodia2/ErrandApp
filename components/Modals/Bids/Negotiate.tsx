@@ -15,7 +15,7 @@ import { Bids, MarketData, UserDetail } from '../../../types'
 import { currencyMask, parseAmount } from '../../../utils/helper'
 
 interface NegotiateModalProp {
-  owner: UserDetail
+  // owner: UserDetail
   errand: MarketData
   navigation: any
   bid: Bids
@@ -25,7 +25,6 @@ interface NegotiateModalProp {
 }
 
 const NegotiateBid = ({
-  owner,
   bid,
   errand,
   navigation,
@@ -102,7 +101,7 @@ const NegotiateBid = ({
             multiline={true}
             numberOfLines={10}
             style={{ height: 100, textAlignVertical: 'top' }}
-            keyboardType="phone-pad"
+            keyboardType="default"
           />
         </View>
       </View>

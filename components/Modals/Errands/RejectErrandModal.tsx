@@ -9,59 +9,67 @@ import {
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
-import { startErrand } from '../../../services/errands/beginErrand'
+import { bidAction } from '../../../services/bids/bidsAction'
 import { RootState, useAppDispatch } from '../../../services/store'
-import { Bids, MarketData } from '../../../types'
+import { Bids, Haggles, MarketData } from '../../../types'
 
-interface BeginErrandModalProp {
+interface RejectErrandModalProp {
   errand: MarketData
   bid: Bids
   user_id: string
   toggleSuccessDialogue: (open: boolean) => void
-  toggleBeginErrandModal: (open: boolean) => void
   toggleRejectErrandModal: (open: boolean) => void
+  navigation: any
+  haggle: Haggles
 }
 
-const BeginErrandModal = ({
+const RejectErrandModal = ({
   bid,
   errand,
   user_id,
   toggleSuccessDialogue,
-  toggleBeginErrandModal,
   toggleRejectErrandModal,
+  haggle,
 }: // navigation
-BeginErrandModalProp) => {
+RejectErrandModalProp) => {
   const dispatch = useAppDispatch()
 
   // const navigation = useNavi
 
   const { loading } = useSelector(
-    (state: RootState) => state.startErrandReducer,
+    (state: RootState) => state.bidActionReducer,
   )
 
   return (
     <View className="py-4 pb-10">
-      <Text className="text-xl text-center font-semibold">Bid Accepted</Text>
+      <Text className="text-xl text-center font-semibold">Reject Errand</Text>
 
-      <Image
+      {/* <Image
         width={60}
         height={60}
         source={require('../../../assets/images/business_men.png')}
         className="mx-auto"
-      />
+      /> */}
+
+      <Text>Are you sure you want to Reject this Errand?</Text>
 
       <View className="space-y-4 items-center px-4">
         <TouchableOpacity
           className="bg-[#1E3A79] h-12 w-full mx-4 mt-6 flex-row justify-center items-center rounded-lg"
           onPress={() => {
             dispatch(
-              startErrand({
+              bidAction({
                 errand_id: errand.id,
-                dispatch,
-                toggleBeginErrandModal,
-                toggleSuccessDialogue,
-                Toast,
                 bid_id: bid.id,
+                response: 'reject',
+                runner_id: bid.runner.id,
+                amount: haggle.amount,
+                method: 'PUT',
+                type: 'respond',
+                toggleSuccessDialogue,
+                dispatch,
+                toggleRejectErrandModal,
+                Toast,
               }),
             )
           }}
@@ -70,21 +78,16 @@ BeginErrandModalProp) => {
             {loading ? (
               <ActivityIndicator size="small" color="#ffffff" />
             ) : (
-              'Start Errand'
+              'Yes, Reject Errand'
             )}
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           className="bg-white h-12 w-full mx-4 mt-6 flex-row justify-center items-center rounded-lg border-[#e90c0c] border-[0.5px]"
-          onPress={() => {
-            console.log("ocosssss");
-            
-            toggleBeginErrandModal && toggleBeginErrandModal(false)
-            toggleRejectErrandModal && toggleRejectErrandModal(true)
-          }}
+          onPress={() => {}}
         >
-          <Text className="text-base text-red-600">Reject Errand</Text>
+          <Text className="text-base text-red-600">No, I change my mind</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -115,4 +118,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default BeginErrandModal
+export default RejectErrandModal

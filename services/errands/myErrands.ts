@@ -19,7 +19,7 @@ export const myErrandList = createAsyncThunk<ErrandMarketResponse, Props, { reje
 
           const rs = await _rs.json()
 
-          console.log(">>>>>rs----", rs);
+          // console.log(">>>>>rs----", rs);
           
 
           // console.log(">>>>errands", rs.data);

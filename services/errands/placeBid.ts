@@ -16,10 +16,6 @@ export const postBid = createAsyncThunk<any, PostBidRequest, { rejectValue: stri
       })
 
       const rs = await _rs.json()
-
-      // console.log(">>>>>>>>res", rs)
-      
-
       if (rs.success === false) {
          Toast.show({
           type: 'error',

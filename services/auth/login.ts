@@ -4,8 +4,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { deleteCookie } from 'cookies-next';
 import Toast from 'react-native-toast-message';
-import { ILogin } from '../../types';
 import { _fetch } from '../../services/axios/http';
+import { ILogin } from '../../types';
 
 export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>("/users/sign-in", async ({ navigation, ...rest }: ILogin, { rejectWithValue }) => {
   
@@ -18,12 +18,22 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
 
     const _rs = await rs.json()
 
+    console.log(">>>>Login res", _rs);
+  
     
 
     if (_rs.success === true) {
       await AsyncStorage.setItem('accessToken', _rs.data.access_token )
       await AsyncStorage.setItem('refreshToken', _rs.data.refresh_token)
       await AsyncStorage.setItem('user_id', _rs.data.id)
+      await AsyncStorage.setItem("last_name", _rs.data.last_name)
+      await AsyncStorage.setItem("first_name", _rs.data.first_name)
+      navigation.navigate('Main')
+      await AsyncStorage.setItem('profile_pic', _rs.data.profile_picture)
+
+     
+        
+
 
       // setCookie("access_token", rs.data.data.access_token)
       // localStorage.setItem('user_id', rs.data.data.id)
@@ -43,14 +53,12 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
     }
 
   } catch (e: any) {
-    console.log(">>>>>>> e");
     
      if (e.response.status === 400) {
       // toast.error("Invalid Login Credentials")
       return rejectWithValue(e.response.data.message)
      }
     if (e.response.status === 404) {
-      // console.log(">>>>>>e,respomse", e.response)
       return rejectWithValue(e.response.data.message)
     }
   }

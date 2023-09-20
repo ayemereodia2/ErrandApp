@@ -2,31 +2,43 @@ import React from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { userDetails } from '../../services/auth/userInfo'
 import { errandDetails } from '../../services/errands/errandDetails'
+import { getSubErrand } from '../../services/errands/subErrand'
 import { useAppDispatch } from '../../services/store'
-import { MarketData } from '../../types'
+import { MarketData, SingleSubErrand } from '../../types'
 import { getTimeAgo } from '../../utils/helper'
 
 interface MyErrandCard {
   errand: MarketData
   navigation: any
   index: number
+  setSubErrand?: React.Dispatch<React.SetStateAction<SingleSubErrand>>
+  setManageErrandClicked?: React.Dispatch<React.SetStateAction<boolean>>
+  user_id: string
 }
 
-const MyErrandCard = ({ errand, navigation, index }: MyErrandCard) => {
+const MyErrandCard = ({ errand, navigation, index, setSubErrand, user_id }: MyErrandCard) => {
   const dispatch = useAppDispatch()
-
 
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('MyErrandDetails')
+        navigation.navigate('MyErrandDetails', {
+          bids: errand.bids
+        })
         dispatch(errandDetails({ errandId: errand.id }))
         dispatch(userDetails({ user_id: errand.user_id }))
+        dispatch(
+          getSubErrand({
+            errand_id: errand.id,
+            runner_id: errand.user_id === user_id ? errand.runner_id : user_id,
+            setSubErrand,
+          }),
+        )
       }}
       key={index}
       className="mx-4 shadow-sm rounded-sm"
     >
-      <View className=" bg-white py-4 px-6 border-b-[0.2em] border-[#CCCCCC] hover:bg-[#CC9BFD]">
+      <View className=" bg-white py-4 px-6 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]">
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center space-x-3">
             {errand.errand_type === 1 ? (
@@ -38,17 +50,7 @@ const MyErrandCard = ({ errand, navigation, index }: MyErrandCard) => {
               <Image
                 source={require('../../assets/images/jagger.jpg')}
                 className="w-8 h-8 b rounded-full"
-                />
-              // <Image
-              //   style={{
-              //     width: 60,
-              //     height: 60,
-              //     resizeMode: 'contain',
-              //     borderRadius: 30,
-              //   }}
-              //   alt="okay"
-              //   src={errand?.user.profile_picture}
-              // />
+              />
             )}
             <Text className="text-sm font-medium">
               {' '}
@@ -65,14 +67,12 @@ const MyErrandCard = ({ errand, navigation, index }: MyErrandCard) => {
           </Text>
         </View>
 
-        {/*Second one */}
         <View className="mt-4">
           <Text className="text-sm font-medium">
             {errand?.description?.substring(0, 80).concat('', '....')}
           </Text>
         </View>
 
-        {/* Third one */}
 
         <View className="flex-row justify-between items-center mt-4">
           <View

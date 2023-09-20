@@ -1,7 +1,7 @@
 // import { fetchMyErrands } from '@app/lib/errand/api'
 import { Entypo, EvilIcons, MaterialIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect, useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
   Image,
@@ -24,9 +24,34 @@ import MyErrandToggle from '../../components/MyErrandToggle'
 import { ProfileInitials } from '../../components/ProfileInitials'
 import { myErrandList } from '../../services/errands/myErrands'
 import { RootState, useAppDispatch } from '../../services/store'
+import { SingleSubErrand } from '../../types'
+import { getUserId } from '../../utils/helper'
 
 const ErrandScreen = ({ navigation }: any) => {
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [profilePic, setProfilePic] = useState('')
   const navigate = useNavigation()
+  const [manageErrandClicked, setManageErrandClicked] = useState(false)
+  const [userId, setUserId] = useState('')
+  const [subErrand, setSubErrand] = useState<SingleSubErrand>({
+    id: '',
+    original_errand_id: '',
+    sender_id: '',
+    runner_id: '',
+    amount: 0,
+    timeline: {
+      id: '',
+      errand_id: '',
+      updates: [],
+      created_at: '',
+      updated_at: '',
+    },
+    status: '',
+    cancellation_reason: '',
+    created_at: '',
+    updated_at: '',
+  })
 
   const dispatch = useAppDispatch()
   const layout = useWindowDimensions()
@@ -51,9 +76,12 @@ const ErrandScreen = ({ navigation }: any) => {
             className="flex-row items-center mb-2"
           >
             <ProfileInitials
-              firstName="Azubike"
-              lastName="Orji"
-              textClass="text-white"
+              firstName={firstName.charAt(0).toUpperCase()}
+              lastName={lastName.charAt(0).toUpperCase()}
+              profile_pic={profilePic}
+              textClass="text-white text-base"
+              width={40}
+              height={40}
             />
             {/* <Entypo name="menu" size={24} /> */}
           </TouchableOpacity>
@@ -79,7 +107,7 @@ const ErrandScreen = ({ navigation }: any) => {
                 }}
               >
                 <MenuOption
-                  onSelect={() => alert(`Save`)}
+                  onSelect={() => dispatch(myErrandList({}))}
                   text="Refresh"
                   customStyles={{
                     optionText: { textAlign: 'center', fontWeight: '600' },
@@ -93,8 +121,14 @@ const ErrandScreen = ({ navigation }: any) => {
     })
   }, [])
 
+  //   const getUserId = async () => {
+  //   const userId = (await AsyncStorage.getItem('user_id')) || ''
+  //   setUserId(userId)
+  // }
+
   useEffect(() => {
     dispatch(myErrandList({}))
+    getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
   }, [])
 
   return (
@@ -140,6 +174,9 @@ const ErrandScreen = ({ navigation }: any) => {
                           index={index}
                           errand={errand}
                           navigation={navigation}
+                          setManageErrandClicked={setManageErrandClicked}
+                          setSubErrand={setSubErrand}
+                          user_id={userId}
                         />
                       </View>
                     )

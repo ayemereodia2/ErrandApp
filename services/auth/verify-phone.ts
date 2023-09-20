@@ -53,7 +53,6 @@ export const verifyPhone = createAsyncThunk("/user/verifyPhone", async ({ naviga
     } 
   } catch (err) {
     if (err instanceof AxiosError) {
-        // console.log(">>>>>>>", err.response?.status)
         // toast.error("We are Sorry, something went wrong please try again")
         return rejectWithValue(err)
     }

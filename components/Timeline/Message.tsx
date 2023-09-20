@@ -95,7 +95,7 @@ const Message = ({ time, isLeft, message, onSwipe }: ChatInputProp) => {
             ]}
           >
             <View style={styles.messageView}>
-              <Text style={[styles.message, isOnLeft('message')]}>
+              <Text className='' style={[styles.message, isOnLeft('message')]}>
                 {message}
               </Text>
             </View>
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   message: {
     color: 'black',
     alignSelf: 'flex-start',
-    fontSize: 15,
+    fontSize: 16,
   },
   time: {
     color: 'lightgray',

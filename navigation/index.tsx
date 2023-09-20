@@ -3,7 +3,7 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { AntDesign, Entypo, FontAwesome } from '@expo/vector-icons'
+import { AntDesign, FontAwesome } from '@expo/vector-icons'
 import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import * as React from 'react'
@@ -20,16 +20,23 @@ import CreateFinance from '../screens/CreateErrand/CreateFinance'
 import CreateTasks from '../screens/CreateErrand/CreateTasks'
 import ErrandLocation from '../screens/CreateErrand/ErrandLocation'
 import ErrandReview from '../screens/CreateErrand/ErrandReview'
+import PostErrand from '../screens/CreateErrand/PostErrand'
+import PostErrand1 from '../screens/CreateErrand/PostErrand1'
 import EditProfileTitle from '../screens/EditProfile/EditProfileTitle'
+import ErrandTimeline from '../screens/ErrandTimeline/ErrandTimeline'
 import ErrandDetails from '../screens/Market/ErrandDetails'
-import Modal from '../screens/Modal'
+import AbandonErrandModal from '../screens/Modal/AbandonErrandModal'
+import CancelErrandModal from '../screens/Modal/CancelErrandModal'
+import CompleteErrandModal from '../screens/Modal/CompleteErrandModal'
+import ErrandUserDetails from '../screens/MyErrands/ErrandUserDetails'
 import MyErrandInfo from '../screens/MyErrands/MyErrandInfo'
 import ProfileScreen from '../screens/ProfileScreen/index'
 import WalletScreen from '../screens/Wallets'
+import { useAppDispatch } from '../services/store'
 import { RootStackParamList } from '../types'
+import { getUserId } from '../utils/helper'
 import BottomTab from './BottomTab'
 import DrawerNavigator from './DrawerNav'
-import ErrandTimeline from '../screens/ErrandTimeline/ErrandTimeline'
 
 // import DrawerNav from './DrawerNav'
 
@@ -49,7 +56,19 @@ export default function Navigation() {
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
 export function RootNavigator() {
+  const navigation = useNavigation()
+  const dispatch = useAppDispatch()
+  const [firstName, setFirstName] = React.useState('')
+  const [userId, setUserId] = React.useState('')
+  const [lastName, setLastName] = React.useState('')
+  const [profilePic, setProfilePic] = React.useState('')
   const navigate = useNavigation()
+
+  React.useEffect(() => {
+    // dispatch(market({}))
+    getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
+  }, [])
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -58,10 +77,73 @@ export function RootNavigator() {
         options={{ title: 'Home' }}
       />
       <Stack.Screen
+        name="CreateErrand"
+        component={PostErrand}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="Main"
         component={BottomTab}
         options={{
           headerShown: false,
+          // title: 'Errand Market',
+          // headerStyle: { backgroundColor: '#F8F9FC' },
+          // headerLeft: () => (
+          //   <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
+          //     <ProfileInitials
+          //       firstName={firstName.charAt(0).toUpperCase()}
+          //       lastName={lastName.charAt(0).toUpperCase()}
+          //       profile_pic={profilePic}
+          //       textClass="text-white text-base"
+          //       width={40}
+          //       height={40}
+          //     />
+          //     {/* <Text>QA</Text> */}
+          //   </View>
+          // ),
+          // headerRight: () => (
+          //   <View className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-3 ">
+          //       <MaterialIcons  onPress={() => navigation.navigate('Errands')} name="notifications" color={'black'} size={22} />
+          //     <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
+          //       <MenuTrigger>
+          //         <Entypo
+          //           name="dots-three-vertical"
+          //           color={'black'}
+          //           size={20}
+          //         />
+          //       </MenuTrigger>
+          //       <MenuOptions
+          //         customStyles={{
+          //           optionsContainer: {
+          //             padding: 4,
+          //             width: 140,
+          //             marginTop: 20,
+          //             alignContent: 'center',
+          //           },
+          //         }}
+          //       >
+          //         <MenuOption
+          //           onSelect={() => alert(`Save`)}
+          //           text="Profile"
+          //           customStyles={{
+          //             optionWrapper: {
+          //               borderBottomWidth: 1,
+          //               borderBottomColor: '#AAAAAA',
+          //             },
+          //             optionText: { textAlign: 'center', fontWeight: '600' },
+          //           }}
+          //         />
+          //         <MenuOption
+          //           onSelect={() => alert(`Save`)}
+          //           text="Contact Us"
+          //           customStyles={{
+          //             optionText: { textAlign: 'center', fontWeight: '600' },
+          //           }}
+          //         />
+          //       </MenuOptions>
+          //     </Menu>
+          //   </View>
+          // ),
         }}
         // options={{
         //   title: '',
@@ -116,6 +198,29 @@ export function RootNavigator() {
         }}
       />
       <Stack.Screen
+        name="ErrandUserDetails"
+        component={ErrandUserDetails}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+          title: 'Errand Details',
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigate.navigate('MyErrandDetails')}
+            >
+              <AntDesign name="arrowleft" size={24} color="#243763" />
+            </TouchableOpacity>
+          ),
+          headerTitleStyle: {
+            fontSize: 16,
+            fontWeight: '600',
+          },
+          headerShadowVisible: false,
+        }}
+      />
+      <Stack.Screen
         name="Login"
         component={LoginScreen}
         options={{ title: 'Login' }}
@@ -152,18 +257,29 @@ export function RootNavigator() {
       />
 
       <Stack.Screen
-        name="Modal"
-        component={Modal}
-        options={{ title: 'Modal' }}
+        name="CompleteErrandModal"
+        component={CompleteErrandModal}
+        options={{ title: 'Modal', presentation: 'fullScreenModal' }}
+      />
+     
+      <Stack.Screen
+        name="CancelErrandModal"
+        component={CancelErrandModal}
+        options={{ title: 'Modal', presentation: 'fullScreenModal' }}
+      />
+      <Stack.Screen
+        name="AbandonErrandModal"
+        component={AbandonErrandModal}
+        options={{ title: 'Modal', presentation: 'fullScreenModal' }}
       />
       <Stack.Screen
         name="VerifyPhone"
         component={VerifyPhone}
         options={{ title: 'Verify Phone' }}
       />
-
+{/* 
       <Stack.Screen
-        name="CreateErrand"
+        name="CreateErrands"
         component={CreateTasks}
         options={{ headerShown: false }}
       />
@@ -184,7 +300,7 @@ export function RootNavigator() {
         name="ErrandReview"
         component={ErrandReview}
         options={{ headerShown: false }}
-      />
+      /> */}
 
       <Stack.Screen
         name="EditProfile"

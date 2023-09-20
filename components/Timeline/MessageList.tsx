@@ -61,7 +61,8 @@ const MessagesList = ({ onSwipeToReply, timeline }: ChatInputProp) => {
 
   return (
     <ScrollView
-      style={{ backgroundColor: '#F8F9FC', height: '80%' }}
+      className='px-2 pb-16'
+      style={{ backgroundColor: '#F8F9FC', height: '78%' }}
       ref={(ref) => (scrollView.current = ref)}
       // onContentChange={() => {
       // 	scrollView.current.scrollToEnd({ animated: true })

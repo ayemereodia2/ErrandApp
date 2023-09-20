@@ -49,6 +49,7 @@ export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined
   // Modal: undefined;
   // NotFound: undefined;
+  CreateErrand: undefined
   Home: undefined
   Login: undefined
   CreateAccount: undefined
@@ -60,7 +61,10 @@ export type RootStackParamList = {
   Account: undefined
   Wallet: undefined
   ErrandDetails: undefined
-  Modal: undefined
+  CompleteErrandModal: undefined
+  AbandonErrandModal: undefined
+  CancelErrandModal: undefined
+  RejectErrandModal: undefined
   Errands: undefined
   MyErrands: undefined
   MyErrandDetails: undefined
@@ -68,6 +72,7 @@ export type RootStackParamList = {
   Welcome: undefined
   VerifyPhone: undefined
   SecurityQuestions: undefined
+  ErrandUserDetails: undefined
 }
 
 export type RootStackScreenProps<
@@ -310,9 +315,9 @@ export interface CreateErrandRequest {
   type: string
   category: string
   errandId: string
-  navigate?: any
+  navigation?: any
   setShowLoadingDialogue?: any
-  toast?: any
+  Toast?: any
   dispatch?: any
   setSuccessDialogue?: any
   has_insurance: boolean
@@ -443,6 +448,7 @@ export interface BidActionPayload {
   toggleNegotiateModal?: (open: boolean) => void
   toggleSuccessDialogue?: (open: boolean) => void
   toggleAcceptModal?: (open: boolean) => void
+  toggleRejectErrandModal?: (open: boolean) => void
 }
 
 export interface PostBidRequest {
@@ -479,11 +485,11 @@ export interface CategoriesList {
   identifier: string
   name: string
   type: string
-  image_url: string
-  created_by: string
-  modified_by: []
-  created_at: string
-  updated_at: string
+  // image_url: string
+  // created_by: string
+  // modified_by: []
+  // created_at: string
+  // updated_at: string
 }
 
 export interface StartErrandProps {
@@ -682,5 +688,7 @@ export interface BidsProps {
   toggleBeginErrandModal?: any
   toggleAcceptBidModal?: any
   setcurBid?: React.Dispatch<React.SetStateAction<Bids>>
-  curBid?: Bids
+  singleSubErrand?: SubErrand
+  setManageErrandClicked: React.Dispatch<React.SetStateAction<boolean>>
+  setSubErrand?:React.Dispatch<React.SetStateAction<SingleSubErrand>>
 }

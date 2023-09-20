@@ -16,9 +16,10 @@ export const startErrand = createAsyncThunk<CreateErrandResponse, StartErrandPro
 
       const rs = await _rs.json()
       if (rs.success === true) {
-        toggleBeginErrandModal && toggleBeginErrandModal(false)
-        toggleSuccessDialogue &&   toggleSuccessDialogue(true)
         dispatch(errandDetails({ errandId: data.errand_id }))
+        toggleBeginErrandModal && toggleBeginErrandModal(false)
+        toggleSuccessDialogue && toggleSuccessDialogue(true)
+      
         dispatch(myErrandList({}))
          Toast({
           position: 'top-right',

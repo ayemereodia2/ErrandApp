@@ -117,7 +117,7 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
             multiline={true}
             numberOfLines={10}
             style={{ height: 100, textAlignVertical: 'top' }}
-            keyboardType="phone-pad"
+            keyboardType="default"
           />
         </View>
       </View>

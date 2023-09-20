@@ -14,6 +14,12 @@ import { marketReducer } from "./errands/market";
 import { myErrandReducer } from "./errands/myErrands";
 import postBidReducer from "./errands/placeBid";
 import modalsReducer from "./modals";
+import { timelineActionReducer } from "./timeline/sendMessage";
+import { subErrandReducer } from "./errands/subErrand";
+import errandActionReducer from './errands/errandAction'
+import createErrandReducer from './errands/createErrand'
+
+import { categoriesListReducer } from "./PostErrand/categories";
 
 export const store = configureStore({
   reducer: {
@@ -29,7 +35,11 @@ export const store = configureStore({
     myErrandReducer,
     bidActionReducer,
     startErrandReducer,
-   contactUsReducer
+    contactUsReducer,
+    timelineActionReducer,
+    subErrandReducer,
+    categoriesListReducer,
+    createErrandReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 })

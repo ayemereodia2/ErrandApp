@@ -21,22 +21,28 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu'
 import Toast from 'react-native-toast-message'
+import { useSelector } from 'react-redux'
 import ErrandComp from '../../components/ErrandComponent'
 import { ProfileInitials } from '../../components/ProfileInitials'
 import { _fetch } from '../../services/axios/http'
-import { useAppDispatch } from '../../services/store'
+import { RootState, useAppDispatch } from '../../services/store'
+import { getUserId } from '../../utils/helper'
 
 export default function MainScreen({ navigation }: any) {
   // const navigation = useNavigation()
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false)
+  const [userId, setUserId] = useState('')
   const [errands, setErrands] = useState([])
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [profilePic, setProfilePic] = useState('')
+
+  const { data } = useSelector((state: RootState) => state.userDetailsReducer)
 
   // const { data: errands, loading:  } = useSelector(
   //   (state: RootState) => state.marketReducer,
   // )
-
-  // console.log('>>>>>>errands', errands)
 
   const getMarket = async () => {
     try {
@@ -47,7 +53,6 @@ export default function MainScreen({ navigation }: any) {
       })
       const rs = await _rs.json()
       setLoading(false)
-      // console.log(">>>>>--------------------------------rs", rs)
       setErrands(rs.data)
     } catch (e) {
       Toast.show({
@@ -60,12 +65,15 @@ export default function MainScreen({ navigation }: any) {
 
   useEffect(() => {
     // dispatch(market({}))
+    getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
     getMarket()
   }, [])
 
   let [fontsLoaded] = useFonts({
     AbrilFatface_400Regular,
   })
+
+  // console.log('>>>>>>profile', profilePic)
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -74,17 +82,14 @@ export default function MainScreen({ navigation }: any) {
       headerStyle: { backgroundColor: '#F8F9FC' },
       headerLeft: () => (
         <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
-          <TouchableOpacity
-            onPress={() => navigation.openDrawer()}
-            className="flex-row items-center mb-2"
-          >
-            <ProfileInitials
-              firstName="Azubike"
-              lastName="Orji"
-              textClass="text-white text-base"
-            />
-            {/* <Entypo name="menu" size={24} /> */}
-          </TouchableOpacity>
+          <ProfileInitials
+            firstName={firstName.charAt(0).toUpperCase()}
+            lastName={lastName.charAt(0).toUpperCase()}
+            profile_pic={profilePic}
+            textClass="text-white text-base"
+            width={40}
+            height={40}
+          />
         </View>
       ),
       headerRight: () => (
@@ -107,11 +112,22 @@ export default function MainScreen({ navigation }: any) {
               }}
             >
               <MenuOption
+                onSelect={() => getMarket()}
+                text="Refresh"
+                customStyles={{
+                  optionWrapper: {
+                    borderBottomWidth: 1,
+                    borderBottomColor: '#AAAAAA',
+                  },
+                  optionText: { textAlign: 'center', fontWeight: '600' },
+                }}
+              />
+              <MenuOption
                 onSelect={() => alert(`Save`)}
                 text="Profile"
                 customStyles={{
                   optionWrapper: {
-                    // borderBottomWidth: 0.2,
+                    borderBottomWidth: 1,
                     borderBottomColor: '#AAAAAA',
                   },
                   optionText: { textAlign: 'center', fontWeight: '600' },

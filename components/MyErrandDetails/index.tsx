@@ -16,8 +16,6 @@ const MyErrandDetails = ({ errand, user_id }: MyErrandDetailsProps) => {
     getAddress({ errand, setAddress })
   }, [])
 
-  // console.log('>>>>>>errand.satsts', errand.status)
-
   return (
     <View>
       <View className="space-y-3">

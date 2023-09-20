@@ -6,21 +6,26 @@ import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { bidAction } from '../../services/bids/bidsAction'
+import { getSubErrand } from '../../services/errands/subErrand'
 import { RootState, useAppDispatch } from '../../services/store'
 import { BidsProps } from '../../types'
 import { getTimeAgo } from '../../utils/helper'
 import ActionButton from '../ActionButtons'
+import NegotiateBid from '../Modals/Bids/Negotiate'
 import BeginErrandModal from '../Modals/Errands/BeginErrand'
 
 export const HaggleComponent = ({
   navigation,
-  toggleNegotiateModal,
   toggleSuccessDialogue,
   errand,
   bid,
   user_id,
   haggle,
+  setSubErrand,
+  setManageErrandClicked,
 }: BidsProps) => {
+  const negotiateRef = useRef<BottomSheetModal>(null)
+
   // Handles show reply
 
   const beginErrandRef = useRef<BottomSheetModal>(null)
@@ -30,6 +35,10 @@ export const HaggleComponent = ({
     bid.state === 'accepted'
       ? beginErrandRef.current?.present()
       : beginErrandRef.current?.dismiss()
+  }
+
+  function toggleNegotiateModal(open: boolean) {
+    open ? negotiateRef.current?.present() : negotiateRef.current?.dismiss()
   }
 
   const dispatch = useAppDispatch()
@@ -93,22 +102,22 @@ export const HaggleComponent = ({
       : beginErrandRef.current?.dismiss()
   }, [bid])
 
-  const negotiatorIsSender = bid?.haggles.slice(-1)[0]?.source === 'sender'
+  const negotiatorIsRunner = bid?.haggles.slice(-1)[0]?.source === 'runner'
 
   return (
     <>
-      <View className=" bg-white py-4 px-6 border-b-[0.2em] border-[#CCCCCC] hover:bg-[#CC9BFD] mt-4">
+      <View className=" bg-white py-4 px-6 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD] mt-4">
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center space-x-3">
             {errand.errand_type === 1 ? (
               <Image
                 source={require('../../assets/images/mulit.png')}
-                className="w-8 h-8 b rounded-full"
+                className="w-8 h-8 rounded-full"
               />
             ) : (
               <Image
                 source={require('../../assets/images/jagger.jpg')}
-                className="w-8 h-8 b rounded-full"
+                className="w-8 h-8 rounded-full"
               />
             )}
             <Text className="text-sm font-medium">
@@ -152,53 +161,99 @@ export const HaggleComponent = ({
             </TouchableOpacity> */}
         </View>
 
-        <View className="flex-row ml-1 mt-6 items-center justify-between">
-          {negotiatorIsSender && errand.status === 'open' && (
-            <View className="flex-row space-x-2 w-3/5">
-              <ActionButton
-                onPress={() =>
+        {negotiatorIsRunner &&
+        user_id !== errand.user_id &&
+        bid.state !== 'active' &&
+        bid.state !== 'completed' &&
+        bid.state !== 'cancelled' ? (
+          <View className="bg-[#c8e2e8] flex-row justify-center items-center rounded-lg mt-2 w-48 px-1 ">
+            <Text className=" text-xs  p-1 rounded-lg font-light">
+              waiting for Sender's response
+            </Text>
+          </View>
+        ) : (
+          <View className="flex-row ml-1 mt-6 items-center justify-between">
+            {bid.state === 'active' ? (
+              <TouchableOpacity
+                onPress={() => {
+                  setManageErrandClicked(true)
                   dispatch(
-                    bidAction({
-                      method: 'PUT',
+                    getSubErrand({
                       errand_id: errand.id,
-                      description: 'This user has accepted the latest bid',
-                      source: 'runner',
-                      amount: Number(haggle?.amount),
-                      bid_id: bid.id,
-                      dispatch,
-                      toggleSuccessDialogue,
-                      Toast,
+                      runner_id: bid.runner.id,
+                      setSubErrand,
                     }),
                   )
-                }
-                name="checkmark"
-                iconColor="#33A532"
-                className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#33A532]"
-              />
+                }}
+                className="bg-black  p-1 px-3 rounded-2xl"
+              >
+                <Text className="font-md text-white text-sm">
+                  View Timeline
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <>
+                {errand.status === 'open' && bid.state !== 'accepted' && (
+                  <View className="flex-row space-x-2 w-3/5">
+                    <ActionButton
+                      onPress={() =>
+                        dispatch(
+                          bidAction({
+                            method: 'PUT',
+                            errand_id: errand.id,
+                            description:
+                              'This user has accepted the latest bid',
+                            source: 'runner',
+                            amount: Number(haggle?.amount),
+                            bid_id: bid.id,
+                            dispatch,
+                            toggleSuccessDialogue,
+                            Toast,
+                          }),
+                        )
+                      }
+                      name="checkmark"
+                      iconColor="#33A532"
+                      className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#33A532]"
+                    />
 
-              <ActionButton
-                name="x"
-                iconColor="#FF0000"
-                className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-red-600"
-              />
+                    <ActionButton
+                      name="x"
+                      iconColor="#FF0000"
+                      className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-red-600"
+                    />
 
-              <ActionButton
-                onPress={() => toggleNegotiateModal(true)}
-                name="commenting"
-                iconColor="#317ACF"
-                className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#317ACF]"
-              />
-            </View>
-          )}
+                    <ActionButton
+                      onPress={() => toggleNegotiateModal(true)}
+                      name="commenting"
+                      iconColor="#317ACF"
+                      className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#317ACF]"
+                    />
+                  </View>
+                )}
+              </>
+            )}
 
-          <TouchableOpacity onPress={handleReplies} className="">
-            <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
-              <Text className="text-xs text-center text-[#243763]">
-                Bid History
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity onPress={handleReplies} className="">
+              <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
+                <Text className="text-xs text-center text-[#243763]">
+                  Bid History
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
+
+        <BottomSheetModal ref={negotiateRef} index={0} snapPoints={['60%']}>
+          <NegotiateBid
+            bid={bid}
+            errand={errand}
+            navigation={navigation}
+            user_id={user_id}
+            toggleNegotiateModal={toggleNegotiateModal}
+            toggleSuccessDialogue={toggleSuccessDialogue}
+          />
+        </BottomSheetModal>
 
         <BottomSheetModal
           ref={beginErrandRef}

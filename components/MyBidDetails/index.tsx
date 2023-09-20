@@ -3,28 +3,37 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
+import { getSubErrand } from '../../services/errands/subErrand'
 import { RootState, useAppDispatch } from '../../services/store'
 import { BidsProps } from '../../types'
 import { getTimeAgo } from '../../utils/helper'
 import ActionButton from '../ActionButtons'
 import AcceptBid from '../Modals/Bids/Accept'
+import NegotiateBid from '../Modals/Bids/Negotiate'
 
 const ErrandBid = ({
   navigation,
-  toggleNegotiateModal,
+  // toggleNegotiateModal,
   toggleSuccessDialogue,
   toggleAcceptBidModal,
   errand,
   bid,
   user_id,
   haggle,
-  setcurBid,
+  setSubErrand,
+  singleSubErrand,
+  setManageErrandClicked,
 }: BidsProps) => {
   const acceptBidRef = useRef<BottomSheetModal>(null)
   const acceptPoints = ['46%']
+  const negotiateRef = useRef<BottomSheetModal>(null)
 
   function toggleAcceptModal(open: boolean) {
     open ? acceptBidRef.current?.present() : acceptBidRef.current?.dismiss()
+  }
+
+    function toggleNegotiateModal(open: boolean) {
+    open ? negotiateRef.current?.present() : negotiateRef.current?.dismiss()
   }
 
   const dispatch = useAppDispatch()
@@ -73,6 +82,10 @@ const ErrandBid = ({
     (state: RootState) => state.externalUserDetailsReducer,
   )
 
+  const negotiatorIsSender = bid?.haggles.slice(-1)[0].source === 'sender'
+
+  // console.log('>>>>>>>negotiator', errand.bids)
+
   useEffect(() => {
     dispatch(externalUserDetails({ user_id: bid?.runner.id }))
   }, [])
@@ -81,18 +94,18 @@ const ErrandBid = ({
 
   return (
     <>
-      <View className=" bg-white py-4 px-6 border-b-[0.2em] border-[#CCCCCC] hover:bg-[#CC9BFD] mt-4">
+      <View className=" bg-white py-4 px-6 border-b-[0.2px] border-[#CCCCCC] hover:bg-[#CC9BFD] mt-4">
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center space-x-3">
             {errand.errand_type === 1 ? (
               <Image
                 source={require('../../assets/images/mulit.png')}
-                className="w-8 h-8 b rounded-full"
+                className="w-8 h-8 rounded-full"
               />
             ) : (
               <Image
                 source={require('../../assets/images/jagger.jpg')}
-                className="w-8 h-8 b rounded-full"
+                className="w-8 h-8 rounded-full"
               />
             )}
             <Text className="text-sm font-medium">
@@ -110,16 +123,30 @@ const ErrandBid = ({
           <Text className="text-sm font-medium">{haggle?.description}</Text>
         </View>
 
-        {/* Third one */}
-
         <View className="flex-row justify-between items-center">
-          {bid.state === 'accepted' && (
-            <View className="bg-[#ADF0D1]  rounded-2xl py-1 px-3 mt-2 ">
+          {/* {bid.state === 'accepted' && (
+            <View className="bg-[#ADF0D1] rounded-2xl py-1 px-3 mt-2 ">
               <Text className="text-[#115A38] capitalize text-base font-md">
                 {bid.state}
               </Text>
             </View>
-          )}
+          )} */}
+
+          {/* {bid.state === 'cancelled' && (
+            <View className="bg-[#ADF0D1] rounded-2xl py-1 px-3 mt-2 ">
+              <Text className="text-[#115A38] capitalize text-base font-md">
+                {bid.state}
+              </Text>
+            </View>
+          )} */}
+
+          {/* {bid.state === 'completed' && (
+            <View className="bg-[#ADF0D1] rounded-2xl py-1 px-3 mt-2 ">
+              <Text className="text-[#115A38] capitalize text-sm font-md">
+                {bid.state}
+              </Text>
+            </View>
+          )} */}
 
           <View className="bg-[#FEE1CD] rounded-2xl py-1 px-3 mt-2 ">
             <Text className="text-[#642B02] text-base font-bold">
@@ -128,45 +155,115 @@ const ErrandBid = ({
           </View>
         </View>
 
-        {user_id === errand.user_id &&
-          errand.status === 'open' &&
-          // bid.state !== 'rejected' &&
-          bid.state === 'open' && (
-            <View className="flex-row ml-1 mt-6 items-center justify-between">
-              <View className="flex-row gap-2 flex-1 w-3/5">
-                <ActionButton
-                  onPress={() => {
-                    toggleAcceptModal(true)
-                    // setcurBid(bid)
-                  }}
-                  name="checkmark"
-                  iconColor="#33A532"
-                  className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#33A532]"
-                />
-
-                <ActionButton
-                  name="x"
-                  iconColor="#FF0000"
-                  className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#0e0d0d]"
-                />
-
-                <ActionButton
-                  onPress={() => toggleNegotiateModal(true)}
-                  name="comment"
-                  iconColor="#317ACF"
-                  className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#317ACF]"
-                />
+        {bid.state === 'cancelled' ||
+          bid.state === 'active' ||
+          (bid.state === 'completed' && (
+            <View className="flex-row justify-between items-center mt-2">
+              <View className="bg-[#ADF0D1] rounded-2xl py-1 px-3 mt-2 ">
+                <Text className="text-[#115A38] capitalize text-sm font-md">
+                  {bid.state}
+                </Text>
               </View>
 
-              <TouchableOpacity onPress={handleReplies} className="">
-                <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
-                  <Text className="text-xs text-center text-[#243763]">
-                    Bid History
-                  </Text>
-                </View>
+              <TouchableOpacity
+                onPress={handleReplies}
+                className="flex-row space-x-2 items-center border-[0.3px] rounded-2xl py-1 px-3 mt-2"
+              >
+                {/* <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
+                <Text className="text-xs text-center text-[#243763]">
+                  Bid History
+                </Text>
+              </View> */}
+
+                <Text className="flex-row space-x-2 items-center rounded-xl">
+                  Bid History
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => {
+                  setManageErrandClicked(true)
+                  dispatch(
+                    getSubErrand({
+                      errand_id: errand.id,
+                      runner_id: bid.runner.id,
+                      setSubErrand,
+                    }),
+                  )
+                }}
+                className="bg-black  p-1 px-3 rounded-2xl mt-2"
+              >
+                <Text className="font-md text-white text-sm">
+                  View Timeline
+                </Text>
               </TouchableOpacity>
             </View>
-          )}
+          ))}
+
+        {negotiatorIsSender &&
+        user_id === errand.user_id &&
+        bid.state !== 'active' &&
+        bid.state !== 'completed' &&
+        bid.state !== 'cancelled' ? (
+          <View className="bg-[#c8e2e8] flex-row justify-center items-center rounded-lg mt-2 w-48 px-1 ">
+            <Text className=" text-xs  p-1 rounded-lg font-light">
+              waiting for runner's response
+            </Text>
+          </View>
+        ) : (
+          <>
+            {user_id === errand.user_id &&
+              errand.status === 'open' &&
+              // bid.state !== 'rejected' &&
+              bid.state === 'open' && (
+                <View className="flex-row ml-1 mt-6 items-center justify-between">
+                  <View className="flex-row gap-2 flex-1 w-3/5">
+                    <ActionButton
+                      onPress={() => {
+                        toggleAcceptModal(true)
+                        // setcurBid(bid)
+                      }}
+                      name="checkmark"
+                      iconColor="#33A532"
+                      className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#33A532]"
+                    />
+
+                    {/* <ActionButton
+                      name="x"
+                      iconColor="#FF0000"
+                      className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#0e0d0d]"
+                    /> */}
+
+                    <ActionButton
+                      onPress={() => toggleNegotiateModal(true)}
+                      name="comment"
+                      iconColor="#317ACF"
+                      className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#317ACF]"
+                    />
+                  </View>
+
+                  <TouchableOpacity onPress={handleReplies} className="">
+                    <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
+                      <Text className="text-xs text-center text-[#243763]">
+                        Bid History
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              )}
+          </>
+        )}
+
+        <BottomSheetModal ref={negotiateRef} index={0} snapPoints={['60%']}>
+          <NegotiateBid
+            bid={bid}
+            errand={errand}
+            navigation={navigation}
+            user_id={user_id}
+            toggleNegotiateModal={toggleNegotiateModal}
+            toggleSuccessDialogue={toggleSuccessDialogue}
+          />
+        </BottomSheetModal>
 
         <BottomSheetModal
           ref={acceptBidRef}

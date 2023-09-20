@@ -7,7 +7,7 @@ import { myErrandList } from '../errands/myErrands';
     
 export const bidAction = createAsyncThunk<ErrandMarketResponse, BidActionPayload, { rejectValue: string }>(
   "bid/actions",
-  async ({amount, response, description, runner_id,type, bid_id, method, errand_id,  dispatch, source, Toast, toggleNegotiateModal, toggleSuccessDialogue, toggleAcceptModal }: BidActionPayload, { rejectWithValue }) => {
+  async ({amount, response, description, runner_id,type, bid_id, method, errand_id,  dispatch, source, Toast, toggleNegotiateModal, toggleSuccessDialogue, toggleAcceptModal, toggleRejectErrandModal }: BidActionPayload, { rejectWithValue }) => {
     
   try {
     const _rs = await _fetch({
@@ -32,6 +32,7 @@ export const bidAction = createAsyncThunk<ErrandMarketResponse, BidActionPayload
         });
       }
       if (response === 'reject') {
+        toggleSuccessDialogue && toggleSuccessDialogue(true)
         dispatch(errandDetails({ errandId: errand_id }))
         dispatch(myErrandList({}))
          Toast.show({
@@ -40,7 +41,6 @@ export const bidAction = createAsyncThunk<ErrandMarketResponse, BidActionPayload
         });
       }
 
-      
       toggleNegotiateModal && toggleNegotiateModal(false) 
       toggleSuccessDialogue && toggleSuccessDialogue(true)
       dispatch(errandDetails({ errandId: errand_id }))

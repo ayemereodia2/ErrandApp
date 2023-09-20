@@ -1,23 +1,22 @@
 import { AntDesign } from '@expo/vector-icons'
 import React from 'react'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import { PostErrandData } from '../../types'
 
-const ErrandReview = ({ navigation }: any) => {
+interface ReviewProp {
+  setActiveStep: React.Dispatch<React.SetStateAction<number>>
+  postErrandData: PostErrandData
+}
+const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
   return (
     <>
       {/* Header */}
 
-      <View className="w-[430px] h-[120px] bg-[#243763] items-center justify-center">
-        <Text className="text-center text-white mt-6 font-semibold text-xl mr-2">
-          Create Errand
-        </Text>
-      </View>
-
       <ScrollView>
         <View className="flex-row mt-[38px] items-center">
           <View className="mr-[92px] ml-4 bg-[#8098D1] b rounded-full">
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity onPress={() => setActiveStep(4)}>
               <Text className="">
                 <AntDesign name="arrowleft" size={28} color="white" />
               </Text>
@@ -47,13 +46,15 @@ const ErrandReview = ({ navigation }: any) => {
 
         <View className="ml-4 mt-6">
           <Text className="font-bold text-[14px]">Category Type</Text>
-          <Text className="font-medium text-base text-[#333333]">Services</Text>
+          <Text className="font-medium text-base text-[#333333]">
+            {postErrandData.type}
+          </Text>
         </View>
 
         <View className="ml-4 mt-6">
           <Text className="font-bold text-[14px]">Activity</Text>
           <Text className="font-medium text-base text-[#333333]">
-            Baby Sitting
+            {postErrandData.categoryName}
           </Text>
         </View>
 
@@ -66,19 +67,32 @@ const ErrandReview = ({ navigation }: any) => {
         <View className="ml-4 mt-6">
           <Text className="font-bold text-[14px]">Description</Text>
           <Text className="font-medium text-base text-[#333333]">
-            I want someone who is good with watching over babies within the age
-            of 0-3 years old while i go out for a conference meeting.
+            {postErrandData.description}
           </Text>
         </View>
 
         <View className="ml-4 mt-6">
+          <Text className="font-bold text-[14px]">Budget</Text>
+          <Text className="font-medium text-base text-[#333333]">
+            {postErrandData.budget}
+          </Text>
+        </View>
+
+        <View className="ml-4 mt-6">
+          <Text className="font-bold text-[14px]">Location</Text>
+          <Text className="font-medium text-base text-[#333333]">
+            {postErrandData.cur_loc}
+          </Text>
+        </View>
+
+        {/* <View className="ml-4 mt-6">
           <Text className="font-bold text-[14px]">Activity</Text>
           <Text className="font-medium text-base text-[#333333]">
             Baby Sitting
           </Text>
-        </View>
+        </View> */}
 
-        <View className="mt-4 ml-4">
+        {/* <View className="mt-4 ml-4">
           <Text className="text-[#3F60AC]">Supporting Images</Text>
         </View>
         <ScrollView horizontal className="ml-4 mt-4">
@@ -94,9 +108,9 @@ const ErrandReview = ({ navigation }: any) => {
             source={require('../../assets/images/meme.jpg')}
             className="w-[100px] h-[100px] mr-4 rounded-xl"
           />
-        </ScrollView>
+        </ScrollView> */}
 
-        <View className="mt-4 ml-4">
+        {/* <View className="mt-4 ml-4">
           <Text className="text-[#3F60AC]">Supporting Audio</Text>
         </View>
         <View className="flex-row mt-3 w-[378px] h-[70px] mx-auto bg-[#011E3E] items-center justify-center b rounded-lg">
@@ -112,7 +126,7 @@ const ErrandReview = ({ navigation }: any) => {
           <Text>
             <AntDesign name="delete" size={24} color="white" />
           </Text>
-        </View>
+        </View> */}
 
         <View className="ml-4 mt-10">
           <Text className="text-[#314B87] font-normal text-base">
@@ -134,22 +148,6 @@ const ErrandReview = ({ navigation }: any) => {
           </Text>
           <Text>No</Text>
         </View>
-
-        <View className="w-[390px] b border-b-[3px] ml-4 mt-[56px] border-[#EEEEEE]">
-          <Text>Errand Location</Text>
-        </View>
-        <View></View>
-
-        {/* Proceed Button */}
-
-        <TouchableOpacity onPress={() => navigation.navigate('ErrandReview')}>
-          <View className="w-[300px] h-[50px] bg-[#243763] mt-[553px] mb-[37px] mx-auto items-center justify-center">
-            <Text className="text-white text-center items-center">
-              Proceed to Errand Location{' '}
-              <AntDesign name="arrowright" size={18} color="white" />
-            </Text>
-          </View>
-        </TouchableOpacity>
       </ScrollView>
     </>
   )

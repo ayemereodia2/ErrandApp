@@ -1,4 +1,6 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
+import { userDetails } from "../services/auth/userInfo";
 import { MarketData } from "../types";
 
 export const formatDate = (dateString: string) => {
@@ -91,5 +93,184 @@ interface AddressProps {
     return diffDays + " days ago";
   }
  }
+
+interface getUserIdProps {
+  setFirstName: React.Dispatch<React.SetStateAction<string>>
+  setLastName: React.Dispatch<React.SetStateAction<string>>
+  setProfilePic: React.Dispatch<React.SetStateAction<string>>
+  dispatch: any
+  setUserId: React.Dispatch<React.SetStateAction<string>>
+ }
+
+ export const getUserId = async ({setFirstName, setLastName, setProfilePic, setUserId, dispatch}: getUserIdProps) => {
+    const userId = (await AsyncStorage.getItem('user_id')) || ''
+    const first_name = (await AsyncStorage.getItem('first_name')) || ''
+    const last_name = (await AsyncStorage.getItem('last_name')) || ''
+    const profile_pic = (await AsyncStorage.getItem('profile_pic')) || ''
+    setFirstName(first_name)
+    setLastName(last_name)
+    setProfilePic(profile_pic)
+    setUserId(userId)
+    dispatch(userDetails({ user_id: userId }))
+ }
+  
+   export const categoryLists = [
+    {
+      id: '64ac0a0a3534efb7dcd9d506',
+      icon: 'mdi:shopping',
+      name: 'Market / Groceries Shopping',
+      identifier: 'Market / Groceries Shopping',
+      type: "service"
+    },
+    {
+      id: '64ac0b3e3534efb7dcd9d50b',
+      icon: 'mdi:tumble-dryer',
+      name: 'Laundry service',
+      identifier: 'Laundry service',
+      type: "service"
+    },
+    {
+      id: '64ac0bb33534efb7dcd9d50f',
+      icon: 'mdi:truck-delivery',
+      name: 'Delivery',
+      identifier: 'Delivery',
+      type: "service"
+    },
+    {
+      id: '64ac10203534efb7dcd9d517',
+      icon: 'ic:twotone-dry-cleaning',
+      name: 'Cleaning/home service',
+      identifier: 'Cleaning/home service',
+      type: "service"
+    },
+    {
+      id: '64ac10323534efb7dcd9d518',
+      icon: '',
+      name: 'Any Errand',
+      identifier: 'Any Errand',
+      type: "service"
+    },
+    {
+      id: '64ac10953534efb7dcd9d519',
+      icon: 'ic:twotone-work',
+      name: 'General Labour',
+      identifier: 'General Labour',
+      type:"task",
+    },
+    {
+      id: '64ac10f43534efb7dcd9d51b',
+      icon: 'game-icons:teacher',
+      name: 'Home Teacher',
+      identifier: 'Home Teacher',
+      type:"task",
+    },
+    {
+      id: '64ac115f3534efb7dcd9d51c',
+      icon: 'majesticons:video',
+      name: 'Photo / Video Production ',
+      identifier: 'Photo / Video Production ',
+      type:"task",
+    },
+    {
+      id: '64ac11ef3534efb7dcd9d51d',
+      icon: 'mdi:mechanic',
+      name: 'Repairers (Mechanic, Plumber, Carpenter)',
+      identifier: 'Repairers (Mechanic, Plumber, Carpenter)',
+      type:"task",
+    },
+    {
+      id: '64ac11f23534efb7dcd9d51e',
+      icon: 'medical-icon:social-services',
+      name: 'Professional Services',
+      identifier: 'Professional Services',
+      type:"task",
+    },
+    {
+      id: '64ac12313534efb7dcd9d51f',
+      icon: 'mdi:construction-outline',
+      name: 'Builder / Construction Worker',
+      identifier: 'Builder / Construction Worker',
+      type: "service"
+    },
+    {
+      id: '64ac12453534efb7dcd9d520',
+      icon: 'material-symbols:travel',
+      name: 'Travel Agency ',
+      identifier: 'Travel Agency ',
+      type: "service"
+    },
+    {
+      id: '64ac125f3534efb7dcd9d521',
+      icon: 'mdi:event',
+      name: 'Event / Surprise Planner',
+      identifier: 'Event / Surprise Planner',
+      type: "service"
+    },
+    {
+      id: '64ac12803534efb7dcd9d522',
+      icon: 'tabler:car',
+      name: 'Car Ride & Car Hire',
+      identifier: 'Car Ride & Car Hire',
+      type: "service"
+    },
+    {
+      id: '64ac12b03534efb7dcd9d523',
+      icon: 'fa-solid:baby',
+      name: 'Baby Sitting / House Nannies',
+      identifier: 'Baby Sitting / House Nannies',
+      type:"task",
+    },
+    {
+      id: '64ac14733534efb7dcd9d525',
+      icon: 'clarity:house-solid',
+      name: ' House Mover / Removalist',
+      identifier: ' House Mover / Removalist',
+      type:"task",
+    },
+    {
+      id: '64ac14a43534efb7dcd9d526',
+      icon: 'mingcute:cake-line',
+      name: 'Catering / Chef Service',
+      identifier: 'Catering / Chef Service',
+      type:"task",
+    },
+    {
+      id: '64ac14d53534efb7dcd9d527',
+      icon: 'la:salesforce',
+      name: 'Sales Persons',
+      identifier: 'Sales Persons',
+      type:"task",
+    },
+    {
+      id: '64ac15323534efb7dcd9d528',
+      icon: 'icon-park-outline:barber-clippers',
+      name: 'Barber / Hair Stylist',
+      identifier: 'Barber / Hair Stylist',
+      type:"task",
+    },
+    {
+      id: '64ac15603534efb7dcd9d529',
+      icon: 'fluent:design-ideas-24-filled',
+      name: 'Fashion Designer ',
+      identifier: 'Fashion Designer ',
+      type:"task",
+    },
+    {
+      id: '64ac15ab3534efb7dcd9d52a',
+      icon: 'icon-park-solid:graphic-design',
+      name: 'Web / Graphic Designer',
+      identifier: 'Web / Graphic Designer',
+      type:"task",
+    },
+    {
+      id: '64ac187b3534efb7dcd9d534',
+      icon: 'icon-park-solid:hair-dryer',
+      name: 'Hair dressing',
+      identifier: 'Hair dressing',
+      type:"task",
+    },
+  ]
+
+ 
   
 

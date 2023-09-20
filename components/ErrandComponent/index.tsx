@@ -62,7 +62,7 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
                   width: 40,
                   height: 40,
                   resizeMode: 'contain',
-                  borderRadius:20
+                  borderRadius: 20,
                 }}
                 alt="okay"
                 src={errand.user.profile_picture}
@@ -76,21 +76,27 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
             )}
           </View>
 
-          <View className="flex-row justify-between items-center">
-            <View className="w-60">
-              <Text className="text-[#000000] text-sm font-bold"></Text>
-              <Text className="text-sm font-semibold">
-                <Entypo name="star" size={16} color="#FBB955" />
-                <Text className="text-[14px] text-[#777777] font-medium">
-                  <View className="px-1">
-                    <Text>{errand.user.rating}</Text>
-                  </View>
-                  <Text className="text-[#ccc] font-light text-2xl ">|</Text>
-                  {/* {sender.errands_completed} */}{' '}
-                  <FontAwesome5 name="running" size={14} color="black" />{' '}
-                  {errand.user.errands_completed}
+          <View>
+            <Text className="font-semibold pt-2">
+              {errand?.user.first_name} {errand?.user.last_name}
+            </Text>
+
+            <View className="flex-row justify-between -mt-2">
+              <View className="w-60">
+                <Text className="text-[#000000] text-sm font-bold"></Text>
+                <Text className="text-sm font-semibold">
+                  <Entypo name="star" size={16} color="#FBB955" />
+                  <Text className="text-[14px] text-[#777777] font-medium">
+                    <View className="px-1">
+                      <Text>{errand.user.rating}</Text>
+                    </View>
+                    <Text className="text-[#ccc] font-light text-2xl ">|</Text>
+                    {/* {sender.errands_completed} */}{' '}
+                    <FontAwesome5 name="running" size={14} color="black" />{' '}
+                    {errand.user.errands_completed}
+                  </Text>
                 </Text>
-              </Text>
+              </View>
             </View>
           </View>
         </View>

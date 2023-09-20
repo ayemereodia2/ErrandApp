@@ -10,8 +10,9 @@ import { StyleSheet, View } from 'react-native'
 import AccountScreen from '../screens/Accounts'
 import MainScreen from '../screens/Market/MainScreen'
 import ErrandScreen from '../screens/MyErrands'
-import PostErrand1 from '../screens/PostErrand/PostErrand1'
+import PostErrand1 from '../screens/CreateErrand/PostErrand1'
 import WalletScreen from '../screens/Wallets'
+import PostErrand from '../screens/CreateErrand/PostErrand'
 
 const Tab = createBottomTabNavigator()
 
@@ -84,7 +85,7 @@ const BottomTab = () => {
 
       <Tab.Screen
         name="PostErrands"
-        component={PostErrand1}
+        component={PostErrand}
         options={{
           tabBarStyle: {
             display: 'none',
