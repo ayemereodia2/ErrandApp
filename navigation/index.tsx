@@ -37,6 +37,9 @@ import { RootStackParamList } from '../types'
 import { getUserId } from '../utils/helper'
 import BottomTab from './BottomTab'
 import DrawerNavigator from './DrawerNav'
+import TransactionScreen from '../screens/Wallets/TransactionScreen'
+import EscrowScreen from '../screens/Wallets/EscrowScreen'
+import WalletAccount from '../screens/Wallets/WalletAccount'
 
 // import DrawerNav from './DrawerNav'
 
@@ -305,6 +308,24 @@ export function RootNavigator() {
       <Stack.Screen
         name="EditProfile"
         component={EditProfileTitle}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="TransactionScreen"
+        component={TransactionScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="EscrowScreen"
+        component={EscrowScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="WalletAccount"
+        component={WalletAccount}
         options={{ headerShown: false }}
       />
 

@@ -1,8 +1,17 @@
+<<<<<<< Updated upstream
 import { AntDesign } from '@expo/vector-icons'
 import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import { PostErrandData } from '../../types'
+=======
+import { View, Text, Image, TouchableOpacity, TextInput, ScrollView } from 'react-native'
+import React from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+// import { ScrollView, TextInput} from 'react-native-gesture-handler'
+import { AntDesign, Feather, FontAwesome } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
+>>>>>>> Stashed changes
 
 interface LocationProp {
   handleInputChange: any

@@ -2,8 +2,13 @@
 
 // import { SafeAreaProvider } from 'react-native-safe-area-context'
 // import { Provider } from 'react-redux'
+import React from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+<<<<<<< Updated upstream
 import { AppStateStatus, Platform,View } from 'react-native'
+=======
+import { AppStateStatus, Platform, View } from 'react-native'
+>>>>>>> Stashed changes
 // import 'react-native-gesture-handler'
 // import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { MenuProvider } from 'react-native-popup-menu'
@@ -20,7 +25,8 @@ import { store } from './services/store'
 const queryClient = new QueryClient()
 
 function onAppStateChange(status: AppStateStatus) {
-  // React Query already supports in web browser refetch on window focus by default
+  // React Query already supports in web browser refetch on window focus by defaunpm update
+
   if (Platform.OS !== 'web') {
     focusManager.setFocused(status === 'active')
   }

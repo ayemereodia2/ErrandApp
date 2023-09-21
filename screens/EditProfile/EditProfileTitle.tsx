@@ -1,8 +1,16 @@
+<<<<<<< Updated upstream
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { AntDesign, Entypo, Feather, FontAwesome5, MaterialIcons } from '@expo/vector-icons'
 // import { ScrollView } from 'react-native-gesture-handler'
 import { TextInput, ScrollView  } from 'react-native'
+=======
+import { View, Text, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
+import React from 'react'
+import { AntDesign, Entypo, Feather, FontAwesome5, MaterialIcons } from '@expo/vector-icons'
+// import { ScrollView } from 'react-native-gesture-handler'
+import { TextInput } from 'react-native'
+>>>>>>> Stashed changes
 import { Image } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import UpdateProfile from '../../components/ProfileUpdate/UpdateProfile'
@@ -79,7 +87,7 @@ const EditProfileTitle = ({navigation, route}:any) => {
       <Text className='text-center mt-3 text-base font-medium'>{data?.data.occupation ? data.occupation : 'Swave User'}</Text>
       </View>
 
-      <UpdateProfile image={image} data={data}/>
+      <UpdateProfile image={image} data={data} />
 
 
     </ScrollView>

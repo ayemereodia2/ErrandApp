@@ -1,9 +1,15 @@
 import { AntDesign } from '@expo/vector-icons'
 import React from 'react'
+<<<<<<< Updated upstream
 import { Text, TouchableOpacity, View } from 'react-native'
 import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import SelectDropdown from 'react-native-select-dropdown'
 import { PostErrandData } from '../../types'
+=======
+import { Text, TouchableOpacity, View, TextInput, ScrollView } from 'react-native'
+// import { ScrollView, TextInput } from 'react-native-gesture-handler'
+import DropdownComponent from '../../components/Picker/DropdownComponent'
+>>>>>>> Stashed changes
 
 interface FinanceProp {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>

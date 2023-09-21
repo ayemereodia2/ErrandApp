@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, TouchableOpacity, ActivityIndicator } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AntDesign, Entypo, EvilIcons, Feather, FontAwesome5, MaterialIcons } from '@expo/vector-icons'
 import { ScrollView } from 'react-native-gesture-handler'
 import { TextInput } from 'react-native'
@@ -17,7 +17,9 @@ import { useFocusEffect } from '@react-navigation/native'
 
 const AccountScreen = ({navigation}:any) => {
 
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [profile, setProfile] = useState(true);
+  
 
   const handleProfile = () => {
     setProfile(false)
@@ -27,6 +29,7 @@ const AccountScreen = ({navigation}:any) => {
     setProfile(true)
   }
 
+ 
 
   const getUserProfile = async () => {
     console.log('get user profile is called')
@@ -43,12 +46,13 @@ const AccountScreen = ({navigation}:any) => {
   
   }
 
- 
+
 
     const {isLoading, isError, data} = useQuery({ queryKey: ['user-profile'], queryFn: getUserProfile, refetchOnMount: 'always'})
     console.log(data);
 
     
+  
     
    
     
@@ -72,6 +76,7 @@ const AccountScreen = ({navigation}:any) => {
   }
 
 
+
   // console.log('data', data?.last_name)
 
 
@@ -88,6 +93,8 @@ const AccountScreen = ({navigation}:any) => {
 
     <Text className='text-[18px] font-bold'>My Profile</Text>
 
+   
+
       </View>
 
     {/* End Of Header */}
@@ -99,13 +106,13 @@ const AccountScreen = ({navigation}:any) => {
 
     <View className='mt-8 mx-auto'>
       <Image 
-      source={{uri: data?.data.profile_picture}}
+      source={{uri: data.data.profile_picture}}
       className='b rounded-full w-[100px] h-[100px]'
       />
     </View> : 
 
     <View className='bg-gray-700 w-[80px] h-[80px] rounded-full items-center justify-center mx-auto mt-8'>
-      <Text className='text-white font-bold text-center text-2xl'>{data?.data.first_name.charAt(0)}{data?.data.last_name.charAt(0)}</Text>
+      <Text className='text-white font-bold text-center text-2xl'>{data.data.first_name.charAt(0)}{data.data.last_name.charAt(0)}</Text>
     </View> }
     
 
@@ -113,13 +120,13 @@ const AccountScreen = ({navigation}:any) => {
 
     <View> 
       <View className='flex-row justify-center items-center mt-5'>
-      <Text className='text-[18px] font-bold leading-6'>{data?.data.first_name}  {data?.data.last_name} </Text> 
+      <Text className='text-[18px] font-bold leading-6'>{data.data.first_name}  {data.data.last_name} </Text> 
       <Text><MaterialIcons name="verified" size={20} color="green" /></Text>
       </View>
 
       {/*Occupation */}
 
-      <Text className='text-center mt-3 text-base font-medium'>{data?.data.occupation ? data.occupation : 'Swave User'}</Text>
+      <Text className='text-center mt-3 text-base font-medium'>{data.data.occupation ? data.data.occupation : 'Swave User'}</Text>
       
 
 
@@ -132,12 +139,12 @@ const AccountScreen = ({navigation}:any) => {
         </View>
 
         <View className='ml-3'>
-          <Text className='text-center mb-1 font-bold'>{data?.data.errands_completed}</Text>
+          <Text className='text-center mb-1 font-bold'>{data.data.errands_completed}</Text>
           <Text className='text-center font-medium'>Errands Completed </Text>
         </View>
 
         <View className='ml-3 '>
-          <Text className='text-center mb-1 font-bold'>{data?.data.errands_cancelled}</Text>
+          <Text className='text-center mb-1 font-bold'>{data.data.errands_cancelled}</Text>
           <Text className='text-center font-medium'>Errands Cancelled </Text>
         </View>
       </View>

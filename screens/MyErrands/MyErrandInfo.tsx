@@ -5,6 +5,7 @@ import {
 } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useRef, useState } from 'react'
+<<<<<<< Updated upstream
 import {
   KeyboardAvoidingView,
   Platform,
@@ -14,6 +15,11 @@ import {
   ScrollView 
 } from 'react-native'
 // import { ScrollView } from 'react-native-gesture-handler'
+=======
+import { TouchableOpacity, useWindowDimensions, View, ScrollView } from 'react-native'
+// import { ScrollView } from 'react-native-gesture-handler'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+>>>>>>> Stashed changes
 import {
   Menu,
   MenuOption,

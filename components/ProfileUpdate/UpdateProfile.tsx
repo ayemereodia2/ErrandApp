@@ -106,6 +106,7 @@ const navigation = useNavigation()
       
             // Navigate back to the Account screen
             navigation.navigate('Account');
+            
             console.log(updatedData);
           } else {
             // Handle the case where the server responded with an error message
@@ -140,7 +141,7 @@ const navigation = useNavigation()
         <Text className='ml-4 font-medium text-lg text-[#1E3A79]'>Bio</Text>
         <TextInput className='w-[380px] mt-2 b rounded-md h-[120px] pl-3 pb-[70px] mx-auto bg-[#E6E6E6] text-sm'
             placeholder={data?.data.bio ? data.data.bio : 'Enter a message'}
-            value={about}
+            value={about} 
             onChangeText={(text) => setAbout(text)}
             placeholderTextColor={'#B3B3B3'}>
 
@@ -181,18 +182,20 @@ const navigation = useNavigation()
         <Text className='ml-4 font-medium text-lg text-[#1E3A79]'>Date of Birth</Text>
 
         {showPicker && (
-
+            <View className='text-black'>
             <DateTimePicker 
             mode='date'
             display='spinner'
             value={date}
             onChange={onChange}
             className='h-[120px] mt-[-10px] text-black'
+            textColor='black'
             
            
            
 
             />
+            </View>
         )}
 
           {showPicker && Platform.OS === "ios" && (
@@ -213,11 +216,11 @@ const navigation = useNavigation()
           {!showPicker  && (
             <Pressable>
             <TextInput 
-             className='w-[380px] mt-2 b rounded-md h-[120px] pl-3 pb-[70px] mx-auto bg-[#E6E6E6] text-sm text-black'
+             className='w-[380px] mt-2 b rounded-md h-[60px] pl-3  pb-[42x] mx-auto bg-[#E6E6E6] text-sm text-black'
              placeholder={'23 Aug 2003'}
              value={dateOfBirth}
              onChangeText={setDateOfBirth}
-             editable={true}
+             editable={false}
              onPressIn={toggleDatepicker}
              placeholderTextColor='#B3B3B3'
             
