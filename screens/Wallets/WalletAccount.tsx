@@ -130,6 +130,58 @@ const WalletAccount = ({navigation}:any) => {
                 </View>
             </View>
 
+
+
+            <View className='mx-4 mt-10 border-b border-[#CCCCCC] pb-4'>
+
+            <View className='flex-row  mx-4 gap-3  '>
+
+            <View className='bg-[#FEE1CD] rounded-full h-[60px] w-[60px] justify-center items-center'>
+            <Text><FontAwesome name="bank" size={24} color="black" /></Text>
+            </View>
+
+                <View>
+                <Text className='font-bold text-base'>First Bank of Nigeria</Text>
+                <Text className='font-medium text-base mt-1'>3115679989</Text>
+
+                <TouchableOpacity className='bg-white border border-[#C82332] rounded-2xl w-[82px] h-[28px] items-center justify-center mt-1'>
+                <Text className='text-[#C82332]'>Remove</Text>
+                </TouchableOpacity>
+
+                </View>
+                
+            </View>
+            </View>
+
+
+
+            <View className='mx-4 mt-10 border-b border-[#CCCCCC] pb-4'>
+
+            <View className='flex-row  mx-4 gap-3  '>
+
+            <View className='bg-[#FEE1CD] rounded-full h-[60px] w-[60px] justify-center items-center'>
+            <Text><FontAwesome name="bank" size={24} color="black" /></Text>
+            </View>
+
+                <View>
+                <Text className='font-bold text-base'>Guaranteed Trust Bank</Text>
+                <Text className='font-medium text-base mt-1'>3115679989</Text>
+
+                <TouchableOpacity className='bg-white border border-[#C82332] rounded-2xl w-[82px] h-[28px] items-center justify-center mt-1'>
+                <Text className='text-[#C82332]'>Remove</Text>
+                </TouchableOpacity>
+
+                </View>
+                
+            </View>
+            </View>
+
+            <TouchableOpacity className='bg-[#1E3A79] w-[210px] h-14 items-center justify-center rounded-md mx-auto mt-40'>
+            <View >
+                <Text className='text-white text-center font-medium'>Add  Account</Text>
+            </View>
+            </TouchableOpacity>
+
         </ScrollView>
     </SafeAreaView>
   )

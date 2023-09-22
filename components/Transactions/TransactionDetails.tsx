@@ -3,7 +3,7 @@ import React from 'react'
 
 const TransactionDetails = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView className='mx-4'>
        <View className='mx-2 py-4 border-b border-[#CCCCCC]'>
             <View className='flex-row justify-between items-center'>
               <Text className='text-base font-medium'>Accepted Bid Debit</Text>

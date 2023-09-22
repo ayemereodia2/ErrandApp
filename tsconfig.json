@@ -2,12 +2,7 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
-<<<<<<< Updated upstream
-    "esModuleInterop": true,
-  }
-=======
-    "jsx": "react"
+    "esModuleInterop": true, 
   },
-  "include": ["src", "node_modules/**/*"]
->>>>>>> Stashed changes
+  
 }

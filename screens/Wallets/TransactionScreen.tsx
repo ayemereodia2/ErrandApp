@@ -8,7 +8,7 @@ const TransactionScreen = ({navigation}:any) => {
     useLayoutEffect(() => {
         navigation.setOptions({
           headerShown: true,
-          title: 'Wallet',
+          title: 'Transactions',
           headerStyle: { backgroundColor: '#F8F9FC' },
           headerLeft: () => (
             <TouchableOpacity className="flex-row items-center justify-between mx-0 px-3 py-3" onPress={()=> navigation.goBack()}>
@@ -105,7 +105,7 @@ const TransactionScreen = ({navigation}:any) => {
                   </View>
 
                   {/* Body */}
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} className='mx-4'>
                   <Text className='mt-[34px] text-center'>Today</Text>
 
                   <View className='mx-2 py-4 border-b border-[#CCCCCC]'>

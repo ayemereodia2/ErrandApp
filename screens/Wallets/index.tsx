@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 import { View, Text, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useLayoutEffect } from 'react'
 import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu'
@@ -6,13 +5,6 @@ import { ProfileInitials } from '../../components/ProfileInitials'
 import { Entypo, EvilIcons, FontAwesome, MaterialIcons } from '@expo/vector-icons'
 import TransactionDetails from '../../components/Transactions/TransactionDetails'
 import EscrowDetails from '../../components/Transactions/EscrowDetails'
-=======
-import React, { useLayoutEffect, useState } from 'react'
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-// import { TouchableOpacity } from 'react-native-gesture-handler'
-import Balance from '../../components/Balance'
-import Transactions from '../../components/Transactions'
->>>>>>> Stashed changes
 
 const WalletScreen = ({navigation}:any) => {
 
@@ -88,12 +80,16 @@ const WalletScreen = ({navigation}:any) => {
         <Text className='font-medium text-xl leading-[29px]'>Overview</Text>
 
         <TouchableOpacity className='bg-[#3F60AC] w-[131px] items-center p-3 rounded-md' onPress={()=> navigation.navigate('WalletAccount')}>
-          <Text className='text-white'>Quick Links</Text>
+          <View className='flex-row items-center justify-center'>
+          <Text className='text-white text-center'>Quick Links </Text>
+          <Text><MaterialIcons name="keyboard-arrow-down" size={24} color="white" /></Text>
+          </View>
+          
         </TouchableOpacity>
       </View>
 
           {/* Account Balance */}
-      <View className='w-[380px] bg-[#FFF] border mt-3 border-[#DAE1F1] rounded-3xl p-6'>
+      <View className='w-[380px] bg-[#FFF] border mt-3 border-[#DAE1F1] rounded-3xl p-6 mx-auto'>
         <View className='bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center'>
           <Text><FontAwesome name="bank" size={24} color="#C85604" /></Text>
         </View>
@@ -122,19 +118,19 @@ const WalletScreen = ({navigation}:any) => {
 
       {/* Incoming Funds */}
 
-      <View className='w-[380px] bg-[#1A1A1A] border mt-4 border-[#DAE1F1] rounded-3xl p-6'>
+      <View className='w-[380px] bg-[#FFB536] border mt-4 border-[#DAE1F1] rounded-3xl p-6'>
 
           <View className='bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center'>
               <Text><FontAwesome name="bank" size={24} color="#C85604" /></Text>
             </View>
 
-            <Text className='mt-6 text-[#fff] text-base font-medium leading-[24px]'>Escrow Account</Text>
-            <Text className='font-bold text-white text-[32px] mt-2'>₦70,000.00</Text>
+            <Text className='mt-6 text-black text-base font-medium leading-[24px]'>Escrow Account</Text>
+            <Text className='font-bold text-black text-[32px] mt-2'>₦70,000.00</Text>
 
           </View>
 
           {/* Transction */}
-        <View className='mt-[64px] mb-8 flex-row justify-between items-center'>
+        <View className='mt-[64px] mb-8 flex-row justify-between items-center mx-4'>
           <Text className='text-xl font-medium'>Transactions</Text>
 
           <TouchableOpacity className='bg-[#3F60AC] w-[65px] h-[28px] items-center justify-center rounded-md' onPress={()=> navigation.navigate('TransactionScreen')}>
@@ -147,7 +143,7 @@ const WalletScreen = ({navigation}:any) => {
 
 
          {/* Escrow */}
-         <View className='mt-[64px] mb-8 flex-row justify-between items-center'>
+         <View className='mt-[64px] mb-8 flex-row justify-between items-center mx-4'>
           <Text className='text-xl font-medium'>Escrow Breakdown</Text>
 
           <TouchableOpacity className='bg-[#3F60AC] w-[65px] h-[28px] items-center justify-center rounded-md' onPress={()=> navigation.navigate('EscrowScreen')}>

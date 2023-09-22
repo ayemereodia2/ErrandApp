@@ -1,13 +1,8 @@
 import { AntDesign } from '@expo/vector-icons'
 import React from 'react'
-<<<<<<< Updated upstream
 import { Text, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { PostErrandData } from '../../types'
-=======
-import { Image, Text, TouchableOpacity, View, ScrollView } from 'react-native'
-// import { ScrollView } from 'react-native-gesture-handler'
->>>>>>> Stashed changes
 
 interface ReviewProp {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>

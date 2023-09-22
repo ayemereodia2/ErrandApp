@@ -1,14 +1,8 @@
 import { AntDesign, Feather, FontAwesome } from '@expo/vector-icons'
-<<<<<<< Updated upstream
 import React, { useState } from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import SelectDropdown from 'react-native-select-dropdown'
-=======
-import React from 'react'
-import { Image, Text, TouchableOpacity, View, TextInput, ScrollView } from 'react-native'
-// import { ScrollView, TextInput } from 'react-native-gesture-handler'
->>>>>>> Stashed changes
 import DropdownComponent from '../../components/Picker/DropdownComponent'
 import { PostErrandData } from '../../types'
 
