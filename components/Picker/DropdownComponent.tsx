@@ -30,6 +30,7 @@ const DropdownComponent = ({placeHolder, bg}:any) => {
     
       
       placeholder={placeHolder ? placeHolder : 'Select'}
+      
       value={value}
       onChange={item => {
         setValue(item.value);

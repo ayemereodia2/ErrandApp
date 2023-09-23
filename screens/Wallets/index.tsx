@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu'
 import { ProfileInitials } from '../../components/ProfileInitials'
 import { Entypo, EvilIcons, FontAwesome, MaterialIcons } from '@expo/vector-icons'
@@ -7,6 +7,12 @@ import TransactionDetails from '../../components/Transactions/TransactionDetails
 import EscrowDetails from '../../components/Transactions/EscrowDetails'
 
 const WalletScreen = ({navigation}:any) => {
+
+  const [showQuickLinks, setShowQuickLinnks] = useState(false)
+
+  const handleQuickLinks = () =>{
+    setShowQuickLinnks(!showQuickLinks)
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -79,17 +85,41 @@ const WalletScreen = ({navigation}:any) => {
       <View className='flex-row items-center justify-between bg-[#F8F9FC] mx-3 mt-2'>
         <Text className='font-medium text-xl leading-[29px]'>Overview</Text>
 
-        <TouchableOpacity className='bg-[#3F60AC] w-[131px] items-center p-3 rounded-md' onPress={()=> navigation.navigate('WalletAccount')}>
+        <TouchableOpacity className='bg-[#3F60AC] w-[131px] items-center p-3 rounded-md' onPress={handleQuickLinks}>
           <View className='flex-row items-center justify-center'>
           <Text className='text-white text-center'>Quick Links </Text>
           <Text><MaterialIcons name="keyboard-arrow-down" size={24} color="white" /></Text>
-          </View>
-          
+          </View>   
         </TouchableOpacity>
       </View>
 
+
+        <View className='relative'>
+         {/* THE SECTION FOR THE DROPDOWN FOR QUICKLINKS */}
+          <View className='ml-44 bg-white justify-end items-center absolute top-2 left-1 z-10' style={{display: showQuickLinks ? 'flex' : 'none'}}>
+            <TouchableOpacity className='border-b border-b-[#E6E6E6] py-3 px-2'>
+            <Text className=''>Generate Account Statement</Text>
+            </TouchableOpacity>
+
+           <TouchableOpacity className='border-b border-b-[#E6E6E6] py-3 px-2' onPress={()=> navigation.navigate('WithdrawalScreen')}>
+            <Text className=''>Make Withdrawal Request</Text>
+            </TouchableOpacity>
+
+           <TouchableOpacity className='border-b border-b-[#E6E6E6] py-3 px-2' onPress={()=> navigation.navigate('AccountStatement')}>
+            <Text className=''>View Withdrawal Requests</Text>
+            </TouchableOpacity>
+
+           <TouchableOpacity className=' border-b-[#E6E6E6] py-3 px-2' onPress={()=> navigation.navigate('WalletAccount')}>
+            <Text className=''>My Accounts</Text>
+            </TouchableOpacity>
+
+          </View>
+
+          {/* THE END OF QUICKLINKS DROPDOWN */}
+
+
           {/* Account Balance */}
-      <View className='w-[380px] bg-[#FFF] border mt-3 border-[#DAE1F1] rounded-3xl p-6 mx-auto'>
+      <View className='w-[380px] bg-[#FFF] border mt-3 border-[#DAE1F1] rounded-3xl p-6 mx-auto '>
         <View className='bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center'>
           <Text><FontAwesome name="bank" size={24} color="#C85604" /></Text>
         </View>
@@ -100,6 +130,8 @@ const WalletScreen = ({navigation}:any) => {
         <TouchableOpacity className='w-[230px] h-[44px] mt-5 items-center justify-center border border-[#314B87]'>
           <Text className='text-center text-base'> +  <Text>Fund Wallet</Text></Text> 
         </TouchableOpacity>
+
+      </View>
 
       </View>
 

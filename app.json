@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Gofer-mobile",
-    "slug": "Gofer-mobile",
+    "name": "Swave",
+    "slug": "Swave-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

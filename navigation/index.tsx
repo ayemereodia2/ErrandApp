@@ -40,6 +40,8 @@ import DrawerNavigator from './DrawerNav'
 import TransactionScreen from '../screens/Wallets/TransactionScreen'
 import EscrowScreen from '../screens/Wallets/EscrowScreen'
 import WalletAccount from '../screens/Wallets/WalletAccount'
+import WithdrawalScreen from '../screens/Wallets/WithdrawalScreen'
+import AccountStatement from '../screens/Wallets/AccountStatement'
 
 // import DrawerNav from './DrawerNav'
 
@@ -326,6 +328,18 @@ export function RootNavigator() {
       <Stack.Screen
         name="WalletAccount"
         component={WalletAccount}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="WithdrawalScreen"
+        component={WithdrawalScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="AccountStatement"
+        component={AccountStatement}
         options={{ headerShown: false }}
       />
 

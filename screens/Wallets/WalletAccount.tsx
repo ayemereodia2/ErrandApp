@@ -1,10 +1,27 @@
 import { View, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useMemo, useRef } from 'react'
 import { AntDesign, Entypo, EvilIcons, FontAwesome } from '@expo/vector-icons'
 import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import {
+    BottomSheetModal,
+    BottomSheetModalProvider,
+  } from '@gorhom/bottom-sheet'
+import AddAccount from '../../components/Transactions/AddAccount'
+  
 
 const WalletAccount = ({navigation}:any) => {
+
+    const bottomSheetRef = useRef<BottomSheetModal>(null)
+    const snapPoints = useMemo(() => ['63%'], [])
+
+    function handleModal() {
+        bottomSheetRef.current?.present()
+      }
+    
+      function closePlaceBid() {
+        bottomSheetRef.current?.dismiss()
+      }
 
     
   useLayoutEffect(() => {
@@ -73,6 +90,8 @@ const WalletAccount = ({navigation}:any) => {
 
 
   return (
+
+    <BottomSheetModalProvider>
     <SafeAreaView>
         {/* Heder */}
 
@@ -176,14 +195,25 @@ const WalletAccount = ({navigation}:any) => {
             </View>
             </View>
 
-            <TouchableOpacity className='bg-[#1E3A79] w-[210px] h-14 items-center justify-center rounded-md mx-auto mt-40'>
+            <TouchableOpacity className='bg-[#1E3A79] w-[210px] h-14 items-center justify-center rounded-md mx-auto mt-40' onPress={handleModal}>
             <View >
                 <Text className='text-white text-center font-medium'>Add  Account</Text>
             </View>
             </TouchableOpacity>
 
         </ScrollView>
+
+        <BottomSheetModal
+              ref={bottomSheetRef}
+              index={0}
+              snapPoints={snapPoints}
+              containerStyle={{ marginHorizontal: 10 }}
+            >
+              <AddAccount />
+
+              </BottomSheetModal>
     </SafeAreaView>
+    </BottomSheetModalProvider>
   )
 }
 
