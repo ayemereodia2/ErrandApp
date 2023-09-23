@@ -79,7 +79,7 @@ const EditProfileTitle = ({navigation, route}:any) => {
       <Text className='text-center mt-3 text-base font-medium'>{data?.data.occupation ? data.occupation : 'Swave User'}</Text>
       </View>
 
-      <UpdateProfile image={image} data={data}/>
+      <UpdateProfile image={image} data={data} />
 
 
     </ScrollView>

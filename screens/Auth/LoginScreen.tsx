@@ -24,8 +24,7 @@ export default function LoginScreen() {
   const navigation = useNavigation()
   const dispatch = useAppDispatch()
   const [showPassword, setShowPassword] = useState(true)
-  const [errorMessage, setErrorMessage] = useState('');
-
+  const [errorMessage, setErrorMessage] = useState('')
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -40,12 +39,13 @@ export default function LoginScreen() {
       navigation,
     }
     
-    
-    dispatch(loginUser(loginData))
-    .catch((error) => {
-      // Handle login error here
-      setErrorMessage('Incorrect phone number or password.');
-    });
+    try {
+       dispatch(loginUser(loginData));
+    } catch (error) {
+      console.error('Authentication error:', error);
+      setErrorMessage('Incorrect phone number or password. Please try again.');
+    }
+ 
   }
 
   const {
@@ -130,11 +130,14 @@ export default function LoginScreen() {
                   // className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
                 />
 
-                 {errorMessage ? (
-                  <Text style={{ color: 'red', textAlign: 'center', marginBottom: 4 }}>
-                    {errorMessage}
-                  </Text>
-                ) : ''}
+
+              {errorMessage && (
+                <Text style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</Text>
+              )}
+
+
+               
+                
 
                 <Text className="text-black text-center pb-6 pt-3">
                   Don’t Have an Account?
