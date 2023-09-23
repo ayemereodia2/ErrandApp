@@ -1,35 +1,50 @@
-import { AntDesign } from '@expo/vector-icons'
-import React from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
-import { ScrollView, TextInput } from 'react-native-gesture-handler'
+import React, { useEffect, useRef } from 'react'
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native'
+import { paystackProps } from 'react-native-paystack-webview'
 import SelectDropdown from 'react-native-select-dropdown'
+import { useSelector } from 'react-redux'
+import { walletAction } from '../../services/errands/walletBalance'
+import { RootState, useAppDispatch } from '../../services/store'
 import { PostErrandData } from '../../types'
 
 interface FinanceProp {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>
   handleInputChange: any
   postErrandData: PostErrandData
+  toggleFundWalletModal: any
+  navigation: any
 }
 
 const CreateErrandFinance = ({
   setActiveStep,
   handleInputChange,
   postErrandData,
+  toggleFundWalletModal,
+  navigation,
 }: FinanceProp) => {
+  const dispatch = useAppDispatch()
+
+  const { data, loading } = useSelector(
+    (state: RootState) => state.walletActionReducer,
+  )
+
+  useEffect(() => {
+    dispatch(walletAction({ request: 'wallet' }))
+  }, [])
+
   return (
     <>
       {/* Header */}
 
       <ScrollView>
-        <View className="flex-row mt-[38px] items-center">
-          <View className="mr-[92px] ml-4 bg-[#8098D1] b rounded-full">
-            <TouchableOpacity onPress={() => setActiveStep(3)}>
-              <Text className="">
-                <AntDesign name="arrowleft" size={28} color="white" />
-              </Text>
-            </TouchableOpacity>
-          </View>
-
+        <View className="flex-row mt-[38px] items-center justify-center">
           <View className="mr-2 w-[30px] h-[30px] bg-[#6604C8] b rounded-full justify-center items-center">
             <Text className="text-white mx-auto">4</Text>
           </View>
@@ -58,6 +73,20 @@ const CreateErrandFinance = ({
           keyboardType="number-pad"
           defaultValue={postErrandData.budget.toString()}
         />
+        <TouchableOpacity
+          onPress={() => navigation.navigate('FundWalletModal')}
+          className="flex-row items-center"
+        >
+          <Text className="ml-4 pt-2 pr-2">Fund Wallet</Text>
+          <Text className="text-sm pt-2 font-md">
+            ( <Text className="font-bold">Balance:</Text> ₦
+            {Number(data?.balance) === 0
+              ? '0.00'
+              : (Number(data?.balance) / 100).toLocaleString()}
+            )
+          </Text>
+        </TouchableOpacity>
+
         <View className="mt-4 ml-4">
           <Text className="text-[#FF0000] text-sm font-medium">
             The Budget for this errand is calculated against the current market
@@ -80,26 +109,21 @@ const CreateErrandFinance = ({
           </Text>
         </View>
 
-        <View className="mt-[41px] md:w-[390px] ml-[16px]">
-          <Text>Request for Insurance</Text>
+        <View className="space-x-6 px-4">
+          <View className="mt-[40px]">
+            <Text>Restrict Errand by Insurance</Text>
+          </View>
+          <SelectDropdown
+            defaultValue={postErrandData.insurance}
+            data={['Yes', 'No']}
+            buttonStyle={style.restrictInput}
+            onSelect={(selectedItem, index) => {
+              handleInputChange(selectedItem, 'insurance')
+            }}
+          />
         </View>
-        <SelectDropdown
-          defaultValue={postErrandData.insurance}
-          buttonStyle={{ marginTop: 4 }}
-          searchInputStyle={{ marginTop: 4 }}
-          data={['Yes', 'No']}
-          onSelect={(selectedItem, index) => {
-            handleInputChange(selectedItem, 'insurance')
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem
-          }}
-          rowTextForSelection={(item, index) => {
-            return item
-          }}
-        />
 
-        <View className="mt-[41px] ml-4">
+        <View className="mt-[41px] px-4">
           <Text className="text-[#243763]">
             How much insurance amount do you require from Bidders for this
             errand?
@@ -113,20 +137,30 @@ const CreateErrandFinance = ({
           keyboardType="number-pad"
           defaultValue={postErrandData.ins_amount?.toString()}
         />
-
-        {/* Proceed Button */}
-
-        {/* <TouchableOpacity onPress={() => navigation.navigate('ErrandReview')}>
-          <View className="w-[300px] h-[50px] bg-[#243763] mt-[75px] mb-[37px] mx-auto items-center justify-center">
-            <Text className="text-white text-center items-center">
-              Proceed to Errand Review{' '}
-              <AntDesign name="arrowright" size={18} color="white" />
-            </Text>
-          </View>
-        </TouchableOpacity> */}
       </ScrollView>
     </>
   )
 }
+
+const style = StyleSheet.create({
+  dropdownInput: {
+    marginTop: 8,
+    paddingVertical: 10,
+    borderRadius: 6,
+    backgroundColor: '#F5F5F5',
+    width: 170,
+    borderColor: '#E6E6E6',
+    borderWidth: 1,
+  },
+  restrictInput: {
+    marginTop: 8,
+    paddingVertical: 10,
+    borderRadius: 6,
+    width: 'auto',
+    backgroundColor: '#F5F5F5',
+    borderColor: '#E6E6E6',
+    borderWidth: 1,
+  },
+})
 
 export default CreateErrandFinance

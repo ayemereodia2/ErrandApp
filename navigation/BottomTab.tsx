@@ -10,9 +10,9 @@ import { StyleSheet, View } from 'react-native'
 import AccountScreen from '../screens/Accounts'
 import MainScreen from '../screens/Market/MainScreen'
 import ErrandScreen from '../screens/MyErrands'
-import PostErrand1 from '../screens/CreateErrand/PostErrand1'
+// import PostErrand from '../screens/CreateErrand'
+import PostErrand from '../screens/CreateErrand'
 import WalletScreen from '../screens/Wallets'
-import PostErrand from '../screens/CreateErrand/PostErrand'
 
 const Tab = createBottomTabNavigator()
 
@@ -25,14 +25,14 @@ const BottomTab = () => {
         tabBarShowLabel: false,
         tabBarStyle: {
           position: 'absolute',
-          bottom: 5,
+          bottom: 0,
           // left: 25,
           // right: 20,
           backgroundColor: '#ffffff',
           borderRadius: 15,
           height: 70,
           // width:100
-          paddingTop: 10,
+          paddingTop: 13,
           ...styles.shadow,
         },
         headerShown: false,

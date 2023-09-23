@@ -59,7 +59,7 @@ export default function MainScreen({ navigation }: any) {
       const rs = await _rs.json()
       setLoading(false)
       setErrands(rs.data)
-      console.log(rs.data)
+      // console.log(rs.data)
     } catch (e) {
       Toast.show({
         type: 'error',

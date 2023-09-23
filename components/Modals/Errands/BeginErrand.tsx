@@ -78,7 +78,6 @@ BeginErrandModalProp) => {
         <TouchableOpacity
           className="bg-white h-12 w-full mx-4 mt-6 flex-row justify-center items-center rounded-lg border-[#e90c0c] border-[0.5px]"
           onPress={() => {
-            console.log("ocosssss");
             
             toggleBeginErrandModal && toggleBeginErrandModal(false)
             toggleRejectErrandModal && toggleRejectErrandModal(true)

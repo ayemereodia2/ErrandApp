@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form'
 import {
   ActivityIndicator,
   SafeAreaView,
+  ScrollView,
   Text,
   TouchableOpacity,
   View,
-  ScrollView
 } from 'react-native'
 // import { ScrollView } from 'react-native-gesture-handler'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -24,8 +24,7 @@ export default function LoginScreen() {
   const navigation = useNavigation()
   const dispatch = useAppDispatch()
   const [showPassword, setShowPassword] = useState(true)
-  const [errorMessage, setErrorMessage] = useState('');
-
+  const [errorMessage, setErrorMessage] = useState('')
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -39,13 +38,11 @@ export default function LoginScreen() {
       password: data.password,
       navigation,
     }
-    
-    
-    dispatch(loginUser(loginData))
-    .catch((error) => {
+
+    dispatch(loginUser(loginData)).catch((error) => {
       // Handle login error here
-      setErrorMessage('Incorrect phone number or password.');
-    });
+      setErrorMessage('Incorrect phone number or password.')
+    })
   }
 
   const {
@@ -62,7 +59,7 @@ export default function LoginScreen() {
   const { loading } = useSelector((state: RootState) => state.login)
 
   return (
-    <SafeAreaView >
+    <SafeAreaView>
       <ScrollView showsVerticalScrollIndicator={false}>
         <KeyboardAwareScrollView
           style={{ flex: 1, marginTop: 52 }}
@@ -130,17 +127,25 @@ export default function LoginScreen() {
                   // className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
                 />
 
-                 {errorMessage ? (
-                  <Text style={{ color: 'red', textAlign: 'center', marginBottom: 4 }}>
+                {errorMessage ? (
+                  <Text
+                    style={{
+                      color: 'red',
+                      textAlign: 'center',
+                      marginBottom: 4,
+                    }}
+                  >
                     {errorMessage}
                   </Text>
-                ) : ''}
+                ) : (
+                  ''
+                )}
 
                 <Text className="text-black text-center pb-6 pt-3">
                   Don’t Have an Account?
                   <Text
                     onPress={() => {
-                      navigation.navigate('VerifyOtp')
+                      navigation.navigate('VerifyPhone')
                     }}
                     className="font-bold text-[#243763]"
                   >

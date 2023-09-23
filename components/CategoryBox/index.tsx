@@ -1,13 +1,22 @@
-import { Image, Text, TouchableOpacity, View } from 'react-native'
+import {
+  FontAwesome,
+  FontAwesome5,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from '@expo/vector-icons'
+import { Text, TouchableOpacity, View } from 'react-native'
+// import { categ\\\ } from '../../utils/categories'
 
 type categoryProps = {
-  icon: string
-  name: string
+  icon: any
+  name?: string
   onPress: any
   id: string
   selectedItem: string
   identifier: string
   setOpenLists: any
+  index: number
+  iconType?: string
 }
 
 export default function CategoryBox({
@@ -18,13 +27,16 @@ export default function CategoryBox({
   onPress,
   identifier,
   setOpenLists,
+  index,
+  iconType,
 }: categoryProps) {
+
   return (
     <TouchableOpacity
       onPress={() => {
         onPress(), identifier === 'view-list' && setOpenLists(true)
       }}
-      className={`border-[1px] rounded-lg mx-2  ${
+      className={`border-[0.2px] h-28 rounded-lg mx-2 p-2 ${
         selectedItem === id && `bg-[#CBD5EC]`
       }`}
     >
@@ -32,22 +44,18 @@ export default function CategoryBox({
         {identifier === 'view-list' ? (
           <img src={icon} alt="" width="50px" height="50px" />
         ) : (
-          <View className="mx-4">
-            {/* <embed
-                src={icon}
-                className="mx-auto"
-              width="50px"
-              height="50px"
-              style={{
-                color: 'red',
-              }}
-            /> */}
-            {/* <Iconify icon={icon} width={50} height={50} className="mx-auto" /> */}
-            <Image
-              source={require('../../assets/images/bicycle.jpg')}
-                className="mx-auto mt-[18px]"
-                width={15} height={15}
-            />
+          <View className="mx-auto pt-2">
+            {iconType === 'FontAwesome' ? (
+              <FontAwesome name={icon} size={30} color="black" />
+            ) : iconType === 'MaterialIcons' ? (
+              <MaterialIcons name={icon} size={40} color="black" />
+            ) : iconType === 'MaterialCommunityIcons' ? (
+              <MaterialCommunityIcons name={icon} size={40} color="black" />
+            ) : iconType === 'FontAwesome5' ? (
+              <FontAwesome5 name={icon} size={40} color="black" />
+            ) : (
+              ''
+            )}
           </View>
         )}
 

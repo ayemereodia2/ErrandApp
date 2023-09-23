@@ -22,7 +22,7 @@ const EditProfileTitle = ({navigation, route}:any) => {
       quality: 1,
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);

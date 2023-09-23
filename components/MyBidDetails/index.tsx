@@ -10,6 +10,7 @@ import { getTimeAgo } from '../../utils/helper'
 import ActionButton from '../ActionButtons'
 import AcceptBid from '../Modals/Bids/Accept'
 import NegotiateBid from '../Modals/Bids/Negotiate'
+import RejectBid from '../Modals/Bids/Reject'
 
 const ErrandBid = ({
   navigation,
@@ -27,12 +28,17 @@ const ErrandBid = ({
   const acceptBidRef = useRef<BottomSheetModal>(null)
   const acceptPoints = ['46%']
   const negotiateRef = useRef<BottomSheetModal>(null)
+  const rejectRef = useRef<BottomSheetModal>(null)
 
   function toggleAcceptModal(open: boolean) {
     open ? acceptBidRef.current?.present() : acceptBidRef.current?.dismiss()
   }
 
-    function toggleNegotiateModal(open: boolean) {
+  function toggleRejectModal(open: boolean) {
+    open ? rejectRef.current?.present() : rejectRef.current?.dismiss()
+  }
+
+  function toggleNegotiateModal(open: boolean) {
     open ? negotiateRef.current?.present() : negotiateRef.current?.dismiss()
   }
 
@@ -228,11 +234,12 @@ const ErrandBid = ({
                       className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#33A532]"
                     />
 
-                    {/* <ActionButton
+                    <ActionButton
+                      onPress={() => toggleRejectModal(true)}
                       name="x"
                       iconColor="#FF0000"
-                      className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#0e0d0d]"
-                    /> */}
+                      className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#FF0000]"
+                    />
 
                     <ActionButton
                       onPress={() => toggleNegotiateModal(true)}
@@ -262,6 +269,18 @@ const ErrandBid = ({
             user_id={user_id}
             toggleNegotiateModal={toggleNegotiateModal}
             toggleSuccessDialogue={toggleSuccessDialogue}
+            haggle={haggle}
+          />
+        </BottomSheetModal>
+
+        <BottomSheetModal ref={rejectRef} index={0} snapPoints={['40%']}>
+          <RejectBid
+            toggleSuccessDialogue={toggleSuccessDialogue}
+            toggleRejectModal={toggleRejectModal}
+            bid={bid}
+            errand={errand}
+            user_id={user_id}
+            haggle={haggle}
           />
         </BottomSheetModal>
 
@@ -276,6 +295,7 @@ const ErrandBid = ({
             bid={bid}
             errand={errand}
             user_id={user_id}
+            haggle={haggle}
           />
         </BottomSheetModal>
       </View>

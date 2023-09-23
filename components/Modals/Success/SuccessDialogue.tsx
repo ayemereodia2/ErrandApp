@@ -1,37 +1,34 @@
 import React from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
+import { setNegotiationLoaderToFalse } from '../../../services/bids/bidsAction'
+import { useAppDispatch } from '../../../services/store'
 
 interface SuccessProps {
   message?: string
   bidSuccessImg?: boolean
   toggleSuccessDialogue: (open: boolean) => void
-   toggleNegotiateModal: (open: boolean) => void
+  toggleNegotiateModal: (open: boolean) => void
 }
 
-export const SuccessDialogue = ({ message, bidSuccessImg, toggleSuccessDialogue, toggleNegotiateModal }: SuccessProps) => {
+export const SuccessDialogue = ({
+  message,
+  bidSuccessImg,
+  toggleSuccessDialogue,
+  toggleNegotiateModal,
+}: SuccessProps) => {
+  const dispatch = useAppDispatch()
+  const ggif = '../../../assets/images/successBid.gif'
   return (
     <View>
-      <View>
-        {/* <Image
+      <View className='flex justify-center items-center'>
+        <Image
           style={{
-            width: 80,
-            height: 80,
-            resizeMode: 'contain',
+            width: 100,
+            height: 100,
           }}
-          source={require('../../assets/images/successBid.gif')}
-        /> */}
-
-        {/* <FastImage
-          style={{ width: 200, height: 200 }}
-          source={{
-            uri: '../../assets/images/successBid.gif',
-            headers: { Authorization: 'someAuthToken' },
-            priority: FastImage.priority.normal,
-          }}
-          resizeMode={FastImage.resizeMode.contain}
-        /> */}
+          source={require(ggif)}
+        />
       </View>
-      <Text>Successful</Text>
 
       <View className="flex-row justify-center items-center px-4">
         <TouchableOpacity
@@ -39,11 +36,10 @@ export const SuccessDialogue = ({ message, bidSuccessImg, toggleSuccessDialogue,
           onPress={() => {
             toggleSuccessDialogue(false)
             toggleNegotiateModal(false)
+            dispatch(setNegotiationLoaderToFalse(false))
           }}
         >
-          <Text className="text-white text-base">
-            Close
-          </Text>
+          <Text className="text-white text-base">Close</Text>
         </TouchableOpacity>
       </View>
     </View>

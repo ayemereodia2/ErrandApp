@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -12,38 +12,33 @@ import { bidAction } from '../../../services/bids/bidsAction'
 import { RootState, useAppDispatch } from '../../../services/store'
 import { Bids, Haggles, MarketData } from '../../../types'
 
-interface AcceptModalProp {
+interface RejectModalProp {
   errand: MarketData
   bid: Bids
   user_id: string
-  toggleAcceptModal: (open: boolean) => void
+  toggleRejectModal: (open: boolean) => void
   toggleSuccessDialogue: (open: boolean) => void
   haggle: Haggles
 }
 
-const AcceptBid = ({
+const RejectBid = ({
   bid,
   errand,
   user_id,
-  toggleAcceptModal,
+  toggleRejectModal,
   toggleSuccessDialogue,
   haggle,
-}: AcceptModalProp) => {
+}: RejectModalProp) => {
   const dispatch = useAppDispatch()
-  const [comment, setComment] = useState('')
-  const [amount, setAmount] = useState('')
-  const [error, setError] = useState('')
 
   const { loading } = useSelector((state: RootState) => state.bidActionReducer)
 
   return (
     <View className="py-4 pb-10">
-      <Text className="text-xl text-center font-semibold mt-2">Accept Bid</Text>
+      <Text className="text-xl text-center font-semibold mt-2">Reject Bid</Text>
 
       <Text className="text-sm font-light text-[#4D4D4D] text-center px-8 mt-4">
-        Are you sure you want to accept{' '}
-        <Text className="font-semibold">Enoobong George’s</Text> bid on your
-        errand?
+        Are you sure you want to Reject this bid?
       </Text>
 
       <View className="space-y-4 items-center px-4 mt-4">
@@ -54,13 +49,13 @@ const AcceptBid = ({
               bidAction({
                 errand_id: errand.id,
                 bid_id: bid.id,
-                response: 'accept',
+                response: 'reject',
                 runner_id: bid.runner.id,
                 amount: haggle.amount,
                 method: 'PUT',
                 type: 'respond',
                 toggleSuccessDialogue,
-                toggleAcceptModal,
+                toggleRejectModal,
                 dispatch,
                 Toast,
               }),
@@ -71,7 +66,7 @@ const AcceptBid = ({
             {loading ? (
               <ActivityIndicator size="small" color="#000000" />
             ) : (
-              'Accept Bid'
+              'Yes, Reject this Bid'
             )}
           </Text>
         </TouchableOpacity>
@@ -79,10 +74,12 @@ const AcceptBid = ({
         <TouchableOpacity
           className="bg-white h-12 w-full mx-4 mt-6 flex-row justify-center items-center rounded-lg"
           onPress={() => {
-            toggleAcceptModal(false)
+            toggleRejectModal(false)
           }}
         >
-          <Text className="text-base text-red-600">Cancel</Text>
+          <Text className="text-base text-red-600">
+            No, Let me think about it.
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -113,4 +110,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default AcceptBid
+export default RejectBid

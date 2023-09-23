@@ -32,12 +32,22 @@ export const RunnerDetails = ({
   const navigation = useNavigation()
   const budgetInNaira = Number(errand?.budget / Number(100))
 
-  console.log('>>>>bids', singleSubErrand.runner_id)
+  // console.log('>>>>bids', singleSubErrand)
   // const user = bids?.find((bid) => bid.)
 
-  const user = bids?.find((bid) => bid.runner.id === singleSubErrand.runner_id)
+  const singleErrandRunner = bids.find(
+    (bid) => bid?.runner.id === errand.runner_id,
+  )
 
-  console.log('>>>>user', user)
+  const multiUserRunner = bids?.find(
+    (bid) => bid?.runner.id === singleSubErrand?.runner_id,
+  )
+
+  const user = !singleSubErrand?.runner_id
+    ? singleErrandRunner
+    : multiUserRunner
+
+  // console.log('>>>>user', user)
 
   return (
     <ScrollView className="mt-10 px-6">
@@ -194,36 +204,72 @@ export const RunnerDetails = ({
       )}
 
       {errand.user_id !== userId &&
-        errand.errand_type === 1 &&
-        errand.status === 'open' && (
-          <View className="border-[#C85604] border-[1px] rounded-lg bg-[#FEF0E6] p-4 mt-6 mb-8">
-            <Text className="text-center">
-              If you wish to abandon this errand and stop running it, click this
-              button. Please note that you will be fined for this action
-            </Text>
+      errand.errand_type === 1 &&
+      user?.state !== 'completed' ? (
+        <View className="border-[#C85604] border-[1px] rounded-lg bg-[#FEF0E6] p-4 mt-6 mb-8">
+          <Text className="text-center">
+            If you wish to abandon this errand and stop running it, click this
+            button. Please note that you will be fined for this action
+          </Text>
 
-            <View className="items-center">
-              <TouchableOpacity
-                onPress={() => {
-                  dispatch(
-                    errandAction({
-                      sub_errand_id: singleSubErrand?.id,
-                      type: 'complete',
-                      method: 'PATCH',
-                      source: userId === errand.user_id ? 'sender' : 'runner',
-                      errandId: errand.id,
-                      dispatch,
-                      navigation,
-                    }),
-                  )
-                }}
-                className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
-              >
-                <Text className="text-center text-white">Abandon</Text>
-              </TouchableOpacity>
-            </View>
+          <View className="items-center">
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(
+                  errandAction({
+                    sub_errand_id: singleSubErrand?.id,
+                    type: 'complete',
+                    method: 'PATCH',
+                    source: userId === errand.user_id ? 'sender' : 'runner',
+                    errandId: errand.id,
+                    dispatch,
+                    navigation,
+                  }),
+                )
+              }}
+              className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
+            >
+              <Text className="text-center text-white">Abandon</Text>
+            </TouchableOpacity>
           </View>
-        )}
+        </View>
+      ) : (
+        ''
+      )}
+
+      {/* {errand.user_id !== userId &&
+      errand.errand_type === 1 &&
+      user?.state !== 'cancelled' ? (
+        <View className="border-[#C85604] border-[1px] rounded-lg bg-[#FEF0E6] p-4 mt-6 mb-8">
+          <Text className="text-center">
+            If you wish to abandon this errand and stop running it, click this
+            button. Please note that you will be fined for this action
+          </Text>
+
+          <View className="items-center">
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(
+                  errandAction({
+                    sub_errand_id: singleSubErrand?.id,
+                    type: 'complete',
+                    method: 'PATCH',
+                    source: userId === errand.user_id ? 'sender' : 'runner',
+                    errandId: errand.id,
+                    dispatch,
+                    navigation,
+                  }),
+                )
+              }}
+              className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
+            >
+              <Text className="text-center text-white">Abandon</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : (
+        ''
+      )} */}
     </ScrollView>
   )
 }

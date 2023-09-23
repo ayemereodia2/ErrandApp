@@ -44,7 +44,7 @@ const ErrandUserDetails = ({ navigation, route }: any) => {
 
   const { errand, userId, singleSubErrand, manageErrandClicked, bids } = route.params;
 
-  console.log(">>>>>errand.user", errand.bids[0].runner);
+  // console.log(">>>>>errand.user", errand.bids[0].runner);
   
 
   useEffect(() => {

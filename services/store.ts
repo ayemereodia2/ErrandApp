@@ -20,6 +20,9 @@ import errandActionReducer from './errands/errandAction'
 import createErrandReducer from './errands/createErrand'
 
 import { categoriesListReducer } from "./PostErrand/categories";
+import { postFilesReducer } from "./errands/postFiles";
+import { postAudioFilesReducer } from "./errands/postAudioFIle";
+import { walletActionReducer } from "./errands/walletBalance";
 
 export const store = configureStore({
   reducer: {
@@ -39,10 +42,13 @@ export const store = configureStore({
     timelineActionReducer,
     subErrandReducer,
     categoriesListReducer,
-    createErrandReducer
+    createErrandReducer,
+    postFilesReducer,
+    postAudioFilesReducer,
+    walletActionReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
-})
+});
 
 setupListeners(store.dispatch);
 

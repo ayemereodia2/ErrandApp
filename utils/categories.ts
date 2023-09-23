@@ -1,5 +1,5 @@
 
-type categoriesProp = {
+export type categoriesProp = {
   name: string
   desc: string
   // icon: any

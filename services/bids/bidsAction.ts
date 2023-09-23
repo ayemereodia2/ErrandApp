@@ -7,7 +7,7 @@ import { myErrandList } from '../errands/myErrands';
     
 export const bidAction = createAsyncThunk<ErrandMarketResponse, BidActionPayload, { rejectValue: string }>(
   "bid/actions",
-  async ({amount, response, description, runner_id,type, bid_id, method, errand_id,  dispatch, source, Toast, toggleNegotiateModal, toggleSuccessDialogue, toggleAcceptModal, toggleRejectErrandModal }: BidActionPayload, { rejectWithValue }) => {
+  async ({amount, response, description, runner_id,type, bid_id, method, errand_id,  dispatch, source, Toast, toggleNegotiateModal, toggleSuccessDialogue, toggleAcceptModal, toggleRejectModal }: BidActionPayload, { rejectWithValue }) => {
     
   try {
     const _rs = await _fetch({
@@ -32,6 +32,7 @@ export const bidAction = createAsyncThunk<ErrandMarketResponse, BidActionPayload
         });
       }
       if (response === 'reject') {
+        toggleRejectModal && toggleRejectModal(false);
         toggleSuccessDialogue && toggleSuccessDialogue(true)
         dispatch(errandDetails({ errandId: errand_id }))
         dispatch(myErrandList({}))
@@ -75,16 +76,21 @@ const bidActionSlice = createSlice({
   name: "bid/actions",
 
   initialState,
-  reducers: {},
+  reducers: {
+    setNegotiationLoaderToFalse(state, {payload}) {
+        state.loading = payload
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(bidAction.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
     });
     builder.addCase(bidAction.fulfilled, (state, {payload}) => {
-      state.loading = false;
+      // state.loading = false;
       state.error = "";
       state.data = payload.data
+      state.loading = false;
     });
     builder.addCase(bidAction.pending, (state, action) => {
       state.loading = true;
@@ -93,5 +99,5 @@ const bidActionSlice = createSlice({
   },
 
 })
-
+export const {setNegotiationLoaderToFalse} = bidActionSlice.actions
 export const bidActionReducer = bidActionSlice.reducer

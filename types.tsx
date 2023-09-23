@@ -73,6 +73,7 @@ export type RootStackParamList = {
   VerifyPhone: undefined
   SecurityQuestions: undefined
   ErrandUserDetails: undefined
+  FundWalletModal: undefined
 }
 
 export type RootStackScreenProps<
@@ -186,32 +187,19 @@ export interface PostErrandData {
   type: string
   categoryName: string
   description: string
-  // duration: DurationData
   images: string[]
   audio: string
-  // pickup_location: PickupData
-  // dropoff_location: DropoffData
   budget: number
-  pickup_add_str: string
-  del_add_str: string
-  cur_add_str: string
-  pickup_lat: any
-  pickup_lng: any
-  dropoff_lat: any
-  dropoff_lng: any
   dur_value: string
   dur_period: number
   res_by_qualification: string
   res_by_verification: string
-  pickup_add: string
-  cur_loc: string
-  del_add: string
-  google_add: string
   ins_amount: number
   insurance: string
-  pickup_text: string
-  dropoff_text: string
+  deliveryAddress: string
+  currentLocation: string
 }
+
 
 export interface DurationData {
   value: string
@@ -448,7 +436,7 @@ export interface BidActionPayload {
   toggleNegotiateModal?: (open: boolean) => void
   toggleSuccessDialogue?: (open: boolean) => void
   toggleAcceptModal?: (open: boolean) => void
-  toggleRejectErrandModal?: (open: boolean) => void
+  toggleRejectModal?: (open: boolean) => void
 }
 
 export interface PostBidRequest {
@@ -690,5 +678,5 @@ export interface BidsProps {
   setcurBid?: React.Dispatch<React.SetStateAction<Bids>>
   singleSubErrand?: SubErrand
   setManageErrandClicked: React.Dispatch<React.SetStateAction<boolean>>
-  setSubErrand?:React.Dispatch<React.SetStateAction<SingleSubErrand>>
+  setSubErrand?: React.Dispatch<React.SetStateAction<SingleSubErrand>>
 }

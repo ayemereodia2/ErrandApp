@@ -96,7 +96,7 @@ const navigation = useNavigation()
           // Checking if the response indicates success
           if (responseData.success) {
             // Handling a successful response from the server here
-            console.log('Profile updated successfully:', responseData);
+           
       
             // Show a success message to the user.
             Toast.show({
@@ -106,7 +106,6 @@ const navigation = useNavigation()
       
             // Navigate back to the Account screen
             navigation.navigate('Account');
-            console.log(updatedData);
           } else {
             // Handle the case where the server responded with an error message
             console.error('Profile update failed:', responseData.message);

@@ -1,5 +1,8 @@
 import { AntDesign } from '@expo/vector-icons'
-import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet'
 import React, { useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
@@ -7,7 +10,7 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
@@ -37,8 +40,7 @@ const Timeline = ({
   loadingErrand,
   setManageErrandClicked,
   toggleSuccessDialogue,
-  toggleCompleteDialogue
-  
+  toggleCompleteDialogue,
 }: Props) => {
   // const { username, bio, picture, isBlocked, isMuted } = route.params;
   const [reply, setReply] = useState('')
@@ -104,33 +106,44 @@ const Timeline = ({
                       size={20}
                     />
                   )}
+
                   <Text className="font-medium text-sm px-4">
                     This Errand is expected to be Completed on{' '}
                     {formatDate(errand.updated_at)}
                   </Text>
                 </View>
               )}
-              {errand.status === 'completed' || singleSubErrand?.status === 'completed' && (
+              {singleSubErrand?.status === 'completed' && (
                 <Text className="font-medium text-sm px-4">
                   This Errand has been completed
                 </Text>
               )}
 
-              {errand.status === 'cancelled' || singleSubErrand?.status === 'cancelled' && (
+              {errand.status === 'completed' && (
                 <Text className="font-medium text-sm px-4">
-                  This Errand has been cancelled
+                  This Errand has been completed
                 </Text>
               )}
+
+              {errand.status === 'cancelled' ||
+                (singleSubErrand?.status === 'cancelled' && (
+                  <Text className="font-medium text-sm px-4">
+                    This Errand has been cancelled
+                  </Text>
+                ))}
             </View>
-            <MessagesList timeline={timeline} onSwipeToReply={swipeToReply} />
-            <ChatInput
-              reply={reply}
-              isLeft={isLeft}
-              closeReply={closeReply}
-              username={'helllo'}
-              errand={errand}
-              user_id={user_id}
-            />
+              <MessagesList timeline={timeline} onSwipeToReply={swipeToReply} />
+              
+              {errand.status === 'completed' || errand.status === 'cancelled'|| singleSubErrand?.status === 'completed' || singleSubErrand?.status === 'cancelled' ? "" :
+                <ChatInput
+                  reply={reply}
+                  isLeft={isLeft}
+                  closeReply={closeReply}
+                  username={'helllo'}
+                  errand={errand}
+                  user_id={user_id}
+                />
+              }
           </View>
         )}
 

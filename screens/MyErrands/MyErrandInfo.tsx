@@ -8,10 +8,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import {
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
   TouchableOpacity,
   useWindowDimensions,
   View,
-  ScrollView 
 } from 'react-native'
 // import { ScrollView } from 'react-native-gesture-handler'
 import {
@@ -23,10 +23,9 @@ import {
 import { useSelector } from 'react-redux'
 import BidWrapper from '../../components/BidWrapper'
 import { DetailHeader } from '../../components/DetailHeader'
-import NegotiateBid from '../../components/Modals/Bids/Negotiate'
 import { SuccessDialogue } from '../../components/Modals/Success/SuccessDialogue'
 import Timeline from '../../components/Timeline'
-import { RootState } from '../../services/store'
+import { RootState, useAppDispatch } from '../../services/store'
 import { SingleSubErrand } from '../../types'
 
 const MyErrandInfo = ({ navigation, route }: any) => {
@@ -34,6 +33,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
   const negotiateRef = useRef<BottomSheetModal>(null)
   const successDialogueRef = useRef<BottomSheetModal>(null)
   const completeDialogueRef = useRef<BottomSheetModal>(null)
+  const dispatch = useAppDispatch()
 
   const bids = route?.params?.bids
 
@@ -74,14 +74,6 @@ const MyErrandInfo = ({ navigation, route }: any) => {
   const { data: errand, loading: loadingErrand } = useSelector(
     (state: RootState) => state.errandDetailsReducer,
   )
-
-  // console.log(
-  //   '>>>>errandssss',
-  //   manageErrandClicked,
-  //   errand.errand_type,
-  //   singleSubErrand?.status,
-  //   bids
-  // )
 
   const snapPoints = ['55%']
   const successPoints = ['30%']
@@ -146,7 +138,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                         errand,
                         userId,
                         singleSubErrand,
-                        bids
+                        bids,
                       })
                     }}
                     text="Completed Errand"
@@ -167,7 +159,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                         userId,
                         singleSubErrand,
                         manageErrandClicked,
-                        bids
+                        bids,
                       })
                     }
                     text="Details"
@@ -188,7 +180,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                         userId,
                         singleSubErrand,
                         manageErrandClicked,
-                        bids
+                        bids,
                       })
                     }
                     text="Details"
@@ -201,8 +193,31 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                     }}
                   />
                 )}
+                {errand.status === 'completed' ||
+                  errand.status === 'cancelled' ||
+                  (errand.status === 'active' && (
+                    <MenuOption
+                      onSelect={() =>
+                        navigation.navigate('ErrandUserDetails', {
+                          errand,
+                          userId,
+                          singleSubErrand,
+                          manageErrandClicked,
+                          bids,
+                        })
+                      }
+                      text="Details"
+                      customStyles={{
+                        optionWrapper: {
+                          borderBottomWidth: 1,
+                          borderBottomColor: '#AAAAAA',
+                        },
+                        optionText: { textAlign: 'center', fontWeight: '600' },
+                      }}
+                    />
+                  ))}
                 <MenuOption
-                  onSelect={() => alert(`Save`)}
+                  onSelect={() => {}}
                   text="Refresh"
                   customStyles={{
                     optionText: { textAlign: 'center', fontWeight: '600' },
@@ -266,6 +281,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                 singleSubErrand={subErrand}
                 setManageErrandClicked={setManageErrandClicked}
                 setSubErrand={setSubErrand}
+                loadingErrand={loadingErrand}
               />
               {/* )} */}
             </View>

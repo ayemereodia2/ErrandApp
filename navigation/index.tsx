@@ -8,6 +8,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { TouchableOpacity } from 'react-native'
+import FundWalletModal from '../components/Modals/Errands/FundWallet'
 import AccountRecoveryScreen from '../screens/Auth/AccountRecovery'
 import { default as CreateAccountScreen } from '../screens/Auth/CreateAccountScreen'
 import HomeScreen from '../screens/Auth/HomeScreen'
@@ -16,12 +17,8 @@ import RecoverPasswordScreen from '../screens/Auth/RecoverPassword'
 import SecurityQuestion from '../screens/Auth/SecurityQuestionScreen'
 import VerifyOtpScreen from '../screens/Auth/VerifyOtp'
 import VerifyPhone from '../screens/Auth/VerifyPhone'
-import CreateFinance from '../screens/CreateErrand/CreateFinance'
-import CreateTasks from '../screens/CreateErrand/CreateTasks'
-import ErrandLocation from '../screens/CreateErrand/ErrandLocation'
-import ErrandReview from '../screens/CreateErrand/ErrandReview'
-import PostErrand from '../screens/CreateErrand/PostErrand'
-import PostErrand1 from '../screens/CreateErrand/PostErrand1'
+
+import PostErrand from '../screens/CreateErrand'
 import EditProfileTitle from '../screens/EditProfile/EditProfileTitle'
 import ErrandTimeline from '../screens/ErrandTimeline/ErrandTimeline'
 import ErrandDetails from '../screens/Market/ErrandDetails'
@@ -259,6 +256,12 @@ export function RootNavigator() {
       <Stack.Screen
         name="CompleteErrandModal"
         component={CompleteErrandModal}
+        options={{ title: 'Modal', presentation: 'fullScreenModal' }}
+      />
+
+      <Stack.Screen
+        name="FundWalletModal"
+        component={FundWalletModal}
         options={{ title: 'Modal', presentation: 'fullScreenModal' }}
       />
      

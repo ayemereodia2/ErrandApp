@@ -117,59 +117,71 @@ interface getUserIdProps {
    export const categoryLists = [
     {
       id: '64ac0a0a3534efb7dcd9d506',
-      icon: 'mdi:shopping',
+      icon: "shopping-bag",
       name: 'Market / Groceries Shopping',
       identifier: 'Market / Groceries Shopping',
-      type: "service"
+      type: "service",
+      iconType: "FontAwesome"
     },
     {
       id: '64ac0b3e3534efb7dcd9d50b',
-      icon: 'mdi:tumble-dryer',
+      icon: 'local-laundry-service',
       name: 'Laundry service',
       identifier: 'Laundry service',
-      type: "service"
+      type: "service",
+      iconType: 'MaterialIcons'
     },
     {
       id: '64ac0bb33534efb7dcd9d50f',
-      icon: 'mdi:truck-delivery',
+      icon: 'truck-delivery',
       name: 'Delivery',
       identifier: 'Delivery',
-      type: "service"
+      type: "service",
+      iconType: 'MaterialCommunityIcons'
     },
     {
       id: '64ac10203534efb7dcd9d517',
-      icon: 'ic:twotone-dry-cleaning',
+      icon: 'clean-hands',
       name: 'Cleaning/home service',
       identifier: 'Cleaning/home service',
-      type: "service"
+      type: "service",
+      iconType: 'MaterialIcons'
+
     },
     {
       id: '64ac10323534efb7dcd9d518',
-      icon: '',
+      icon: 'run-fast',
       name: 'Any Errand',
       identifier: 'Any Errand',
-      type: "service"
+      type: "service",
+      iconType: 'MaterialCommunityIcons'
+
     },
     {
       id: '64ac10953534efb7dcd9d519',
-      icon: 'ic:twotone-work',
+      icon: 'work',
       name: 'General Labour',
       identifier: 'General Labour',
-      type:"task",
+      type: "task",
+      iconType: 'MaterialIcons'
+      
     },
     {
       id: '64ac10f43534efb7dcd9d51b',
-      icon: 'game-icons:teacher',
+      icon: 'chalkboard-teacher',
       name: 'Home Teacher',
       identifier: 'Home Teacher',
-      type:"task",
+      type: "task",
+      iconType:'FontAwesome5'
     },
     {
       id: '64ac115f3534efb7dcd9d51c',
-      icon: 'majesticons:video',
+      icon: 'video-camera',
       name: 'Photo / Video Production ',
       identifier: 'Photo / Video Production ',
-      type:"task",
+      type: "task",
+      iconType: "FontAwesome"
+      
     },
     {
       id: '64ac11ef3534efb7dcd9d51d',

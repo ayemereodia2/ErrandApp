@@ -63,8 +63,8 @@ export default function index() {
         </View>
       </View>
 
-      <View className="mt-4 border-b-[0.3px]">
-        <Text className="font-semibold text-base border-[4px]">
+      <View className="mt-4 border-b-[0.1px]">
+        <Text className="font-semibold text-base ">
           Escrow Breakdown
         </Text>
       </View>

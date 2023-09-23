@@ -11,7 +11,7 @@ import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { bidAction } from '../../../services/bids/bidsAction'
 import { RootState, useAppDispatch } from '../../../services/store'
-import { Bids, MarketData, UserDetail } from '../../../types'
+import { Bids, Haggles, MarketData } from '../../../types'
 import { currencyMask, parseAmount } from '../../../utils/helper'
 
 interface NegotiateModalProp {
@@ -22,6 +22,7 @@ interface NegotiateModalProp {
   user_id: string
   toggleNegotiateModal: (open: boolean) => void
   toggleSuccessDialogue: (open: boolean) => void
+  haggle: Haggles
 }
 
 const NegotiateBid = ({
@@ -39,9 +40,10 @@ const NegotiateBid = ({
 
   const { loading } = useSelector((state: RootState) => state.bidActionReducer)
 
-  const negotiateBid = () => {
-    console.log('<<<<<<hello')
+  console.log(">>>>>>loading", loading);
+  
 
+  const negotiateBid = () => {
     if (!amount) {
       return setError('Please, make sure you enter all fields for this bid')
     }
@@ -113,13 +115,11 @@ const NegotiateBid = ({
             negotiateBid()
           }}
         >
-          <Text className="text-white text-base">
-            {loading ? (
-              <ActivityIndicator size="small" color="#000000" />
-            ) : (
-              'Negotiate'
-            )}
-          </Text>
+          {loading ? (
+            <Text>Loading</Text>
+          ) : (
+            <Text className="text-white text-base">Negotiate</Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>
