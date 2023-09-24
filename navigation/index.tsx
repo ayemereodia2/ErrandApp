@@ -34,6 +34,11 @@ import { RootStackParamList } from '../types'
 import { getUserId } from '../utils/helper'
 import BottomTab from './BottomTab'
 import DrawerNavigator from './DrawerNav'
+import TransactionScreen from '../screens/Wallets/TransactionScreen'
+import EscrowScreen from '../screens/Wallets/EscrowScreen'
+import WalletAccount from '../screens/Wallets/WalletAccount'
+import WithdrawalScreen from '../screens/Wallets/WithdrawalScreen'
+import AccountStatement from '../screens/Wallets/AccountStatement'
 
 // import DrawerNav from './DrawerNav'
 
@@ -247,11 +252,11 @@ export function RootNavigator() {
         component={VerifyOtpScreen}
         options={{ title: 'Recover Account' }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Profile"
         component={ProfileScreen}
         options={{ title: 'Profile' }}
-      />
+      /> */}
 
       <Stack.Screen
         name="CompleteErrandModal"
@@ -262,7 +267,7 @@ export function RootNavigator() {
       <Stack.Screen
         name="FundWalletModal"
         component={FundWalletModal}
-        options={{ title: 'Modal', presentation: 'fullScreenModal' }}
+        options={{ title: 'Fund Your Wallet', presentation: 'fullScreenModal' }}
       />
      
       <Stack.Screen
@@ -308,6 +313,36 @@ export function RootNavigator() {
       <Stack.Screen
         name="EditProfile"
         component={EditProfileTitle}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="TransactionScreen"
+        component={TransactionScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="EscrowScreen"
+        component={EscrowScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="WalletAccount"
+        component={WalletAccount}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="WithdrawalScreen"
+        component={WithdrawalScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="AccountStatement"
+        component={AccountStatement}
         options={{ headerShown: false }}
       />
 

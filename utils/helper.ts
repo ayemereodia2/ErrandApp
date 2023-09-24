@@ -2,10 +2,36 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
 import { userDetails } from "../services/auth/userInfo";
 import { MarketData } from "../types";
+import banks from "../assets/bank.json"
 
 export const formatDate = (dateString: string) => {
   const date = moment(dateString);
   return date.format('MMM DD, YYYY, h:mm:ss A');
+}
+
+export function transformDateTime(TzDate: Date) {
+    const year = TzDate.getFullYear();
+    const month = String(TzDate.getMonth() + 1).padStart(2, '0');
+    const day = String(TzDate.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+export function getBankName(code: string): string {
+    for(let bank of banks) {
+        if (bank.code == code) {
+            return bank.name
+        }
+    }
+    return ""
+}
+
+export function getBankIcon(code: string): string {
+    for(let bank of banks) {
+        if (bank.code == code) {
+            return bank.logo
+        }
+    }
+    return ""
 }
 
 export function formatMoney(value: string|number) {

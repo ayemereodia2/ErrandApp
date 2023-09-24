@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import {
   ScrollView,
   StyleSheet,
@@ -7,11 +7,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { paystackProps } from 'react-native-paystack-webview'
 import SelectDropdown from 'react-native-select-dropdown'
 import { useSelector } from 'react-redux'
-import { walletAction } from '../../services/errands/walletBalance'
 import { RootState, useAppDispatch } from '../../services/store'
+import { walletAction } from '../../services/wallet/walletBalance'
 import { PostErrandData } from '../../types'
 
 interface FinanceProp {

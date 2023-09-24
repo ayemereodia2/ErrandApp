@@ -58,9 +58,6 @@ const FundWalletModal = ({ navigation }: any) => {
             We are Processing your payment
           </Text>
 
-          
-          
-
           <View className="flex-row justify-center items-center">
             <TouchableOpacity
               className="bg-[#1E3A79] h-12 w-4/6 mt-6 flex-row justify-center items-center rounded-lg"
@@ -70,17 +67,15 @@ const FundWalletModal = ({ navigation }: any) => {
               // }}
               onPress={() => navigation.goBack()}
             >
-              <Text className="text-white text-base">
-               Go back
-              </Text>
+              <Text className="text-white text-base">Go back</Text>
             </TouchableOpacity>
           </View>
         </View>
       ) : (
         <View className="py-4 pb-10">
-          <Text className="text-lg text-center font-semibold">
+          {/* <Text className="text-lg text-center font-semibold">
             Fund Your Wallet
-          </Text>
+          </Text> */}
 
           {error && (
             <Text className="text-red-500 text-sm text-center">{error}</Text>
@@ -132,6 +127,14 @@ const FundWalletModal = ({ navigation }: any) => {
                   'Fund Wallet'
                 )}
               </Text>
+            </TouchableOpacity>
+          </View>
+          <View className="flex-row justify-center items-center">
+            <TouchableOpacity
+              className=" border-red-400 border-[1px] h-12 w-4/6 mt-6 flex-row justify-center items-center rounded-lg"
+              onPress={() => navigation.goBack()}
+            >
+              <Text className="text-red-500 text-base">Go back</Text>
             </TouchableOpacity>
           </View>
         </View>

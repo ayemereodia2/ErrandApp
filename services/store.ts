@@ -9,20 +9,21 @@ import verifyPhone from "./auth/verify-phone";
 import { bidActionReducer } from "./bids/bidsAction";
 import contactUsReducer from './Contacts/ContactUsSlice';
 import { startErrandReducer } from "./errands/beginErrand";
+import createErrandReducer from './errands/createErrand';
 import { errandDetailsReducer } from "./errands/errandDetails";
 import { marketReducer } from "./errands/market";
 import { myErrandReducer } from "./errands/myErrands";
 import postBidReducer from "./errands/placeBid";
+import { subErrandReducer } from "./errands/subErrand";
 import modalsReducer from "./modals";
 import { timelineActionReducer } from "./timeline/sendMessage";
-import { subErrandReducer } from "./errands/subErrand";
-import errandActionReducer from './errands/errandAction'
-import createErrandReducer from './errands/createErrand'
 
-import { categoriesListReducer } from "./PostErrand/categories";
-import { postFilesReducer } from "./errands/postFiles";
 import { postAudioFilesReducer } from "./errands/postAudioFIle";
-import { walletActionReducer } from "./errands/walletBalance";
+import { postFilesReducer } from "./errands/postFiles";
+import { categoriesListReducer } from "./PostErrand/categories";
+import { walletActionReducer } from "./wallet/walletBalance";
+import { getAccountsReducer } from "./wallet/getAccount";
+
 
 export const store = configureStore({
   reducer: {
@@ -45,7 +46,8 @@ export const store = configureStore({
     createErrandReducer,
     postFilesReducer,
     postAudioFilesReducer,
-    walletActionReducer
+    walletActionReducer,
+    getAccountsReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

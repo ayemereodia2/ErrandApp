@@ -1,5 +1,4 @@
 import { AntDesign, Entypo, MaterialIcons } from '@expo/vector-icons'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
@@ -15,34 +14,21 @@ import UserProfile from '../../components/UsersProfile/UserProfile'
 import UserVerification from '../../components/UsersProfile/UserVerification'
 import { _fetch } from '../../services/axios/http'
 
+import {
+  Menu,
+  MenuOption,
+  MenuOptions,
+  MenuTrigger,
+} from 'react-native-popup-menu'
 import Toast from 'react-native-toast-message'
-import { ProfileInitials } from '../../components/ProfileInitials'
-import { getUserId } from '../../utils/helper'
-import { useAppDispatch } from '../../services/store'
-import { Menu, MenuTrigger } from 'react-native-popup-menu'
 
 const AccountScreen = ({ navigation }: any) => {
+  const [isRefreshing, setIsRefreshing] = useState(false)
   const [profile, setProfile] = useState(true)
-  const [userId, setUserId] = useState('')
-  const [errands, setErrands] = useState([])
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [profilePic, setProfilePic] = useState('')
-  const dispatch = useAppDispatch()
-
 
   const handleProfile = () => {
     setProfile(false)
   }
-
-  const handleVerification = () => {
-    setProfile(true)
-  }
-
-  useEffect(() => {
-    // dispatch(market({}))
-    getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
-  }, [])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -50,27 +36,23 @@ const AccountScreen = ({ navigation }: any) => {
       title: 'My Profile',
       headerStyle: { backgroundColor: '#F8F9FC' },
       headerLeft: () => (
-        <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
-          <ProfileInitials
-            firstName={firstName.charAt(0).toUpperCase()}
-            lastName={lastName.charAt(0).toUpperCase()}
-            profile_pic={profilePic}
-            textClass="text-white text-base"
-            width={40}
-            height={40}
-          />
-        </View>
+        <TouchableOpacity
+          className="flex-row items-center justify-between mx-0 px-3 py-3"
+          onPress={() => navigation.goBack()}
+        >
+          <AntDesign name="arrowleft" size={24} color="black" />
+        </TouchableOpacity>
       ),
       headerRight: () => (
-        <View className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-3 ">
-          <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
-            <MaterialIcons name="notifications" color={'black'} size={22} />
-          </TouchableOpacity>
+        <View className="flex-row items-center justify-between mx-3 px-3 py-3 space-x-3 ">
+          {/* <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
+                <MaterialIcons name="notifications" color={'black'} size={22} />
+              </TouchableOpacity> */}
           <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
             <MenuTrigger>
               <Entypo name="dots-three-vertical" color={'black'} size={20} />
             </MenuTrigger>
-            {/* <MenuOptions
+            <MenuOptions
               customStyles={{
                 optionWrapper: {
                   // borderBottomWidth: 0.2,
@@ -80,7 +62,7 @@ const AccountScreen = ({ navigation }: any) => {
               }}
             >
               <MenuOption
-                onSelect={() => getMarket()}
+                // onSelect={}
                 text="Refresh"
                 customStyles={{
                   optionWrapper: {
@@ -108,20 +90,24 @@ const AccountScreen = ({ navigation }: any) => {
                   optionText: { textAlign: 'center', fontWeight: '600' },
                 }}
               />
-            </MenuOptions> */}
+            </MenuOptions>
           </Menu>
         </View>
       ),
     })
   }, [])
 
-  const getUserProfile = async () => {
-    const token = await AsyncStorage.getItem('accessToken')
+  const handleVerification = () => {
+    setProfile(true)
+  }
 
+  const getUserProfile = async () => {
     const _rs = await _fetch({
       method: 'GET',
       _url: `/user/profile`,
     })
+    console.log('>>>>>>>>data user', _rs)
+
     return await _rs.json()
   }
 
@@ -130,6 +116,8 @@ const AccountScreen = ({ navigation }: any) => {
     queryFn: getUserProfile,
     refetchOnMount: 'always',
   })
+
+  console.log('>>>>>>>>data user', data)
 
   if (isLoading) {
     return (
@@ -147,27 +135,14 @@ const AccountScreen = ({ navigation }: any) => {
     })
   }
 
+  useEffect(() => {
+    getUserProfile()
+  }, [])
+
   // console.log('data', data?.last_name)
 
   return (
     <SafeAreaView>
-      {/* Header */}
-
-      {/* <View className="flex-row items-center ml-[36px] mt-10 mr-[50px] pb-2">
-        <TouchableOpacity
-          className="items-center justify-center flex-row"
-          onPress={() => navigation.goBack()}
-        >
-          <Text className="mr-[105px]">
-            <AntDesign name="close" size={20} color="black" />
-          </Text>
-        </TouchableOpacity>
-
-        <Text className="text-[18px] font-bold">My Profile</Text>
-      </View> */}
-
-      {/* End Of Header */}
-
       <ScrollView>
         {/* Top Profile */}
 
@@ -202,7 +177,7 @@ const AccountScreen = ({ navigation }: any) => {
           {/*Occupation */}
 
           <Text className="text-center mt-3 text-base font-medium">
-            {data?.data.occupation ? data.occupation : 'Swave User'}
+            {data?.data.occupation ? data?.data.occupation : 'Swave User'}
           </Text>
 
           {/* Number of errands */}

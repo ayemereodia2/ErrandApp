@@ -1,1 +1,1 @@
-// declare module 'react-native-paystack-webview'
+declare module 'react-native-community/datetimepicker'

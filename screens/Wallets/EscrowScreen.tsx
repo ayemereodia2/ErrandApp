@@ -1,24 +1,36 @@
-import { AntDesign, Entypo, MaterialIcons } from '@expo/vector-icons'
-import React, { useLayoutEffect, useState } from 'react'
-import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
-// import { ScrollView } from 'react-native-gesture-handler'
-import * as ImagePicker from 'expo-image-picker'
-import { Image, ScrollView } from 'react-native'
+import { AntDesign, Entypo, EvilIcons, FontAwesome } from '@expo/vector-icons'
+import React, { useEffect, useLayoutEffect } from 'react'
+import {
+  SafeAreaView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import {
   Menu,
   MenuOption,
   MenuOptions,
   MenuTrigger,
 } from 'react-native-popup-menu'
-import UpdateProfile from '../../components/ProfileUpdate/UpdateProfile'
+import { useSelector } from 'react-redux'
+import EscrowDetails from '../../components/Transactions/EscrowDetails'
+import { RootState, useAppDispatch } from '../../services/store'
+import { walletAction } from '../../services/wallet/walletBalance'
+import { EscrowBreakDown } from '../../types'
 
-const EditProfileTitle = ({ navigation, route }: any) => {
-  const [image, setImage] = useState(null)
+const EscrowScreen = ({ navigation }: any) => {
+  const dispatch = useAppDispatch()
+
+  const { data, loading: detailsLoading } = useSelector(
+    (state: RootState) => state.walletActionReducer,
+  )
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      title: 'Edit Profile',
+      title: 'Escrow Breakdown',
       headerStyle: { backgroundColor: '#F8F9FC' },
       headerLeft: () => (
         <TouchableOpacity
@@ -82,74 +94,65 @@ const EditProfileTitle = ({ navigation, route }: any) => {
     })
   }, [])
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    })
-
-    // console.log(result);
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri)
-    }
-  }
-
-  const { data } = route.params
+  useEffect(() => {
+    dispatch(walletAction({ request: 'wallet' }))
+  }, [])
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        {/* Top Profile */}
+      {/* Heder */}
 
-        <View className="mt-8 mx-auto relative bg-gray-300 rounded-full">
-          {image ? (
-            <Image
-              source={{ uri: image }}
-              style={{ width: 150, height: 150 }}
-              className="rounded-full"
+      <View className="bg-[rgb(248,249,252)]">
+        <View className="mx-4 flex-row items-center justify-between">
+          <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
+            <EvilIcons
+              name="search"
+              size={22}
+              className="w-1/12"
+              color="#808080"
             />
-          ) : (
-            <Image
-              // source={require('../../assets/images/profile.png')}
-              source={{ uri: data?.data.profile_picture }}
-              className="b rounded-full w-[150px] h-[150px]"
+            <TextInput
+              className=" w-9/12"
+              placeholder="Search here..."
+              placeholderTextColor="#808080"
             />
-          )}
-          <TouchableOpacity
-            onPress={pickImage}
-            className="absolute left-12 top-14 mx-auto w-[60px] h-[50px] b rounded-md"
-          >
-            <Image source={require('../../assets/images/camera.jpg')} />
+          </View>
+          <TouchableOpacity>
+            <View className="bg-[#fff] mt-6 mr-2 b rounded-md w-[38px]">
+              <Text className="p-2 text-center">
+                <FontAwesome name="calendar" size={24} color="black" />
+              </Text>
+            </View>
           </TouchableOpacity>
         </View>
+      </View>
 
-        <View>
-          {/* Name Area */}
+      {/* Body */}
 
-          <View className="flex-row justify-center items-center mt-5">
-            <Text className="text-[18px] font-bold leading-6">
-              {data?.data.first_name} {data?.data.last_name}{' '}
-            </Text>
-            <Text>
-              <MaterialIcons name="verified" size={20} color="green" />
-            </Text>
-          </View>
+      <ScrollView className="mx-4" showsVerticalScrollIndicator={false}>
+        <Text className="mt-[34px] text-center">Today</Text>
 
-          {/*Occupation */}
+        {data?.escrow_breakdown?.slice(0, 5).map((escrows: EscrowBreakDown) => {
+          return <EscrowDetails {...escrows} />
+        })}
 
-          <Text className="text-center mt-3 text-base font-medium">
-            {data?.data.occupation ? data.occupation : 'Swave User'}
-          </Text>
-        </View>
+        {/* Yesterdy */}
 
-        <UpdateProfile image={image} data={data} />
+        <Text className="mt-[34px] text-center">Yesterday</Text>
+
+        {data?.escrow_breakdown
+          ?.slice(5, 15)
+          .map((escrows: EscrowBreakDown) => {
+            return <EscrowDetails {...escrows} />
+          })}
+
+        <Text className="mt-[34px] text-center">Previous Escrow BreakDown</Text>
+        {data?.escrow_breakdown?.map((escrows: EscrowBreakDown) => {
+          return <EscrowDetails {...escrows} />
+        })}
       </ScrollView>
     </SafeAreaView>
   )
 }
 
-export default EditProfileTitle
+export default EscrowScreen

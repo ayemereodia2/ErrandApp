@@ -200,7 +200,6 @@ export interface PostErrandData {
   currentLocation: string
 }
 
-
 export interface DurationData {
   value: string
   period: string
@@ -586,15 +585,17 @@ export interface WalletResponse extends CommonState {
     escrow: number
     transactions: Transaction[]
     incoming: number
-    escrow_breakdown: {
-      description: string
-      budget: number
-      created_at: string
-      status: string
-      amount: number
-      type: string
-    }[]
+    escrow_breakdown: EscrowBreakDown[]
   }
+}
+
+export interface EscrowBreakDown {
+  description: string
+  budget: number
+  created_at: string
+  status: string
+  amount: number
+  type: string
 }
 
 export interface Transaction {

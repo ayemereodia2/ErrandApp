@@ -4,11 +4,13 @@ import DropdownComponent from '../Picker/DropdownComponent'
 import { AntDesign } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native'
 import RangeSlider from '../RangeSlider/RangeSlider'
+import { useNavigation } from '@react-navigation/native'
 
 
 
 
 const Filter = ({onClose, filterOn}:any) => {
+    
 
 
   return (
@@ -16,13 +18,13 @@ const Filter = ({onClose, filterOn}:any) => {
 
     <ScrollView>
         
-        <View className='fixed top-0 left-11 w-[89%] bg-[#F5F5F5] z-5 duration-200' style={{display: filterOn ? 'flex' : 'flex'}}>
+        <View className='fixed top-0 right-[-5%] w-[95%] bg-[#F5F5F5] z-5 duration-200' style={{display: filterOn ? 'flex' : 'none'}}>
 
             {/* Header */}
             <View className='flex-row justify-between items-center mt-5 mx-4'>
 
                 <TouchableOpacity onPress={onClose}>
-                <Text><AntDesign name="close" size={20} color="black" /></Text>
+                <Text><AntDesign name="close" size={24} color="black" /></Text>
                 </TouchableOpacity>
 
                 <Text className='text-[20px] font-medium leading-6'>Filter Errands</Text>
@@ -75,7 +77,7 @@ const Filter = ({onClose, filterOn}:any) => {
                 <TextInput 
                 placeholder='Find a Location'
                 placeholderTextColor={'#AAA'}
-                className='w-[320px] h-[44px] bg-white border-[0.5px] border-[#DDD] mx-auto mr-3 pl-2 mt-2'
+                className='w-[300px] h-[44px] bg-white border-[0.5px] border-[#DDD] mx-auto mr-3 pl-2 mt-2'
                 
                 />
                 </View>
@@ -84,14 +86,14 @@ const Filter = ({onClose, filterOn}:any) => {
 
                 <Text className='mt-6 font-medium text-base leading-6'>Quick Options</Text>
 
-            <View className='mt-2'>
+            <View className='mt-2 mx-auto'>
                 <View className='flex-row'>
 
                     <TouchableOpacity className='bg-[#1E3A79] px-4 py-2 rounded-[20px] mr-5'>
                         <Text className='font-medium text-base text-white'>Lagos - 20 Errands</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity className='px-4 py-2 ml-[-8px] rounded-[20px] bg-white border border-[#1E3A79]'>
+                    <TouchableOpacity className='px-2 py-2 ml-[-8px] rounded-[20px] bg-white border border-[#1E3A79]'>
                         <Text className='font-medium text-base text-[#1E3A79]'>Uyo - 20 Errands</Text>
                     </TouchableOpacity>
 
@@ -102,7 +104,7 @@ const Filter = ({onClose, filterOn}:any) => {
                     <Text className='font-medium text-base text-[#1E3A79]'>Ogun - 20 Errands</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity className='px-4 py-2 rounded-[20px] ml-[-15px] bg-white border border-[#1E3A79]'>
+                    <TouchableOpacity className='px-1 py-2 rounded-[20px] ml-[-15px] bg-white border border-[#1E3A79]'>
                         <Text className='font-medium text-base text-[#1E3A79]'>Kwara - 20 Errands</Text>
                     </TouchableOpacity>
             </View>
@@ -110,7 +112,7 @@ const Filter = ({onClose, filterOn}:any) => {
 
             <RangeSlider />
 
-            <TouchableOpacity className='bg-[#1E3A79] w-[300px] h-[56px] rounded-md mx-auto mt-[256px] justify-center items-center mb-[62px]'>
+            <TouchableOpacity className='bg-[#1E3A79] w-[300px] h-[56px] rounded-md mx-auto mt-[80px] justify-center items-center mb-[150px]' onPress={onClose}>
                 <Text className='text-white text-center'>Filter Errands</Text>
             </TouchableOpacity>
 
