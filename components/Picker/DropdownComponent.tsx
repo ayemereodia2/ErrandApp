@@ -1,22 +1,28 @@
-import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { Dropdown } from 'react-native-element-dropdown';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import { ScrollView } from 'react-native-gesture-handler';
+import React from 'react'
+import { StyleSheet } from 'react-native'
+import { Dropdown } from 'react-native-element-dropdown'
 
-const data = [
-  { label: 'Item 1', value: '1' },
-  { label: 'Item 2', value: '2' },
-  { label: 'Item 3', value: '3' },
-  { label: 'Item 4', value: '4' },
- 
-];
+// const data = [
+//   { label: 'Item 1', value: '1' },
+//   { label: 'Item 2', value: '2' },
+//   { label: 'Item 3', value: '3' },
+//   { label: 'Item 4', value: '4' },
+// ]
 
-const DropdownComponent = ({placeHolder, bg}:any) => {
-  const [value, setValue] = useState(null);
+interface DropDownProp {
+  label: string
+  value: string
+}
 
+interface Prop {
+  value: string
+  setValue: any
+  data: DropDownProp[]
+  placeHolder: string
+}
+
+const DropdownComponent = ({ placeHolder, data, value, setValue }: Prop) => {
   return (
-    
     <Dropdown
       style={styles.dropdown}
       placeholderStyle={styles.placeholderStyle}
@@ -27,37 +33,33 @@ const DropdownComponent = ({placeHolder, bg}:any) => {
       maxHeight={300}
       labelField="label"
       valueField="value"
-    
-      
       placeholder={placeHolder ? placeHolder : 'Select'}
-      
       value={value}
-      onChange={item => {
-        setValue(item.value);
+      onChange={(item) => {
+        setValue(item.value)
       }}
-     
     />
-    
-  );
-};
+  )
+}
 
-export default DropdownComponent;
+export default DropdownComponent
 
 const styles = StyleSheet.create({
   dropdown: {
-    margin: 16,
-    
-    height: 50,
-    borderBottomColor: 'gray',
-    backgroundColor: '#FCFCFC'
-    // borderBottomWidth: 1,
+    margin: 10,
+    height: 45,
+    backgroundColor: '#FCFCFC',
+    paddingHorizontal: 10,
+    borderRadius: 4,
+    borderColor: '#ccc',
+    borderWidth: 1,
   },
   icon: {
     marginRight: 5,
   },
   placeholderStyle: {
     fontSize: 16,
-    paddingLeft: 4
+    paddingLeft: 4,
   },
   selectedTextStyle: {
     fontSize: 16,
@@ -69,5 +71,6 @@ const styles = StyleSheet.create({
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
+    paddingVertical: 2,
   },
-});
+})

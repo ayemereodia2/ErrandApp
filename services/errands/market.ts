@@ -1,8 +1,9 @@
+import { ErrandMarketResponse, MarketData } from '@/types';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ErrandMarketResponse, MarketData } from '../../types';
+import { AxiosError } from 'axios';
 import { _fetch } from '../axios/http';
 
-export interface LocationProps {
+export interface MarketQueryParams {
   lat?: number
   lng?: number
   minPrice?: number,
@@ -10,39 +11,57 @@ export interface LocationProps {
   category?: string
 }
 
-export const market = createAsyncThunk<ErrandMarketResponse, LocationProps, { rejectValue: string }>(
+const constructQueryParams = (raw: MarketQueryParams) => {
+  const params = new URLSearchParams();
+  if (raw.lat) {
+    params.append('lat', raw.lat.toString());
+
+  }
+  if (raw.lng) {
+    params.append('lng', raw.lng.toString());
+  }
+  if (raw.minPrice) {
+    params.append('minPrice', raw.minPrice.toString());
+  }
+  if (raw.maxPrice) {
+    params.append('maxPrice', raw.maxPrice.toString());
+  }
+  if (raw.category) {
+    params.append('category', raw.category);
+  }
+
+  return params
+}
+
+export const errandMarketList = createAsyncThunk<any, MarketQueryParams, { rejectValue: string }>(
   "errandMarketList/get",
-  async ({ lat, lng, minPrice, maxPrice, category }, { rejectWithValue }) => {
-
-
-    console.log(">>>>>jello");
-    
-
-    
+  async (marketQueryParams, { rejectWithValue }) => {
   try {
-    let url = "/errand/market"
+    let url = "/errand/market";
+    const params = constructQueryParams(marketQueryParams)
 
-    // if (lat !== 0 || lng !== 0) {
-    //   url = `/errand/market?lat=${lat}&lng=${lng}`
-    // }
+    if (params.toString()) {
+      url += `?${params.toString()}`;
+    }
 
-    // if (minPrice !== undefined || maxPrice !== undefined) {
-    //   url = `/errand/market?minPrice=${minPrice}&maxPrice=${maxPrice}`
-    // }
+    console.log(">>>>>url", url);
+    
 
-    // if (category) {
-    //   url = `/errand/market?category=${category}`
-    // }
-    const _rs = await _fetch({ _url: url, method: 'GET' })
-    const rs = await _rs.json()
+    const rs = await _fetch({ method: 'GET', _url: url });
 
-    // console.log(">>>>>rs", rs.data);
-    // if (rs.data.success === true) {
-      return rs
-    // }
+    
+    
+    const res = await rs.json()
+
+    console.log('>>>>res market', res);
+
+
+    if (res.success) {
+      return res.data
+    }
   } catch (err) {
-    if (err) {
-       return err
+    if (err instanceof AxiosError) {
+       return rejectWithValue(err.response?.data.message)
     } 
   }
 })
@@ -55,7 +74,7 @@ const initialState: ErrandMarketResponse = {
    
 }
 
-const _market = createSlice({
+const errandMarketListSlice = createSlice({
   name: "/auth/errandMarket",
   initialState,
   reducers: {
@@ -68,18 +87,16 @@ const _market = createSlice({
 
   },
   extraReducers: (builder) => {
-    builder.addCase(market.rejected, (state, action) => {
+    builder.addCase(errandMarketList.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
     });
-    builder.addCase(market.fulfilled, (state, {payload}) => {
+    builder.addCase(errandMarketList.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.error = "";
-      console.log(">>>>>payload", payload.data);
-      
-      state.data = payload.data
+      state.data = payload
     });
-    builder.addCase(market.pending, (state, action) => {
+    builder.addCase(errandMarketList.pending, (state, action) => {
       state.loading = true;
       state.error = action.payload;
     });
@@ -87,5 +104,5 @@ const _market = createSlice({
 
 })
 
-export const {setSortedErrands,setActionState} = _market.actions
-export const marketReducer = _market.reducer
+export const {setSortedErrands,setActionState} = errandMarketListSlice.actions
+export const errandMarketListReducer = errandMarketListSlice.reducer

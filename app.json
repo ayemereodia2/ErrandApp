@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Swave",
-    "slug": "Swave-mobile",
+    "slug": "Swave",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -28,7 +28,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-       "infoPlist": {
+      "infoPlist": {
         "UIBackgroundModes": [
           "audio"
         ]
@@ -46,7 +46,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "c7195ca3-8db9-44e7-adc5-905ba8286011"
+        "projectId": "537d3b78-5fdd-4fa2-8546-4a48123cec38"
       }
     }
   }

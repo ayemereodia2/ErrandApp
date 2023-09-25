@@ -23,6 +23,7 @@ import { postFilesReducer } from "./errands/postFiles";
 import { categoriesListReducer } from "./PostErrand/categories";
 import { walletActionReducer } from "./wallet/walletBalance";
 import { getAccountsReducer } from "./wallet/getAccount";
+import { errandMarketListReducer } from "./errands/market";
 
 
 export const store = configureStore({
@@ -47,7 +48,8 @@ export const store = configureStore({
     postFilesReducer,
     postAudioFilesReducer,
     walletActionReducer,
-    getAccountsReducer
+    getAccountsReducer,
+    errandMarketListReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

@@ -20,59 +20,82 @@ import {
   MenuOptions,
   MenuTrigger,
 } from 'react-native-popup-menu'
-import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import ErrandComp from '../../components/ErrandComponent'
 import Filter from '../../components/Filter/Filter'
 import { ProfileInitials } from '../../components/ProfileInitials'
-import { _fetch } from '../../services/axios/http'
+import { errandMarketList } from '../../services/errands/market'
 import { RootState, useAppDispatch } from '../../services/store'
-import { getUserId } from '../../utils/helper'
+import { categoryLists, getUserId } from '../../utils/helper'
 
 export default function MainScreen({ navigation }: any) {
   // const navigation = useNavigation()
   const dispatch = useAppDispatch()
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
   const [userId, setUserId] = useState('')
-  const [errands, setErrands] = useState([])
+  // const [errands, setErrands] = useState([])
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [profilePic, setProfilePic] = useState('')
+  const [value, setValue] = useState('')
+  const [low, setLow] = useState(0)
+  const [high, setHigh] = useState(0)
+  const [minCheck, setMinCheck] = useState(false)
 
-  const { data } = useSelector((state: RootState) => state.userDetailsReducer)
+  // const { data } = useSelector((state: RootState) => state.userDetailsReducer)
   const [filterOn, setFilterOn] = useState(false)
 
   const handleFilter = () => {
     setFilterOn(!filterOn)
   }
-  // const { data: errands, loading:  } = useSelector(
-  //   (state: RootState) => state.marketReducer,
-  // )
+  const { data: errands, loading } = useSelector(
+    (state: RootState) => state.errandMarketListReducer,
+  )
 
-  const getMarket = async () => {
-    try {
-      setLoading(true)
-      const _rs = await _fetch({
-        _url: '/errand/market',
-        method: 'GET',
-      })
-      const rs = await _rs.json()
-      setLoading(false)
-      setErrands(rs.data)
-      // console.log(rs.data)
-    } catch (e) {
-      Toast.show({
-        type: 'error',
-        text1: 'Sorry, something went wrong',
-      })
-      setLoading(false)
+  const category = categoryLists.map((category) => {
+    return {
+      label: category.identifier,
+      value: category.name,
     }
+  })
+
+  console.log(">>>mcheck", minCheck);
+  
+
+  const filterMarketList = () => {
+    dispatch(
+      errandMarketList({
+        category: value,
+        minPrice: minCheck ? low : 0,
+        maxPrice: minCheck ? high : 0,
+      }),
+    )
   }
+
+  // const getMarket = async () => {
+  //   try {
+  //     setLoading(true)
+  //     const _rs = await _fetch({
+  //       _url: '/errand/market',
+  //       method: 'GET',
+  //     })
+  //     const rs = await _rs.json()
+  //     setLoading(false)
+  //     setErrands(rs.data)
+  //   } catch (e) {
+  //     Toast.show({
+  //       type: 'error',
+  //       text1: 'Sorry, something went wrong',
+  //     })
+  //     setLoading(false)
+  //   }
+  // }
 
   useEffect(() => {
     // dispatch(market({}))
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
-    getMarket()
+    dispatch(errandMarketList({}))
+    // getMarket()
   }, [])
 
   let [fontsLoaded] = useFonts({
@@ -161,15 +184,27 @@ export default function MainScreen({ navigation }: any) {
   } else {
     return (
       <SafeAreaView>
-        <ScrollView scrollEventThrottle={16}>
+        <ScrollView scrollEventThrottle={16} className="bg-[#F8F9FC]">
           {loading ? (
-            <View>
-              <ActivityIndicator size={'large'} />
+            <View className="flex-1 justify-center items-center mt-10">
+              <ActivityIndicator size={'large'} color="blue" />
             </View>
           ) : (
             <>
               {filterOn && (
-                <Filter onClose={handleFilter} filterOn={filterOn} />
+                <Filter
+                  data={category}
+                  value={value}
+                  setValue={setValue}
+                  onClose={handleFilter}
+                  filterOn={filterOn}
+                  low={low}
+                  high={high}
+                  setLow={setLow}
+                  setHigh={setHigh}
+                  filterMarketList={filterMarketList}
+                  setMinCheck={setMinCheck}
+                />
               )}
 
               <View

@@ -135,9 +135,6 @@ const AccountScreen = ({ navigation }: any) => {
     })
   }
 
-  useEffect(() => {
-    getUserProfile()
-  }, [])
 
   // console.log('data', data?.last_name)
 
@@ -185,14 +182,14 @@ const AccountScreen = ({ navigation }: any) => {
           <View className="flex-row mt-5 mx-auto">
             <View className="ml-3">
               <Text className="text-center mb-1 font-bold">400</Text>
-              <Text className="text-center font-medium">total Errands </Text>
+              <Text className="text-center font-light">total Errands </Text>
             </View>
 
             <View className="ml-3">
               <Text className="text-center mb-1 font-bold">
                 {data?.data.errands_completed}
               </Text>
-              <Text className="text-center font-medium">
+              <Text className="text-center font-light">
                 Errands Completed{' '}
               </Text>
             </View>
@@ -201,7 +198,7 @@ const AccountScreen = ({ navigation }: any) => {
               <Text className="text-center mb-1 font-bold">
                 {data?.data.errands_cancelled}
               </Text>
-              <Text className="text-center font-medium">
+              <Text className="text-center font-light">
                 Errands Cancelled{' '}
               </Text>
             </View>
