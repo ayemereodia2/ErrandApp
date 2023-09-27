@@ -31,7 +31,7 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
   const truncatedAddress = truncateAddress(address, MAX_ADDRESS_LENGTH)
 
   const truncatedAddressText = truncateAddress(
-    errand.dropoff_address?.address_text,
+    errand?.dropoff_address?.address_text,
     MAX_ADDRESS_LENGTH,
   )
 
@@ -45,18 +45,18 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
     <TouchableOpacity
       onPress={() => {
         navigate.navigate('ErrandDetails', {
-          errand_id: errand.id,
-          user_id: errand.user_id,
+          errand_id: errand?.id,
+          user_id: errand?.user_id,
         })
-        dispatch(errandDetails({ errandId: errand.id }))
-        dispatch(externalUserDetails({ user_id: errand.user_id }))
+        dispatch(errandDetails({ errandId: errand?.id }))
+        dispatch(externalUserDetails({ user_id: errand?.user_id }))
       }}
       className="mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border-2 border-[#f3f3f3]"
     >
       <View className=" flex-row items-start mt-4">
         <View className="flex-row items-start justify-between gap-3">
           <View className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center">
-            {errand.user.profile_picture ? (
+            {errand?.user?.profile_picture ? (
               <Image
                 style={{
                   width: 40,
@@ -65,20 +65,20 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
                   borderRadius: 20,
                 }}
                 alt="okay"
-                src={errand.user.profile_picture}
+                src={errand?.user?.profile_picture}
                 // source={require(errand.user.profile_picture)}
               />
             ) : (
               <Text className="uppercase text-lg items-center text-white">
-                {errand.user.first_name.charAt(0).toUpperCase()}
-                {errand.user.last_name.charAt(0).toUpperCase()}
+                {errand?.user?.first_name.charAt(0).toUpperCase()}
+                {errand?.user?.last_name.charAt(0).toUpperCase()}
               </Text>
             )}
           </View>
 
           <View>
             <Text className="font-semibold pt-2">
-              {errand?.user.first_name} {errand?.user.last_name}
+              {errand?.user?.first_name} {errand?.user?.last_name}
             </Text>
 
             <View className="flex-row justify-between -mt-2">
@@ -88,12 +88,12 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
                   <Entypo name="star" size={16} color="#FBB955" />
                   <Text className="text-[14px] text-[#777777] font-medium">
                     <View className="px-1">
-                      <Text>{errand.user.rating}</Text>
+                      <Text>{errand?.user?.rating}</Text>
                     </View>
                     <Text className="text-[#ccc] font-light text-2xl ">|</Text>
                     {/* {sender.errands_completed} */}{' '}
                     <FontAwesome5 name="running" size={14} color="black" />{' '}
-                    {errand.user.errands_completed}
+                    {errand?.user?.errands_completed}
                   </Text>
                 </Text>
               </View>
@@ -140,7 +140,12 @@ export default function ErrandComp({ errand, navigate }: ErrandCardProp) {
         <View className=" rounded-2xl py-2 px-2  items-center mt-2">
           <Text className="text-orange-500 text-center text-[17px] mb-1 font-semibold">
             {' '}
-            {errand?.total_bids} {errand?.total_bids <= 1 ? 'Bid' : 'Bids'}
+            {errand?.total_bids === 0 ? '' : errand?.total_bids}{' '}
+            {errand?.total_bids === 0
+              ? ''
+              : errand?.total_bids <= 1
+              ? 'Bid'
+              : 'Bids'}
           </Text>
         </View>
       </View>

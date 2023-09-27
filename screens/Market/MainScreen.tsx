@@ -7,8 +7,10 @@ import { Entypo, EvilIcons, Ionicons, MaterialIcons } from '@expo/vector-icons'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -25,8 +27,10 @@ import ErrandComp from '../../components/ErrandComponent'
 import Filter from '../../components/Filter/Filter'
 import { ProfileInitials } from '../../components/ProfileInitials'
 import { errandMarketList } from '../../services/errands/market'
+import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
-import { categoryLists, getUserId } from '../../utils/helper'
+import { MarketData } from '../../types'
+import { getUserId } from '../../utils/helper'
 
 export default function MainScreen({ navigation }: any) {
   // const navigation = useNavigation()
@@ -41,6 +45,7 @@ export default function MainScreen({ navigation }: any) {
   const [low, setLow] = useState(0)
   const [high, setHigh] = useState(0)
   const [minCheck, setMinCheck] = useState(false)
+  const [refreshing, setRefreshing] = React.useState(false)
 
   // const { data } = useSelector((state: RootState) => state.userDetailsReducer)
   const [filterOn, setFilterOn] = useState(false)
@@ -52,17 +57,29 @@ export default function MainScreen({ navigation }: any) {
     (state: RootState) => state.errandMarketListReducer,
   )
 
-  const category = categoryLists.map((category) => {
+  const { data: categories } = useSelector(
+    (state: RootState) => state.categoriesListReducer,
+  )
+
+  const category = categories.map((category) => {
     return {
-      label: category.identifier,
-      value: category.name,
+      label: category.name,
+      value: category.identifier,
     }
   })
 
-  console.log(">>>mcheck", minCheck);
-  
+  const onRefresh = React.useCallback(() => {
+    dispatch(errandMarketList({}))
+    setRefreshing(true)
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 500)
+  }, [])
+
+  console.log('>>>mcheck', minCheck)
 
   const filterMarketList = () => {
+    console.log('>>>>>>>value', value)
     dispatch(
       errandMarketList({
         category: value,
@@ -72,37 +89,15 @@ export default function MainScreen({ navigation }: any) {
     )
   }
 
-  // const getMarket = async () => {
-  //   try {
-  //     setLoading(true)
-  //     const _rs = await _fetch({
-  //       _url: '/errand/market',
-  //       method: 'GET',
-  //     })
-  //     const rs = await _rs.json()
-  //     setLoading(false)
-  //     setErrands(rs.data)
-  //   } catch (e) {
-  //     Toast.show({
-  //       type: 'error',
-  //       text1: 'Sorry, something went wrong',
-  //     })
-  //     setLoading(false)
-  //   }
-  // }
-
   useEffect(() => {
-    // dispatch(market({}))
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
     dispatch(errandMarketList({}))
-    // getMarket()
+    dispatch(getCategoriesList())
   }, [])
 
   let [fontsLoaded] = useFonts({
     AbrilFatface_400Regular,
   })
-
-  // console.log('>>>>>>profile', profilePic)
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -122,49 +117,55 @@ export default function MainScreen({ navigation }: any) {
         </View>
       ),
       headerRight: () => (
-        <View className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-3 ">
+        <View className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-5 ">
           <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
-            <MaterialIcons name="notifications" color={'black'} size={22} />
+            <MaterialIcons name="notifications" color={'black'} size={24} />
           </TouchableOpacity>
           <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
             <MenuTrigger>
-              <Entypo name="dots-three-vertical" color={'black'} size={20} />
+              <Entypo name="dots-three-vertical" color={'black'} size={22} />
             </MenuTrigger>
             <MenuOptions
               customStyles={{
                 optionWrapper: {
                   // borderBottomWidth: 0.2,
+                  marginTop: 10,
                   borderBottomColor: '#AAAAAA',
                 },
                 optionText: { textAlign: 'center', fontWeight: '600' },
               }}
             >
               <MenuOption
-                onSelect={() => getMarket()}
-                text="Refresh"
+                onSelect={() => navigation.navigate('Settings')}
+                text="Settings"
                 customStyles={{
                   optionWrapper: {
                     borderBottomWidth: 1,
                     borderBottomColor: '#AAAAAA',
+                    paddingVertical: 6,
                   },
                   optionText: { textAlign: 'center', fontWeight: '600' },
                 }}
               />
               <MenuOption
-                onSelect={() => alert(`Save`)}
+                onSelect={() => navigation.navigate('Account')}
                 text="Profile"
                 customStyles={{
                   optionWrapper: {
                     borderBottomWidth: 1,
                     borderBottomColor: '#AAAAAA',
+                    paddingVertical: 6,
                   },
                   optionText: { textAlign: 'center', fontWeight: '600' },
                 }}
               />
               <MenuOption
-                onSelect={() => alert(`Save`)}
+                onSelect={() => navigation.navigate('Contact Us')}
                 text="Contact Us"
                 customStyles={{
+                  optionWrapper: {
+                    paddingVertical: 6,
+                  },
                   optionText: { textAlign: 'center', fontWeight: '600' },
                 }}
               />
@@ -184,10 +185,20 @@ export default function MainScreen({ navigation }: any) {
   } else {
     return (
       <SafeAreaView>
-        <ScrollView scrollEventThrottle={16} className="bg-[#F8F9FC]">
+        <ScrollView
+          scrollEventThrottle={16}
+          className="bg-[#F8F9FC]"
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           {loading ? (
-            <View className="flex-1 justify-center items-center mt-10">
-              <ActivityIndicator size={'large'} color="blue" />
+            <View style={styles.container} className="mt-10">
+              <ActivityIndicator
+                size={'large'}
+                style={[{ height: 80 }]}
+                color="blue"
+              />
             </View>
           ) : (
             <>
@@ -237,7 +248,7 @@ export default function MainScreen({ navigation }: any) {
                     </TouchableOpacity>
                   </View>
 
-                  {errands?.map((errand, index) => {
+                  {errands?.map((errand: MarketData, index: number) => {
                     return (
                       <ErrandComp
                         errand={errand}
@@ -255,3 +266,11 @@ export default function MainScreen({ navigation }: any) {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+})

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { CategoriesListResponse } from '../../types';
 import { _fetch } from '../axios/http';
 
-export const categoriesList = createAsyncThunk<CategoriesListResponse, void, { rejectValue: string }>(
+export const getCategoriesList = createAsyncThunk<CategoriesListResponse, void, { rejectValue: string }>(
   "categories/get",
   async (_, { rejectWithValue }) => {
   try {
@@ -38,17 +38,17 @@ const categoriesListSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(categoriesList.rejected, (state, action) => {
+    builder.addCase(getCategoriesList.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
     });
-    builder.addCase(categoriesList.fulfilled, (state, {payload}) => {
+    builder.addCase(getCategoriesList.fulfilled, (state, {payload}) => {
       // console.log(">>>>>>>a", action.payload)
       state.loading = false;
       state.error = "";
       state.data = payload.data
     });
-    builder.addCase(categoriesList.pending, (state, action) => {
+    builder.addCase(getCategoriesList.pending, (state, action) => {
       state.loading = true;
       state.error = action.payload;
     });

@@ -11,7 +11,6 @@ import contactUsReducer from './Contacts/ContactUsSlice';
 import { startErrandReducer } from "./errands/beginErrand";
 import createErrandReducer from './errands/createErrand';
 import { errandDetailsReducer } from "./errands/errandDetails";
-import { marketReducer } from "./errands/market";
 import { myErrandReducer } from "./errands/myErrands";
 import postBidReducer from "./errands/placeBid";
 import { subErrandReducer } from "./errands/subErrand";
@@ -24,7 +23,12 @@ import { categoriesListReducer } from "./PostErrand/categories";
 import { walletActionReducer } from "./wallet/walletBalance";
 import { getAccountsReducer } from "./wallet/getAccount";
 import { errandMarketListReducer } from "./errands/market";
+import { notificationPreferenceReducer } from "./notification/preferences";
 
+// "adaptiveIcon": {
+//         "foregroundImage": "./assets/images/logo.png",
+//         "backgroundColor": "#ffffff"
+//       },
 
 export const store = configureStore({
   reducer: {
@@ -32,7 +36,6 @@ export const store = configureStore({
     login,
     verifyPhone,
     modals: modalsReducer,
-    marketReducer,
     errandDetailsReducer,
     userDetailsReducer,
     externalUserDetailsReducer,
@@ -49,7 +52,8 @@ export const store = configureStore({
     postAudioFilesReducer,
     walletActionReducer,
     getAccountsReducer,
-    errandMarketListReducer
+    errandMarketListReducer,
+    notificationPreferenceReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

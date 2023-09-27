@@ -74,6 +74,8 @@ export type RootStackParamList = {
   SecurityQuestions: undefined
   ErrandUserDetails: undefined
   FundWalletModal: undefined
+  Settings: undefined
+
 }
 
 export type RootStackScreenProps<

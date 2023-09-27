@@ -17,6 +17,7 @@ import RecoverPasswordScreen from '../screens/Auth/RecoverPassword'
 import SecurityQuestion from '../screens/Auth/SecurityQuestionScreen'
 import VerifyOtpScreen from '../screens/Auth/VerifyOtp'
 import VerifyPhone from '../screens/Auth/VerifyPhone'
+import ContactUs from '../screens/Contact/ContactUs'
 
 import PostErrand from '../screens/CreateErrand'
 import EditProfileTitle from '../screens/EditProfile/EditProfileTitle'
@@ -27,18 +28,18 @@ import CancelErrandModal from '../screens/Modal/CancelErrandModal'
 import CompleteErrandModal from '../screens/Modal/CompleteErrandModal'
 import ErrandUserDetails from '../screens/MyErrands/ErrandUserDetails'
 import MyErrandInfo from '../screens/MyErrands/MyErrandInfo'
-import ProfileScreen from '../screens/ProfileScreen/index'
+import SettingScreen from '../screens/Setting/SettingScreen'
 import WalletScreen from '../screens/Wallets'
+import AccountStatement from '../screens/Wallets/AccountStatement'
+import EscrowScreen from '../screens/Wallets/EscrowScreen'
+import TransactionScreen from '../screens/Wallets/TransactionScreen'
+import WalletAccount from '../screens/Wallets/WalletAccount'
+import WithdrawalScreen from '../screens/Wallets/WithdrawalScreen'
 import { useAppDispatch } from '../services/store'
 import { RootStackParamList } from '../types'
 import { getUserId } from '../utils/helper'
 import BottomTab from './BottomTab'
 import DrawerNavigator from './DrawerNav'
-import TransactionScreen from '../screens/Wallets/TransactionScreen'
-import EscrowScreen from '../screens/Wallets/EscrowScreen'
-import WalletAccount from '../screens/Wallets/WalletAccount'
-import WithdrawalScreen from '../screens/Wallets/WithdrawalScreen'
-import AccountStatement from '../screens/Wallets/AccountStatement'
 
 // import DrawerNav from './DrawerNav'
 
@@ -88,101 +89,7 @@ export function RootNavigator() {
         component={BottomTab}
         options={{
           headerShown: false,
-          // title: 'Errand Market',
-          // headerStyle: { backgroundColor: '#F8F9FC' },
-          // headerLeft: () => (
-          //   <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
-          //     <ProfileInitials
-          //       firstName={firstName.charAt(0).toUpperCase()}
-          //       lastName={lastName.charAt(0).toUpperCase()}
-          //       profile_pic={profilePic}
-          //       textClass="text-white text-base"
-          //       width={40}
-          //       height={40}
-          //     />
-          //     {/* <Text>QA</Text> */}
-          //   </View>
-          // ),
-          // headerRight: () => (
-          //   <View className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-3 ">
-          //       <MaterialIcons  onPress={() => navigation.navigate('Errands')} name="notifications" color={'black'} size={22} />
-          //     <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
-          //       <MenuTrigger>
-          //         <Entypo
-          //           name="dots-three-vertical"
-          //           color={'black'}
-          //           size={20}
-          //         />
-          //       </MenuTrigger>
-          //       <MenuOptions
-          //         customStyles={{
-          //           optionsContainer: {
-          //             padding: 4,
-          //             width: 140,
-          //             marginTop: 20,
-          //             alignContent: 'center',
-          //           },
-          //         }}
-          //       >
-          //         <MenuOption
-          //           onSelect={() => alert(`Save`)}
-          //           text="Profile"
-          //           customStyles={{
-          //             optionWrapper: {
-          //               borderBottomWidth: 1,
-          //               borderBottomColor: '#AAAAAA',
-          //             },
-          //             optionText: { textAlign: 'center', fontWeight: '600' },
-          //           }}
-          //         />
-          //         <MenuOption
-          //           onSelect={() => alert(`Save`)}
-          //           text="Contact Us"
-          //           customStyles={{
-          //             optionText: { textAlign: 'center', fontWeight: '600' },
-          //           }}
-          //         />
-          //       </MenuOptions>
-          //     </Menu>
-          //   </View>
-          // ),
         }}
-        // options={{
-        //   title: '',
-        //   headerStyle: {},
-        //   headerLeft: () => (
-        //     <View className="flex-row items-center justify-between mx-0 px-3 py-3 shadow-sm mt-2 bg-white">
-        //       <TouchableOpacity
-        //         onPress={() => navigate.openDrawer()}
-        //         className="flex-row items-center"
-        //       >
-        //         <ProfileInitials firstName="Azubike" lastName="Orji" />
-        //       </TouchableOpacity>
-        //     </View>
-        //   ),
-        //   headerTitle: () => (
-        //     <View className="flex-row items-center justify-center">
-        //       <Image
-        //         style={{
-        //           width: 34,
-        //           height: 34,
-        //           resizeMode: 'contain',
-        //         }}
-        //         source={require('../assets/images/cropped.jpg')}
-        //       />
-        //     </View>
-        //   ),
-        //   // header
-
-        //   headerRight: () => (
-        //     <EvilIcons name="search" size={30} color="#243763" />
-        //   ),
-        //   headerTitleStyle: {
-        //     fontSize: 20,
-        //     fontWeight: '300',
-        //   },
-        //   headerShadowVisible: true,
-        // }}
       />
       <Stack.Screen
         name="Wallet"
@@ -228,6 +135,11 @@ export function RootNavigator() {
         options={{ title: 'Login' }}
       />
       <Stack.Screen
+        name="Settings"
+        component={SettingScreen}
+        options={{ title: 'Settings' }}
+      />
+      <Stack.Screen
         name="SecurityQuestions"
         component={SecurityQuestion}
         options={{ title: 'Security Question' }}
@@ -269,7 +181,7 @@ export function RootNavigator() {
         component={FundWalletModal}
         options={{ title: 'Fund Your Wallet', presentation: 'fullScreenModal' }}
       />
-     
+
       <Stack.Screen
         name="CancelErrandModal"
         component={CancelErrandModal}
@@ -285,7 +197,7 @@ export function RootNavigator() {
         component={VerifyPhone}
         options={{ title: 'Verify Phone' }}
       />
-{/* 
+      {/* 
       <Stack.Screen
         name="CreateErrands"
         component={CreateTasks}
@@ -355,6 +267,16 @@ export function RootNavigator() {
       <Stack.Screen
         name="MyErrandDetails"
         component={MyErrandInfo}
+        options={{
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+
+      <Stack.Screen
+        name="Contact Us"
+        component={ContactUs}
         options={{
           headerStyle: {
             backgroundColor: '#F8F9FC',

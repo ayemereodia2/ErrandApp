@@ -28,8 +28,8 @@ export default function DrawerNavigator() {
     >
       <Drawer.Screen name="Welcome" component={RootNavigator} />
       <Drawer.Screen name="Notifications" component={NotificationScreen} />
-      <Drawer.Screen name="Contact Us" component={ContactUs} />
-      <Drawer.Screen name="Settings" component={SettingScreen} />
+      {/* <Drawer.Screen name="Contact Us" component={ContactUs} /> */}
+      {/* <Drawer.Screen name="Settings" component={SettingScreen} /> */}
       <Drawer.Screen name="MyErrandsTest" component={MyErrandsTest} />
     </Drawer.Navigator>
   )

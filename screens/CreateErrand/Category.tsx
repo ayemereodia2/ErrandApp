@@ -34,8 +34,8 @@ const Categories = ({
     <>
       <ScrollView>
         <View className="flex-row mt-[38px] mx-auto items-center">
-          <View className="mr-2 w-[30px] h-[30px] bg-[#6604C8] b rounded-full justify-center items-center">
-            <Text className="text-white mx-auto">1</Text>
+          <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
+            <Text className="text-black mx-auto">1</Text>
           </View>
           <Text className="font-semibold text-[#243763] text-base">
             Select Category

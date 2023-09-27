@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 	image: {
 		height: 65,
 		width: 65,
-		borderRadius: 32.5,
+		borderRadius: 32,
 	},
 	usernameAndOnlineStatus: {
 		flexDirection: "column",

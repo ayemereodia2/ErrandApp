@@ -1,6 +1,6 @@
 import { AntDesign, Entypo, MaterialIcons } from '@expo/vector-icons'
 import { useQuery } from '@tanstack/react-query'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
   Image,
@@ -14,6 +14,7 @@ import UserProfile from '../../components/UsersProfile/UserProfile'
 import UserVerification from '../../components/UsersProfile/UserVerification'
 import { _fetch } from '../../services/axios/http'
 
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
   Menu,
   MenuOption,
@@ -45,9 +46,6 @@ const AccountScreen = ({ navigation }: any) => {
       ),
       headerRight: () => (
         <View className="flex-row items-center justify-between mx-3 px-3 py-3 space-x-3 ">
-          {/* <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
-                <MaterialIcons name="notifications" color={'black'} size={22} />
-              </TouchableOpacity> */}
           <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
             <MenuTrigger>
               <Entypo name="dots-three-vertical" color={'black'} size={20} />
@@ -62,8 +60,8 @@ const AccountScreen = ({ navigation }: any) => {
               }}
             >
               <MenuOption
-                // onSelect={}
-                text="Refresh"
+                onSelect={() => navigation.navigate('Settings')}
+                text="Settings"
                 customStyles={{
                   optionWrapper: {
                     borderBottomWidth: 1,
@@ -72,19 +70,9 @@ const AccountScreen = ({ navigation }: any) => {
                   optionText: { textAlign: 'center', fontWeight: '600' },
                 }}
               />
+
               <MenuOption
-                onSelect={() => alert(`Save`)}
-                text="Profile"
-                customStyles={{
-                  optionWrapper: {
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#AAAAAA',
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-              <MenuOption
-                onSelect={() => alert(`Save`)}
+                onSelect={() => navigation.navigate('Contact Us')}
                 text="Contact Us"
                 customStyles={{
                   optionText: { textAlign: 'center', fontWeight: '600' },
@@ -117,7 +105,9 @@ const AccountScreen = ({ navigation }: any) => {
     refetchOnMount: 'always',
   })
 
-  console.log('>>>>>>>>data user', data)
+  const clearStorage = async () => {
+    await AsyncStorage.clear()
+  }
 
   if (isLoading) {
     return (
@@ -135,7 +125,6 @@ const AccountScreen = ({ navigation }: any) => {
     })
   }
 
-
   // console.log('data', data?.last_name)
 
   return (
@@ -143,18 +132,18 @@ const AccountScreen = ({ navigation }: any) => {
       <ScrollView>
         {/* Top Profile */}
 
-        {data?.data.profile_picture ? (
+        {data?.data?.profile_picture ? (
           <View className="mt-8 mx-auto">
             <Image
-              source={{ uri: data?.data.profile_picture }}
+              source={{ uri: data?.data?.profile_picture }}
               className="b rounded-full w-[100px] h-[100px]"
             />
           </View>
         ) : (
           <View className="bg-gray-700 w-[80px] h-[80px] rounded-full items-center justify-center mx-auto mt-8">
             <Text className="text-white font-bold text-center text-2xl">
-              {data?.data.first_name.charAt(0)}
-              {data?.data.last_name.charAt(0)}
+              {data?.data?.first_name.charAt(0)}
+              {data?.data?.last_name.charAt(0)}
             </Text>
           </View>
         )}
@@ -164,7 +153,7 @@ const AccountScreen = ({ navigation }: any) => {
         <View>
           <View className="flex-row justify-center items-center mt-5">
             <Text className="text-[18px] font-bold leading-6">
-              {data?.data.first_name} {data?.data.last_name}{' '}
+              {data?.data?.first_name} {data?.data?.last_name}{' '}
             </Text>
             <Text>
               <MaterialIcons name="verified" size={20} color="green" />
@@ -174,7 +163,7 @@ const AccountScreen = ({ navigation }: any) => {
           {/*Occupation */}
 
           <Text className="text-center mt-3 text-base font-medium">
-            {data?.data.occupation ? data?.data.occupation : 'Swave User'}
+            {data?.data?.occupation ? data?.data?.occupation : 'Swave User'}
           </Text>
 
           {/* Number of errands */}
@@ -187,35 +176,43 @@ const AccountScreen = ({ navigation }: any) => {
 
             <View className="ml-3">
               <Text className="text-center mb-1 font-bold">
-                {data?.data.errands_completed}
+                {data?.data?.errands_completed}
               </Text>
-              <Text className="text-center font-light">
-                Errands Completed{' '}
-              </Text>
+              <Text className="text-center font-light">Errands Completed </Text>
             </View>
 
             <View className="ml-3 ">
               <Text className="text-center mb-1 font-bold">
-                {data?.data.errands_cancelled}
+                {data?.data?.errands_cancelled}
               </Text>
-              <Text className="text-center font-light">
-                Errands Cancelled{' '}
-              </Text>
+              <Text className="text-center font-light">Errands Cancelled </Text>
             </View>
           </View>
 
           {/* Edit BUtton */}
-          <TouchableOpacity
-            className=" mt-[30px]"
-            onPress={() => navigation.navigate('EditProfile', { data })}
-          >
-            <View className="w-[140px] h-[40px] bg-[#E6E6E6] border border-[#CCC] mx-auto items-center justify-center rounded-md">
+          <View className=" mt-[30px] flex-row justify-center space-x-6">
+            <TouchableOpacity
+              onPress={() => navigation.navigate('EditProfile', { data })}
+              className="w-[140px] h-[40px] bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-md"
+            >
               <Text className="text-base font-medium text-center items-center">
                 {' '}
                 Edit Profile{' '}
               </Text>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Login')
+                clearStorage()
+              }}
+              className="w-[140px] h-[40px] bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-md"
+            >
+              <Text className="text-base font-medium text-center items-center">
+                {' '}
+                Logout{' '}
+              </Text>
+            </TouchableOpacity>
+          </View>
 
           <View className="flex-row mr-[16px] mt-8 ml-[16px] md:w-[398px] mx-auto ">
             <TouchableOpacity onPress={handleVerification}>

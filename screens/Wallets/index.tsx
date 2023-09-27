@@ -98,9 +98,6 @@ const WalletScreen = ({ navigation }: any) => {
       ),
       headerRight: () => (
         <View className="flex-row items-center justify-between mx-3 px-3 py-3 space-x-3 ">
-          {/* <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
-            <MaterialIcons name="notifications" color={'black'} size={22} />
-          </TouchableOpacity> */}
           <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
             <MenuTrigger>
               <Entypo name="dots-three-vertical" color={'black'} size={20} />
@@ -115,8 +112,8 @@ const WalletScreen = ({ navigation }: any) => {
               }}
             >
               <MenuOption
-                // onSelect={}
-                text="Refresh"
+                onSelect={() => navigation.navigate('Settings')}
+                text="Settings"
                 customStyles={{
                   optionWrapper: {
                     borderBottomWidth: 1,
@@ -126,7 +123,7 @@ const WalletScreen = ({ navigation }: any) => {
                 }}
               />
               <MenuOption
-                onSelect={() => alert(`Save`)}
+                onSelect={() => navigation.navigate('Account')}
                 text="Profile"
                 customStyles={{
                   optionWrapper: {
@@ -137,7 +134,7 @@ const WalletScreen = ({ navigation }: any) => {
                 }}
               />
               <MenuOption
-                onSelect={() => alert(`Save`)}
+                onSelect={() => navigation.navigate('Contact Us')}
                 text="Contact Us"
                 customStyles={{
                   optionText: { textAlign: 'center', fontWeight: '600' },

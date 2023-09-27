@@ -35,18 +35,14 @@
       }
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.sean_orj5.Gofermobile"
+      "package": "com.orj5.Swave"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "537d3b78-5fdd-4fa2-8546-4a48123cec38"
+        "projectId": "f0690626-04d2-480a-a17b-67b2afed0b31"
       }
     }
   }

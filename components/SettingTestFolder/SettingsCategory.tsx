@@ -1,34 +1,33 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { MultiSelect } from 'react-native-element-dropdown';
-import AntDesign from '@expo/vector-icons/AntDesign';
+import AntDesign from '@expo/vector-icons/AntDesign'
+import React, { useState } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { MultiSelect } from 'react-native-element-dropdown'
 
-
-    const data = [
-      { label: 'Laundry', value: '1' },
-      { label: 'Baby Sitting', value: '2' },
-      { label: 'Chat', value: '3' },
-      { label: 'Personal Errands', value: '4' },
-      { label: 'Baking & Catering', value: '5' },
-      { label: 'Shopping', value: '6' },
-      { label: 'House Cleaning', value: '7' },
-      
-    ];
+const data = [
+  { label: 'Laundry', value: '1' },
+  { label: 'Baby Sitting', value: '2' },
+  { label: 'Chat', value: '3' },
+  { label: 'Personal Errands', value: '4' },
+  { label: 'Baking & Catering', value: '5' },
+  { label: 'Shopping', value: '6' },
+  { label: 'House Cleaning', value: '7' },
+]
 
 const SettingsCategory = () => {
-
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState([])
 
   return (
     <View>
+      <View className="mt-8 ml-4">
+        <Text className="pb-2 text-base font-bold leading-6">
+          CATEGORY INTERESTS
+        </Text>
+        <Text className="text-[14px]">
+          Notifications on all general activities on Swave
+        </Text>
+      </View>
 
-       <View className='mt-8 ml-4'>
-      <Text className='pb-2 text-base font-bold leading-6'>CATEGORY INTERESTS</Text>
-      <Text className='text-[14px]'>Notifications on all general activities on Swave</Text>
-    </View>
-
-
-    <View style={styles.container}>
+      <View style={styles.container}>
         <MultiSelect
           style={styles.dropdown}
           placeholderStyle={styles.placeholderStyle}
@@ -42,8 +41,8 @@ const SettingsCategory = () => {
           placeholder="Select item"
           searchPlaceholder="Search..."
           value={selected}
-          onChange={item => {
-            setSelected(item);
+          onChange={(item) => {
+            setSelected(item)
           }}
           renderLeftIcon={() => (
             <AntDesign
@@ -56,18 +55,15 @@ const SettingsCategory = () => {
           selectedStyle={styles.selectedStyle}
         />
 
-        <TouchableOpacity className='ml-4'>
-          <View className='py-4 px-4 w-[149px] rounded-full bg-[#3F60AC] mt-4 items-center'>
-            <Text className='text-white items-center justify-center'>Add Category
-             <Text className='text-white ml-2 mt-2 justify-center items-center mx-2'> 
-             <AntDesign name="pluscircle" size={16} color="white" />
-             </Text>
-             </Text>
+        <TouchableOpacity className="">
+          <View className="py-3 px-4 w-[149px] rounded-full bg-[#3F60AC] mt-4 items-center flex-row space-x-4">
+            <Text className="text-white items-center justify-center">
+              Add Category
+            </Text>
+            <AntDesign name="pluscircle" size={16} color="white" />
           </View>
         </TouchableOpacity>
       </View>
-
-
     </View>
   )
 }
@@ -89,8 +85,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 16,
     alignItems: 'center',
-    justifyContent: 'center'
-    
+    justifyContent: 'center',
   },
   iconStyle: {
     width: 20,
@@ -106,7 +101,6 @@ const styles = StyleSheet.create({
   selectedStyle: {
     borderRadius: 12,
   },
-});
+})
 
 export default SettingsCategory
-

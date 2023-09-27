@@ -5,6 +5,7 @@ import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
   Image,
+  RefreshControl,
   TextInput,
   TouchableOpacity,
   useWindowDimensions,
@@ -34,6 +35,7 @@ const ErrandScreen = ({ navigation }: any) => {
   const navigate = useNavigation()
   const [manageErrandClicked, setManageErrandClicked] = useState(false)
   const [userId, setUserId] = useState('')
+  const [refreshing, setRefreshing] = React.useState(false)
   const [subErrand, setSubErrand] = useState<SingleSubErrand>({
     id: '',
     original_errand_id: '',
@@ -121,10 +123,13 @@ const ErrandScreen = ({ navigation }: any) => {
     })
   }, [])
 
-  //   const getUserId = async () => {
-  //   const userId = (await AsyncStorage.getItem('user_id')) || ''
-  //   setUserId(userId)
-  // }
+  const onRefresh = React.useCallback(() => {
+    dispatch(myErrandList({}))
+    setRefreshing(true)
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 500)
+  }, [])
 
   useEffect(() => {
     dispatch(myErrandList({}))
@@ -132,7 +137,11 @@ const ErrandScreen = ({ navigation }: any) => {
   }, [])
 
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <View className="bg-[#F8F9FC]">
         {!myErrands ? (
           <MyErrandEmptyState />

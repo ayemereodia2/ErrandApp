@@ -1,6 +1,5 @@
-import { AntDesign } from '@expo/vector-icons'
 import React from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { PostErrandData } from '../../types'
 import { ImageViewer } from './Details'
@@ -16,16 +15,8 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
 
       <ScrollView>
         <View className="flex-row mt-[38px] items-center justify-center">
-          {/* <View className="mr-[92px] ml-4 bg-[#8098D1] b rounded-full">
-            <TouchableOpacity onPress={() => setActiveStep(4)}>
-              <Text className="">
-                <AntDesign name="arrowleft" size={28} color="white" />
-              </Text>
-            </TouchableOpacity>
-          </View> */}
-
-          <View className="mr-2 w-[30px] h-[30px] bg-[#6604C8] b rounded-full justify-center items-center">
-            <Text className="text-white mx-auto">5</Text>
+          <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
+            <Text className="text-black mx-auto">5</Text>
           </View>
           <Text className="font-semibold text-[#243763] text-base">
             Errand Review
@@ -73,10 +64,10 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
         </View>
 
         <Text className="font-bold text-[14px] pl-4 pt-4">Images</Text>
-        <View className='pl-4 flex-row space-x-3'>
+        <View className="pl-4 flex-row space-x-3">
           {postErrandData?.images.map((img, index) => {
             return (
-              <ImageViewer selectedImage={img} removeImage={""} index={index} />
+              <ImageViewer selectedImage={img} removeImage={''} index={index} />
             )
           })}
         </View>
@@ -109,23 +100,23 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
           </Text>
         </View>
 
-         <View className="ml-4 mt-6">
-          <Text className="font-bold text-[14px]">Restrict Errand by Qualification</Text>
+        <View className="ml-4 mt-6">
+          <Text className="font-bold text-[14px]">
+            Restrict Errand by Qualification
+          </Text>
           <Text className="font-light text-base text-[#333333]">
             {postErrandData.res_by_qualification}
           </Text>
         </View>
 
         <View className="ml-4 mt-6">
-          <Text className="font-bold text-[14px]">Restrict Errand by Verification</Text>
+          <Text className="font-bold text-[14px]">
+            Restrict Errand by Verification
+          </Text>
           <Text className="font-light text-base text-[#333333]">
             {postErrandData.res_by_verification}
           </Text>
         </View>
-
-        
-
-        
       </ScrollView>
     </>
   )

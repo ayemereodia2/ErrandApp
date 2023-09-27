@@ -45,19 +45,19 @@ const SettingsTest = () => {
 
   return (
     <ScrollView>
-      <View className="mt-8 ml-4">
-        <Text className="pb-2 text-base font-bold leading-6">
+      <View className="mt-6 ml-4 ">
+        <Text className=" text-base font-bold leading-6">
           GENERAL NOTIFICATIONS
         </Text>
-        <Text className="text-[14px]">
+        <Text className="text-[14px] font-md">
           Notifications on all general activities on Swave
         </Text>
       </View>
 
-      <View className="w-[390px] h-[350px] bg-[#ECF0F8] mx-auto mt-5 rounded-md pb-4">
-        <View className=" w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
+      <View className=" bg-[#ECF0F8] mt-5 rounded-lg pb-4">
+        <View className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text className="font-medium text-[18px]">
+            <Text className="font-medium text-base">
               Account Update Notification
             </Text>
             <TouchableWithoutFeedback onPress={handleAccountUpdate}>
@@ -71,14 +71,14 @@ const SettingsTest = () => {
               />
             </TouchableWithoutFeedback>
           </View>
-          <Text className="text-[14px]">
+          <Text className="text-sm font-light">
             You will be notified when an update is available
           </Text>
         </View>
 
-        <View className=" w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
+        <View className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text className="font-medium text-[18px]">
+            <Text className="font-medium text-base">
               Newsletters and offers
             </Text>
             <TouchableWithoutFeedback onPress={handleNewsLetter}>
@@ -92,14 +92,14 @@ const SettingsTest = () => {
               />
             </TouchableWithoutFeedback>
           </View>
-          <Text className="text-[14px]">
+          <Text className="text-sm font-light">
             Be in the know when we publish any information
           </Text>
         </View>
 
-        <View className=" w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
+        <View className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text className="font-medium text-[18px]">
+            <Text className="font-medium text-base ">
               Promotions and adverts
             </Text>
             <TouchableWithoutFeedback onPress={handlePromotion}>
@@ -113,7 +113,7 @@ const SettingsTest = () => {
               />
             </TouchableWithoutFeedback>
           </View>
-          <Text className="text-[14px]">
+          <Text className="text-sm font-light">
             Stay informed about our amazing offers
           </Text>
         </View>
@@ -149,10 +149,10 @@ const SettingsTest = () => {
         </Text>
       </View>
 
-      <View className="w-[390px] h-[350px] bg-[#ECF0F8] mx-auto mt-5 rounded-md pb-4">
-        <View className=" w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
+      <View className=" bg-[#ECF0F8] mt-5 rounded-md pb-4">
+        <View className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text className="font-medium text-[18px]">
+            <Text className="font-medium text-base">
               New errands in your category interest
             </Text>
             <TouchableWithoutFeedback onPress={handleNewErrands}>
@@ -166,14 +166,14 @@ const SettingsTest = () => {
               />
             </TouchableWithoutFeedback>
           </View>
-          <Text className="text-[14px]">
+          <Text className="text-sm font-light">
             You will be notified when an update is available
           </Text>
         </View>
 
-        <View className=" w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
+        <View className="h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text className="font-medium text-[18px]">
+            <Text className="font-medium text-base">
               Errands within your area
             </Text>
             <TouchableWithoutFeedback onPress={handleErrandsInArea}>
@@ -187,14 +187,14 @@ const SettingsTest = () => {
               />
             </TouchableWithoutFeedback>
           </View>
-          <Text className="text-[14px]">
+          <Text className="text-sm font-light">
             Be in the know when we publish any information
           </Text>
         </View>
 
-        <View className=" w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
+        <View className="  h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text className="font-medium text-[18px]">
+            <Text className="font-medium text-base">
               Bids on your errands
             </Text>
             <TouchableWithoutFeedback onPress={handleBidsOnErrand}>
@@ -208,16 +208,16 @@ const SettingsTest = () => {
               />
             </TouchableWithoutFeedback>
           </View>
-          <Text className="text-[14px]">
+          <Text className="text-sm font-light">
             Stay informed about our amazing offers
           </Text>
         </View>
 
 
 
-        <View className=' w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]'>
+        <View className='h-[63px] ml-4 mt-5 border-b-[#AAAAAA]'>
             <View className='flex-row items-center justify-between'>
-                <Text className='font-medium text-[18px]'>Errand status updates</Text>
+                <Text className='font-medium text-base'>Errand status updates</Text>
                 <TouchableOpacity onPress={handleErrandStatus}>
                 <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
@@ -231,7 +231,7 @@ const SettingsTest = () => {
               </TouchableOpacity>
         
             </View>
-            <Text className='text-[14px]'>Stay informed about our amazing offers</Text>     
+            <Text className='text-sm font-light'>Stay informed about our amazing offers</Text>     
         </View>
       </View>
     </ScrollView>
