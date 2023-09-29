@@ -2,15 +2,15 @@
 
 // import { SafeAreaProvider } from 'react-native-safe-area-context'
 // import { Provider } from 'react-redux'
-import React from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { AppStateStatus, Platform,View } from 'react-native'
+import React from 'react'
+import { AppStateStatus, Platform, View } from 'react-native'
 import 'react-native-gesture-handler'
 // import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { focusManager } from '@tanstack/react-query'
 import { MenuProvider } from 'react-native-popup-menu'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
-import { focusManager } from '@tanstack/react-query'
 import { Provider } from 'react-redux'
 import useCachedResources from './hooks/useCachedResources'
 import useColorScheme from './hooks/useColorScheme'
@@ -42,9 +42,8 @@ export default function App() {
     return null
   } else {
     return (
-      <QueryClientProvider client={queryClient}>
-        <View style={{ flex: 1 }}>
-          <>
+      <View style={{ flex: 1 }}>
+          <QueryClientProvider client={queryClient}>
             <MenuProvider>
               <Provider store={store}>
                 <SafeAreaProvider>
@@ -53,9 +52,8 @@ export default function App() {
                 <Toast />
               </Provider>
             </MenuProvider>
-          </>
-        </View>
-      </QueryClientProvider>
+          </QueryClientProvider>
+      </View>
     )
   }
 }

@@ -7,16 +7,16 @@ export const walletAction = createAsyncThunk<WalletResponse, WalletPayload, { re
   async ({ type, request, toast, amount, dispatch}: WalletPayload, { rejectWithValue }) => {
   try {
     const _rs = await _fetch({
-      method: request === 'transact' ? "POST" : "GET",
-      _url: request === 'transact' ? `/transact` : `/user/wallet`,
-      // body: request === 'transact' ? {type, amount} : {}
+      method: "GET",
+      _url:  `/user/wallet`,
     })
 
-    
-
     const rs = await _rs.json()
-    if (rs.success === true) {   
 
+    console.log(">>>>>>repssssssss", rs.data);
+    
+    
+    if (rs.success === true) {   
       if (request === "transact") {
         toast({
           position: 'top-right',

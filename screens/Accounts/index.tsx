@@ -94,8 +94,6 @@ const AccountScreen = ({ navigation }: any) => {
       method: 'GET',
       _url: `/user/profile`,
     })
-    console.log('>>>>>>>>data user', _rs)
-
     return await _rs.json()
   }
 

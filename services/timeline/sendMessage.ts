@@ -3,19 +3,22 @@ import { ErrandMarketResponse, TimelinePayload } from '../../types';
 import { _fetch } from '../axios/http';
 import { errandDetails } from '../errands/errandDetails';
 // import { getSubErrand } from '../errands/multi-users/single_sub_errand';
-import { myErrandList } from '../errands/myErrands';
 
 export const timelineAction = createAsyncThunk<ErrandMarketResponse, TimelinePayload, { rejectValue: string }>(
   "timeline/actions",
-  async ({ message, errand_id, type, method, setOpenPostRequestModal,  dispatch, toast, sub_errand_id, setSubErrand, user_id}: TimelinePayload, { rejectWithValue }) => {
+  async ({ message, errand_id, type, method, contentType, dispatch, Toast, sub_errand_id, setSubErrand, user_id}: TimelinePayload, { rejectWithValue }) => {
     try {
+      console.log(">>>>>>rs");
+
     
     const _rs = await _fetch({
       method,
-      _url: `/errand/timeline`,
-      body: {errand_id, message, type, sub_errand_id}
+      _url: type === "request" ? `/errand/timeline/${type}/${errand_id}` : `/errand/timeline`,
+      body: {errand_id, message, type: contentType, sub_errand_id}
     })
       const rs = await _rs.json()
+
+      
       
     dispatch(errandDetails({ errandId: errand_id }))
     // dispatch(myErrandList({}))
@@ -24,15 +27,11 @@ export const timelineAction = createAsyncThunk<ErrandMarketResponse, TimelinePay
   } catch (e: any) {
     if (e.response.status === 400) {
       if (e.response.data.success === false) {
-         toast({
-          position: 'top-right',
-          title: 'Error',
-          description: e.response.data.message,
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
+        Toast.show({
+           type: 'error',
+          show1: e.response.data.message,
+         
         })
-        setOpenPostRequestModal(false)
 
       }
     }

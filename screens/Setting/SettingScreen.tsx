@@ -1,6 +1,15 @@
 import { AntDesign, Entypo, Ionicons, MaterialIcons } from '@expo/vector-icons'
+import { useQuery } from '@tanstack/react-query'
+import * as Clipboard from 'expo-clipboard'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { Image, SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
+import {
+  Image,
+  SafeAreaView,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import {
   Menu,
@@ -8,30 +17,47 @@ import {
   MenuOptions,
   MenuTrigger,
 } from 'react-native-popup-menu'
+import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import SettingsCategory from '../../components/SettingTestFolder/SettingsCategory'
 import SettingsTest from '../../components/SettingTestFolder/SettingsTest'
+import { _fetch } from '../../services/axios/http'
 import { notificationPreferences } from '../../services/notification/preferences'
+import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
 import { RootState, useAppDispatch } from '../../services/store'
 
 const SettingScreen = ({ navigation }: any) => {
-  const dispatch = useAppDispatch()
   const { data: preferences } = useSelector(
     (state: RootState) => state.notificationPreferenceReducer,
   )
-
+  const dispatch = useAppDispatch()
   const [notifications, setNotifications] = useState({
     email_notifications: false,
     sms_notifications: false,
-    account_update_notifications: false,
-    newsletter_notifications: false,
-    promotions_notifications: false,
-    misc_notifications: false,
-    cat_errand_notifications: false,
-    location_errand_notifications: false,
-    bid_notifications: false,
-    errand_status_notifications: false,
   })
+
+  const copyToClipboard = async (text: string) => {
+    Toast.show({
+      type: 'success',
+      text1: 'Copied',
+    })
+    await Clipboard.setStringAsync(text)
+  }
+
+  const getUserProfile = async () => {
+    const _rs = await _fetch({
+      method: 'GET',
+      _url: `/user/profile`,
+    })
+    return await _rs.json()
+  }
+
+  const { isLoading, isError, data } = useQuery({
+    queryKey: ['user-profile'],
+    queryFn: getUserProfile,
+    refetchOnMount: 'always',
+  })
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -106,16 +132,29 @@ const SettingScreen = ({ navigation }: any) => {
           <View className=" h-[88px] mt-1 border-b-[#CCCCCC] border-b-[1px]">
             <View className="flex-row justify-between items-center">
               <View className="flex-row space-x-4 ">
-                <Image
-                  source={require('../../assets/images/mide.jpg')}
-                  className="w-[60px] h-[60px] rounded-full "
-                />
+                {data?.data?.profile_picture ? (
+                  <View className="mx-auto">
+                    <Image
+                      source={{ uri: data?.data?.profile_picture }}
+                      className="b rounded-full w-[100px] h-[100px]"
+                    />
+                  </View>
+                ) : (
+                  <View className="bg-gray-700 w-[70px] h-[70px] rounded-full items-center justify-center">
+                    <Text className="text-white font-bold text-center text-2xl">
+                      {data?.data?.first_name.charAt(0)}
+                      {data?.data?.last_name.charAt(0)}
+                    </Text>
+                  </View>
+                )}
                 <View className="mt-2">
                   <Text className="font-semibold text-base">
-                    Mide Eliot AjibadeOkonkwo
+                    {data?.data?.first_name} {data?.data?.last_name}{' '}
                   </Text>
                   <Text className="text-[#808080]">
-                    midesmailishere@gmail.com
+                    {!data?.data?.email
+                      ? 'Email address not available'
+                      : data?.data?.email}
                   </Text>
                 </View>
               </View>
@@ -131,7 +170,7 @@ const SettingScreen = ({ navigation }: any) => {
 
           <SettingsTest />
 
-          <SettingsCategory />
+          <SettingsCategory navigation={navigation} />
 
           <View className="mt-8 ml-4">
             <Text className="pb-2 text-base font-bold leading-6">
@@ -142,8 +181,15 @@ const SettingScreen = ({ navigation }: any) => {
           <View className="h-[350px] bg-[#ECF0F8] mt-5 rounded-md pb-4 px-3">
             <View className=" h-[44px] mt-5 border-b border-b-[#AAAAAA]">
               <View className="flex-row items-center justify-between">
-                <Text className="font-medium text-base">Enoobong-ga86P</Text>
-                <Text className="font-light italic">Tap to Copy Code</Text>
+                <Text className="font-medium text-base">
+                  {data?.data?.referral_code}
+                </Text>
+                <Text
+                  className="font-light italic"
+                  onPress={() => copyToClipboard(data?.data?.referral_code)}
+                >
+                  Tap to Copy Code
+                </Text>
               </View>
             </View>
 
@@ -167,7 +213,7 @@ const SettingScreen = ({ navigation }: any) => {
             <View className=" mt-5 border-b border-b-[#AAAAAA] bg-[#3F60AC] rounded-lg">
               <Text className="text-[#FAFAFA] text-base font-light  px-5 py-4">
                 Invite new members by sharing the invitation code{' '}
-                <Text className="font-bold">Enoobong-ga86P </Text>
+                <Text className="font-bold">{data?.data?.referral_code} </Text>
                 with them. Registration in your group will then take place
                 automatically.
               </Text>
@@ -180,15 +226,42 @@ const SettingScreen = ({ navigation }: any) => {
             </Text>
           </View>
 
-          <View className="w-[390px] h-[190px] bg-[#ECF0F8] px-4 mt-5 rounded-md pb-4">
+          <View className=" h-[190px] bg-[#ECF0F8] px-4 mt-5 rounded-md pb-4">
             <View className=" h-[63px]  mt-5 border-b border-b-[#AAAAAA]">
               <View className="flex-row items-center justify-between">
                 <Text className="font-medium text-[18px]">
                   Send Email notifications
                 </Text>
               </View>
-              <View className="bg-[#ADF0D1] w-[64px] mt-2 py-1 items-center justify-center rounded-lg">
-                <Text className="text-[14px]">Enabled</Text>
+              <View className=" mt-2 py-1 flex-row items-center justify-between rounded-lg">
+                <TouchableOpacity>
+                  <Switch
+                    trackColor={{ false: '#767577', true: 'green' }}
+                    value={preferences?.email_notifications}
+                    onValueChange={(value: boolean) => {
+                      dispatch(
+                        updateNotificationPrefeference({
+                          ...preferences,
+                          dispatch,
+                          Toast,
+                          email_notifications: value,
+                        }),
+                      )
+                    }}
+                    style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
+                  />
+                </TouchableOpacity>
+                <View
+                  className={
+                    preferences.email_notifications
+                      ? 'text-sm bg-green-300 rounded-lg p-1 mb-1'
+                      : ' bg-red-300 rounded-lg p-1 mb-1'
+                  }
+                >
+                  <Text className="text-xs">
+                    {preferences.email_notifications ? 'Enabled' : 'Disabled'}{' '}
+                  </Text>
+                </View>
               </View>
             </View>
 
@@ -198,8 +271,35 @@ const SettingScreen = ({ navigation }: any) => {
                   Send SMS notifications
                 </Text>
               </View>
-              <View className="bg-[#ADF0D1] rounded-lg w-[64px] mt-2 py-1 items-center justify-center">
-                <Text className="text-[14px] ">Enabled</Text>
+              <View className=" mt-2 py-1 flex-row items-center justify-between rounded-lg">
+                <TouchableOpacity>
+                  <Switch
+                    trackColor={{ false: '#767577', true: 'green' }}
+                    value={preferences?.sms_notifications}
+                    onValueChange={(value: boolean) => {
+                      dispatch(
+                        updateNotificationPrefeference({
+                          ...preferences,
+                          dispatch,
+                          Toast,
+                          sms_notifications: value,
+                        }),
+                      )
+                    }}
+                    style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
+                  />
+                </TouchableOpacity>
+                <View
+                  className={
+                    preferences.sms_notifications
+                      ? 'text-sm bg-green-300 rounded-lg p-1 mb-1'
+                      : ' bg-red-300 rounded-lg p-1 mb-1'
+                  }
+                >
+                  <Text className="text-xs">
+                    {preferences.sms_notifications ? 'Enabled' : 'Disabled'}{' '}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>

@@ -1,22 +1,20 @@
-import { AntDesign } from '@expo/vector-icons'
+import { AntDesign, FontAwesome } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
 import {
-  FlatList,
   SafeAreaView,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import {
   errandMarketList,
-  setSortedErrands,
+  setSortedErrands
 } from '../../services/errands/market'
 import { RootState, useAppDispatch } from '../../services/store'
-import { MarketData } from '../../types'
-import DropdownComponent from '../Picker/DropdownComponent'
+import { CategoriesList, MarketData } from '../../types'
 import RangeSlider from '../RangeSlider/RangeSlider'
 
 interface DropDownProp {
@@ -26,9 +24,9 @@ interface DropDownProp {
 
 interface FilterProp {
   value: string
-  setValue: any
+  setValue: (value: string) => void
   data: DropDownProp[]
-  onClose: any
+  onClose: () => void
   filterOn: boolean
   low: number
   high: number
@@ -52,11 +50,19 @@ const Filter = ({
   setMinCheck,
 }: FilterProp) => {
   const dispatch = useAppDispatch()
+  const [searchedItem, setSearchedItem] = useState('')
+  const [searchedCategoryList, setSearchedCategoryList] = useState<
+    CategoriesList[]
+  >([])
 
   const [selectedSortAction, setSelectedSortAction] = useState('')
 
   const { data: errands, loading } = useSelector(
     (state: RootState) => state.errandMarketListReducer,
+  )
+
+  const { data: categories } = useSelector(
+    (state: RootState) => state.categoriesListReducer,
   )
 
   const handleSorting = () => {
@@ -85,7 +91,28 @@ const Filter = ({
     }
   }
 
-  useEffect(() => {}, [selectedSortAction])
+  // console.log(allCategories);
+
+  let allCategories = [...categories]
+
+  console.log('>>>carteg', allCategories)
+
+  const handleSearchCategory = () => {
+    if (searchedItem === '') {
+      setSearchedCategoryList(categories.slice(0, 5))
+    } else {
+      let searchedValue = categories.filter((item) => {
+        return item.name.toLowerCase().includes(searchedItem.toLowerCase())
+      })
+      setSearchedCategoryList(searchedValue)
+    }
+      
+
+  }
+
+  useEffect(() => {
+    handleSearchCategory()
+  }, [selectedSortAction, searchedItem])
 
   return (
     <SafeAreaView>
@@ -120,45 +147,75 @@ const Filter = ({
           <View className="mt-16 mx-6">
             <Text className="font-medium text-base leading-6">Category</Text>
 
-            <View className="mt-2 bg-[#FCFCFC] h-0 mb-16 ml-[-16px] w-[330px]">
-              <DropdownComponent
-                data={data}
-                value={value}
-                setValue={setValue}
-                placeHolder={'Choose Category'}
-              />
+            <View className="mx-auto">
+              <View className="flex-row items-center border-b p-2 mt-3 border-[#ccc] rounded-lg space-x-2">
+                <TextInput
+                  className="w-[300px] "
+                  placeholder="Type to get top Categories"
+                  onChangeText={(text) => setSearchedItem(text)}
+                  value={searchedItem}
+                />
+                <FontAwesome name="search" size={16} color="#ccc" />
+              </View>
             </View>
 
             <Text className="mt-6 font-medium text-base leading-6">
-              Quick Options
+              Top Options
             </Text>
 
-            <FlatList
-              data={data?.slice(0, 5)}
+            {/* <FlatList
+              data={allCategories}
               renderItem={({ item, index }) => (
                 <View className="py-2">
                   <TouchableOpacity
-                    onPress={() => setValue(item.value)}
-                    className={` bg-white border-[1px] border-[#1E3A79] px-4 py-3 rounded-3xl mr-5 ${
-                      value === item.value
+                    onPress={() => setValue(item.identifier)}
+                    className={` bg-white border-[1px] border-[#1E3A79] px-4 py-2 rounded-3xl mr-5 ${
+                      value === item.identifier
                         ? 'bg-[#1E3A79]'
                         : 'bg-white border-[1px] border-[#1E3A79]'
                     }`}
                   >
                     <Text
                       className={`capitalize font-md text-base text-[#1E3A79]  ${
-                        value === item.value ? 'text-white' : 'text-[#1E3A79]'
+                        value === item.identifier
+                          ? 'text-white'
+                          : 'text-[#1E3A79]'
                       }`}
                     >
-                      {item.value}
+                      {item.identifier}
                     </Text>
                   </TouchableOpacity>
                 </View>
               )}
-              numColumns={1}
-            />
+              numColumns={2}
+            /> */}
 
-            <Text className="mt-12 font-medium text-base leading-6">
+            {searchedCategoryList?.map((item) => {
+              return (
+                <View className="py-2">
+                  <TouchableOpacity
+                    onPress={() => setValue(item.identifier)}
+                    className={` bg-white border-[1px] border-[#1E3A79] px-4 py-2 rounded-3xl mr-5 ${
+                      value === item.identifier
+                        ? 'bg-[#1E3A79]'
+                        : 'bg-white border-[1px] border-[#1E3A79]'
+                    }`}
+                  >
+                    <Text
+                      className={`capitalize font-md text-base text-[#1E3A79]  ${
+                        value === item.identifier
+                          ? 'text-white'
+                          : 'text-[#1E3A79]'
+                      }`}
+                    >
+                      {item.identifier}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )
+            })}
+
+            {/* <Text className="mt-12 font-medium text-base leading-6">
               Location
             </Text>
 
@@ -172,9 +229,9 @@ const Filter = ({
 
             <Text className="mt-6 font-medium text-base leading-6">
               Quick Options
-            </Text>
+            </Text> */}
 
-            <View className="mt-2">
+            {/* <View className="mt-2">
               <View className="mb-3">
                 <TouchableOpacity
                   className={` bg-white border-[1px] border-[#1E3A79] px-4 py-3 rounded-3xl mr-5 mb-4`}
@@ -193,7 +250,7 @@ const Filter = ({
                 </TouchableOpacity>
               </View>
 
-              {/* <View className="flex-row mt-4">
+              <View className="flex-row mt-4">
                 <TouchableOpacity className="px-4 py-2 rounded-[20px] bg-white border border-[#1E3A79] mr-6">
                   <Text className="font-medium text-base text-[#1E3A79]">
                     Ogun - 20 Errands
@@ -205,8 +262,8 @@ const Filter = ({
                     Kwara - 20 Errands
                   </Text>
                 </TouchableOpacity>
-              </View> */}
-            </View>
+              </View>
+            </View> */}
 
             <RangeSlider
               setMinCheck={setMinCheck}

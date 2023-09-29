@@ -25,6 +25,7 @@ import BidWrapper from '../../components/BidWrapper'
 import { DetailHeader } from '../../components/DetailHeader'
 import { SuccessDialogue } from '../../components/Modals/Success/SuccessDialogue'
 import Timeline from '../../components/Timeline'
+import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { RootState, useAppDispatch } from '../../services/store'
 import { SingleSubErrand } from '../../types'
 
@@ -230,6 +231,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
       ),
     })
     getUserId()
+    dispatch(currentUserDetails({user_id: userId}))
   }, [user, errand, manageErrandClicked, singleSubErrand])
 
   return (
@@ -285,22 +287,6 @@ const MyErrandInfo = ({ navigation, route }: any) => {
               />
               {/* )} */}
             </View>
-
-            {/* Negotiate bid modal */}
-            {/* <BottomSheetModal
-              ref={negotiateRef}
-              index={0}
-              snapPoints={snapPoints}
-            >
-              <NegotiateBid
-                bid={errand.bids[0]}
-                errand={errand}
-                navigation={navigation}
-                user_id={userId}
-                toggleNegotiateModal={toggleNegotiateModal}
-                toggleSuccessDialogue={toggleSuccessDialogue}
-              />
-            </BottomSheetModal> */}
 
             {/* success Dialogue */}
             <BottomSheetModal

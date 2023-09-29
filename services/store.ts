@@ -24,6 +24,7 @@ import { walletActionReducer } from "./wallet/walletBalance";
 import { getAccountsReducer } from "./wallet/getAccount";
 import { errandMarketListReducer } from "./errands/market";
 import { notificationPreferenceReducer } from "./notification/preferences";
+import { currentUserDetailsReducer } from "./auth/currentUserInfo";
 
 // "adaptiveIcon": {
 //         "foregroundImage": "./assets/images/logo.png",
@@ -53,7 +54,8 @@ export const store = configureStore({
     walletActionReducer,
     getAccountsReducer,
     errandMarketListReducer,
-    notificationPreferenceReducer
+    notificationPreferenceReducer,
+    currentUserDetailsReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

@@ -1,61 +1,17 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import {
-  Directions,
-  FlingGestureHandler,
-  State,
-} from 'react-native-gesture-handler'
+import { StyleSheet } from 'react-native'
+import { FlingGestureHandler } from 'react-native-gesture-handler'
 import Animated, {
-  useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
 } from 'react-native-reanimated'
 import { theme } from '../../theme'
 
 import { ChatInputProp } from './ChatInput'
 
-const Message = ({ time, isLeft, message, onSwipe }: ChatInputProp) => {
+const Message = ({ time, isLeft, message }: ChatInputProp) => {
   const startingPosition = 0
   const x = useSharedValue(startingPosition)
-
-  const isOnLeft = (type: string) => {
-    if (isLeft && type === 'grey_messageContainer') {
-      return {
-        alignSelf: 'flex-start',
-        backgroundColor: '',
-        borderTopLeftRadius: 0,
-      }
-    } else if (isLeft && type === 'grey__messageContainer') {
-      return {
-        alignSelf: 'flex-start',
-        backgroundColor: '#E6E6E6',
-        borderTopLeftRadius: 0,
-      }
-    } else if (isLeft && type === 'message') {
-      return {
-        color: '#000',
-      }
-    } else if (isLeft && type === 'time') {
-      return {
-        color: 'darkgray',
-      }
-    } else {
-      return {
-        borderTopRightRadius: 0,
-      }
-    }
-  }
-
-  const eventHandler = useAnimatedGestureHandler({
-    onStart: (event, ctx) => {},
-    onActive: (event, ctx) => {
-      x.value = isLeft ? 50 : -50
-    },
-    onEnd: (event, ctx) => {
-      x.value = withSpring(startingPosition)
-    },
-  })
 
   const uas = useAnimatedStyle(() => {
     return {
@@ -64,17 +20,9 @@ const Message = ({ time, isLeft, message, onSwipe }: ChatInputProp) => {
   })
 
   return (
-    <FlingGestureHandler
-      direction={isLeft ? Directions.RIGHT : Directions.LEFT}
-      onGestureEvent={eventHandler}
-      onHandlerStateChange={({ nativeEvent }) => {
-        if (nativeEvent.state === State.ACTIVE) {
-          onSwipe(message, isLeft)
-        }
-      }}
-    >
+    <FlingGestureHandler>
       <Animated.View style={[styles.container, uas]}>
-        <View
+        {/* <View
           style={[styles.messageContainer, isOnLeft('grey_messageContainer')]}
         >
           <View className="flex-row space-x-3">
@@ -95,16 +43,13 @@ const Message = ({ time, isLeft, message, onSwipe }: ChatInputProp) => {
             ]}
           >
             <View style={styles.messageView}>
-              <Text className='' style={[styles.message, isOnLeft('message')]}>
+              <Text className="" style={[styles.message, isOnLeft('message')]}>
                 {message}
               </Text>
             </View>
-            {/* <View style={styles.timeView}>
-              <Text style={[styles.time, isOnLeft('time')]}>{time}</Text>
-            </View> */}
           </View>
-          <Text className="text-xs pt-2 ml-4">21:59pm</Text>
-        </View>
+          <Text className="text-xs pt-2 ml-4">{time}</Text>
+        </View> */}
       </Animated.View>
     </FlingGestureHandler>
   )

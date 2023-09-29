@@ -28,6 +28,7 @@ import CancelErrandModal from '../screens/Modal/CancelErrandModal'
 import CompleteErrandModal from '../screens/Modal/CompleteErrandModal'
 import ErrandUserDetails from '../screens/MyErrands/ErrandUserDetails'
 import MyErrandInfo from '../screens/MyErrands/MyErrandInfo'
+import CategoryInterest from '../screens/Setting/AddCategory'
 import SettingScreen from '../screens/Setting/SettingScreen'
 import WalletScreen from '../screens/Wallets'
 import AccountStatement from '../screens/Wallets/AccountStatement'
@@ -197,30 +198,12 @@ export function RootNavigator() {
         component={VerifyPhone}
         options={{ title: 'Verify Phone' }}
       />
-      {/* 
-      <Stack.Screen
-        name="CreateErrands"
-        component={CreateTasks}
-        options={{ headerShown: false }}
-      />
 
       <Stack.Screen
-        name="ErrandLocation"
-        component={ErrandLocation}
-        options={{ headerShown: false }}
+        name="CategoryInterest"
+        component={CategoryInterest}
+        options={{ title: 'Category Interest', presentation: 'fullScreenModal' }}
       />
-
-      <Stack.Screen
-        name="CreateFinance"
-        component={CreateFinance}
-        options={{ headerShown: false }}
-      />
-
-      <Stack.Screen
-        name="ErrandReview"
-        component={ErrandReview}
-        options={{ headerShown: false }}
-      /> */}
 
       <Stack.Screen
         name="EditProfile"

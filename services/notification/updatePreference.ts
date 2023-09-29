@@ -5,23 +5,25 @@ import { notificationPreferences } from './preferences';
 
 export const updateNotificationPrefeference = createAsyncThunk<NotificationPreferenceResponse, NotificationPreferences, { rejectValue: string }>(
   "updatePreference",
-  async ({dispatch, ...data}: NotificationPreferences) => {
+  async ({ dispatch, Toast, ...data }: NotificationPreferences) => {
+    console.log(">>>>notify", data);
+    
   try {
     const _rs = await _fetch({
       method: "PUT",
       _url: `/user/notification`,
       body:data
     })
-
     const rs = await _rs.json()
-
     dispatch(notificationPreferences())
+    Toast.show({
+       type: 'success',
+        text1: 'Update Successful',
+    })
     return rs.data
   } catch (e: any) {
      if (e.response.status === 400) {
-      // return rejectWithValue(e.response.data.message)
      } 
-    // return rejectWithValue(e.response.data.message)
   }
 })
 

@@ -24,7 +24,6 @@ export const errandAction = createAsyncThunk<
   { rejectValue: string }
   >
   ("/errand/action", async ({ errandId, method, type, dispatch, Toast, navigation, ...data }: ErrandActionProps, { rejectWithValue }) => {
-    console.log(">>>>>data", data, errandId, method, type);
     
   try {
     const _rs = await _fetch({
@@ -35,7 +34,6 @@ export const errandAction = createAsyncThunk<
 
     const rs = await _rs.json()
 
-    console.log(">>>>>>res complete", rs);
     
 
     if (rs.success === true) {
@@ -47,14 +45,11 @@ export const errandAction = createAsyncThunk<
       dispatch(errandDetails({ errandId }))
       dispatch(myErrandList({}))
       // setOpenReasonModal(false)
-      Toast({
-          position: 'top-right',
-          title: "Successful",
-          description: "Errand Cancelled successfully",
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        })
+     
+      Toast.show({
+          type: 'success',
+          text1: 'Errand Cancelled successfully',
+        });
       return rs.data.data;
     }
     return rs.data;

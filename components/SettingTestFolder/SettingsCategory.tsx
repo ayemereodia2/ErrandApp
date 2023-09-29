@@ -1,7 +1,6 @@
 import AntDesign from '@expo/vector-icons/AntDesign'
 import React, { useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { MultiSelect } from 'react-native-element-dropdown'
 
 const data = [
   { label: 'Laundry', value: '1' },
@@ -13,7 +12,7 @@ const data = [
   { label: 'House Cleaning', value: '7' },
 ]
 
-const SettingsCategory = () => {
+const SettingsCategory = ({ navigation }: any) => {
   const [selected, setSelected] = useState([])
 
   return (
@@ -27,35 +26,23 @@ const SettingsCategory = () => {
         </Text>
       </View>
 
-      <View style={styles.container}>
-        <MultiSelect
-          style={styles.dropdown}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
-          iconStyle={styles.iconStyle}
-          search
-          data={data}
-          labelField="label"
-          valueField="value"
-          placeholder="Select item"
-          searchPlaceholder="Search..."
-          value={selected}
-          onChange={(item) => {
-            setSelected(item)
-          }}
-          renderLeftIcon={() => (
-            <AntDesign
-              style={styles.icon}
-              color="#3F60AC"
-              name="Safety"
-              size={20}
-            />
-          )}
-          selectedStyle={styles.selectedStyle}
-        />
+      <View style={styles.container} className="flex-row space-x-3">
+        <TouchableOpacity
+          onPress={() => navigation.navigate('CategoryInterest')}
+          className=""
+        >
+          <View className="py-3 px-4 w-[149px] rounded-full border border-[#3F60AC] mt-4 items-center flex-row space-x-4">
+            <Text className="text-black items-center justify-center">
+              Laundry Services
+            </Text>
+          </View>
+        </TouchableOpacity>
+        
 
-        <TouchableOpacity className="">
+        <TouchableOpacity
+          onPress={() => navigation.navigate('CategoryInterest')}
+          className=""
+        >
           <View className="py-3 px-4 w-[149px] rounded-full bg-[#3F60AC] mt-4 items-center flex-row space-x-4">
             <Text className="text-white items-center justify-center">
               Add Category

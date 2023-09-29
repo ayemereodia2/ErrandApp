@@ -75,6 +75,7 @@ export type RootStackParamList = {
   ErrandUserDetails: undefined
   FundWalletModal: undefined
   Settings: undefined
+  CategoryInterest: undefined
 
 }
 
@@ -382,12 +383,22 @@ export interface Timelines {
   updated_at: string
 }
 
+export enum UpdateStatus {
+  Rejected = 0,
+  Accepted = 1,
+  Pending = 2,
+  Negotiated = 4
+}
+
 export interface Updates {
-  id: string
-  message: string
-  type: string
-  source: string
-  created_at: string
+  content_type: string;
+  user_id: any;
+  id: string;
+  message: string;
+  type: string;
+  source: string;
+  created_at: string;
+  status: UpdateStatus
 }
 
 export interface Bids {
@@ -451,17 +462,16 @@ export interface PostBidRequest {
 }
 
 export interface TimelinePayload {
-  message?: string
+  message: string[] | string
   errand_id: string
   type?: string
   method: string
-  setOpenPostRequestModal?: any
-  setOpenRequestUpdateModal?: any
   sub_errand_id?: string
   dispatch: Function
-  toast?: any
+  Toast?: any
   setSubErrand?: any
   user_id?: string
+  contentType: string
 }
 
 export interface CategoriesListResponse extends CommonState {
@@ -563,6 +573,7 @@ export interface NotificationPreferences {
   bid_notifications: boolean
   errand_status_notifications: boolean
   dispatch?: any
+  Toast?: any
 }
 
 export interface RatePayload {
@@ -574,7 +585,7 @@ export interface RatePayload {
 }
 
 export interface WalletPayload {
-  request: string
+  request?: string
   type?: string
   amount?: number
   toast?: any

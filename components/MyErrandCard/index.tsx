@@ -105,7 +105,7 @@ const MyErrandCard = ({ errand, navigation, index, setSubErrand, user_id }: MyEr
             </Text>
           </View>
 
-          <View className="bg-[#6604C8] rounded-md px-1">
+          <View className="bg-[#3F60AC] rounded-md px-1">
             <Text className="text-white p-1 text-center">
               {errand?.total_bids}
             </Text>

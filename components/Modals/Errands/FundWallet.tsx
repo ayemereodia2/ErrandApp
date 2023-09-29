@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -9,10 +9,11 @@ import {
 } from 'react-native'
 import { Paystack, paystackProps } from 'react-native-paystack-webview'
 // import PaystackWebView from 'react-native-paystack-webview'
-import Toast from 'react-native-toast-message'
+import Modal from 'react-native-modal'
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../../../services/store'
 import { currencyMask, parseAmount } from '../../../utils/helper'
+
 interface FundWalletProp {
   toggleFundWalletModal: (open: boolean) => void
 }
@@ -23,32 +24,45 @@ const FundWalletModal = ({ navigation }: any) => {
   const [error, setError] = useState('')
   const [isError, setIsError] = useState(false)
   const [paid, setPaid] = useState(false)
+  const [fundWalletLoader, setFundWalletLoader] = useState(false)
+  const [walletFundedSuccess, setWalletFundedSuccess] = useState(false)
 
   const paystackWebViewRef = useRef<paystackProps.PayStackRef>()
-
   const { loading } = useSelector((state: RootState) => state.postBidReducer)
+  const { loading: walletBalanceLoading, success: walletSuccess } = useSelector(
+    (state: RootState) => state.walletActionReducer,
+  )
 
-  const handlePlaceBid = () => {
-    if (!amount) {
-      return setError('Please, make sure you enter all fields for this bid')
+  // const handlePlaceBid = () => {
+  //   if (!amount) {
+  //     return setError('Please, make sure you enter all fields for this bid')
+  //   }
+
+  //   console.log('>>>>>comment', amount)
+
+  //   // setPay(true)
+
+  //   const data = {
+  //     amount: parseAmount(amount.toString()) * 100,
+  //     dispatch,
+  //     Toast,
+  //   }
+
+  //   // console.log(pay)
+
+  //   setError('')
+  //   // console.log(">>>dtaa", data)
+  //   // dispatch(postBid(data))
+  // }
+
+  // console.log('>>>>>walletSuccs', walletSuccess)
+
+  useEffect(() => {
+    if (paid && walletSuccess) {
+      setFundWalletLoader(false)
+      setWalletFundedSuccess(true)
     }
-
-    console.log('>>>>>comment', amount)
-
-    // setPay(true)
-
-    const data = {
-      amount: parseAmount(amount.toString()) * 100,
-      dispatch,
-      Toast,
-    }
-
-    // console.log(pay)
-
-    setError('')
-    // console.log(">>>dtaa", data)
-    // dispatch(postBid(data))
-  }
+  }, [walletSuccess])
 
   return (
     <>
@@ -145,23 +159,61 @@ const FundWalletModal = ({ navigation }: any) => {
         <Paystack
           paystackKey="pk_test_0ea2496d44ff8e00a98762e85ab92a1639d7307e"
           billingEmail="paystackwebview@something.com"
+          billingMobile={"090644788883"}
           amount={parseAmount(amount.toString())}
+          firstName=""
           onCancel={(e: any) => {
-            // handle response here
             navigation.goBack()
           }}
           onSuccess={(res: any) => {
-            setPaid(true)
+            const responseObject = res['transactionRef']['message']
+            console.log(">>>>respnse", responseObject);
+            
+            // setPaid(true)
+            // dispatch(walletAction({ type: 'wallet' }))
+            // setFundWalletLoader(true)
           }}
           ref={paystackWebViewRef}
         />
-
-        {/* <TouchableOpacity
-            onPress={() => paystackWebViewRef.current.startTransaction()}
-          >
-            <Text>Pay Now</Text>
-          </TouchableOpacity> */}
       </View>
+
+      <Modal
+        onBackdropPress={() => {
+          setFundWalletLoader(false)
+        }}
+        isVisible={fundWalletLoader}
+      >
+        <View
+          style={{
+            backgroundColor: 'white',
+            height: 300,
+            borderRadius: 10,
+          }}
+        >
+          <Text className="text-base">
+            Request is processing... please wait
+          </Text>
+        </View>
+      </Modal>
+
+      <Modal
+        onBackdropPress={() => {
+          setWalletFundedSuccess(false)
+        }}
+        isVisible={walletFundedSuccess}
+      >
+        <View
+          style={{
+            backgroundColor: 'white',
+            height: 300,
+            borderRadius: 10,
+          }}
+        >
+          <Text className="text-base">
+            Wallet has been funded success fully
+          </Text>
+        </View>
+      </Modal>
       {/* )} */}
     </>
   )

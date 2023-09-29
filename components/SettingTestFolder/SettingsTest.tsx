@@ -1,47 +1,23 @@
-import { View, Text, ScrollView, SafeAreaView, TouchableWithoutFeedback, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import { Switch } from 'react-native-gesture-handler'
+import {
+  ScrollView,
+  Switch,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
+import Toast from 'react-native-toast-message'
+import { useSelector } from 'react-redux'
+import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
+import { RootState, useAppDispatch } from '../../services/store'
 
 const SettingsTest = () => {
-  const [newErrands, setNewErrands] = useState(false)
-  const [errandsInArea, setErrandsInArea] = useState(false)
-  const [bidsOnErrand, setBidsOnErrand] = useState(false)
-  const [errandStatus, setErrandStatus] = useState(false)
-  const [accountUpdate, setAccountUpdate] = useState(false)
-  const [newsletter, setNewsletter] = useState(false)
-  const [promotions, setPromotions] = useState(false)
-  const [adverts, setAdverts] = useState(false)
+  const dispatch = useAppDispatch()
 
-  const handleNewErrands = () => {
-    setNewErrands(!newErrands)
-  }
-
-  const handleErrandsInArea = () => {
-    setErrandsInArea(!errandsInArea)
-  }
-
-  const handleBidsOnErrand = () => {
-    setBidsOnErrand(!bidsOnErrand)
-  }
-
-  const handleErrandStatus = () => {
-    setErrandStatus(!errandStatus)
-  }
-
-  const handleAccountUpdate = () => {
-    setAccountUpdate(!accountUpdate)
-  }
-
-  const handleNewsLetter = () => {
-    setNewsletter(!newsletter)
-  }
-  const handleAdverts = () => {
-    setAdverts(!adverts)
-  }
-
-  const handlePromotion = () => {
-    setPromotions(!promotions)
-  }
+  const { data: preferences } = useSelector(
+    (state: RootState) => state.notificationPreferenceReducer,
+  )
 
   return (
     <ScrollView>
@@ -60,13 +36,20 @@ const SettingsTest = () => {
             <Text className="font-medium text-base">
               Account Update Notification
             </Text>
-            <TouchableWithoutFeedback onPress={handleAccountUpdate}>
+            <TouchableWithoutFeedback>
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
-                // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                // ios_backgroundColor="green"
-                // onValueChange={toggleSwitch}
-                value={accountUpdate}
+                onValueChange={(value: boolean) => {
+                  dispatch(
+                    updateNotificationPrefeference({
+                      ...preferences,
+                      dispatch,
+                      Toast,
+                      account_update_notifications: value,
+                    }),
+                  )
+                }}
+                value={preferences?.account_update_notifications}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
             </TouchableWithoutFeedback>
@@ -81,13 +64,20 @@ const SettingsTest = () => {
             <Text className="font-medium text-base">
               Newsletters and offers
             </Text>
-            <TouchableWithoutFeedback onPress={handleNewsLetter}>
+            <TouchableWithoutFeedback>
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
-                // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                // ios_backgroundColor="green"
-                // onValueChange={toggleSwitch}
-                value={newsletter}
+                onValueChange={(value: boolean) => {
+                  dispatch(
+                    updateNotificationPrefeference({
+                      ...preferences,
+                      dispatch,
+                      Toast,
+                      newsletter_notifications: value,
+                    }),
+                  )
+                }}
+                value={preferences?.newsletter_notifications}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
             </TouchableWithoutFeedback>
@@ -102,13 +92,20 @@ const SettingsTest = () => {
             <Text className="font-medium text-base ">
               Promotions and adverts
             </Text>
-            <TouchableWithoutFeedback onPress={handlePromotion}>
+            <TouchableWithoutFeedback>
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
-                // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                // ios_backgroundColor="grey"
-                // onValueChange={toggleSwitch}
-                value={promotions}
+                onValueChange={(value: boolean) => {
+                  dispatch(
+                    updateNotificationPrefeference({
+                      ...preferences,
+                      dispatch,
+                      Toast,
+                      promotions_notifications: value,
+                    }),
+                  )
+                }}
+                value={preferences?.promotions_notifications}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
             </TouchableWithoutFeedback>
@@ -117,27 +114,6 @@ const SettingsTest = () => {
             Stay informed about our amazing offers
           </Text>
         </View>
-
-        {/* <View className=" w-[360px] h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
-          <View className="flex-row items-center justify-between">
-            <TouchableWithoutFeedback onPress={handleAdverts}>
-              <Text className="font-medium text-[18px]">
-                Promotions and adverts
-              </Text>
-              <Switch
-                trackColor={{ false: '#767577', true: 'green' }}
-                // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                // ios_backgroundColor="green"
-                // onValueChange={toggleSwitch}
-                value={adverts}
-                style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
-              />
-            </TouchableWithoutFeedback>
-          </View>
-          <Text className="text-[14px]">
-            Stay informed about our amazing offers
-          </Text>
-        </View> */}
       </View>
 
       <View className="mt-8 ml-4">
@@ -155,13 +131,20 @@ const SettingsTest = () => {
             <Text className="font-medium text-base">
               New errands in your category interest
             </Text>
-            <TouchableWithoutFeedback onPress={handleNewErrands}>
+            <TouchableWithoutFeedback>
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
-                // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                // ios_backgroundColor={!newErrands ? 'green' : 'grey'}
-                // onValueChange={toggleSwitch}
-                value={newErrands}
+                onValueChange={(value: boolean) => {
+                  dispatch(
+                    updateNotificationPrefeference({
+                      ...preferences,
+                      dispatch,
+                      Toast,
+                      cat_errand_notifications: value,
+                    }),
+                  )
+                }}
+                value={preferences?.cat_errand_notifications}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
             </TouchableWithoutFeedback>
@@ -176,13 +159,20 @@ const SettingsTest = () => {
             <Text className="font-medium text-base">
               Errands within your area
             </Text>
-            <TouchableWithoutFeedback onPress={handleErrandsInArea}>
+            <TouchableWithoutFeedback>
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
-                // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                // ios_backgroundColor={!errandsInArea ? 'green' : 'grey'}
-                // onValueChange={toggleSwitch}
-                value={errandsInArea}
+                onValueChange={(value: boolean) => {
+                  dispatch(
+                    updateNotificationPrefeference({
+                      ...preferences,
+                      dispatch,
+                      Toast,
+                      location_errand_notifications: value,
+                    }),
+                  )
+                }}
+                value={preferences?.location_errand_notifications}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
             </TouchableWithoutFeedback>
@@ -194,16 +184,21 @@ const SettingsTest = () => {
 
         <View className="  h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text className="font-medium text-base">
-              Bids on your errands
-            </Text>
-            <TouchableWithoutFeedback onPress={handleBidsOnErrand}>
+            <Text className="font-medium text-base">Bids on your errands</Text>
+            <TouchableWithoutFeedback>
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
-                // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                // ios_backgroundColor={!bidsOnErrand ? 'green' : 'grey'}
-                // onValueChange={toggleSwitch}
-                value={bidsOnErrand}
+                onValueChange={(value: boolean) => {
+                  dispatch(
+                    updateNotificationPrefeference({
+                      ...preferences,
+                      dispatch,
+                      Toast,
+                      bid_notifications: value,
+                    }),
+                  )
+                }}
+                value={preferences?.bid_notifications}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
             </TouchableWithoutFeedback>
@@ -213,25 +208,30 @@ const SettingsTest = () => {
           </Text>
         </View>
 
-
-
-        <View className='h-[63px] ml-4 mt-5 border-b-[#AAAAAA]'>
-            <View className='flex-row items-center justify-between'>
-                <Text className='font-medium text-base'>Errand status updates</Text>
-                <TouchableOpacity onPress={handleErrandStatus}>
-                <Switch
+        <View className="h-[63px] ml-4 mt-5 border-b-[#AAAAAA]">
+          <View className="flex-row items-center justify-between">
+            <Text className="font-medium text-base">Errand status updates</Text>
+            <TouchableOpacity>
+              <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
-                // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                // ios_backgroundColor={!errandStatus ? 'grey' : 'green'}
-                value={errandStatus}
-                // onValueChange={toggleSwitch}
-                // value={isEnabled}
+                value={preferences?.errand_status_notifications}
+                onValueChange={(value: boolean) => {
+                  dispatch(
+                    updateNotificationPrefeference({
+                      ...preferences,
+                      dispatch,
+                      Toast,
+                      errand_status_notifications: value,
+                    }),
+                  )
+                }}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
-              </TouchableOpacity>
-        
-            </View>
-            <Text className='text-sm font-light'>Stay informed about our amazing offers</Text>     
+            </TouchableOpacity>
+          </View>
+          <Text className="text-sm font-light">
+            Stay informed about our amazing offers
+          </Text>
         </View>
       </View>
     </ScrollView>

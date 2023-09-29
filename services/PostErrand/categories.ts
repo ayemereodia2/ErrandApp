@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { CategoriesListResponse } from '../../types';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CategoriesList, CategoriesListResponse } from '../../types';
 import { _fetch } from '../axios/http';
 
 export const getCategoriesList = createAsyncThunk<CategoriesListResponse, void, { rejectValue: string }>(
@@ -36,7 +36,11 @@ const initialState: CategoriesListResponse= {
 const categoriesListSlice = createSlice({
   name: "/categories/errand",
   initialState,
-  reducers: {},
+  reducers: {
+     setSortedCategories(state: CategoriesListResponse, { payload }: PayloadAction<CategoriesList[]>  ) {
+      state.data = payload
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getCategoriesList.rejected, (state, action) => {
       state.error = action.payload;
@@ -56,4 +60,5 @@ const categoriesListSlice = createSlice({
 
 })
 
+export const {setSortedCategories} = categoriesListSlice.actions
 export const categoriesListReducer = categoriesListSlice.reducer
