@@ -48,8 +48,6 @@ export const errandMarketList = createAsyncThunk<any, MarketQueryParams, { rejec
       url += `?${params.toString()}`;
     }
 
-    console.log(">>>>>>url", url);
-    
     const rs = await _fetch({ method: 'GET', _url: url });
 
     const res = await rs.json()

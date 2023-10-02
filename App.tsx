@@ -10,6 +10,8 @@ import {
 import React, { useEffect, useState } from 'react'
 import { AppStateStatus, Platform, View } from 'react-native'
 // import 'react-native-gesture-handler'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { NavigationContainer } from '@react-navigation/native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { MenuProvider } from 'react-native-popup-menu'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
@@ -20,17 +22,10 @@ import useColorScheme from './hooks/useColorScheme'
 import { useOnlineManager } from './hooks/useOnlineManager'
 import MainNavigation from './navigation/MainNavigation'
 import { store } from './services/store'
-import { NavigationContainer } from '@react-navigation/native'
-import { GuestNavigator } from './navigation/GuestNavigator'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const queryClient = new QueryClient()
 
 function onAppStateChange(status: AppStateStatus) {
-
-
-
-  
   // React Query already supports in web browser refetch on window focus by defaunpm update
 
   if (Platform.OS !== 'web') {
@@ -41,39 +36,6 @@ function onAppStateChange(status: AppStateStatus) {
 // import { store } from './services/store'
 
 export default function App() {
-
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
- 
-  // Function to check authentication status
-  const checkAuthenticationStatus = async () => {
-    try {
-      const isAuthenticated = await AsyncStorage.getItem('isAuthenticated');
-      // Check if the value is 'true' to determine authentication status
-      if (isAuthenticated === 'true') {
-        // User is authenticated, you can navigate to the AppStack
-        // or perform any other actions as needed
-        setIsAuthenticated(true)
-      } else {
-        // User is not authenticated, you can navigate to the AuthStack
-        // or perform any other actions as needed
-        setIsAuthenticated(false)
-      }
-    } catch (error) {
-      // Handle AsyncStorage read error
-      console.log(error)
-    }
-  };
-
-  useEffect(() => {
-
-  // Call the authentication status check function
-  checkAuthenticationStatus();
-}, []);
-
-
-
-
-
   const isLoadingComplete = useCachedResources()
   const colorScheme = useColorScheme()
 
@@ -91,25 +53,18 @@ export default function App() {
             <Provider store={store}>
               <SafeAreaProvider>
                 {/* <Navigation /> */}
-                <GestureHandlerRootView style={{flex: 1}}>
+                <GestureHandlerRootView style={{ flex: 1 }}>
+                  {/* Conditionally render AuthStack or AppStack based on authentication status */}
 
-                   {/* Conditionally render AuthStack or AppStack based on authentication status */}
-              
-                   {isAuthenticated ?  (
-                    
-                  <NavigationContainer>
-                  <MainNavigation /> 
-                  </NavigationContainer>
-                  
-                  
-                ) : 
-                (
-                <NavigationContainer>
-                 <GuestNavigator /> 
-              </NavigationContainer>
-              
-             
-                )}
+                  {/* {isAuthenticated ? ( */}
+                    <NavigationContainer>
+                      <MainNavigation />
+                    </NavigationContainer>
+                  {/* ) : (
+                    <NavigationContainer>
+                      <GuestNavigator />
+                    </NavigationContainer>
+                  )} */}
                 </GestureHandlerRootView>
               </SafeAreaProvider>
               <Toast />

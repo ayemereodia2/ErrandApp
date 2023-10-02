@@ -24,7 +24,7 @@ export const Logo = () => {
     <>
     <SafeAreaView>
       <TouchableOpacity
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.navigate('Login')}
         className="flex-row justify-end mt-10 mr-3"
       >
         <AntDesign name="close" size={26} />
