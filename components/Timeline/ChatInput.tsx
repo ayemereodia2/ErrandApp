@@ -206,12 +206,13 @@ const ChatInput = ({
   }
 
   const handleFileUpload = () => {
-    dispatch(setUploadedFilesToNull([]))
     if (user_id === sender.id) {
       sendMessage('request', 'image', images[0])
+      dispatch(setUploadedFilesToNull([]))
       console.log('Requesting update')
     } else {
       sendMessage('sender', 'image', images[0])
+      dispatch(setUploadedFilesToNull([]))
     }
     toggleImageModal()
   }

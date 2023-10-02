@@ -122,9 +122,6 @@ export const TabsNavigation = ({navigation}: any) => {
 
   const routeName = getFocusedRouteNameFromRoute(route)
 
-  console.log(">>>>route", routeName)
-  
-
   useEffect(() => {
     // dispatch(market({}))
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })

@@ -75,10 +75,7 @@ import GuestComp, { GuestList } from '../../components/GuestComp/GuestComp'
       }, 500)
     }, [])
   
-    console.log('>>>mcheck', minCheck)
-  
     const filterMarketList = () => {
-      console.log('>>>>>>>value', value)
       dispatch(
         errandMarketList({
           category: value,
