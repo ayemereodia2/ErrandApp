@@ -1,7 +1,6 @@
 import { AntDesign } from '@expo/vector-icons'
 import React, { useState } from 'react'
-import { ScrollView, Text, TextInput, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { ScrollView, Text, TextInput, View, TouchableOpacity } from 'react-native'
 // import { CheckBox } from '@rneui/themed';
 
 const Finance = () => {

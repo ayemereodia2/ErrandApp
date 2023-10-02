@@ -8,8 +8,9 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ScrollView
 } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+
 import UserProfile from '../../components/UsersProfile/UserProfile'
 import UserVerification from '../../components/UsersProfile/UserVerification'
 import { _fetch } from '../../services/axios/http'

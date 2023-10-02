@@ -1,7 +1,5 @@
 import { Entypo, Ionicons } from '@expo/vector-icons'
-import {
-  BottomSheetModal
-} from '@gorhom/bottom-sheet'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
@@ -9,11 +7,10 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
-import FundWalletModal from '../../components/Modals/Errands/FundWallet'
 import { createErrand } from '../../services/errands/createErrand'
 import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -176,7 +173,7 @@ const PostErrand = ({ navigation }: any) => {
       res_by_verification,
       errandType,
       currentLocation,
-      deliveryAddress
+      deliveryAddress,
     } = postErrandData
 
     const data: CreateErrandRequest = {
@@ -203,8 +200,7 @@ const PostErrand = ({ navigation }: any) => {
       dispatch,
     }
 
-    console.log(">>>>>data errand", data);
-    
+    console.log('>>>>>data errand', data)
 
     dispatch(createErrand({ ...data }))
   }
@@ -218,22 +214,24 @@ const PostErrand = ({ navigation }: any) => {
     dispatch(getDraftErrand())
   }, [])
 
+  useEffect(() => {
+    navigation
+      .getParent()
+      ?.setOptions({ tabBarStyle: { display: 'none' }, tabBarVisible: false })
+    return () =>
+      navigation
+        .getParent()
+        ?.setOptions({ tabBarStyle: undefined, tabBarVisible: undefined })
+  }, [navigation])
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
       title: 'Create Errand',
       headerStyle: { backgroundColor: '#F8F9FC' },
-      // headerLeft: () => (
-      //   <TouchableOpacity
-      //     onPress={() => navigation.navigate('Errands')}
-      //     className="pl-3"
-      //   >
-      //     <AntDesign name="arrowleft" size={24} color="#243763" />
-      //   </TouchableOpacity>
-      // ),
       headerRight: () => (
         <TouchableOpacity
-          onPress={() => navigation.navigate('Errands')}
+          onPress={() => navigation.navigate('MarketTab')}
           className="pr-3"
         >
           <Ionicons name="close" size={24} />
@@ -295,41 +293,57 @@ const PostErrand = ({ navigation }: any) => {
   }
 
   return (
-      <View style={{ flex: 1 }}>
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-            marginBottom: 20,
-            height: '80%',
-          }}
-          className="bg-white"
-        >
-          {showComponent()}
-        </ScrollView>
+    <View style={{ flex: 1 }}>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          marginBottom: 20,
+          height: '80%',
+        }}
+        className="bg-white"
+      >
+        {showComponent()}
+      </ScrollView>
 
-        <View
-          style={{ backgroundColor: '#1E3A79', height: 80 }}
-          className="flex-row"
-        >
-          {activeStep > 1 && (
-            <TouchableOpacity
-              onPress={() => setActiveStep(activeStep - 1)}
-              className="bg-[#2856c1] px-6 flex justify-center items-center py-2 "
-            >
-              <Entypo name="arrow-with-circle-left" color={'white'} size={30} />
-            </TouchableOpacity>
-          )}
-          <View
-            className={
-              activeStep > 1
-                ? 'pl-10 flex-row justify-center  items-center pt-5 pb-6'
-                : 'flex-row justify-center w-full items-center pt-5 pb-6'
-            }
+      <View
+        style={{ backgroundColor: '#1E3A79', height: 80 }}
+        className="flex-row"
+      >
+        {activeStep > 1 && (
+          <TouchableOpacity
+            onPress={() => setActiveStep(activeStep - 1)}
+            className="bg-[#2856c1] px-6 flex justify-center items-center py-2 "
           >
-            {creatingErrand ? (
-              <ActivityIndicator size="large" color="blue" />
-            ) : (
-              <TouchableOpacity
+            <Entypo name="arrow-with-circle-left" color={'white'} size={30} />
+          </TouchableOpacity>
+        )}
+        <View
+          className={
+            activeStep > 1
+              ? 'pl-10 flex-row justify-center  items-center pt-5 pb-6'
+              : 'flex-row justify-center w-full items-center pt-5 pb-6'
+          }
+        >
+          {creatingErrand ? (
+            <ActivityIndicator size="large" color="blue" />
+          ) : (
+            <TouchableOpacity
+              onPress={() => {
+                activeStep <= 1
+                  ? categoryHandler()
+                  : activeStep <= 2
+                  ? detailHandler()
+                  : activeStep <= 3
+                  ? locationHandler()
+                  : activeStep <= 4
+                  ? financeHandler()
+                  : submitErrandhandler()
+              }}
+              style={{ backgroundColor: '#1E3A79' }}
+              className="flex-row justify-end"
+            >
+              <Text
+                className="text-white  rounded-lg text-lg"
                 onPress={() => {
                   activeStep <= 1
                     ? categoryHandler()
@@ -341,36 +355,20 @@ const PostErrand = ({ navigation }: any) => {
                     ? financeHandler()
                     : submitErrandhandler()
                 }}
-                style={{ backgroundColor: '#1E3A79' }}
-                className="flex-row justify-end"
               >
-                <Text
-                  className="text-white  rounded-lg text-lg"
-                  onPress={() => {
-                    activeStep <= 1
-                      ? categoryHandler()
-                      : activeStep <= 2
-                      ? detailHandler()
-                      : activeStep <= 3
-                      ? locationHandler()
-                      : activeStep <= 4
-                      ? financeHandler()
-                      : submitErrandhandler()
-                  }}
-                >
-                  {activeStep >= 5
-                    ? 'Submit'
-                    : ` Proceed to Errand ${steps[activeStep]}`}
-                </Text>
-              </TouchableOpacity>
-            )}
-          </View>
+                {activeStep >= 5
+                  ? 'Submit'
+                  : ` Proceed to Errand ${steps[activeStep]}`}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
+      </View>
 
-        {/* <BottomSheetModal ref={fundWalletRef} index={0} snapPoints={['50%']}>
+      {/* <BottomSheetModal ref={fundWalletRef} index={0} snapPoints={['50%']}>
           <FundWalletModal toggleFundWalletModal={toggleFundWalletModal} />
         </BottomSheetModal> */}
-      </View>
+    </View>
   )
 }
 

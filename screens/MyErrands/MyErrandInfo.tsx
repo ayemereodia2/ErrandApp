@@ -13,7 +13,6 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native'
-// import { ScrollView } from 'react-native-gesture-handler'
 import {
   Menu,
   MenuOption,
@@ -110,7 +109,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
         manageErrandClicked: false,
       }),
       headerLeft: () => (
-        <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <AntDesign name="arrowleft" size={24} color="#243763" />
         </TouchableOpacity>
       ),
@@ -231,7 +230,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
       ),
     })
     getUserId()
-    dispatch(currentUserDetails({user_id: userId}))
+    dispatch(currentUserDetails({ user_id: userId }))
   }, [user, errand, manageErrandClicked, singleSubErrand])
 
   return (

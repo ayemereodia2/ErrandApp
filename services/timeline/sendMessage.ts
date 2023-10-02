@@ -8,18 +8,16 @@ export const timelineAction = createAsyncThunk<ErrandMarketResponse, TimelinePay
   "timeline/actions",
   async ({ message, errand_id, type, method, contentType, dispatch, Toast, sub_errand_id, setSubErrand, user_id}: TimelinePayload, { rejectWithValue }) => {
     try {
-      console.log(">>>>>>rs");
-
-    
     const _rs = await _fetch({
       method,
       _url: type === "request" ? `/errand/timeline/${type}/${errand_id}` : `/errand/timeline`,
       body: {errand_id, message, type: contentType, sub_errand_id}
     })
+      
       const rs = await _rs.json()
+      console.log(">>>>>>>>_rs", rs);
 
-      
-      
+
     dispatch(errandDetails({ errandId: errand_id }))
     // dispatch(myErrandList({}))
         // dispatch(getSubErrand({setSubErrand, errand_id: errand_id, runner_id: user_id}))

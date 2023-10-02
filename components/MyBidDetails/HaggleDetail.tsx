@@ -2,7 +2,6 @@ import React from 'react'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useEffect, useRef, useState } from 'react'
 import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-// import { TouchableOpacity } from 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
@@ -247,6 +246,7 @@ export const HaggleComponent = ({
 
         <BottomSheetModal ref={negotiateRef} index={0} snapPoints={['60%']}>
           <NegotiateBid
+            haggle={haggle}
             bid={bid}
             errand={errand}
             navigation={navigation}

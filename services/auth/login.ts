@@ -20,15 +20,13 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
 
     console.log(">>>>Login res", _rs);
   
-    
-
     if (_rs.success === true) {
       await AsyncStorage.setItem('accessToken', _rs.data.access_token )
       await AsyncStorage.setItem('refreshToken', _rs.data.refresh_token)
       await AsyncStorage.setItem('user_id', _rs.data.id)
       await AsyncStorage.setItem("last_name", _rs.data.last_name)
       await AsyncStorage.setItem("first_name", _rs.data.first_name)
-      navigation.navigate('Main')
+      navigation.navigate('Tabs')
       await AsyncStorage.setItem('profile_pic', _rs.data.profile_picture)
 
      
@@ -49,7 +47,7 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
         type: 'success',
         text1: 'Login Successful',
       });
-      navigation.navigate('Main')
+      navigation.navigate('Tabs')
     }
 
   } catch (e: any) {

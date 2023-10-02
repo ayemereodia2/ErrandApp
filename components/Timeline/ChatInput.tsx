@@ -4,6 +4,7 @@ import * as Location from 'expo-location'
 import React, { useState } from 'react'
 import {
   Image,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -21,6 +22,7 @@ import {
 import Animated, { useSharedValue } from 'react-native-reanimated'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
+import { postFiles, setUploadedFilesToNull } from '../../services/errands/postFiles'
 import { RootState, useAppDispatch } from '../../services/store'
 import { timelineAction } from '../../services/timeline/sendMessage'
 import { theme } from '../../theme'
@@ -53,6 +55,7 @@ const ChatInput = ({
   const [userLocation, setUserLocation] = useState<any>()
   const [selectedImage, setSelectedImage] = useState('')
   const [imageSelected, setImageSelected] = useState(false)
+  const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
 
   const [isModalVisible, setModalVisible] = useState(false)
 
@@ -69,6 +72,10 @@ const ChatInput = ({
   )
   const { data: sender } = useSelector(
     (state: RootState) => state.userDetailsReducer,
+  )
+
+  const { data: images, loading: uploadingImages } = useSelector(
+    (state: RootState) => state.postFilesReducer,
   )
 
   const sendMessage = async (
@@ -119,6 +126,9 @@ const ChatInput = ({
     //       )
     // }
 
+    console.log('data', data);
+    
+
     await dispatch(timelineAction(data))
     // dispatch(errandDetails({ errandId: errand.id }))
     setChatBubble('')
@@ -127,8 +137,6 @@ const ChatInput = ({
 
   const getUserLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync()
-    console.log('>>>>>>>statys', status)
-
     if (status !== 'granted') {
       Toast.show({
         type: 'error',
@@ -139,7 +147,6 @@ const ChatInput = ({
     }
 
     let location = await Location.getCurrentPositionAsync({})
-    console.log('>>>>locaitom', location)
     setLocation(location)
     setUserLocation(location)
   }
@@ -176,11 +183,37 @@ const ChatInput = ({
     })
 
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri)
+      const image = result.assets[0].uri
+      setSelectedImage(image)
       toggleImageModal()
+
+      const formData = new FormData()
+
+      let localUri = image
+      let filename = localUri.split('/').pop() || ''
+      let match = /\.(\w+)$/.exec(filename)
+      let type = match ? `image/${match[1]}` : `image`
+
+      const fileObj = { uri: localUri, name: filename, type }
+
+      formData.append('type', 'timeline')
+      formData.append('files', fileObj)
+
+      dispatch(postFiles({ formData, setUploadedFiles, uploadedFiles }))
     } else {
       alert('You did not select any image.')
     }
+  }
+
+  const handleFileUpload = () => {
+    dispatch(setUploadedFilesToNull([]))
+    if (user_id === sender.id) {
+      sendMessage('request', 'image', images[0])
+      console.log('Requesting update')
+    } else {
+      sendMessage('sender', 'image', images[0])
+    }
+    toggleImageModal()
   }
 
   return (
@@ -291,7 +324,7 @@ const ChatInput = ({
         >
           <MapView
             style={{
-              height: 200,
+              height: 230,
             }}
             showsUserLocation={true}
             followsUserLocation={true}
@@ -309,19 +342,18 @@ const ChatInput = ({
             )}
           </MapView>
 
-          <View className="flex-row justify-center items-center space-x-4 mt-6">
-            <TouchableOpacity
-              onPress={toggleModal}
-              className="w-[100px] py-2 rounded-xl  border border-red-300"
-            >
-              <Text className="text-red-500 text-center">Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
+          <View className="flex-row justify-center items-center space-x-4 mt-4 mr-6">
+            <Pressable onPress={toggleModal} className="flex-row items-center">
+              <MaterialIcons name="delete" size={24} color="red" />
+              <Text className="text-red-500 text-xs">Cancel</Text>
+            </Pressable>
+            <Pressable
               onPress={() => handleLocationSending()}
-              className=" py-2 w-[120px] rounded-xl  border-green-400 border"
+              className="flex-row items-center space-x-1"
             >
-              <Text className="text-green-400 text-center">Post Update</Text>
-            </TouchableOpacity>
+              <FontAwesome name="send-o" color="#3F60AC" size={20} />
+              <Text className="text-[#3F60AC] text-xs">Send</Text>
+            </Pressable>
           </View>
         </View>
       </Modal>
@@ -335,11 +367,26 @@ const ChatInput = ({
         <View
           style={{ backgroundColor: 'white', height: 300, borderRadius: 10 }}
         >
-          <Image source={{ uri: selectedImage }} className="mx-auto w-[60%] h-[200px] mt-5"  />
+          <Image
+            source={{ uri: selectedImage }}
+            className="mx-auto w-[80%] h-[220px] mt-5"
+          />
 
-          <View className="flex-row justify-end items-center space-x-4 mt-6 mr-6">
-            <MaterialIcons onPress={() => toggleImageModal()} name="delete" size={24} color="red" />
-            <FontAwesome name="send-o" size={20} />
+          <View className="flex-row justify-center items-center space-x-4 mt-4 mr-6">
+            <Pressable
+              onPress={() => toggleImageModal()}
+              className="flex-row items-center"
+            >
+              <MaterialIcons name="delete" size={24} color="red" />
+              <Text className="text-red-500 text-xs">Cancel</Text>
+            </Pressable>
+            <Pressable
+              onPress={handleFileUpload}
+              className="flex-row items-center space-x-1"
+            >
+              <FontAwesome name="send-o" color="#3F60AC" size={20} />
+              <Text className="text-[#3F60AC] text-xs">Send</Text>
+            </Pressable>
           </View>
         </View>
       </Modal>

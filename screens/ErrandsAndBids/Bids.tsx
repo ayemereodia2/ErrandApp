@@ -1,6 +1,5 @@
-import { View, Text, TouchableOpacity, Image, TouchableWithoutFeedback, TextInputComponent,  Keyboard, Platform } from 'react-native'
+import { View, Text, TouchableOpacity, Image, TouchableWithoutFeedback, ScrollView, TextInput, TextInputComponent,  Keyboard, Platform } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Entypo, Feather, FontAwesome, Ionicons } from '@expo/vector-icons'
 import {BottomSheetModal, BottomSheetModalProvider} from "@gorhom/bottom-sheet";

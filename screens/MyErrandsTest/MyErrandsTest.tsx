@@ -7,9 +7,9 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
+  TouchableWithoutFeedback
 } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 // import ErrandTexts from '../../components/ErrandTexts/ErrandTexts'
 
 const MyErrandsTest = ({navigation}:any) => {

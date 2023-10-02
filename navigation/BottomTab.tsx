@@ -1,26 +1,41 @@
-import {
-  AntDesign,
-  FontAwesome5,
-  Ionicons,
-  MaterialCommunityIcons,
-} from '@expo/vector-icons'
+import { AntDesign, FontAwesome5, Fontisto, Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import AccountScreen from '../screens/Accounts'
 import MainScreen from '../screens/Market/MainScreen'
 import ErrandScreen from '../screens/MyErrands'
 // import PostErrand from '../screens/CreateErrand'
 import PostErrand from '../screens/CreateErrand'
+import SettingScreen from '../screens/Setting/SettingScreen'
 import WalletScreen from '../screens/Wallets'
 
 const Tab = createBottomTabNavigator()
 
+const getHeaderTitle = (routeName: string) => {
+  switch (routeName) {
+    case 'Tab1':
+      return 'Header for Tab 1'
+    case 'Tab2':
+      return 'Header for Tab 2'
+    // Add more cases for other tabs
+    default:
+      return 'Default Header'
+  }
+}
+
 const BottomTab = () => {
+  // const route = useRoute()
+  // const navigation = useNavigation()
+  // const headerTitle = getHeaderTitle(route.name)
+
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({ headerTitle })
+  // }, [navigation, headerTitle])
+
   return (
     <Tab.Navigator
       // backBehavior="Home"
-      initialRouteName="Feeds"
+      initialRouteName="Main"
       screenOptions={{
         tabBarShowLabel: false,
         tabBarStyle: {
@@ -40,7 +55,7 @@ const BottomTab = () => {
       }}
     >
       <Tab.Screen
-        name="Feeds"
+        name="Main"
         component={MainScreen}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -50,12 +65,6 @@ const BottomTab = () => {
               ) : (
                 <AntDesign name="home" size={24} color="black" />
               )}
-              {/* <Text
-                style={{ fontSize: 10, paddingTop: 1 }}
-                className={focused ? 'text-[#243763]' : ''}
-              >
-                Feeds
-              </Text> */}
             </View>
           ),
         }}
@@ -72,12 +81,6 @@ const BottomTab = () => {
               ) : (
                 <FontAwesome5 name="running" size={24} color="black" />
               )}
-              {/* <Text
-                style={{ fontSize: 10, paddingTop: 1 }}
-                className={focused ? 'text-[#243763]' : ''}
-              >
-                Errand
-              </Text> */}
             </View>
           ),
         }}
@@ -92,34 +95,21 @@ const BottomTab = () => {
           },
           tabBarIcon: ({ focused }) => (
             <View>
-              {focused ? (
-                // <Ionicons
-                //   name="add-circle"
-                //   size={75}
-                //   color="#243763"
-                //   style={{ top: -40 }}
-                //   className="shadow-lg"
-                // />
-                <></>
-              ) : (
-                <Ionicons
-                  name="add-circle"
-                  size={30}
-                  color="#243763"
-                  // style={{ top: -40 }}
-                  className="shadow-lg"
-                />
-                // <></>
-              )}
+              <Ionicons
+                name="add-circle"
+                size={30}
+                color="#243763"
+                // style={{ top: -40 }}
+                className="shadow-lg"
+              />
             </View>
           ),
         }}
       />
       <Tab.Screen
-        name="Wallet"
+        name="Wallets"
         component={WalletScreen}
         options={{
-          // tabBarLabel:"Wallet",
           tabBarIcon: ({ focused }) => (
             <View>
               {focused ? (
@@ -127,43 +117,23 @@ const BottomTab = () => {
               ) : (
                 <Ionicons name="wallet-outline" size={24} color="black" />
               )}
-              {/* <Text
-                style={{ fontSize: 10, paddingTop: 2 }}
-                className={focused ? 'text-[#243763]' : ''}
-              >
-                Wallet
-              </Text> */}
             </View>
           ),
         }}
       />
       <Tab.Screen
-        name="Account"
-        component={AccountScreen}
+        name="Settin"
+        component={SettingScreen}
         options={{
           // tabBarLabel:"",
           tabBarIconStyle: { color: 'black' },
           tabBarIcon: ({ focused }) => (
             <View>
               {focused ? (
-                <MaterialCommunityIcons
-                  name="account-cog-outline"
-                  size={28}
-                  color="#243763"
-                />
+                <Fontisto name="player-settings" size={26} color="#243763" />
               ) : (
-                <MaterialCommunityIcons
-                  name="account-cog-outline"
-                  size={28}
-                  color="black"
-                />
+                <Fontisto name="player-settings" size={26} color="black" />
               )}
-              {/* <Text
-                style={{ fontSize: 10 }}
-                className={focused ? 'text-[#243763]' : ''}
-              >
-                Account
-              </Text> */}
             </View>
           ),
         }}

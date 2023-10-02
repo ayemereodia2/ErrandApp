@@ -2,12 +2,15 @@
 
 // import { SafeAreaProvider } from 'react-native-safe-area-context'
 // import { Provider } from 'react-redux'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import {
+  focusManager,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 import React from 'react'
 import { AppStateStatus, Platform, View } from 'react-native'
-import 'react-native-gesture-handler'
-// import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { focusManager } from '@tanstack/react-query'
+// import 'react-native-gesture-handler'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { MenuProvider } from 'react-native-popup-menu'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
@@ -15,7 +18,7 @@ import { Provider } from 'react-redux'
 import useCachedResources from './hooks/useCachedResources'
 import useColorScheme from './hooks/useColorScheme'
 import { useOnlineManager } from './hooks/useOnlineManager'
-import Navigation from './navigation'
+import MainNavigation from './navigation/MainNavigation'
 import { store } from './services/store'
 
 const queryClient = new QueryClient()
@@ -43,16 +46,19 @@ export default function App() {
   } else {
     return (
       <View style={{ flex: 1 }}>
-          <QueryClientProvider client={queryClient}>
-            <MenuProvider>
-              <Provider store={store}>
-                <SafeAreaProvider>
-                  <Navigation />
-                </SafeAreaProvider>
-                <Toast />
-              </Provider>
-            </MenuProvider>
-          </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <MenuProvider>
+            <Provider store={store}>
+              <SafeAreaProvider>
+                {/* <Navigation /> */}
+                <GestureHandlerRootView style={{flex: 1}}>
+                  <MainNavigation />
+                </GestureHandlerRootView>
+              </SafeAreaProvider>
+              <Toast />
+            </Provider>
+          </MenuProvider>
+        </QueryClientProvider>
       </View>
     )
   }

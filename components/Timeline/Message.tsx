@@ -1,6 +1,5 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { FlingGestureHandler } from 'react-native-gesture-handler'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -9,7 +8,7 @@ import { theme } from '../../theme'
 
 import { ChatInputProp } from './ChatInput'
 
-const Message = ({ time, isLeft, message }: ChatInputProp) => {
+const Message = () => {
   const startingPosition = 0
   const x = useSharedValue(startingPosition)
 
@@ -20,9 +19,8 @@ const Message = ({ time, isLeft, message }: ChatInputProp) => {
   })
 
   return (
-    <FlingGestureHandler>
-      <Animated.View style={[styles.container, uas]}>
-        {/* <View
+    <Animated.View style={[styles.container, uas]}>
+      {/* <View
           style={[styles.messageContainer, isOnLeft('grey_messageContainer')]}
         >
           <View className="flex-row space-x-3">
@@ -50,8 +48,7 @@ const Message = ({ time, isLeft, message }: ChatInputProp) => {
           </View>
           <Text className="text-xs pt-2 ml-4">{time}</Text>
         </View> */}
-      </Animated.View>
-    </FlingGestureHandler>
+    </Animated.View>
   )
 }
 

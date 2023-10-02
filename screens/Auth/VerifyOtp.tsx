@@ -10,7 +10,6 @@ import {
   TextInput,
   View,
 } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
 import Button from '../../components/Button'
 import { Logo } from '../../components/Logo'

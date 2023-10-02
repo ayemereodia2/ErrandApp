@@ -9,8 +9,8 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ScrollView, TextInput
 } from 'react-native'
-import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import SelectDropdown from 'react-native-select-dropdown'
 import { useSelector } from 'react-redux'
 import { postAudioFiles } from '../../services/errands/postAudioFIle'

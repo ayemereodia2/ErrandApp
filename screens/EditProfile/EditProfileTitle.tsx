@@ -1,7 +1,6 @@
 import { AntDesign, Entypo, MaterialIcons } from '@expo/vector-icons'
 import React, { useLayoutEffect, useState } from 'react'
 import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
-// import { ScrollView } from 'react-native-gesture-handler'
 import * as ImagePicker from 'expo-image-picker'
 import { Image, ScrollView } from 'react-native'
 import {

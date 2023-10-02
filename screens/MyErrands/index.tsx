@@ -10,8 +10,8 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   View,
+  ScrollView
 } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
 import {
   Menu,
   MenuOption,
@@ -66,62 +66,62 @@ const ErrandScreen = ({ navigation }: any) => {
     navigation.navigate('MyErrandDetails')
   }
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      title: 'My Errands',
-      headerStyle: { backgroundColor: '#F8F9FC' },
-      headerLeft: () => (
-        <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
-          <TouchableOpacity
-            onPress={() => navigation.openDrawer()}
-            className="flex-row items-center mb-2"
-          >
-            <ProfileInitials
-              firstName={firstName.charAt(0).toUpperCase()}
-              lastName={lastName.charAt(0).toUpperCase()}
-              profile_pic={profilePic}
-              textClass="text-white text-base"
-              width={40}
-              height={40}
-            />
-            {/* <Entypo name="menu" size={24} /> */}
-          </TouchableOpacity>
-        </View>
-      ),
-      headerRight: () => (
-        <View className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-3 ">
-          <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
-            <MaterialIcons name="notifications" color={'black'} size={22} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
-            <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
-              <MenuTrigger>
-                <Entypo name="dots-three-vertical" color={'black'} size={16} />
-              </MenuTrigger>
-              <MenuOptions
-                customStyles={{
-                  optionsContainer: {
-                    padding: 4,
-                    width: 100,
-                    marginTop: 20,
-                  },
-                }}
-              >
-                <MenuOption
-                  onSelect={() => dispatch(myErrandList({}))}
-                  text="Refresh"
-                  customStyles={{
-                    optionText: { textAlign: 'center', fontWeight: '600' },
-                  }}
-                />
-              </MenuOptions>
-            </Menu>
-          </TouchableOpacity>
-        </View>
-      ),
-    })
-  }, [])
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerShown: true,
+  //     title: 'My Errands',
+  //     headerStyle: { backgroundColor: '#F8F9FC' },
+  //     headerLeft: () => (
+  //       <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
+  //         <TouchableOpacity
+  //           onPress={() => navigation.openDrawer()}
+  //           className="flex-row items-center mb-2"
+  //         >
+  //           <ProfileInitials
+  //             firstName={firstName.charAt(0).toUpperCase()}
+  //             lastName={lastName.charAt(0).toUpperCase()}
+  //             profile_pic={profilePic}
+  //             textClass="text-white text-base"
+  //             width={40}
+  //             height={40}
+  //           />
+  //           {/* <Entypo name="menu" size={24} /> */}
+  //         </TouchableOpacity>
+  //       </View>
+  //     ),
+  //     headerRight: () => (
+  //       <View className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-3 ">
+  //         <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
+  //           <MaterialIcons name="notifications" color={'black'} size={22} />
+  //         </TouchableOpacity>
+  //         <TouchableOpacity onPress={() => {}}>
+  //           <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
+  //             <MenuTrigger>
+  //               <Entypo name="dots-three-vertical" color={'black'} size={16} />
+  //             </MenuTrigger>
+  //             <MenuOptions
+  //               customStyles={{
+  //                 optionsContainer: {
+  //                   padding: 4,
+  //                   width: 100,
+  //                   marginTop: 20,
+  //                 },
+  //               }}
+  //             >
+  //               <MenuOption
+  //                 onSelect={() => dispatch(myErrandList({}))}
+  //                 text="Refresh"
+  //                 customStyles={{
+  //                   optionText: { textAlign: 'center', fontWeight: '600' },
+  //                 }}
+  //               />
+  //             </MenuOptions>
+  //           </Menu>
+  //         </TouchableOpacity>
+  //       </View>
+  //     ),
+  //   })
+  // }, [])
 
   const onRefresh = React.useCallback(() => {
     dispatch(myErrandList({}))

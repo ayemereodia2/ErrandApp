@@ -9,8 +9,8 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ScrollView
 } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
 import {
   Menu,
   MenuOption,
@@ -58,68 +58,68 @@ const SettingScreen = ({ navigation }: any) => {
     refetchOnMount: 'always',
   })
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      title: 'Settings',
-      headerStyle: { backgroundColor: '#F8F9FC' },
-      headerLeft: () => (
-        <View className="flex-row items-center justify-between ">
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Main')}
-            className="flex-row items-center"
-          >
-            <AntDesign name="arrowleft" size={24} color="#243763" />
-          </TouchableOpacity>
-        </View>
-      ),
-      headerRight: () => (
-        <View className="flex-row items-center justify-between py-3 space-x-5 ">
-          <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
-            <MaterialIcons name="notifications" color={'black'} size={24} />
-          </TouchableOpacity>
-          <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
-            <MenuTrigger>
-              <Entypo name="dots-three-vertical" color={'black'} size={22} />
-            </MenuTrigger>
-            <MenuOptions
-              customStyles={{
-                optionWrapper: {
-                  // borderBottomWidth: 0.2,
-                  marginTop: 10,
-                  borderBottomColor: '#AAAAAA',
-                },
-                optionText: { textAlign: 'center', fontWeight: '600' },
-              }}
-            >
-              <MenuOption
-                onSelect={() => navigation.navigate('Account')}
-                text="Profile"
-                customStyles={{
-                  optionWrapper: {
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#AAAAAA',
-                    paddingVertical: 6,
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-              <MenuOption
-                onSelect={() => navigation.navigate('Contact Us')}
-                text="Contact Us"
-                customStyles={{
-                  optionWrapper: {
-                    paddingVertical: 6,
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-            </MenuOptions>
-          </Menu>
-        </View>
-      ),
-    })
-  }, [])
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerShown: true,
+  //     title: 'Settings',
+  //     headerStyle: { backgroundColor: '#F8F9FC' },
+  //     headerLeft: () => (
+  //       <View className="flex-row items-center justify-between pl-3">
+  //         <TouchableOpacity
+  //           onPress={() => navigation.navigate('Main')}
+  //           className="flex-row items-center"
+  //         >
+  //           <AntDesign name="arrowleft" size={24} color="#243763" />
+  //         </TouchableOpacity>
+  //       </View>
+  //     ),
+  //     headerRight: () => (
+  //       <View className="flex-row items-center justify-between py-3 space-x-5 pr-3 ">
+  //         <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
+  //           <MaterialIcons name="notifications" color={'black'} size={24} />
+  //         </TouchableOpacity>
+  //         <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
+  //           <MenuTrigger>
+  //             <Entypo name="dots-three-vertical" color={'black'} size={22} />
+  //           </MenuTrigger>
+  //           <MenuOptions
+  //             customStyles={{
+  //               optionWrapper: {
+  //                 // borderBottomWidth: 0.2,
+  //                 marginTop: 10,
+  //                 borderBottomColor: '#AAAAAA',
+  //               },
+  //               optionText: { textAlign: 'center', fontWeight: '600' },
+  //             }}
+  //           >
+  //             <MenuOption
+  //               onSelect={() => navigation.navigate('Account')}
+  //               text="Profile"
+  //               customStyles={{
+  //                 optionWrapper: {
+  //                   borderBottomWidth: 1,
+  //                   borderBottomColor: '#AAAAAA',
+  //                   paddingVertical: 6,
+  //                 },
+  //                 optionText: { textAlign: 'center', fontWeight: '600' },
+  //               }}
+  //             />
+  //             <MenuOption
+  //               onSelect={() => navigation.navigate('Contact Us')}
+  //               text="Contact Us"
+  //               customStyles={{
+  //                 optionWrapper: {
+  //                   paddingVertical: 6,
+  //                 },
+  //                 optionText: { textAlign: 'center', fontWeight: '600' },
+  //               }}
+  //             />
+  //           </MenuOptions>
+  //         </Menu>
+  //       </View>
+  //     ),
+  //   })
+  // }, [])
 
   useEffect(() => {
     dispatch(notificationPreferences())
@@ -140,7 +140,7 @@ const SettingScreen = ({ navigation }: any) => {
                     />
                   </View>
                 ) : (
-                  <View className="bg-gray-700 w-[70px] h-[70px] rounded-full items-center justify-center">
+                  <View className="bg-gray-700 w-[60px] h-[60px] rounded-full items-center justify-center">
                     <Text className="text-white font-bold text-center text-2xl">
                       {data?.data?.first_name.charAt(0)}
                       {data?.data?.last_name.charAt(0)}

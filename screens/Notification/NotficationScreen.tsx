@@ -1,8 +1,7 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native'
 import React, { useLayoutEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Entypo } from '@expo/vector-icons'
-import { ScrollView } from 'react-native-gesture-handler'
+import { Entypo, ScrollView } from '@expo/vector-icons'
 import Notify from '../../components/Notification/Notify'
 
 const NotificationScreen = ({navigation}:any) => {

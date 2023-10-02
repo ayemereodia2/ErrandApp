@@ -26,7 +26,7 @@ export default function DrawerNavigator() {
       }}
       initialRouteName="Feeds"
     >
-      <Drawer.Screen name="Welcome" component={RootNavigator} />
+      {/* <Drawer.Screen name="Welcome" component={RootNavigator} /> */}
       <Drawer.Screen name="Notifications" component={NotificationScreen} />
       {/* <Drawer.Screen name="Contact Us" component={ContactUs} /> */}
       {/* <Drawer.Screen name="Settings" component={SettingScreen} /> */}

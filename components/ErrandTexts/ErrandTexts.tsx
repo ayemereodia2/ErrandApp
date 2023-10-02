@@ -1,6 +1,5 @@
-import { View, Text, Image, SafeAreaView, TouchableOpacity } from 'react-native'
+import { View, ScrollView, Text, Image, SafeAreaView, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { ScrollView } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
 
 

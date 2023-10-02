@@ -1,8 +1,7 @@
 import { AntDesign } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { Image, SafeAreaView, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { Image, TouchableOpacity, SafeAreaView, Text, View } from 'react-native'
 
 export const showStars = (rate: number) => {
   if (rate === 0) {

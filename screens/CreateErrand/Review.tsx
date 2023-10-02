@@ -1,6 +1,5 @@
 import React from 'react'
-import { Text, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { Text, View, ScrollView } from 'react-native'
 import { PostErrandData } from '../../types'
 import { ImageViewer } from './Details'
 

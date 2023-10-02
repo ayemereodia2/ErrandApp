@@ -7,8 +7,8 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ScrollView
 } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
 import {
   Menu,
   MenuOption,

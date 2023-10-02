@@ -1,7 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { Image, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { Image, Text, View, TouchableOpacity } from 'react-native'
 
 export const MyErrandEmptyState = () => {
   const navigate = useNavigation()

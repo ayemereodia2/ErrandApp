@@ -36,13 +36,15 @@ const MessagesList = ({
               case 'text':
                 return <Text>{update.message}</Text>
               case 'image':
-                // return (
-                //   <img
-                //     src={update.message}
-                //     alt={update.message}
-                //     className="w-[240px] h-[300px] object-cover"
-                //   />
-                // )
+                return (
+                  <View>
+                    <Image
+                      source={{uri: update.message}}
+                      alt={update.message}
+                      className="w-[240px] h-[300px] object-cover"
+                    />
+                  </View>
+                )
               case 'audio':
                 return (
                   <figure>
@@ -73,7 +75,7 @@ const MessagesList = ({
                   <MapView
                     style={{
                       height: 200,
-                      width: 230
+                      width: 230,
                     }}
                     showsUserLocation={true}
                     followsUserLocation={true}

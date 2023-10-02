@@ -12,8 +12,8 @@ import {
   View,
 } from 'react-native'
 
-export default function HomeScreen() {
-  const navigation = useNavigation()
+export default function HomeScreen({navigation}: any) {
+  // const navigation = useNavigation()
 
   let [fontsLoaded] = useFonts({
     AbrilFatface_400Regular,
@@ -49,7 +49,7 @@ export default function HomeScreen() {
               <Text className="text-white text-base">Login</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('VerifyPhone')}
+              onPress={() => navigation.navigate('Contact')}
               style={{ borderWidth: 1 }}
               className="border-[#243763] border-solid border-1 text-[#243763] py-3 w-60 flex-row items-center justify-center rounded-lg cursor-pointer"
             >

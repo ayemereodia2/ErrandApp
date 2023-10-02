@@ -9,6 +9,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+
 // import AppLoading from 'expo-app-loading';
 import {
   Entypo,
@@ -77,13 +78,27 @@ export default function ErrandDetails({ route, navigation }: any) {
     setShowBid(!showBid)
   }
 
+  // const reachedScreen = async () => {
+  //   await AsyncStorage.setItem("errandDetail")
+  // }
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
       headerStyle: { backgroundColor: '#F8F9FC' },
       title: 'Errand Details',
     })
-  }, [])
+  }, [navigation])
+
+  useEffect(() => {
+    navigation
+      .getParent()
+      ?.setOptions({ tabBarStyle: { display: 'none' }, tabBarVisible: false })
+    return () =>
+      navigation
+        .getParent()
+        ?.setOptions({ tabBarStyle: undefined, tabBarVisible: undefined })
+  }, [navigation])
 
   const getUserId = async () => {
     const userId = (await AsyncStorage.getItem('user_id')) || ''
@@ -106,7 +121,10 @@ export default function ErrandDetails({ route, navigation }: any) {
     return (
       <BottomSheetModalProvider>
         <SafeAreaView style={{ flex: 1 }} className="bg-[#F8F9FC]">
-          <ScrollView scrollEventThrottle={16} className={!showBidBtn ? 'mb-10': ''}>
+          <ScrollView
+            scrollEventThrottle={16}
+            className={!showBidBtn ? 'mb-10' : ''}
+          >
             <TouchableNativeFeedback
               onPress={() => {
                 setShowBidBtn(true)

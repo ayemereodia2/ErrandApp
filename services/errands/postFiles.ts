@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FilesResponse } from '../../types';
 
 
@@ -25,6 +25,8 @@ export const postFiles = createAsyncThunk<any, Props, { rejectValue: string }>(
     const res =  await fetch(`https://staging.apis.swave.ng/v1/file-upload`, requestOptions)
     const resJson = await res.json()
     if (setUploadedFiles) {
+      console.log(">>>>>>rs.josn", resJson);
+      
       setUploadedFiles([...uploadedFiles, ...resJson.data])
     }
     return resJson.data[0]
@@ -39,7 +41,11 @@ const initialState: FilesResponse = {
 const postFilesSlice = createSlice({
   name: "/errand/postFiles",
   initialState,
-  reducers: {},
+  reducers: {
+    setUploadedFilesToNull(state, { payload }: PayloadAction<[]> ) {
+      state.data = []
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(postFiles.rejected, (state, action) => {
       state.error = action.payload;
@@ -59,4 +65,5 @@ const postFilesSlice = createSlice({
 
 })
 
+export const {setUploadedFilesToNull} = postFilesSlice.actions
 export const postFilesReducer = postFilesSlice.reducer

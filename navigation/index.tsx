@@ -3,12 +3,25 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { AntDesign, FontAwesome } from '@expo/vector-icons'
+import {
+  AntDesign,
+  Entypo,
+  FontAwesome,
+  MaterialIcons,
+} from '@expo/vector-icons'
 import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import * as React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
+import {
+  Menu,
+  MenuOption,
+  MenuOptions,
+  MenuTrigger,
+} from 'react-native-popup-menu'
 import FundWalletModal from '../components/Modals/Errands/FundWallet'
+import { ProfileInitials } from '../components/ProfileInitials'
+import AccountScreen from '../screens/Accounts'
 import AccountRecoveryScreen from '../screens/Auth/AccountRecovery'
 import { default as CreateAccountScreen } from '../screens/Auth/CreateAccountScreen'
 import HomeScreen from '../screens/Auth/HomeScreen'
@@ -40,23 +53,33 @@ import { useAppDispatch } from '../services/store'
 import { RootStackParamList } from '../types'
 import { getUserId } from '../utils/helper'
 import BottomTab from './BottomTab'
-import DrawerNavigator from './DrawerNav'
 
 // import DrawerNav from './DrawerNav'
+
+interface OptionsProps {
+  headerShown: boolean
+  title: string
+}
+
+const Header = (props: any) => {
+  return (
+    <View style={{ flexDirection: 'row', margin: 15 }}>
+      <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'black' }}>
+        {props.name}
+      </Text>
+    </View>
+  )
+}
 
 export default function Navigation() {
   return (
     <NavigationContainer>
       {/* <RootNavigator /> */}
-      <DrawerNavigator />
+      {/* <DrawerNavigator /> */}
+      <BottomTab />
     </NavigationContainer>
   )
 }
-
-/**
- * A root stack navigator is often used for displaying modals on top of all other content.
- * https://reactnavigation.org/docs/modal
- */
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
 export function RootNavigator() {
@@ -73,6 +96,62 @@ export function RootNavigator() {
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
   }, [])
 
+  const optionsHandler = ({ headerShown, title }: OptionsProps) => {
+    return {
+      headerShown,
+      title: Header(title),
+      headerStyle: { backgroundColor: '#F8F9FC' },
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Profile')}
+          className="flex-row items-center justify-between mx-0 px-3 my-3 "
+        >
+          <ProfileInitials
+            firstName={firstName.charAt(0).toUpperCase()}
+            lastName={lastName.charAt(0).toUpperCase()}
+            profile_pic={profilePic}
+            textClass="text-white text-base"
+            width={35}
+            height={35}
+          />
+        </TouchableOpacity>
+      ),
+      headerRight: () => (
+        <View
+          style={{ display: 'flex', flexDirection: 'row' }}
+          className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-5 "
+        >
+          <MaterialIcons name="notifications" color={'black'} size={24} />
+          <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
+            <MenuTrigger>
+              <Entypo name="dots-three-vertical" color={'black'} size={22} />
+            </MenuTrigger>
+            <MenuOptions
+              customStyles={{
+                optionWrapper: {
+                  marginTop: 10,
+                  borderBottomColor: '#AAAAAA',
+                },
+                optionText: { textAlign: 'center', fontWeight: '600' },
+              }}
+            >
+              <MenuOption
+                onSelect={() => navigation.navigate('Contact')}
+                text="Contact Us"
+                customStyles={{
+                  optionWrapper: {
+                    paddingVertical: 6,
+                  },
+                  optionText: { textAlign: 'center', fontWeight: '600' },
+                }}
+              />
+            </MenuOptions>
+          </Menu>
+        </View>
+      ),
+    }
+  }
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -88,24 +167,17 @@ export function RootNavigator() {
       <Stack.Screen
         name="Main"
         component={BottomTab}
-        options={{
-          headerShown: false,
-        }}
+        options={optionsHandler({ title: 'Errand Market', headerShown: true })}
       />
       <Stack.Screen
         name="Wallet"
         component={WalletScreen}
-        options={{
-          headerShown: false,
-          title: '',
-          headerStyle: {},
-
-          headerTitleStyle: {
-            fontSize: 20,
-            fontWeight: '300',
-          },
-          headerShadowVisible: false,
-        }}
+        options={() => optionsHandler({ title: 'Wallet', headerShown: true })}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={SettingScreen}
+        options={{ title: 'Settings' }}
       />
       <Stack.Screen
         name="ErrandUserDetails"
@@ -135,11 +207,7 @@ export function RootNavigator() {
         component={LoginScreen}
         options={{ title: 'Login' }}
       />
-      <Stack.Screen
-        name="Settings"
-        component={SettingScreen}
-        options={{ title: 'Settings' }}
-      />
+
       <Stack.Screen
         name="SecurityQuestions"
         component={SecurityQuestion}
@@ -202,7 +270,10 @@ export function RootNavigator() {
       <Stack.Screen
         name="CategoryInterest"
         component={CategoryInterest}
-        options={{ title: 'Category Interest', presentation: 'fullScreenModal' }}
+        options={{
+          title: 'Category Interest',
+          presentation: 'fullScreenModal',
+        }}
       />
 
       <Stack.Screen
@@ -258,8 +329,18 @@ export function RootNavigator() {
       />
 
       <Stack.Screen
-        name="Contact Us"
+        name="Contact"
         component={ContactUs}
+        options={{
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+
+      <Stack.Screen
+        name="Profile"
+        component={AccountScreen}
         options={{
           headerStyle: {
             backgroundColor: '#F8F9FC',

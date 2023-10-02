@@ -1,9 +1,4 @@
-import {
-  Entypo,
-  EvilIcons,
-  FontAwesome,
-  MaterialIcons,
-} from '@expo/vector-icons'
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   SafeAreaView,
@@ -12,12 +7,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import {
-  Menu,
-  MenuOption,
-  MenuOptions,
-  MenuTrigger,
-} from 'react-native-popup-menu'
 import { useSelector } from 'react-redux'
 import EscrowDetails from '../../components/Transactions/EscrowDetails'
 import TransactionDetails from '../../components/Transactions/TransactionDetails'
@@ -86,64 +75,70 @@ const WalletScreen = ({ navigation }: any) => {
     getTransactions()
   }, [])
 
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerShown: true,
+  //     title: 'Wallet',
+  //     headerStyle: { backgroundColor: '#F8F9FC' },
+  //     headerLeft: () => (
+  //       <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
+  //         <EvilIcons name="navicon" size={24} color="black" />
+  //       </View>
+  //     ),
+  //     headerRight: () => (
+  //       <View className="flex-row items-center justify-between mx-3 px-3 py-3 space-x-3 ">
+  //         <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
+  //           <MenuTrigger>
+  //             <Entypo name="dots-three-vertical" color={'black'} size={20} />
+  //           </MenuTrigger>
+  //           <MenuOptions
+  //             customStyles={{
+  //               optionWrapper: {
+  //                 // borderBottomWidth: 0.2,
+  //                 borderBottomColor: '#AAAAAA',
+  //               },
+  //               optionText: { textAlign: 'center', fontWeight: '600' },
+  //             }}
+  //           >
+  //             <MenuOption
+  //               onSelect={() => navigation.navigate('Settings')}
+  //               text="Settings"
+  //               customStyles={{
+  //                 optionWrapper: {
+  //                   borderBottomWidth: 1,
+  //                   borderBottomColor: '#AAAAAA',
+  //                 },
+  //                 optionText: { textAlign: 'center', fontWeight: '600' },
+  //               }}
+  //             />
+  //             <MenuOption
+  //               onSelect={() => navigation.navigate('Account')}
+  //               text="Profile"
+  //               customStyles={{
+  //                 optionWrapper: {
+  //                   borderBottomWidth: 1,
+  //                   borderBottomColor: '#AAAAAA',
+  //                 },
+  //                 optionText: { textAlign: 'center', fontWeight: '600' },
+  //               }}
+  //             />
+  //             <MenuOption
+  //               onSelect={() => navigation.navigate('Contact Us')}
+  //               text="Contact Us"
+  //               customStyles={{
+  //                 optionText: { textAlign: 'center', fontWeight: '600' },
+  //               }}
+  //             />
+  //           </MenuOptions>
+  //         </Menu>
+  //       </View>
+  //     ),
+  //   })
+  // }, [])
+
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerShown: true,
       title: 'Wallet',
-      headerStyle: { backgroundColor: '#F8F9FC' },
-      headerLeft: () => (
-        <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
-          <EvilIcons name="navicon" size={24} color="black" />
-        </View>
-      ),
-      headerRight: () => (
-        <View className="flex-row items-center justify-between mx-3 px-3 py-3 space-x-3 ">
-          <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
-            <MenuTrigger>
-              <Entypo name="dots-three-vertical" color={'black'} size={20} />
-            </MenuTrigger>
-            <MenuOptions
-              customStyles={{
-                optionWrapper: {
-                  // borderBottomWidth: 0.2,
-                  borderBottomColor: '#AAAAAA',
-                },
-                optionText: { textAlign: 'center', fontWeight: '600' },
-              }}
-            >
-              <MenuOption
-                onSelect={() => navigation.navigate('Settings')}
-                text="Settings"
-                customStyles={{
-                  optionWrapper: {
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#AAAAAA',
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-              <MenuOption
-                onSelect={() => navigation.navigate('Account')}
-                text="Profile"
-                customStyles={{
-                  optionWrapper: {
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#AAAAAA',
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-              <MenuOption
-                onSelect={() => navigation.navigate('Contact Us')}
-                text="Contact Us"
-                customStyles={{
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-            </MenuOptions>
-          </Menu>
-        </View>
-      ),
     })
   }, [])
 

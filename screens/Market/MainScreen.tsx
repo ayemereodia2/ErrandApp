@@ -2,7 +2,7 @@ import {
   AbrilFatface_400Regular,
   useFonts,
 } from '@expo-google-fonts/abril-fatface'
-import { Entypo, EvilIcons, Ionicons, MaterialIcons } from '@expo/vector-icons'
+import { EvilIcons, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 // import { ScrollView } from 'native-base'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
@@ -16,16 +16,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import {
-  Menu,
-  MenuOption,
-  MenuOptions,
-  MenuTrigger,
-} from 'react-native-popup-menu'
 import { useSelector } from 'react-redux'
-import ErrandComp from '../../components/ErrandComponent'
+import ErrandComp, { ListErrandComp } from '../../components/ErrandComponent'
 import Filter from '../../components/Filter/Filter'
-import { ProfileInitials } from '../../components/ProfileInitials'
 import { errandMarketList } from '../../services/errands/market'
 import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -46,6 +39,11 @@ export default function MainScreen({ navigation }: any) {
   const [high, setHigh] = useState(0)
   const [minCheck, setMinCheck] = useState(false)
   const [refreshing, setRefreshing] = React.useState(false)
+  const [toggleView, setToggleView] = useState(true)
+
+  const handleViewChange = () => {
+    setToggleView(!toggleView)
+  }
 
   // const { data } = useSelector((state: RootState) => state.userDetailsReducer)
   const [filterOn, setFilterOn] = useState(false)
@@ -98,83 +96,6 @@ export default function MainScreen({ navigation }: any) {
   let [fontsLoaded] = useFonts({
     AbrilFatface_400Regular,
   })
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      title: 'Errand Market',
-      headerStyle: { backgroundColor: '#F8F9FC' },
-      headerLeft: () => (
-        <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
-          <ProfileInitials
-            firstName={firstName.charAt(0).toUpperCase()}
-            lastName={lastName.charAt(0).toUpperCase()}
-            profile_pic={profilePic}
-            textClass="text-white text-base"
-            width={40}
-            height={40}
-          />
-        </View>
-      ),
-      headerRight: () => (
-        <View className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-5 ">
-          <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
-            <MaterialIcons name="notifications" color={'black'} size={24} />
-          </TouchableOpacity>
-          <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
-            <MenuTrigger>
-              <Entypo name="dots-three-vertical" color={'black'} size={22} />
-            </MenuTrigger>
-            <MenuOptions
-              customStyles={{
-                optionWrapper: {
-                  // borderBottomWidth: 0.2,
-                  marginTop: 10,
-                  borderBottomColor: '#AAAAAA',
-                },
-                optionText: { textAlign: 'center', fontWeight: '600' },
-              }}
-            >
-              <MenuOption
-                onSelect={() => navigation.navigate('Settings')}
-                text="Settings"
-                customStyles={{
-                  optionWrapper: {
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#AAAAAA',
-                    paddingVertical: 6,
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-              <MenuOption
-                onSelect={() => navigation.navigate('Account')}
-                text="Profile"
-                customStyles={{
-                  optionWrapper: {
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#AAAAAA',
-                    paddingVertical: 6,
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-              <MenuOption
-                onSelect={() => navigation.navigate('Contact Us')}
-                text="Contact Us"
-                customStyles={{
-                  optionWrapper: {
-                    paddingVertical: 6,
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-            </MenuOptions>
-          </Menu>
-        </View>
-      ),
-    })
-  }, [filterOn])
 
   if (!fontsLoaded) {
     return (
@@ -231,10 +152,29 @@ export default function MainScreen({ navigation }: any) {
                       color="#808080"
                     />
                     <TextInput
-                      className=" w-9/12"
+                      className=" w-8/12"
                       placeholder="Search for Errands"
                       placeholderTextColor="#808080"
                     />
+                    <TouchableOpacity onPress={handleViewChange}>
+                      <View className="mr-1 b rounded-md w-[38px]">
+                        <Text className="p-2 text-center">
+                          {toggleView ? (
+                            <MaterialCommunityIcons
+                              name="view-list"
+                              size={20}
+                              color="black"
+                            />
+                          ) : (
+                            <MaterialCommunityIcons
+                              name="view-dashboard"
+                              size={20}
+                              color="black"
+                            />
+                          )}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={handleFilter}>
                       <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
                         <Text className="p-2 text-center">
@@ -250,11 +190,21 @@ export default function MainScreen({ navigation }: any) {
 
                   {errands?.map((errand: MarketData, index: number) => {
                     return (
-                      <ErrandComp
-                        errand={errand}
-                        navigate={navigation}
-                        key={index}
-                      />
+                      <>
+                        {toggleView ? (
+                          <ErrandComp
+                            errand={errand}
+                            navigate={navigation}
+                            key={index}
+                          />
+                        ) : (
+                          <ListErrandComp
+                            errand={errand}
+                            navigate={navigation}
+                            key={index}
+                          />
+                        )}
+                      </>
                     )
                   })}
                 </View>

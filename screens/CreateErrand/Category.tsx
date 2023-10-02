@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, FlatList, Text, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { ActivityIndicator, ScrollView, FlatList, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import CategoryBox from '../../components/CategoryBox'
 // import { categoriesList } from '../../services/PostErrand/categories'
