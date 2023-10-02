@@ -12,6 +12,8 @@ import VerifyOtpScreen from '../screens/Auth/VerifyOtp'
 import VerifyPhone from '../screens/Auth/VerifyPhone'
 import ContactUs from '../screens/Contact/ContactUs'
 import PostErrand from '../screens/CreateErrand'
+import GuestDetails from '../screens/Guest/GuestDetails'
+import GuestScreen from '../screens/Guest/GuestScreen'
 import ErrandDetails from '../screens/Market/ErrandDetails'
 import MainScreen from '../screens/Market/MainScreen'
 import AbandonErrandModal from '../screens/Modal/AbandonErrandModal'
@@ -20,6 +22,7 @@ import CompleteErrandModal from '../screens/Modal/CompleteErrandModal'
 import ErrandScreen from '../screens/MyErrands'
 import ErrandUserDetails from '../screens/MyErrands/ErrandUserDetails'
 import MyErrandInfo from '../screens/MyErrands/MyErrandInfo'
+import OnboardingUi from '../screens/Onboarding/OnboardingUi'
 import CategoryInterest from '../screens/Setting/AddCategory'
 import SettingScreen from '../screens/Setting/SettingScreen'
 import WalletScreen from '../screens/Wallets'
@@ -31,10 +34,83 @@ import { TabsNavigation } from './TabsNavigation'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
+export function GuestStack() {
+  return (
+    <>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen
+          name="Onboarding"
+          component={OnboardingUi}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="GuestScreen"
+          component={GuestScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="GuestDetails"
+          component={GuestDetails}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="SecurityQuestions" component={SecurityQuestion} />
+        <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
+        <Stack.Screen
+          name="RecoverPassword"
+          component={RecoverPasswordScreen}
+        />
+        <Stack.Screen name="RecoverAccount" component={AccountRecoveryScreen} />
+        <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
+        <Stack.Screen
+          name="Profile"
+          component={AccountScreen}
+          options={{
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: '#F8F9FC',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="VerifyPhone"
+          component={VerifyPhone}
+          options={{ title: 'Verify Phone' }}
+        />
+        <Stack.Screen
+          name="Contact"
+          component={ContactUs}
+          options={{
+            headerStyle: {
+              backgroundColor: '#F8F9FC',
+            },
+          }}
+        />
+        <Stack.Screen name="Tabs" component={TabsNavigation} />
+      </Stack.Navigator>
+    </>
+  )
+}
+
 export const MainStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Home" component={HomeScreen} />
+      {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+      <Stack.Screen
+        name="GuestScreen"
+        component={GuestScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="GuestDetails"
+        component={GuestDetails}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SecurityQuestions" component={SecurityQuestion} />
       <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
