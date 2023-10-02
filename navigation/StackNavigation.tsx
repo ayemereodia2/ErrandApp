@@ -47,7 +47,7 @@ export const MainStack = () => {
         options={{
           headerStyle: {
             backgroundColor: '#F8F9FC',
-          },
+          },m
         }}
       />
 
