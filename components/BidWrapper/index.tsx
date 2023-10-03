@@ -1,5 +1,5 @@
-import { BottomSheetModal } from '@gorhom/bottom-sheet'
-import React, { useRef } from 'react'
+import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet'
+import React, { useCallback, useRef } from 'react'
 import {
   ActivityIndicator,
   SafeAreaView,
@@ -53,6 +53,25 @@ const BidWrapper = ({
       ? RejectErrandRef.current?.present()
       : RejectErrandRef.current?.dismiss()
   }
+
+  const renderBackdrop = useCallback(
+    (props) => (
+      <BottomSheetBackdrop
+        pressBehavior={'collapse'}
+        opacity={0.7}
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        onPress={() => {
+          toggleAcceptModal(false)
+          toggleBeginErrandModal(false)
+          toggleRejectErrandModal(false)
+        }}
+        // onChange={handleSheetChanges}
+      />
+    ),
+    [],
+  )
 
   let lastHaggle: Haggles = {
     id: '',
@@ -118,7 +137,9 @@ const BidWrapper = ({
       ) : (
         <ScrollView scrollEventThrottle={16}>
           {errand?.bids.length === 0 && (
-            <Text className='text-center pt-4 font-bold'>No Bids has been attached to the errand selected.</Text>
+            <Text className="text-center pt-4 font-bold">
+              No Bids has been attached to the errand selected.
+            </Text>
           )}
 
           {userId === errand.user_id && errand.status === 'open' && (
@@ -232,6 +253,7 @@ const BidWrapper = ({
             ref={beginErrandRef}
             index={0}
             snapPoints={acceptPoints}
+            backdropComponent={renderBackdrop}
           >
             <BeginErrandModal
               toggleSuccessDialogue={toggleSuccessDialogue}
@@ -247,6 +269,7 @@ const BidWrapper = ({
             ref={RejectErrandRef}
             index={0}
             snapPoints={['50%']}
+            backdropComponent={renderBackdrop}
           >
             <RejectErrandModal
               toggleSuccessDialogue={toggleSuccessDialogue}

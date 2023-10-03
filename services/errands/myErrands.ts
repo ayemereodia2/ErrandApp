@@ -18,15 +18,7 @@ export const myErrandList = createAsyncThunk<ErrandMarketResponse, Props, { reje
             })
 
           const rs = await _rs.json()
-
-          // console.log(">>>>>rs----", rs);
-          
-
-          // console.log(">>>>errands", rs.data);
-          
-
-            
-              return rs
+          return rs
             
         } catch (err) {
             if (err instanceof AxiosError) {

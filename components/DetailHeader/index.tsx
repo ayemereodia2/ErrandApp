@@ -18,7 +18,7 @@ export const DetailHeader = ({
     (user_id === errand?.user_id && errand?.status === 'open') ||
     (user_id === errand?.user_id && errand?.status === 'pending')
   ) {
-    return manageErrandClicked ? 'Errands TimeLine' : 'Bids on your Errand'
+    return manageErrandClicked ?  'Errands TimeLine' : 'Bids on your Errand'
   }
   if (
     // for the runner

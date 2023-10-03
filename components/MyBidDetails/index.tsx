@@ -1,5 +1,5 @@
-import { BottomSheetModal } from '@gorhom/bottom-sheet'
-import React, { useEffect, useRef, useState } from 'react'
+import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
@@ -50,23 +50,24 @@ const ErrandBid = ({
     setIsHidden(!isHidden)
   }
 
-  const handleBidNavigation = () => {
-    navigation.navigate('Bids')
-  }
-
-  const handleErrandDetailsNavigation = () => {
-    navigation.navigate('ErrandsAndBids')
-  }
-
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false)
-
-  const handleKeyboardWillShow = () => {
-    setIsKeyboardVisible(true)
-  }
-
-  const handleKeyboardWillHide = () => {
-    setIsKeyboardVisible(false)
-  }
+  const renderBackdrop = useCallback(
+    (props) => (
+      <BottomSheetBackdrop
+        pressBehavior={'collapse'}
+        opacity={0.7}
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        onPress={() => {
+          toggleAcceptModal(false)
+          toggleRejectModal(false)
+          toggleNegotiateModal(false)
+        }}
+        // onChange={handleSheetChanges}
+      />
+    ),
+    [],
+  )
 
   // useEffect(() => {
   //   const keyboardWillShowListener = Keyboard.addListener(
@@ -261,7 +262,12 @@ const ErrandBid = ({
           </>
         )}
 
-        <BottomSheetModal ref={negotiateRef} index={0} snapPoints={['60%']}>
+        <BottomSheetModal
+          backdropComponent={renderBackdrop}
+          ref={negotiateRef}
+          index={0}
+          snapPoints={['60%']}
+        >
           <NegotiateBid
             bid={bid}
             errand={errand}
@@ -273,7 +279,9 @@ const ErrandBid = ({
           />
         </BottomSheetModal>
 
-        <BottomSheetModal ref={rejectRef} index={0} snapPoints={['40%']}>
+        <BottomSheetModal
+          backdropComponent={renderBackdrop}
+          ref={rejectRef} index={0} snapPoints={['40%']}>
           <RejectBid
             toggleSuccessDialogue={toggleSuccessDialogue}
             toggleRejectModal={toggleRejectModal}
@@ -288,6 +296,7 @@ const ErrandBid = ({
           ref={acceptBidRef}
           index={0}
           snapPoints={acceptPoints}
+          backdropComponent={renderBackdrop}
         >
           <AcceptBid
             toggleSuccessDialogue={toggleSuccessDialogue}

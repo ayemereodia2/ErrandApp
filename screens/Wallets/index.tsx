@@ -7,6 +7,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import {
+  Menu,
+  MenuOption,
+  MenuOptions,
+  MenuTrigger,
+} from 'react-native-popup-menu'
 import { useSelector } from 'react-redux'
 import EscrowDetails from '../../components/Transactions/EscrowDetails'
 import TransactionDetails from '../../components/Transactions/TransactionDetails'
@@ -75,67 +81,6 @@ const WalletScreen = ({ navigation }: any) => {
     getTransactions()
   }, [])
 
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerShown: true,
-  //     title: 'Wallet',
-  //     headerStyle: { backgroundColor: '#F8F9FC' },
-  //     headerLeft: () => (
-  //       <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
-  //         <EvilIcons name="navicon" size={24} color="black" />
-  //       </View>
-  //     ),
-  //     headerRight: () => (
-  //       <View className="flex-row items-center justify-between mx-3 px-3 py-3 space-x-3 ">
-  //         <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
-  //           <MenuTrigger>
-  //             <Entypo name="dots-three-vertical" color={'black'} size={20} />
-  //           </MenuTrigger>
-  //           <MenuOptions
-  //             customStyles={{
-  //               optionWrapper: {
-  //                 // borderBottomWidth: 0.2,
-  //                 borderBottomColor: '#AAAAAA',
-  //               },
-  //               optionText: { textAlign: 'center', fontWeight: '600' },
-  //             }}
-  //           >
-  //             <MenuOption
-  //               onSelect={() => navigation.navigate('Settings')}
-  //               text="Settings"
-  //               customStyles={{
-  //                 optionWrapper: {
-  //                   borderBottomWidth: 1,
-  //                   borderBottomColor: '#AAAAAA',
-  //                 },
-  //                 optionText: { textAlign: 'center', fontWeight: '600' },
-  //               }}
-  //             />
-  //             <MenuOption
-  //               onSelect={() => navigation.navigate('Account')}
-  //               text="Profile"
-  //               customStyles={{
-  //                 optionWrapper: {
-  //                   borderBottomWidth: 1,
-  //                   borderBottomColor: '#AAAAAA',
-  //                 },
-  //                 optionText: { textAlign: 'center', fontWeight: '600' },
-  //               }}
-  //             />
-  //             <MenuOption
-  //               onSelect={() => navigation.navigate('Contact Us')}
-  //               text="Contact Us"
-  //               customStyles={{
-  //                 optionText: { textAlign: 'center', fontWeight: '600' },
-  //               }}
-  //             />
-  //           </MenuOptions>
-  //         </Menu>
-  //       </View>
-  //     ),
-  //   })
-  // }, [])
-
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'Wallet',
@@ -151,26 +96,103 @@ const WalletScreen = ({ navigation }: any) => {
         <View className="flex-row items-center justify-between bg-[#F8F9FC] px-4 mt-2">
           <Text className="font-medium text-xl leading-[29px]">Overview</Text>
 
-          <TouchableOpacity
-            className="bg-[#3F60AC] w-[131px] items-center p-2 rounded-md"
-            onPress={handleQuickLinks}
+          <Menu
+            style={{
+              shadowColor: 'none',
+              shadowOpacity: 0,
+              borderRadius: 30,
+             
+            }}
           >
-            <View className="flex-row items-center justify-center">
-              <Text className="text-white text-center">Quick Links </Text>
-              <Text>
-                <MaterialIcons
-                  name="keyboard-arrow-down"
-                  size={24}
-                  color="white"
-                />
-              </Text>
-            </View>
-          </TouchableOpacity>
+            <MenuTrigger>
+              <View
+                className="bg-[#3F60AC] w-[131px] items-center p-2 rounded-md"
+                // onPress={handleQuickLinks}
+              >
+                <View className="flex-row items-center justify-center">
+                  <Text className=" text-center text-white">Quick Links </Text>
+                  <Text>
+                    <MaterialIcons
+                      name="keyboard-arrow-down"
+                      size={24}
+                      color="white"
+                    />
+                  </Text>
+                </View>
+              </View>
+            </MenuTrigger>
+            <MenuOptions
+              customStyles={{
+                optionWrapper: {
+                  marginTop: 20,
+                },
+                optionText: { textAlign: 'center', fontWeight: '600' },
+              }}
+            >
+              <MenuOption
+                onSelect={() => {}}
+                text="Generate Account Statement"
+                customStyles={{
+                  optionWrapper: {
+                    paddingVertical: 6,
+                  },
+                  optionText: {
+                    fontSize: 14,
+                    textAlign: 'center',
+                    fontWeight: '300',
+                  },
+                }}
+              />
+              <MenuOption
+                onSelect={() => {}}
+                text="View Withdrawal Requests"
+                customStyles={{
+                  optionWrapper: {
+                    paddingVertical: 6,
+                  },
+                  optionText: {
+                    fontSize: 14,
+                    textAlign: 'center',
+                    fontWeight: '300',
+                  },
+                }}
+              />
+
+              <MenuOption
+                onSelect={() => {}}
+                text="Make Withdrawal Request"
+                customStyles={{
+                  optionWrapper: {
+                    paddingVertical: 6,
+                  },
+                  optionText: {
+                    fontSize: 14,
+                    textAlign: 'center',
+                    fontWeight: '300',
+                  },
+                }}
+              />
+              <MenuOption
+                onSelect={() => {}}
+                text="My Accounts"
+                customStyles={{
+                  optionWrapper: {
+                    paddingVertical: 6,
+                  },
+                  optionText: {
+                    fontSize: 14,
+                    textAlign: 'center',
+                    fontWeight: '300',
+                  },
+                }}
+              />
+            </MenuOptions>
+          </Menu>
         </View>
 
         <View className="relative ">
           {/* THE SECTION FOR THE DROPDOWN FOR QUICKLINKS */}
-          <View
+          {/* <View
             className="ml-44 bg-white justify-end items-center absolute top-2 left-1 z-10 shadow-xl"
             style={{ display: showQuickLinks ? 'flex' : 'none' }}
           >
@@ -185,12 +207,12 @@ const WalletScreen = ({ navigation }: any) => {
               <Text className="">Make Withdrawal Request</Text>
             </TouchableOpacity>
 
-            {/* <TouchableOpacity
+            <TouchableOpacity
               className="border-b border-b-[#E6E6E6] py-3 px-2"
               onPress={() => navigation.navigate('AccountStatement')}
             >
               <Text className="">View Withdrawal Requests</Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
 
             <TouchableOpacity
               className=" border-b-[#E6E6E6] py-3 px-2"
@@ -198,7 +220,7 @@ const WalletScreen = ({ navigation }: any) => {
             >
               <Text className="">My Accounts</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           <View className="px-4">
             <View className="w-full bg-[#FFF] border mt-3 border-[#DAE1F1] rounded-xl p-6 mx-auto z-1 ">

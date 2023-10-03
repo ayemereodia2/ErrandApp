@@ -160,7 +160,6 @@ const ErrandScreen = ({ navigation }: any) => {
                         placeholder="Search for Errands or Bids"
                         placeholderTextColor="#808080"
                       />
-
                       <Image
                         style={{
                           width: 30,

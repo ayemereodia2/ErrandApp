@@ -128,7 +128,7 @@ const SettingScreen = ({ navigation }: any) => {
   return (
     <SafeAreaView>
       <ScrollView className="bg-[#F8F9FC]">
-        <View className="mt-10 px-3">
+        <View className=" mt-6 px-4">
           <View className=" h-[88px] mt-1 border-b-[#CCCCCC] border-b-[1px]">
             <View className="flex-row justify-between items-center">
               <View className="flex-row space-x-4 ">

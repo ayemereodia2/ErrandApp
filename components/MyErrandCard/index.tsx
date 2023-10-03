@@ -16,14 +16,20 @@ interface MyErrandCard {
   user_id: string
 }
 
-const MyErrandCard = ({ errand, navigation, index, setSubErrand, user_id }: MyErrandCard) => {
+const MyErrandCard = ({
+  errand,
+  navigation,
+  index,
+  setSubErrand,
+  user_id,
+}: MyErrandCard) => {
   const dispatch = useAppDispatch()
 
   return (
     <TouchableOpacity
       onPress={() => {
         navigation.navigate('MyErrandDetails', {
-          bids: errand.bids
+          bids: errand.bids,
         })
         dispatch(errandDetails({ errandId: errand.id }))
         dispatch(userDetails({ user_id: errand.user_id }))
@@ -41,16 +47,23 @@ const MyErrandCard = ({ errand, navigation, index, setSubErrand, user_id }: MyEr
       <View className=" bg-white py-4 px-6 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]">
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center space-x-3">
-            {errand.errand_type === 1 ? (
+            {errand?.user?.profile_picture ? (
               <Image
-                source={require('../../assets/images/mulit.png')}
-                className="w-8 h-8 b rounded-full"
+                style={{
+                  width: 40,
+                  height: 40,
+                  resizeMode: 'contain',
+                  borderRadius: 20,
+                }}
+                alt="okay"
+                source={{ uri: errand?.user?.profile_picture }}
+                // source={require(errand.user.profile_picture)}
               />
             ) : (
-              <Image
-                source={require('../../assets/images/jagger.jpg')}
-                className="w-8 h-8 b rounded-full"
-              />
+              <Text className="uppercase text-lg items-center text-white">
+                {errand?.user?.first_name.charAt(0).toUpperCase()}
+                {errand?.user?.last_name.charAt(0).toUpperCase()}
+              </Text>
             )}
             <Text className="text-sm font-medium">
               {' '}
@@ -72,7 +85,6 @@ const MyErrandCard = ({ errand, navigation, index, setSubErrand, user_id }: MyEr
             {errand?.description?.substring(0, 80).concat('', '....')}
           </Text>
         </View>
-
 
         <View className="flex-row justify-between items-center mt-4">
           <View

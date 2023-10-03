@@ -7,7 +7,11 @@ import {
   MaterialIcons,
 } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { useNavigation, useRoute, getFocusedRouteNameFromRoute } from '@react-navigation/native'
+import {
+  getFocusedRouteNameFromRoute,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native'
 import React, { useEffect } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import {
@@ -44,7 +48,7 @@ interface OptionsProps {
 }
 
 const Tab = createBottomTabNavigator()
-export const TabsNavigation = ({navigation}: any) => {
+export const TabsNavigation = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
   const [firstName, setFirstName] = React.useState('')
   const [userId, setUserId] = React.useState('')
@@ -62,8 +66,8 @@ export const TabsNavigation = ({navigation}: any) => {
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => navigation.navigate('Profile')}
-          style={{ marginLeft: 12 }}
-          className="flex-row items-center justify-between my-3 "
+          style={{ marginLeft: 20 }}
+          className="flex-row items-center justify-between my-3 px-3 "
         >
           <ProfileInitials
             firstName={firstName.charAt(0).toUpperCase()}
@@ -77,7 +81,7 @@ export const TabsNavigation = ({navigation}: any) => {
       ),
       headerRight: () => (
         <View
-          style={{ display: 'flex', flexDirection: 'row', marginRight: 10 }}
+          style={{ display: 'flex', flexDirection: 'row', marginRight: 20 }}
           className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-5 "
         >
           <MaterialIcons
@@ -116,7 +120,6 @@ export const TabsNavigation = ({navigation}: any) => {
     }
   }
 
-
   const route = useRoute()
   const nav = useNavigation()
 
@@ -129,9 +132,7 @@ export const TabsNavigation = ({navigation}: any) => {
 
   return (
     <Tab.Navigator
-      
       screenOptions={{
-        
         tabBarShowLabel: false,
         tabBarStyle: {
           position: 'absolute',
@@ -187,7 +188,7 @@ export const TabsNavigation = ({navigation}: any) => {
         options={optionsHandler({
           title: 'Create Errand',
           headerShown: false,
-          
+
           tabBarIcon: ({ focused }: any) => (
             <View>
               <Ionicons

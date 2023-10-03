@@ -3,6 +3,7 @@ import {
   useFonts,
 } from '@expo-google-fonts/abril-fatface'
 import React, {
+  useCallback,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -18,6 +19,7 @@ import {
   MaterialIcons,
 } from '@expo/vector-icons'
 import {
+  BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
@@ -45,6 +47,7 @@ export default function ErrandDetails({ route, navigation }: any) {
   const snapPoints = useMemo(() => ['63%'], [])
   const [userId, setUserId] = useState('')
   const [showBidBtn, setShowBidBtn] = useState(true)
+  // const { snapToIndex, close } = useBottomSheet();
 
   function openPlaceBid() {
     bottomSheetRef.current?.present()
@@ -53,6 +56,21 @@ export default function ErrandDetails({ route, navigation }: any) {
   function closePlaceBid() {
     bottomSheetRef.current?.dismiss()
   }
+
+  const renderBackdrop = useCallback(
+    (props) => (
+      <BottomSheetBackdrop
+        pressBehavior={'collapse'}
+        opacity={0.7}
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        onPress={() => closePlaceBid()}
+        // onChange={handleSheetChanges}
+      />
+    ),
+    [],
+  )
 
   const { errand_id, user_id } = route.params
 
@@ -128,7 +146,7 @@ export default function ErrandDetails({ route, navigation }: any) {
             <TouchableNativeFeedback
               onPress={() => {
                 setShowBidBtn(true)
-                closePlaceBid()
+                // closePlaceBid()
               }}
             >
               <View>
@@ -324,6 +342,7 @@ export default function ErrandDetails({ route, navigation }: any) {
               index={0}
               snapPoints={snapPoints}
               containerStyle={{ marginHorizontal: 10 }}
+              backdropComponent={renderBackdrop}
             >
               <PlaceBidModal
                 owner={owner}
@@ -333,25 +352,21 @@ export default function ErrandDetails({ route, navigation }: any) {
             </BottomSheetModal>
           </ScrollView>
 
-          {showBidBtn && (
-            <>
-              {errand.user_id !== userId && errand?.status !== 'completed' ? (
-                <TouchableOpacity
-                  className="w-full h-[60px] absolute bottom-0 flex-row justify-center items-center bg-[#1E3A79]"
-                  onPress={() => {
-                    openPlaceBid()
-                    dispatch(userDetails({ user_id: userId }))
-                    setShowBidBtn(false)
-                  }}
-                >
-                  <Text className="text-white text-lg font-medium">
-                    Place Your Bid
-                  </Text>
-                </TouchableOpacity>
-              ) : (
-                ''
-              )}
-            </>
+          {errand.user_id !== userId && errand?.status !== 'completed' ? (
+            <TouchableOpacity
+              className="w-full h-[60px] absolute bottom-0 flex-row justify-center items-center bg-[#1E3A79]"
+              onPress={() => {
+                openPlaceBid()
+                dispatch(userDetails({ user_id: userId }))
+                setShowBidBtn(false)
+              }}
+            >
+              <Text className="text-white text-lg font-medium">
+                Place Your Bid
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            ''
           )}
         </SafeAreaView>
       </BottomSheetModalProvider>

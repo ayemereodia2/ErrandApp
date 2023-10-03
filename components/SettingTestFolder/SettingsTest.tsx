@@ -59,7 +59,7 @@ const SettingsTest = () => {
           </Text>
         </View>
 
-        <View className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
+        <View className=" h-[63px] ml-4 mt-5 border-b pb-2 border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
             <Text className="font-medium text-base">
               Newsletters and offers

@@ -38,11 +38,15 @@ const MessagesList = ({
               case 'image':
                 return (
                   <View>
-                    <Image
-                      source={{uri: update.message}}
-                      alt={update.message}
-                      className="w-[240px] h-[300px] object-cover"
-                    />
+                    {update.message ? (
+                      <Image
+                        source={{ uri: update.message }}
+                        alt={update.message}
+                        className="w-[240px] h-[300px] object-cover"
+                      />
+                    ) : (
+                      ''
+                    )}
                   </View>
                 )
               case 'audio':
@@ -185,7 +189,6 @@ const MessagesList = ({
             if (update.source === 'sender') {
               return sender
             }
-
             return runner
           }
 

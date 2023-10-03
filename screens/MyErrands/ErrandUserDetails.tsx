@@ -1,6 +1,6 @@
-import { Entypo } from '@expo/vector-icons'
+import { AntDesign, Entypo } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
-import { useWindowDimensions, View } from 'react-native'
+import { TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import {
   Menu,
   MenuOption,
@@ -31,7 +31,6 @@ const renderScene = ({ route }: any) => {
           singleSubErrand={route?.singleSubErrand}
           manageErrandClicked={route?.manageErrandClicked}
           bids={route?.bids}
-
         />
       )
     default:
@@ -42,18 +41,31 @@ const renderScene = ({ route }: any) => {
 const ErrandUserDetails = ({ navigation, route }: any) => {
   // const navigation = useNavigation()
 
-  const { errand, userId, singleSubErrand, manageErrandClicked, bids } = route.params;
+  const {
+    errand,
+    userId,
+    singleSubErrand,
+    manageErrandClicked,
+    bids,
+  } = route.params
 
   // console.log(">>>>>errand.user", errand.bids[0].runner);
-  
 
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
       headerStyle: { backgroundColor: '#F8F9FC' },
       title: 'Errand Details',
+      headerLeft: () => (
+        <TouchableOpacity
+          className="flex-row items-center justify-between mx-0 py-3 pr-8"
+          onPress={() => navigation.goBack()}
+        >
+          <AntDesign name="arrowleft" size={24} color="black" />
+        </TouchableOpacity>
+      ),
       headerRight: () => (
-        <View className="pr-3">
+        <View className="pr-2">
           <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
             <MenuTrigger>
               <Entypo name="dots-three-vertical" color={'black'} size={16} />
@@ -190,7 +202,7 @@ const ErrandUserDetails = ({ navigation, route }: any) => {
       userId,
       singleSubErrand,
       manageErrandClicked,
-      bids
+      bids,
     },
     {
       key: 'second',
@@ -199,7 +211,7 @@ const ErrandUserDetails = ({ navigation, route }: any) => {
       userId,
       singleSubErrand,
       manageErrandClicked,
-      bids
+      bids,
     },
   ])
 

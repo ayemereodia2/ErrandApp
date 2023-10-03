@@ -109,7 +109,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
         manageErrandClicked: false,
       }),
       headerLeft: () => (
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity className='pr-8' onPress={() => navigation.goBack()}>
           <AntDesign name="arrowleft" size={24} color="#243763" />
         </TouchableOpacity>
       ),
@@ -143,10 +143,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                     }}
                     text="Completed Errand"
                     customStyles={{
-                      optionWrapper: {
-                        borderBottomWidth: 1,
-                        borderBottomColor: '#AAAAAA',
-                      },
+                      optionWrapper: {},
                       optionText: { textAlign: 'center', fontWeight: '600' },
                     }}
                   />
@@ -172,7 +169,8 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                     }}
                   />
                 )}
-                {errand.errand_type !== 1 && (
+
+                {errand.status === 'completed' && (
                   <MenuOption
                     onSelect={() =>
                       navigation.navigate('ErrandUserDetails', {
@@ -186,43 +184,54 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                     text="Details"
                     customStyles={{
                       optionWrapper: {
-                        borderBottomWidth: 1,
-                        borderBottomColor: '#AAAAAA',
+                        paddingVertical: 2,
                       },
-                      optionText: { textAlign: 'center', fontWeight: '600' },
+                      optionText: {
+                        fontSize: 14,
+                        textAlign: 'center',
+                        fontWeight: '300',
+                      },
                     }}
                   />
                 )}
-                {errand.status === 'completed' ||
-                  errand.status === 'cancelled' ||
-                  (errand.status === 'active' && (
-                    <MenuOption
-                      onSelect={() =>
-                        navigation.navigate('ErrandUserDetails', {
-                          errand,
-                          userId,
-                          singleSubErrand,
-                          manageErrandClicked,
-                          bids,
-                        })
-                      }
-                      text="Details"
-                      customStyles={{
-                        optionWrapper: {
-                          borderBottomWidth: 1,
-                          borderBottomColor: '#AAAAAA',
-                        },
-                        optionText: { textAlign: 'center', fontWeight: '600' },
-                      }}
-                    />
-                  ))}
-                <MenuOption
+                {errand.status === 'cancelled' && (
+                  <MenuOption
+                    onSelect={() =>
+                      navigation.navigate('ErrandUserDetails', {
+                        errand,
+                        userId,
+                        singleSubErrand,
+                        manageErrandClicked,
+                        bids,
+                      })
+                    }
+                    text="Details"
+                    customStyles={{
+                      optionWrapper: {
+                        paddingVertical: 2,
+                      },
+                      optionText: {
+                        fontSize: 14,
+                        textAlign: 'center',
+                        fontWeight: '300',
+                      },
+                    }}
+                  />
+                )}
+                {/* <MenuOption
                   onSelect={() => {}}
                   text="Refresh"
                   customStyles={{
-                    optionText: { textAlign: 'center', fontWeight: '600' },
-                  }}
-                />
+                        optionWrapper: {
+                          paddingVertical: 2,
+                        },
+                        optionText: {
+                          fontSize: 14,
+                          textAlign: 'center',
+                          fontWeight: '300',
+                        },
+                      }}
+                /> */}
               </MenuOptions>
             </Menu>
           </TouchableOpacity>

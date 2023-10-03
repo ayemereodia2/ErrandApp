@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -7,12 +7,16 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { Paystack, paystackProps } from 'react-native-paystack-webview'
+// import { Paystack, paystackProps } from 'react-native-paystack-webview'
 // import PaystackWebView from 'react-native-paystack-webview'
+import { AntDesign } from '@expo/vector-icons'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import Modal from 'react-native-modal'
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../../../services/store'
 import { currencyMask, parseAmount } from '../../../utils/helper'
+import { PayStackRef } from '../../../types'
+import Paystack from '../../Paystack'
 
 interface FundWalletProp {
   toggleFundWalletModal: (open: boolean) => void
@@ -26,12 +30,16 @@ const FundWalletModal = ({ navigation }: any) => {
   const [paid, setPaid] = useState(false)
   const [fundWalletLoader, setFundWalletLoader] = useState(false)
   const [walletFundedSuccess, setWalletFundedSuccess] = useState(false)
+  const [userId, setUserId] = useState('')
 
-  const paystackWebViewRef = useRef<paystackProps.PayStackRef>()
+  const paystackWebViewRef = useRef<PayStackRef>()
   const { loading } = useSelector((state: RootState) => state.postBidReducer)
   const { loading: walletBalanceLoading, success: walletSuccess } = useSelector(
     (state: RootState) => state.walletActionReducer,
   )
+
+  console.log(">>>>>>>hello", walletSuccess, userId);
+  
 
   // const handlePlaceBid = () => {
   //   if (!amount) {
@@ -57,12 +65,37 @@ const FundWalletModal = ({ navigation }: any) => {
 
   // console.log('>>>>>walletSuccs', walletSuccess)
 
+  const getUserId = async () => {
+    const userId = (await AsyncStorage.getItem('user_id')) || ''
+    setUserId(userId)
+  }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      title: 'Fund Your Wallet',
+      headerStyle: { backgroundColor: '#F8F9FC' },
+      headerLeft: () => (
+        <TouchableOpacity
+          className="flex-row items-center justify-between mx-0 py-3"
+          onPress={() => navigation.goBack()}
+        >
+          <AntDesign name="arrowleft" size={24} color="black" />
+        </TouchableOpacity>
+      ),
+    })
+  }, [])
+
   useEffect(() => {
     if (paid && walletSuccess) {
       setFundWalletLoader(false)
       setWalletFundedSuccess(true)
     }
   }, [walletSuccess])
+
+  useEffect(() => {
+    getUserId()
+  }, [])
 
   return (
     <>
@@ -143,14 +176,6 @@ const FundWalletModal = ({ navigation }: any) => {
               </Text>
             </TouchableOpacity>
           </View>
-          <View className="flex-row justify-center items-center">
-            <TouchableOpacity
-              className=" border-red-400 border-[1px] h-12 w-4/6 mt-6 flex-row justify-center items-center rounded-lg"
-              onPress={() => navigation.goBack()}
-            >
-              <Text className="text-red-500 text-base">Go back</Text>
-            </TouchableOpacity>
-          </View>
         </View>
       )}
 
@@ -158,17 +183,17 @@ const FundWalletModal = ({ navigation }: any) => {
       <View style={{ flex: 1 }}>
         <Paystack
           paystackKey="pk_test_0ea2496d44ff8e00a98762e85ab92a1639d7307e"
-          billingEmail="paystackwebview@something.com"
-          billingMobile={"090644788883"}
+          billingEmail={"pearlthelma299@gmail.com"}
+          phone={'090644788883'}
           amount={parseAmount(amount.toString())}
-          firstName=""
+          userId={userId}
           onCancel={(e: any) => {
             navigation.goBack()
           }}
           onSuccess={(res: any) => {
             const responseObject = res['transactionRef']['message']
-            console.log(">>>>respnse", responseObject);
-            
+            console.log('>>>>respnse', responseObject)
+
             // setPaid(true)
             // dispatch(walletAction({ type: 'wallet' }))
             // setFundWalletLoader(true)

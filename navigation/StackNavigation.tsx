@@ -4,7 +4,6 @@ import FundWalletModal from '../components/Modals/Errands/FundWallet'
 import AccountScreen from '../screens/Accounts'
 import AccountRecoveryScreen from '../screens/Auth/AccountRecovery'
 import CreateAccountScreen from '../screens/Auth/CreateAccountScreen'
-import HomeScreen from '../screens/Auth/HomeScreen'
 import LoginScreen from '../screens/Auth/LoginScreen'
 import RecoverPasswordScreen from '../screens/Auth/RecoverPassword'
 import SecurityQuestion from '../screens/Auth/SecurityQuestionScreen'
@@ -127,6 +126,8 @@ export const MainStack = () => {
         }}
       />
 
+      <Stack.Screen name="ErrandUserDetails" component={ErrandUserDetails} />
+
       <Stack.Screen
         options={{ headerShown: false }}
         name="ErrandDetails"
@@ -171,11 +172,6 @@ export const MyErrandStack = () => {
         component={CompleteErrandModal}
         options={{ title: 'Modal', presentation: 'fullScreenModal' }}
       />
-      <Stack.Screen
-        name="FundWalletModal"
-        component={FundWalletModal}
-        options={{ title: 'Fund Your Wallet', presentation: 'fullScreenModal' }}
-      />
 
       <Stack.Screen
         name="CancelErrandModal"
@@ -196,7 +192,7 @@ export const MarketStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Market" component={MainScreen} />
-      <Stack.Screen name="ErrandUserDetails" component={ErrandUserDetails} />
+      {/* <Stack.Screen name="ErrandUserDetails" component={ErrandUserDetails} /> */}
     </Stack.Navigator>
   )
 }
@@ -221,6 +217,12 @@ export const WalletStack = () => {
         name="WalletAccount"
         component={WalletAccount}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="FundWalletModal"
+        component={FundWalletModal}
+      
+        options={{ title: 'Fund Your Wallet', presentation: 'fullScreenModal', headerShown: true }}
       />
     </Stack.Navigator>
   )
