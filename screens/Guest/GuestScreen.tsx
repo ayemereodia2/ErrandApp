@@ -2,9 +2,9 @@ import {
   AbrilFatface_400Regular,
   useFonts,
 } from '@expo-google-fonts/abril-fatface'
-import { EvilIcons, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { Entypo, EvilIcons, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 // import { ScrollView } from 'native-base'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
   RefreshControl,
@@ -24,6 +24,10 @@ import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
 import { getUserId } from '../../utils/helper'
+import { ProfileInitials } from '../../components/ProfileInitials'
+import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu'
+import { myErrandList } from '../../services/errands/myErrands'
+import { Image } from 'react-native'
 
 export default function GuestScreen({ navigation }: any) {
   // const navigation = useNavigation()
@@ -94,6 +98,77 @@ export default function GuestScreen({ navigation }: any) {
     AbrilFatface_400Regular,
   })
 
+
+   useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      title: 'Market',
+      headerStyle: { backgroundColor: '#F8F9FC' },
+      headerLeft: () => (
+        <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
+          {/* <TouchableOpacity
+            onPress={() => navigation.openDrawer()}
+            className="flex-row items-center mb-2"
+          > */}
+            {/* <ProfileInitials
+              firstName={firstName.charAt(0).toUpperCase()}
+              lastName={lastName.charAt(0).toUpperCase()}
+              profile_pic={profilePic}
+              textClass="text-white text-base"
+              width={40}
+              height={40}
+            /> */}
+            <Image 
+            source={require('../../assets/images/logo.png')}
+            className='w-10 h-10 rounded-full bg-blue-100 justify-center mb-1'
+            style={{resizeMode: 'cover'}}
+            />
+            {/* <Entypo name="menu" size={24} /> */}
+          {/* </TouchableOpacity> */}
+        </View>
+      ),
+      headerRight: () => (
+        <View className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-3 ">
+         
+          <TouchableOpacity onPress={() => {}}>
+            <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
+              <MenuTrigger>
+                <Entypo name="dots-three-vertical" color={'black'} size={16} />
+              </MenuTrigger>
+              <MenuOptions
+                customStyles={{
+                  optionsContainer: {
+                    padding: 4,
+                    width: 100,
+                    marginTop: 20,
+                  },
+                }}
+              >
+                <MenuOption
+                  onSelect={() => dispatch(myErrandList({}))}
+                  text="Refresh"
+                  customStyles={{
+                    optionText: { textAlign: 'center', fontWeight: '600' },
+                  }}
+                />
+
+              <MenuOption
+                 
+                  text="Contact Us"
+                  customStyles={{
+                    optionText: { textAlign: 'center', fontWeight: '600' },
+                  }}
+                />
+              </MenuOptions>
+            </Menu>
+          </TouchableOpacity>
+        </View>
+      ),
+    })
+  }, [])
+
+
+
   if (!fontsLoaded) {
     return (
       <View>
@@ -119,7 +194,9 @@ export default function GuestScreen({ navigation }: any) {
               />
             </View>
           ) : (
+
             <>
+
               {filterOn && (
                 <Filter
                   data={category}
@@ -135,12 +212,6 @@ export default function GuestScreen({ navigation }: any) {
                   setMinCheck={setMinCheck}
                 />
               )}
-
-               <TouchableOpacity className="w-full h-[60px]  flex-row justify-center items-center bg-[#1E3A79]" onPress={() => navigation.navigate("Login")}>
-                    <Text className="text-white text-lg font-medium">
-                     Login
-                    </Text>
-                  </TouchableOpacity>
 
               <View
                 className="bg-[#F8F9FC]"
@@ -212,10 +283,28 @@ export default function GuestScreen({ navigation }: any) {
                   })}
                  
                 </View>
+                
               </View>
+              
             </>
           )}
         </ScrollView>
+
+              
+        <View className="w-full h-[80px] absolute bottom-2 flex-row justify-between items-center bg-[#1E3A79]" style={{display: loading ? 'none' : 'flex'}}>
+          <TouchableOpacity className='bg-[#1E3A79] w-[50%] h-[80px] items-center justify-center' onPress={() => navigation.navigate("Login")}>
+          <Text className="text-white text-lg font-medium text-center">
+                     Login
+                    </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity className='bg-[#FFB536] w-[50%] h-[80px] items-center justify-center' onPress={() => navigation.navigate("CreateAccount")}>
+          <Text className="text-black text-lg text-center font-medium">
+                     Sign Up
+                    </Text>
+          </TouchableOpacity>
+        </View>
+
       </SafeAreaView>
     )
   }
