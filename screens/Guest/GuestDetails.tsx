@@ -353,6 +353,22 @@ import {
                 )}
               </>
             )}
+
+
+<View className="w-full h-[80px] absolute bottom-2 flex-row justify-between items-center bg-[#1E3A79]" style={{display: loading ? 'none' : 'flex'}}>
+          <TouchableOpacity className='bg-[#1E3A79] w-[50%] h-[80px] items-center justify-center' onPress={() => navigation.navigate("Login")}>
+          <Text className="text-white text-lg font-medium text-center">
+                     Login
+                    </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity className='bg-[#FFB536] w-[50%] h-[80px] items-center justify-center' onPress={() => navigation.navigate("CreateAccount")}>
+          <Text className="text-black text-lg text-center font-medium">
+                     Sign Up
+                    </Text>
+          </TouchableOpacity>
+        </View>
+
           </SafeAreaView>
         </BottomSheetModalProvider>
       )
