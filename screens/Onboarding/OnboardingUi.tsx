@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, SafeAreaView } from 'react-native'
 import React from 'react'
 import Onboarding from 'react-native-onboarding-swiper';
 import { useNavigation } from '@react-navigation/native';
@@ -15,6 +15,8 @@ const OnboardingUi = () => {
   }
   return (
 
+    
+
     <Onboarding
     onDone={handleDone}
     onSkip={handleOnSkip}
@@ -23,20 +25,17 @@ const OnboardingUi = () => {
 
 
     {
-      backgroundColor: 'black',
-      image: <Image source={require('../../assets/images/Swave_2.png')}
-      
-      />,
+      backgroundColor: '#1A3A70',
+      image: <Image source={require('../../assets/images/part1.jpg')} className='w-screen h-screen mt-28'     />,
       title: '',
       subtitle: '',
+      
      
     },
 
     {
-      backgroundColor: 'black',
-      image: <Image source={require('../../assets/images/Swave_2.png')}
-      
-      />,
+      backgroundColor: '#1A3A70',
+      image: <Image source={require('../../assets/images/part2.jpg')}   className='w-screen h-screen mt-28'  />,
       title: '',
       subtitle: '',
      
@@ -44,10 +43,25 @@ const OnboardingUi = () => {
 
 
     {
-      backgroundColor: 'black',
-      image: <Image source={require('../../assets/images/Swave_2.png')}
-      
-      />,
+      backgroundColor: '#1A3A70',
+      image: <Image source={require('../../assets/images/part3.jpg')}   className='w-screen h-screen mt-28'  />,
+      title: '',
+      subtitle: '',
+     
+    },
+
+    {
+      backgroundColor: '#1A3A70',
+      image: <Image source={require('../../assets/images/part4.jpg')}   className='w-screen h-screen mt-28'  />,
+      title: '',
+      subtitle: '',
+     
+    },
+
+
+    {
+      backgroundColor: '#1A3A70',
+      image: <Image source={require('../../assets/images/part5.jpg')}   className='w-screen h-screen mt-28'  />,
       title: '',
       subtitle: '',
      
@@ -55,6 +69,7 @@ const OnboardingUi = () => {
 
   ]}
 />
+
 
   )
 }
