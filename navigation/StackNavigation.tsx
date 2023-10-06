@@ -50,6 +50,8 @@ export function GuestStack() {
           name="GuestScreen"
           component={GuestScreen}
           options={{ headerShown: false }}
+          
+          
         />
 
         <Stack.Screen

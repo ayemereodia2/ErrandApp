@@ -96,6 +96,7 @@ const AccountScreen = ({ navigation }: any) => {
       _url: `/user/profile`,
     })
     return await _rs.json()
+    
   }
 
   const { isLoading, isError, data } = useQuery({
@@ -103,6 +104,7 @@ const AccountScreen = ({ navigation }: any) => {
     queryFn: getUserProfile,
     refetchOnMount: 'always',
   })
+  console.log(data);
 
   const clearStorage = async () => {
     await AsyncStorage.clear()
@@ -110,7 +112,7 @@ const AccountScreen = ({ navigation }: any) => {
 
   if (isLoading) {
     return (
-      <SafeAreaView className="m-auto bg-gray-200 w-screen h-screen">
+      <SafeAreaView className="m-auto bg-gray-200 w-screen h-[100vh]">
         {/* <Text className='m-auto'><EvilIcons name="spinner" size={28} color="black" /></Text> */}
         <ActivityIndicator color="black" size="large" />
       </SafeAreaView>
@@ -249,7 +251,7 @@ const AccountScreen = ({ navigation }: any) => {
             </TouchableOpacity>
           </View>
 
-          {profile ? <UserProfile data={data} /> : <UserVerification />}
+          {profile ? <UserProfile data={data} /> : <UserVerification  data={data}/>}
         </View>
       </ScrollView>
     </SafeAreaView>
