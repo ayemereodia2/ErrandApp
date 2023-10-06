@@ -2,13 +2,18 @@ import {
   AbrilFatface_400Regular,
   useFonts,
 } from '@expo-google-fonts/abril-fatface'
-import { EvilIcons, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import {
+  EvilIcons,
+  Feather,
+  Ionicons,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 // import { ScrollView } from 'native-base'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
   RefreshControl,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -17,6 +22,7 @@ import {
   View,
 } from 'react-native'
 import { useSelector } from 'react-redux'
+import Container from '../../components/Container'
 import ErrandComp, { ListErrandComp } from '../../components/ErrandComponent'
 import Filter from '../../components/Filter/Filter'
 import { errandMarketList } from '../../services/errands/market'
@@ -25,8 +31,8 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
 import { getUserId } from '../../utils/helper'
 
-export default function MainScreen({ navigation }: any) {
-  // const navigation = useNavigation()
+export default function MainScreen() {
+  const navigation = useNavigation()
   const dispatch = useAppDispatch()
   // const [loading, setLoading] = useState(false)
   const [userId, setUserId] = useState('')
@@ -40,6 +46,7 @@ export default function MainScreen({ navigation }: any) {
   const [minCheck, setMinCheck] = useState(false)
   const [refreshing, setRefreshing] = React.useState(false)
   const [toggleView, setToggleView] = useState(true)
+  const [searchedErrand, setSearchedErrand] = useState<MarketData[]>([])
 
   const handleViewChange = () => {
     setToggleView(!toggleView)
@@ -55,6 +62,15 @@ export default function MainScreen({ navigation }: any) {
     (state: RootState) => state.errandMarketListReducer,
   )
 
+  const errandSearchHandler = (text: string) => {
+    const value = text.toLowerCase()
+
+    const searchResult = errands.filter((errand) =>
+      errand?.description?.toLowerCase().includes(value),
+    )
+    setSearchedErrand(searchResult)
+  }
+
   const { data: categories } = useSelector(
     (state: RootState) => state.categoriesListReducer,
   )
@@ -67,19 +83,18 @@ export default function MainScreen({ navigation }: any) {
   })
 
   const onRefresh = React.useCallback(() => {
-    dispatch(errandMarketList({}))
+    dispatch(errandMarketList({ setSearchedErrand }))
     setRefreshing(true)
     setTimeout(() => {
       setRefreshing(false)
     }, 500)
   }, [])
 
-  console.log('>>>mcheck', minCheck)
 
   const filterMarketList = () => {
-    console.log('>>>>>>>value', value)
     dispatch(
       errandMarketList({
+        setSearchedErrand,
         category: value,
         minPrice: minCheck ? low : 0,
         maxPrice: minCheck ? high : 0,
@@ -89,7 +104,7 @@ export default function MainScreen({ navigation }: any) {
 
   useEffect(() => {
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
-    dispatch(errandMarketList({}))
+    dispatch(errandMarketList({ setSearchedErrand }))
     dispatch(getCategoriesList())
   }, [])
 
@@ -105,10 +120,10 @@ export default function MainScreen({ navigation }: any) {
     )
   } else {
     return (
-      <SafeAreaView>
+      <Container>
         <ScrollView
           scrollEventThrottle={16}
-          className="bg-[#F8F9FC]"
+          className="bg-[#e4eaf7]"
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
@@ -140,11 +155,11 @@ export default function MainScreen({ navigation }: any) {
               )}
 
               <View
-                className="bg-[#F8F9FC]"
+                className="bg-[#e4eaf7]"
                 style={{ display: filterOn ? 'none' : 'flex' }}
               >
                 <View className="mx-4">
-                  <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
+                  <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white">
                     <EvilIcons
                       name="search"
                       size={22}
@@ -155,16 +170,13 @@ export default function MainScreen({ navigation }: any) {
                       className=" w-8/12"
                       placeholder="Search for Errands"
                       placeholderTextColor="#808080"
+                      onChangeText={(text) => errandSearchHandler(text)}
                     />
                     <TouchableOpacity onPress={handleViewChange}>
                       <View className="mr-1 b rounded-md w-[38px]">
                         <Text className="p-2 text-center">
                           {toggleView ? (
-                            <MaterialCommunityIcons
-                              name="view-list"
-                              size={20}
-                              color="black"
-                            />
+                            <Feather name="list" size={20} color="black" />
                           ) : (
                             <MaterialCommunityIcons
                               name="view-dashboard"
@@ -188,19 +200,19 @@ export default function MainScreen({ navigation }: any) {
                     </TouchableOpacity>
                   </View>
 
-                  {errands?.map((errand: MarketData, index: number) => {
+                  {searchedErrand?.map((errand: MarketData, index: number) => {
                     return (
                       <>
                         {toggleView ? (
                           <ErrandComp
                             errand={errand}
-                            navigate={navigation}
+                            navigation={navigation}
                             key={index}
                           />
                         ) : (
                           <ListErrandComp
                             errand={errand}
-                            navigate={navigation}
+                            navigation={navigation}
                             key={index}
                           />
                         )}
@@ -212,7 +224,7 @@ export default function MainScreen({ navigation }: any) {
             </>
           )}
         </ScrollView>
-      </SafeAreaView>
+      </Container>
     )
   }
 }

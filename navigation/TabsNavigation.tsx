@@ -85,6 +85,7 @@ export const TabsNavigation = ({ navigation }: any) => {
           className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-5 "
         >
           <MaterialIcons
+            onPress={() => navigation.navigate('Notification')}
             style={{ marginRight: 10 }}
             name="notifications"
             color={'black'}
@@ -140,7 +141,9 @@ export const TabsNavigation = ({ navigation }: any) => {
           // left: 25,
           // right: 20,
           backgroundColor: '#ffffff',
-          borderRadius: 15,
+          borderTopRightRadius: 15,
+          borderTopLeftRadius: 15,
+          // borderRadius: 15,
           height: 70,
           // width:100
           paddingTop: 13,

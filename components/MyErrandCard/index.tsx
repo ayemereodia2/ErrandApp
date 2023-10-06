@@ -25,13 +25,16 @@ const MyErrandCard = ({
 }: MyErrandCard) => {
   const dispatch = useAppDispatch()
 
+  const regex = /(<([^>]+)>)/gi
+  const result = errand.description.replace(regex, '')
+
   return (
     <TouchableOpacity
       onPress={() => {
         navigation.navigate('MyErrandDetails', {
           bids: errand.bids,
         })
-        dispatch(errandDetails({ errandId: errand.id }))
+        dispatch(errandDetails({ errandId: errand.id, navigation }))
         dispatch(userDetails({ user_id: errand.user_id }))
         dispatch(
           getSubErrand({
@@ -47,7 +50,14 @@ const MyErrandCard = ({
       <View className=" bg-white py-4 px-6 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]">
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center space-x-3">
-            {errand?.user?.profile_picture ? (
+            {errand?.user?.profile_picture === undefined ? (
+              <View className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center">
+                <Text className="uppercase text-lg items-center text-white">
+                  {errand?.user?.first_name.charAt(0).toUpperCase()}
+                  {errand?.user?.last_name.charAt(0).toUpperCase()}
+                </Text>
+              </View>
+            ) : (
               <Image
                 style={{
                   width: 40,
@@ -57,13 +67,7 @@ const MyErrandCard = ({
                 }}
                 alt="okay"
                 source={{ uri: errand?.user?.profile_picture }}
-                // source={require(errand.user.profile_picture)}
               />
-            ) : (
-              <Text className="uppercase text-lg items-center text-white">
-                {errand?.user?.first_name.charAt(0).toUpperCase()}
-                {errand?.user?.last_name.charAt(0).toUpperCase()}
-              </Text>
             )}
             <Text className="text-sm font-medium">
               {' '}
@@ -82,7 +86,7 @@ const MyErrandCard = ({
 
         <View className="mt-4">
           <Text className="text-sm font-medium">
-            {errand?.description?.substring(0, 80).concat('', '....')}
+            {result?.substring(0, 80).concat('', '....')}
           </Text>
         </View>
 

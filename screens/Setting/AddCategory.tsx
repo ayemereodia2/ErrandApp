@@ -23,7 +23,7 @@ const CategoryInterest = ({ navigation }: any) => {
       title: 'Add Category Interest',
       headerStyle: { backgroundColor: '#F8F9FC' },
       headerLeft: () => (
-        <View className="flex-row items-center justify-between ">
+        <View className="flex-row items-center justify-between pr-4 ">
           <TouchableOpacity
             onPress={() => navigation.navigate('Settings')}
             className="flex-row items-center"
@@ -38,6 +38,17 @@ const CategoryInterest = ({ navigation }: any) => {
   useEffect(() => {
     dispatch(getCategoriesList())
   }, [])
+
+  useEffect(() => {
+    navigation
+      .getParent()
+      ?.setOptions({ tabBarStyle: { display: 'none' }, tabBarVisible: false })
+    return () =>
+      navigation
+        .getParent()
+        ?.setOptions({ tabBarStyle: undefined, tabBarVisible: undefined })
+  }, [navigation])
+
 
   return (
     <ScrollView className="mt-4 px-4 mb-10">
@@ -105,9 +116,7 @@ const CategoryInterest = ({ navigation }: any) => {
           className="mb-101"
         >
           <View className="py-3 px-4 w-[149px] rounded-full border border-red-200 bg-white mt-4 items-center justify-center flex-row space-x-4">
-            <Text className="text-red-500 ">
-              Cancel
-            </Text>
+            <Text className="text-red-500 ">Cancel</Text>
           </View>
         </TouchableOpacity>
       </View>

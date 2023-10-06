@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   ScrollView,
   Switch,
@@ -17,6 +17,10 @@ const SettingsTest = () => {
 
   const { data: preferences } = useSelector(
     (state: RootState) => state.notificationPreferenceReducer,
+  )
+
+  const { loading } = useSelector(
+    (state: RootState) => state.updateNotificationPreferenceReducer,
   )
 
   return (
@@ -65,21 +69,23 @@ const SettingsTest = () => {
               Newsletters and offers
             </Text>
             <TouchableWithoutFeedback>
-              <Switch
-                trackColor={{ false: '#767577', true: 'green' }}
-                onValueChange={(value: boolean) => {
-                  dispatch(
-                    updateNotificationPrefeference({
-                      ...preferences,
-                      dispatch,
-                      Toast,
-                      newsletter_notifications: value,
-                    }),
-                  )
-                }}
-                value={preferences?.newsletter_notifications}
-                style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
-              />
+              <>
+                <Switch
+                  trackColor={{ false: '#767577', true: 'green' }}
+                  onValueChange={(value: boolean) => {
+                    dispatch(
+                      updateNotificationPrefeference({
+                        ...preferences,
+                        dispatch,
+                        Toast,
+                        newsletter_notifications: value,
+                      }),
+                    )
+                  }}
+                  value={preferences?.newsletter_notifications}
+                  style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
+                />
+              </>
             </TouchableWithoutFeedback>
           </View>
           <Text className="text-sm font-light">

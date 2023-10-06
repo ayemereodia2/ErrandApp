@@ -1,6 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useNavigation } from '@react-navigation/native'
-import OTPInputView from '@twotalltotems/react-native-otp-input'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
@@ -32,8 +30,8 @@ const OtpInput = ({ ref, onChangeText }: OtpProp) => (
   </View>
 )
 
-export default function VerifyOtpScreen() {
-  const navigation = useNavigation()
+export default function VerifyOtpScreen({ navigation }: any) {
+  // const navigation = useNavigation()
   const [otp, setOtp] = useState('')
   const [loading, setLoading] = useState(false)
   const [phone_no, setPhone_no] = useState('')
@@ -45,7 +43,11 @@ export default function VerifyOtpScreen() {
   }, [])
 
   const verifyOtpHandler = async (code: string) => {
+
     const phone = (await AsyncStorage.getItem('phone')) || ''
+
+    console.log(">>>>>tp", code, phone);
+    
 
     try {
       setLoading(true)
@@ -88,19 +90,13 @@ export default function VerifyOtpScreen() {
   }
 
   useEffect(() => {
-    getPhone()
+    // getPhone()
   }, [])
 
   return (
     <SafeAreaView>
       <View className="px-4">
-        
         <Logo />
-        {/* <KeyboardAwareScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={{ flexGrow: 1 }}
-          enableOnAndroid={true}
-        > */}
 
         <View className="text-[#333333] font-inter py-2 space-y-1">
           <Text className="font-semibold text-lg text-center">
@@ -112,7 +108,7 @@ export default function VerifyOtpScreen() {
           </Text>
 
           <View className="pt-2 flex-row justify-evenly items-center mb-10">
-            <OTPInputView
+            {/* <OTPInputView
               style={{ width: '80%', height: 80 }}
               pinCount={6}
               code={otp}
@@ -120,15 +116,20 @@ export default function VerifyOtpScreen() {
               onCodeChanged={(code) => setOtp(code)}
               keyboardAppearance="dark"
               keyboardType="number-pad"
-              // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
-              // onCodeChanged = {code => { this.setState({code})}}
               autoFocusOnLoad
               codeInputFieldStyle={styles.underlineStyleBase}
               codeInputHighlightStyle={styles.underlineStyleHighLighted}
               onCodeFilled={(code) => {
                 console.log(`Code is ${code}, you are good to go!`)
-                code.length === 6 && verifyOtpHandler(code)
+                code?.length === 6 && verifyOtpHandler(code)
               }}
+            /> */}
+            <TextInput
+              keyboardType="numeric"
+              onChangeText={(text) => setOtp(text)}
+              value={otp}
+              placeholder="Enter Otp"
+              className="border border-[#ccc] p-3 rounded-lg w-full text-base"
             />
           </View>
 

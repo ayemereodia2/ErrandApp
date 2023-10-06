@@ -2,11 +2,11 @@ import { AntDesign, Entypo, EvilIcons, FontAwesome } from '@expo/vector-icons'
 import React, { useEffect, useLayoutEffect } from 'react'
 import {
   SafeAreaView,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  ScrollView
 } from 'react-native'
 import {
   Menu,
@@ -58,28 +58,6 @@ const EscrowScreen = ({ navigation }: any) => {
                 optionText: { textAlign: 'center', fontWeight: '600' },
               }}
             >
-              <MenuOption
-                // onSelect={}
-                text="Refresh"
-                customStyles={{
-                  optionWrapper: {
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#AAAAAA',
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-              <MenuOption
-                onSelect={() => alert(`Save`)}
-                text="Profile"
-                customStyles={{
-                  optionWrapper: {
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#AAAAAA',
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
               <MenuOption
                 onSelect={() => alert(`Save`)}
                 text="Contact Us"

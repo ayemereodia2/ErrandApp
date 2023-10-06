@@ -1,3 +1,5 @@
+import DateTimePicker from '@react-native-community/datetimepicker'
+import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
 import {
   ActivityIndicator,
@@ -5,15 +7,12 @@ import {
   Pressable,
   SafeAreaView,
   ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import DateTimePicker from '@react-native-community/datetimepicker'
-import { useNavigation } from '@react-navigation/native'
-import { StyleSheet } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { _fetch } from '../../services/axios/http'
 
@@ -66,14 +65,8 @@ const UpdateProfile = ({ image, data }: any) => {
         const errorResponse = await _rs.json()
         throw new Error(`Server error: ${errorResponse.message}`)
       }
-
       setLoading(false)
-      await _fetch({
-        method: 'GET',
-        _url: `/user/profile`,
-      })
       const responseData = await _rs.json()
-
       return responseData
     } catch (error) {
       throw error
@@ -92,19 +85,20 @@ const UpdateProfile = ({ image, data }: any) => {
 
     try {
       const responseData = await updateUserProfile(updatedData)
-
-      // Checking if the response indicates success
       if (responseData.success) {
-        // Handling a successful response from the server here
-
-        // Show a success message to the user.
         Toast.show({
           type: 'success',
           text1: 'Profile update is successful',
         })
 
+      const ok =  await _fetch({
+          method: 'GET',
+          _url: `/user/profile`,
+        })
+        
+
         // Navigate back to the Account screen
-        navigation.navigate('Account')
+        navigation.navigate('Profile')
 
         console.log(updatedData)
       } else {
@@ -231,7 +225,9 @@ const UpdateProfile = ({ image, data }: any) => {
             onPress={handleUpdateProfile}
           >
             <View className="w-[300px] h-[50px] bg-[#243763]  mx-auto items-center justify-center rounded-lg">
-              <Text className="text-white text-center items-center">{loading ? <ActivityIndicator /> : "Save"}</Text>
+              <Text className="text-white text-center items-center">
+                {loading ? <ActivityIndicator /> : 'Save'}
+              </Text>
             </View>
           </TouchableOpacity>
         </View>

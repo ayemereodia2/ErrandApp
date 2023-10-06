@@ -1,12 +1,19 @@
 import {
   AbrilFatface_400Regular,
-  useFonts,
+  useFonts
 } from '@expo-google-fonts/abril-fatface'
-import { Entypo, EvilIcons, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
+import {
+  Entypo,
+  EvilIcons,
+  Feather,
+  Ionicons,
+  MaterialCommunityIcons
+} from '@expo/vector-icons'
 // import { ScrollView } from 'native-base'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
+  Image,
   RefreshControl,
   SafeAreaView,
   ScrollView,
@@ -14,20 +21,23 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native'
+import {
+  Menu,
+  MenuOption,
+  MenuOptions,
+  MenuTrigger
+} from 'react-native-popup-menu'
 import { useSelector } from 'react-redux'
 import Filter from '../../components/Filter/Filter'
 import GuestComp, { GuestList } from '../../components/GuestComp/GuestComp'
 import { errandMarketList } from '../../services/errands/market'
+import { myErrandList } from '../../services/errands/myErrands'
 import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
 import { getUserId } from '../../utils/helper'
-import { ProfileInitials } from '../../components/ProfileInitials'
-import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu'
-import { myErrandList } from '../../services/errands/myErrands'
-import { Image } from 'react-native'
 
 export default function GuestScreen({ navigation }: any) {
   // const navigation = useNavigation()
@@ -98,38 +108,24 @@ export default function GuestScreen({ navigation }: any) {
     AbrilFatface_400Regular,
   })
 
-
-   useLayoutEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      title: 'Market',
+      title: 'Errand Market',
       headerStyle: { backgroundColor: '#F8F9FC' },
       headerLeft: () => (
-        <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
-          {/* <TouchableOpacity
-            onPress={() => navigation.openDrawer()}
-            className="flex-row items-center mb-2"
-          > */}
-            {/* <ProfileInitials
-              firstName={firstName.charAt(0).toUpperCase()}
-              lastName={lastName.charAt(0).toUpperCase()}
-              profile_pic={profilePic}
-              textClass="text-white text-base"
-              width={40}
-              height={40}
-            /> */}
-            <Image 
-            source={require('../../assets/images/logo.png')}
-            className='w-10 h-10 rounded-full bg-blue-100 justify-center mb-1'
-            style={{resizeMode: 'cover'}}
-            />
-            {/* <Entypo name="menu" size={24} /> */}
+        <View style={{marginRight: 10}} className="flex-row items-center justify-between mx-0 px-3 pb-1 w-10 h-10 rounded-full ">
+          <Image
+            source={require('../../assets/images/swave--3.jpeg')}
+            className="w-6 h-6 rounded-lg bg-blue-100 justify-center"
+          style={{ resizeMode: 'cover'  }}
+          />
+          {/* <Entypo name="menu" size={24} /> */}
           {/* </TouchableOpacity> */}
         </View>
       ),
       headerRight: () => (
         <View className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-3 ">
-         
           <TouchableOpacity onPress={() => {}}>
             <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
               <MenuTrigger>
@@ -152,8 +148,7 @@ export default function GuestScreen({ navigation }: any) {
                   }}
                 />
 
-              <MenuOption
-                 
+                <MenuOption
                   text="Contact Us"
                   customStyles={{
                     optionText: { textAlign: 'center', fontWeight: '600' },
@@ -167,8 +162,6 @@ export default function GuestScreen({ navigation }: any) {
     })
   }, [])
 
-
-
   if (!fontsLoaded) {
     return (
       <View>
@@ -180,7 +173,7 @@ export default function GuestScreen({ navigation }: any) {
       <SafeAreaView>
         <ScrollView
           scrollEventThrottle={16}
-          className="bg-[#F8F9FC]"
+          className="bg-[#e4eaf7]"
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
@@ -194,9 +187,7 @@ export default function GuestScreen({ navigation }: any) {
               />
             </View>
           ) : (
-
             <>
-
               {filterOn && (
                 <Filter
                   data={category}
@@ -214,11 +205,11 @@ export default function GuestScreen({ navigation }: any) {
               )}
 
               <View
-                className="bg-[#F8F9FC]"
+                className="bg-[#e4eaf7]"
                 style={{ display: filterOn ? 'none' : 'flex' }}
               >
                 <View className="mx-4">
-                  <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
+                  <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white">
                     <EvilIcons
                       name="search"
                       size={22}
@@ -234,8 +225,8 @@ export default function GuestScreen({ navigation }: any) {
                       <View className="mr-1 b rounded-md w-[38px]">
                         <Text className="p-2 text-center">
                           {toggleView ? (
-                            <MaterialCommunityIcons
-                              name="view-list"
+                            <Feather
+                              name="list"
                               size={20}
                               color="black"
                             />
@@ -281,30 +272,34 @@ export default function GuestScreen({ navigation }: any) {
                       </>
                     )
                   })}
-                 
                 </View>
-                
               </View>
-              
             </>
           )}
         </ScrollView>
 
-              
-        <View className="w-full h-[80px] absolute bottom-2 flex-row justify-between items-center bg-[#1E3A79]" style={{display: loading ? 'none' : 'flex'}}>
-          <TouchableOpacity className='bg-[#1E3A79] w-[50%] h-[80px] items-center justify-center' onPress={() => navigation.navigate("Login")}>
-          <Text className="text-white text-lg font-medium text-center">
-                     Login
-                    </Text>
+        <View
+          className="w-full h-[60px] absolute bottom-0 flex-row justify-between items-center bg-[#1E3A79]"
+          style={{ display: loading ? 'none' : 'flex' }}
+        >
+          <TouchableOpacity
+            className="bg-[#1E3A79] w-[50%] h-[60px] items-center justify-center"
+            onPress={() => navigation.navigate('Login')}
+          >
+            <Text className="text-white text-lg font-medium text-center">
+              Login
+            </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity className='bg-[#FFB536] w-[50%] h-[80px] items-center justify-center' onPress={() => navigation.navigate("CreateAccount")}>
-          <Text className="text-black text-lg text-center font-medium">
-                     Sign Up
-                    </Text>
+          <TouchableOpacity
+            className="bg-[#FFB536] w-[50%] h-[60px] items-center justify-center"
+            onPress={() => navigation.navigate('VerifyPhone')}
+          >
+            <Text className="text-black text-lg text-center font-medium">
+              Sign Up
+            </Text>
           </TouchableOpacity>
         </View>
-
       </SafeAreaView>
     )
   }

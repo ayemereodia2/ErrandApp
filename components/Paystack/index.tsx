@@ -83,6 +83,11 @@ const Paystack: React.ForwardRefRenderFunction<React.ReactNode, PayStackProps> =
                           display_name:  '${firstName + ' ' + lastName}',
                           variable_name:  '${billingName}',
                           value:'${userId}'
+                          },
+                          {
+                          display_name: 'user_id',
+                          variable_name: 'user_id',
+                          value:'${userId}'
                           }
                   ]
                 },

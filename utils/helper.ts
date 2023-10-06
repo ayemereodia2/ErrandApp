@@ -10,6 +10,19 @@ export const formatDate = (dateString: string) => {
   return date.format('MMM DD, YYYY, h:mm:ss A');
 }
 
+// export function formatDesc(html: string) {
+//     const parser = new DOMParser();
+//     const doc = parser.parseFromString(html, 'text/html');
+//     const desc = doc.body.textContent || ""
+
+//     if (desc.length >= 50) {
+//         let concatenatedString = desc.substring(0, 50).concat()
+//         return concatenatedString + '...'
+//     }
+
+//     return desc
+// }
+
 export function transformDateTime(TzDate: Date) {
     const year = TzDate.getFullYear();
     const month = String(TzDate.getMonth() + 1).padStart(2, '0');

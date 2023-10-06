@@ -3,21 +3,32 @@ import { SingleErrandDetail } from '../../types';
 import { _fetch } from '../axios/http';
 
 interface DetailProps {
-    errandId: string
+  errandId: string
+  navigation?: any
 }
 
 export const errandDetails = createAsyncThunk<SingleErrandDetail, DetailProps, { rejectValue: string }>(
     "errandDetails/get",
-    async ({ errandId }: DetailProps, { rejectWithValue }) => {
+  async ({ errandId, navigation }: DetailProps, { rejectWithValue }) => {
         try {
             const _rs = await _fetch({
                 method: "GET",
                 _url: `/errand/${errandId}`,
             })
-          
+        
           const rs = await _rs.json()
+
+          console.log(">>>>>>>_rs market", rs)
+
             if (rs.success === true) {
                 return rs
+            }
+          if (rs.success === false) {
+            console.log("<<<<<<<error screen")
+            if (navigation) {
+              navigation.navigate('ErrorScreen')
+            }
+                // return rs
             }
         } catch (e: any) {
             if (e.response.status === 400) {

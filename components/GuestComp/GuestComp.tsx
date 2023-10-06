@@ -35,6 +35,9 @@ export default function GuestComp({ errand, navigate }: ErrandCardProp) {
     MAX_ADDRESS_LENGTH,
   )
 
+  const regex = /(<([^>]+)>)/gi
+  const result = errand.description.replace(regex, '')
+
   // const mob_Address = truncateAddress(address, 20)
 
   useEffect(() => {
@@ -48,10 +51,10 @@ export default function GuestComp({ errand, navigate }: ErrandCardProp) {
           errand_id: errand?.id,
           user_id: errand?.user_id,
         })
-        dispatch(errandDetails({ errandId: errand?.id }))
+        dispatch(errandDetails({ errandId: errand?.id, navigation }))
         dispatch(externalUserDetails({ user_id: errand?.user_id }))
       }}
-      className="mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border-2 border-[#f3f3f3]"
+      className="mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border border-[#ccc]"
     >
       <View className=" flex-row items-start mt-4">
         <View className="flex-row items-start justify-center gap-3">
@@ -107,9 +110,9 @@ export default function GuestComp({ errand, navigate }: ErrandCardProp) {
       </View>
 
       <Text className="text-[16px] font-medium py-4 pt-4 text-[#000000]">
-        {errand?.description?.length >= 60
-          ? errand?.description?.substring(0, 50).concat('', '...')
-          : errand?.description}
+        {result.length >= 60
+          ? result.substring(0, 50).concat('', '...')
+          : result}
       </Text>
 
       <Text className="text-sm text-[#666666] font-light">
@@ -179,7 +182,8 @@ export function GuestList({ errand, navigate }: ErrandCardProp) {
     MAX_ADDRESS_LENGTH,
   )
 
-  // const mob_Address = truncateAddress(address, 20)
+  const regex = /(<([^>]+)>)/gi
+  const result = errand.description.replace(regex, '')
 
   useEffect(() => {
     getAddress({ errand, setAddress })
@@ -187,17 +191,17 @@ export function GuestList({ errand, navigate }: ErrandCardProp) {
 
   return (
     <TouchableOpacity
-       onPress={() => {
+      onPress={() => {
         navigate.navigate('GuestDetails', {
           errand_id: errand?.id,
           user_id: errand?.user_id,
         })
-        dispatch(errandDetails({ errandId: errand?.id }))
+        dispatch(errandDetails({ errandId: errand?.id, navigation }))
         dispatch(externalUserDetails({ user_id: errand?.user_id }))
       }}
-      className="mx-4 shadow-sm rounded-sm"
+      className="mx-0 shadow-sm rounded-sm"
     >
-      <View className=" bg-white py-4 px-6 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]">
+      <View className=" bg-white pt-4 px-6 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]">
         <View className="flex-row items-start justify-center gap-3">
           <View className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center">
             {errand?.user?.profile_picture ? (
@@ -220,7 +224,7 @@ export function GuestList({ errand, navigate }: ErrandCardProp) {
             )}
           </View>
 
-          <View>
+          {/* <View>
             <Text className="font-semibold ">
               {errand?.user?.first_name} {errand?.user?.last_name}
             </Text>
@@ -246,34 +250,33 @@ export function GuestList({ errand, navigate }: ErrandCardProp) {
                 </View>
               </View>
             </View>
+          </View> */}
+
+          <View className="mt-4 w-[260px]">
+            <Text className="text-base font-medium">
+              {result?.substring(0, 80).concat('', '....')}
+            </Text>
+            <Text className="text-sm text-[#666666] font-light pt-1">
+              {' '}
+              <Text>
+                <EvilIcons name="location" size={14} color="green" />{' '}
+              </Text>
+              {errand.dropoff_address?.address_text ? (
+                <Text>{truncatedAddressText}</Text>
+              ) : (
+                <Text>No Location</Text>
+              )}
+            </Text>
           </View>
         </View>
 
-        <View className="mt-4">
-          <Text className="text-sm font-medium">
-            {errand?.description?.substring(0, 80).concat('', '....')}
-          </Text>
-        </View>
-
-        <Text className="text-sm text-[#666666] font-light">
-          {' '}
-          <Text>
-            <EvilIcons name="location" size={14} color="green" />{' '}
-          </Text>
-          {errand.dropoff_address?.address_text ? (
-            <Text>{truncatedAddressText}</Text>
-          ) : (
-            <Text>No Location</Text>
-          )}
-        </Text>
-
         <View className="flex-row justify-between items-center">
-          <Text className="text-[20px] font-bold text-[#1E3A79] ">
+          <Text className="text-[18px] pl-12 font-bold text-[#1E3A79]">
             &#x20A6; {budgetInNaira.toLocaleString()}
           </Text>
           {/* <ProfileInitials firstName="Kzu" lastName="Soo" /> */}
 
-          <View className=" rounded-2xl py-2 px-2  items-center mt-2">
+          <View className=" rounded-2xl py-2  items-center mt-2">
             <Text className="text-orange-500 text-center text-[17px] mb-1 font-semibold">
               {' '}
               {errand?.total_bids === 0 ? '' : errand?.total_bids}{' '}

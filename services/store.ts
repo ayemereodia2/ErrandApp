@@ -17,14 +17,15 @@ import { subErrandReducer } from "./errands/subErrand";
 import modalsReducer from "./modals";
 import { timelineActionReducer } from "./timeline/sendMessage";
 
+import { currentUserDetailsReducer } from "./auth/currentUserInfo";
+import { errandMarketListReducer } from "./errands/market";
 import { postAudioFilesReducer } from "./errands/postAudioFIle";
 import { postFilesReducer } from "./errands/postFiles";
-import { categoriesListReducer } from "./PostErrand/categories";
-import { walletActionReducer } from "./wallet/walletBalance";
-import { getAccountsReducer } from "./wallet/getAccount";
-import { errandMarketListReducer } from "./errands/market";
 import { notificationPreferenceReducer } from "./notification/preferences";
-import { currentUserDetailsReducer } from "./auth/currentUserInfo";
+import { updateNotificationPreferenceReducer } from "./notification/updatePreference";
+import { categoriesListReducer } from "./PostErrand/categories";
+import { getAccountsReducer } from "./wallet/getAccount";
+import { walletActionReducer } from "./wallet/walletBalance";
 
 // "adaptiveIcon": {
 //         "foregroundImage": "./assets/images/logo.png",
@@ -55,7 +56,9 @@ export const store = configureStore({
     getAccountsReducer,
     errandMarketListReducer,
     notificationPreferenceReducer,
-    currentUserDetailsReducer
+    currentUserDetailsReducer,
+    updateNotificationPreferenceReducer
+    
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

@@ -12,17 +12,19 @@ import {
 import { AntDesign } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Modal from 'react-native-modal'
+import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../../../services/store'
-import { currencyMask, parseAmount } from '../../../utils/helper'
+import { walletAction } from '../../../services/wallet/walletBalance'
 import { PayStackRef } from '../../../types'
+import { currencyMask, parseAmount } from '../../../utils/helper'
 import Paystack from '../../Paystack'
 
 interface FundWalletProp {
   toggleFundWalletModal: (open: boolean) => void
 }
 
-const FundWalletModal = ({ navigation }: any) => {
+const FundWalletModal = ({ navigation, route }: any) => {
   const dispatch = useAppDispatch()
   const [amount, setAmount] = useState('')
   const [error, setError] = useState('')
@@ -32,14 +34,16 @@ const FundWalletModal = ({ navigation }: any) => {
   const [walletFundedSuccess, setWalletFundedSuccess] = useState(false)
   const [userId, setUserId] = useState('')
 
+  const { currentWalletAmount, setCurrentWalletAmount } = route.params
+
   const paystackWebViewRef = useRef<PayStackRef>()
   const { loading } = useSelector((state: RootState) => state.postBidReducer)
-  const { loading: walletBalanceLoading, success: walletSuccess } = useSelector(
-    (state: RootState) => state.walletActionReducer,
-  )
+  const {
+    data,
+    loading: walletBalanceLoading,
+    success: walletSuccess,
+  } = useSelector((state: RootState) => state.walletActionReducer)
 
-  console.log(">>>>>>>hello", walletSuccess, userId);
-  
 
   // const handlePlaceBid = () => {
   //   if (!amount) {
@@ -78,7 +82,9 @@ const FundWalletModal = ({ navigation }: any) => {
       headerLeft: () => (
         <TouchableOpacity
           className="flex-row items-center justify-between mx-0 py-3"
-          onPress={() => navigation.goBack()}
+          onPress={() => {
+            navigation.goBack()
+          }}
         >
           <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableOpacity>
@@ -86,12 +92,23 @@ const FundWalletModal = ({ navigation }: any) => {
     })
   }, [])
 
+  console.log(
+    '>>>>>>>walletSuccess',
+    walletSuccess,
+    Number(data?.balance) / 100,
+    currentWalletAmount,
+  )
+
   useEffect(() => {
-    if (paid && walletSuccess) {
+    if (walletSuccess && Number(data?.balance) / 100 > currentWalletAmount) {
       setFundWalletLoader(false)
-      setWalletFundedSuccess(true)
+      navigation.goBack()
+      Toast.show({
+        text1: 'Your Wallet was funded successfully',
+        type: 'success',
+      })
     }
-  }, [walletSuccess])
+  }, [walletSuccess, data?.balance])
 
   useEffect(() => {
     getUserId()
@@ -165,7 +182,9 @@ const FundWalletModal = ({ navigation }: any) => {
               //   handlePlaceBid()
 
               // }}
-              onPress={() => paystackWebViewRef.current.startTransaction()}
+              onPress={() => {
+                paystackWebViewRef.current.startTransaction()
+              }}
             >
               <Text className="text-white text-base">
                 {loading ? (
@@ -183,7 +202,7 @@ const FundWalletModal = ({ navigation }: any) => {
       <View style={{ flex: 1 }}>
         <Paystack
           paystackKey="pk_test_0ea2496d44ff8e00a98762e85ab92a1639d7307e"
-          billingEmail={"pearlthelma299@gmail.com"}
+          billingEmail={'pearlthelma299@gmail.com'}
           phone={'090644788883'}
           amount={parseAmount(amount.toString())}
           userId={userId}
@@ -191,12 +210,18 @@ const FundWalletModal = ({ navigation }: any) => {
             navigation.goBack()
           }}
           onSuccess={(res: any) => {
-            const responseObject = res['transactionRef']['message']
-            console.log('>>>>respnse', responseObject)
+            // navigation.navigate('Wallet')
+            setFundWalletLoader(true)
+            let minutesPassed = 0
+            const maxMinutes = 3
+            const intervalId = setInterval(() => {
+              minutesPassed++
+              dispatch(walletAction({ request: 'wallet' }))
 
-            // setPaid(true)
-            // dispatch(walletAction({ type: 'wallet' }))
-            // setFundWalletLoader(true)
+              if (minutesPassed >= maxMinutes) {
+                clearInterval(intervalId)
+              }
+            }, 30 * 1000)
           }}
           ref={paystackWebViewRef}
         />
@@ -209,34 +234,19 @@ const FundWalletModal = ({ navigation }: any) => {
         isVisible={fundWalletLoader}
       >
         <View
+          className="flex-row justify-center items-center"
           style={{
             backgroundColor: 'white',
-            height: 300,
+            height: 200,
             borderRadius: 10,
           }}
         >
-          <Text className="text-base">
-            Request is processing... please wait
-          </Text>
-        </View>
-      </Modal>
-
-      <Modal
-        onBackdropPress={() => {
-          setWalletFundedSuccess(false)
-        }}
-        isVisible={walletFundedSuccess}
-      >
-        <View
-          style={{
-            backgroundColor: 'white',
-            height: 300,
-            borderRadius: 10,
-          }}
-        >
-          <Text className="text-base">
-            Wallet has been funded success fully
-          </Text>
+          <View>
+            <Text className="text-xl font-light">
+              Request is processing... please wait
+            </Text>
+            <ActivityIndicator size="small" className="mt-3" color="blue" />
+          </View>
         </View>
       </Modal>
       {/* )} */}

@@ -264,7 +264,7 @@ export interface GetSecurityQuestionRequest {
   phone_number: string
   question?: string
   answer?: string
-  navigate?: any
+  navigation?: any
   newPassword?: string
   dispatch?: any
 }
@@ -353,7 +353,7 @@ export interface MarketData {
     coordinates: number[]
   }
   budget: number
-  description: string
+  description: any
   type: string
   step: number
   category: CategoriesList

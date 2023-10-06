@@ -1,6 +1,7 @@
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
+  RefreshControl,
   SafeAreaView,
   ScrollView,
   Text,
@@ -14,6 +15,7 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu'
 import { useSelector } from 'react-redux'
+import Container from '../../components/Container'
 import EscrowDetails from '../../components/Transactions/EscrowDetails'
 import TransactionDetails from '../../components/Transactions/TransactionDetails'
 import { _fetch } from '../../services/axios/http'
@@ -23,6 +25,7 @@ import { Transaction } from '../../types'
 
 const WalletScreen = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
+  const [refreshing, setRefreshing] = React.useState(false)
   const [showQuickLinks, setShowQuickLinnks] = useState(false)
 
   const handleQuickLinks = () => {
@@ -34,6 +37,7 @@ const WalletScreen = ({ navigation }: any) => {
   const [transactions, setTransactions] = useState<Array<Transaction>>([])
   const [filterText, setFilterText] = useState('All Time')
   const [loading, setLoading] = useState(true)
+  const [currentWalletAmount, setCurrentWalletAmount] = useState(0)
 
   const { data, loading: detailsLoading } = useSelector(
     (state: RootState) => state.walletActionReducer,
@@ -76,10 +80,23 @@ const WalletScreen = ({ navigation }: any) => {
     }
   }
 
+  const onRefresh = React.useCallback(() => {
+    dispatch(walletAction({ request: 'wallet' }))
+    getTransactions()
+    setRefreshing(true)
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 500)
+  }, [])
+
   useEffect(() => {
     dispatch(walletAction({ request: 'wallet' }))
     getTransactions()
   }, [])
+
+  useEffect(() => {
+    setCurrentWalletAmount(Number(data?.balance) / 100)
+  }, [data?.balance])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -88,111 +105,116 @@ const WalletScreen = ({ navigation }: any) => {
   }, [])
 
   return (
-    <SafeAreaView className=" bg-[#F8F9FC]">
-      <ScrollView
-        className="bg-[#F8F9FC] mt-4"
-        showsVerticalScrollIndicator={false}
-      >
-        <View className="flex-row items-center justify-between bg-[#F8F9FC] px-4 mt-2">
-          <Text className="font-medium text-xl leading-[29px]">Overview</Text>
+    <Container>
+      <SafeAreaView className=" bg-[#e4eaf7]">
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          className="bg-[#e4eaf7] mt-4"
+          showsVerticalScrollIndicator={false}
+        >
+          <View className="flex-row items-center justify-between bg-[#e4eaf7] px-4 mt-2">
+            <Text className="font-medium text-xl leading-[29px]">Overview</Text>
 
-          <Menu
-            style={{
-              shadowColor: 'none',
-              shadowOpacity: 0,
-              borderRadius: 30,
-             
-            }}
-          >
-            <MenuTrigger>
-              <View
-                className="bg-[#3F60AC] w-[131px] items-center p-2 rounded-md"
-                // onPress={handleQuickLinks}
-              >
-                <View className="flex-row items-center justify-center">
-                  <Text className=" text-center text-white">Quick Links </Text>
-                  <Text>
-                    <MaterialIcons
-                      name="keyboard-arrow-down"
-                      size={24}
-                      color="white"
-                    />
-                  </Text>
-                </View>
-              </View>
-            </MenuTrigger>
-            <MenuOptions
-              customStyles={{
-                optionWrapper: {
-                  marginTop: 20,
-                },
-                optionText: { textAlign: 'center', fontWeight: '600' },
+            <Menu
+              style={{
+                shadowColor: 'none',
+                shadowOpacity: 0,
+                borderRadius: 30,
               }}
             >
-              <MenuOption
-                onSelect={() => {}}
-                text="Generate Account Statement"
+              <MenuTrigger>
+                <View
+                  className="bg-[#3F60AC] w-[131px] items-center p-2 rounded-md"
+                  // onPress={handleQuickLinks}
+                >
+                  <View className="flex-row items-center justify-center">
+                    <Text className=" text-center text-white">
+                      Quick Links{' '}
+                    </Text>
+                    <Text>
+                      <MaterialIcons
+                        name="keyboard-arrow-down"
+                        size={24}
+                        color="white"
+                      />
+                    </Text>
+                  </View>
+                </View>
+              </MenuTrigger>
+              <MenuOptions
                 customStyles={{
                   optionWrapper: {
-                    paddingVertical: 6,
+                    marginTop: 20,
                   },
-                  optionText: {
-                    fontSize: 14,
-                    textAlign: 'center',
-                    fontWeight: '300',
-                  },
+                  optionText: { textAlign: 'center', fontWeight: '600' },
                 }}
-              />
-              <MenuOption
-                onSelect={() => {}}
-                text="View Withdrawal Requests"
-                customStyles={{
-                  optionWrapper: {
-                    paddingVertical: 6,
-                  },
-                  optionText: {
-                    fontSize: 14,
-                    textAlign: 'center',
-                    fontWeight: '300',
-                  },
-                }}
-              />
+              >
+                <MenuOption
+                  onSelect={() => {}}
+                  text="Generate Account Statement"
+                  customStyles={{
+                    optionWrapper: {
+                      paddingVertical: 6,
+                    },
+                    optionText: {
+                      fontSize: 14,
+                      textAlign: 'center',
+                      fontWeight: '300',
+                    },
+                  }}
+                />
+                <MenuOption
+                  onSelect={() => {}}
+                  text="View Withdrawal Requests"
+                  customStyles={{
+                    optionWrapper: {
+                      paddingVertical: 6,
+                    },
+                    optionText: {
+                      fontSize: 14,
+                      textAlign: 'center',
+                      fontWeight: '300',
+                    },
+                  }}
+                />
 
-              <MenuOption
-                onSelect={() => {}}
-                text="Make Withdrawal Request"
-                customStyles={{
-                  optionWrapper: {
-                    paddingVertical: 6,
-                  },
-                  optionText: {
-                    fontSize: 14,
-                    textAlign: 'center',
-                    fontWeight: '300',
-                  },
-                }}
-              />
-              <MenuOption
-                onSelect={() => {}}
-                text="My Accounts"
-                customStyles={{
-                  optionWrapper: {
-                    paddingVertical: 6,
-                  },
-                  optionText: {
-                    fontSize: 14,
-                    textAlign: 'center',
-                    fontWeight: '300',
-                  },
-                }}
-              />
-            </MenuOptions>
-          </Menu>
-        </View>
+                <MenuOption
+                  onSelect={() => {}}
+                  text="Make Withdrawal Request"
+                  customStyles={{
+                    optionWrapper: {
+                      paddingVertical: 6,
+                    },
+                    optionText: {
+                      fontSize: 14,
+                      textAlign: 'center',
+                      fontWeight: '300',
+                    },
+                  }}
+                />
+                <MenuOption
+                  onSelect={() => navigation.navigate('WalletAccount')}
+                  text="My Accounts"
+                  customStyles={{
+                    optionWrapper: {
+                      paddingVertical: 6,
+                    },
+                    optionText: {
+                      fontSize: 14,
+                      textAlign: 'center',
+                      fontWeight: '300',
+                    },
+                  }}
+                />
+              </MenuOptions>
+            </Menu>
+          </View>
 
-        <View className="relative ">
-          {/* THE SECTION FOR THE DROPDOWN FOR QUICKLINKS */}
-          {/* <View
+          <View className="relative ">
+            {/* THE SECTION FOR THE DROPDOWN FOR QUICKLINKS */}
+            {/* <View
             className="ml-44 bg-white justify-end items-center absolute top-2 left-1 z-10 shadow-xl"
             style={{ display: showQuickLinks ? 'flex' : 'none' }}
           >
@@ -222,118 +244,124 @@ const WalletScreen = ({ navigation }: any) => {
             </TouchableOpacity>
           </View> */}
 
+            <View className="px-4">
+              <View className="w-full bg-[#FFF] border mt-3 border-[#DAE1F1] rounded-xl p-6 mx-auto z-1 ">
+                <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
+                  <Text>
+                    <FontAwesome name="bank" size={24} color="#C85604" />
+                  </Text>
+                </View>
+
+                <Text className="mt-6 text-[#888] text-base font-medium leading-[24px]">
+                  Account Balance
+                </Text>
+                <Text className="font-bold text-[32px] mt-2">
+                  {' '}
+                  ₦
+                  {Number(data?.balance) === 0
+                    ? '0.00'
+                    : (Number(data?.balance) / 100).toLocaleString()}
+                </Text>
+
+                <TouchableOpacity
+                  onPress={() => {
+                    setCurrentWalletAmount(Number(data?.balance) / 100)
+                    navigation.navigate('FundWalletModal', {
+                      currentWalletAmount,
+                    })
+                  }}
+                  className="w-[200px] h-[44px] mt-5 items-center justify-center border border-[#314B87] rounded-lg"
+                >
+                  <Text className="text-center text-base">
+                    {' '}
+                    + <Text>Fund Wallet</Text>
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* THE END OF QUICKLINKS DROPDOWN */}
+          </View>
+          {/* Account Balance */}
           <View className="px-4">
-            <View className="w-full bg-[#FFF] border mt-3 border-[#DAE1F1] rounded-xl p-6 mx-auto z-1 ">
+            {/* Escrow Balance */}
+            <View className=" bg-[#3F60AC] border mt-4 border-[#DAE1F1] rounded-xl p-6">
               <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
                 <Text>
                   <FontAwesome name="bank" size={24} color="#C85604" />
                 </Text>
               </View>
 
-              <Text className="mt-6 text-[#888] text-base font-medium leading-[24px]">
-                Account Balance
+              <Text className="mt-6 text-[#fff] text-base font-medium leading-[24px]">
+                Escrow Account
               </Text>
-              <Text className="font-bold text-[32px] mt-2">
-                {' '}
+              <Text className="font-bold text-[32px] text-white mt-2">
                 ₦
-                {Number(data?.balance) === 0
+                {Number(data?.escrow) === 0
                   ? '0.00'
-                  : (Number(data?.balance) / 100).toLocaleString()}
+                  : (Number(data?.escrow) / 100).toLocaleString()}
               </Text>
+            </View>
 
-              <TouchableOpacity
-                onPress={() => navigation.navigate('FundWalletModal')}
-                className="w-[200px] h-[44px] mt-5 items-center justify-center border border-[#314B87] rounded-lg"
-              >
-                <Text className="text-center text-base">
-                  {' '}
-                  + <Text>Fund Wallet</Text>
+            {/* Incoming Funds */}
+
+            <View className="bg-[#FFB536] border mt-4 border-[#DAE1F1] rounded-xl p-6">
+              <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
+                <Text>
+                  <FontAwesome name="bank" size={24} color="#C85604" />
                 </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+              </View>
 
-          {/* THE END OF QUICKLINKS DROPDOWN */}
-        </View>
-        {/* Account Balance */}
-        <View className="px-4">
-          {/* Escrow Balance */}
-          <View className=" bg-[#3F60AC] border mt-4 border-[#DAE1F1] rounded-xl p-6">
-            <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
-              <Text>
-                <FontAwesome name="bank" size={24} color="#C85604" />
+              <Text className="mt-6 text-black text-base font-medium leading-[24px]">
+                Incoming Funds
+              </Text>
+              <Text className="font-bold text-black text-[32px] mt-2">
+                ₦
+                {Number(data?.incoming) === 0
+                  ? '0.00'
+                  : (Number(data?.incoming) / 100).toLocaleString()}
               </Text>
             </View>
-
-            <Text className="mt-6 text-[#fff] text-base font-medium leading-[24px]">
-              Escrow Account
-            </Text>
-            <Text className="font-bold text-[32px] text-white mt-2">
-              ₦
-              {Number(data?.escrow) === 0
-                ? '0.00'
-                : (Number(data?.escrow) / 100).toLocaleString()}
-            </Text>
           </View>
 
-          {/* Incoming Funds */}
-
-          <View className="bg-[#FFB536] border mt-4 border-[#DAE1F1] rounded-xl p-6">
-            <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
-              <Text>
-                <FontAwesome name="bank" size={24} color="#C85604" />
-              </Text>
-            </View>
-
-            <Text className="mt-6 text-black text-base font-medium leading-[24px]">
-              Incoming Funds
-            </Text>
-            <Text className="font-bold text-black text-[32px] mt-2">
-              ₦
-              {Number(data?.incoming) === 0
-                ? '0.00'
-                : (Number(data?.incoming) / 100).toLocaleString()}
-            </Text>
+          {/* Transction */}
+          <View className="mt-[64px] mb-8 flex-row justify-between items-center mx-4">
+            <Text className="text-xl font-medium">Transactions</Text>
+            <TouchableOpacity
+              className="bg-[#3F60AC] w-[65px] h-[28px] items-center justify-center rounded-md"
+              onPress={() => navigation.navigate('TransactionScreen')}
+            >
+              <Text className="text-white">View All</Text>
+            </TouchableOpacity>
           </View>
-        </View>
 
-        {/* Transction */}
-        <View className="mt-[64px] mb-8 flex-row justify-between items-center mx-4">
-          <Text className="text-xl font-medium">Transactions</Text>
+          {/*Transctions info */}
+          <View className="bg-white mx-4 rounded-lg">
+            {transactions?.slice(0, 5).map((transaction) => {
+              return <TransactionDetails {...transaction} />
+            })}
+          </View>
 
-          <TouchableOpacity
-            className="bg-[#3F60AC] w-[65px] h-[28px] items-center justify-center rounded-md"
-            onPress={() => navigation.navigate('TransactionScreen')}
-          >
-            <Text className="text-white">View All</Text>
-          </TouchableOpacity>
-        </View>
+          {/* Escrow */}
+          <View className="mt-[64px] mb-8 flex-row justify-between items-center mx-4">
+            <Text className="text-xl font-medium">Escrow Breakdown</Text>
 
-        {/*Transctions info */}
-        {transactions?.slice(0, 5).map((transaction) => {
-          return <TransactionDetails {...transaction} />
-        })}
+            <TouchableOpacity
+              className="bg-[#3F60AC] w-[65px] h-[28px] items-center justify-center rounded-md"
+              onPress={() => navigation.navigate('EscrowScreen')}
+            >
+              <Text className="text-white">View All</Text>
+            </TouchableOpacity>
+          </View>
 
-        {/* Escrow */}
-        <View className="mt-[64px] mb-8 flex-row justify-between items-center mx-4">
-          <Text className="text-xl font-medium">Escrow Breakdown</Text>
-
-          <TouchableOpacity
-            className="bg-[#3F60AC] w-[65px] h-[28px] items-center justify-center rounded-md"
-            onPress={() => navigation.navigate('EscrowScreen')}
-          >
-            <Text className="text-white">View All</Text>
-          </TouchableOpacity>
-        </View>
-
-        {data?.escrow_breakdown?.slice(0, 5).map((escrows) => {
-          return <EscrowDetails {...escrows} />
-        })}
-
-        {/*Escrow info */}
-        {/* <EscrowDetails /> */}
-      </ScrollView>
-    </SafeAreaView>
+          <View className="bg-white mx-4 rounded-lg">
+            {data?.escrow_breakdown?.slice(0, 5).map((escrows) => {
+              return <EscrowDetails {...escrows} />
+            })}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </Container>
   )
 }
 
