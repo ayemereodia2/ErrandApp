@@ -31,6 +31,7 @@ import TransactionScreen from '../screens/Wallets/TransactionScreen'
 import WalletAccount from '../screens/Wallets/WalletAccount'
 import { RootStackParamList } from '../types'
 import { TabsNavigation } from './TabsNavigation'
+import LandingForm from '../screens/Landing/LandingForm'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
@@ -128,6 +129,19 @@ export const MainStack = () => {
           },
         }}
       />
+
+      <Stack.Screen
+          name="LandingForm"
+          component={LandingForm}
+          options={{ headerShown: true,
+           title: 'Post Errand',
+            headerStyle: {
+              backgroundColor: '#F8F9FC',
+            },
+          }}
+          
+          
+        />
 
       <Stack.Screen
         options={{ headerShown: false }}
