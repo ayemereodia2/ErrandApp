@@ -4,10 +4,17 @@ import { Entypo, EvilIcons, FontAwesome5 } from '@expo/vector-icons'
 import { useQuery } from '@tanstack/react-query'
 import { _fetch } from '../../services/axios/http'
 import { ScrollView } from 'react-native'
+import { errandDetails } from '../../services/errands/errandDetails'
+import { externalUserDetails } from '../../services/auth/externalUserInfo'
+
+import { useDispatch } from 'react-redux'
+import ErrandDetails from '../../screens/Market/ErrandDetails'
 
 
 
-const LandingDetails = () => {
+const LandingDetails = ({navigation}) => {
+
+  const dispatch = useDispatch()
 
   const getMarket = async () => {
     const _rs = await _fetch({
@@ -45,17 +52,16 @@ const LandingDetails = () => {
     <>
     
     {data ? data.data.map((errand:any) => (
-      <SafeAreaView className='mb-10 mr-4'>
+      <SafeAreaView className='mb-10 mr-4' key={errand?.id}>
       <ScrollView horizontal>
       <TouchableOpacity
-     //   onPress={() => {
-     //     navigate.navigate('ErrandDetails', {
-     //       errand_id: errand?.id,
-     //       user_id: errand?.user_id,
-     //     })
-     //     dispatch(errandDetails({ errandId: errand?.id }))
-     //     dispatch(externalUserDetails({ user_id: errand?.user_id }))
-     //   }}
+       onPress={() => {
+         navigation.navigate('LandingDetails', {
+           errand_id: errand?.id,
+
+         })
+       
+       }}
        className="mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border border-[#dddddd]"
        key={errand.errand_id}
      >

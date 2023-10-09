@@ -32,6 +32,7 @@ import WalletAccount from '../screens/Wallets/WalletAccount'
 import { RootStackParamList } from '../types'
 import { TabsNavigation } from './TabsNavigation'
 import LandingForm from '../screens/Landing/LandingForm'
+import LandingDetails from '../components/LandingDetails.tsx/LandingDetails'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
@@ -138,16 +139,18 @@ export const MainStack = () => {
             headerStyle: {
               backgroundColor: '#F8F9FC',
             },
-          }}
-          
-          
+          }}          
         />
+
+    
+
 
       <Stack.Screen
         options={{ headerShown: false }}
         name="ErrandDetails"
         component={ErrandDetails}
       />
+
       <Stack.Screen
         name="Profile"
         component={AccountScreen}

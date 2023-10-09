@@ -50,7 +50,7 @@ const LandingTest = ({navigation}:any) => {
   return (
     <SafeAreaView className='mx-4'>
 
-        <ScrollView>
+        <ScrollView >
             <View className='mt-6 flex-row items-center justify-between'>
                 <Text className='font-bold text-[25px] leading-7'>Good evening</Text>
             
@@ -106,7 +106,7 @@ const LandingTest = ({navigation}:any) => {
 
                 <ScrollView horizontal>
 
-                <LandingDetails />
+                <LandingDetails navigation={navigation}/>
                
                 </ScrollView>
                 </View>
