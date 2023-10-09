@@ -5,7 +5,7 @@ import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { errandDetails } from '../../services/errands/errandDetails'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
-import { getAddress } from '../../utils/helper'
+import { getAddress, getTimeAgo } from '../../utils/helper'
 import { useSelector } from 'react-redux'
 
 interface ErrandCardProp {
@@ -133,7 +133,7 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
 
       <View className="flex-row items-center">
         <View className=" rounded-3xl mt-2">
-          <Text className="font-medium text-sm inline-block" style={{color: darkMode ? 'white' : 'black'}}>
+          <Text className="font-medium text-sm inline-block" >
             {' '}
             {errand?.category.name} {/*?.substring(0, 20)} */}
           </Text>
@@ -203,6 +203,7 @@ export function ListErrandComp({ errand, navigation }: ErrandCardProp) {
   }, [])
 
   return (
+    <>
     <TouchableOpacity
       onPress={() => {
         navigation.navigate('ErrandDetails', {
@@ -214,11 +215,11 @@ export function ListErrandComp({ errand, navigation }: ErrandCardProp) {
       }}
       className="mx-0 shadow-sm rounded-sm"
     >
-      <View className=" bg-white py-4 px-6 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]">
+      {/* <View className=" bg-white py-4 px-6 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]">
         <View className="flex-row  gap-3">
           <View className="mt-4 w-[230px]">
             <Text className="text-base font-medium">
-              {/* {result?.substring(0, 80).concat('', '....')} */}
+              {result?.substring(0, 80).concat('', '....')}
               {truncResult(result, 60)}
             </Text>
             <Text className="text-sm text-[#666666] font-light pt-1 w-[200px]">
@@ -240,7 +241,93 @@ export function ListErrandComp({ errand, navigation }: ErrandCardProp) {
         </View>
 
         <View className="flex-row justify-between items-center"></View>
+      </View> */}
+
+<View className=" bg-white py-4 px-5 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]">
+        <View className="flex-row items-center justify-between">
+          <View className="flex-row items-center space-x-3">
+            {errand?.user?.profile_picture === undefined ? (
+              <View className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center">
+                <Text className="uppercase text-lg items-center text-white">
+                  {errand?.user?.first_name.charAt(0).toUpperCase()}
+                  {errand?.user?.last_name.charAt(0).toUpperCase()}
+                </Text>
+              </View>
+            ) : (
+              <Image
+                style={{
+                  width: 40,
+                  height: 40,
+                  resizeMode: 'contain',
+                  borderRadius: 20,
+                }}
+                alt="okay"
+                source={{ uri: errand?.user?.profile_picture }}
+              />
+            )}
+            <Text className="text-sm font-medium w-[190px]">
+             
+            {errand?.user?.first_name} {errand?.user?.last_name}
+              
+            </Text>
+            
+          </View>
+
+          <Text className="text-[#808080] text-sm w-[100px]">
+            {/* {getTimeAgo(errand?.updated_at)} */}
+          </Text>
+        </View>
+
+        <View className="mt-4">
+          <Text className="text-sm font-medium">
+            {result?.substring(0, 80).concat('', '....')}
+          </Text>
+        </View>
+
+        {/* <View className="flex-row justify-between items-center mt-4">
+          <View
+            className={` px-2 `}
+          >
+            <Text
+              className={`text-center text-sm capitalize py-1 font-medium mr-2`}
+            >
+             {errand.dropoff_address?.address_text ? (
+          truncatedAddressText
+        ) : (
+          <Text>No Location</Text>
+        )}
+            </Text>
+          </View>
+
+          <View className=" px-1 ">
+            <Text className="text-[20px] font-bold text-[#1E3A79] ">
+            &#x20A6; {budgetInNaira.toLocaleString()}           
+             </Text>
+          </View>
+        </View> */}
+        <View className='flex-row justify-between items-center mt-2'>
+          <View className='w-[60%] pr-10'>
+          <Text className='text-center text-sm capitalize font-medium'>
+
+          {errand.dropoff_address?.address_text ? (
+          truncatedAddressText
+        ) : (
+          <Text>No Location</Text>
+        )}
+          </Text>
+          </View>
+
+          <View className=" px-1 ">
+            <Text className="text-[20px] font-bold text-[#1E3A79] ">
+            &#x20A6; {budgetInNaira.toLocaleString()}           
+             </Text>
+          </View>
+
+
+
+        </View>
       </View>
     </TouchableOpacity>
+    </>
   )
 }
