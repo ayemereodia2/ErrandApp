@@ -15,6 +15,7 @@ import EditProfileTitle from '../screens/EditProfile/EditProfileTitle'
 import ErrorScreen from '../screens/Error'
 import GuestDetails from '../screens/Guest/GuestDetails'
 import GuestScreen from '../screens/Guest/GuestScreen'
+import LandingForm from '../screens/Landing/LandingForm'
 import ErrandDetails from '../screens/Market/ErrandDetails'
 import MainScreen from '../screens/Market/MainScreen'
 import AbandonErrandModal from '../screens/Modal/AbandonErrandModal'
@@ -31,10 +32,9 @@ import WalletScreen from '../screens/Wallets'
 import EscrowScreen from '../screens/Wallets/EscrowScreen'
 import TransactionScreen from '../screens/Wallets/TransactionScreen'
 import WalletAccount from '../screens/Wallets/WalletAccount'
-import { RootStackParamList } from '../types'
 import { TabsNavigation } from './TabsNavigation'
 
-const Stack = createNativeStackNavigator<RootStackParamList>()
+const Stack = createNativeStackNavigator()
 
 export function GuestStack() {
   return (
@@ -153,6 +153,7 @@ export const MainStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+
       <Stack.Screen
         name="GuestScreen"
         component={GuestScreen}
@@ -206,6 +207,18 @@ export const MainStack = () => {
           presentation: 'fullScreenModal',
         }}
       /> */}
+
+      <Stack.Screen
+        name="LandingForm"
+        component={LandingForm}
+        options={{
+          headerShown: true,
+          title: 'Post Errand',
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
 
       <Stack.Screen
         name="FundWalletModal"

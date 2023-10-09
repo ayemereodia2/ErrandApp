@@ -21,12 +21,12 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu'
 import { ProfileInitials } from '../components/ProfileInitials'
+import LandingTest from '../screens/Landing/LandingTest'
 import { useAppDispatch } from '../services/store'
 import { getUserId } from '../utils/helper'
 import {
   MarketStack,
   MyErrandStack,
-  PostErrandStack,
   SetttingsStack,
   WalletStack,
 } from './StackNavigation'
@@ -155,6 +155,23 @@ export const TabsNavigation = ({ navigation }: any) => {
     >
       <Tab.Screen
         options={optionsHandler({
+          title: 'Landing Page',
+          headerShown: false,
+          tabBarIcon: ({ focused }: any) => (
+            <View>
+              {focused ? (
+                <AntDesign name="home" size={24} color="#243763" />
+              ) : (
+                <AntDesign name="home" size={24} color="black" />
+              )}
+            </View>
+          ),
+        })}
+        name="Landing Page"
+        component={LandingTest}
+      />
+      <Tab.Screen
+        options={optionsHandler({
           title: 'Errand Market',
           headerShown: true,
           tabBarIcon: ({ focused }: any) => (
@@ -187,7 +204,7 @@ export const TabsNavigation = ({ navigation }: any) => {
         name="MyErrandTab"
         component={MyErrandStack}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         options={optionsHandler({
           title: 'Create Errand',
           headerShown: false,
@@ -206,7 +223,7 @@ export const TabsNavigation = ({ navigation }: any) => {
         })}
         name="PostErrandTab"
         component={PostErrandStack}
-      />
+      /> */}
       <Tab.Screen
         options={optionsHandler({
           title: 'Wallet',

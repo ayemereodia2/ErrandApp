@@ -116,7 +116,7 @@ const AccountScreen = ({ navigation }: any) => {
 
   if (isLoading) {
     return (
-      <SafeAreaView className="m-auto bg-gray-200 w-screen h-[100vh]">
+      <SafeAreaView className="pt-20 bg-gray-200 w-screen h-[100vh] mt-5">
         {/* <Text className='m-auto'><EvilIcons name="spinner" size={28} color="black" /></Text> */}
         <ActivityIndicator color="black" size="large" />
       </SafeAreaView>
