@@ -26,6 +26,7 @@ import {
   SetttingsStack,
   WalletStack,
 } from './StackNavigation'
+import LandingTest from '../screens/Landing/LandingTest'
 
 const Header = (props: any) => {
   return (
@@ -236,6 +237,24 @@ export const TabsNavigation = ({navigation}: any) => {
         })}
         name="SettingsTab"
         component={SetttingsStack}
+      />
+
+      <Tab.Screen
+        options={optionsHandler({
+          title: 'Landing Page',
+          headerShown: false,
+          tabBarIcon: ({ focused }: any) => (
+            <View>
+              {focused ? (
+                <Fontisto name="player-settings" size={26} color="#243763" />
+              ) : (
+                <Fontisto name="player-settings" size={26} color="black" />
+              )}
+            </View>
+          ),
+        })}
+        name="Landing Page"
+        component={LandingTest}
       />
     </Tab.Navigator>
   )
