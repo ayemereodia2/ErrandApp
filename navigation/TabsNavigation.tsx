@@ -172,7 +172,7 @@ export const TabsNavigation = ({ navigation }: any) => {
       />
       <Tab.Screen
         options={optionsHandler({
-          title: 'My Errrands',
+          title: 'My Errands',
           headerShown: true,
           tabBarIcon: ({ focused }: any) => (
             <View>

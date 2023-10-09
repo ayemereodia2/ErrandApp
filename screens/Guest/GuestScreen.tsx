@@ -1,19 +1,20 @@
 import {
   AbrilFatface_400Regular,
-  useFonts
+  useFonts,
 } from '@expo-google-fonts/abril-fatface'
 import {
   Entypo,
   EvilIcons,
   Feather,
   Ionicons,
-  MaterialCommunityIcons
+  MaterialCommunityIcons,
 } from '@expo/vector-icons'
 // import { ScrollView } from 'native-base'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
   Image,
+  Platform,
   RefreshControl,
   SafeAreaView,
   ScrollView,
@@ -21,19 +22,12 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native'
-import {
-  Menu,
-  MenuOption,
-  MenuOptions,
-  MenuTrigger
-} from 'react-native-popup-menu'
 import { useSelector } from 'react-redux'
 import Filter from '../../components/Filter/Filter'
 import GuestComp, { GuestList } from '../../components/GuestComp/GuestComp'
-import { errandMarketList } from '../../services/errands/market'
-import { myErrandList } from '../../services/errands/myErrands'
+import { errandMarketList, setLoading } from '../../services/errands/market'
 import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
@@ -82,6 +76,7 @@ export default function GuestScreen({ navigation }: any) {
 
   const onRefresh = React.useCallback(() => {
     dispatch(errandMarketList({}))
+    dispatch(setLoading(false))
     setRefreshing(true)
     setTimeout(() => {
       setRefreshing(false)
@@ -114,11 +109,14 @@ export default function GuestScreen({ navigation }: any) {
       title: 'Errand Market',
       headerStyle: { backgroundColor: '#F8F9FC' },
       headerLeft: () => (
-        <View style={{marginRight: 10}} className="flex-row items-center justify-between mx-0 px-3 pb-1 w-10 h-10 rounded-full ">
+        <View
+          style={{ marginRight: 10 }}
+          className="flex-row items-center justify-between mx-0 px-3 pb-1 w-10 h-10 rounded-full "
+        >
           <Image
             source={require('../../assets/images/swave--3.jpeg')}
             className="w-6 h-6 rounded-lg bg-blue-100 justify-center"
-          style={{ resizeMode: 'cover'  }}
+            style={{ resizeMode: 'cover' }}
           />
           {/* <Entypo name="menu" size={24} /> */}
           {/* </TouchableOpacity> */}
@@ -126,37 +124,12 @@ export default function GuestScreen({ navigation }: any) {
       ),
       headerRight: () => (
         <View className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-3 ">
-          <TouchableOpacity onPress={() => {}}>
-            <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
-              <MenuTrigger>
-                <Entypo name="dots-three-vertical" color={'black'} size={16} />
-              </MenuTrigger>
-              <MenuOptions
-                customStyles={{
-                  optionsContainer: {
-                    padding: 4,
-                    width: 100,
-                    marginTop: 20,
-                  },
-                }}
-              >
-                <MenuOption
-                  onSelect={() => dispatch(myErrandList({}))}
-                  text="Refresh"
-                  customStyles={{
-                    optionText: { textAlign: 'center', fontWeight: '600' },
-                  }}
-                />
-
-                <MenuOption
-                  text="Contact Us"
-                  customStyles={{
-                    optionText: { textAlign: 'center', fontWeight: '600' },
-                  }}
-                />
-              </MenuOptions>
-            </Menu>
-          </TouchableOpacity>
+          <Entypo
+            name="help-with-circle"
+            color="#1E3A79"
+            size={24}
+            onPress={() => navigation.navigate('Contact')}
+          />
         </View>
       ),
     })
@@ -171,22 +144,37 @@ export default function GuestScreen({ navigation }: any) {
   } else {
     return (
       <SafeAreaView>
-        <ScrollView
-          scrollEventThrottle={16}
-          className="bg-[#e4eaf7]"
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
+        <View
+          style={{
+            flexDirection: 'column-reverse',
+            marginBottom: Platform.OS === 'android' ? 40 : 20,
+          }}
         >
-          {loading ? (
-            <View style={styles.container} className="mt-10">
-              <ActivityIndicator
-                size={'large'}
-                style={[{ height: 80 }]}
-                color="blue"
-              />
-            </View>
-          ) : (
+          <ScrollView
+            scrollEventThrottle={16}
+            className="bg-[#e4eaf7]"
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
+            {/* {loading ? (
+              <View style={styles.container} className="mt-10">
+                <ActivityIndicator
+                  size={'large'}
+                  style={[{ height: 80 }]}
+                  color="blue"
+                />
+              </View>
+            ) : ( */}
+            {loading && (
+              <View style={styles.container} className="mt-10">
+                <ActivityIndicator
+                  size={'large'}
+                  style={[{ height: 80 }]}
+                  color="blue"
+                />
+              </View>
+            )}
             <>
               {filterOn && (
                 <Filter
@@ -209,74 +197,75 @@ export default function GuestScreen({ navigation }: any) {
                 style={{ display: filterOn ? 'none' : 'flex' }}
               >
                 <View className="mx-4">
-                  <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white">
-                    <EvilIcons
-                      name="search"
-                      size={22}
-                      className="w-1/12"
-                      color="#808080"
-                    />
-                    <TextInput
-                      className=" w-8/12"
-                      placeholder="Search for Errands"
-                      placeholderTextColor="#808080"
-                    />
-                    <TouchableOpacity onPress={handleViewChange}>
-                      <View className="mr-1 b rounded-md w-[38px]">
-                        <Text className="p-2 text-center">
+                  {!loading &&
+                    <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white">
+                      <EvilIcons
+                        name="search"
+                        size={22}
+                        className="w-1/12"
+                        color="#808080"
+                      />
+                      <TextInput
+                        className=" w-8/12"
+                        placeholder="Search for Errands"
+                        placeholderTextColor="#808080"
+                      />
+                      <TouchableOpacity onPress={handleViewChange}>
+                        <View className="mr-1 b rounded-md w-[38px]">
+                          <Text className="p-2 text-center">
+                            {toggleView ? (
+                              <Feather name="list" size={20} color="black" />
+                            ) : (
+                              <MaterialCommunityIcons
+                                name="view-dashboard"
+                                size={20}
+                                color="black"
+                              />
+                            )}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={handleFilter}>
+                        <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
+                          <Text className="p-2 text-center">
+                            <Ionicons
+                              name="md-filter-outline"
+                              size={18}
+                              color="white"
+                            />
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  }
+
+                  <View className="mt-2">
+                    {errands?.map((errand: MarketData, index: number) => {
+                      return (
+                        <>
                           {toggleView ? (
-                            <Feather
-                              name="list"
-                              size={20}
-                              color="black"
+                            <GuestComp
+                              errand={errand}
+                              navigate={navigation}
+                              key={index}
                             />
                           ) : (
-                            <MaterialCommunityIcons
-                              name="view-dashboard"
-                              size={20}
-                              color="black"
+                            <GuestList
+                              errand={errand}
+                              navigate={navigation}
+                              key={index}
                             />
                           )}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={handleFilter}>
-                      <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
-                        <Text className="p-2 text-center">
-                          <Ionicons
-                            name="md-filter-outline"
-                            size={18}
-                            color="white"
-                          />
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
+                        </>
+                      )
+                    })}
                   </View>
-
-                  {errands?.map((errand: MarketData, index: number) => {
-                    return (
-                      <>
-                        {toggleView ? (
-                          <GuestComp
-                            errand={errand}
-                            navigate={navigation}
-                            key={index}
-                          />
-                        ) : (
-                          <GuestList
-                            errand={errand}
-                            navigate={navigation}
-                            key={index}
-                          />
-                        )}
-                      </>
-                    )
-                  })}
                 </View>
               </View>
             </>
-          )}
-        </ScrollView>
+            {/* )} */}
+          </ScrollView>
+        </View>
 
         <View
           className="w-full h-[60px] absolute bottom-0 flex-row justify-between items-center bg-[#1E3A79]"
@@ -287,15 +276,15 @@ export default function GuestScreen({ navigation }: any) {
             onPress={() => navigation.navigate('Login')}
           >
             <Text className="text-white text-lg font-medium text-center">
-              Login
+              Sign In
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            className="bg-[#FFB536] w-[50%] h-[60px] items-center justify-center"
+            className="bg-[#2856c1] w-[50%] h-[60px] items-center justify-center"
             onPress={() => navigation.navigate('VerifyPhone')}
           >
-            <Text className="text-black text-lg text-center font-medium">
+            <Text className="text-white text-lg text-center font-medium">
               Sign Up
             </Text>
           </TouchableOpacity>

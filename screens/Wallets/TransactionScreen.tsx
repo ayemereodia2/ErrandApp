@@ -68,10 +68,6 @@ const TransactionScreen = ({ navigation }: any) => {
 
   const getTransactions = async () => {
     setLoading(true)
-    const params = {
-      start_date: transformDateTime(startDate),
-      end_date: transformDateTime(endDate),
-    }
 
     try {
       let url = '/user/transactions'
@@ -101,7 +97,6 @@ const TransactionScreen = ({ navigation }: any) => {
     const searchResult = transactions.filter((t) =>
       t?.description?.toLowerCase().includes(value),
     )
-
     setTransactions(searchResult)
   }
 

@@ -106,6 +106,11 @@ export function GuestStack() {
           }}
         />
         <Stack.Screen
+          name="WalletAccount"
+          component={WalletAccount}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="VerifyPhone"
           component={VerifyPhone}
           options={{ title: 'Verify Phone' }}
@@ -180,6 +185,18 @@ export const MainStack = () => {
           },
         }}
       />
+
+      <Stack.Screen
+        name="WalletAccount"
+        component={WalletAccount}
+        options={{ headerShown: false }}
+      />
+
+      {/* <Stack.Screen
+        name="Withd"
+        component={WalletAccount}
+        options={{ headerShown: false }}
+      /> */}
 
       {/* <Stack.Screen
         name="CategoryInterest"
@@ -333,11 +350,6 @@ export const WalletStack = () => {
         options={{ headerShown: false }}
       /> */}
 
-      <Stack.Screen
-        name="WalletAccount"
-        component={WalletAccount}
-        options={{ headerShown: false }}
-      />
       {/* <Stack.Screen
         name="FundWalletModal"
         component={FundWalletModal}

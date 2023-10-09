@@ -1,7 +1,7 @@
 // import { fetchMyErrands } from '@app/lib/errand/api'
 import { EvilIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
   Image,
@@ -116,9 +116,8 @@ const ErrandScreen = ({ navigation }: any) => {
             <MyErrandEmptyState />
           ) : (
             <>
-              {loading ? (
-                <ActivityIndicator color="blue" size="large" />
-              ) : (
+              {loading && <ActivityIndicator color="blue" size="large" />}
+              <View>
                 <View>
                   <View className="bg-[#e4eaf7] ">
                     <View className="mx-4 mt-4 bg-white">
@@ -146,31 +145,32 @@ const ErrandScreen = ({ navigation }: any) => {
                     filterBidByStatus={filterBidByStatus}
                     filterErrandByStatus={filterErrandByStatus}
                   />
-
-                  {searchedErrand?.length === 0 && (
-                    <Text className="text-xs text-center pt-3">
-                      No {status} Errands at the moment
-                    </Text>
-                  )}
-
-                  <ScrollView className="mt-6">
-                    {searchedErrand?.map((errand, index) => {
-                      return (
-                        <View key={index}>
-                          <MyErrandCard
-                            index={index}
-                            errand={errand}
-                            navigation={navigation}
-                            setManageErrandClicked={setManageErrandClicked}
-                            setSubErrand={setSubErrand}
-                            user_id={userId}
-                          />
-                        </View>
-                      )
-                    })}
-                  </ScrollView>
                 </View>
-              )}
+
+                {searchedErrand?.length === 0 && (
+                  <Text className="text-xs text-center pt-3">
+                    No {status} Errands at the moment
+                  </Text>
+                )}
+
+                <ScrollView className="mt-6">
+                  {searchedErrand?.map((errand, index) => {
+                    return (
+                      <View key={index}>
+                        <MyErrandCard
+                          index={index}
+                          errand={errand}
+                          navigation={navigation}
+                          setManageErrandClicked={setManageErrandClicked}
+                          setSubErrand={setSubErrand}
+                          user_id={userId}
+                        />
+                      </View>
+                    )
+                  })}
+                </ScrollView>
+              </View>
+              {/* )} */}
             </>
           )}
         </View>

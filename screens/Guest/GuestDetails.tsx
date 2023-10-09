@@ -358,7 +358,7 @@ export default function GuestDetails({ route, navigation }: any) {
               </BottomSheetModal>
             </ScrollView>
           </View>
-
+{/* 
           {showBidBtn && (
             <>
               {errand.user_id !== userId && errand?.status !== 'completed' ? (
@@ -378,7 +378,7 @@ export default function GuestDetails({ route, navigation }: any) {
                 ''
               )}
             </>
-          )}
+          )} */}
 
           <View
             className="w-full h-[60px] absolute bottom-0 flex-row justify-between items-center bg-[#1E3A79]"

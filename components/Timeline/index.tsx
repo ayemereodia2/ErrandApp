@@ -3,6 +3,7 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
+import { useHeaderHeight } from '@react-navigation/elements'
 import React, { useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
@@ -52,6 +53,8 @@ const Timeline = ({
     }
   }
 
+  const height = useHeaderHeight()
+
   const closeReply = () => {
     setReply('')
   }
@@ -80,14 +83,17 @@ const Timeline = ({
     }
   }, [])
 
+  const keyboardVerticalOffset = Platform.OS === 'ios' ? -60 : 150
+
   return (
     <BottomSheetModalProvider>
       <KeyboardAvoidingView
+        keyboardVerticalOffset={keyboardVerticalOffset}
         style={{ flex: 1 }}
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
       >
         {loadingErrand ? (
-          <ActivityIndicator size="large" color="blue"/>
+          <ActivityIndicator size="large" color="blue" />
         ) : (
           <View>
             <View className="h-[56px] bg-[#FEE1CD] mx-4 items-center justify-center border border-[#C85604] mt-4 rounded-lg">

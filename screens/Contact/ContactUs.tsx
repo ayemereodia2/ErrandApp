@@ -42,47 +42,47 @@ const ContactUs = ({ navigation }: any) => {
           <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableOpacity>
       ),
-      headerRight: () => (
-        <View className="flex-row items-center justify-between mx-3 px-3 py-3 space-x-3 ">
-          <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
-            <MenuTrigger>
-              <Entypo name="dots-three-vertical" color={'black'} size={20} />
-            </MenuTrigger>
-            <MenuOptions
-              customStyles={{
-                optionWrapper: {
-                  // borderBottomWidth: 0.2,
-                  borderBottomColor: '#AAAAAA',
-                },
-                optionText: { textAlign: 'center', fontWeight: '600' },
-              }}
-            >
-              <MenuOption
-                onSelect={() => navigation.navigate('Settings')}
-                text="Settings"
-                customStyles={{
-                  optionWrapper: {
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#AAAAAA',
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-              <MenuOption
-                onSelect={() => navigation.navigate('Account')}
-                text="Profile"
-                customStyles={{
-                  optionWrapper: {
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#AAAAAA',
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-            </MenuOptions>
-          </Menu>
-        </View>
-      ),
+      // headerRight: () => (
+      //   <View className="flex-row items-center justify-between mx-3 px-3 py-3 space-x-3 ">
+      //     <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
+      //       <MenuTrigger>
+      //         <Entypo name="dots-three-vertical" color={'black'} size={20} />
+      //       </MenuTrigger>
+      //       <MenuOptions
+      //         customStyles={{
+      //           optionWrapper: {
+      //             // borderBottomWidth: 0.2,
+      //             borderBottomColor: '#AAAAAA',
+      //           },
+      //           optionText: { textAlign: 'center', fontWeight: '600' },
+      //         }}
+      //       >
+      //         <MenuOption
+      //           onSelect={() => navigation.navigate('Settings')}
+      //           text="Settings"
+      //           customStyles={{
+      //             optionWrapper: {
+      //               borderBottomWidth: 1,
+      //               borderBottomColor: '#AAAAAA',
+      //             },
+      //             optionText: { textAlign: 'center', fontWeight: '600' },
+      //           }}
+      //         />
+      //         <MenuOption
+      //           onSelect={() => navigation.navigate('Account')}
+      //           text="Profile"
+      //           customStyles={{
+      //             optionWrapper: {
+      //               borderBottomWidth: 1,
+      //               borderBottomColor: '#AAAAAA',
+      //             },
+      //             optionText: { textAlign: 'center', fontWeight: '600' },
+      //           }}
+      //         />
+      //       </MenuOptions>
+      //     </Menu>
+      //   </View>
+      // ),
     })
   }, [])
 

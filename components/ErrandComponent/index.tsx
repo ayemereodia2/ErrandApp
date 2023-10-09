@@ -53,7 +53,7 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
         dispatch(errandDetails({ errandId: errand?.id, navigation }))
         dispatch(externalUserDetails({ user_id: errand?.user_id }))
       }}
-      className="mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border border-[#ccc]"
+      className="pt-4 mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border border-[#ccc]"
     >
       <View className=" flex-row items-start mt-4">
         <View className="flex-row items-start justify-center gap-3">
@@ -210,34 +210,13 @@ export function ListErrandComp({ errand, navigation }: ErrandCardProp) {
       className="mx-0 shadow-sm rounded-sm"
     >
       <View className=" bg-white py-4 px-6 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]">
-        <View className="flex-row items-start justify-center gap-3">
-          {/* <View className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center">
-            {errand?.user?.profile_picture ? (
-              <Image
-                style={{
-                  width: 40,
-                  height: 40,
-                  resizeMode: 'contain',
-                  borderRadius: 20,
-                }}
-                alt="okay"
-                source={{ uri: errand?.user?.profile_picture }}
-                // source={require(errand.user.profile_picture)}
-              />
-            ) : (
-              <Text className="uppercase text-lg items-center text-white">
-                {errand?.user?.first_name.charAt(0).toUpperCase()}
-                {errand?.user?.last_name.charAt(0).toUpperCase()}
-              </Text>
-            )}
-          </View> */}
-
-          <View className="mt-4 w-[260px]">
+        <View className="flex-row  gap-3">
+          <View className="mt-4 w-[230px]">
             <Text className="text-base font-medium">
               {/* {result?.substring(0, 80).concat('', '....')} */}
               {truncResult(result, 60)}
             </Text>
-            <Text className="text-sm text-[#666666] font-light pt-1">
+            <Text className="text-sm text-[#666666] font-light pt-1 w-[200px]">
               {' '}
               <Text>
                 <EvilIcons name="location" size={14} color="green" />{' '}
@@ -250,29 +229,12 @@ export function ListErrandComp({ errand, navigation }: ErrandCardProp) {
             </Text>
           </View>
 
-          <Text className="text-[18px] font-bold text-[#1E3A79]">
+          <Text className="text-[18px] font-bold text-[#1E3A79] w-[100px]">
             &#x20A6; {budgetInNaira.toLocaleString()}
           </Text>
         </View>
 
-        <View className="flex-row justify-between items-center">
-          {/* <Text className="text-[18px] font-bold text-[#1E3A79]">
-            &#x20A6; {budgetInNaira.toLocaleString()}
-          </Text> */}
-          {/* <ProfileInitials firstName="Kzu" lastName="Soo" /> */}
-
-          {/* <View className=" rounded-2xl py-2  items-center mt-2">
-            <Text className="text-orange-500 text-center text-[17px] mb-1 font-semibold">
-              {' '}
-              {errand?.total_bids === 0 ? '' : errand?.total_bids}{' '}
-              {errand?.total_bids === 0
-                ? ''
-                : errand?.total_bids <= 1
-                ? 'Bid'
-                : 'Bids'}
-            </Text>
-          </View> */}
-        </View>
+        <View className="flex-row justify-between items-center"></View>
       </View>
     </TouchableOpacity>
   )

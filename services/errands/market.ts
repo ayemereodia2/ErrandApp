@@ -82,6 +82,9 @@ const errandMarketListSlice = createSlice({
     },
     setActionState(state: ErrandMarketResponse, { payload }: PayloadAction<string>) {
       state.action = payload
+    },
+     setLoading(state: ErrandMarketResponse, { payload }: PayloadAction<boolean>) {
+      state.loading = payload
     }
 
   },
@@ -103,5 +106,5 @@ const errandMarketListSlice = createSlice({
 
 })
 
-export const {setSortedErrands,setActionState} = errandMarketListSlice.actions
+export const {setSortedErrands,setActionState, setLoading} = errandMarketListSlice.actions
 export const errandMarketListReducer = errandMarketListSlice.reducer

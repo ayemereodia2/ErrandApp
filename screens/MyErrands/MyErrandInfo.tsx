@@ -109,7 +109,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
         manageErrandClicked: false,
       }),
       headerLeft: () => (
-        <TouchableOpacity className='pr-8' onPress={() => navigation.goBack()}>
+        <TouchableOpacity className="pr-8" onPress={() => navigation.goBack()}>
           <AntDesign name="arrowleft" size={24} color="#243763" />
         </TouchableOpacity>
       ),

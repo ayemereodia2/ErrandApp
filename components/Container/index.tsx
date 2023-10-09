@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import { SafeAreaView, View } from 'react-native'
+import { Platform, SafeAreaView, View } from 'react-native'
 
 interface ContainerProp {
   children: ReactElement
@@ -11,7 +11,7 @@ const Container = ({ children }: ContainerProp) => {
       <View
         style={{
           flexDirection: 'column-reverse',
-          marginBottom: 80,
+          marginBottom: Platform.OS === 'android' ? 70 : 40,
         }}
       >
         {children}

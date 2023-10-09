@@ -198,7 +198,6 @@ const FundWalletModal = ({ navigation, route }: any) => {
         </View>
       )}
 
-      {/* {pay && ( */}
       <View style={{ flex: 1 }}>
         <Paystack
           paystackKey="pk_test_0ea2496d44ff8e00a98762e85ab92a1639d7307e"

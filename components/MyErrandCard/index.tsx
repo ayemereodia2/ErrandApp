@@ -47,7 +47,7 @@ const MyErrandCard = ({
       key={index}
       className="mx-4 shadow-sm rounded-sm"
     >
-      <View className=" bg-white py-4 px-6 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]">
+      <View className=" bg-white py-4 px-5 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]">
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center space-x-3">
             {errand?.user?.profile_picture === undefined ? (
@@ -69,7 +69,7 @@ const MyErrandCard = ({
                 source={{ uri: errand?.user?.profile_picture }}
               />
             )}
-            <Text className="text-sm font-medium">
+            <Text className="text-sm font-medium w-[190px]">
               {' '}
               {errand.errand_type === 1 ? (
                 <>Multiple Users Errand</>
@@ -79,7 +79,7 @@ const MyErrandCard = ({
             </Text>
           </View>
 
-          <Text className="text-[#808080] text-sm">
+          <Text className="text-[#808080] text-sm w-[100px]">
             {getTimeAgo(errand?.updated_at)}
           </Text>
         </View>

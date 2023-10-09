@@ -53,12 +53,12 @@ const SettingScreen = ({ navigation }: any) => {
     refetchOnMount: 'always',
   })
 
-
   useEffect(() => {
     dispatch(notificationPreferences())
   }, [])
 
   return (
+    <Container>
       <SafeAreaView>
         <ScrollView className="bg-[#F8F9FC]">
           <View className=" mt-6 px-4">
@@ -245,6 +245,7 @@ const SettingScreen = ({ navigation }: any) => {
           </View>
         </ScrollView>
       </SafeAreaView>
+    </Container>
   )
 }
 
