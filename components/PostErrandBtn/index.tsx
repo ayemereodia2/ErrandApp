@@ -1,10 +1,19 @@
-import { Ionicons, MaterialIcons } from '@expo/vector-icons'
+import { MaterialIcons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { View } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 
-const PostErrandButton = () => {
+interface BtnProp {
+  className: string
+}
+
+const PostErrandButton = ({className}: BtnProp) => {
+  const navigation = useNavigation()
   return (
-    <View className='absolute bottom-20 bg-[#1E3A79] right-0 rounded-full h-16 w-16 flex-row justify-center items-center'>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('CreateErrand')}
+      className={`absolute  bg-[#1E3A79] rounded-full h-14 w-14 flex-row justify-center items-center ${className}`}
+    >
       <MaterialIcons
         name="add"
         size={30}
@@ -12,11 +21,8 @@ const PostErrandButton = () => {
         // style={{ top: -40 }}
         className="shadow-lg"
       />
-    </View>
+    </TouchableOpacity>
   )
 }
-
-
-
 
 export default PostErrandButton

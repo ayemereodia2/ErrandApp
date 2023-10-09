@@ -46,7 +46,9 @@ const LandingTest = ({ navigation }: any) => {
 
           <View className="items-center flex-row gap-4 mr-2">
             <Text>
-              <FontAwesome name="bell-o" size={24} color="black" />
+              <FontAwesome name="bell-o" size={24} color="black" onPress={() => {
+                navigation.navigate('Notification')
+              }} />
             </Text>
             <Text>
               <Feather name="search" size={24} color="black" />
@@ -56,11 +58,11 @@ const LandingTest = ({ navigation }: any) => {
 
         <View className="flex-row items-center gap-4 mt-1">
           <View className="bg-gray-400 px-4 py-1 rounded-xl">
-            <Text className="text-white text-base">Music</Text>
+            <Text className="text-white text-base">Explore</Text>
           </View>
 
           <View className="bg-gray-400 px-4 py-1 rounded-xl">
-            <Text className="text-white text-base">Podcasts & Shows</Text>
+            <Text className="text-white text-base">Manage your Errands</Text>
           </View>
         </View>
 
@@ -101,7 +103,7 @@ const LandingTest = ({ navigation }: any) => {
           </ScrollView>
         </View>
       </ScrollView>
-      <PostErrandButton />
+      <PostErrandButton className='bottom-20 right-0' />
     </SafeAreaView>
   )
 }

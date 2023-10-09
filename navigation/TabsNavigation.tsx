@@ -1,16 +1,16 @@
 import {
   AntDesign,
   Entypo,
-  FontAwesome5,
+  Feather, FontAwesome5,
   Fontisto,
   Ionicons,
-  MaterialIcons,
+  MaterialIcons
 } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   getFocusedRouteNameFromRoute,
   useNavigation,
-  useRoute,
+  useRoute
 } from '@react-navigation/native'
 import React, { useEffect } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
@@ -18,17 +18,17 @@ import {
   Menu,
   MenuOption,
   MenuOptions,
-  MenuTrigger,
+  MenuTrigger
 } from 'react-native-popup-menu'
 import { ProfileInitials } from '../components/ProfileInitials'
-import LandingTest from '../screens/Landing/LandingTest'
 import { useAppDispatch } from '../services/store'
 import { getUserId } from '../utils/helper'
 import {
+  LandingPageStack,
   MarketStack,
   MyErrandStack,
   SetttingsStack,
-  WalletStack,
+  WalletStack
 } from './StackNavigation'
 
 const Header = (props: any) => {
@@ -168,7 +168,7 @@ export const TabsNavigation = ({ navigation }: any) => {
           ),
         })}
         name="Landing Page"
-        component={LandingTest}
+        component={LandingPageStack}
       />
       <Tab.Screen
         options={optionsHandler({
@@ -177,9 +177,9 @@ export const TabsNavigation = ({ navigation }: any) => {
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
-                <AntDesign name="home" size={24} color="#243763" />
+                <Feather name="search" size={24} color="black" />
               ) : (
-                <AntDesign name="home" size={24} color="black" />
+              <Feather name="search" size={24} color="black" />
               )}
             </View>
           ),

@@ -17,6 +17,7 @@ import Container from '../../components/Container'
 import MyErrandCard from '../../components/MyErrandCard'
 import { MyErrandEmptyState } from '../../components/MyErrandEmptyState'
 import MyErrandToggle from '../../components/MyErrandToggle'
+import PostErrandButton from '../../components/PostErrandBtn'
 import { myErrandList } from '../../services/errands/myErrands'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData, SingleSubErrand } from '../../types'
@@ -175,6 +176,8 @@ const ErrandScreen = ({ navigation }: any) => {
           )}
         </View>
       </ScrollView>
+
+      {!loading && <PostErrandButton className="bottom-1 right-3" />}
     </Container>
   )
 }
