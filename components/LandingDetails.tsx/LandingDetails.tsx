@@ -15,7 +15,7 @@ import { _fetch } from '../../services/axios/http'
 import { errandDetails } from '../../services/errands/errandDetails'
 import { useAppDispatch } from '../../services/store'
 
-const LandingDetails = ({ navigation }: any) => {
+const LandingDetails = ({ navigation, darkMode }: any) => {
   const dispatch = useAppDispatch()
   const getMarket = async () => {
     const _rs = await _fetch({
@@ -47,7 +47,7 @@ const LandingDetails = ({ navigation }: any) => {
     <>
       {data
         ? data.data.map((errand: any) => (
-            <SafeAreaView className="mb-10 mr-4">
+            <SafeAreaView className="mb-10 mr-4" >
               <ScrollView horizontal>
                 <TouchableOpacity
                   onPress={() => {
@@ -58,7 +58,9 @@ const LandingDetails = ({ navigation }: any) => {
                     dispatch(errandDetails({ errandId: errand?.id }))
                     dispatch(externalUserDetails({ user_id: errand?.user_id }))
                   }}
-                  className="mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border border-[#dddddd]"
+                  className="mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border"
+                  style={{backgroundColor: darkMode ? '#1E3A79' : 'white', borderColor: darkMode ? '#e9ebbf2' : 'lightgrey'}}
+                  
                   key={errand.errand_id}
                 >
                   <View className=" flex-row items-start mt-4">
@@ -85,7 +87,7 @@ const LandingDetails = ({ navigation }: any) => {
                       </View>
 
                       <View>
-                        <Text className="font-semibold text-[18px]">
+                        <Text className="font-semibold text-[18px]" style={{color: darkMode ? 'white' : 'black'}}>
                           {errand?.user?.first_name} {errand?.user?.last_name}
                         </Text>
 
@@ -108,11 +110,11 @@ const LandingDetails = ({ navigation }: any) => {
                                 |
                               </Text>
                               <View>
-                                <Text className="text-[14px] text-[#777777] font-medium">
+                                <Text className="text-[14px] text-[#777777] font-medium" style={{color: darkMode ? 'white' : 'black'}}>
                                   <FontAwesome5
                                     name="running"
                                     size={14}
-                                    color="black"
+                                    
                                   />{' '}
                                   {errand?.user?.errands_completed}
                                 </Text>
@@ -124,13 +126,13 @@ const LandingDetails = ({ navigation }: any) => {
                     </View>
                   </View>
 
-                  <Text className="text-[18px] font-medium py-4 pt-4 text-[#000000]">
+                  <Text className="text-[18px] font-medium py-4 pt-4" style={{color: darkMode ? 'white' : 'black'}}>
                     {errand?.description?.length >= 60
                       ? errand?.description?.substring(0, 50).concat('', '...')
                       : errand?.description}
                   </Text>
 
-                  <Text className="text-sm text-[#666666] font-light">
+                  <Text className="text-sm font-light" style={{color: darkMode ? 'white' : '#666666'}}>
                     {' '}
                     <Text>
                       <EvilIcons name="location" size={14} color="green" />{' '}
@@ -144,7 +146,7 @@ const LandingDetails = ({ navigation }: any) => {
 
                   <View className="flex-row items-center">
                     <View className=" rounded-3xl mt-2">
-                      <Text className="font-medium text-sm inline-block">
+                      <Text className="font-medium text-sm inline-block"  style={{color: darkMode ? 'white' : 'black'}}>
                         {' '}
                         {errand?.category.name?.substring(0, 20)}
                       </Text>
@@ -154,14 +156,14 @@ const LandingDetails = ({ navigation }: any) => {
                   <View className="h-[0.3px] bg-[#AAAAAA] mt-3 items-center"></View>
 
                   <View className="flex-row justify-between items-center mt-2">
-                    <Text className="text-[20px] font-bold text-[#1E3A79] ">
+                    <Text className="text-[20px] font-bold text-[#1E3A79]"  style={{color: darkMode ? 'white' : 'black'}}>
                       &#x20A6; {/* {budgetInNaira.toLocaleString()} */}{' '}
                       {(errand?.budget / 100).toLocaleString()}
                     </Text>
                     {/* <ProfileInitials firstName="Kzu" lastName="Soo" /> */}
 
                     <View className=" rounded-2xl py-2 px-2  items-center mt-2">
-                      <Text className="text-orange-500 text-center text-[17px] mb-1 font-semibold">
+                      <Text className="text-orange-500 text-center text-[17px] mb-1 font-semibold"  style={{color: darkMode ? 'white' : 'black'}}>
                         {' '}
                         {errand?.total_bids === 0
                           ? ''

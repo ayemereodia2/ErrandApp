@@ -11,6 +11,7 @@ import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
 import { RootState, useAppDispatch } from '../../services/store'
+import { toggleDarkMode } from '../../services/DarkMode/DarkMode'
 
 const SettingsTest = () => {
   const dispatch = useAppDispatch()
@@ -22,6 +23,7 @@ const SettingsTest = () => {
   const { loading } = useSelector(
     (state: RootState) => state.updateNotificationPreferenceReducer,
   )
+  const darkMode = useSelector((state: RootState) => state.darkMode.darkMode);
 
   return (
     <ScrollView>
@@ -120,6 +122,26 @@ const SettingsTest = () => {
             Stay informed about our amazing offers
           </Text>
         </View>
+          
+        <View className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]">
+          <View className="flex-row items-center justify-between">
+          <Text className="font-medium text-base ">
+              Dark Mode
+            </Text>
+        <TouchableOpacity onPress={()=> dispatch(toggleDarkMode())}>
+              <Switch
+                      trackColor={{ false: '#767577', true: 'green' }}
+                      value={darkMode}
+                      onValueChange={(value: boolean) => {
+                       
+                      }}
+                      style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
+                    />
+             
+            </TouchableOpacity>
+      </View>
+      </View>
+      
       </View>
 
       <View className="mt-8 ml-4">
