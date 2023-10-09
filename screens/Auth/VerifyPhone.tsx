@@ -35,7 +35,7 @@ interface IData {
   phone_number: string
 }
 
-export default function VerifyPhone() {
+export default function VerifyPhone({navigation}: any) {
   const [visible, setVisible] = useState<boolean>(false)
   const [phone, setPhone] = useState<string>('')
   const [otp, setOtp] = useState<string>('')
@@ -45,7 +45,6 @@ export default function VerifyPhone() {
   const dispatch = useAppDispatch()
   const [error, setError] = useState('')
   const [showPhoneInput, setShowPhoneInput] = useState<boolean>(true)
-  const navigation = useNavigation()
 
   const { loading } = useSelector((state: RootState) => state.verifyPhone)
 
@@ -83,8 +82,6 @@ export default function VerifyPhone() {
         from: 'createAccount',
       }),
     )
-
-    console.log()
   }
 
   return (

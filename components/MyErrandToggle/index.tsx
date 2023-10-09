@@ -1,38 +1,50 @@
-import { AntDesign } from '@expo/vector-icons'
-import React from 'react'
-import { Text, View } from 'react-native'
+import React, { useState } from 'react'
+import { View } from 'react-native'
+import DropdownComponent from '../Picker/DropdownComponent'
 
 interface ToggleProp {
-  selectedTab: string
-  setSelectedItem: React.Dispatch<React.SetStateAction<string>>
+  filterErrandByStatus: (status: string) => void
+  filterBidByStatus: (status: string) => void
 }
 
-const MyErrandToggle = () => {
-  return (
-    <View className="mt-4 mx-4 flex-row space-x-3">
-      <View className=" h-[40px] px-6 bg-[#E6E6E6] justify-center rounded-lg border-black border-3">
-        <View className="flex-row items-center justify-around space-x-10">
-          <Text className="text-center text-base font-medium text-[#4D4D4D]">
-            My Bids
-          </Text>
-          <Text>
-            {' '}
-            <AntDesign name="down" size={12} color="black" />{' '}
-          </Text>
-        </View>
-      </View>
+const MyErrandToggle = ({
+  filterBidByStatus,
+  filterErrandByStatus,
+}: ToggleProp) => {
+  const [value, setValue] = useState('')
+  const [bidValue, setBidValue] = useState('')
 
-      {/*Second Part */}
-      <View className=" h-[40px] px-6 bg-[#E6E6E6] justify-center rounded-lg">
-        <View className="flex-row items-center space-x-8">
-          <Text className="text-center text-base font-medium text-[#4D4D4D]">
-            All Errands
-          </Text>
-          <Text>
-            {' '}
-            <AntDesign name="down" size={12} color="black" />{' '}
-          </Text>
-        </View>
+  const BidsToggleData = [
+    { label: 'All Bids', value: 'all' },
+    { label: 'Pending Bids', value: 'pending' },
+    { label: 'Active Bids', value: 'active' },
+    { label: 'Cancelled Bids', value: 'cancelled' },
+  ]
+
+  const ErrandToggleData = [
+    { label: 'All Errands', value: 'all' },
+    { label: 'Pending Errands', value: 'pending' },
+    { label: 'Active Errands', value: 'active' },
+    { label: 'Cancelled Errands', value: 'cancelled' },
+  ]
+
+  return (
+    <View className="mt-4 mx-4 flex-row">
+      <View className="w-[180px]">
+        <DropdownComponent
+          placeHolder="My Bids"
+          data={BidsToggleData}
+          value={bidValue}
+          setValue={filterBidByStatus}
+        />
+      </View>
+      <View className="w-[180px]">
+        <DropdownComponent
+          placeHolder="My Errands"
+          data={ErrandToggleData}
+          value={value}
+          setValue={filterErrandByStatus}
+        />
       </View>
     </View>
   )

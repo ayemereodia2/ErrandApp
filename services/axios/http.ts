@@ -47,8 +47,6 @@ export async function _fetch({ _url, body, method }: FetchProps) {
   const token = await AsyncStorage.getItem('accessToken');
   console.log(">>>>>>>url", token);
 
-
-  
   let options
 
   if (token === null && url.includes("/sign")) {
@@ -68,7 +66,9 @@ export async function _fetch({ _url, body, method }: FetchProps) {
         'Authorization': `Bearer ${token}`
         },
       body: JSON.stringify(body)
-  };
+    };
+  
+  
 
   // Your interceptor logic here
   // For example, you can add headers, modify request options, etc.

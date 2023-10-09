@@ -264,7 +264,7 @@ export interface GetSecurityQuestionRequest {
   phone_number: string
   question?: string
   answer?: string
-  navigate?: any
+  navigation?: any
   newPassword?: string
   dispatch?: any
 }
@@ -353,7 +353,7 @@ export interface MarketData {
     coordinates: number[]
   }
   budget: number
-  description: string
+  description: any
   type: string
   step: number
   category: CategoriesList
@@ -693,4 +693,44 @@ export interface BidsProps {
   singleSubErrand?: SubErrand
   setManageErrandClicked: React.Dispatch<React.SetStateAction<boolean>>
   setSubErrand?: React.Dispatch<React.SetStateAction<SingleSubErrand>>
+}
+
+
+// PAYSTACK TYPES
+
+export type Currency = 'NGN' | 'GHS' | 'USD' | 'ZAR';
+
+export type PaymentChannels = 'bank' | 'card' | 'qr' | 'ussd' | 'mobile_money';
+
+interface Response {
+  status: string;
+}
+interface SuccessResponse extends Response {
+  transactionRef?: string;
+  data?: any;
+}
+
+export interface PayStackProps {
+  paystackKey: string;
+  billingEmail: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string | number;
+  amount: string | number;
+  currency?: Currency;
+  channels?: PaymentChannels[];
+  refNumber?: string;
+  billingName?: string;
+  handleWebViewMessage?: (string: string) => void;
+  onCancel: (Response: Response) => void;
+  onSuccess: (SuccessResponse:SuccessResponse) => void;
+  autoStart?: boolean;
+  activityIndicatorColor?: string;
+  ref: React.ReactElement;
+  userId: string
+}
+
+export interface PayStackRef {
+  startTransaction: () => void;
+  endTransaction: () => void;
 }

@@ -3,8 +3,10 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
+import { useHeaderHeight } from '@react-navigation/elements'
 import React, { useEffect, useRef, useState } from 'react'
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -51,6 +53,8 @@ const Timeline = ({
     }
   }
 
+  const height = useHeaderHeight()
+
   const closeReply = () => {
     setReply('')
   }
@@ -79,80 +83,117 @@ const Timeline = ({
     }
   }, [])
 
+  const keyboardVerticalOffset = Platform.OS === 'ios' ? -60 : 150
+
   return (
     <BottomSheetModalProvider>
       <KeyboardAvoidingView
+        keyboardVerticalOffset={keyboardVerticalOffset}
         style={{ flex: 1 }}
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
       >
-        <View>
-          <View className="h-[56px] bg-[#FEE1CD] mx-4 items-center justify-center border border-[#C85604] mt-4 rounded-lg">
-            {errand.status === 'active' && (
-              <Text className="font-medium text-sm px-4">
-                This Errand is expected to be Completed on{' '}
-                {formatDate(errand.updated_at)}
-              </Text>
-            )}
-            {singleSubErrand?.status === 'active' && (
-              <View className="flex-row justify-between items-center pl-2">
-                {errand.user_id === user_id && (
-                  <AntDesign
-                    onPress={() => {
-                      setManageErrandClicked(false)
-                    }}
-                    name="arrowleft"
-                    size={20}
-                  />
-                )}
-
+        {loadingErrand ? (
+          <ActivityIndicator size="large" color="blue" />
+        ) : (
+          <View>
+            <View className="h-[56px] bg-[#FEE1CD] mx-4 items-center justify-center border border-[#C85604] mt-4 rounded-lg">
+              {errand.status === 'active' && (
                 <Text className="font-medium text-sm px-4">
                   This Errand is expected to be Completed on{' '}
                   {formatDate(errand.updated_at)}
                 </Text>
-              </View>
-            )}
-            {singleSubErrand?.status === 'completed' && (
-              <Text className="font-medium text-sm px-4">
-                This Errand has been completed
-              </Text>
-            )}
+              )}
+              {singleSubErrand?.status === 'active' && (
+                <View className="flex-row justify-between items-center pl-2">
+                  {errand.user_id === user_id && (
+                    <AntDesign
+                      onPress={() => {
+                        setManageErrandClicked(false)
+                      }}
+                      name="arrowleft"
+                      size={20}
+                    />
+                  )}
 
-            {errand.status === 'completed' && (
-              <Text className="font-medium text-sm px-4">
-                This Errand has been completed
-              </Text>
-            )}
-
-            {errand.status === 'cancelled' ||
-              (singleSubErrand?.status === 'cancelled' && (
+                  <Text className="font-medium text-sm px-4">
+                    This Errand is expected to be Completed on{' '}
+                    {formatDate(errand.updated_at)}
+                  </Text>
+                </View>
+              )}
+              {singleSubErrand?.status === 'completed' && (
                 <Text className="font-medium text-sm px-4">
-                  This Errand has been cancelled
+                  This Errand has been completed
                 </Text>
-              ))}
-          </View>
+              )}
 
-          <MessagesList
-            timeline={timeline}
-            errand={errand}
-            scrollViewRef={scrollViewRef}
-            scrollToBottom={scrollToBottom}
-          />
+              {errand.status === 'completed' && (
+                <Text className="font-medium text-sm px-4">
+                  This Errand has been completed
+                </Text>
+              )}
 
-          {errand.status === 'completed' ||
-          errand.status === 'cancelled' ||
-          singleSubErrand?.status === 'completed' ||
-          singleSubErrand?.status === 'cancelled' ? (
-            ''
-          ) : (
-            <ChatInput
+              {errand.status === 'cancelled' ||
+                (singleSubErrand?.status === 'cancelled' && (
+                  <Text className="font-medium text-sm px-4">
+                    This Errand has been cancelled
+                  </Text>
+                ))}
+            </View>
+
+            <MessagesList
+              timeline={timeline}
               errand={errand}
-              subErrand={singleSubErrand}
-              user_id={user_id}
               scrollViewRef={scrollViewRef}
               scrollToBottom={scrollToBottom}
             />
-          )}
-        </View>
+
+            {errand.status === 'completed' ||
+            errand.status === 'cancelled' ||
+            singleSubErrand?.status === 'completed' ||
+            singleSubErrand?.status === 'cancelled' ? (
+              <View
+                className={`h-44 flex ${
+                  errand.status === 'completed' ||
+                  singleSubErrand?.status === 'completed'
+                    ? 'bg-green-100  border-green-400 rounded-lg'
+                    : errand.status === 'cancelled' ||
+                      singleSubErrand?.status === 'cancelled'
+                    ? 'bg-red-100 border-red-500 rounded-lg'
+                    : ''
+                }`}
+              >
+                <View className="flex-row justify-center items-center px-6 mt-6">
+                  <Text
+                    className={`${
+                      errand.status === 'completed' ||
+                      singleSubErrand?.status === 'completed'
+                        ? ' text-green-700 '
+                        : errand.status === 'cancelled' ||
+                          singleSubErrand?.status === 'cancelled'
+                        ? ' text-red-700'
+                        : ''
+                    } font-md text-base px-4`}
+                  >
+                    This Errand has been{' '}
+                    {singleSubErrand?.status === 'completed' ||
+                    singleSubErrand?.status === 'cancelled'
+                      ? singleSubErrand.status
+                      : errand.status}
+                  </Text>
+                </View>
+              </View>
+            ) : (
+              <ChatInput
+                errand={errand}
+                subErrand={singleSubErrand}
+                user_id={user_id}
+                scrollViewRef={scrollViewRef}
+                scrollToBottom={scrollToBottom}
+              />
+            )}
+          </View>
+        )}
 
         <BottomSheetModal
           ref={completeDialogueRef}

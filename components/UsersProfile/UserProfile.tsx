@@ -6,10 +6,6 @@ import axios from 'axios'
 import { _fetch } from '../../services/axios/http'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-
-
-
-
 const UserProfile = ({data}:any) => {
 
   return (

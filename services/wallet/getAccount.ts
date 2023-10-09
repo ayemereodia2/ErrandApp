@@ -5,7 +5,6 @@ export const getAccounts = createAsyncThunk("get-accounts", async(_, {rejectWith
     try {
       const rs = await _fetch({ method: "GET", _url: '/user/bank-account' })
       const res = await rs.json()
-      console.log(">>>res", res );
       
       return res.data
     } catch (err) {
@@ -40,7 +39,6 @@ const bankAccountSlice = createSlice({
             state.error = action.payload as string;
           });
       builder.addCase(getAccounts.fulfilled, (state, { payload }) => {
-            console.log(">>>>>>payload.data", payload);
             state.data = payload
             state.error = "";
             state.loading = false

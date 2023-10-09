@@ -1,41 +1,37 @@
 // import { fetchMyErrands } from '@app/lib/errand/api'
-import { Entypo, EvilIcons, MaterialIcons } from '@expo/vector-icons'
+import { EvilIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
   Image,
   RefreshControl,
+  ScrollView,
+  Text,
   TextInput,
-  TouchableOpacity,
   useWindowDimensions,
   View,
-  ScrollView
 } from 'react-native'
-import {
-  Menu,
-  MenuOption,
-  MenuOptions,
-  MenuTrigger,
-} from 'react-native-popup-menu'
 import { useSelector } from 'react-redux'
+import Container from '../../components/Container'
 import MyErrandCard from '../../components/MyErrandCard'
 import { MyErrandEmptyState } from '../../components/MyErrandEmptyState'
 import MyErrandToggle from '../../components/MyErrandToggle'
-import { ProfileInitials } from '../../components/ProfileInitials'
 import { myErrandList } from '../../services/errands/myErrands'
 import { RootState, useAppDispatch } from '../../services/store'
-import { SingleSubErrand } from '../../types'
+import { MarketData, SingleSubErrand } from '../../types'
 import { getUserId } from '../../utils/helper'
 
 const ErrandScreen = ({ navigation }: any) => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
+  const [searchedErrand, setSearchedErrand] = useState<MarketData[]>([])
   const [profilePic, setProfilePic] = useState('')
   const navigate = useNavigation()
   const [manageErrandClicked, setManageErrandClicked] = useState(false)
   const [userId, setUserId] = useState('')
   const [refreshing, setRefreshing] = React.useState(false)
+  const [status, setStatus] = useState('')
   const [subErrand, setSubErrand] = useState<SingleSubErrand>({
     id: '',
     original_errand_id: '',
@@ -62,69 +58,41 @@ const ErrandScreen = ({ navigation }: any) => {
     (state: RootState) => state.myErrandReducer,
   )
 
-  const navigateToNewScreen = () => {
-    navigation.navigate('MyErrandDetails')
+  // console.log(">>>>>>>myErrands", myErrands);
+
+  const errandSearchHandler = (text: string) => {
+    const value = text.toLowerCase()
+
+    const searchResult = myErrands.filter((errand) =>
+      errand?.description?.toLowerCase().includes(value),
+    )
+    setSearchedErrand(searchResult)
   }
 
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerShown: true,
-  //     title: 'My Errands',
-  //     headerStyle: { backgroundColor: '#F8F9FC' },
-  //     headerLeft: () => (
-  //       <View className="flex-row items-center justify-between mx-0 px-3 py-3 ">
-  //         <TouchableOpacity
-  //           onPress={() => navigation.openDrawer()}
-  //           className="flex-row items-center mb-2"
-  //         >
-  //           <ProfileInitials
-  //             firstName={firstName.charAt(0).toUpperCase()}
-  //             lastName={lastName.charAt(0).toUpperCase()}
-  //             profile_pic={profilePic}
-  //             textClass="text-white text-base"
-  //             width={40}
-  //             height={40}
-  //           />
-  //           {/* <Entypo name="menu" size={24} /> */}
-  //         </TouchableOpacity>
-  //       </View>
-  //     ),
-  //     headerRight: () => (
-  //       <View className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-3 ">
-  //         <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
-  //           <MaterialIcons name="notifications" color={'black'} size={22} />
-  //         </TouchableOpacity>
-  //         <TouchableOpacity onPress={() => {}}>
-  //           <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
-  //             <MenuTrigger>
-  //               <Entypo name="dots-three-vertical" color={'black'} size={16} />
-  //             </MenuTrigger>
-  //             <MenuOptions
-  //               customStyles={{
-  //                 optionsContainer: {
-  //                   padding: 4,
-  //                   width: 100,
-  //                   marginTop: 20,
-  //                 },
-  //               }}
-  //             >
-  //               <MenuOption
-  //                 onSelect={() => dispatch(myErrandList({}))}
-  //                 text="Refresh"
-  //                 customStyles={{
-  //                   optionText: { textAlign: 'center', fontWeight: '600' },
-  //                 }}
-  //               />
-  //             </MenuOptions>
-  //           </Menu>
-  //         </TouchableOpacity>
-  //       </View>
-  //     ),
-  //   })
-  // }, [])
+  const filterErrandByStatus = (status: string) => {
+    setStatus(status)
+    if (status === 'all') {
+      setSearchedErrand(myErrands)
+      return
+    }
+    const errands = myErrands.filter((errand) => errand.status === status)
+    setSearchedErrand(errands)
+  }
+
+  const filterBidByStatus = (status: string) => {
+    setStatus(status)
+    if (status === 'all') {
+      setSearchedErrand(myErrands)
+      return
+    }
+    const errands = myErrands.filter(
+      (errand) => errand.status === status && userId !== errand.user_id,
+    )
+    setSearchedErrand(errands)
+  }
 
   const onRefresh = React.useCallback(() => {
-    dispatch(myErrandList({}))
+    dispatch(myErrandList({ setSearchedErrand }))
     setRefreshing(true)
     setTimeout(() => {
       setRefreshing(false)
@@ -132,51 +100,61 @@ const ErrandScreen = ({ navigation }: any) => {
   }, [])
 
   useEffect(() => {
-    dispatch(myErrandList({}))
+    dispatch(myErrandList({ setSearchedErrand }))
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
   }, [])
 
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
-      <View className="bg-[#F8F9FC]">
-        {!myErrands ? (
-          <MyErrandEmptyState />
-        ) : (
-          <>
-            {loading ? (
-              <ActivityIndicator color="blue" size="large" />
-            ) : (
+    <Container>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View className="bg-[#e4eaf7]">
+          {!searchedErrand ? (
+            <MyErrandEmptyState />
+          ) : (
+            <>
+              {loading && <ActivityIndicator color="blue" size="large" />}
               <View>
-                <View className="bg-[#F8F9FC] ">
-                  <View className="mx-4 mt-4">
-                    <View className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
-                      <EvilIcons name="search" size={22} className="w-1/12" />
-                      <TextInput
-                        className=" w-9/12"
-                        placeholder="Search for Errands or Bids"
-                        placeholderTextColor="#808080"
-                      />
-
-                      <Image
-                        style={{
-                          width: 30,
-                          height: 30,
-                          resizeMode: 'contain',
-                        }}
-                        source={require('../../assets/images/filter.png')}
-                      />
+                <View>
+                  <View className="bg-[#e4eaf7] ">
+                    <View className="mx-4 mt-4 bg-white">
+                      <View className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
+                        <EvilIcons name="search" size={22} className="w-1/12" />
+                        <TextInput
+                          className=" w-9/12"
+                          placeholder="Search for Errands or Bids"
+                          placeholderTextColor="#808080"
+                          onChangeText={(text) => errandSearchHandler(text)}
+                        />
+                        <Image
+                          style={{
+                            width: 30,
+                            height: 30,
+                            resizeMode: 'contain',
+                          }}
+                          source={require('../../assets/images/filter.png')}
+                        />
+                      </View>
                     </View>
                   </View>
+
+                  <MyErrandToggle
+                    filterBidByStatus={filterBidByStatus}
+                    filterErrandByStatus={filterErrandByStatus}
+                  />
                 </View>
 
-                <MyErrandToggle />
+                {searchedErrand?.length === 0 && (
+                  <Text className="text-xs text-center pt-3">
+                    No {status} Errands at the moment
+                  </Text>
+                )}
 
                 <ScrollView className="mt-6">
-                  {myErrands?.map((errand, index) => {
+                  {searchedErrand?.map((errand, index) => {
                     return (
                       <View key={index}>
                         <MyErrandCard
@@ -192,11 +170,12 @@ const ErrandScreen = ({ navigation }: any) => {
                   })}
                 </ScrollView>
               </View>
-            )}
-          </>
-        )}
-      </View>
-    </ScrollView>
+              {/* )} */}
+            </>
+          )}
+        </View>
+      </ScrollView>
+    </Container>
   )
 }
 

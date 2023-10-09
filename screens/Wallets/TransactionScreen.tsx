@@ -1,6 +1,10 @@
 import { AntDesign, Entypo, EvilIcons, FontAwesome } from '@expo/vector-icons'
+import DateTimePicker from '@react-native-community/datetimepicker'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
+  ActivityIndicator,
+  Pressable,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
   Text,
@@ -17,49 +21,83 @@ import {
 import TransactionDetails from '../../components/Transactions/TransactionDetails'
 import { _fetch } from '../../services/axios/http'
 import { Transaction } from '../../types'
+import { transformDateTime } from '../../utils/helper'
 
 const TransactionScreen = ({ navigation }: any) => {
-  const [dateRange, setDateRange] = useState<any>([null, null])
-  const [startDate, endDate] = dateRange
+  // const [dateRange, setDateRange] = useState<any>([null, null])
+  // const [startDate, endDate] = dateRange
   const [transactions, setTransactions] = useState<Array<Transaction>>([])
   const [filterText, setFilterText] = useState('All Time')
   const [loading, setLoading] = useState(true)
+  const [refreshing, setRefreshing] = React.useState(false)
+  const [date, setDate] = useState(new Date())
+  const [startDate, setStartDate] = useState(new Date('2023-04-1'))
+  const [endDate, setEndDate] = useState(new Date())
+  const [showStartDatePicker, setShowStartDatePicker] = useState(false)
+  const [showEndDatePicker, setShowEndDatePicker] = useState(false)
+
+  const onRefresh = React.useCallback(() => {
+    getTransactions()
+    setRefreshing(true)
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 500)
+  }, [])
+
+  useEffect(() => {
+    navigation
+      .getParent()
+      ?.setOptions({ tabBarStyle: { display: 'none' }, tabBarVisible: false })
+    return () =>
+      navigation
+        .getParent()
+        ?.setOptions({ tabBarStyle: undefined, tabBarVisible: undefined })
+  }, [navigation])
+
+  const onStartDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || startDate
+    setShowStartDatePicker(false)
+    setStartDate(currentDate)
+  }
+
+  const onEndDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || endDate
+    setShowEndDatePicker(false)
+    setEndDate(currentDate)
+  }
 
   const getTransactions = async () => {
-    // const params = {
-    //   start_date: transformDateTime(startDate),
-    //   end_date: transformDateTime(endDate),
-    // }
-
-    // console.log(">>>>>>>statss");
+    setLoading(true)
 
     try {
-      if (startDate === null || endDate === null) {
-        const rs = await _fetch({
-          method: 'GET',
-          _url: '/user/transactions',
-        })
-
-        const res = await rs.json()
-
-        setTransactions(res.data)
-
-        return
+      let url = '/user/transactions'
+      if (startDate !== null && endDate !== null) {
+        url += `?start_date=${transformDateTime(
+          startDate,
+        )}&end_date=${transformDateTime(endDate)}`
       }
       const rs = await _fetch({
         method: 'GET',
-        _url: '/user/transactions',
-        // body: params,
+        _url: url,
       })
 
       const res = await rs.json()
-      setTransactions(res.data.data)
+      setTransactions(res.data)
+      setLoading(false)
     } catch (err) {
       if (err instanceof Error) {
       }
     } finally {
       setLoading(false)
     }
+  }
+
+  const transactionSearchHandler = (text: string) => {
+    const value = text.toLowerCase()
+    const searchResult = transactions.filter((t) =>
+      t?.description?.toLowerCase().includes(value),
+    )
+    setTransactions(searchResult)
   }
 
   useLayoutEffect(() => {
@@ -94,29 +132,7 @@ const TransactionScreen = ({ navigation }: any) => {
               }}
             >
               <MenuOption
-                // onSelect={}
-                text="Refresh"
-                customStyles={{
-                  optionWrapper: {
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#AAAAAA',
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-              <MenuOption
-                onSelect={() => alert(`Save`)}
-                text="Profile"
-                customStyles={{
-                  optionWrapper: {
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#AAAAAA',
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-              <MenuOption
-                onSelect={() => alert(`Save`)}
+                onSelect={() => navigation.navigate('Contact')}
                 text="Contact Us"
                 customStyles={{
                   optionText: { textAlign: 'center', fontWeight: '600' },
@@ -131,68 +147,112 @@ const TransactionScreen = ({ navigation }: any) => {
 
   useEffect(() => {
     getTransactions()
-  }, [])
+  }, [startDate, endDate])
 
   return (
-    <SafeAreaView className="bg-[#F8F9FC] mx-3">
+    <SafeAreaView className="bg-[#e4eaf7]">
       {/* Heder */}
-
-      <View className="bg-[rgb(248,249,252)]">
-        <View className="mx-4 flex-row items-center justify-between">
-          <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
-            <EvilIcons
-              name="search"
-              size={22}
-              className="w-1/12"
-              color="#808080"
-            />
-            <TextInput
-              className=" w-9/12"
-              placeholder="Search here..."
-              placeholderTextColor="#808080"
-            />
+      <View className="mx-3 mt-3 rounded-lg bg-white">
+        <View className="bg-[rgb(248,249,252)]">
+          <View className="mx-4 flex-row items-center justify-between">
+            <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center  px-3 w-full">
+              <EvilIcons
+                name="search"
+                size={22}
+                className="w-[20px]"
+                color="#808080"
+              />
+              <TextInput
+                className="w-10/12 pl-3"
+                placeholder="Search here..."
+                placeholderTextColor="#808080"
+                onChangeText={(text) => transactionSearchHandler(text)}
+              />
+            </View>
           </View>
+
           <TouchableOpacity>
-            <View className="bg-[#fff] mt-6 mr-2 b rounded-md w-[38px]">
-              <Text className="p-2 text-center">
-                <FontAwesome name="calendar" size={24} color="black" />
-              </Text>
+            <View className="bg-[#fff] mt-6 mr-2 b rounded-md flex-row justify-center items-center space-x-4">
+              <View className="h-20">
+                <Pressable
+                  onPress={() => setShowStartDatePicker(true)}
+                  className="text-center flex-row items-center space-x-1 "
+                >
+                  <FontAwesome
+                    className="mr-2"
+                    name="calendar"
+                    size={20}
+                    color="black"
+                  />
+                  <Text className="">Choose Start Date</Text>
+                </Pressable>
+                <View className="pt-2">
+                  <Text> {startDate.toDateString()}</Text>
+                  {showStartDatePicker && (
+                    <DateTimePicker
+                      value={startDate}
+                      mode="date"
+                      display="default"
+                      onChange={onStartDateChange}
+                    />
+                  )}
+                </View>
+              </View>
+              <Text>--</Text>
+              <View className="h-20">
+                <Pressable
+                  onPress={() => setShowEndDatePicker(true)}
+                  className="text-center flex-row items-center space-x-1 "
+                >
+                  <FontAwesome name="calendar" size={20} color="black" />
+                  <Text>Choose End Date</Text>
+                </Pressable>
+                <View className="pt-2">
+                  <Text>{endDate.toDateString()}</Text>
+                  {showEndDatePicker && (
+                    <DateTimePicker
+                      value={endDate}
+                      mode="date"
+                      display="default"
+                      onChange={onEndDateChange}
+                    />
+                  )}
+                </View>
+              </View>
             </View>
           </TouchableOpacity>
         </View>
+
+        {/* Body */}
+
+        {loading ? (
+          <ActivityIndicator color="blue" className="pt-4" size="large" />
+        ) : (
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            showsVerticalScrollIndicator={false}
+            className="mx-4"
+          >
+            <Text className="mt-[34px] text-center">Today</Text>
+
+            {transactions?.slice(0, 5).map((transaction) => {
+              return <TransactionDetails {...transaction} />
+            })}
+
+            <Text className="mt-[34px] text-center">Yesterday</Text>
+            {transactions?.slice(0, 10).map((transaction) => {
+              return <TransactionDetails {...transaction} />
+            })}
+
+            <Text className="mt-[34px] text-center">Previous Transactions</Text>
+            {transactions?.map((transaction) => {
+              return <TransactionDetails {...transaction} />
+            })}
+          </ScrollView>
+        )}
       </View>
-
-      {/* Body */}
-      <ScrollView showsVerticalScrollIndicator={false} className="mx-4">
-        <Text className="mt-[34px] text-center">Today</Text>
-
-        {transactions?.slice(0, 5).map((transaction) => {
-          return <TransactionDetails {...transaction} />
-        })}
-
-        <Text className="mt-[34px] text-center">Yesterday</Text>
-
-        {transactions?.slice(0, 10).map((transaction) => {
-          return <TransactionDetails {...transaction} />
-        })}
-
-        <View className="mx-2 py-4 border-b border-[#CCCCCC]">
-          <View className="flex-row justify-between items-center">
-            <Text className="text-base font-medium">Errand creation</Text>
-            <Text className="font-bold text-base text-[#C82332]">
-              - ₦45,000
-            </Text>
-          </View>
-          <Text className="mt-2 text-base font-medium text-[#808080]">
-            17th September 2023 - 17:59pm
-          </Text>
-        </View>
-
-        <Text className="mt-[34px] text-center">Previous Transactions</Text>
-        {transactions?.map((transaction) => {
-          return <TransactionDetails {...transaction} />
-        })}
-      </ScrollView>
     </SafeAreaView>
   )
 }

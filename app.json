@@ -7,6 +7,10 @@
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
+    "androidStatusBar": {
+      "backgroundColor": "#a9c1f8",
+      "translucent": false
+    },
     "splash": {
       "image": "./assets/images/swave-splashScreen.png",
       "resizeMode": "cover",

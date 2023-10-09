@@ -4,7 +4,6 @@ import FundWalletModal from '../components/Modals/Errands/FundWallet'
 import AccountScreen from '../screens/Accounts'
 import AccountRecoveryScreen from '../screens/Auth/AccountRecovery'
 import CreateAccountScreen from '../screens/Auth/CreateAccountScreen'
-import HomeScreen from '../screens/Auth/HomeScreen'
 import LoginScreen from '../screens/Auth/LoginScreen'
 import RecoverPasswordScreen from '../screens/Auth/RecoverPassword'
 import SecurityQuestion from '../screens/Auth/SecurityQuestionScreen'
@@ -12,8 +11,11 @@ import VerifyOtpScreen from '../screens/Auth/VerifyOtp'
 import VerifyPhone from '../screens/Auth/VerifyPhone'
 import ContactUs from '../screens/Contact/ContactUs'
 import PostErrand from '../screens/CreateErrand'
+import EditProfileTitle from '../screens/EditProfile/EditProfileTitle'
+import ErrorScreen from '../screens/Error'
 import GuestDetails from '../screens/Guest/GuestDetails'
 import GuestScreen from '../screens/Guest/GuestScreen'
+import LandingForm from '../screens/Landing/LandingForm'
 import ErrandDetails from '../screens/Market/ErrandDetails'
 import MainScreen from '../screens/Market/MainScreen'
 import AbandonErrandModal from '../screens/Modal/AbandonErrandModal'
@@ -22,6 +24,7 @@ import CompleteErrandModal from '../screens/Modal/CompleteErrandModal'
 import ErrandScreen from '../screens/MyErrands'
 import ErrandUserDetails from '../screens/MyErrands/ErrandUserDetails'
 import MyErrandInfo from '../screens/MyErrands/MyErrandInfo'
+import NotificationScreen from '../screens/Notification/NotficationScreen'
 import OnboardingUi from '../screens/Onboarding/OnboardingUi'
 import CategoryInterest from '../screens/Setting/AddCategory'
 import SettingScreen from '../screens/Setting/SettingScreen'
@@ -29,12 +32,9 @@ import WalletScreen from '../screens/Wallets'
 import EscrowScreen from '../screens/Wallets/EscrowScreen'
 import TransactionScreen from '../screens/Wallets/TransactionScreen'
 import WalletAccount from '../screens/Wallets/WalletAccount'
-import { RootStackParamList } from '../types'
 import { TabsNavigation } from './TabsNavigation'
-import LandingForm from '../screens/Landing/LandingForm'
-import LandingDetails from '../components/LandingDetails.tsx/LandingDetails'
 
-const Stack = createNativeStackNavigator<RootStackParamList>()
+const Stack = createNativeStackNavigator()
 
 export function GuestStack() {
   return (
@@ -52,8 +52,6 @@ export function GuestStack() {
           name="GuestScreen"
           component={GuestScreen}
           options={{ headerShown: false }}
-          
-          
         />
 
         <Stack.Screen
@@ -68,6 +66,33 @@ export function GuestStack() {
           name="RecoverPassword"
           component={RecoverPasswordScreen}
         />
+        <Stack.Screen
+          name="EditProfile"
+          component={EditProfileTitle}
+          options={{
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: '#F8F9FC',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="CategoryInterest"
+          component={CategoryInterest}
+          options={{
+            title: 'Category Interest',
+            presentation: 'fullScreenModal',
+          }}
+        />
+        <Stack.Screen
+          name="FundWalletModal"
+          component={FundWalletModal}
+          options={{
+            title: 'Fund Your Wallet',
+            presentation: 'fullScreenModal',
+            headerShown: true,
+          }}
+        />
         <Stack.Screen name="RecoverAccount" component={AccountRecoveryScreen} />
         <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
         <Stack.Screen
@@ -79,6 +104,11 @@ export function GuestStack() {
               backgroundColor: '#F8F9FC',
             },
           }}
+        />
+        <Stack.Screen
+          name="WalletAccount"
+          component={WalletAccount}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="VerifyPhone"
@@ -94,6 +124,25 @@ export function GuestStack() {
             },
           }}
         />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="ErrandDetails"
+          component={ErrandDetails}
+        />
+        <Stack.Screen
+          name="MyErrandDetails"
+          component={MyErrandInfo}
+          options={{
+            headerStyle: {
+              backgroundColor: '#F8F9FC',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="ErrorScreen"
+          component={ErrorScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="Tabs" component={TabsNavigation} />
       </Stack.Navigator>
     </>
@@ -104,6 +153,7 @@ export const MainStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+
       <Stack.Screen
         name="GuestScreen"
         component={GuestScreen}
@@ -114,6 +164,12 @@ export const MainStack = () => {
         name="GuestDetails"
         component={GuestDetails}
         options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="ErrandDetails"
+        component={ErrandDetails}
       />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SecurityQuestions" component={SecurityQuestion} />
@@ -132,28 +188,81 @@ export const MainStack = () => {
       />
 
       <Stack.Screen
-          name="LandingForm"
-          component={LandingForm}
-          options={{ headerShown: true,
-           title: 'Post Errand',
-            headerStyle: {
-              backgroundColor: '#F8F9FC',
-            },
-          }}          
-        />
+        name="WalletAccount"
+        component={WalletAccount}
+        options={{ headerShown: false }}
+      />
 
-    
+      {/* <Stack.Screen
+        name="Withd"
+        component={WalletAccount}
+        options={{ headerShown: false }}
+      /> */}
 
+      {/* <Stack.Screen
+        name="CategoryInterest"
+        component={CategoryInterest}
+        options={{
+          title: 'Category Interest',
+          presentation: 'fullScreenModal',
+        }}
+      /> */}
 
       <Stack.Screen
-        options={{ headerShown: false }}
-        name="ErrandDetails"
-        component={ErrandDetails}
+        name="LandingForm"
+        component={LandingForm}
+        options={{
+          headerShown: true,
+          title: 'Post Errand',
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
       />
+
+      <Stack.Screen
+        name="FundWalletModal"
+        component={FundWalletModal}
+        options={{
+          title: 'Fund Your Wallet',
+          presentation: 'fullScreenModal',
+          headerShown: true,
+        }}
+      />
+
+      <Stack.Screen name="ErrandUserDetails" component={ErrandUserDetails} />
 
       <Stack.Screen
         name="Profile"
         component={AccountScreen}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Notification"
+        component={NotificationScreen}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="CategoryInterest"
+        component={CategoryInterest}
+        options={{
+          title: 'Category Interest',
+          presentation: 'fullScreenModal',
+        }}
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfileTitle}
         options={{
           headerShown: false,
           headerStyle: {
@@ -175,6 +284,24 @@ export const MainStack = () => {
           },
         }}
       />
+      <Stack.Screen name="Wallet" component={WalletScreen} />
+
+      <Stack.Screen
+        name="ErrorScreen"
+        component={ErrorScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="TransactionScreen"
+        component={TransactionScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="EscrowScreen"
+        component={EscrowScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="Tabs" component={TabsNavigation} />
     </Stack.Navigator>
   )
@@ -189,11 +316,6 @@ export const MyErrandStack = () => {
         name="CompleteErrandModal"
         component={CompleteErrandModal}
         options={{ title: 'Modal', presentation: 'fullScreenModal' }}
-      />
-      <Stack.Screen
-        name="FundWalletModal"
-        component={FundWalletModal}
-        options={{ title: 'Fund Your Wallet', presentation: 'fullScreenModal' }}
       />
 
       <Stack.Screen
@@ -215,7 +337,12 @@ export const MarketStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Market" component={MainScreen} />
-      <Stack.Screen name="ErrandUserDetails" component={ErrandUserDetails} />
+      <Stack.Screen
+        name="ErrorScreen"
+        component={ErrorScreen}
+        options={{ headerShown: false }}
+      />
+      {/* <Stack.Screen name="ErrandUserDetails" component={ErrandUserDetails} /> */}
     </Stack.Navigator>
   )
 }
@@ -224,7 +351,7 @@ export const WalletStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Wallet" component={WalletScreen} />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="TransactionScreen"
         component={TransactionScreen}
         options={{ headerShown: false }}
@@ -234,13 +361,17 @@ export const WalletStack = () => {
         name="EscrowScreen"
         component={EscrowScreen}
         options={{ headerShown: false }}
-      />
+      /> */}
 
-      <Stack.Screen
-        name="WalletAccount"
-        component={WalletAccount}
-        options={{ headerShown: false }}
-      />
+      {/* <Stack.Screen
+        name="FundWalletModal"
+        component={FundWalletModal}
+        options={{
+          title: 'Fund Your Wallet',
+          presentation: 'fullScreenModal',
+          headerShown: true,
+        }}
+      /> */}
     </Stack.Navigator>
   )
 }
@@ -263,14 +394,14 @@ export const SetttingsStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Settings" component={SettingScreen} />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="CategoryInterest"
         component={CategoryInterest}
         options={{
           title: 'Category Interest',
           presentation: 'fullScreenModal',
         }}
-      />
+      /> */}
     </Stack.Navigator>
   )
 }

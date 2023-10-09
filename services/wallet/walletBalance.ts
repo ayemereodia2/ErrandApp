@@ -13,24 +13,24 @@ export const walletAction = createAsyncThunk<WalletResponse, WalletPayload, { re
 
     const rs = await _rs.json()
 
-    console.log(">>>>>>repssssssss", rs.data);
+    console.log(">>>>>>repssssssss", rs);
     
+    // if (rs.success === true) {   
+    //   if (request === "transact") {
+    //     toast({
+    //       position: 'top-right',
+    //       title: 'Success',
+    //       description: 'Wallet was Funded Successfully',
+    //       status: 'success',
+    //       duration: 5000,
+    //       isClosable: true,
+    //     })
+    //     dispatch(walletAction({request:"wallet"}))
+    //   }
+    //   return rs
+    // }
     
-    if (rs.success === true) {   
-      if (request === "transact") {
-        toast({
-          position: 'top-right',
-          title: 'Success',
-          description: 'Wallet was Funded Successfully',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        })
-        dispatch(walletAction({request:"wallet"}))
-        // dispatch(toggleFundWalletModal())
-      }
-        return rs
-    }
+    return rs
   } catch (e: any) {
     if (e.response.status === 400) {
       if (e.response.data.success === false) {
@@ -70,8 +70,8 @@ const walletActionSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(walletAction.fulfilled, (state, {payload}) => {
-      // console.log(">>>>>>>a", action.payload)
-      state.success = true
+      console.log(">>>>>>>a", payload)
+      state.success = payload.success
       state.loading = false;
       state.error = "";
       state.data = payload?.data

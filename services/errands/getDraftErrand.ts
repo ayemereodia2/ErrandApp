@@ -15,17 +15,11 @@ export const getDraftErrand = createAsyncThunk<
       _url: `/errand/draft`,
     });
 
-    
-
-
     const rs = await _rs.json()
 
     console.log(">>>>>_draft", rs.data.id);
 
-
-
     if (rs.success === true) {
-
       await AsyncStorage.setItem('errandId', rs.data.id)
       // localStorage.setItem("errandId", rs.data.id);
       return rs.data;

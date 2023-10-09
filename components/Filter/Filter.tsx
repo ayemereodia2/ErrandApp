@@ -95,8 +95,6 @@ const Filter = ({
 
   let allCategories = [...categories]
 
-  console.log('>>>carteg', allCategories)
-
   const handleSearchCategory = () => {
     if (searchedItem === '') {
       setSearchedCategoryList(categories.slice(0, 5))

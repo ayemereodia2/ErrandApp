@@ -1,14 +1,14 @@
-import { AntDesign, Entypo, MaterialIcons } from '@expo/vector-icons'
+import { AntDesign, Entypo } from '@expo/vector-icons'
 import { useQuery } from '@tanstack/react-query'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
   Image,
   SafeAreaView,
+  ScrollView,
   Text,
   TouchableOpacity,
   View,
-  ScrollView
 } from 'react-native'
 
 import UserProfile from '../../components/UsersProfile/UserProfile'
@@ -39,7 +39,7 @@ const AccountScreen = ({ navigation }: any) => {
       headerStyle: { backgroundColor: '#F8F9FC' },
       headerLeft: () => (
         <TouchableOpacity
-          className="flex-row items-center justify-between mx-0 py-3"
+          className="flex-row items-center justify-between mx-0 py-3 mr-6"
           onPress={() => navigation.goBack()}
         >
           <AntDesign name="arrowleft" size={24} color="black" />
@@ -110,6 +110,10 @@ const AccountScreen = ({ navigation }: any) => {
     await AsyncStorage.clear()
   }
 
+  useEffect(() => {
+    getUserProfile()
+  }, [])
+
   if (isLoading) {
     return (
       <SafeAreaView className="pt-20 bg-gray-200 w-screen h-[100vh] mt-5">
@@ -130,7 +134,7 @@ const AccountScreen = ({ navigation }: any) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView className="bg-white">
         {/* Top Profile */}
 
         {data?.data?.profile_picture ? (
@@ -149,25 +153,19 @@ const AccountScreen = ({ navigation }: any) => {
           </View>
         )}
 
-        {/* Name Area */}
-
         <View>
           <View className="flex-row justify-center items-center mt-5">
             <Text className="text-[18px] font-bold leading-6">
               {data?.data?.first_name} {data?.data?.last_name}{' '}
             </Text>
-            <Text>
+            {/* <Text>
               <MaterialIcons name="verified" size={20} color="green" />
-            </Text>
+            </Text> */}
           </View>
-
-          {/*Occupation */}
 
           <Text className="text-center mt-3 text-base font-medium">
             {data?.data?.occupation ? data?.data?.occupation : 'Swave User'}
           </Text>
-
-          {/* Number of errands */}
 
           <View className="flex-row mt-5 mx-auto">
             <View className="ml-3">
@@ -203,7 +201,7 @@ const AccountScreen = ({ navigation }: any) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Login')
+                navigation.navigate('GuestScreen')
                 clearStorage()
               }}
               className="w-[140px] h-[40px] bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-md"

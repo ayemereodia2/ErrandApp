@@ -2,8 +2,6 @@ import { ErrandMarketResponse, MarketData } from '@/types';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { _fetch } from '../axios/http';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface MarketQueryParams {
   lat?: number
@@ -11,6 +9,7 @@ export interface MarketQueryParams {
   minPrice?: number,
   maxPrice?: number,
   category?: string
+  setSearchedErrand?: any
 }
 
 const constructQueryParams = (raw: MarketQueryParams) => {
@@ -40,7 +39,7 @@ const constructQueryParams = (raw: MarketQueryParams) => {
 
 export const errandMarketList = createAsyncThunk<any, MarketQueryParams, { rejectValue: string }>(
   "errandMarketList/get",
-  async (marketQueryParams, { rejectWithValue }) => {
+  async ({setSearchedErrand, ...marketQueryParams}, { rejectWithValue }) => {
   try {
     let url = "/errand/market";
     const params = constructQueryParams(marketQueryParams)
@@ -49,8 +48,12 @@ export const errandMarketList = createAsyncThunk<any, MarketQueryParams, { rejec
     }
 
     const rs = await _fetch({ method: 'GET', _url: url });
-
     const res = await rs.json()
+
+     if (setSearchedErrand) {
+          const marketErrand = res.data ?? []
+          setSearchedErrand(marketErrand)
+      }
 
     if (res.success) {
       return res.data
@@ -79,6 +82,9 @@ const errandMarketListSlice = createSlice({
     },
     setActionState(state: ErrandMarketResponse, { payload }: PayloadAction<string>) {
       state.action = payload
+    },
+     setLoading(state: ErrandMarketResponse, { payload }: PayloadAction<boolean>) {
+      state.loading = payload
     }
 
   },
@@ -100,5 +106,5 @@ const errandMarketListSlice = createSlice({
 
 })
 
-export const {setSortedErrands,setActionState} = errandMarketListSlice.actions
+export const {setSortedErrands,setActionState, setLoading} = errandMarketListSlice.actions
 export const errandMarketListReducer = errandMarketListSlice.reducer

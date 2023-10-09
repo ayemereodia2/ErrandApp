@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   ScrollView,
   Switch,
@@ -11,6 +11,7 @@ import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
 import { RootState, useAppDispatch } from '../../services/store'
+import { toggleDarkMode } from '../../services/DarkMode/DarkMode'
 
 const SettingsTest = () => {
   const dispatch = useAppDispatch()
@@ -18,6 +19,11 @@ const SettingsTest = () => {
   const { data: preferences } = useSelector(
     (state: RootState) => state.notificationPreferenceReducer,
   )
+
+  const { loading } = useSelector(
+    (state: RootState) => state.updateNotificationPreferenceReducer,
+  )
+  const darkMode = useSelector((state: RootState) => state.darkMode.darkMode);
 
   return (
     <ScrollView>
@@ -59,27 +65,29 @@ const SettingsTest = () => {
           </Text>
         </View>
 
-        <View className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
+        <View className=" h-[63px] ml-4 mt-5 border-b pb-2 border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
             <Text className="font-medium text-base">
               Newsletters and offers
             </Text>
             <TouchableWithoutFeedback>
-              <Switch
-                trackColor={{ false: '#767577', true: 'green' }}
-                onValueChange={(value: boolean) => {
-                  dispatch(
-                    updateNotificationPrefeference({
-                      ...preferences,
-                      dispatch,
-                      Toast,
-                      newsletter_notifications: value,
-                    }),
-                  )
-                }}
-                value={preferences?.newsletter_notifications}
-                style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
-              />
+              <>
+                <Switch
+                  trackColor={{ false: '#767577', true: 'green' }}
+                  onValueChange={(value: boolean) => {
+                    dispatch(
+                      updateNotificationPrefeference({
+                        ...preferences,
+                        dispatch,
+                        Toast,
+                        newsletter_notifications: value,
+                      }),
+                    )
+                  }}
+                  value={preferences?.newsletter_notifications}
+                  style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
+                />
+              </>
             </TouchableWithoutFeedback>
           </View>
           <Text className="text-sm font-light">
@@ -114,6 +122,26 @@ const SettingsTest = () => {
             Stay informed about our amazing offers
           </Text>
         </View>
+          
+        <View className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]">
+          <View className="flex-row items-center justify-between">
+          <Text className="font-medium text-base ">
+              Dark Mode
+            </Text>
+        <TouchableOpacity onPress={()=> dispatch(toggleDarkMode())}>
+              <Switch
+                      trackColor={{ false: '#767577', true: 'green' }}
+                      value={darkMode}
+                      onValueChange={(value: boolean) => {
+                       
+                      }}
+                      style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
+                    />
+             
+            </TouchableOpacity>
+      </View>
+      </View>
+      
       </View>
 
       <View className="mt-8 ml-4">

@@ -1,13 +1,18 @@
 import {
   AntDesign,
   Entypo,
+  Feather,
   FontAwesome5,
   Fontisto,
   Ionicons,
   MaterialIcons,
 } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { useNavigation, useRoute, getFocusedRouteNameFromRoute } from '@react-navigation/native'
+import {
+  getFocusedRouteNameFromRoute,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native'
 import React, { useEffect } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import {
@@ -17,16 +22,15 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu'
 import { ProfileInitials } from '../components/ProfileInitials'
+import LandingTest from '../screens/Landing/LandingTest'
 import { useAppDispatch } from '../services/store'
 import { getUserId } from '../utils/helper'
 import {
   MarketStack,
   MyErrandStack,
-  PostErrandStack,
   SetttingsStack,
   WalletStack,
 } from './StackNavigation'
-import LandingTest from '../screens/Landing/LandingTest'
 
 const Header = (props: any) => {
   return (
@@ -45,7 +49,7 @@ interface OptionsProps {
 }
 
 const Tab = createBottomTabNavigator()
-export const TabsNavigation = ({navigation}: any) => {
+export const TabsNavigation = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
   const [firstName, setFirstName] = React.useState('')
   const [userId, setUserId] = React.useState('')
@@ -63,8 +67,8 @@ export const TabsNavigation = ({navigation}: any) => {
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => navigation.navigate('Profile')}
-          style={{ marginLeft: 12 }}
-          className="flex-row items-center justify-between my-3 "
+          style={{ marginLeft: 20 }}
+          className="flex-row items-center justify-between my-3 px-3 "
         >
           <ProfileInitials
             firstName={firstName.charAt(0).toUpperCase()}
@@ -78,10 +82,11 @@ export const TabsNavigation = ({navigation}: any) => {
       ),
       headerRight: () => (
         <View
-          style={{ display: 'flex', flexDirection: 'row', marginRight: 10 }}
+          style={{ display: 'flex', flexDirection: 'row', marginRight: 20 }}
           className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-5 "
         >
           <MaterialIcons
+            onPress={() => navigation.navigate('Notification')}
             style={{ marginRight: 10 }}
             name="notifications"
             color={'black'}
@@ -117,7 +122,6 @@ export const TabsNavigation = ({navigation}: any) => {
     }
   }
 
-
   const route = useRoute()
   const nav = useNavigation()
 
@@ -130,9 +134,7 @@ export const TabsNavigation = ({navigation}: any) => {
 
   return (
     <Tab.Navigator
-      
       screenOptions={{
-        
         tabBarShowLabel: false,
         tabBarStyle: {
           position: 'absolute',
@@ -140,7 +142,9 @@ export const TabsNavigation = ({navigation}: any) => {
           // left: 25,
           // right: 20,
           backgroundColor: '#ffffff',
-          borderRadius: 15,
+          borderTopRightRadius: 15,
+          borderTopLeftRadius: 15,
+          // borderRadius: 15,
           height: 70,
           // width:100
           paddingTop: 13,
@@ -152,8 +156,8 @@ export const TabsNavigation = ({navigation}: any) => {
     >
       <Tab.Screen
         options={optionsHandler({
-          title: 'Errand Market',
-          headerShown: true,
+          title: 'Landing Page',
+          headerShown: false,
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
@@ -164,12 +168,29 @@ export const TabsNavigation = ({navigation}: any) => {
             </View>
           ),
         })}
+        name="Landing Page"
+        component={LandingTest}
+      />
+      <Tab.Screen
+        options={optionsHandler({
+          title: 'Errand Market',
+          headerShown: true,
+          tabBarIcon: ({ focused }: any) => (
+            <View>
+              {focused ? (
+               <Feather name="search" size={24} color="black" />
+              ) : (
+                <Feather name="search" size={24} color="black" />
+              )}
+            </View>
+          ),
+        })}
         name="MarketTab"
         component={MarketStack}
       />
       <Tab.Screen
         options={optionsHandler({
-          title: 'My Errrands',
+          title: 'My Errands',
           headerShown: true,
           tabBarIcon: ({ focused }: any) => (
             <View>
@@ -184,11 +205,11 @@ export const TabsNavigation = ({navigation}: any) => {
         name="MyErrandTab"
         component={MyErrandStack}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         options={optionsHandler({
           title: 'Create Errand',
           headerShown: false,
-          
+
           tabBarIcon: ({ focused }: any) => (
             <View>
               <Ionicons
@@ -203,7 +224,7 @@ export const TabsNavigation = ({navigation}: any) => {
         })}
         name="PostErrandTab"
         component={PostErrandStack}
-      />
+      /> */}
       <Tab.Screen
         options={optionsHandler({
           title: 'Wallet',
@@ -237,24 +258,6 @@ export const TabsNavigation = ({navigation}: any) => {
         })}
         name="SettingsTab"
         component={SetttingsStack}
-      />
-
-      <Tab.Screen
-        options={optionsHandler({
-          title: 'Landing Page',
-          headerShown: false,
-          tabBarIcon: ({ focused }: any) => (
-            <View>
-              {focused ? (
-                <Fontisto name="player-settings" size={26} color="#243763" />
-              ) : (
-                <Fontisto name="player-settings" size={26} color="black" />
-              )}
-            </View>
-          ),
-        })}
-        name="Landing Page"
-        component={LandingTest}
       />
     </Tab.Navigator>
   )

@@ -10,7 +10,7 @@ interface Props {
 
 export const myErrandList = createAsyncThunk<ErrandMarketResponse, Props, { rejectValue: string }>(
     "myErrandList/get",
-  async ({ setSearchedErrand, dispatch }: Props, { rejectWithValue }) => {
+  async ({ setSearchedErrand }: Props, { rejectWithValue }) => {
         try {
             const _rs = await _fetch({
                 method: "GET",
@@ -18,15 +18,11 @@ export const myErrandList = createAsyncThunk<ErrandMarketResponse, Props, { reje
             })
 
           const rs = await _rs.json()
-
-          // console.log(">>>>>rs----", rs);
-          
-
-          // console.log(">>>>errands", rs.data);
-          
-
-            
-              return rs
+          if (setSearchedErrand) {
+                const userErrands = rs.data ?? []
+                setSearchedErrand(userErrands)
+            }
+          return rs
             
         } catch (err) {
             if (err instanceof AxiosError) {

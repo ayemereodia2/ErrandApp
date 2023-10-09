@@ -1,24 +1,19 @@
-import { AntDesign, Entypo, EvilIcons, FontAwesome } from '@expo/vector-icons'
+import { AntDesign, EvilIcons, FontAwesome } from '@expo/vector-icons'
 import {
+  BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
-import React, { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react'
 import {
   ActivityIndicator,
+  SafeAreaView,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native'
-import {
-  Menu,
-  MenuOption,
-  MenuOptions,
-  MenuTrigger,
-} from 'react-native-popup-menu'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import AddAccount from '../../components/Transactions/AddAccount'
@@ -29,15 +24,25 @@ import { getAccounts } from '../../services/wallet/getAccount'
 const WalletAccount = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
   const bottomSheetRef = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ['63%'], [])
 
-  function handleModal() {
-    bottomSheetRef.current?.present()
+  function toggleAddAccountModal(open: boolean) {
+    open ? bottomSheetRef.current?.present() : bottomSheetRef.current?.dismiss()
   }
 
-  function closePlaceBid() {
-    bottomSheetRef.current?.dismiss()
-  }
+  const renderBackdrop = useCallback(
+    (props) => (
+      <BottomSheetBackdrop
+        pressBehavior={'collapse'}
+        opacity={0.7}
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        onPress={() => toggleAddAccountModal(false)}
+        // onChange={handleSheetChanges}
+      />
+    ),
+    [],
+  )
 
   const { data, loading: loadingAccount } = useSelector(
     (state: RootState) => state.getAccountsReducer,
@@ -55,57 +60,6 @@ const WalletAccount = ({ navigation }: any) => {
         >
           <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableOpacity>
-      ),
-      headerRight: () => (
-        <View className="flex-row items-center justify-between mx-3 px-3 py-3 space-x-3 ">
-          {/* <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
-            <MaterialIcons name="notifications" color={'black'} size={22} />
-          </TouchableOpacity> */}
-          <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
-            <MenuTrigger>
-              <Entypo name="dots-three-vertical" color={'black'} size={20} />
-            </MenuTrigger>
-            <MenuOptions
-              customStyles={{
-                optionWrapper: {
-                  // borderBottomWidth: 0.2,
-                  borderBottomColor: '#AAAAAA',
-                },
-                optionText: { textAlign: 'center', fontWeight: '600' },
-              }}
-            >
-              <MenuOption
-                // onSelect={}
-                text="Refresh"
-                customStyles={{
-                  optionWrapper: {
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#AAAAAA',
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-              <MenuOption
-                onSelect={() => alert(`Save`)}
-                text="Profile"
-                customStyles={{
-                  optionWrapper: {
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#AAAAAA',
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-              <MenuOption
-                onSelect={() => alert(`Save`)}
-                text="Contact Us"
-                customStyles={{
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-            </MenuOptions>
-          </Menu>
-        </View>
       ),
     })
   }, [])
@@ -134,39 +88,35 @@ const WalletAccount = ({ navigation }: any) => {
   return (
     <BottomSheetModalProvider>
       <SafeAreaView>
-        {/* Heder */}
-
-        <View className="bg-[rgb(248,249,252)]">
-          <View className="mx-4 flex-row items-center justify-between">
-            <View className=" border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
-              <EvilIcons
-                name="search"
-                size={22}
-                className="w-1/12"
-                color="#808080"
-              />
-              <TextInput
-                className=" w-9/12"
-                placeholder="Search here..."
-                placeholderTextColor="#808080"
-              />
-            </View>
-            <TouchableOpacity>
+        <ScrollView className="mt-4">
+          <View className="bg-[rgb(248,249,252)]">
+            <View className="mx-4 mt-4 flex-row items-center justify-between">
+              <View className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center px-3 w-full space-x-3">
+                <EvilIcons
+                  name="search"
+                  size={22}
+                  className="w-1/12"
+                  color="#808080"
+                />
+                <TextInput
+                  className="w-9/12"
+                  placeholder="Search here..."
+                  placeholderTextColor="#808080"
+                />
+              </View>
+              {/* <TouchableOpacity>
               <View className="bg-[#fff] mr-2 b rounded-md w-[38px]">
                 <Text className="p-2 text-center">
                   <FontAwesome name="calendar" size={24} color="black" />
                 </Text>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            </View>
           </View>
-        </View>
 
-        <ScrollView>
-          {/* Body */}
-
-          {/* {loadingAccount ? (
+          {loadingAccount ? (
             <ActivityIndicator className="mt-4" size={'large'} color="blue" />
-          ) : ( */}
+          ) : (
             <>
               {data?.map((acc) => {
                 return (
@@ -179,14 +129,14 @@ const WalletAccount = ({ navigation }: any) => {
                       </View>
 
                       <View>
-                        {/* <Text className="font-bold text-base">
-                     {acc.account_name}
-                    </Text> */}
                         <Text className="font-medium text-base mt-1">
                           {acc.account_number}
                         </Text>
 
-                        <TouchableOpacity onPress={() => removeBankAcc(acc.id)} className="bg-white border border-[#C82332] rounded-2xl w-[82px] h-[28px] items-center justify-center mt-1">
+                        <TouchableOpacity
+                          onPress={() => removeBankAcc(acc.id)}
+                          className="bg-white border border-[#C82332] rounded-2xl w-[82px] h-[28px] items-center justify-center mt-1"
+                        >
                           <Text className="text-[#C82332]">Remove</Text>
                         </TouchableOpacity>
                       </View>
@@ -194,29 +144,37 @@ const WalletAccount = ({ navigation }: any) => {
                   </View>
                 )
               })}
+
+              <TouchableOpacity
+                className="bg-[#1E3A79] w-[210px] h-10 items-center justify-center rounded-md mx-auto mt-4"
+                onPress={() => toggleAddAccountModal(true)}
+              >
+                <Text className="text-white text-center font-medium">
+                  Add Account
+                </Text>
+              </TouchableOpacity>
             </>
-          {/* )} */}
+          )}
 
-          <TouchableOpacity
-            className="bg-[#1E3A79] w-[210px] h-14 items-center justify-center rounded-md mx-auto mt-40"
-            onPress={handleModal}
-          >
-            <View>
-              <Text className="text-white text-center font-medium">
-                Add Account
+          <View>
+            {data === null ? (
+              <Text className="text-black text-base text-center mt-4">
+                No Account has been added
               </Text>
-            </View>
-          </TouchableOpacity>
-        </ScrollView>
+            ) : (
+              ''
+            )}
+          </View>
 
-        <BottomSheetModal
-          ref={bottomSheetRef}
-          index={0}
-          snapPoints={snapPoints}
-          containerStyle={{ marginHorizontal: 10 }}
-        >
-          <AddAccount />
-        </BottomSheetModal>
+          <BottomSheetModal
+            ref={bottomSheetRef}
+            index={0}
+            snapPoints={['70%']}
+            backdropComponent={renderBackdrop}
+          >
+            <AddAccount toggleAddAccountModal={toggleAddAccountModal} />
+          </BottomSheetModal>
+        </ScrollView>
       </SafeAreaView>
     </BottomSheetModalProvider>
   )

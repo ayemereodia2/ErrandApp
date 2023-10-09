@@ -1,7 +1,6 @@
-import React from 'react'
-import { BottomSheetModal } from '@gorhom/bottom-sheet'
-import { useEffect, useRef, useState } from 'react'
-import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
@@ -49,31 +48,23 @@ export const HaggleComponent = ({
     setIsHidden(!isHidden)
   }
 
-  const [isBlue, setIsBlue] = useState(true)
-
-  const [inputValue, setInputValue] = useState('')
-
-  const toggleColor = () => {
-    setIsBlue((prevIsBlue) => !prevIsBlue)
-  }
-
-  const handleBidNavigation = () => {
-    navigation.navigate('Bids')
-  }
-
-  const handleErrandDetailsNavigation = () => {
-    navigation.navigate('ErrandsAndBids')
-  }
-
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false)
-
-  const handleKeyboardWillShow = () => {
-    setIsKeyboardVisible(true)
-  }
-
-  const handleKeyboardWillHide = () => {
-    setIsKeyboardVisible(false)
-  }
+  const renderBackdrop = useCallback(
+    (props) => (
+      <BottomSheetBackdrop
+        pressBehavior={'collapse'}
+        opacity={0.7}
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        onPress={() => {
+          toggleBeginErrandModal(false)
+          toggleNegotiateModal(false)
+        }}
+        // onChange={handleSheetChanges}
+      />
+    ),
+    [],
+  )
 
   // useEffect(() => {
   //   const keyboardWillShowListener = Keyboard.addListener(
@@ -244,7 +235,12 @@ export const HaggleComponent = ({
           </View>
         )}
 
-        <BottomSheetModal ref={negotiateRef} index={0} snapPoints={['60%']}>
+        <BottomSheetModal
+          backdropComponent={renderBackdrop}
+          ref={negotiateRef}
+          index={0}
+          snapPoints={['60%']}
+        >
           <NegotiateBid
             haggle={haggle}
             bid={bid}
@@ -260,6 +256,7 @@ export const HaggleComponent = ({
           ref={beginErrandRef}
           index={0}
           snapPoints={acceptPoints}
+          backdropComponent={renderBackdrop}
         >
           <BeginErrandModal
             toggleSuccessDialogue={toggleSuccessDialogue}
