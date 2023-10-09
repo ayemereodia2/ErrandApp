@@ -212,6 +212,14 @@ export const MainStack = () => {
       /> */}
 
       <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="CreateErrand"
+        component={PostErrand}
+      />
+
+      <Stack.Screen
         name="LandingForm"
         component={LandingForm}
         options={{
@@ -314,6 +322,13 @@ export const MyErrandStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="MyErrands" component={ErrandScreen} />
+      {/* <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="CreateErrand"
+        component={PostErrand}
+      /> */}
 
       <Stack.Screen
         name="CompleteErrandModal"
@@ -340,6 +355,13 @@ export const MarketStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Market" component={MainScreen} />
+      {/* <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="CreateErrand"
+        component={PostErrand}
+      /> */}
       <Stack.Screen
         name="ErrorScreen"
         component={ErrorScreen}
@@ -353,6 +375,13 @@ export const MarketStack = () => {
 export const LandingPageStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="CreateErrand"
+        component={PostErrand}
+      />
       <Stack.Screen
         name="Landing Page"
         component={LandingTest}
