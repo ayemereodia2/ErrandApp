@@ -23,10 +23,8 @@ export const createErrand = createAsyncThunk<CreateErrandResponse, CreateErrandR
       
       const rs = await _rs.json()
 
-      console.log(">>>>rs create errabd-----", rs.status);
-
       if (rs.success === true) {
-        navigation.navigate("Errands")
+        navigation.navigate("MyErrands")
          Toast.show({
           type: 'success',
           text1: "Errand Created successfully",

@@ -65,7 +65,9 @@ const LandingTest = ({ navigation }: any) => {
 
           <View className="items-center flex-row gap-4 mr-2">
             <Text style={{color: darkMode ? 'white' : 'black'}}>
-              <FontAwesome name="bell-o" size={24} />
+              <FontAwesome name="bell-o" size={24} onPress={() => {
+                navigation.navigate('Notification')
+              }} />
             </Text>
             <Text style={{color: darkMode ? 'white' : 'black'}}>
               <Feather name="search" size={24} />
@@ -77,11 +79,11 @@ const LandingTest = ({ navigation }: any) => {
 
         <View className="flex-row items-center gap-4 mt-1">
           <View className="bg-gray-400 px-4 py-1 rounded-xl border border-[#e9ebf2]" style={{backgroundColor: darkMode ? '#d2d8e4' : 'grey'}}>
-            <Text className="text-white text-base" style={{color: darkMode ? 'black' : 'white'}}>Music</Text>
+            <Text className="text-white text-base" style={{color: darkMode ? 'black' : 'white'}}>Explore</Text>
           </View>
 
           <View className=" px-4 py-1 rounded-xl border border-[#e9ebf2]" style={{backgroundColor: darkMode ? '#d2d8e4' : 'grey'}}>
-            <Text className="text-white text-base" style={{color: darkMode ? 'black' : 'white'}}>Podcasts & Shows</Text>
+            <Text className="text-white text-base" style={{color: darkMode ? 'black' : 'white'}}>Manage your Errands</Text>
           </View>
         </View>
 
@@ -123,7 +125,7 @@ const LandingTest = ({ navigation }: any) => {
           </ScrollView>
         </View>
       </ScrollView>
-      <PostErrandButton />
+      <PostErrandButton className='bottom-20 right-0' />
     </SafeAreaView>
     </>
   )

@@ -26,6 +26,7 @@ import { useSelector } from 'react-redux'
 import Container from '../../components/Container'
 import ErrandComp, { ListErrandComp } from '../../components/ErrandComponent'
 import Filter from '../../components/Filter/Filter'
+import PostErrandButton from '../../components/PostErrandBtn'
 import { errandMarketList, setLoading } from '../../services/errands/market'
 import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -161,7 +162,7 @@ export default function MainScreen() {
                 style={{ display: filterOn ? 'none' : 'flex' }}
               >
                 <View className="mx-4">
-                  {!loading &&
+                  {!loading && (
                     <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white">
                       <EvilIcons
                         name="search"
@@ -202,7 +203,7 @@ export default function MainScreen() {
                         </View>
                       </TouchableOpacity>
                     </View>
-                  }
+                  )}
 
                   <View className="pt-2">
                     {searchedErrand?.map(
@@ -232,6 +233,8 @@ export default function MainScreen() {
             </>
             {/* )} */}
           </ScrollView>
+
+          {!loading && <PostErrandButton className="bottom-1 right-3" />}
         </SafeAreaView>
       </Container>
     )

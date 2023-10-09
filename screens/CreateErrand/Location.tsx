@@ -52,8 +52,6 @@ const CreateErrandLocation = ({
     const { lat, lng } = details.geometry.location
 
     if (locationType === 'currentLocation') {
-      console.log(">>>>>>dtay", data.description);
-      
       setCurrentLocation(data.description)
       setCurrentLocationLatLng({ lat, lng })
     } else if (locationType === 'deliveryAddress') {
