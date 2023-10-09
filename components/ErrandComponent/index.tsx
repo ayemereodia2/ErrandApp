@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { errandDetails } from '../../services/errands/errandDetails'
-import { useAppDispatch } from '../../services/store'
+import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
 import { getAddress } from '../../utils/helper'
+import { useSelector } from 'react-redux'
 
 interface ErrandCardProp {
   errand: MarketData
@@ -43,6 +44,9 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
     getAddress({ errand, setAddress })
   }, [])
 
+  const darkMode = useSelector((state: RootState) => state.darkMode.darkMode);
+
+
   return (
     <TouchableOpacity
       onPress={() => {
@@ -54,6 +58,7 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
         dispatch(externalUserDetails({ user_id: errand?.user_id }))
       }}
       className="pt-4 mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border border-[#ccc]"
+      style={{backgroundColor: darkMode ? '#1E3A79' : 'white', borderColor: darkMode ? '#e9ebbf2' : 'lightgrey'}}
     >
       <View className=" flex-row items-start mt-4">
         <View className="flex-row items-start justify-center gap-3">
@@ -79,7 +84,7 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
           </View>
 
           <View>
-            <Text className="font-semibold ">
+            <Text className="font-semibold " style={{color: darkMode ? 'white' : 'black'}}>
               {errand?.user?.first_name} {errand?.user?.last_name}
             </Text>
 
@@ -96,7 +101,7 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
 
                   <Text className="text-[#ccc] font-light text-2xl ">|</Text>
                   <View>
-                    <Text className="text-[14px] text-[#777777] font-medium">
+                    <Text className="text-[14px] text-[#777777] font-medium" style={{color: darkMode ? 'white' : 'black'}}>
                       <FontAwesome5 name="running" size={14} color="black" />{' '}
                       {errand?.user?.errands_completed}
                     </Text>
@@ -128,7 +133,7 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
 
       <View className="flex-row items-center">
         <View className=" rounded-3xl mt-2">
-          <Text className="font-medium text-sm inline-block">
+          <Text className="font-medium text-sm inline-block" style={{color: darkMode ? 'white' : 'black'}}>
             {' '}
             {errand?.category.name} {/*?.substring(0, 20)} */}
           </Text>

@@ -26,6 +26,7 @@ import { updateNotificationPreferenceReducer } from "./notification/updatePrefer
 import { categoriesListReducer } from "./PostErrand/categories";
 import { getAccountsReducer } from "./wallet/getAccount";
 import { walletActionReducer } from "./wallet/walletBalance";
+import darkModeReducer from './DarkMode/DarkMode';
 
 // "adaptiveIcon": {
 //         "foregroundImage": "./assets/images/logo.png",
@@ -44,6 +45,7 @@ export const store = configureStore({
     postBidReducer,
     myErrandReducer,
     bidActionReducer,
+    darkMode: darkModeReducer,
     startErrandReducer,
     contactUsReducer,
     timelineActionReducer,

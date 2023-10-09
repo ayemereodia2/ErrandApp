@@ -132,19 +132,25 @@ const WalletScreen = ({ navigation }: any) => {
     })
   }, [])
 
+  
+  
+  const darkMode = useSelector((state: RootState) => state.darkMode.darkMode);
+
+
   return (
     <BottomSheetModalProvider>
       <Container>
         <>
-          <SafeAreaView className=" bg-[#e4eaf7]">
+          <SafeAreaView className=" bg-[#e4eaf7]" style={{backgroundColor: darkMode ? '#0c1730' : 'white'}}>
             <ScrollView
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
               className="bg-[#e4eaf7] mt-4"
+              style={{backgroundColor: darkMode ? '#0c1730' : 'white'}}
               showsVerticalScrollIndicator={false}
             >
-              <View className="flex-row items-center justify-between bg-[#e4eaf7] px-4 mt-2">
+              <View className="flex-row items-center justify-between bg-[#e4eaf7] px-4 mt-2" style={{backgroundColor: darkMode ? '#0c1730' : 'white'}}>
                 <Text className="font-medium text-xl leading-[29px]">
                   Overview
                 </Text>

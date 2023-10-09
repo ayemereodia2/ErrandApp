@@ -1,7 +1,9 @@
 import {
   AntDesign,
   Entypo,
-  Feather, FontAwesome5,
+ 
+  Feather,
+  FontAwesome5,
   Fontisto,
   Ionicons,
   MaterialIcons
@@ -177,9 +179,11 @@ export const TabsNavigation = ({ navigation }: any) => {
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
-                <Feather name="search" size={24} color="black" />
+              
+               <Feather name="search" size={24} color="black" />
               ) : (
-              <Feather name="search" size={24} color="black" />
+              
+                <Feather name="search" size={24} color="black" />
               )}
             </View>
           ),
