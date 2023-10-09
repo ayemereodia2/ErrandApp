@@ -3,7 +3,6 @@ import {
   useFonts,
 } from '@expo-google-fonts/abril-fatface'
 import {
-  Entypo,
   EvilIcons,
   Feather,
   Ionicons,
@@ -123,14 +122,12 @@ export default function GuestScreen({ navigation }: any) {
         </View>
       ),
       headerRight: () => (
-        <View className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-3 ">
-          <Entypo
-            name="help-with-circle"
-            color="#1E3A79"
-            size={24}
-            onPress={() => navigation.navigate('Contact')}
-          />
-        </View>
+        <Feather
+          name="help-circle"
+          color="#1E3A79"
+          size={24}
+          onPress={() => navigation.navigate('Contact')}
+        />
       ),
     })
   }, [])
@@ -197,7 +194,7 @@ export default function GuestScreen({ navigation }: any) {
                 style={{ display: filterOn ? 'none' : 'flex' }}
               >
                 <View className="mx-4">
-                  {!loading &&
+                  {!loading && (
                     <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white">
                       <EvilIcons
                         name="search"
@@ -237,7 +234,7 @@ export default function GuestScreen({ navigation }: any) {
                         </View>
                       </TouchableOpacity>
                     </View>
-                  }
+                  )}
 
                   <View className="mt-2">
                     {errands?.map((errand: MarketData, index: number) => {
@@ -276,7 +273,7 @@ export default function GuestScreen({ navigation }: any) {
             onPress={() => navigation.navigate('Login')}
           >
             <Text className="text-white text-lg font-medium text-center">
-              Sign In
+              Login
             </Text>
           </TouchableOpacity>
 

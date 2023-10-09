@@ -14,6 +14,7 @@ const darkModeSlice = createSlice({
       state.darkMode = !state.darkMode;
     },
   },
+  
 });
 
 // Export the action creator

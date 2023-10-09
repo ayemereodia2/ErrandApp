@@ -5,6 +5,7 @@ import {
 import {
   EvilIcons,
   Feather,
+  FontAwesome,
   Ionicons,
   MaterialCommunityIcons,
 } from '@expo/vector-icons'
@@ -56,6 +57,15 @@ export default function MainScreen() {
 
   // const { data } = useSelector((state: RootState) => state.userDetailsReducer)
   const [filterOn, setFilterOn] = useState(false)
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   const handleFilter = () => {
     setFilterOn(!filterOn)
@@ -125,18 +135,67 @@ export default function MainScreen() {
       <Container>
         <SafeAreaView>
           <ScrollView
+            style={{ backgroundColor: backgroundTheme }}
             scrollEventThrottle={16}
-            className="bg-[#e4eaf7]"
+            className={theme ? 'bg-[#e4eaf7]' : '#e9ebf2'}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
           >
+            {/* <View className="mx-4">
+              <View className="mt-3 flex-row items-center justify-between ">
+                <Text
+                  className="font-bold text-[25px] leading-7"
+                  style={{ color: textTheme }}
+                >
+                  Errand Market
+                </Text>
+
+                <View className="items-center flex-row gap-4 mr-2">
+                  <Text style={{ color: textTheme }}>
+                    <FontAwesome
+                      name="bell-o"
+                      size={24}
+                      onPress={() => {
+                        navigation.navigate('Notification')
+                      }}
+                    />
+                  </Text>
+                </View>
+              </View>
+
+              <View className="flex-row items-center gap-4 mt-1">
+                <View
+                  className="bg-gray-400 px-4 py-1 rounded-xl border border-[#e9ebf2]"
+                  style={{ backgroundColor: landingPageTheme }}
+                >
+                  <Text
+                    className="text-white text-base"
+                    style={{ color: theme ? 'black' : 'white' }}
+                  >
+                    Explore
+                  </Text>
+                </View>
+
+                <View
+                  className=" px-4 py-1 rounded-xl border border-[#e9ebf2]"
+                  style={{ backgroundColor: landingPageTheme }}
+                >
+                  <Text
+                    className=" text-base"
+                    style={{ color: theme ? 'black' : 'white' }}
+                  >
+                    Manage your Errands
+                  </Text>
+                </View>
+              </View>
+            </View> */}
             {loading && (
               <View style={styles.container} className="mt-10">
                 <ActivityIndicator
                   size={'large'}
                   style={[{ height: 80 }]}
-                  color="blue"
+                  color={theme ? 'white' : 'blue'}
                 />
               </View>
             )}
@@ -159,7 +218,10 @@ export default function MainScreen() {
 
               <View
                 className="bg-[#e4eaf7]"
-                style={{ display: filterOn ? 'none' : 'flex' }}
+                style={{
+                  display: filterOn ? 'none' : 'flex',
+                  backgroundColor: backgroundTheme,
+                }}
               >
                 <View className="mx-4">
                   {!loading && (
@@ -234,7 +296,7 @@ export default function MainScreen() {
             {/* )} */}
           </ScrollView>
 
-          {!loading && <PostErrandButton className="bottom-1 right-3" />}
+          {!loading && <PostErrandButton className="bottom-5 right-3" />}
         </SafeAreaView>
       </Container>
     )

@@ -5,6 +5,8 @@ import {
   MaterialIcons,
 } from '@expo/vector-icons'
 import { Text, TouchableOpacity, View } from 'react-native'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../services/store'
 // import { categ\\\ } from '../../utils/categories'
 
 type categoryProps = {
@@ -30,13 +32,22 @@ export default function CategoryBox({
   index,
   iconType,
 }: categoryProps) {
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState ) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   return (
     <TouchableOpacity
       onPress={() => {
         onPress(), identifier === 'view-list' && setOpenLists(true)
       }}
-      className={`border-[0.2px] h-28 rounded-lg mx-2 p-2 ${
+      style={{borderColor: textTheme}}
+      className={`border-[0.2px] h-28 rounded-lg mx-2 p-2  ${
         selectedItem === id && `bg-[#CBD5EC]`
       }`}
     >
@@ -46,13 +57,13 @@ export default function CategoryBox({
         ) : (
           <View className="mx-auto pt-2">
             {iconType === 'FontAwesome' ? (
-              <FontAwesome name={icon} size={30} color="black" />
+              <FontAwesome name={icon} size={30} color={textTheme} />
             ) : iconType === 'MaterialIcons' ? (
-              <MaterialIcons name={icon} size={40} color="black" />
+              <MaterialIcons name={icon} size={40} color={textTheme} />
             ) : iconType === 'MaterialCommunityIcons' ? (
-              <MaterialCommunityIcons name={icon} size={40} color="black" />
+              <MaterialCommunityIcons name={icon} size={40} color={textTheme} />
             ) : iconType === 'FontAwesome5' ? (
-              <FontAwesome5 name={icon} size={40} color="black" />
+              <FontAwesome5 name={icon} size={40} color={textTheme} />
             ) : (
               ''
             )}
@@ -65,7 +76,7 @@ export default function CategoryBox({
           alt=""
         /> */}
         {/* <Image src={icon} width={12} height={12} alt="okay"/> */}
-        <Text className="pt-3 lg:pt-4 text-xs md:text-sm text-center">
+        <Text style={{color: textTheme}} className="pt-3 lg:pt-4 text-xs md:text-sm text-center">
           {name}
         </Text>
       </View>

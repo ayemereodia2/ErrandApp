@@ -1,6 +1,8 @@
 import AntDesign from '@expo/vector-icons/AntDesign'
 import React, { useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../services/store'
 
 const data = [
   { label: 'Laundry', value: '1' },
@@ -13,15 +15,27 @@ const data = [
 ]
 
 const SettingsCategory = ({ navigation }: any) => {
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
   const [selected, setSelected] = useState([])
 
   return (
     <View>
       <View className="mt-8 ml-4">
-        <Text className="pb-2 text-base font-bold leading-6">
+        <Text
+          style={{ color: textTheme }}
+          className="pb-2 text-base font-bold leading-6"
+        >
           CATEGORY INTERESTS
         </Text>
-        <Text className="text-[14px]">
+        <Text style={{ color: textTheme }} className="text-[14px]">
           Notifications on all general activities on Swave
         </Text>
       </View>
@@ -31,19 +45,21 @@ const SettingsCategory = ({ navigation }: any) => {
           onPress={() => navigation.navigate('CategoryInterest')}
           className=""
         >
-          <View className="py-3 px-4 w-[149px] rounded-full border border-[#3F60AC] mt-4 items-center flex-row space-x-4">
-            <Text className="text-black items-center justify-center">
+          <View
+            style={{ backgroundColor: theme ? '#152955' : 'white' }}
+            className="py-3 px-4 w-[149px] rounded-full border border-[#3F60AC] mt-4 items-center flex-row space-x-4"
+          >
+            <Text style={{color: textTheme}} className="text-black items-center justify-center">
               Laundry Services
             </Text>
           </View>
         </TouchableOpacity>
-        
 
         <TouchableOpacity
           onPress={() => navigation.navigate('CategoryInterest')}
           className=""
         >
-          <View className="py-3 px-4 w-[149px] rounded-full bg-[#3F60AC] mt-4 items-center flex-row space-x-4">
+          <View style={{ backgroundColor: theme ? '#152955' : 'white' }} className="py-3 px-4 w-[149px] rounded-full bg-[#3F60AC] mt-4 items-center flex-row space-x-4">
             <Text className="text-white items-center justify-center">
               Add Category
             </Text>

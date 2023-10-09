@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import MapView, { Marker } from 'react-native-maps'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../services/store'
 import { PostErrandData } from '../../types'
 
 interface LocationProp {
@@ -22,10 +24,19 @@ const CreateErrandLocation = ({
   handleInputChange,
   postErrandData,
   setCurrentLocation,
-  setDeliveryAddress
+  setDeliveryAddress,
 }: LocationProp) => {
   const [regionCoords, setRegion] = useState({ lat: 37.78825, lng: -122.4324 })
   const [marker, setMarker] = useState({ lat: 37.78825, lng: -122.4324 })
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   const [
     currentLocationLatLng,
@@ -68,7 +79,7 @@ const CreateErrandLocation = ({
   }
 
   const onPress = (data: any, details: any) => {
-    console.log(">>>>>data", data);
+    console.log('>>>>>data', data)
     setRegion(details.geometry.location)
     setMarker(details.geometry.location)
   }
@@ -80,21 +91,32 @@ const CreateErrandLocation = ({
           <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
             <Text className="text-black mx-auto">3</Text>
           </View>
-          <Text className="font-semibold text-[#243763] text-base">
+          <Text
+            style={{ color: textTheme }}
+            className="font-semibold text-[#243763] text-base"
+          >
             Errand Location
           </Text>
         </View>
 
         <View className="mx-auto items-center justify-center w-[309px] h-[48px] mt-5">
-          <Text className="text-[#777777] text-center">
+          <Text
+            style={{ color: textTheme }}
+            className="text-[#777777] text-center"
+          >
             In this section, you can set the location that you want the errand
             to take place in.
           </Text>
         </View>
 
         <View className="mt-[56px] ml-4 mt-40">
-          <Text className="text-[#243763]">
-            <Text className="font-semibold text-sm">Request Location </Text>
+          <Text style={{ color: textTheme }} className="text-[#243763]">
+            <Text
+              style={{ color: textTheme }}
+              className="font-semibold text-sm"
+            >
+              Request Location{' '}
+            </Text>
             (Provide this if you have a separate Pickup Location or Delivery
             Location)
           </Text>
@@ -132,14 +154,16 @@ const CreateErrandLocation = ({
             onChangeText={(text) => setCurrentLocation(text)}
           />
         </View> */}
-        <View className='mt-5'>
+        <View className="mt-5">
           <View className="mt-4 px-4">
-            <Text className="text-[#243763]">
+            <Text style={{color:textTheme}} className="text-[#243763]">
               What is your Current Location
             </Text>
             <GooglePlacesAutocomplete
               placeholder="Enter Delivery Address"
-              onPress={(data, details) => handleLocationSelect(data, details, 'currentLocation')}
+              onPress={(data, details) =>
+                handleLocationSelect(data, details, 'currentLocation')
+              }
               fetchDetails={true}
               query={{
                 key: 'AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo',
@@ -155,13 +179,15 @@ const CreateErrandLocation = ({
           </View>
 
           <View style={styles.inputContainer} className="mt-20 px-4">
-            <Text className="text-[#243763]">
+            <Text style={{color:textTheme}} className="text-[#243763]">
               {' '}
               What Delivery address do you want to provide?
             </Text>
             <GooglePlacesAutocomplete
               placeholder="Enter Delivery Address"
-              onPress={(data, details) => handleLocationSelect(data, details, 'deliveryAddress')}
+              onPress={(data, details) =>
+                handleLocationSelect(data, details, 'deliveryAddress')
+              }
               fetchDetails={true}
               query={{
                 key: 'AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo',
