@@ -1,36 +1,28 @@
 import {
   AntDesign,
-  Entypo,
- 
   Feather,
   FontAwesome5,
   Fontisto,
   Ionicons,
-  MaterialIcons
 } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   getFocusedRouteNameFromRoute,
   useNavigation,
-  useRoute
+  useRoute,
 } from '@react-navigation/native'
 import React, { useEffect } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import {
-  Menu,
-  MenuOption,
-  MenuOptions,
-  MenuTrigger
-} from 'react-native-popup-menu'
+import { useSelector } from 'react-redux'
 import { ProfileInitials } from '../components/ProfileInitials'
-import { useAppDispatch } from '../services/store'
+import { RootState, useAppDispatch } from '../services/store'
 import { getUserId } from '../utils/helper'
 import {
   LandingPageStack,
   MarketStack,
   MyErrandStack,
   SetttingsStack,
-  WalletStack
+  WalletStack,
 } from './StackNavigation'
 
 const Header = (props: any) => {
@@ -59,12 +51,24 @@ export const TabsNavigation = ({ navigation }: any) => {
   const navigate = useNavigation()
   // const navigation = useNavigation()
 
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
   const optionsHandler = ({ headerShown, title, tabBarIcon }: OptionsProps) => {
     return {
       headerShown,
       title,
       tabBarIcon,
-      headerStyle: { backgroundColor: '#F8F9FC' },
+      headerStyle: { backgroundColor: backgroundTheme, color: textTheme },
+      headerTitleStyle: {
+        color: textTheme,
+      },
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => navigation.navigate('Profile')}
@@ -84,44 +88,137 @@ export const TabsNavigation = ({ navigation }: any) => {
       headerRight: () => (
         <View
           style={{ display: 'flex', flexDirection: 'row', marginRight: 20 }}
-          className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-5 "
+          className="flex-row items-center justify-between mx-0 px-3 py-3 "
         >
-          <MaterialIcons
+          <Ionicons
             onPress={() => navigation.navigate('Notification')}
-            style={{ marginRight: 10 }}
-            name="notifications"
-            color={'black'}
+            style={{ marginRight: 14 }}
+            name="notifications-outline"
+            color={textTheme}
             size={24}
           />
-          <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
-            <MenuTrigger>
-              <Entypo name="dots-three-vertical" color={'black'} size={22} />
-            </MenuTrigger>
-            <MenuOptions
-              customStyles={{
-                optionWrapper: {
-                  marginTop: 10,
-                  borderBottomColor: '#AAAAAA',
-                },
-                optionText: { textAlign: 'center', fontWeight: '600' },
-              }}
-            >
-              <MenuOption
-                onSelect={() => navigation.navigate('Contact')}
-                text="Contact Us"
-                customStyles={{
-                  optionWrapper: {
-                    paddingVertical: 6,
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-            </MenuOptions>
-          </Menu>
+
+          <Feather
+            onPress={() => navigation.navigate('Contact')}
+            color={textTheme}
+            size={24}
+            name="help-circle"
+          />
         </View>
       ),
     }
   }
+
+  // const marketOptionsHandler = ({
+  //   headerShown,
+  //   title,
+  //   tabBarIcon,
+  // }: OptionsProps) => {
+  //   return {
+  //     headerShown,
+  //     title,
+  //     tabBarIcon,
+  //     headerStyle: { backgroundColor: backgroundTheme, color: textTheme },
+  //     headerTitleStyle: {
+  //       color: textTheme,
+  //     },
+  //     headerLeft: () => (
+  //       <TouchableOpacity
+  //         onPress={() => navigation.navigate('Profile')}
+  //         style={{
+  //           marginLeft: 20,
+  //         }}
+  //         className="flex-row items-center justify-between my-3 px-3 "
+  //       >
+  //         <View
+  //           style={{
+  //             display: 'flex',
+  //             flexDirection: 'row',
+  //             alignItems: 'center',
+  //           }}
+  //         >
+  //           <ProfileInitials
+  //             firstName={firstName.charAt(0).toUpperCase()}
+  //             lastName={lastName.charAt(0).toUpperCase()}
+  //             profile_pic={profilePic}
+  //             textClass="text-white text-base"
+  //             width={35}
+  //             height={35}
+  //           />
+  //           <View
+  //             style={{
+  //                marginLeft: 10,
+  //               display: 'flex',
+  //               flexDirection: 'row',
+  //               alignItems: 'center',
+  //               justifyContent: 'space-between',
+  //             }}
+  //             // className="mt-3 flex-row items-center justify-between "
+  //           >
+  //             <Text
+  //               className="font-bold text-[25px] leading-7"
+  //               style={{ color: textTheme, fontSize: 20, fontWeight:800 }}
+  //             >
+  //               Errand Market
+  //             </Text>
+  //           </View>
+  //         </View>
+  //       </TouchableOpacity>
+  //     ),
+
+  //     headerRight: () => (
+  //       <View
+  //         style={{ display: 'flex', flexDirection: 'row', marginRight: 20 }}
+  //         className="flex-row items-center justify-between mx-0 px-3 py-3 space-x-5 "
+  //       >
+  //         {/* <MaterialIcons
+  //           onPress={() => navigation.navigate('Notification')}
+  //           style={{ marginRight: 10 }}
+  //           name="notifications"
+  //           color={textTheme}
+  //           size={24}
+  //         />
+  //         <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
+  //           <MenuTrigger>
+  //             <Entypo name="dots-three-vertical" color={textTheme} size={22} />
+  //           </MenuTrigger>
+  //           <MenuOptions
+  //             customStyles={{
+  //               optionWrapper: {
+  //                 marginTop: 10,
+  //                 borderBottomColor: '#AAAAAA',
+  //               },
+  //               optionText: { textAlign: 'center', fontWeight: '600' },
+  //             }}
+  //           >
+  //             <MenuOption
+  //               onSelect={() => navigation.navigate('Contact')}
+  //               text="Contact Us"
+  //               customStyles={{
+  //                 optionWrapper: {
+  //                   paddingVertical: 6,
+  //                 },
+  //                 optionText: { textAlign: 'center', fontWeight: '600' },
+  //               }}
+  //             />
+  //           </MenuOptions>
+  //         </Menu> */}
+
+  //         <View className="items-center flex-row gap-4 mr-2">
+  //           <Text style={{ color: textTheme }}>
+  //             <FontAwesome
+  //               name="bell-o"
+  //               size={24}
+  //               onPress={() => {
+  //                 navigation.navigate('Notification')
+  //               }}
+  //             />
+  //           </Text>
+  //         </View>
+  //       </View>
+  //     ),
+  //   }
+  // }
 
   const route = useRoute()
   const nav = useNavigation()
@@ -142,9 +239,9 @@ export const TabsNavigation = ({ navigation }: any) => {
           bottom: 0,
           // left: 25,
           // right: 20,
-          backgroundColor: '#ffffff',
-          borderTopRightRadius: 15,
-          borderTopLeftRadius: 15,
+          backgroundColor: backgroundTheme,
+          borderTopRightRadius: 10,
+          borderTopLeftRadius: 10,
           // borderRadius: 15,
           height: 70,
           // width:100
@@ -162,9 +259,9 @@ export const TabsNavigation = ({ navigation }: any) => {
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
-                <AntDesign name="home" size={24} color="#243763" />
+                <AntDesign name="home" size={24} color={textTheme} />
               ) : (
-                <AntDesign name="home" size={24} color="black" />
+                <AntDesign name="home" size={24} color={textTheme} />
               )}
             </View>
           ),
@@ -179,11 +276,9 @@ export const TabsNavigation = ({ navigation }: any) => {
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
-              
-               <Feather name="search" size={24} color="black" />
+                <Feather name="search" size={26} color={textTheme} />
               ) : (
-              
-                <Feather name="search" size={24} color="black" />
+                <Feather name="search" size={24} color={textTheme} />
               )}
             </View>
           ),
@@ -198,9 +293,9 @@ export const TabsNavigation = ({ navigation }: any) => {
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
-                <FontAwesome5 name="running" size={24} color="#243763" />
+                <FontAwesome5 name="running" size={26} color={textTheme} />
               ) : (
-                <FontAwesome5 name="running" size={24} color="black" />
+                <FontAwesome5 name="running" size={24} color={textTheme} />
               )}
             </View>
           ),
@@ -208,26 +303,7 @@ export const TabsNavigation = ({ navigation }: any) => {
         name="MyErrandTab"
         component={MyErrandStack}
       />
-      {/* <Tab.Screen
-        options={optionsHandler({
-          title: 'Create Errand',
-          headerShown: false,
 
-          tabBarIcon: ({ focused }: any) => (
-            <View>
-              <Ionicons
-                name="add-circle"
-                size={30}
-                color="#243763"
-                // style={{ top: -40 }}
-                className="shadow-lg"
-              />
-            </View>
-          ),
-        })}
-        name="PostErrandTab"
-        component={PostErrandStack}
-      /> */}
       <Tab.Screen
         options={optionsHandler({
           title: 'Wallet',
@@ -235,9 +311,9 @@ export const TabsNavigation = ({ navigation }: any) => {
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
-                <Ionicons name="wallet-outline" size={24} color="#243763" />
+                <Ionicons name="wallet-outline" size={26} color={textTheme} />
               ) : (
-                <Ionicons name="wallet-outline" size={24} color="black" />
+                <Ionicons name="wallet-outline" size={24} color={textTheme} />
               )}
             </View>
           ),
@@ -252,9 +328,9 @@ export const TabsNavigation = ({ navigation }: any) => {
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
-                <Fontisto name="player-settings" size={26} color="#243763" />
+                <Fontisto name="player-settings" size={26} color={textTheme} />
               ) : (
-                <Fontisto name="player-settings" size={26} color="black" />
+                <Fontisto name="player-settings" size={26} color={textTheme} />
               )}
             </View>
           ),

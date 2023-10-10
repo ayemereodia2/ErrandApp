@@ -1,13 +1,27 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import moment from "moment";
+import validator from 'validator';
 import banks from "../assets/bank.json";
+import { currentUserDetails } from "../services/auth/currentUserInfo";
 import { userDetails } from "../services/auth/userInfo";
 import { MarketData, PaymentChannels } from "../types";
-import validator from 'validator';
 
 export const formatDate = (dateString: string) => {
   const date = moment(dateString);
   return date.format('MMM DD, YYYY, h:mm:ss A');
+}
+
+export function getTimeOfDay() {
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+
+  if (currentHour >= 6 && currentHour < 12) {
+    return "Morning";
+  } else if (currentHour >= 12 && currentHour < 18) {
+    return "Afternoon";
+  } else {
+    return "Evening";
+  }
 }
 
 // export function formatDesc(html: string) {
@@ -135,23 +149,27 @@ interface AddressProps {
  }
 
 interface getUserIdProps {
-  setFirstName: React.Dispatch<React.SetStateAction<string>>
-  setLastName: React.Dispatch<React.SetStateAction<string>>
-  setProfilePic: React.Dispatch<React.SetStateAction<string>>
-  dispatch: any
-  setUserId: React.Dispatch<React.SetStateAction<string>>
+  setFirstName?: any
+  setLastName?: any
+  setProfilePic?:any
+  dispatch?: any
+  setUserId?: any
  }
 
  export const getUserId = async ({setFirstName, setLastName, setProfilePic, setUserId, dispatch}: getUserIdProps) => {
     const userId = (await AsyncStorage.getItem('user_id')) || ''
     const first_name = (await AsyncStorage.getItem('first_name')) || ''
     const last_name = (await AsyncStorage.getItem('last_name')) || ''
-    const profile_pic = (await AsyncStorage.getItem('profile_pic')) || ''
-    setFirstName(first_name)
-    setLastName(last_name)
-    setProfilePic(profile_pic)
-    setUserId(userId)
-    dispatch(userDetails({ user_id: userId }))
+   const profile_pic = (await AsyncStorage.getItem('profile_pic')) || ''
+   if (setFirstName || setLastName || setProfilePic || setUserId) {
+      setFirstName(first_name)
+      setLastName(last_name)
+      setProfilePic(profile_pic)
+      setUserId(userId)
+   }
+   
+   dispatch(userDetails({ user_id: userId }))
+   dispatch(currentUserDetails({user_id: userId}))
  }
   
    export const categoryLists = [

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, ScrollView, FlatList, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  FlatList,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native'
 import { useSelector } from 'react-redux'
 import CategoryBox from '../../components/CategoryBox'
 // import { categoriesList } from '../../services/PostErrand/categories'
@@ -23,6 +29,15 @@ const Categories = ({
   const { data, loading } = useSelector(
     (state: RootState) => state.categoriesListReducer,
   )
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -36,13 +51,13 @@ const Categories = ({
           <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
             <Text className="text-black mx-auto">1</Text>
           </View>
-          <Text className="font-semibold text-[#243763] text-base">
+          <Text style={{color: textTheme}} className="font-semibold text-[#243763] text-base">
             Select Category
           </Text>
         </View>
 
         <View className="mx-auto items-center justify-center w-[309px] h-[48px] mt-5">
-          <Text className="text-[#777777] text-center">
+          <Text  style={{color: textTheme}}  className="text-[#777777] text-center">
             In this section, you can select the category which your errand falls
             under here.{' '}
           </Text>
@@ -51,8 +66,8 @@ const Categories = ({
         {loading ? (
           <ActivityIndicator size={'large'} color="blue" />
         ) : (
-          <View className='px-3'>
-            <Text className="text-[16px] font-medium mt-14 ml-4 mb-4">
+          <View className="px-3">
+            <Text  style={{color: textTheme}}  className="text-[16px] font-medium mt-14 ml-4 mb-4">
               Services
             </Text>
 
@@ -79,7 +94,15 @@ const Categories = ({
             <FlatList
               data={categoryLists}
               renderItem={({ item, index }) => (
-                <View style={{ flex: 1, marginHorizontal:2, marginVertical:10, flexDirection: 'column', margin: 1 }}>
+                <View
+                  style={{
+                    flex: 1,
+                    marginHorizontal: 2,
+                    marginVertical: 10,
+                    flexDirection: 'column',
+                    margin: 1,
+                  }}
+                >
                   <CategoryBox
                     index={index}
                     setOpenLists={setOpenLists}

@@ -10,12 +10,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import { useSelector } from 'react-redux'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { errandDetails } from '../../services/errands/errandDetails'
-import { useAppDispatch } from '../../services/store'
+import { RootState, useAppDispatch } from '../../services/store'
 
-const LandingDetails = ({ navigation, darkMode }: any) => {
+const LandingDetails = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
   const getMarket = async () => {
     const _rs = await _fetch({
@@ -24,6 +25,16 @@ const LandingDetails = ({ navigation, darkMode }: any) => {
     })
     return await _rs.json()
   }
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+   const theme = currentUser?.preferred_theme === 'light' ? true : false
+
 
   const { isLoading, isSuccess, data, isError } = useQuery({
     queryKey: ['get-market'],
@@ -47,7 +58,7 @@ const LandingDetails = ({ navigation, darkMode }: any) => {
     <>
       {data
         ? data.data.map((errand: any) => (
-            <SafeAreaView className="mb-10 mr-4" >
+            <SafeAreaView className="mb-10 mr-4">
               <ScrollView horizontal>
                 <TouchableOpacity
                   onPress={() => {
@@ -59,8 +70,10 @@ const LandingDetails = ({ navigation, darkMode }: any) => {
                     dispatch(externalUserDetails({ user_id: errand?.user_id }))
                   }}
                   className="mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border"
-                  style={{backgroundColor: darkMode ? '#1E3A79' : 'white', borderColor: darkMode ? '#e9ebbf2' : 'lightgrey'}}
-                  
+                  style={{
+                    backgroundColor: theme ? '#152955' : 'white',
+                    borderColor: theme ? '#e9ebbf2' : 'lightgrey',
+                  }}
                   key={errand.errand_id}
                 >
                   <View className=" flex-row items-start mt-4">
@@ -87,7 +100,10 @@ const LandingDetails = ({ navigation, darkMode }: any) => {
                       </View>
 
                       <View>
-                        <Text className="font-semibold text-[18px]" style={{color: darkMode ? 'white' : 'black'}}>
+                        <Text
+                          className="font-semibold text-[18px]"
+                          style={{ color: 'black'}}
+                        >
                           {errand?.user?.first_name} {errand?.user?.last_name}
                         </Text>
 
@@ -110,12 +126,13 @@ const LandingDetails = ({ navigation, darkMode }: any) => {
                                 |
                               </Text>
                               <View>
-                                <Text className="text-[14px] text-[#777777] font-medium" style={{color: darkMode ? 'white' : 'black'}}>
-                                  <FontAwesome5
-                                    name="running"
-                                    size={14}
-                                    
-                                  />{' '}
+                                <Text
+                                  className="text-[14px] text-[#777777] font-medium"
+                                  style={{
+                                    color: textTheme
+                                  }}
+                                >
+                                  <FontAwesome5 name="running" size={14} />{' '}
                                   {errand?.user?.errands_completed}
                                 </Text>
                               </View>
@@ -126,13 +143,19 @@ const LandingDetails = ({ navigation, darkMode }: any) => {
                     </View>
                   </View>
 
-                  <Text className="text-[18px] font-medium py-4 pt-4" style={{color: darkMode ? 'white' : 'black'}}>
+                  <Text
+                    className="text-[18px] font-medium py-4 pt-4"
+                    style={{ color: textTheme}}
+                  >
                     {errand?.description?.length >= 60
                       ? errand?.description?.substring(0, 50).concat('', '...')
                       : errand?.description}
                   </Text>
 
-                  <Text className="text-sm font-light" style={{color: darkMode ? 'white' : '#666666'}}>
+                  <Text
+                    className="text-sm font-light"
+                    style={{ color: theme ? 'white' : '#666666' }}
+                  >
                     {' '}
                     <Text>
                       <EvilIcons name="location" size={14} color="green" />{' '}
@@ -146,7 +169,10 @@ const LandingDetails = ({ navigation, darkMode }: any) => {
 
                   <View className="flex-row items-center">
                     <View className=" rounded-3xl mt-2">
-                      <Text className="font-medium text-sm inline-block"  style={{color: darkMode ? 'white' : 'black'}}>
+                      <Text
+                        className="font-medium text-sm inline-block"
+                        style={{ color: textTheme }}
+                      >
                         {' '}
                         {errand?.category.name?.substring(0, 20)}
                       </Text>
@@ -156,14 +182,20 @@ const LandingDetails = ({ navigation, darkMode }: any) => {
                   <View className="h-[0.3px] bg-[#AAAAAA] mt-3 items-center"></View>
 
                   <View className="flex-row justify-between items-center mt-2">
-                    <Text className="text-[20px] font-bold text-[#1E3A79]"  style={{color: darkMode ? 'white' : 'black'}}>
+                    <Text
+                      className="text-[20px] font-bold text-[#1E3A79]"
+                      style={{ color: textTheme}}
+                    >
                       &#x20A6; {/* {budgetInNaira.toLocaleString()} */}{' '}
                       {(errand?.budget / 100).toLocaleString()}
                     </Text>
                     {/* <ProfileInitials firstName="Kzu" lastName="Soo" /> */}
 
                     <View className=" rounded-2xl py-2 px-2  items-center mt-2">
-                      <Text className="text-orange-500 text-center text-[17px] mb-1 font-semibold"  style={{color: darkMode ? 'white' : 'black'}}>
+                      <Text
+                        className="text-orange-500 text-center text-[17px] mb-1 font-semibold"
+                        style={{ color: textTheme }}
+                      >
                         {' '}
                         {errand?.total_bids === 0
                           ? ''

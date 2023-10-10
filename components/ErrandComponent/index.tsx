@@ -1,6 +1,7 @@
 import { Entypo, EvilIcons, FontAwesome5 } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { errandDetails } from '../../services/errands/errandDetails'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -44,8 +45,16 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
     getAddress({ errand, setAddress })
   }, [])
 
-  const darkMode = useSelector((state: RootState) => state.darkMode.darkMode);
+  const darkMode = useSelector((state: RootState) => state.darkMode.darkMode)
 
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   return (
     <TouchableOpacity
@@ -57,8 +66,11 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
         dispatch(errandDetails({ errandId: errand?.id, navigation }))
         dispatch(externalUserDetails({ user_id: errand?.user_id }))
       }}
-      className="pt-4 mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border border-[#ccc]"
-      style={{backgroundColor: darkMode ? '#1E3A79' : 'white', borderColor: darkMode ? '#e9ebbf2' : 'lightgrey'}}
+      className="pt-4 mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border"
+      style={{
+        backgroundColor: theme ? '#152955' : 'white',
+        borderColor: theme ? '' : 'lightgrey',
+      }}
     >
       <View className=" flex-row items-start mt-4">
         <View className="flex-row items-start justify-center gap-3">
@@ -84,7 +96,10 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
           </View>
 
           <View>
-            <Text className="font-semibold " style={{color: darkMode ? 'white' : 'black'}}>
+            <Text
+              className="font-semibold "
+              style={{ color: textTheme}}
+            >
               {errand?.user?.first_name} {errand?.user?.last_name}
             </Text>
 
@@ -101,7 +116,10 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
 
                   <Text className="text-[#ccc] font-light text-2xl ">|</Text>
                   <View>
-                    <Text className="text-[14px] text-[#777777] font-medium" style={{color: darkMode ? 'white' : 'black'}}>
+                    <Text
+                      className="text-[14px] text-[#777777] font-medium"
+                      style={{ color: textTheme }}
+                    >
                       <FontAwesome5 name="running" size={14} color="black" />{' '}
                       {errand?.user?.errands_completed}
                     </Text>
@@ -113,16 +131,19 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
         </View>
       </View>
 
-      <Text className="text-[16px] font-medium py-4 pt-4 text-[#000000]">
+      <Text
+        style={{ color: textTheme }}
+        className="text-[16px] font-medium py-4 pt-4 text-[#000000]"
+      >
         {result?.length >= 60
           ? result?.substring(0, 50).concat('', '...')
           : result}
       </Text>
 
-      <Text className="text-sm text-[#666666] font-light">
+      <Text style={{color: theme ? '#a09e9e' : '#666666',}} className="text-sm text-[#a09e9e] font-light">
         {' '}
         <Text>
-          <EvilIcons name="location" size={14} color="green" />{' '}
+          <EvilIcons name="location" size={14} color={theme ? '#a09e9e': "green"} />{' '}
         </Text>
         {errand.dropoff_address?.address_text ? (
           truncatedAddressText
@@ -133,7 +154,10 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
 
       <View className="flex-row items-center">
         <View className=" rounded-3xl mt-2">
-          <Text className="font-medium text-sm inline-block" >
+          <Text
+            className="font-medium text-sm inline-block"
+            style={{ color: textTheme }}
+          >
             {' '}
             {errand?.category.name} {/*?.substring(0, 20)} */}
           </Text>
@@ -143,7 +167,7 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
       <View className="h-[0.3px] bg-[#AAAAAA] mt-3 items-center"></View>
 
       <View className="flex-row justify-between items-center mt-2">
-        <Text className="text-[20px] font-bold text-[#1E3A79] ">
+        <Text style={{ color: textTheme }} className="text-[20px] font-bold text-[#1E3A79] ">
           &#x20A6; {budgetInNaira.toLocaleString()}
         </Text>
         {/* <ProfileInitials firstName="Kzu" lastName="Soo" /> */}
