@@ -1,7 +1,6 @@
 import { Entypo, EvilIcons, FontAwesome5 } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
-import { useSelector } from 'react-redux'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { errandDetails } from '../../services/errands/errandDetails'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -136,7 +135,7 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
         className="text-[16px] font-medium py-4 pt-4 text-[#000000]"
       >
         {result?.length >= 60
-          ? result?.substring(0, 50).concat('', '...')
+          ? result?.substring(0, 120).concat('', '...')
           : result}
       </Text>
 

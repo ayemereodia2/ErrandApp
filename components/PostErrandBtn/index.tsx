@@ -23,11 +23,11 @@ const PostErrandButton = ({ className }: BtnProp) => {
         backgroundColor: theme ? '#d2d8e4' : '#1E3A79',
       }}
       onPress={() => navigation.navigate('CreateErrand')}
-      className={`absolute   bg-[#1E3A79] rounded-full h-14 w-14 flex-row justify-center items-center ${className}`}
+      className={`absolute   bg-[#1E3A79] rounded-full h-16 w-16 flex-row justify-center items-center ${className}`}
     >
       <MaterialIcons
         name="add"
-        size={30}
+        size={40}
         color={theme ? 'black' : 'white'}
         // style={{ top: -40 }}
         className="shadow-lg"

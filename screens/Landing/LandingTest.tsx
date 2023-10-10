@@ -1,4 +1,4 @@
-import { FontAwesome } from '@expo/vector-icons'
+import { Feather, FontAwesome } from '@expo/vector-icons'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native'
@@ -11,6 +11,7 @@ import { _fetch } from '../../services/axios/http'
 import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
 import { getTimeOfDay, getUserId } from '../../utils/helper'
+import NewNotifications from '../../components/NewNotifications/NewNotifications'
 
 const LandingTest = ({ navigation }: any) => {
   const [clicked, setClicked] = useState(false)
@@ -70,7 +71,7 @@ const LandingTest = ({ navigation }: any) => {
         className="px-4 w-[100%]"
         style={{ backgroundColor: backgroundTheme }}
       >
-        <ScrollView>
+        <ScrollView >
           <View className="mt-6 flex-row items-center justify-between">
             <Text
               className="font-bold text-[25px] leading-7"
@@ -89,16 +90,20 @@ const LandingTest = ({ navigation }: any) => {
                   }}
                 />
               </Text>
-              {/* <Text style={{ color: textTheme }}>
-                <Feather name="search" size={24} />
-              </Text> */}
+              <Text style={{ color: textTheme }}>
+              <Feather name="help-circle" size={24} 
+               onPress={() => {
+                navigation.navigate('Contact')
+              }}
+               />              
+              </Text>
             </View>
           </View>
 
           <View className="flex-row items-center gap-4 mt-1">
             <TouchableOpacity
               onPress={() => navigation.navigate('Market')}
-              className="bg-gray-400 px-4 py-1 rounded-xl border border-[#e9ebf2]"
+              className="bg-gray-200 px-4 py-1 rounded-xl border border-[#e9ebf2]"
               style={{ backgroundColor: landingPageTheme }}
             >
               <Text
@@ -111,7 +116,7 @@ const LandingTest = ({ navigation }: any) => {
 
             <TouchableOpacity
               onPress={() => navigation.navigate('MyErrands')}
-              className=" px-4 py-1 rounded-xl border border-[#e9ebf2]"
+              className=" px-4 py-1 rounded-xl border border-[#e9ebf2] "
               style={{ backgroundColor: landingPageTheme }}
             >
               <Text
@@ -167,9 +172,22 @@ const LandingTest = ({ navigation }: any) => {
               Urgent Errands
             </Text>
 
-            <ScrollView horizontal>
+            <ScrollView horizontal showHorizontalIndicator={false}>
               <LandingDetails navigation={navigation} />
             </ScrollView>
+          </View>
+
+          <View className="mt-4">
+            <Text
+              className=" text-[25px] leading-7 font-bold"
+              style={{ color: textTheme }}
+            >
+              New Notifications
+            </Text>
+
+            
+              <NewNotifications  />
+            
           </View>
         </ScrollView>
         {!isLoading && <PostErrandButton className="bottom-20 right-3" />}
