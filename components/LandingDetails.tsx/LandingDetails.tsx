@@ -18,13 +18,6 @@ import { RootState, useAppDispatch } from '../../services/store'
 
 const LandingDetails = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
-  const getMarket = async () => {
-    const _rs = await _fetch({
-      method: 'GET',
-      _url: `/errand/market?urgent=1`,
-    })
-    return await _rs.json()
-  }
 
   const {
     data: currentUser,
@@ -33,17 +26,25 @@ const LandingDetails = ({ navigation }: any) => {
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
-   const theme = currentUser?.preferred_theme === 'light' ? true : false
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
 
-  const { isLoading, isSuccess, data, isError } = useQuery({
+  const getMarket = async () => {
+    const _rs = await _fetch({
+      method: 'GET',
+      _url: `/errand/market`,
+    })
+    return await _rs.json()
+  }
+
+ 
+
+
+  const { isLoading, isSuccess, data,  isError } = useQuery({
     queryKey: ['get-market'],
     queryFn: getMarket,
-    refetchOnMount: 'always',
   })
-  if (isSuccess) {
-    console.log(data)
-  }
+
 
   if (isLoading) {
     return (
@@ -54,10 +55,16 @@ const LandingDetails = ({ navigation }: any) => {
     )
   }
 
+  if (isSuccess) {
+    console.log(data)
+  }
+
+  const regex = /(<([^>]+)>)/gi
+
+
   return (
     <>
-      {data
-        ? data.data.map((errand: any) => (
+      {data ? data.data.map((errand: any) => (
             <SafeAreaView className="mb-10 mr-4">
               <ScrollView horizontal>
                 <TouchableOpacity
@@ -102,7 +109,7 @@ const LandingDetails = ({ navigation }: any) => {
                       <View>
                         <Text
                           className="font-semibold text-[18px]"
-                          style={{ color: 'black'}}
+                          style={{ color: textTheme}}
                         >
                           {errand?.user?.first_name} {errand?.user?.last_name}
                         </Text>
@@ -147,9 +154,9 @@ const LandingDetails = ({ navigation }: any) => {
                     className="text-[18px] font-medium py-4 pt-4"
                     style={{ color: textTheme}}
                   >
-                    {errand?.description?.length >= 60
-                      ? errand?.description?.substring(0, 50).concat('', '...')
-                      : errand?.description}
+                    {errand.description?.length >= 60
+                      ? errand?.description?.substring(0, 120).concat('', '...').replace(regex, '')
+                      : errand?.description.replace(regex, '')}
                   </Text>
 
                   <Text

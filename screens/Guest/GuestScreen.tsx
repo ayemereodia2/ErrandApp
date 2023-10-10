@@ -122,12 +122,15 @@ export default function GuestScreen({ navigation }: any) {
         </View>
       ),
       headerRight: () => (
+        <View className='pr-3'>
         <Feather
           name="help-circle"
           color="#1E3A79"
+          
           size={24}
           onPress={() => navigation.navigate('Contact')}
         />
+        </View>
       ),
     })
   }, [])
