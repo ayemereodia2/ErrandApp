@@ -66,6 +66,9 @@ const SettingScreen = ({ navigation }: any) => {
     dispatch(notificationPreferences())
   }, [])
 
+
+
+
   return (
     <Container>
       <SafeAreaView>

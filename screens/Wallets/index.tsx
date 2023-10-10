@@ -141,7 +141,7 @@ const WalletScreen = ({ navigation }: any) => {
     <BottomSheetModalProvider>
       <Container>
         <>
-          <SafeAreaView className=" bg-[#e4eaf7]" style={{backgroundColor: darkMode ? '#0c1730' : 'white'}}>
+          <SafeAreaView className=" bg-[#e4eaf7]" >
             <ScrollView
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -150,7 +150,7 @@ const WalletScreen = ({ navigation }: any) => {
               style={{backgroundColor: darkMode ? '#0c1730' : 'white'}}
               showsVerticalScrollIndicator={false}
             >
-              <View className="flex-row items-center justify-between bg-[#e4eaf7] px-4 mt-2" style={{backgroundColor: darkMode ? '#0c1730' : 'white'}}>
+              <View className="flex-row items-center justify-between bg-[#e4eaf7] px-4 mt-2" >
                 <Text className="font-medium text-xl leading-[29px]">
                   Overview
                 </Text>
