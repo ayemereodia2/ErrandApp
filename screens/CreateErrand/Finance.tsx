@@ -34,6 +34,15 @@ const CreateErrandFinance = ({
     (state: RootState) => state.walletActionReducer,
   )
 
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
   useEffect(() => {
     dispatch(walletAction({ request: 'wallet' }))
   }, [])
@@ -47,20 +56,20 @@ const CreateErrandFinance = ({
           <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
             <Text className="text-black mx-auto">4</Text>
           </View>
-          <Text className="font-semibold text-[#243763] text-base">
+          <Text style={{color:textTheme}} className="font-semibold text-[#243763] text-base">
             Errand Finances
           </Text>
         </View>
 
         <View className="mx-auto items-center justify-center w-[309px] h-[48px] mt-5">
-          <Text className="text-[#777777] text-center">
+          <Text style={{color:textTheme}}  className="text-[#777777] text-center">
             In this section, you can set the financial plan for this request
             regarding the budget of the request
           </Text>
         </View>
 
         <View className="mt-[41px] ml-4">
-          <Text className="text-[#243763]">
+          <Text style={{color:textTheme}}  className="text-[#243763]">
             What is your budget for this errand?
           </Text>
         </View>
@@ -76,9 +85,9 @@ const CreateErrandFinance = ({
           onPress={() => navigation.navigate('FundWalletModal')}
           className="flex-row items-center"
         >
-          <Text className="ml-4 pt-2 pr-2">Fund Wallet</Text>
-          <Text className="text-sm pt-2 font-md">
-            ( <Text className="font-bold">Balance:</Text> ₦
+          <Text className="ml-4 pt-2 pr-2" style={{color:textTheme}} >Fund Wallet</Text>
+          <Text style={{color:textTheme}}  className="text-sm pt-2 font-md">
+            ( <Text style={{color:textTheme}}  className="font-bold">Balance:</Text> ₦
             {Number(data?.balance) === 0
               ? '0.00'
               : (Number(data?.balance) / 100).toLocaleString()}
@@ -87,19 +96,19 @@ const CreateErrandFinance = ({
         </TouchableOpacity>
 
         <View className="mt-4 ml-4">
-          <Text className="text-[#FF0000] text-sm font-medium">
+          <Text style={{color:textTheme}}  className="text-[#FF0000] text-sm font-medium">
             The Budget for this errand is calculated against the current market
             rate and it is currently ₦2,000.{' '}
           </Text>
         </View>
 
         <View className="mt-10 ml-4 ">
-          <Text className="text-[#243763] font-semibold text-[20px]">
+          <Text className="text-[#243763] font-semibold text-[20px]" style={{color:textTheme}} >
             Insurance
           </Text>
         </View>
         <View className="px-4 mt-4">
-          <Text className="text-[#243763] overflow-auto font-normal leading-[24px] text-sm">
+          <Text style={{color:textTheme}}  className="text-[#243763] overflow-auto font-normal leading-[24px] text-sm">
             Setting an Insurance value on your errand forces bidders to have
             that value in their wallet before they can bid for your errand. The
             value is then held by GOFER until the errand is completed in order
@@ -110,7 +119,7 @@ const CreateErrandFinance = ({
 
         <View className="space-x-6 px-4">
           <View className="mt-[40px]">
-            <Text>Restrict Errand by Insurance</Text>
+            <Text style={{color:textTheme}} >Restrict Errand by Insurance</Text>
           </View>
           <SelectDropdown
             defaultValue={postErrandData.insurance}
@@ -123,7 +132,7 @@ const CreateErrandFinance = ({
         </View>
 
         <View className="mt-[41px] px-4">
-          <Text className="text-[#243763]">
+          <Text style={{color:textTheme}}  className="text-[#243763]">
             How much insurance amount do you require from Bidders for this
             errand?
           </Text>

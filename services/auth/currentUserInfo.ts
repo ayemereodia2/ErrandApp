@@ -32,6 +32,9 @@ export const currentUserDetails = createAsyncThunk<UserDetailsResponse, UserProp
 const initialState: UserDetailsResponse = {
   error: "",
   loading: true,
+  backgroundTheme: '',
+  textTheme: "",
+  landingPageTheme: '',
   data: {
     id: "",
     first_name: "",
@@ -61,14 +64,22 @@ const initialState: UserDetailsResponse = {
      has_insurance: false,
     insurance_amount: 0,
     referral_info: "",
-    profile_picture:""
+    profile_picture: "",
+    preferred_theme: 'light'
   }
 }
 
 const currentUserDetailsSlice = createSlice({
   name: "current_user_details/get",
   initialState,
-  reducers: {},
+  reducers: {
+     toggleLightTheme: (state) => {
+      state.data.preferred_theme = 'light'
+    },
+    toggleDarkTheme: (state) => {
+      state.data.preferred_theme = 'dark'
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(currentUserDetails.rejected, (state, action) => {
       state.error = action.payload;
@@ -78,6 +89,11 @@ const currentUserDetailsSlice = createSlice({
       state.loading = false;
       state.error = "";
       state.data = action.payload.data
+      state.backgroundTheme = state.data.preferred_theme === 'light' ? '#0c1730' : '#e9ebf2'
+      state.textTheme = state.data.preferred_theme === 'light' ? 'white' : 'black'
+      state.landingPageTheme = state.data.preferred_theme === 'light' ? '#d2d8e4' : 'grey'
+      
+      
     });
     builder.addCase(currentUserDetails.pending, (state, action) => {
       state.loading = true;
@@ -85,5 +101,7 @@ const currentUserDetailsSlice = createSlice({
     });
   },
 })
+
+export const { toggleDarkTheme, toggleLightTheme } = currentUserDetailsSlice.actions;
 
 export const currentUserDetailsReducer = currentUserDetailsSlice.reducer

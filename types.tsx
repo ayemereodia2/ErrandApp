@@ -4,10 +4,7 @@
  */
 
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
-import {
-  CompositeScreenProps,
-  NavigatorScreenParams,
-} from '@react-navigation/native'
+import { CompositeScreenProps } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { KeyboardTypeOptions } from 'react-native'
 
@@ -76,7 +73,6 @@ export type RootStackParamList = {
   FundWalletModal: undefined
   Settings: undefined
   CategoryInterest: undefined
-
 }
 
 export type RootStackScreenProps<
@@ -387,17 +383,17 @@ export enum UpdateStatus {
   Rejected = 0,
   Accepted = 1,
   Pending = 2,
-  Negotiated = 4
+  Negotiated = 4,
 }
 
 export interface Updates {
-  content_type: string;
-  user_id: any;
-  id: string;
-  message: string;
-  type: string;
-  source: string;
-  created_at: string;
+  content_type: string
+  user_id: any
+  id: string
+  message: string
+  type: string
+  source: string
+  created_at: string
   status: UpdateStatus
 }
 
@@ -502,6 +498,9 @@ export interface StartErrandProps {
 }
 
 export interface UserDetailsResponse extends CommonState {
+  backgroundTheme: string,
+  textTheme: string,
+  landingPageTheme: string
   data: UserDetail
 }
 
@@ -540,6 +539,7 @@ export interface UserDetail {
   has_insurance: boolean
   insurance_amount: number
   profile_picture: string
+  preferred_theme: 'light' | 'dark'
 }
 
 export interface NotificationList extends CommonState {
@@ -695,42 +695,41 @@ export interface BidsProps {
   setSubErrand?: React.Dispatch<React.SetStateAction<SingleSubErrand>>
 }
 
-
 // PAYSTACK TYPES
 
-export type Currency = 'NGN' | 'GHS' | 'USD' | 'ZAR';
+export type Currency = 'NGN' | 'GHS' | 'USD' | 'ZAR'
 
-export type PaymentChannels = 'bank' | 'card' | 'qr' | 'ussd' | 'mobile_money';
+export type PaymentChannels = 'bank' | 'card' | 'qr' | 'ussd' | 'mobile_money'
 
 interface Response {
-  status: string;
+  status: string
 }
 interface SuccessResponse extends Response {
-  transactionRef?: string;
-  data?: any;
+  transactionRef?: string
+  data?: any
 }
 
 export interface PayStackProps {
-  paystackKey: string;
-  billingEmail: string;
-  firstName?: string;
-  lastName?: string;
-  phone?: string | number;
-  amount: string | number;
-  currency?: Currency;
-  channels?: PaymentChannels[];
-  refNumber?: string;
-  billingName?: string;
-  handleWebViewMessage?: (string: string) => void;
-  onCancel: (Response: Response) => void;
-  onSuccess: (SuccessResponse:SuccessResponse) => void;
-  autoStart?: boolean;
-  activityIndicatorColor?: string;
-  ref: React.ReactElement;
+  paystackKey: string
+  billingEmail: string
+  firstName?: string
+  lastName?: string
+  phone?: string | number
+  amount: string | number
+  currency?: Currency
+  channels?: PaymentChannels[]
+  refNumber?: string
+  billingName?: string
+  handleWebViewMessage?: (string: string) => void
+  onCancel: (Response: Response) => void
+  onSuccess: (SuccessResponse: SuccessResponse) => void
+  autoStart?: boolean
+  activityIndicatorColor?: string
+  ref: React.ReactElement
   userId: string
 }
 
 export interface PayStackRef {
-  startTransaction: () => void;
-  endTransaction: () => void;
+  startTransaction: () => void
+  endTransaction: () => void
 }

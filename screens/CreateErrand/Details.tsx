@@ -5,11 +5,12 @@ import React, { useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   Image,
+  ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
-  ScrollView, TextInput
 } from 'react-native'
 import SelectDropdown from 'react-native-select-dropdown'
 import { useSelector } from 'react-redux'
@@ -73,6 +74,15 @@ const CreateErrandDetails = ({
   const { loading: uploadingImages } = useSelector(
     (state: RootState) => state.postFilesReducer,
   )
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   const [selectedDurationType, setSelectedDurationType] = useState(null)
   const [selectedImage, setSelectedImage] = useState([])
@@ -243,13 +253,19 @@ const CreateErrandDetails = ({
           <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
             <Text className="text-black mx-auto">2</Text>
           </View>
-          <Text className="font-semibold text-[#243763] text-base">
+          <Text
+            style={{ color: textTheme }}
+            className="font-semibold text-[#243763] text-base"
+          >
             Errand Details
           </Text>
         </View>
 
         <View className="mx-auto items-center justify-center w-[309px] h-[48px] mt-5">
-          <Text className="text-[#777777] text-center">
+          <Text
+            style={{ color: textTheme }}
+            className="text-[#777777] text-center"
+          >
             In this section, you can supply additional information about the
             errand you wish to post.
           </Text>
@@ -257,7 +273,7 @@ const CreateErrandDetails = ({
 
         <View className="px-4">
           <View className="mt-[56px]">
-            <Text>Description</Text>
+            <Text style={{ color: textTheme }}>Description</Text>
           </View>
           <TextInput
             className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3"
@@ -272,7 +288,7 @@ const CreateErrandDetails = ({
           <View className="flex-row space-x-6">
             <View className="w-[160px]">
               <View className="mt-[40px]">
-                <Text>Duration</Text>
+                <Text style={{color: textTheme}} >Duration</Text>
               </View>
               <TextInput
                 onChangeText={(text) => handleInputChange(text, 'dur_period')}
@@ -285,7 +301,7 @@ const CreateErrandDetails = ({
             </View>
             <View className="w-[160px]">
               <View className="mt-[40px]">
-                <Text>Duration Type</Text>
+                <Text style={{color: textTheme}} >Duration Type</Text>
               </View>
               <SelectDropdown
                 defaultButtonText="-Select-"
@@ -302,7 +318,7 @@ const CreateErrandDetails = ({
           <View className="flex-row space-x-6">
             <View className="">
               <View className="mt-[40px]">
-                <Text>Number of Errand Runners</Text>
+                <Text style={{color: textTheme}} >Number of Errand Runners</Text>
               </View>
               <SelectDropdown
                 defaultValue={postErrandData.errandType}
@@ -320,7 +336,7 @@ const CreateErrandDetails = ({
             {uploadingImages ? (
               <View className="flex-row justify-center items-center mt-16 space-x-2">
                 <ActivityIndicator color="blue" size="small" />
-                <Text>Uploading Images..</Text>
+                <Text >Uploading Images..</Text>
               </View>
             ) : (
               <TouchableOpacity
@@ -342,7 +358,7 @@ const CreateErrandDetails = ({
           </View>
 
           <View className="mt-4">
-            <Text className="text-[#3F60AC]">
+            <Text style={{color: textTheme}}  className="text-[#3F60AC]">
               {uploadedFiles.length === 0 ? 0 : uploadedFiles.length} images
               selected
             </Text>
@@ -362,8 +378,8 @@ const CreateErrandDetails = ({
           </ScrollView>
 
           <View className="mt-10">
-            <Text className="text-[#243763]">
-              <Text className="font-semibold text-sm">Supporting Audio </Text>
+            <Text style={{color: textTheme}}  className="text-[#243763]">
+              <Text style={{color: textTheme}}  className="font-semibold text-sm">Supporting Audio </Text>
               (Upload a voice note to further describe your request)
             </Text>
           </View>
@@ -389,7 +405,7 @@ const CreateErrandDetails = ({
               </View>
             )}
 
-            <Text className="mx-auto text-[#808080] text-center pt-2">
+            <Text style={{color: textTheme}}  className="mx-auto text-[#808080] text-center pt-2">
               {IsRecording
                 ? 'Click to stop recording'
                 : 'Click on the Mic icon above to record your voice message'}
@@ -432,7 +448,7 @@ const CreateErrandDetails = ({
 
           <View className="space-x-6">
             <View className="mt-[40px]">
-              <Text>Restrict Errand by Qualification</Text>
+              <Text style={{color: textTheme}} >Restrict Errand by Qualification</Text>
             </View>
             <SelectDropdown
               defaultValue={postErrandData.res_by_qualification}
@@ -445,7 +461,7 @@ const CreateErrandDetails = ({
           </View>
           <View className="space-x-6">
             <View className="mt-[40px]">
-              <Text>Restrict Errand by Verification</Text>
+              <Text style={{color: textTheme}} >Restrict Errand by Verification</Text>
             </View>
             <SelectDropdown
               defaultValue={postErrandData.res_by_verification}

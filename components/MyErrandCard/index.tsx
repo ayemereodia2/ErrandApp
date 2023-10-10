@@ -1,9 +1,10 @@
 import React from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import { userDetails } from '../../services/auth/userInfo'
 import { errandDetails } from '../../services/errands/errandDetails'
 import { getSubErrand } from '../../services/errands/subErrand'
-import { useAppDispatch } from '../../services/store'
+import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData, SingleSubErrand } from '../../types'
 import { getTimeAgo } from '../../utils/helper'
 
@@ -24,6 +25,15 @@ const MyErrandCard = ({
   user_id,
 }: MyErrandCard) => {
   const dispatch = useAppDispatch()
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   const regex = /(<([^>]+)>)/gi
   const result = errand.description.replace(regex, '')
@@ -47,12 +57,20 @@ const MyErrandCard = ({
       key={index}
       className="mx-4 shadow-sm rounded-sm"
     >
-      <View className=" bg-white py-4 px-5 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]">
+      <View
+        style={{
+          backgroundColor: theme ? '#152955' : 'white',
+        }}
+        className=" bg-white py-4 px-5 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]"
+      >
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center space-x-3">
             {errand?.user?.profile_picture === undefined ? (
               <View className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center">
-                <Text className="uppercase text-lg items-center text-white">
+                <Text
+                  style={{ color: textTheme }}
+                  className="uppercase text-lg items-center text-white"
+                >
                   {errand?.user?.first_name.charAt(0).toUpperCase()}
                   {errand?.user?.last_name.charAt(0).toUpperCase()}
                 </Text>
@@ -69,7 +87,10 @@ const MyErrandCard = ({
                 source={{ uri: errand?.user?.profile_picture }}
               />
             )}
-            <Text className="text-sm font-medium w-[190px]">
+            <Text
+              style={{ color: textTheme }}
+              className="text-sm font-medium w-[190px]"
+            >
               {' '}
               {errand.errand_type === 1 ? (
                 <>Multiple Users Errand</>
@@ -79,13 +100,16 @@ const MyErrandCard = ({
             </Text>
           </View>
 
-          <Text className="text-[#808080] text-sm w-[100px]">
+          <Text
+            style={{ color: textTheme }}
+            className="text-[#808080] text-sm w-[100px]"
+          >
             {getTimeAgo(errand?.updated_at)}
           </Text>
         </View>
 
         <View className="mt-4">
-          <Text className="text-sm font-medium">
+          <Text style={{ color: textTheme }} className="text-sm font-medium">
             {result?.substring(0, 80).concat('', '....')}
           </Text>
         </View>

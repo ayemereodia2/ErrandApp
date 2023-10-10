@@ -11,13 +11,7 @@ import React, {
 } from 'react'
 
 // import AppLoading from 'expo-app-loading';
-import {
-  AntDesign,
-  Entypo,
-  FontAwesome,
-  Ionicons,
-  MaterialIcons,
-} from '@expo/vector-icons'
+import { AntDesign, Entypo, FontAwesome, Ionicons } from '@expo/vector-icons'
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -35,7 +29,6 @@ import {
 import { useSelector } from 'react-redux'
 import PlaceBidModal from '../../components/Modals/Errands/PlaceBidModal'
 import { ProfileInitials } from '../../components/ProfileInitials'
-import { userDetails } from '../../services/auth/userInfo'
 import { RootState, useAppDispatch } from '../../services/store'
 import { formatDate, getAddress } from '../../utils/helper'
 
@@ -170,7 +163,8 @@ export default function GuestDetails({ route, navigation }: any) {
                           <View className="pt-2">
                             <View className="flex-row space-x-2 items-center justify-center">
                               <Text className="text-center text-base font-semibold">
-                                {errand?.user?.first_name} {errand?.user?.last_name}
+                                {errand?.user?.first_name}{' '}
+                                {errand?.user?.last_name}
                               </Text>
                               {/* <MaterialIcons
                                 name="verified"
@@ -358,7 +352,7 @@ export default function GuestDetails({ route, navigation }: any) {
               </BottomSheetModal>
             </ScrollView>
           </View>
-{/* 
+          {/* 
           {showBidBtn && (
             <>
               {errand.user_id !== userId && errand?.status !== 'completed' ? (
@@ -394,10 +388,10 @@ export default function GuestDetails({ route, navigation }: any) {
             </TouchableOpacity>
 
             <TouchableOpacity
-              className="bg-[#FFB536] w-[50%] h-[60px] items-center justify-center"
-              onPress={() => navigation.navigate('CreateAccount')}
+              className="bg-[#2856c1] w-[50%] h-[60px] items-center justify-center"
+              onPress={() => navigation.navigate('VerifyPhone')}
             >
-              <Text className="text-black text-lg text-center font-medium">
+              <Text className="text-white text-lg text-center font-medium">
                 Sign Up
               </Text>
             </TouchableOpacity>

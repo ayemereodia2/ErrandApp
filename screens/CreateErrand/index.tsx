@@ -31,6 +31,16 @@ const PostErrand = ({ navigation }: any) => {
     desc: '',
     value: '',
   })
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
   const successDialogueRef = useRef<BottomSheetModal>(null)
 
   const fundWalletRef = useRef<BottomSheetModal>(null)
@@ -228,13 +238,14 @@ const PostErrand = ({ navigation }: any) => {
     navigation.setOptions({
       headerShown: true,
       title: 'Create Errand',
-      headerStyle: { backgroundColor: '#F8F9FC' },
+      headerTitleStyle: {color: textTheme},
+      headerStyle: { backgroundColor: backgroundTheme, },
       headerRight: () => (
         <TouchableOpacity
           onPress={() => navigation.navigate('MarketTab')}
           className="pr-3"
         >
-          <Ionicons name="close" size={24} />
+          <Ionicons color={textTheme} name="close" size={24} />
         </TouchableOpacity>
       ),
     })
@@ -300,6 +311,9 @@ const PostErrand = ({ navigation }: any) => {
           marginBottom: 20,
           height: '80%',
         }}
+        style={{
+          backgroundColor: theme ? '#152955' : 'white',
+        }}
         className="bg-white"
       >
         {showComponent()}
@@ -314,7 +328,7 @@ const PostErrand = ({ navigation }: any) => {
             onPress={() => setActiveStep(activeStep - 1)}
             className="bg-[#2856c1] px-6 flex justify-center items-center py-2 "
           >
-            <Entypo name="arrow-with-circle-left" color={'white'} size={30} />
+            <Entypo name="arrow-with-circle-left" color='white' size={30} />
           </TouchableOpacity>
         )}
         <View

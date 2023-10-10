@@ -31,6 +31,15 @@ const SettingScreen = ({ navigation }: any) => {
     sms_notifications: false,
   })
 
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
   const copyToClipboard = async (text: string) => {
     Toast.show({
       type: 'success',
@@ -63,7 +72,10 @@ const SettingScreen = ({ navigation }: any) => {
   return (
     <Container>
       <SafeAreaView>
-        <ScrollView className="bg-[#F8F9FC]">
+        <ScrollView
+          style={{ backgroundColor: backgroundTheme }}
+          className="bg-[#F8F9FC]"
+        >
           <View className=" mt-6 px-4">
             <View className=" h-[88px] mt-1 border-b-[#CCCCCC] border-b-[1px]">
               <View className="flex-row justify-between items-center">
@@ -84,10 +96,16 @@ const SettingScreen = ({ navigation }: any) => {
                     </View>
                   )}
                   <View className="mt-2">
-                    <Text className="font-semibold text-base">
+                    <Text
+                      style={{ color: textTheme }}
+                      className="font-semibold text-base"
+                    >
                       {data?.data?.first_name} {data?.data?.last_name}{' '}
                     </Text>
-                    <Text className="text-[#808080]">
+                    <Text
+                      style={{ color: textTheme }}
+                      className="text-[#808080]"
+                    >
                       {!data?.data?.email
                         ? 'Email address not available'
                         : data?.data?.email}
@@ -109,20 +127,30 @@ const SettingScreen = ({ navigation }: any) => {
             <SettingsCategory navigation={navigation} />
 
             <View className="mt-8 ml-4">
-              <Text className="pb-2 text-base font-bold leading-6">
+              <Text
+                style={{ color: textTheme }}
+                className="pb-2 text-base font-bold leading-6"
+              >
                 REFERRAL CODE
               </Text>
             </View>
 
-            <View className="h-[350px] bg-[#ECF0F8] mt-5 rounded-md pb-4 px-3">
+            <View
+              style={{ backgroundColor: theme ? '#152955' : 'white' }}
+              className="h-[350px] bg-[#ECF0F8] mt-5 rounded-md pb-4 px-3"
+            >
               <View className=" h-[44px] mt-5 border-b border-b-[#AAAAAA]">
                 <View className="flex-row items-center justify-between">
-                  <Text className="font-medium text-base">
+                  <Text
+                    style={{ color: textTheme }}
+                    className="font-medium text-base"
+                  >
                     {data?.data?.referral_code}
                   </Text>
                   <Text
                     className="font-light italic"
                     onPress={() => copyToClipboard(data?.data?.referral_code)}
+                    style={{ color: textTheme }}
                   >
                     Tap to Copy Code
                   </Text>
@@ -131,20 +159,28 @@ const SettingScreen = ({ navigation }: any) => {
 
               <View className=" h-[44px] mt-5 border-b border-b-[#AAAAAA]">
                 <View className="flex-row items-center justify-between">
-                  <Text className="font-medium text-base">Share Via Email</Text>
+                  <Text
+                    style={{ color: textTheme }}
+                    className="font-medium text-base"
+                  >
+                    Share Via Email
+                  </Text>
                 </View>
               </View>
 
               <View className=" h-[44px] mt-5 border-b border-b-[#AAAAAA]">
                 <View className="flex-row items-center justify-between">
-                  <Text className="font-medium text-base">
+                  <Text
+                    style={{ color: textTheme }}
+                    className="font-medium text-base"
+                  >
                     Download Invitation
                   </Text>
                   <Text>
                     <Ionicons
                       name="md-download-sharp"
                       size={24}
-                      color="black"
+                      color={textTheme}
                     />
                   </Text>
                 </View>
@@ -163,15 +199,24 @@ const SettingScreen = ({ navigation }: any) => {
             </View>
 
             <View className="mt-10 ml-4">
-              <Text className="pb-2 text-base font-bold leading-6">
+              <Text
+                style={{ color: textTheme }}
+                className="pb-2 text-base font-bold leading-6"
+              >
                 NOTIFICATIONS
               </Text>
             </View>
 
-            <View className=" h-[190px] bg-[#ECF0F8] px-4 mt-5 rounded-md pb-4">
+            <View
+              style={{ backgroundColor: theme ? '#152955' : 'white' }}
+              className=" h-[190px] bg-[#ECF0F8] px-4 mt-5 rounded-md pb-4"
+            >
               <View className=" h-[63px]  mt-5 border-b border-b-[#AAAAAA]">
                 <View className="flex-row items-center justify-between">
-                  <Text className="font-medium text-[18px]">
+                  <Text
+                    style={{ color: textTheme }}
+                    className="font-medium text-[18px]"
+                  >
                     Send Email notifications
                   </Text>
                 </View>
@@ -209,7 +254,7 @@ const SettingScreen = ({ navigation }: any) => {
 
               <View className=" h-[63px] mt-5 border-b border-b-[#AAAAAA]">
                 <View className="flex-row items-center justify-between">
-                  <Text className="font-medium text-[18px]">
+                  <Text style={{ color: textTheme }} className="font-medium text-[18px]">
                     Send SMS notifications
                   </Text>
                 </View>

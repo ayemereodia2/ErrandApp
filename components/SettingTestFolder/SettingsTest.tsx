@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   ScrollView,
   Switch,
@@ -9,12 +9,22 @@ import {
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
+import { _fetch } from '../../services/axios/http'
 import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
 import { RootState, useAppDispatch } from '../../services/store'
-import { toggleDarkMode } from '../../services/DarkMode/DarkMode'
+import { getUserId } from '../../utils/helper'
 
 const SettingsTest = () => {
   const dispatch = useAppDispatch()
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   const { data: preferences } = useSelector(
     (state: RootState) => state.notificationPreferenceReducer,
@@ -23,23 +33,62 @@ const SettingsTest = () => {
   const { loading } = useSelector(
     (state: RootState) => state.updateNotificationPreferenceReducer,
   )
-  const darkMode = useSelector((state: RootState) => state.darkMode.darkMode);
+  const darkMode = useSelector((state: RootState) => state.darkMode.darkMode)
+
+  const { data } = useSelector(
+    (state: RootState) => state.currentUserDetailsReducer,
+  )
+
+  const updateUserProfile = async (userData: any) => {
+    try {
+      const _rs = await _fetch({
+        method: 'PUT',
+        _url: `/user/profile`,
+        body: userData,
+      })
+
+      // Check if the response status code indicates an error
+      if (!_rs.ok) {
+        const errorResponse = await _rs.json()
+        throw new Error(`Server error: ${errorResponse.message}`)
+      }
+      const responseData = await _rs.json()
+
+      getUserId({ dispatch })
+      return responseData
+    } catch (error) {
+      throw error
+    }
+  }
+
+  useEffect(() => {
+    getUserId({ dispatch })
+  }, [])
 
   return (
     <ScrollView>
       <View className="mt-6 ml-4 ">
-        <Text className=" text-base font-bold leading-6">
+        <Text
+          style={{ color: textTheme }}
+          className=" text-base font-bold leading-6"
+        >
           GENERAL NOTIFICATIONS
         </Text>
-        <Text className="text-[14px] font-md">
+        <Text style={{ color: textTheme }} className="text-[14px] font-md">
           Notifications on all general activities on Swave
         </Text>
       </View>
 
-      <View className=" bg-[#ECF0F8] mt-5 rounded-lg pb-4">
+      <View
+        style={{ backgroundColor: theme ? '#152955' : 'white' }}
+        className=" bg-[#ECF0F8] mt-5 rounded-lg pb-4"
+      >
         <View className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text className="font-medium text-base">
+            <Text
+              style={{ color: textTheme }}
+              className="font-medium text-base"
+            >
               Account Update Notification
             </Text>
             <TouchableWithoutFeedback>
@@ -60,14 +109,17 @@ const SettingsTest = () => {
               />
             </TouchableWithoutFeedback>
           </View>
-          <Text className="text-sm font-light">
+          <Text style={{ color: textTheme }} className="text-sm font-light">
             You will be notified when an update is available
           </Text>
         </View>
 
         <View className=" h-[63px] ml-4 mt-5 border-b pb-2 border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text className="font-medium text-base">
+            <Text
+              style={{ color: textTheme }}
+              className="font-medium text-base"
+            >
               Newsletters and offers
             </Text>
             <TouchableWithoutFeedback>
@@ -90,14 +142,17 @@ const SettingsTest = () => {
               </>
             </TouchableWithoutFeedback>
           </View>
-          <Text className="text-sm font-light">
+          <Text style={{ color: textTheme }} className="text-sm font-light">
             Be in the know when we publish any information
           </Text>
         </View>
 
         <View className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text className="font-medium text-base ">
+            <Text
+              style={{ color: textTheme }}
+              className="font-medium text-base "
+            >
               Promotions and adverts
             </Text>
             <TouchableWithoutFeedback>
@@ -118,45 +173,59 @@ const SettingsTest = () => {
               />
             </TouchableWithoutFeedback>
           </View>
-          <Text className="text-sm font-light">
+          <Text style={{ color: textTheme }} className="text-sm font-light">
             Stay informed about our amazing offers
           </Text>
         </View>
-          
+
         <View className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-          <Text className="font-medium text-base ">
+            <Text
+              style={{ color: textTheme }}
+              className="font-medium text-base "
+            >
               Dark Mode
             </Text>
-        <TouchableOpacity onPress={()=> dispatch(toggleDarkMode())}>
-              <Switch
-                      trackColor={{ false: '#767577', true: 'green' }}
-                      value={darkMode}
-                      onValueChange={(value: boolean) => {
-                       
-                      }}
-                      style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
-                    />
-             
-            </TouchableOpacity>
-      </View>
-      </View>
-      
+            {/* <TouchableOpacity onPress={() => )}> */}
+            <Switch
+              trackColor={{ false: '#767577', true: 'green' }}
+              value={data?.preferred_theme === 'light' ? true : false}
+              onValueChange={(value: boolean) =>
+                updateUserProfile({
+                  first_name: data.first_name,
+                  last_name: data.last_name,
+                  bio: data.bio,
+                  email: data.email,
+                  dob: data.dob,
+                  preferred_theme: value === true ? 'light' : 'dark',
+                })
+              }
+              style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
+            />
+            {/* </TouchableOpacity> */}
+          </View>
+        </View>
       </View>
 
       <View className="mt-8 ml-4">
-        <Text className="pb-2 text-base font-bold leading-6">
+        <Text
+          style={{ color: textTheme }}
+          className="pb-2 text-base font-bold leading-6"
+        >
           ERRAND NOTIFICATIONS
         </Text>
-        <Text className="text-[14px]">
+        <Text style={{ color: textTheme }} className="text-[14px]">
           Errands and bids specific notifications
         </Text>
       </View>
 
-      <View className=" bg-[#ECF0F8] mt-5 rounded-md pb-4">
+      <View
+        style={{ backgroundColor: theme ? '#152955' : 'white' }}
+        className=" bg-[#ECF0F8] mt-5 rounded-md pb-4"
+      >
         <View className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text className="font-medium text-base">
+            <Text style={{ color: textTheme }} className="font-medium text-base">
               New errands in your category interest
             </Text>
             <TouchableWithoutFeedback>
@@ -177,14 +246,14 @@ const SettingsTest = () => {
               />
             </TouchableWithoutFeedback>
           </View>
-          <Text className="text-sm font-light">
+          <Text style={{ color: textTheme }} className="text-sm font-light">
             You will be notified when an update is available
           </Text>
         </View>
 
         <View className="h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text className="font-medium text-base">
+            <Text style={{ color: textTheme }} className="font-medium text-base">
               Errands within your area
             </Text>
             <TouchableWithoutFeedback>
@@ -205,14 +274,14 @@ const SettingsTest = () => {
               />
             </TouchableWithoutFeedback>
           </View>
-          <Text className="text-sm font-light">
+          <Text style={{ color: textTheme }} className="text-sm font-light">
             Be in the know when we publish any information
           </Text>
         </View>
 
         <View className="  h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text className="font-medium text-base">Bids on your errands</Text>
+            <Text style={{ color: textTheme }} className="font-medium text-base">Bids on your errands</Text>
             <TouchableWithoutFeedback>
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
@@ -231,14 +300,14 @@ const SettingsTest = () => {
               />
             </TouchableWithoutFeedback>
           </View>
-          <Text className="text-sm font-light">
+          <Text style={{ color: textTheme }} className="text-sm font-light">
             Stay informed about our amazing offers
           </Text>
         </View>
 
         <View className="h-[63px] ml-4 mt-5 border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text className="font-medium text-base">Errand status updates</Text>
+            <Text style={{ color: textTheme }} className="font-medium text-base">Errand status updates</Text>
             <TouchableOpacity>
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
@@ -257,7 +326,7 @@ const SettingsTest = () => {
               />
             </TouchableOpacity>
           </View>
-          <Text className="text-sm font-light">
+          <Text style={{ color: textTheme }} className="text-sm font-light">
             Stay informed about our amazing offers
           </Text>
         </View>

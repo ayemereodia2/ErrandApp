@@ -167,13 +167,14 @@ export const MainStack = () => {
         options={{ headerShown: false }}
       />
 
-      <Stack.Screen name="MyErrands" component={ErrandScreen} />
+      {/* <Stack.Screen name="MyErrands" component={ErrandScreen} /> */}
 
       <Stack.Screen
         options={{ headerShown: false }}
         name="ErrandDetails"
         component={ErrandDetails}
       />
+
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SecurityQuestions" component={SecurityQuestion} />
       <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
@@ -210,6 +211,14 @@ export const MainStack = () => {
           presentation: 'fullScreenModal',
         }}
       /> */}
+
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="CreateErrand"
+        component={PostErrand}
+      />
 
       <Stack.Screen
         name="LandingForm"
@@ -314,6 +323,13 @@ export const MyErrandStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="MyErrands" component={ErrandScreen} />
+      {/* <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="CreateErrand"
+        component={PostErrand}
+      /> */}
 
       <Stack.Screen
         name="CompleteErrandModal"
@@ -340,6 +356,13 @@ export const MarketStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Market" component={MainScreen} />
+      {/* <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="CreateErrand"
+        component={PostErrand}
+      /> */}
       <Stack.Screen
         name="ErrorScreen"
         component={ErrorScreen}
@@ -364,6 +387,7 @@ export const LandingPageStack = () => {
           },
         }}
       />
+      
       <Stack.Screen
         name="LandingForm"
         component={LandingForm}
@@ -374,6 +398,16 @@ export const LandingPageStack = () => {
             backgroundColor: '#F8F9FC',
           },
         }}
+      />
+
+      <Stack.Screen name="MyErrands" component={ErrandScreen} />
+
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="CreateErrand"
+        component={PostErrand}
       />
       <Stack.Screen
         name="Notification"
@@ -390,7 +424,6 @@ export const LandingPageStack = () => {
         name="ErrandDetails"
         component={ErrandDetails}
       />
-      <Stack.Screen name="MyErrands" component={ErrandScreen} />
       <Stack.Screen
         name="ErrorScreen"
         component={ErrorScreen}
