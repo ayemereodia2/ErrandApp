@@ -35,6 +35,9 @@ export const userDetails = createAsyncThunk<UserDetailsResponse, UserProps, { re
 const initialState: UserDetailsResponse = {
   error: "",
   loading: true,
+    backgroundTheme: '',
+  textTheme: "",
+  landingPageTheme: '',
   data: {
     id: "",
     first_name: "",
@@ -64,7 +67,9 @@ const initialState: UserDetailsResponse = {
      has_insurance: false,
     insurance_amount: 0,
     referral_info: "",
-    profile_picture:""
+    profile_picture: "",
+    preferred_theme: 'light'
+    
   }
 }
 
