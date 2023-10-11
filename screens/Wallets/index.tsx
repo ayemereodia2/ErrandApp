@@ -12,6 +12,7 @@ import React, {
   useState,
 } from 'react'
 import {
+  ImageBackground,
   RefreshControl,
   SafeAreaView,
   ScrollView,
@@ -36,12 +37,13 @@ import { Transaction } from '../../types'
 import AccountStatement from './AccountStatement'
 import WithdrawalScreen from './WithdrawalScreen'
 
+const balanceLayer = '../../assets/images/Alison.jpg'
+
 const WalletScreen = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
   const [refreshing, setRefreshing] = React.useState(false)
   const bottomSheetRef = useRef<BottomSheetModal>(null)
   const statementRef = useRef<BottomSheetModal>(null)
-
 
   function toggleWithdrawaltModal(open: boolean) {
     open ? bottomSheetRef.current?.present() : bottomSheetRef.current?.dismiss()
@@ -132,25 +134,22 @@ const WalletScreen = ({ navigation }: any) => {
     })
   }, [])
 
-  
-  
-  const darkMode = useSelector((state: RootState) => state.darkMode.darkMode);
-
+  const darkMode = useSelector((state: RootState) => state.darkMode.darkMode)
 
   return (
     <BottomSheetModalProvider>
       <Container>
         <>
-          <SafeAreaView className=" bg-[#e4eaf7]" >
+          <SafeAreaView className=" bg-[#e4eaf7]">
             <ScrollView
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
               className="bg-[#e4eaf7] mt-4"
-              style={{backgroundColor: darkMode ? '#0c1730' : 'white'}}
+              style={{ backgroundColor: darkMode ? '#0c1730' : 'white' }}
               showsVerticalScrollIndicator={false}
             >
-              <View className="flex-row items-center justify-between bg-[#e4eaf7] px-4 mt-2" >
+              <View className="flex-row items-center justify-between bg-[#e4eaf7] px-4 mt-2">
                 <Text className="font-medium text-xl leading-[29px]">
                   Overview
                 </Text>
@@ -237,39 +236,45 @@ const WalletScreen = ({ navigation }: any) => {
 
               <View className="relative ">
                 <View className="px-4">
-                  <View className="w-full bg-[#FFF] border mt-3 border-[#DAE1F1] rounded-xl p-6 mx-auto z-1 ">
-                    <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
-                      <Text>
-                        <FontAwesome name="bank" size={24} color="#C85604" />
+                  <ImageBackground
+                    source={{uri: balanceLayer}}
+                    resizeMode="cover"
+                    style={{ flex: 1, justifyContent: 'center' }}
+                  >
+                    <View className="w-full bg-[#FFF] border mt-3 border-[#DAE1F1] rounded-xl p-6 mx-auto z-1 ">
+                      <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
+                        <Text>
+                          <FontAwesome name="bank" size={24} color="#C85604" />
+                        </Text>
+                      </View>
+
+                      <Text className="mt-6 text-[#888] text-base font-medium leading-[24px]">
+                        Account Balance
                       </Text>
-                    </View>
-
-                    <Text className="mt-6 text-[#888] text-base font-medium leading-[24px]">
-                      Account Balance
-                    </Text>
-                    <Text className="font-bold text-[32px] mt-2">
-                      {' '}
-                      ₦
-                      {Number(data?.balance) === 0
-                        ? '0.00'
-                        : (Number(data?.balance) / 100).toLocaleString()}
-                    </Text>
-
-                    <TouchableOpacity
-                      onPress={() => {
-                        setCurrentWalletAmount(Number(data?.balance) / 100)
-                        navigation.navigate('FundWalletModal', {
-                          currentWalletAmount,
-                        })
-                      }}
-                      className="w-[200px] h-[44px] mt-5 items-center justify-center border border-[#314B87] rounded-lg"
-                    >
-                      <Text className="text-center text-base">
+                      <Text className="font-bold text-[32px] mt-2">
                         {' '}
-                        + <Text>Fund Wallet</Text>
+                        ₦
+                        {Number(data?.balance) === 0
+                          ? '0.00'
+                          : (Number(data?.balance) / 100).toLocaleString()}
                       </Text>
-                    </TouchableOpacity>
-                  </View>
+
+                      <TouchableOpacity
+                        onPress={() => {
+                          setCurrentWalletAmount(Number(data?.balance) / 100)
+                          navigation.navigate('FundWalletModal', {
+                            currentWalletAmount,
+                          })
+                        }}
+                        className="w-[200px] h-[44px] mt-5 items-center justify-center border border-[#314B87] rounded-lg"
+                      >
+                        <Text className="text-center text-base">
+                          {' '}
+                          + <Text>Fund Wallet</Text>
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </ImageBackground>
                 </View>
 
                 {/* THE END OF QUICKLINKS DROPDOWN */}

@@ -13,6 +13,7 @@ import React, {
 
 // import AppLoading from 'expo-app-loading';
 import {
+  AntDesign,
   Entypo,
   FontAwesome,
   Ionicons,
@@ -118,8 +119,17 @@ export default function ErrandDetails({ route, navigation }: any) {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
+
       headerTitleStyle: { color: textTheme },
-      headerStyle: { backgroundColor: backgroundTheme },
+      headerLeft: () => (
+        <TouchableOpacity
+          className="flex-row items-center justify-between mx-0 py-3 mr-6"
+          onPress={() => navigation.goBack()}
+        >
+          <AntDesign name="arrowleft" size={24} color={textTheme} />
+        </TouchableOpacity>
+      ),
+      headerStyle: { backgroundColor: backgroundTheme, color: textTheme },
       title: 'Errand Details',
     })
   }, [navigation])
@@ -192,7 +202,10 @@ export default function ErrandDetails({ route, navigation }: any) {
                           />
                           <View className="pt-2">
                             <View className="flex-row space-x-2 items-center justify-center">
-                              <Text style={{color: textTheme}} className="text-center text-base font-semibold">
+                              <Text
+                                style={{ color: textTheme }}
+                                className="text-center text-base font-semibold"
+                              >
                                 {user?.first_name} {user?.last_name}
                               </Text>
                               <MaterialIcons
@@ -201,16 +214,22 @@ export default function ErrandDetails({ route, navigation }: any) {
                                 size={20}
                               />
                             </View>
-                            <Text style={{color: textTheme}} className="text-[#555555] text-center py-2 text-base font-semibold">
+                            <Text
+                              style={{ color: textTheme }}
+                              className="text-[#555555] text-center py-2 text-base font-semibold"
+                            >
                               Swave User
                             </Text>
                             <View className="flex-row items-center">
                               {/* {showStars(data.rating)} */}
-                              <Text style={{color: textTheme}}>
+                              <Text style={{ color: textTheme }}>
                                 {user?.rating}{' '}
                                 <Entypo name="star" size={16} color="#FBB955" />{' '}
                               </Text>
-                              <Text style={{color: textTheme}} className="text-[#6D6D6D] text-sm">
+                              <Text
+                                style={{ color: textTheme }}
+                                className="text-[#6D6D6D] text-sm"
+                              >
                                 ( {user?.errands_completed}{' '}
                                 {user.errands_completed > 1
                                   ? 'errands'
@@ -223,16 +242,25 @@ export default function ErrandDetails({ route, navigation }: any) {
                       </View>
 
                       <View className="pt-6 ">
-                        <Text style={{color: textTheme}} className=" font-bold text-base text-[#555555]">
+                        <Text
+                          style={{ color: textTheme }}
+                          className=" font-bold text-base text-[#555555]"
+                        >
                           Description
                         </Text>
-                        <Text style={{color: textTheme}} className="text-sm pt-1 text-[#383737] font-light">
+                        <Text
+                          style={{ color: textTheme }}
+                          className="text-sm pt-1 text-[#383737] font-light"
+                        >
                           {errand.description}
                         </Text>
                       </View>
 
                       <View className="pt-6 ">
-                        <Text style={{color: textTheme}} className=" font-bold text-base text-[#555555]">
+                        <Text
+                          style={{ color: textTheme }}
+                          className=" font-bold text-base text-[#555555]"
+                        >
                           Budget
                         </Text>
 
@@ -247,20 +275,32 @@ export default function ErrandDetails({ route, navigation }: any) {
 
                       <View className="space-y-3 mt-3">
                         <View className="space-x-2 flex-row mt-6">
-                          <Text style={{color: textTheme}} className=" text-[14px] text-[#999999] w-28 font-medium">
+                          <Text
+                            style={{ color: textTheme }}
+                            className=" text-[14px] text-[#999999] w-28 font-medium"
+                          >
                             Status
                           </Text>
 
-                          <Text style={{color: textTheme}} className="capitalize font-semibold">
+                          <Text
+                            style={{ color: textTheme }}
+                            className="capitalize font-semibold"
+                          >
                             {errand?.status}
                           </Text>
                         </View>
 
                         <View className="space-x-2 flex-row mt-6">
-                          <Text style={{color: textTheme}} className=" text-[14px] text-[#999999] w-28 font-medium">
+                          <Text
+                            style={{ color: textTheme }}
+                            className=" text-[14px] text-[#999999] w-28 font-medium"
+                          >
                             Duration
                           </Text>
-                          <Text style={{color: textTheme}} className=" text-sm text-[#000] w-60 font-semibold">
+                          <Text
+                            style={{ color: textTheme }}
+                            className=" text-sm text-[#000] w-60 font-semibold"
+                          >
                             <Ionicons
                               name="calendar-outline"
                               size={18}
@@ -271,10 +311,16 @@ export default function ErrandDetails({ route, navigation }: any) {
                         </View>
 
                         <View className="space-x-2 flex-row mt-6">
-                          <Text style={{color: textTheme}} className=" text-[14px] text-[#999999] w-28 font-medium">
+                          <Text
+                            style={{ color: textTheme }}
+                            className=" text-[14px] text-[#999999] w-28 font-medium"
+                          >
                             Location
                           </Text>
-                          <Text style={{color: textTheme}} className=" text-sm text-[#000] w-60 font-semibold">
+                          <Text
+                            style={{ color: textTheme }}
+                            className=" text-sm text-[#000] w-60 font-semibold"
+                          >
                             {!address
                               ? errand.dropoff_address?.address_text
                               : address}
@@ -282,7 +328,10 @@ export default function ErrandDetails({ route, navigation }: any) {
                         </View>
 
                         <View className="space-x-6 mt-6 flex-row">
-                          <Text style={{color: textTheme}} className=" text-[14px] text-[#999999] font-medium pb-2">
+                          <Text
+                            style={{ color: textTheme }}
+                            className=" text-[14px] text-[#999999] font-medium pb-2"
+                          >
                             Requirements
                           </Text>
                           <View className="flex-row space-x-3 w-60">
@@ -303,12 +352,18 @@ export default function ErrandDetails({ route, navigation }: any) {
                       </View>
 
                       <View>
-                        <Text style={{color: textTheme}} className="pr-6 mt-8 font-bold text-base text-[#555555]">
+                        <Text
+                          style={{ color: textTheme }}
+                          className="pr-6 mt-8 font-bold text-base text-[#555555]"
+                        >
                           Existing Bids
                         </Text>
 
                         {errand.bids.length === 0 && (
-                          <Text style={{color: textTheme}} className="pr-6 text-base text-[#555555]">
+                          <Text
+                            style={{ color: textTheme }}
+                            className="pr-6 text-base text-[#555555]"
+                          >
                             No existing bids yet
                           </Text>
                         )}
@@ -325,13 +380,22 @@ export default function ErrandDetails({ route, navigation }: any) {
                                 />
                                 <View className="flex-row justify-between items-center">
                                   <View className="">
-                                    <Text style={{color: textTheme}} className="text-[#000000] text-sm font-bold">
+                                    <Text
+                                      style={{ color: textTheme }}
+                                      className="text-[#000000] text-sm font-bold"
+                                    >
                                       {bid?.runner.first_name}{' '}
                                       {bid?.runner.last_name}
                                     </Text>
-                                    <Text style={{color: textTheme}} className="text-sm font-semibold">
+                                    <Text
+                                      style={{ color: textTheme }}
+                                      className="text-sm font-semibold"
+                                    >
                                       1.5
-                                      <Text style={{color: textTheme}} className="text-[14px] text-[#777777] font-medium">
+                                      <Text
+                                        style={{ color: textTheme }}
+                                        className="text-[14px] text-[#777777] font-medium"
+                                      >
                                         {' '}
                                         <Entypo
                                           name="star"
@@ -346,7 +410,10 @@ export default function ErrandDetails({ route, navigation }: any) {
                                 </View>
                               </View>
 
-                              <Text style={{color: textTheme}} className="text-sm pt-1 text-[#444444] font-light">
+                              <Text
+                                style={{ color: textTheme }}
+                                className="text-sm pt-1 text-[#444444] font-light"
+                              >
                                 {bid.description}
                               </Text>
                               <View className="flex-row items-center mt-2">

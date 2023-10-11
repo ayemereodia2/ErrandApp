@@ -42,10 +42,18 @@
         "UIBackgroundModes": [
           "audio"
         ]
+      },
+       "config": {
+        "googleMapsApiKey": "AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo"
       }
     },
     "android": {
-      "package": "com.orj5.Swave"
+      "package": "com.orj5.Swave",
+       "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

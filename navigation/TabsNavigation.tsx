@@ -245,7 +245,7 @@ export const TabsNavigation = ({ navigation }: any) => {
           // borderRadius: 15,
           height: 70,
           // width:100
-          paddingTop: 13,
+          paddingTop: 0,
           ...styles.shadow,
         },
         headerShown: false,

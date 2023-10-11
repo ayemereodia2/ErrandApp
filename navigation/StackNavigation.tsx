@@ -379,25 +379,27 @@ export const LandingPageStack = () => {
       <Stack.Screen
         name="Landing Page"
         component={LandingTest}
-        options={{
-          headerShown: false,
-          title: '',
-          headerStyle: {
-            backgroundColor: '#F8F9FC',
-          },
-        }}
+        // options={{
+        //   headerShown: false,
+        //   title: '',
+        //   headerStyle: {
+        //     backgroundColor: '#F8F9FC',
+        //   },
+        // }}
       />
       
       <Stack.Screen
         name="LandingForm"
         component={LandingForm}
-        options={{
-          headerShown: true,
-          title: 'Post Errand',
-          headerStyle: {
-            backgroundColor: '#F8F9FC',
-          },
-        }}
+        options={{ headerShown: false }}
+
+        // options={{
+        //   headerShown: true,
+        //   title: 'Post Errand',
+        //   headerStyle: {
+        //     backgroundColor: '#F8F9FC',
+        //   },
+        // }}
       />
 
       <Stack.Screen name="MyErrands" component={ErrandScreen} />

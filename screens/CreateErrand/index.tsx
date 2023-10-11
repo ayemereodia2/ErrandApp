@@ -308,7 +308,7 @@ const PostErrand = ({ navigation }: any) => {
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
-          marginBottom: 20,
+          marginBottom: 5,
           height: '80%',
         }}
         style={{
@@ -320,7 +320,7 @@ const PostErrand = ({ navigation }: any) => {
       </ScrollView>
 
       <View
-        style={{ backgroundColor: '#1E3A79', height: 80 }}
+        style={{ backgroundColor: '#1E3A79', height: 60 }}
         className="flex-row"
       >
         {activeStep > 1 && (
@@ -334,8 +334,8 @@ const PostErrand = ({ navigation }: any) => {
         <View
           className={
             activeStep > 1
-              ? 'pl-10 flex-row justify-center  items-center pt-5 pb-6'
-              : 'flex-row justify-center w-full items-center pt-5 pb-6'
+              ? 'pl-10 flex-row justify-center  items-center pt-3 pb-3'
+              : 'flex-row justify-center w-full items-center pt-3 pb-3'
           }
         >
           {creatingErrand ? (
