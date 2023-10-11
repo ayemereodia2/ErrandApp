@@ -191,13 +191,13 @@ const LandingTest = ({ navigation }: any) => {
               </ScrollView>
             </View>
 
-            <View className="mt-4">
-              <Text
-                className=" text-[25px] leading-7 font-bold"
-                style={{ color: textTheme }}
-              >
-                New Notifications
-              </Text>
+          <View className="mt-4">
+            <Text
+              className=" text-[25px] leading-7 font-bold"
+              style={{ color: textTheme }}
+            >
+              You may have missed these...
+            </Text>
 
               <NewNotifications />
             </View>
