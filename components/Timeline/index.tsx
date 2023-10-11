@@ -110,7 +110,7 @@ const Timeline = ({
                 This Errand is expected to be Completed on{' '}
                 {formatDate(errand.updated_at)}
               </Text>
-            )}
+            )} 
             {singleSubErrand?.status === 'active' && (
               <View className="flex-row justify-between items-center pl-2">
                 {errand.user_id === user_id && (

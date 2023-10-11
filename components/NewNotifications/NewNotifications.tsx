@@ -1,13 +1,13 @@
+import { EvilIcons, FontAwesome5, Ionicons } from '@expo/vector-icons'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
-import { Image, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
 import { RootState } from '../../services/store'
 import { getTimeAgo } from '../../utils/helper'
-import { EvilIcons, FontAwesome5, Ionicons } from '@expo/vector-icons'
 
 export default function NewNotifications() {
   const {
@@ -43,7 +43,7 @@ export default function NewNotifications() {
   }
 
   if (isSuccess) {
-    console.log(data)
+    console.log(">>>>>>notigyffff", data.data)
   }
 
   return (
@@ -57,15 +57,50 @@ export default function NewNotifications() {
             >
               <View className="flex-row justify-between items-center">
                 <View className="flex-row mx-1.5">
-                  <Image
-                    source={require('../../assets/images/franence.jpg')}
-                    style={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: 50,
-                      marginRight: 8,
-                    }}
-                  />
+                  {/* <Image
+      source={require('../../assets/images/franence.jpg')}
+      style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
+    /> */}
+                  <View className="mt-2 mr-0.5">
+                    {notification.type === 0 ? (
+                      <Text>
+                        {' '}
+                        <EvilIcons
+                          name="question"
+                          size={24}
+                          color={textTheme}
+                        />{' '}
+                      </Text>
+                    ) : notification.type === 1 ? (
+                      <Text>
+                        {' '}
+                        <FontAwesome5
+                          name="running"
+                          size={40}
+                          color={textTheme}
+                        />{' '}
+                      </Text>
+                    ) : notification.type === 2 ? (
+                      <Text>
+                        {' '}
+                        <Ionicons
+                          name="ios-hammer-outline"
+                          size={24}
+                          color={textTheme}
+                        />{' '}
+                      </Text>
+                    ) : notification.type === 3 ? (
+                      <Text>
+                        {' '}
+                        <Ionicons
+                          name="md-swap-vertical"
+                          size={24}
+                          color={textTheme}
+                        />{' '}
+                      </Text>
+                    ) : null}
+                  </View>
+
                   <View>
                     <Text
                       className="font-semibold text-base"
@@ -90,54 +125,6 @@ export default function NewNotifications() {
           ))
         : 'No Notifications Available'}
 
-      {data ? data.data.map((notification:any) => (
-
-  <View className='mt-3 py-2 border border-gray-400 px-2 rounded-md mb-10' key={notification.id} style={{ backgroundColor: theme ? '#152955' : 'white'}}>
-      <View className='flex-row justify-between items-center'>
-
-      <View className='flex-row mx-1.5'>
-      {/* <Image
-      source={require('../../assets/images/franence.jpg')}
-      style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
-    /> */}
-    <View className='mt-2 mr-0.5'>
-    { notification.type === 0 ?
-    ( <Text> <EvilIcons name="question" size={24} color={textTheme} /> </Text> )
-    :
-    notification.type === 1 ?
-    ( <Text> <FontAwesome5 name="running" size={40} color={textTheme} /> </Text> )
-    :
-    notification.type === 2 ?
-    ( <Text> <Ionicons name="ios-hammer-outline" size={24} color={textTheme} /> </Text> )
-    :
-    notification.type === 3 ?
-    ( <Text> <Ionicons name="md-swap-vertical" size={24} color={textTheme} /> </Text> )
-    :
-    null
-  }
-    </View>
-   
-    <View>
-    <Text className='font-semibold text-base' style={{ color: textTheme }}>{notification.message}</Text>
-    <Text style={{ color: textTheme }} className=''>{notification.title}</Text>
-    </View>
-    
-    </View>
-
-      
-      <Text className='mb-4 text-[#808080]' style={{ color: textTheme }}>{getTimeAgo(notification.created_at)}</Text>
-     
-      
-      </View>
-
-      </View>
-        
-      )) : 'No Notifications Available'}
-
-      
-
-     
-     
       {/* <View className='mt-3 py-2 border border-gray-400 px-2 bg-white rounded-md' >
       <View className='flex-row justify-between items-center'>
 
