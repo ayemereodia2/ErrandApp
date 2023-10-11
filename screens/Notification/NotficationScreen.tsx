@@ -82,8 +82,8 @@ const NotificationScreen = ({ navigation }: any) => {
       <ScrollView>
         <View className="mt-[5px] h-[64px] w-[380px] mx-4 flex-row bg-[#E6E6E6] justify-center items-center">
           <TouchableOpacity>
-            <View className="flex-row w-[180px] h-[40px] bg-[#F7F7F7] justify-center items-center mr-2 ml-2">
-              <Text>Incoming Errands</Text>
+            <View className="flex-row w-full h-[40px] bg-[#F7F7F7] justify-center items-center mr-2 ml-2">
+              <Text className='text-center'>Incoming Notifications</Text>
               <Text className="bg-red-500 text-white ml-2 p-1 rounded-md">
                 {' '}
                 {data.data.length}{' '}
@@ -91,12 +91,12 @@ const NotificationScreen = ({ navigation }: any) => {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <View className="flex-row w-[180px] h-[40px] justify-center items-center">
               <Text>Outgoing Errands</Text>
               <Text className="bg-[#999999] text-white ml-2 p-1"> 8 </Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         {/* Body */}
