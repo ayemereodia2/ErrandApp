@@ -47,7 +47,7 @@ const LandingDetails = ({ navigation }: any) => {
         style={{
           backgroundColor: theme ? '#152955' : 'white',
         }}
-        className="pt-20 bg-gray-200 w-screen h-[100vh] mt-5"
+        className="pt-20  w-screen h-[40vh] mt-5"
       >
         <ActivityIndicator color="black" size="large" />
       </SafeAreaView>
@@ -219,7 +219,28 @@ const LandingDetails = ({ navigation }: any) => {
               </ScrollView>
             </SafeAreaView>
           ))
-        : null}
+
+        : 
+        
+        <SafeAreaView className="pt-20 bg-gray-200 w-screen h-[40vh] mt-5">
+        <TouchableOpacity  className="mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border"
+                  style={{
+                    backgroundColor: theme ? '#152955' : 'white',
+                    borderColor: theme ? '#e9ebbf2' : 'lightgrey',
+                  }}>
+                  
+                  <View className=" flex-row items-start mt-4">
+                    <View className="flex-row items-start justify-center gap-3">
+                      <View className=" mx-auto flex-row justify-center items-center">
+                      <ActivityIndicator color="black" size="large" />
+
+                        </View>
+                        </View>
+                        </View>
+
+        </TouchableOpacity >
+        {/* <Text className='m-auto'><EvilIcons name="spinner" size={28} color="black" /></Text> */}
+      </SafeAreaView>}
     </>
   )
 }
