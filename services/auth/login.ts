@@ -28,6 +28,7 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
       await AsyncStorage.setItem("first_name", _rs.data.first_name)
       navigation.navigate('Tabs')
       await AsyncStorage.setItem('profile_pic', _rs.data.profile_picture)
+       await AsyncStorage.setItem('isGuest', 'false')
 
      
         

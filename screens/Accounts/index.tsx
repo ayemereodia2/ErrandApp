@@ -1,4 +1,4 @@
-import { AntDesign, Entypo } from '@expo/vector-icons'
+import { AntDesign, Feather } from '@expo/vector-icons'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
@@ -16,17 +16,22 @@ import UserVerification from '../../components/UsersProfile/UserVerification'
 import { _fetch } from '../../services/axios/http'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import {
-  Menu,
-  MenuOption,
-  MenuOptions,
-  MenuTrigger,
-} from 'react-native-popup-menu'
 import Toast from 'react-native-toast-message'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../services/store'
 
 const AccountScreen = ({ navigation }: any) => {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [profile, setProfile] = useState(true)
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   const handleProfile = () => {
     setProfile(false)
@@ -35,52 +40,25 @@ const AccountScreen = ({ navigation }: any) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
+      headerTitleStyle: { color: textTheme },
       title: 'My Profile',
-      headerStyle: { backgroundColor: '#F8F9FC' },
+      headerStyle: { backgroundColor: backgroundTheme },
       headerLeft: () => (
         <TouchableOpacity
           className="flex-row items-center justify-between mx-0 py-3 mr-6"
           onPress={() => navigation.goBack()}
         >
-          <AntDesign name="arrowleft" size={24} color="black" />
+          <AntDesign name="arrowleft" size={24} color={textTheme} />
         </TouchableOpacity>
       ),
       headerRight: () => (
         <View className="flex-row items-center justify-between mx-3 py-3 space-x-3 ">
-          <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
-            <MenuTrigger>
-              <Entypo name="dots-three-vertical" color={'black'} size={20} />
-            </MenuTrigger>
-            <MenuOptions
-              customStyles={{
-                optionWrapper: {
-                  // borderBottomWidth: 0.2,
-                  borderBottomColor: '#AAAAAA',
-                },
-                optionText: { textAlign: 'center', fontWeight: '600' },
-              }}
-            >
-              <MenuOption
-                onSelect={() => navigation.navigate('Settings')}
-                text="Settings"
-                customStyles={{
-                  optionWrapper: {
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#AAAAAA',
-                  },
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-
-              <MenuOption
-                onSelect={() => navigation.navigate('Contact Us')}
-                text="Contact Us"
-                customStyles={{
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-            </MenuOptions>
-          </Menu>
+          <Feather
+            onPress={() => navigation.navigate('Contact')}
+            color={textTheme}
+            size={24}
+            name="help-circle"
+          />
         </View>
       ),
     })
@@ -96,7 +74,6 @@ const AccountScreen = ({ navigation }: any) => {
       _url: `/user/profile`,
     })
     return await _rs.json()
-    
   }
 
   const { isLoading, isError, data } = useQuery({
@@ -104,10 +81,10 @@ const AccountScreen = ({ navigation }: any) => {
     queryFn: getUserProfile,
     refetchOnMount: 'always',
   })
-  console.log(data);
+  console.log(data)
 
   const clearStorage = async () => {
-    await AsyncStorage.clear()
+    await AsyncStorage.multiRemove(['accessToken', 'refreshToken', 'user_id', 'last_name', 'first_name', 'profile_pic'])
   }
 
   useEffect(() => {
@@ -116,7 +93,10 @@ const AccountScreen = ({ navigation }: any) => {
 
   if (isLoading) {
     return (
-      <SafeAreaView className="pt-20 bg-gray-200 w-screen h-[100vh] mt-5">
+      <SafeAreaView
+        style={{ backgroundColor: backgroundTheme }}
+        className="pt-20 bg-gray-200 w-screen h-[100vh] mt-5"
+      >
         {/* <Text className='m-auto'><EvilIcons name="spinner" size={28} color="black" /></Text> */}
         <ActivityIndicator color="black" size="large" />
       </SafeAreaView>
@@ -134,7 +114,10 @@ const AccountScreen = ({ navigation }: any) => {
 
   return (
     <SafeAreaView>
-      <ScrollView className="bg-white">
+      <ScrollView
+        style={{ backgroundColor: backgroundTheme }}
+        className="bg-white"
+      >
         {/* Top Profile */}
 
         {data?.data?.profile_picture ? (
@@ -155,7 +138,10 @@ const AccountScreen = ({ navigation }: any) => {
 
         <View>
           <View className="flex-row justify-center items-center mt-5">
-            <Text className="text-[18px] font-bold leading-6">
+            <Text
+              style={{ color: textTheme }}
+              className="text-[18px] font-bold leading-6"
+            >
               {data?.data?.first_name} {data?.data?.last_name}{' '}
             </Text>
             {/* <Text>
@@ -163,38 +149,73 @@ const AccountScreen = ({ navigation }: any) => {
             </Text> */}
           </View>
 
-          <Text className="text-center mt-3 text-base font-medium">
+          <Text
+            style={{ color: textTheme }}
+            className="text-center mt-3 text-base font-medium"
+          >
             {data?.data?.occupation ? data?.data?.occupation : 'Swave User'}
           </Text>
 
           <View className="flex-row mt-5 mx-auto">
             <View className="ml-3">
-              <Text className="text-center mb-1 font-bold">400</Text>
-              <Text className="text-center font-light">total Errands </Text>
+              <Text
+                style={{ color: textTheme }}
+                className="text-center mb-1 font-bold"
+              >
+                400
+              </Text>
+              <Text
+                style={{ color: textTheme }}
+                className="text-center font-light"
+              >
+                total Errands{' '}
+              </Text>
             </View>
 
             <View className="ml-3">
-              <Text className="text-center mb-1 font-bold">
+              <Text
+                style={{ color: textTheme }}
+                className="text-center mb-1 font-bold"
+              >
                 {data?.data?.errands_completed}
               </Text>
-              <Text className="text-center font-light">Errands Completed </Text>
+              <Text
+                style={{ color: textTheme }}
+                className="text-center font-light"
+              >
+                Errands Completed{' '}
+              </Text>
             </View>
 
             <View className="ml-3 ">
-              <Text className="text-center mb-1 font-bold">
+              <Text
+                style={{ color: textTheme }}
+                className="text-center mb-1 font-bold"
+              >
                 {data?.data?.errands_cancelled}
               </Text>
-              <Text className="text-center font-light">Errands Cancelled </Text>
+              <Text
+                style={{ color: textTheme }}
+                className="text-center font-light"
+              >
+                Errands Cancelled{' '}
+              </Text>
             </View>
           </View>
 
           {/* Edit BUtton */}
           <View className=" mt-[30px] flex-row justify-center space-x-6">
             <TouchableOpacity
+              style={{
+                backgroundColor: theme ? '#1E3A79' : 'white',
+              }}
               onPress={() => navigation.navigate('EditProfile', { data })}
               className="w-[140px] h-[40px] bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-md"
             >
-              <Text className="text-base font-medium text-center items-center">
+              <Text
+                style={{ color: textTheme }}
+                className="text-base font-medium text-center items-center"
+              >
                 {' '}
                 Edit Profile{' '}
               </Text>
@@ -205,8 +226,14 @@ const AccountScreen = ({ navigation }: any) => {
                 clearStorage()
               }}
               className="w-[140px] h-[40px] bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-md"
+              style={{
+                backgroundColor: theme ? '#1E3A79' : 'white',
+              }}
             >
-              <Text className="text-base font-medium text-center items-center">
+              <Text
+                style={{ color: textTheme }}
+                className="text-base font-medium text-center items-center"
+              >
                 {' '}
                 Logout{' '}
               </Text>
@@ -249,7 +276,11 @@ const AccountScreen = ({ navigation }: any) => {
             </TouchableOpacity>
           </View>
 
-          {profile ? <UserProfile data={data} /> : <UserVerification  data={data}/>}
+          {profile ? (
+            <UserProfile data={data} />
+          ) : (
+            <UserVerification data={data} />
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

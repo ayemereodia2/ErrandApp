@@ -1,11 +1,11 @@
 import {
   Ionicons,
   MaterialCommunityIcons,
-  MaterialIcons,
+  MaterialIcons
 } from '@expo/vector-icons'
 import {
   BottomSheetModal,
-  BottomSheetModalProvider,
+  BottomSheetModalProvider
 } from '@gorhom/bottom-sheet'
 import React, { useMemo, useRef } from 'react'
 import {
@@ -13,8 +13,10 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../services/store'
 import EmailModal from '../VerificationModals/EmailModal'
 import GuarantorModal from '../VerificationModals/GuarantorModal'
 import OfficeAddressModal from '../VerificationModals/OfficeAddressModal'
@@ -61,7 +63,16 @@ const UserVerification = ({ data }: any) => {
 
   function closeGuarantorModal() {
     bottomSheetRef3.current?.dismiss()
-  }
+  } ''
+  
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   return (
     <BottomSheetModalProvider>
@@ -77,9 +88,9 @@ const UserVerification = ({ data }: any) => {
                 />
               </Text>
             </View>
-            <Text className="font-light leading-8 ">Basic Verification</Text>
+            <Text  style={{ color: textTheme }} className="font-light leading-8 ">Basic Verification</Text>
             <View className="w-[100px] h-[34px] bg-[#D8F8E9] justify-center items-center rounded-[20px] ">
-              <Text className="text-[#115A38] font-md text-sm">Completed</Text>
+              <Text  className="text-[#115A38] font-md text-sm">Completed</Text>
             </View>
           </View>
 
@@ -92,7 +103,7 @@ const UserVerification = ({ data }: any) => {
                 <Ionicons name="md-swap-vertical" size={24} color="#3F60AC" />
               </Text>
             </View>
-            <Text className="font-light leading-8">
+            <Text  style={{ color: textTheme }} className="font-light leading-8">
               Personal Identification
             </Text>
             <View
@@ -133,7 +144,7 @@ const UserVerification = ({ data }: any) => {
                 />
               </Text>
             </View>
-            <Text className="font-light leading-8">Email Verification</Text>
+            <Text  style={{ color: textTheme }} className="font-light leading-8">Email Verification</Text>
             <View
               className="w-[100px] h-[34px] justify-center items-center rounded-[20px] "
               style={{
@@ -166,7 +177,7 @@ const UserVerification = ({ data }: any) => {
                 />
               </Text>
             </View>
-            <Text className="font-light leading-8">
+            <Text  style={{ color: textTheme }} className="font-light leading-8">
               Office Address Verification
             </Text>
             <View
@@ -199,7 +210,7 @@ const UserVerification = ({ data }: any) => {
             onPress={() => openGuarantorModal()}
           >
             <View className="w-10 h-10 border border-[#3F60AC] items-center justify-center rounded-md">
-              <Text>
+              <Text  style={{ color: textTheme }}>
                 <MaterialIcons
                   name="person-add-alt"
                   size={24}
@@ -207,7 +218,7 @@ const UserVerification = ({ data }: any) => {
                 />
               </Text>
             </View>
-            <Text className="font-light leading-8">
+            <Text  style={{ color: textTheme }} className="font-light leading-8">
               Swave Reference Guarantor
             </Text>
             <View

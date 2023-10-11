@@ -44,6 +44,14 @@ const FundWalletModal = ({ navigation, route }: any) => {
     success: walletSuccess,
   } = useSelector((state: RootState) => state.walletActionReducer)
 
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   // const handlePlaceBid = () => {
   //   if (!amount) {
@@ -78,7 +86,8 @@ const FundWalletModal = ({ navigation, route }: any) => {
     navigation.setOptions({
       headerShown: true,
       title: 'Fund Your Wallet',
-      headerStyle: { backgroundColor: '#F8F9FC' },
+      headerStyle: { backgroundColor: backgroundTheme },
+      headerTitleStyle: { color: textTheme },
       headerLeft: () => (
         <TouchableOpacity
           className="flex-row items-center justify-between mx-0 py-3"
@@ -86,7 +95,7 @@ const FundWalletModal = ({ navigation, route }: any) => {
             navigation.goBack()
           }}
         >
-          <AntDesign name="arrowleft" size={24} color="black" />
+          <AntDesign name="arrowleft" size={24} color={textTheme} />
         </TouchableOpacity>
       ),
     })
@@ -118,7 +127,10 @@ const FundWalletModal = ({ navigation, route }: any) => {
     <>
       {paid ? (
         <View className="py-4 pb-10">
-          <Text className="text-lg text-center font-semibold">
+          <Text
+            style={{ color: textTheme }}
+            className="text-lg text-center font-semibold"
+          >
             We are Processing your payment
           </Text>
 
@@ -131,12 +143,20 @@ const FundWalletModal = ({ navigation, route }: any) => {
               // }}
               onPress={() => navigation.goBack()}
             >
-              <Text className="text-white text-base">Go back</Text>
+              <Text
+                style={{ color: textTheme }}
+                className="text-white text-base"
+              >
+                Go back
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
       ) : (
-        <View className="py-4 pb-10">
+        <View
+          style={{ backgroundColor: backgroundTheme, flex: 1 }}
+          className="py-4 pb-10"
+        >
           {/* <Text className="text-lg text-center font-semibold">
             Fund Your Wallet
           </Text> */}
@@ -146,7 +166,10 @@ const FundWalletModal = ({ navigation, route }: any) => {
           )}
 
           <View className="mt-6 pl-12">
-            <Text className="text-sm text-[#243763] font-semibold">
+            <Text
+              style={{ color: textTheme }}
+              className="text-sm text-[#243763] font-semibold"
+            >
               Enter Amount
             </Text>
 
@@ -198,7 +221,7 @@ const FundWalletModal = ({ navigation, route }: any) => {
         </View>
       )}
 
-      <View style={{ flex: 1 }}>
+      <View>
         <Paystack
           paystackKey="pk_test_0ea2496d44ff8e00a98762e85ab92a1639d7307e"
           billingEmail={'pearlthelma299@gmail.com'}
@@ -235,13 +258,13 @@ const FundWalletModal = ({ navigation, route }: any) => {
         <View
           className="flex-row justify-center items-center"
           style={{
-            backgroundColor: 'white',
+            backgroundColor: backgroundTheme,
             height: 200,
             borderRadius: 10,
           }}
         >
           <View>
-            <Text className="text-xl font-light">
+            <Text style={{ color: textTheme }} className="text-xl font-light">
               Request is processing... please wait
             </Text>
             <ActivityIndicator size="small" className="mt-3" color="blue" />
