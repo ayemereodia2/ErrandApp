@@ -220,17 +220,13 @@ export const MainStack = () => {
         component={PostErrand}
       />
 
-      <Stack.Screen
+      <Stack.Screen name="LandingForm" component={LandingForm} />
+
+      {/* <Stack.Screen
         name="LandingForm"
         component={LandingForm}
-        options={{
-          headerShown: true,
-          title: 'Post Errand',
-          headerStyle: {
-            backgroundColor: '#F8F9FC',
-          },
-        }}
-      />
+        options={{ headerShown: false }}
+      /> */}
 
       <Stack.Screen
         name="FundWalletModal"
@@ -377,25 +373,11 @@ export const LandingPageStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
-        name="Landing Page"
+        name="LandingPage"
         component={LandingTest}
         // options={{
         //   headerShown: false,
         //   title: '',
-        //   headerStyle: {
-        //     backgroundColor: '#F8F9FC',
-        //   },
-        // }}
-      />
-      
-      <Stack.Screen
-        name="LandingForm"
-        component={LandingForm}
-        options={{ headerShown: false }}
-
-        // options={{
-        //   headerShown: true,
-        //   title: 'Post Errand',
         //   headerStyle: {
         //     backgroundColor: '#F8F9FC',
         //   },

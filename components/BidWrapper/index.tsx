@@ -7,7 +7,9 @@ import {
   Text,
   View,
 } from 'react-native'
+import { useSelector } from 'react-redux'
 import { HaggleComponent } from '../../components/MyBidDetails/HaggleDetail'
+import { RootState } from '../../services/store'
 import { Bids, Haggles, MarketData, SingleSubErrand } from '../../types'
 import BeginErrandModal from '../Modals/Errands/BeginErrand'
 import RejectErrandModal from '../Modals/Errands/RejectErrandModal'
@@ -37,6 +39,13 @@ const BidWrapper = ({
   const acceptBidRef = useRef<BottomSheetModal>(null)
   const beginErrandRef = useRef<BottomSheetModal>(null)
   const RejectErrandRef = useRef<BottomSheetModal>(null)
+
+   const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
   const acceptPoints = ['40%']
 
@@ -137,7 +146,7 @@ const BidWrapper = ({
       ) : (
         <ScrollView scrollEventThrottle={16}>
           {errand?.bids.length === 0 && (
-            <Text className="text-center pt-4 font-bold">
+            <Text style={{color: textTheme}} className="text-center pt-4 font-bold">
               No Bids has been attached to the errand selected.
             </Text>
           )}

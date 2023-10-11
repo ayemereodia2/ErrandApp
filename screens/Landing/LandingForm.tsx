@@ -1,3 +1,4 @@
+import { AntDesign } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
@@ -42,7 +43,14 @@ const LandingForm = ({ navigation, route }: any) => {
     (state: RootState) => state.createErrandReducer,
   )
 
-  console.log('>>>>>category', category)
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   const [postErrandData, setPostErrandData] = useState<PostErrandData>({
     errandType: 'single',
@@ -104,8 +112,6 @@ const LandingForm = ({ navigation, route }: any) => {
       dispatch,
     }
 
-    console.log('>>>>>data errand', data)
-
     dispatch(createErrand({ ...data }))
   }
 
@@ -117,7 +123,16 @@ const LandingForm = ({ navigation, route }: any) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerStyle: { backgroundColor: '#F8F9FC' },
+      headerLeft: () => (
+        <TouchableOpacity
+          className="flex-row items-center justify-between mx-0 py-3 mr-6"
+          onPress={() => navigation.goBack()}
+        >
+          <AntDesign name="arrowleft" size={24} color={textTheme} />
+        </TouchableOpacity>
+      ),
+      headerStyle: { backgroundColor: backgroundTheme },
+      headerTitleStyle: { color: textTheme },
       title: 'Quick Errand',
     })
   }, [navigation])
@@ -160,17 +175,26 @@ const LandingForm = ({ navigation, route }: any) => {
   }, [data?.balance])
 
   return (
-    <SafeAreaView className="mx-4 mt-10 ">
-      <ScrollView>
+    <SafeAreaView
+      style={{ backgroundColor: backgroundTheme, flex: 1 }}
+      className="px-4 pt-10 "
+    >
+      <ScrollView style={{ backgroundColor: backgroundTheme }}>
         <View className="mt-6 flex-row items-center justify-between mx-3">
-          <Text className="font-bold text-[18px] leading-5">
+          <Text
+            style={{ color: textTheme }}
+            className="font-bold text-[18px] leading-5"
+          >
             What do you need help with?{' '}
             <Text className="text-base font-normal">{category?.name}</Text>
           </Text>
         </View>
 
         <View className="px-4 mt-5">
-          <Text className="text-sm font-semibold text-[#243763]">
+          <Text
+            style={{ color: textTheme }}
+            className="text-sm font-semibold text-[#243763]"
+          >
             Description
           </Text>
 
@@ -189,7 +213,12 @@ const LandingForm = ({ navigation, route }: any) => {
         </View>
 
         <View className="px-4 mt-5">
-          <Text className="text-sm font-semibold text-[#243763]">Amount</Text>
+          <Text
+            style={{ color: textTheme }}
+            className="text-sm font-semibold text-[#243763]"
+          >
+            Amount
+          </Text>
 
           <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
             <Text className="text-lg ">&#x20A6;</Text>
@@ -212,9 +241,15 @@ const LandingForm = ({ navigation, route }: any) => {
             }}
             className="flex-row items-center"
           >
-            <Text className="ml-2 pt-2 pr-2">Fund Wallet</Text>
-            <Text className="text-sm pt-2 font-md">
-              ( <Text className="font-bold">Balance:</Text> ₦
+            <Text style={{ color: textTheme }} className="ml-2 pt-2 pr-2">
+              Fund Wallet
+            </Text>
+            <Text style={{ color: textTheme }} className="text-sm pt-2 font-md">
+              ({' '}
+              <Text style={{ color: textTheme }} className="font-bold">
+                Balance:
+              </Text>{' '}
+              ₦
               {Number(data?.balance) === 0
                 ? '0.00'
                 : (Number(data?.balance) / 100).toLocaleString()}
@@ -224,10 +259,10 @@ const LandingForm = ({ navigation, route }: any) => {
         </View>
 
         <View className="flex-row mt-6 mx-4 items-center ">
-          <Text className="text-sm font-semibold text-[#243763]">Address</Text>
+          <Text style={{ color: textTheme }} className="text-sm font-semibold text-[#243763]">Address</Text>
 
           <TouchableOpacity onPress={handleClicked}>
-            <Text className="text-[28px] text-center">
+            <Text style={{ color: textTheme }} className="text-[28px] text-center">
               {' '}
               {clicked ? '-' : '+'}{' '}
             </Text>
@@ -262,10 +297,10 @@ const LandingForm = ({ navigation, route }: any) => {
         )}
       </ScrollView>
 
-      <View className="absolute -bottom-20 flex-row justify-center">
+      <View className="absolute bottom-0 flex-row justify-center">
         <TouchableOpacity
           onPress={() => submitErrandhandler()}
-          className="bg-[#1E3A79] h-12 w-[100%] mt-6 flex-row justify-center items-center rounded-lg "
+          className="bg-[#1E3A79] h-16 w-[100%] mt-6 flex-row justify-center items-center "
         >
           {creatingErrand ? (
             <ActivityIndicator size="small" color="blue" />

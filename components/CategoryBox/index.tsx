@@ -1,6 +1,8 @@
 import {
+  Entypo,
   FontAwesome,
   FontAwesome5,
+  Ionicons,
   MaterialCommunityIcons,
   MaterialIcons,
 } from '@expo/vector-icons'
@@ -37,7 +39,7 @@ export default function CategoryBox({
     backgroundTheme,
     textTheme,
     landingPageTheme,
-  } = useSelector((state: RootState ) => state.currentUserDetailsReducer)
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
@@ -46,7 +48,7 @@ export default function CategoryBox({
       onPress={() => {
         onPress(), identifier === 'view-list' && setOpenLists(true)
       }}
-      style={{borderColor: textTheme}}
+      style={{ borderColor: textTheme }}
       className={`border-[0.2px] h-28 rounded-lg mx-2 p-2  ${
         selectedItem === id && `bg-[#CBD5EC]`
       }`}
@@ -64,6 +66,10 @@ export default function CategoryBox({
               <MaterialCommunityIcons name={icon} size={40} color={textTheme} />
             ) : iconType === 'FontAwesome5' ? (
               <FontAwesome5 name={icon} size={40} color={textTheme} />
+            ) : iconType === 'Entypo' ? (
+              <Entypo name={icon} size={40} color={textTheme} />
+            ) : iconType === 'Ionicons' ? (
+              <Ionicons name={icon} size={40} color={textTheme} />
             ) : (
               ''
             )}
@@ -76,7 +82,10 @@ export default function CategoryBox({
           alt=""
         /> */}
         {/* <Image src={icon} width={12} height={12} alt="okay"/> */}
-        <Text style={{color: textTheme}} className="pt-3 lg:pt-4 text-xs md:text-sm text-center">
+        <Text
+          style={{ color: textTheme }}
+          className="pt-3 lg:pt-4 text-xs md:text-sm text-center"
+        >
           {name}
         </Text>
       </View>
