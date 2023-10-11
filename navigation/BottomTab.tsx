@@ -1,7 +1,7 @@
 import { AntDesign, FontAwesome5, Fontisto, Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import MainScreen from '../screens/Market/MainScreen'
 import ErrandScreen from '../screens/MyErrands'
 // import PostErrand from '../screens/CreateErrand'
@@ -47,7 +47,7 @@ const BottomTab = () => {
           borderRadius: 15,
           height: 70,
           // width:100
-          paddingTop: 13,
+          paddingTop: Platform.OS === 'ios' ? 60 :20,
           ...styles.shadow,
         },
         headerShown: false,

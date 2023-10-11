@@ -28,7 +28,6 @@ const LandingDetails = ({ navigation }: any) => {
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-
   const getMarket = async () => {
     const _rs = await _fetch({
       method: 'GET',
@@ -37,19 +36,19 @@ const LandingDetails = ({ navigation }: any) => {
     return await _rs.json()
   }
 
- 
-
-
-  const { isLoading, isSuccess, data,  isError } = useQuery({
+  const { isLoading, isSuccess, data, isError } = useQuery({
     queryKey: ['get-market'],
     queryFn: getMarket,
   })
 
-
   if (isLoading) {
     return (
-      <SafeAreaView className="pt-20 bg-gray-200 w-screen h-[100vh] mt-5">
-        {/* <Text className='m-auto'><EvilIcons name="spinner" size={28} color="black" /></Text> */}
+      <SafeAreaView
+        style={{
+          backgroundColor: theme ? '#152955' : 'white',
+        }}
+        className="pt-20 bg-gray-200 w-screen h-[100vh] mt-5"
+      >
         <ActivityIndicator color="black" size="large" />
       </SafeAreaView>
     )
@@ -61,10 +60,10 @@ const LandingDetails = ({ navigation }: any) => {
 
   const regex = /(<([^>]+)>)/gi
 
-
   return (
     <>
-      {data ? data.data.map((errand: any) => (
+      {data
+        ? data.data.map((errand: any) => (
             <SafeAreaView className="mb-10 mr-4">
               <ScrollView horizontal>
                 <TouchableOpacity
@@ -96,7 +95,6 @@ const LandingDetails = ({ navigation }: any) => {
                             }}
                             alt="okay"
                             source={{ uri: errand?.user?.profile_picture }}
-                            // source={require(errand.user.profile_picture)}
                           />
                         ) : (
                           <Text className="uppercase text-lg items-center text-white">
@@ -109,7 +107,7 @@ const LandingDetails = ({ navigation }: any) => {
                       <View>
                         <Text
                           className="font-semibold text-[18px]"
-                          style={{ color: textTheme}}
+                          style={{ color: textTheme }}
                         >
                           {errand?.user?.first_name} {errand?.user?.last_name}
                         </Text>
@@ -136,7 +134,7 @@ const LandingDetails = ({ navigation }: any) => {
                                 <Text
                                   className="text-[14px] text-[#777777] font-medium"
                                   style={{
-                                    color: textTheme
+                                    color: textTheme,
                                   }}
                                 >
                                   <FontAwesome5 name="running" size={14} />{' '}
@@ -152,10 +150,13 @@ const LandingDetails = ({ navigation }: any) => {
 
                   <Text
                     className="text-[18px] font-medium py-4 pt-4"
-                    style={{ color: textTheme}}
+                    style={{ color: textTheme }}
                   >
                     {errand.description?.length >= 60
-                      ? errand?.description?.substring(0, 120).concat('', '...').replace(regex, '')
+                      ? errand?.description
+                          ?.substring(0, 120)
+                          .concat('', '...')
+                          .replace(regex, '')
                       : errand?.description.replace(regex, '')}
                   </Text>
 
@@ -191,12 +192,11 @@ const LandingDetails = ({ navigation }: any) => {
                   <View className="flex-row justify-between items-center mt-2">
                     <Text
                       className="text-[20px] font-bold text-[#1E3A79]"
-                      style={{ color: textTheme}}
+                      style={{ color: textTheme }}
                     >
-                      &#x20A6; {/* {budgetInNaira.toLocaleString()} */}{' '}
+                      &#x20A6;
                       {(errand?.budget / 100).toLocaleString()}
                     </Text>
-                    {/* <ProfileInitials firstName="Kzu" lastName="Soo" /> */}
 
                     <View className=" rounded-2xl py-2 px-2  items-center mt-2">
                       <Text

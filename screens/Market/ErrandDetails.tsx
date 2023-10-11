@@ -134,15 +134,15 @@ export default function ErrandDetails({ route, navigation }: any) {
     })
   }, [navigation])
 
-  useEffect(() => {
-    navigation
-      .getParent()
-      ?.setOptions({ tabBarStyle: { display: 'none' }, tabBarVisible: false })
-    return () =>
-      navigation
-        .getParent()
-        ?.setOptions({ tabBarStyle: undefined, tabBarVisible: undefined })
-  }, [navigation])
+  // useEffect(() => {
+  //   navigation
+  //     .getParent()
+  //     ?.setOptions({ tabBarStyle: { display: 'none' }, tabBarVisible: false })
+  //   return () =>
+  //     navigation
+  //       .getParent()
+  //       ?.setOptions({ tabBarStyle: undefined, tabBarVisible: undefined })
+  // }, [navigation])
 
   const getUserId = async () => {
     const userId = (await AsyncStorage.getItem('user_id')) || ''

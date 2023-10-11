@@ -421,11 +421,11 @@ export const LandingPageStack = () => {
           },
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         options={{ headerShown: false }}
         name="ErrandDetails"
         component={ErrandDetails}
-      />
+      /> */}
       <Stack.Screen
         name="ErrorScreen"
         component={ErrorScreen}
