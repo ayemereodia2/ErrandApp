@@ -1,56 +1,56 @@
 import { View, Text, Image, TouchableOpacity} from 'react-native'
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../services/store'
+import { getTimeAgo } from '../../utils/helper'
 
 interface Notify {
-  imageSource: any;
-  name: string;
-  text: string
+ 
+data: any
 
 }
 
-const Notify = ({imageSource, name, text}:Notify) => {
+const Notify = ({data}:Notify) => {
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
   return (
-    <View className='md:w-[380px] h-[178px] mx-4 mt-8'>
-    <View className='flex-row justify-between items-center'>
-      {imageSource}
-      <View>
-      <Text className='font-semibold text-base'>{name}</Text>
-      <Text>Placed a bid on your errand</Text>
-      </View>
-      <Text className='mb-4 text-[#808080]'>3hrs ago</Text>
-      </View>
+    <>
 
-      <View className='md:w-[320px] h-[50px] mt-4 items-center ml-20 mr-4'>
-        <Text className='font-normal'>{text}</Text>
-      </View>
+      {data ? data.data.map((notification:any) => (
 
-      <View className='ml-20 flex-row mt-4'>
-        <TouchableOpacity>
-        <View className='bg-[#21B06E] w-[76px] h-[37px] justify-center items-center rounded-full'>
-          <Text className='text-white'>Accept</Text>
-        </View>
-        </TouchableOpacity>
+  <View className='mt-8 py-2 w-[90vw] mx-auto border border-gray-400 px-2 rounded-md mb-10' key={notification.id} style={{ backgroundColor: theme ? '#152955' : 'white'}}>
+      <View className='flex-row justify-between items-center'>
 
-        <TouchableOpacity>
-        <View className='border border-[#C82332] w-[76px] h-[37px] justify-center items-center ml-4 rounded-full'>
-        <Text className='text-[#C82332]'>Reject</Text>
-        </View>
-       </TouchableOpacity>
-
-       <TouchableOpacity>
-        <View className='border border-[#3F60AC]  w-[76px] h-[37px] justify-center items-center ml-4 rounded-full'>
-        <Text className='text-[#3F60AC]'>Negotiate</Text>
-        </View>
-        </TouchableOpacity>
-        
-      </View>
-
-     
-
+      <View className='flex-row mx-1.5'>
+      <Image
+      source={require('../../assets/images/franence.jpg')}
+      style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
+    />
+    <View>
+    <Text className='font-semibold text-base' style={{ color: textTheme }}>{notification.message}</Text>
+    <Text style={{ color: textTheme }} className=''>{notification.title}</Text>
+    </View>
+    
+    </View>
 
       
+      <Text className='mb-4 text-[#808080]' style={{ color: textTheme }}>{getTimeAgo(notification.created_at)}</Text>
+     
+      
+      </View>
 
-  </View>
+      </View>
+        
+      )) : 'No Notifications Available'}
+      </>
   )
 }
 

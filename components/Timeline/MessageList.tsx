@@ -11,9 +11,15 @@ const MessagesList = ({
   scrollViewRef,
   scrollToBottom,
 }: ChatInputProp) => {
-  const { data: currentUser } = useSelector(
+  const { data: currentUser,  backgroundTheme,
+    textTheme,
+    landingPageTheme, } = useSelector(
     (state: RootState) => state.currentUserDetailsReducer,
   )
+
+
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   const { data: runner } = useSelector(
     (state: RootState) => state.externalUserDetailsReducer,
@@ -26,7 +32,7 @@ const MessagesList = ({
     <ScrollView
       ref={scrollViewRef}
       className="px-2 pb-16"
-      style={{ backgroundColor: '#F8F9FC', height: '78%' }}
+      style={{ backgroundColor: backgroundTheme, height: '78%' }}
       onContentSizeChange={scrollToBottom}
     >
       <KeyboardAwareScrollView>
@@ -227,7 +233,7 @@ const MessagesList = ({
                       />
                     ) : (
                       <View className="bg-[#616161] rounded-full w-10 h-10 flex-row justify-center items-center">
-                        <Text className="text-white">
+                        <Text style={{ color: textTheme }} className="text-white">
                           {getUser().first_name.charAt(0).toUpperCase()}
                           {getUser().last_name.charAt(0).toUpperCase()}
                         </Text>
@@ -235,7 +241,7 @@ const MessagesList = ({
                     )}
 
                     <View>
-                      <Text className="text-black capitalize">
+                      <Text style={{ color: textTheme }} className="text-black capitalize">
                         {getUser().first_name}
                       </Text>
                       <Text className="text-[#969494]">

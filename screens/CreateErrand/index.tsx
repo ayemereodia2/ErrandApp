@@ -238,8 +238,9 @@ const PostErrand = ({ navigation }: any) => {
     navigation.setOptions({
       headerShown: true,
       title: 'Create Errand',
-      headerTitleStyle: {color: textTheme},
-      headerStyle: { backgroundColor: backgroundTheme, },
+      headerTitleStyle: { color: textTheme },
+      headerStyle: { backgroundColor: backgroundTheme },
+      headerLeft: () => <></>,
       headerRight: () => (
         <TouchableOpacity
           onPress={() => navigation.navigate('MarketTab')}
@@ -328,7 +329,7 @@ const PostErrand = ({ navigation }: any) => {
             onPress={() => setActiveStep(activeStep - 1)}
             className="bg-[#2856c1] px-6 flex justify-center items-center py-2 "
           >
-            <Entypo name="arrow-with-circle-left" color='white' size={30} />
+            <Entypo name="arrow-with-circle-left" color="white" size={30} />
           </TouchableOpacity>
         )}
         <View

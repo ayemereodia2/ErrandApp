@@ -243,101 +243,116 @@ interface getUserIdProps {
     },
     {
       id: '64ac11ef3534efb7dcd9d51d',
-      icon: 'mdi:mechanic',
+      icon: 'car-repair',
       name: 'Repairers (Mechanic, Plumber, Carpenter)',
       identifier: 'Repairers (Mechanic, Plumber, Carpenter)',
-      type:"task",
+      type: "task",
+      iconType: 'MaterialIcons'
     },
     {
       id: '64ac11f23534efb7dcd9d51e',
-      icon: 'medical-icon:social-services',
+      icon: 'users',
       name: 'Professional Services',
       identifier: 'Professional Services',
-      type:"task",
+      type: "task",
+      iconType: "FontAwesome"
     },
     {
       id: '64ac12313534efb7dcd9d51f',
-      icon: 'mdi:construction-outline',
+      icon: 'construct',
       name: 'Builder / Construction Worker',
       identifier: 'Builder / Construction Worker',
-      type: "service"
+      type: "service",
+      iconType: "Ionicons"
     },
     {
       id: '64ac12453534efb7dcd9d520',
-      icon: 'material-symbols:travel',
+      icon: 'bus',
       name: 'Travel Agency ',
       identifier: 'Travel Agency ',
-      type: "service"
+      type: "service",
+      iconType: "FontAwesome"
     },
     {
       id: '64ac125f3534efb7dcd9d521',
-      icon: 'mdi:event',
+      icon: 'event-available',
       name: 'Event / Surprise Planner',
       identifier: 'Event / Surprise Planner',
-      type: "service"
+      type: "service",
+      iconType: "MaterialIcons"
     },
     {
       id: '64ac12803534efb7dcd9d522',
-      icon: 'tabler:car',
-      name: 'Car Ride & Car Hire',
+      icon: 'car-side',
+      name: 'Car Ride / Car Hire',
       identifier: 'Car Ride & Car Hire',
-      type: "service"
+            type: "service",
+      iconType: "FontAwesome5"
     },
     {
       id: '64ac12b03534efb7dcd9d523',
-      icon: 'fa-solid:baby',
+      icon: 'baby-carriage',
       name: 'Baby Sitting / House Nannies',
       identifier: 'Baby Sitting / House Nannies',
-      type:"task",
+            type: "service",
+       iconType: "FontAwesome5"
     },
     {
       id: '64ac14733534efb7dcd9d525',
-      icon: 'clarity:house-solid',
+      icon: 'laptop-house',
       name: ' House Mover / Removalist',
       identifier: ' House Mover / Removalist',
-      type:"task",
+      type: "task",
+      iconType: "FontAwesome5"
     },
     {
       id: '64ac14a43534efb7dcd9d526',
-      icon: 'mingcute:cake-line',
+      icon: 'birthday-cake',
       name: 'Catering / Chef Service',
       identifier: 'Catering / Chef Service',
-      type:"task",
+      type: "task",
+      iconType: "FontAwesome"
+      
     },
     {
       id: '64ac14d53534efb7dcd9d527',
-      icon: 'la:salesforce',
+      icon: 'bar-chart',
       name: 'Sales Persons',
       identifier: 'Sales Persons',
-      type:"task",
+      type: "task",
+      iconType: "FontAwesome"
     },
     {
       id: '64ac15323534efb7dcd9d528',
-      icon: 'icon-park-outline:barber-clippers',
+      icon: 'hair-dryer',
       name: 'Barber / Hair Stylist',
       identifier: 'Barber / Hair Stylist',
-      type:"task",
+      type: "task",
+      iconType: "MaterialCommunityIcons"
     },
     {
       id: '64ac15603534efb7dcd9d529',
-      icon: 'fluent:design-ideas-24-filled',
+      icon: 'slideshare',
       name: 'Fashion Designer ',
       identifier: 'Fashion Designer ',
-      type:"task",
+      type: "task",
+      iconType: "Entypo",
     },
     {
       id: '64ac15ab3534efb7dcd9d52a',
-      icon: 'icon-park-solid:graphic-design',
+      icon: 'web-check',
       name: 'Web / Graphic Designer',
       identifier: 'Web / Graphic Designer',
-      type:"task",
+      type: "task",
+      iconType: "MaterialCommunityIcons",
     },
     {
       id: '64ac187b3534efb7dcd9d534',
-      icon: 'icon-park-solid:hair-dryer',
+      icon: 'brush-variant',
       name: 'Hair dressing',
       identifier: 'Hair dressing',
-      type:"task",
+      type: "task",
+      iconType: "MaterialCommunityIcons",
     },
    ]
   

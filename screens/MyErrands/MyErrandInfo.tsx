@@ -63,6 +63,15 @@ const MyErrandInfo = ({ navigation, route }: any) => {
     updated_at: '',
   })
 
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
   // const [selectedTab, setSelectedItem] = useState('details')
   const layout = useWindowDimensions()
   const [isModalVisible, setModalVisible] = useState(false)
@@ -102,6 +111,8 @@ const MyErrandInfo = ({ navigation, route }: any) => {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
+       headerStyle: { backgroundColor: backgroundTheme },
+      headerTitleStyle: { color: textTheme },
       title: DetailHeader({
         errand,
         user_id: userId,
@@ -110,7 +121,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
       }),
       headerLeft: () => (
         <TouchableOpacity className="pr-8" onPress={() => navigation.goBack()}>
-          <AntDesign name="arrowleft" size={24} color="#243763" />
+          <AntDesign name="arrowleft" size={24} color={textTheme} />
         </TouchableOpacity>
       ),
       headerRight: () => (
@@ -118,7 +129,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
           <TouchableOpacity>
             <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
               <MenuTrigger>
-                <Entypo name="dots-three-vertical" color={'black'} size={16} />
+                <Entypo name="dots-three-vertical" color={textTheme} size={16} />
               </MenuTrigger>
               <MenuOptions
                 customStyles={{
@@ -251,7 +262,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
         manageErrandClicked) ||
       (singleSubErrand?.status === 'completed' && manageErrandClicked) ? (
         <KeyboardAvoidingView
-          style={{ flex: 1 }}
+          style={{ flex: 1, backgroundColor: backgroundTheme, }}
           behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
         >
           {/* sender's timeline */}
@@ -279,7 +290,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
         />
       ) : (
         <BottomSheetModalProvider>
-          <ScrollView className="px-3">
+          <ScrollView  style={{ backgroundColor: backgroundTheme }} className="px-3">
             {/* // errand details and bid screen */}
             <View>
               <BidWrapper
