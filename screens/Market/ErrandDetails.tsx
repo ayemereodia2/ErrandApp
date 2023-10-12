@@ -441,6 +441,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                 snapPoints={snapPoints}
                 containerStyle={{ marginHorizontal: 10 }}
                 backdropComponent={renderBackdrop}
+                style={{backgroundColor: backgroundTheme}}
               >
                 <PlaceBidModal
                   owner={owner}

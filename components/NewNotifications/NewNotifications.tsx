@@ -51,7 +51,7 @@ export default function NewNotifications() {
       {data
         ? data.data.map((notification: any) => (
             <View
-              className="mt-3 py-2 border border-gray-400 px-2 rounded-md mb-2"
+              className="mt-3 py-2 mr-3 w-full border border-gray-400 px-2 rounded-md mb-2"
               key={notification.id}
               style={{ backgroundColor: theme ? '#152955' : 'white' }}
             >
@@ -82,7 +82,7 @@ export default function NewNotifications() {
                       </Text>
                     ) : notification.type === 2 ? (
                       <Text>
-                        {' '}
+                        
                         <Ionicons
                           name="ios-hammer-outline"
                           size={24}
@@ -106,19 +106,19 @@ export default function NewNotifications() {
                       className="font-semibold text-base"
                       style={{ color: textTheme }}
                     >
-                      {notification.message}
+                    {notification.title}
                     </Text>
                     <Text style={{ color: textTheme }} className="">
-                      {notification.title}
+                    {notification.message} 
                     </Text>
                   </View>
                 </View>
 
                 <Text
-                  className="mb-4 text-[#808080]"
+                  className="mb-4 text-[#808080] mr-2"
                   style={{ color: textTheme }}
                 >
-                  {getTimeAgo(notification.created_at)}
+                {getTimeAgo(notification.created_at)}
                 </Text>
               </View>
             </View>

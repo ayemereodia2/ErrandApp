@@ -20,6 +20,17 @@ interface PlaceBidModalProp {
 }
 
 const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
+
   const dispatch = useAppDispatch()
   const [comment, setComment] = useState('')
   const [amount, setAmount] = useState('')
@@ -52,7 +63,7 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
   }
 
   return (
-    <View className="py-4 pb-10">
+    <View className="py-4 pb-10" style={{backgroundColor: backgroundTheme}}>
       {/* <View>
         <View className="items-center justify-center">
           <ProfileInitials
@@ -85,10 +96,10 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
         </View>
       </View> */}
 
-      <Text className="text-lg text-center font-semibold">Enter Your Bid</Text>
+      <Text className="text-lg text-center font-semibold" style={{color: textTheme}}>Enter Your Bid</Text>
 
       <View className="px-4 mt-6">
-        <Text className="text-sm text-[#243763] font-semibold">Amount</Text>
+        <Text className="text-sm text-[#243763] font-semibold" style={{color: textTheme}}>Amount</Text>
 
         <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
           <Text className="text-lg ">&#x20A6;</Text>
@@ -104,7 +115,7 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
       </View>
 
       <View className="px-4 mt-4">
-        <Text className="text-sm font-semibold text-[#243763]"> Comment </Text>
+        <Text className="text-sm font-semibold text-[#243763]" style={{color: textTheme}}> Comment </Text>
 
         <View className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3">
           <BottomSheetTextInput
