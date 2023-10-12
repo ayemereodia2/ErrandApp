@@ -40,6 +40,16 @@ import WithdrawalScreen from './WithdrawalScreen'
 const balanceLayer = '../../assets/images/Alison.jpg'
 
 const WalletScreen = ({ navigation }: any) => {
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
   const dispatch = useAppDispatch()
   const [refreshing, setRefreshing] = React.useState(false)
   const bottomSheetRef = useRef<BottomSheetModal>(null)
@@ -140,13 +150,13 @@ const WalletScreen = ({ navigation }: any) => {
     <BottomSheetModalProvider>
       <Container>
         <>
-          <SafeAreaView className=" bg-[#e4eaf7]">
+          <SafeAreaView className=" bg-[#e4eaf7]" style={{backgroundColor: backgroundTheme}}>
             <ScrollView
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
               className="bg-[#e4eaf7] mt-4"
-              style={{ backgroundColor: darkMode ? '#0c1730' : 'white' }}
+              style={{ backgroundColor: backgroundTheme }}
               showsVerticalScrollIndicator={false}
             >
               <View className="flex-row items-center justify-between bg-[#e4eaf7] px-4 mt-2">
@@ -323,7 +333,7 @@ const WalletScreen = ({ navigation }: any) => {
 
               {/* Transction */}
               <View className="mt-[64px] mb-8 flex-row justify-between items-center mx-4">
-                <Text className="text-xl font-medium">Transactions</Text>
+                <Text className="text-xl font-medium" style={{color: textTheme}}>Transactions</Text>
                 <TouchableOpacity
                   className="bg-[#3F60AC] w-[65px] h-[28px] items-center justify-center rounded-md"
                   onPress={() => navigation.navigate('TransactionScreen')}
@@ -333,7 +343,7 @@ const WalletScreen = ({ navigation }: any) => {
               </View>
 
               {/*Transctions info */}
-              <View className="bg-white mx-4 rounded-lg">
+              <View className="bg-white mx-4 rounded-lg"  style={{backgroundColor: backgroundTheme}}>
                 {transactions?.slice(0, 5).map((transaction) => {
                   return <TransactionDetails {...transaction} />
                 })}
@@ -341,7 +351,7 @@ const WalletScreen = ({ navigation }: any) => {
 
               {/* Escrow */}
               <View className="mt-[64px] mb-8 flex-row justify-between items-center mx-4">
-                <Text className="text-xl font-medium">Escrow Breakdown</Text>
+                <Text className="text-xl font-medium" style={{color: textTheme}}>Escrow Breakdown</Text>
 
                 <TouchableOpacity
                   className="bg-[#3F60AC] w-[65px] h-[28px] items-center justify-center rounded-md"
@@ -351,7 +361,7 @@ const WalletScreen = ({ navigation }: any) => {
                 </TouchableOpacity>
               </View>
 
-              <View className="bg-white mx-4 rounded-lg">
+              <View className="bg-white mx-4 rounded-lg" style={{backgroundColor: backgroundTheme}}>
                 {data?.escrow_breakdown?.slice(0, 5).map((escrows) => {
                   return <EscrowDetails {...escrows} />
                 })}
@@ -373,6 +383,7 @@ const WalletScreen = ({ navigation }: any) => {
             index={0}
             snapPoints={['50%']}
             backdropComponent={renderBackdrop}
+           
           >
             <AccountStatement />
           </BottomSheetModal>
