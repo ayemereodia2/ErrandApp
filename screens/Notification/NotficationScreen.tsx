@@ -65,24 +65,21 @@ const NotificationScreen = ({ navigation }: any) => {
     navigation.setOptions({
       headerShown: true,
       title: 'Notifications',
-      headerStyle: {backgroundColor: backgroundTheme, color: textTheme},
-      headerTitleStyle: {color: textTheme},
       headerLeft: () => (
         <TouchableOpacity
           className="flex-row items-center justify-between mx-0 py-3 mr-6"
           onPress={() => navigation.goBack()}
-          
         >
-          <AntDesign name="arrowleft" size={24} color={textTheme} />
+          <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableOpacity>
       ),
     })
   }, [])
 
   return (
-    <SafeAreaView className=""  style={{backgroundColor: backgroundTheme}}>
+    <SafeAreaView className="">
       {/* Indicator */}
-      <ScrollView  style={{backgroundColor: backgroundTheme}} className='h-full'>
+      <ScrollView>
         <View className="mt-[5px] h-[64px] w-[380px] mx-4 flex-row bg-[#E6E6E6] justify-center items-center">
           <TouchableOpacity>
             <View className="flex-row w-full h-[40px] bg-[#F7F7F7] justify-center items-center mr-2 ml-2">
