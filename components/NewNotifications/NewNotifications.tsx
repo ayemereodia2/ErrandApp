@@ -43,7 +43,7 @@ export default function NewNotifications() {
   }
 
   if (isSuccess) {
-    console.log(">>>>>>notigyffff", data.data)
+    console.log('>>>>>>notigyffff', data.data)
   }
 
   return (
@@ -57,10 +57,6 @@ export default function NewNotifications() {
             >
               <View className="flex-row justify-between items-center">
                 <View className="flex-row mx-1.5">
-                  {/* <Image
-      source={require('../../assets/images/franence.jpg')}
-      style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
-    /> */}
                   <View className="mt-2 mr-0.5">
                     {notification.type === 0 ? (
                       <Text>
@@ -124,55 +120,6 @@ export default function NewNotifications() {
             </View>
           ))
         : 'No Notifications Available'}
-
-      {/* <View className='mt-3 py-2 border border-gray-400 px-2 bg-white rounded-md' >
-      <View className='flex-row justify-between items-center'>
-
-      <View className='flex-row '>
-      <Image
-      source={require('../../assets/images/franence.jpg')}
-      style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
-    />
-    <View>
-    <Text className='font-semibold text-base' style={{ color: textTheme }}>Francene Smith</Text>
-    <Text style={{ color: textTheme }} className=''>Placed a bid on your errand</Text>
-    </View>
-    
-    </View>
-
-      
-      <Text className='mb-4 text-[#808080]' style={{ color: textTheme }}>3hrs ago</Text>
-     
-      
-      </View>
-
-      </View>
-
-     
-     
-
-
-      <View className='mt-3 py-2 border border-gray-400 px-2 bg-white rounded-md mb-10' >
-      <View className='flex-row justify-between items-center'>
-
-      <View className='flex-row '>
-      <Image
-      source={require('../../assets/images/franence.jpg')}
-      style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
-    />
-    <View>
-    <Text className='font-semibold text-base' style={{ color: textTheme }}>Francene Smith</Text>
-    <Text style={{ color: textTheme }} className=''>Placed a bid on your errand</Text>
-    </View>
-    
-    </View>
-
-      
-      <Text className='mb-4 text-[#808080]' style={{ color: textTheme }}>3hrs ago</Text>
-     
-     </View>
-     </View>
- */}
     </>
   )
 }

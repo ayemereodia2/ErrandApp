@@ -7,10 +7,9 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { AppStateStatus, Platform, View } from 'react-native'
 // import 'react-native-gesture-handler'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { MenuProvider } from 'react-native-popup-menu'
@@ -22,6 +21,7 @@ import useColorScheme from './hooks/useColorScheme'
 import { useOnlineManager } from './hooks/useOnlineManager'
 import MainNavigation from './navigation/MainNavigation'
 import { store } from './services/store'
+import ErrorBoundary from './components/ErrorBoundary'
 
 const queryClient = new QueryClient()
 
@@ -47,31 +47,33 @@ export default function App() {
     return null
   } else {
     return (
-      <View style={{ flex: 1 }}>
-        <QueryClientProvider client={queryClient}>
-          <MenuProvider>
-            <Provider store={store}>
-              <SafeAreaProvider>
-                {/* <Navigation /> */}
-                <GestureHandlerRootView style={{ flex: 1 }}>
-                  {/* Conditionally render AuthStack or AppStack based on authentication status */}
+      <ErrorBoundary>
+        <View style={{ flex: 1 }}>
+          <QueryClientProvider client={queryClient}>
+            <MenuProvider>
+              <Provider store={store}>
+                <SafeAreaProvider>
+                  {/* <Navigation /> */}
+                  <GestureHandlerRootView style={{ flex: 1 }}>
+                    {/* Conditionally render AuthStack or AppStack based on authentication status */}
 
-                  {/* {isAuthenticated ? ( */}
+                    {/* {isAuthenticated ? ( */}
                     <NavigationContainer>
                       <MainNavigation />
                     </NavigationContainer>
-                  {/* ) : (
+                    {/* ) : (
                     <NavigationContainer>
                       <GuestNavigator />
                     </NavigationContainer>
                   )} */}
-                </GestureHandlerRootView>
-              </SafeAreaProvider>
-              <Toast />
-            </Provider>
-          </MenuProvider>
-        </QueryClientProvider>
-      </View>
+                  </GestureHandlerRootView>
+                </SafeAreaProvider>
+                <Toast />
+              </Provider>
+            </MenuProvider>
+          </QueryClientProvider>
+        </View>
+      </ErrorBoundary>
     )
   }
 }
