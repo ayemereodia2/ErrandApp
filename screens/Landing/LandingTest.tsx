@@ -78,7 +78,7 @@ const LandingTest = ({ navigation }: any) => {
         className="px-4 w-[100%]"
         style={{ backgroundColor: backgroundTheme }}
       >
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           {/* <View
             style={{
               marginBottom: Platform.OS === 'android' ? 10 : 35,

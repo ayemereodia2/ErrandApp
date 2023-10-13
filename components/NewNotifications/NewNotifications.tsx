@@ -61,7 +61,7 @@ export default function NewNotifications() {
       source={require('../../assets/images/franence.jpg')}
       style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
     /> */}
-                  <View className="mt-2 mr-0.5">
+                  <View className="mt-2">
                     {notification.type === 0 ? (
                       <Text>
                         {' '}
@@ -69,7 +69,7 @@ export default function NewNotifications() {
                           name="question"
                           size={24}
                           color={textTheme}
-                        />{' '}
+                        />{'   '}
                       </Text>
                     ) : notification.type === 1 ? (
                       <Text>
@@ -78,7 +78,7 @@ export default function NewNotifications() {
                           name="running"
                           size={40}
                           color={textTheme}
-                        />{' '}
+                        />{'   '}
                       </Text>
                     ) : notification.type === 2 ? (
                       <Text>
@@ -87,7 +87,7 @@ export default function NewNotifications() {
                           name="ios-hammer-outline"
                           size={24}
                           color={textTheme}
-                        />{' '}
+                        />{'  '}
                       </Text>
                     ) : notification.type === 3 ? (
                       <Text>
@@ -96,7 +96,7 @@ export default function NewNotifications() {
                           name="md-swap-vertical"
                           size={24}
                           color={textTheme}
-                        />{' '}
+                        />{'   '}
                       </Text>
                     ) : null}
                   </View>
@@ -113,13 +113,15 @@ export default function NewNotifications() {
                     </Text>
                   </View>
                 </View>
-
+                
+                <View className='relative left-[-25px]'>
                 <Text
-                  className="mb-4 text-[#808080]"
+                  className="mb-4 text-[#808080] "
                   style={{ color: textTheme }}
                 >
                   {getTimeAgo(notification.created_at)}
                 </Text>
+                </View>
               </View>
             </View>
           ))

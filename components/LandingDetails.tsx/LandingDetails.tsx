@@ -43,12 +43,8 @@ const LandingDetails = ({ navigation }: any) => {
 
   if (isLoading) {
     return (
-      <SafeAreaView
-        style={{
-          backgroundColor: theme ? '#152955' : 'white',
-        }}
-        className="pt-20  w-screen h-[40vh] mt-5"
-      >
+      <SafeAreaView className="pt-20 bg-gray-200 w-screen h-[40vh] mt-5">
+        {/* <Text className='m-auto'><EvilIcons name="spinner" size={28} color="black" /></Text> */}
         <ActivityIndicator color="black" size="large" />
       </SafeAreaView>
     )
