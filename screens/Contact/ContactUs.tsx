@@ -22,6 +22,17 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { ContactData } from '../../types'
 
 const ContactUs = ({ navigation }: any) => {
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
+
   const dispatch = useAppDispatch()
 
   const [name, setName] = useState('')
@@ -33,13 +44,14 @@ const ContactUs = ({ navigation }: any) => {
     navigation.setOptions({
       headerShown: true,
       title: 'Contact Us',
-      headerStyle: { backgroundColor: '#F8F9FC' },
+      headerStyle: { backgroundColor: backgroundTheme },
+      headerTitleStyle: {color: textTheme},
       headerLeft: () => (
         <TouchableOpacity
           className="flex-row items-center justify-between mx-0 px-3 py-3"
           onPress={() => navigation.goBack()}
         >
-          <AntDesign name="arrowleft" size={24} color="black" />
+          <AntDesign name="arrowleft" size={24} color={textTheme} />
         </TouchableOpacity>
       ),
       // headerRight: () => (
@@ -118,9 +130,9 @@ const ContactUs = ({ navigation }: any) => {
       {/* Header */}
 
       {/* End Of Header */}
-      <ScrollView>
-        <View className="w-[382px] h-[350px] mt-[80px] bg-[#CBD5EC] mx-auto b rounded-md">
-          <Text className="ml-5 mt-5 leading-6 text-lg font-semibold">
+      <ScrollView style={{backgroundColor: backgroundTheme}}>
+        <View className="w-[382px] h-[350px] mt-[80px] bg-[#CBD5EC] mx-auto b rounded-md" >
+          <Text className="ml-5 mt-5 leading-6 text-lg font-semibold" >
             We're always<Text className="text-[#317ACF]"> Connected</Text>
           </Text>
           <Text className="ml-5 mt-3 text-base font-normal text-[#011E3E]">
@@ -161,7 +173,7 @@ const ContactUs = ({ navigation }: any) => {
         </View>
 
         <View className="flex-row justify-around items-center mt-5">
-          <Text>Catch and Chat Us on Social Media</Text>
+          <Text style={{color: textTheme}}>Catch and Chat Us on Social Media</Text>
           <View className="flex-row gap-2">
             <Text className="text-white">
               <AntDesign name="facebook-square" size={24} color="blue" />
@@ -179,7 +191,7 @@ const ContactUs = ({ navigation }: any) => {
         </View>
 
         <View className="mt-[40px] ml-4 ">
-          <Text>Full Name</Text>
+          <Text style={{color: textTheme}}>Full Name</Text>
         </View>
         <TextInput
           className="w-[380px] mt-2 b rounded-md h-[60px] pl-3 items-center mx-auto bg-[#E6E6E6] text-sm"
@@ -190,7 +202,7 @@ const ContactUs = ({ navigation }: any) => {
         />
 
         <View className="mt-[40px] ml-4 ">
-          <Text>Email Address</Text>
+          <Text style={{color: textTheme}}>Email Address</Text>
         </View>
         <TextInput
           className="w-[380px] mt-2 b rounded-md h-[60px] pl-3 mx-auto bg-[#E6E6E6] text-sm"
@@ -201,7 +213,7 @@ const ContactUs = ({ navigation }: any) => {
         />
 
         <View className="mt-[40px] ml-4 ">
-          <Text>Phone Number</Text>
+          <Text style={{color: textTheme}}>Phone Number</Text>
         </View>
         <TextInput
           className="w-[380px] mt-2 b rounded-md h-[60px] pl-3  mx-auto bg-[#E6E6E6] text-sm"
@@ -213,7 +225,7 @@ const ContactUs = ({ navigation }: any) => {
         />
 
         <View className="mt-[30px] ml-[16px]">
-          <Text>Your message</Text>
+          <Text style={{color: textTheme}}>Your message</Text>
         </View>
         <TextInput
           className="w-[380px] mt-2 b rounded-md h-[120px] pl-3 pb-[70px] mx-auto bg-[#E6E6E6] text-sm"

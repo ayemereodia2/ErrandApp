@@ -22,6 +22,15 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { getAccounts } from '../../services/wallet/getAccount'
 
 const WalletAccount = ({ navigation }: any) => {
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
   const dispatch = useAppDispatch()
   const bottomSheetRef = useRef<BottomSheetModal>(null)
 
@@ -52,13 +61,14 @@ const WalletAccount = ({ navigation }: any) => {
     navigation.setOptions({
       headerShown: true,
       title: 'My Accounts',
-      headerStyle: { backgroundColor: '#F8F9FC' },
+      headerStyle: { backgroundColor: backgroundTheme },
+      headerTitleStyle:{color: textTheme},
       headerLeft: () => (
         <TouchableOpacity
           className="flex-row items-center justify-between mx-0 px-3 py-3"
           onPress={() => navigation.goBack()}
         >
-          <AntDesign name="arrowleft" size={24} color="black" />
+          <AntDesign name="arrowleft" size={24} color={textTheme} />
         </TouchableOpacity>
       ),
     })
@@ -87,8 +97,8 @@ const WalletAccount = ({ navigation }: any) => {
 
   return (
     <BottomSheetModalProvider>
-      <SafeAreaView>
-        <ScrollView className="mt-4">
+      <SafeAreaView style={{backgroundColor: backgroundTheme}}>
+        <ScrollView className="mt-4 h-full" style={{backgroundColor: backgroundTheme}}>
           <View className="bg-[rgb(248,249,252)]">
             <View className="mx-4 mt-4 flex-row items-center justify-between">
               <View className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center px-3 w-full space-x-3">
@@ -96,12 +106,12 @@ const WalletAccount = ({ navigation }: any) => {
                   name="search"
                   size={22}
                   className="w-1/12"
-                  color="#808080"
+                  color={textTheme}
                 />
                 <TextInput
                   className="w-9/12"
                   placeholder="Search here..."
-                  placeholderTextColor="#808080"
+                  placeholderTextColor={textTheme}
                 />
               </View>
               {/* <TouchableOpacity>
@@ -129,7 +139,7 @@ const WalletAccount = ({ navigation }: any) => {
                       </View>
 
                       <View>
-                        <Text className="font-medium text-base mt-1">
+                        <Text style={{color: textTheme}} className="font-medium text-base mt-1">
                           {acc.account_number}
                         </Text>
 

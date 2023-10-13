@@ -22,8 +22,20 @@ import TransactionDetails from '../../components/Transactions/TransactionDetails
 import { _fetch } from '../../services/axios/http'
 import { Transaction } from '../../types'
 import { transformDateTime } from '../../utils/helper'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../services/store'
 
 const TransactionScreen = ({ navigation }: any) => {
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
   // const [dateRange, setDateRange] = useState<any>([null, null])
   // const [startDate, endDate] = dateRange
   const [transactions, setTransactions] = useState<Array<Transaction>>([])
@@ -104,13 +116,14 @@ const TransactionScreen = ({ navigation }: any) => {
     navigation.setOptions({
       headerShown: true,
       title: 'Transactions',
-      headerStyle: { backgroundColor: '#F8F9FC' },
+      headerStyle: { backgroundColor: backgroundTheme },
+      headerTitleStyle: {color: textTheme},
       headerLeft: () => (
         <TouchableOpacity
           className="flex-row items-center justify-between mx-0 px-3 py-3"
           onPress={() => navigation.goBack()}
         >
-          <AntDesign name="arrowleft" size={24} color="black" />
+          <AntDesign name="arrowleft" size={24} color={textTheme} />
         </TouchableOpacity>
       ),
       headerRight: () => (
@@ -120,7 +133,7 @@ const TransactionScreen = ({ navigation }: any) => {
               </TouchableOpacity> */}
           <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
             <MenuTrigger>
-              <Entypo name="dots-three-vertical" color={'black'} size={20} />
+              <Entypo name="dots-three-vertical" color={textTheme} size={20} />
             </MenuTrigger>
             <MenuOptions
               customStyles={{
@@ -150,9 +163,9 @@ const TransactionScreen = ({ navigation }: any) => {
   }, [startDate, endDate])
 
   return (
-    <SafeAreaView className="bg-[#e4eaf7]">
+    <SafeAreaView className="bg-[#e4eaf7] h-full" style={{backgroundColor: backgroundTheme}}>
       {/* Heder */}
-      <View className="mx-3 mt-3 rounded-lg bg-white">
+      <View className="mx-3 mt-3 rounded-lg bg-white" style={{backgroundColor: backgroundTheme}}>
         <View className="bg-[rgb(248,249,252)]">
           <View className="mx-4 flex-row items-center justify-between">
             <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center  px-3 w-full">
@@ -160,34 +173,35 @@ const TransactionScreen = ({ navigation }: any) => {
                 name="search"
                 size={22}
                 className="w-[20px]"
-                color="#808080"
+                color={textTheme}
               />
               <TextInput
                 className="w-10/12 pl-3"
                 placeholder="Search here..."
-                placeholderTextColor="#808080"
+                placeholderTextColor={textTheme}
                 onChangeText={(text) => transactionSearchHandler(text)}
               />
             </View>
           </View>
 
-          <TouchableOpacity>
-            <View className="bg-[#fff] mt-6 mr-2 b rounded-md flex-row justify-center items-center space-x-4">
+          <TouchableOpacity style={{backgroundColor: backgroundTheme}}>
+            <View className="bg-[#fff] mt-6 mr-2 b rounded-md flex-row justify-center items-center space-x-4" style={{backgroundColor: backgroundTheme}}>
               <View className="h-20">
                 <Pressable
                   onPress={() => setShowStartDatePicker(true)}
                   className="text-center flex-row items-center space-x-1 "
                 >
+                  
                   <FontAwesome
                     className="mr-2"
                     name="calendar"
                     size={20}
-                    color="black"
+                    color={textTheme}
                   />
-                  <Text className="">Choose Start Date</Text>
+                  <Text className="" style={{color: textTheme}}>Choose Start Date</Text>
                 </Pressable>
                 <View className="pt-2">
-                  <Text> {startDate.toDateString()}</Text>
+                  <Text style={{color: textTheme}}> {startDate.toDateString()}</Text>
                   {showStartDatePicker && (
                     <DateTimePicker
                       value={startDate}
@@ -198,17 +212,17 @@ const TransactionScreen = ({ navigation }: any) => {
                   )}
                 </View>
               </View>
-              <Text>--</Text>
+              <Text style={{color: textTheme}}>--</Text>
               <View className="h-20">
                 <Pressable
                   onPress={() => setShowEndDatePicker(true)}
                   className="text-center flex-row items-center space-x-1 "
                 >
-                  <FontAwesome name="calendar" size={20} color="black" />
-                  <Text>Choose End Date</Text>
+                  <FontAwesome name="calendar" size={20} color={textTheme} />
+                  <Text style={{color: textTheme}}>Choose End Date</Text>
                 </Pressable>
                 <View className="pt-2">
-                  <Text>{endDate.toDateString()}</Text>
+                  <Text style={{color: textTheme}}>{endDate.toDateString()}</Text>
                   {showEndDatePicker && (
                     <DateTimePicker
                       value={endDate}
@@ -235,18 +249,18 @@ const TransactionScreen = ({ navigation }: any) => {
             showsVerticalScrollIndicator={false}
             className="mx-4"
           >
-            <Text className="mt-[34px] text-center">Today</Text>
+            <Text className="mt-[34px] text-center" style={{color: textTheme}}>Today</Text>
 
             {transactions?.slice(0, 5).map((transaction) => {
               return <TransactionDetails {...transaction} />
             })}
 
-            <Text className="mt-[34px] text-center">Yesterday</Text>
+            <Text className="mt-[34px] text-center" style={{color: textTheme}}>Yesterday</Text>
             {transactions?.slice(0, 10).map((transaction) => {
               return <TransactionDetails {...transaction} />
             })}
 
-            <Text className="mt-[34px] text-center">Previous Transactions</Text>
+            <Text className="mt-[34px] text-center" style={{color: textTheme}}>Previous Transactions</Text>
             {transactions?.map((transaction) => {
               return <TransactionDetails {...transaction} />
             })}
