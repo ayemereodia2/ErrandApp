@@ -230,12 +230,12 @@ export default function MainScreen() {
                         name="search"
                         size={22}
                         className="w-1/12"
-                        color="#808080"
+                        color={theme ? 'white' : '#808080'}
                       />
                       <TextInput
                         className=" w-8/12"
                         placeholder="Search for Errands"
-                        placeholderTextColor="#808080"
+                        placeholderTextColor={theme ? 'white' : '#808080'}
                         onChangeText={(text) => errandSearchHandler(text)}
                         
                       />
@@ -243,12 +243,12 @@ export default function MainScreen() {
                         <View className="mr-1 b rounded-md w-[38px]">
                           <Text className="p-2 text-center">
                             {toggleView ? (
-                              <Feather name="list" size={20} color="black" />
+                              <Feather name="list" size={20} color={theme ? 'white' : 'black'} />
                             ) : (
                               <MaterialCommunityIcons
                                 name="view-dashboard"
                                 size={20}
-                                color="black"
+                                color={theme ? 'white' : 'black'}
                               />
                             )}
                           </Text>

@@ -208,11 +208,19 @@ export default function ErrandDetails({ route, navigation }: any) {
                               >
                                 {user?.first_name} {user?.last_name}
                               </Text>
-                              <MaterialIcons
+                              {user?.verification === 100 ? 
+                              ( <Text>
+                                <MaterialIcons
                                 name="verified"
                                 color="green"
                                 size={20}
                               />
+                              </Text>)
+                              :
+                              null
+                              
+                            }
+                              
                             </View>
                             <Text
                               style={{ color: textTheme }}

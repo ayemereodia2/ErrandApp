@@ -140,19 +140,20 @@ const ErrandScreen = ({ navigation }: any) => {
                       style={{ backgroundColor: backgroundTheme }}
                       className="bg-[#e4eaf7] "
                     >
-                      <View className="mx-4 mt-4 bg-white" style={{backgroundColor: darkMode ? '#1E3A79' : 'white'}}>
-                        <View className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3" style={{backgroundColor: darkMode ? '#1E3A79' : 'white'}}>
+                      <View className="mx-4 mt-4 bg-white" style={{backgroundColor: theme ? '#1E3A79' : 'white'}}>
+                        <View className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3" style={{backgroundColor: theme ? '#1E3A79' : 'white'}}>
                           <EvilIcons
                             name="search"
                             size={22}
                             className="w-1/12"
+                            color={theme ? 'white' : 'black'}
                           />
                           <TextInput
                             className=" w-9/12"
                             placeholder="Search for Errands or Bids"
-                            placeholderTextColor={darkMode ? 'white' : '#808080'}
+                            placeholderTextColor={theme ? 'white' : '#808080'}
                             onChangeText={(text) => errandSearchHandler(text)}
-                             style={{backgroundColor: darkMode ? '#1E3A79' : 'white'}}
+                            
 
                           />
                           <Image
