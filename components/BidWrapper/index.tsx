@@ -1,12 +1,6 @@
 import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet'
 import React, { useCallback, useRef } from 'react'
-import {
-  ActivityIndicator,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native'
+import { ActivityIndicator, SafeAreaView, ScrollView, Text } from 'react-native'
 import { useSelector } from 'react-redux'
 import { HaggleComponent } from '../../components/MyBidDetails/HaggleDetail'
 import { RootState } from '../../services/store'
@@ -40,12 +34,13 @@ const BidWrapper = ({
   const beginErrandRef = useRef<BottomSheetModal>(null)
   const RejectErrandRef = useRef<BottomSheetModal>(null)
 
-   const {
+  const {
     data: currentUser,
     backgroundTheme,
     textTheme,
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   const acceptPoints = ['40%']
 
@@ -134,114 +129,130 @@ const BidWrapper = ({
     } catch (e) {}
   })
 
-  // console.log('>>>>>bid', userId, errand.total_bids, errand.status)
+  if (loadingErrand) {
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: backgroundTheme,
+        }}
+      >
+        <ActivityIndicator size="large" color={theme ? 'blue' : 'white'} />
+      </SafeAreaView>
+    )
+  }
 
   return (
     // <BottomSheetModalProvider>
     <SafeAreaView style={{ flex: 1 }} className="">
-      {loadingErrand ? (
+      {/* {loadingErrand ? (
         <View className="flex-row items-center justify-center mt-10">
           <ActivityIndicator color="blue" size="large" />
         </View>
-      ) : (
-        <ScrollView scrollEventThrottle={16}>
-          {errand?.bids.length === 0 && (
-            <Text style={{color: textTheme}} className="text-center pt-4 font-bold">
-              No Bids has been attached to the errand selected.
-            </Text>
-          )}
+      ) : ( */}
+      <ScrollView scrollEventThrottle={16}>
+        {errand?.bids.length === 0 && (
+          <Text
+            style={{ color: textTheme }}
+            className="text-center pt-4 font-bold"
+          >
+            No Bids has been attached to the errand selected.
+          </Text>
+        )}
 
-          {userId === errand.user_id && errand.status === 'open' && (
-            <>
-              {errand?.bids.map((bid: Bids) => {
-                if (bid.state === 'rejected') {
-                  return null
+        {userId === errand.user_id && errand.status === 'open' && (
+          <>
+            {errand?.bids.map((bid: Bids) => {
+              if (bid.state === 'rejected') {
+                return null
+              }
+              let hags = bid.haggles
+              let hag = {}
+              hags.map((h) => {
+                if (h.source === 'runner') {
+                  hag = h
                 }
+              })
+
+              return (
+                <ErrandBid
+                  bid={bid}
+                  user_id={userId}
+                  haggle={hag}
+                  errand={errand}
+                  navigation={navigation}
+                  toggleAcceptModal={toggleAcceptModal}
+                  toggleNegotiateModal={toggleNegotiateModal}
+                  toggleSuccessDialogue={toggleSuccessDialogue}
+                  setManageErrandClicked={setManageErrandClicked}
+                  setSubErrand={setSubErrand}
+                />
+              )
+            })}
+          </>
+        )}
+
+        {userId === errand.user_id && errand.status === 'pending' && (
+          <>
+            {errand.bids.map((bid) => {
+              if (bid.state === 'accepted') {
                 let hags = bid.haggles
-                let hag = {}
-                hags.map((h) => {
-                  if (h.source === 'runner') {
-                    hag = h
-                  }
-                })
+                let hag = hags[hags.length - 1]
+                let runner = bid.runner
 
                 return (
                   <ErrandBid
+                    errand={errand}
                     bid={bid}
                     user_id={userId}
                     haggle={hag}
-                    errand={errand}
-                    navigation={navigation}
-                    toggleAcceptModal={toggleAcceptModal}
-                    toggleNegotiateModal={toggleNegotiateModal}
-                    toggleSuccessDialogue={toggleSuccessDialogue}
+                    otherHaggles={otherHaggles}
                     setManageErrandClicked={setManageErrandClicked}
-                    setSubErrand={setSubErrand}
+                    // setSearchedErrand={setSearchedErrand}
                   />
                 )
-              })}
-            </>
-          )}
+              }
+            })}
+          </>
+        )}
 
-          {userId === errand.user_id && errand.status === 'pending' && (
-            <>
-              {errand.bids.map((bid) => {
-                if (bid.state === 'accepted') {
-                  let hags = bid.haggles
-                  let hag = hags[hags.length - 1]
-                  let runner = bid.runner
+        {userId !== errand.user_id && errand.status === 'open' && (
+          <>
+            <HaggleComponent
+              haggle={lastHaggle}
+              last={true}
+              bid={currentBid}
+              errand={errand}
+              user_id={userId}
+              toggleSuccessDialogue={toggleSuccessDialogue}
+              toggleNegotiateModal={toggleNegotiateModal}
+              setManageErrandClicked={setManageErrandClicked}
+            />
+          </>
+        )}
 
-                  return (
-                    <ErrandBid
-                      errand={errand}
-                      bid={bid}
-                      user_id={userId}
-                      haggle={hag}
-                      otherHaggles={otherHaggles}
-                      setManageErrandClicked={setManageErrandClicked}
-                      // setSearchedErrand={setSearchedErrand}
-                    />
-                  )
-                }
-              })}
-            </>
-          )}
+        {userId !== errand.user_id && errand.status === 'pending' && (
+          <>
+            {/* last haggle */}
+            <HaggleComponent
+              haggle={lastHaggle}
+              last={true}
+              bid={currentBid}
+              errand={errand}
+              user_id={userId}
+              toggleSuccessDialogue={toggleSuccessDialogue}
+              toggleNegotiateModal={toggleNegotiateModal}
+              setManageErrandClicked={setManageErrandClicked}
 
-          {userId !== errand.user_id && errand.status === 'open' && (
-            <>
-              <HaggleComponent
-                haggle={lastHaggle}
-                last={true}
-                bid={currentBid}
-                errand={errand}
-                user_id={userId}
-                toggleSuccessDialogue={toggleSuccessDialogue}
-                toggleNegotiateModal={toggleNegotiateModal}
-                setManageErrandClicked={setManageErrandClicked}
-              />
-            </>
-          )}
+              // setSearchedErrand={setSearchedErrand}
+              // singleSubErrand={singleSubErrand}
+            />
+          </>
+        )}
 
-          {userId !== errand.user_id && errand.status === 'pending' && (
-            <>
-              {/* last haggle */}
-              <HaggleComponent
-                haggle={lastHaggle}
-                last={true}
-                bid={currentBid}
-                errand={errand}
-                user_id={userId}
-                toggleSuccessDialogue={toggleSuccessDialogue}
-                toggleNegotiateModal={toggleNegotiateModal}
-                setManageErrandClicked={setManageErrandClicked}
-
-                // setSearchedErrand={setSearchedErrand}
-                // singleSubErrand={singleSubErrand}
-              />
-            </>
-          )}
-
-          {/* {userId !== errand.user_id && errand.status === 'open' && (
+        {/* {userId !== errand.user_id && errand.status === 'open' && (
             <>
               {otherHaggles?.map((haggle) => {
                 return (
@@ -258,40 +269,40 @@ const BidWrapper = ({
             </>
           )} */}
 
-          <BottomSheetModal
-            ref={beginErrandRef}
-            index={0}
-            snapPoints={acceptPoints}
-            backdropComponent={renderBackdrop}
-          >
-            <BeginErrandModal
-              toggleSuccessDialogue={toggleSuccessDialogue}
-              toggleBeginErrandModal={toggleBeginErrandModal}
-              toggleRejectErrandModal={toggleRejectErrandModal}
-              bid={errand.bids[0]}
-              errand={errand}
-              user_id={userId}
-            />
-          </BottomSheetModal>
+        <BottomSheetModal
+          ref={beginErrandRef}
+          index={0}
+          snapPoints={acceptPoints}
+          backdropComponent={renderBackdrop}
+        >
+          <BeginErrandModal
+            toggleSuccessDialogue={toggleSuccessDialogue}
+            toggleBeginErrandModal={toggleBeginErrandModal}
+            toggleRejectErrandModal={toggleRejectErrandModal}
+            bid={errand.bids[0]}
+            errand={errand}
+            user_id={userId}
+          />
+        </BottomSheetModal>
 
-          <BottomSheetModal
-            ref={RejectErrandRef}
-            index={0}
-            snapPoints={['50%']}
-            backdropComponent={renderBackdrop}
-          >
-            <RejectErrandModal
-              toggleSuccessDialogue={toggleSuccessDialogue}
-              toggleRejectErrandModal={toggleRejectErrandModal}
-              bid={errand.bids[0]}
-              errand={errand}
-              user_id={userId}
-              navigation={navigation}
-              haggle={lastHaggle}
-            />
-          </BottomSheetModal>
-        </ScrollView>
-      )}
+        <BottomSheetModal
+          ref={RejectErrandRef}
+          index={0}
+          snapPoints={['50%']}
+          backdropComponent={renderBackdrop}
+        >
+          <RejectErrandModal
+            toggleSuccessDialogue={toggleSuccessDialogue}
+            toggleRejectErrandModal={toggleRejectErrandModal}
+            bid={errand.bids[0]}
+            errand={errand}
+            user_id={userId}
+            navigation={navigation}
+            haggle={lastHaggle}
+          />
+        </BottomSheetModal>
+      </ScrollView>
+      {/* )} */}
     </SafeAreaView>
   )
 }

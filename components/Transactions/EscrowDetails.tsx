@@ -1,15 +1,23 @@
 import { format } from 'date-fns'
 import React from 'react'
 import { SafeAreaView, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../services/store'
 import { EscrowBreakDown } from '../../types'
 
 const EscrowDetails = (escrows: EscrowBreakDown) => {
   const date = format(new Date(escrows.created_at), 'd MMMM')
+   const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
   return (
       <View className="mx-4 py-4 border-b border-[#CCCCCC]">
         <View className="flex-row justify-between items-center mr-2">
           <View className="px-2 mr-2">
-            <Text className="text-base font-medium w-56">
+            <Text style={{color: textTheme}} className="text-base font-medium w-56">
               {escrows.description}
             </Text>
           </View>

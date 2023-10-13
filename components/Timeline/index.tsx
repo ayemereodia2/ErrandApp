@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  SafeAreaView,
   StyleSheet,
   Text,
   View,
@@ -86,7 +87,7 @@ const Timeline = ({
 
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -60 : 150
 
-    const {
+  const {
     data: currentUser,
     backgroundTheme,
     textTheme,
@@ -95,6 +96,21 @@ const Timeline = ({
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
+  if (loadingErrand) {
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: backgroundTheme,
+        }}
+      >
+         <ActivityIndicator size="large" color={theme ? 'blue' : 'white'} />
+      </SafeAreaView>
+    )
+  }
+
   return (
     <BottomSheetModalProvider>
       <KeyboardAvoidingView
@@ -102,7 +118,11 @@ const Timeline = ({
         style={{ flex: 1, backgroundColor: backgroundTheme }}
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
       >
-        {loadingErrand ? <ActivityIndicator size="large" color={textTheme} /> : ''}
+        {/* {loadingErrand ? (
+          <ActivityIndicator size="large" color={theme ? 'blue' : 'white'} />
+        ) : (
+          ''
+        )} */}
         <View>
           <View className="h-[56px] bg-[#FEE1CD] mx-4 items-center justify-center border border-[#C85604] mt-4 rounded-lg">
             {errand.status === 'active' && (
@@ -110,7 +130,7 @@ const Timeline = ({
                 This Errand is expected to be Completed on{' '}
                 {formatDate(errand.updated_at)}
               </Text>
-            )} 
+            )}
             {singleSubErrand?.status === 'active' && (
               <View className="flex-row justify-between items-center pl-2">
                 {errand.user_id === user_id && (

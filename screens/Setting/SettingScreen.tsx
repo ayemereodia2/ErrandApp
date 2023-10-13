@@ -2,6 +2,7 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { useQuery } from '@tanstack/react-query'
 import * as Clipboard from 'expo-clipboard'
 import React, { useEffect, useState } from 'react'
+import { ActivityIndicator } from 'react-native'
 import {
   Image,
   SafeAreaView,
@@ -66,8 +67,20 @@ const SettingScreen = ({ navigation }: any) => {
     dispatch(notificationPreferences())
   }, [])
 
-
-
+  if (isLoading) {
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: backgroundTheme,
+        }}
+      >
+        <ActivityIndicator color={'white'} size="large" />
+      </SafeAreaView>
+    )
+  }
 
   return (
     <Container>
@@ -254,7 +267,10 @@ const SettingScreen = ({ navigation }: any) => {
 
               <View className=" h-[63px] mt-5 border-b border-b-[#AAAAAA]">
                 <View className="flex-row items-center justify-between">
-                  <Text style={{ color: textTheme }} className="font-medium text-[18px]">
+                  <Text
+                    style={{ color: textTheme }}
+                    className="font-medium text-[18px]"
+                  >
                     Send SMS notifications
                   </Text>
                 </View>

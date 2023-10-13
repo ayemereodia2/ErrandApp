@@ -3,7 +3,7 @@ import React from 'react'
 import { View, Text, SafeAreaView } from 'react-native'
 // import AsyncStorage from '@react-native-community/async-storage'
 import FontAwesome from 'react-native-vector-icons/Ionicons'
-import RNRestart from 'react-native-restart'
+// import RNRestart from 'react-native-restart'
 import Button from '../Button'
 // some stylesheet
 // import { styles } from './styles'
@@ -32,7 +32,7 @@ export class ErrorBoundary extends React.Component<any, any> {
     // remove user settings
     // await this.destroyAuthToken();
     // restart app
-    RNRestart.Restart();
+    // RNRestart.Restart();
   }
 
   render () {

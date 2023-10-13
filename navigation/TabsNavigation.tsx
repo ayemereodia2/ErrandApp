@@ -1,18 +1,29 @@
 import {
   AntDesign,
+  Entypo,
   Feather,
+  FontAwesome,
   FontAwesome5,
   Fontisto,
   Ionicons,
+  MaterialIcons,
+  SimpleLineIcons,
 } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   getFocusedRouteNameFromRoute,
+  useFocusEffect,
   useNavigation,
   useRoute,
 } from '@react-navigation/native'
 import React, { useEffect } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {
+  BackHandler,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { useSelector } from 'react-redux'
 import { ProfileInitials } from '../components/ProfileInitials'
 import { RootState, useAppDispatch } from '../services/store'
@@ -49,6 +60,7 @@ export const TabsNavigation = ({ navigation }: any) => {
   const [lastName, setLastName] = React.useState('')
   const [profilePic, setProfilePic] = React.useState('')
   const navigate = useNavigation()
+
   // const navigation = useNavigation()
 
   const {
@@ -109,7 +121,6 @@ export const TabsNavigation = ({ navigation }: any) => {
     }
   }
 
-
   const route = useRoute()
   const nav = useNavigation()
 
@@ -119,6 +130,8 @@ export const TabsNavigation = ({ navigation }: any) => {
     // dispatch(market({}))
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
   }, [])
+
+ 
 
   return (
     <Tab.Navigator
@@ -149,7 +162,7 @@ export const TabsNavigation = ({ navigation }: any) => {
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
-                <AntDesign name="home" size={24} color={textTheme} />
+                <Entypo name="home" size={24} color={textTheme} />
               ) : (
                 <AntDesign name="home" size={24} color={textTheme} />
               )}
@@ -166,7 +179,7 @@ export const TabsNavigation = ({ navigation }: any) => {
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
-                <Feather name="search" size={26} color={textTheme} />
+                <FontAwesome name="search" size={24} color={textTheme} />
               ) : (
                 <Feather name="search" size={24} color={textTheme} />
               )}
@@ -183,7 +196,7 @@ export const TabsNavigation = ({ navigation }: any) => {
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
-                <FontAwesome5 name="running" size={26} color={textTheme} />
+                <MaterialIcons name="run-circle" size={30} color={textTheme} />
               ) : (
                 <FontAwesome5 name="running" size={24} color={textTheme} />
               )}
@@ -201,9 +214,9 @@ export const TabsNavigation = ({ navigation }: any) => {
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
-                <Ionicons name="wallet-outline" size={26} color={textTheme} />
+                <Entypo name="wallet" size={26} color={textTheme} />
               ) : (
-                <Ionicons name="wallet-outline" size={24} color={textTheme} />
+                <SimpleLineIcons name="wallet" size={24} color={textTheme} />
               )}
             </View>
           ),
@@ -220,7 +233,7 @@ export const TabsNavigation = ({ navigation }: any) => {
               {focused ? (
                 <Fontisto name="player-settings" size={26} color={textTheme} />
               ) : (
-                <Fontisto name="player-settings" size={26} color={textTheme} />
+                <Ionicons name="settings-outline" size={26} color={textTheme} />
               )}
             </View>
           ),

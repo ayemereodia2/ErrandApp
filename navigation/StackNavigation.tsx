@@ -37,6 +37,169 @@ import { TabsNavigation } from './TabsNavigation'
 
 const Stack = createNativeStackNavigator()
 
+export function TabStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Tabs" component={TabsNavigation} />
+       <Stack.Screen
+        name="GuestScreen"
+        component={GuestScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="GuestDetails"
+        component={GuestDetails}
+        options={{ headerShown: false }}
+      />
+
+      {/* <Stack.Screen name="MyErrands" component={ErrandScreen} /> */}
+
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="ErrandDetails"
+        component={ErrandDetails}
+      />
+
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="SecurityQuestions" component={SecurityQuestion} />
+      <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
+      <Stack.Screen name="RecoverPassword" component={RecoverPasswordScreen} />
+      <Stack.Screen name="RecoverAccount" component={AccountRecoveryScreen} />
+      <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
+      <Stack.Screen
+        name="MyErrandDetails"
+        component={MyErrandInfo}
+        options={{
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+
+      <Stack.Screen
+        name="WalletAccount"
+        component={WalletAccount}
+        options={{ headerShown: false }}
+      />
+
+      {/* <Stack.Screen
+        name="Withd"
+        component={WalletAccount}
+        options={{ headerShown: false }}
+      /> */}
+
+      {/* <Stack.Screen
+        name="CategoryInterest"
+        component={CategoryInterest}
+        options={{
+          title: 'Category Interest',
+          presentation: 'fullScreenModal',
+        }}
+      /> */}
+
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="CreateErrand"
+        component={PostErrand}
+      />
+
+      <Stack.Screen name="LandingForm" component={LandingForm} />
+
+      {/* <Stack.Screen
+        name="LandingForm"
+        component={LandingForm}
+        options={{ headerShown: false }}
+      /> */}
+
+      <Stack.Screen
+        name="FundWalletModal"
+        component={FundWalletModal}
+        options={{
+          title: 'Fund Your Wallet',
+          presentation: 'fullScreenModal',
+          headerShown: true,
+        }}
+      />
+
+      <Stack.Screen name="ErrandUserDetails" component={ErrandUserDetails} />
+
+      <Stack.Screen
+        name="Profile"
+        component={AccountScreen}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Notification"
+        component={NotificationScreen}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="CategoryInterest"
+        component={CategoryInterest}
+        options={{
+          title: 'Category Interest',
+          presentation: 'fullScreenModal',
+        }}
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfileTitle}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="VerifyPhone"
+        component={VerifyPhone}
+        options={{ title: 'Verify Phone' }}
+      />
+      <Stack.Screen
+        name="Contact"
+        component={ContactUs}
+        options={{
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+      <Stack.Screen name="Wallet" component={WalletScreen} />
+
+      <Stack.Screen
+        name="ErrorScreen"
+        component={ErrorScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="TransactionScreen"
+        component={TransactionScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="EscrowScreen"
+        component={EscrowScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  )
+}
+
 export function GuestStack() {
   return (
     <>

@@ -1,16 +1,29 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { GuestStack, MainStack } from './StackNavigation'
+import { GuestStack, MainStack, TabStack } from './StackNavigation'
 
 const MainNavigation = () => {
   const [isGuest, setIsGuest] = useState<any>()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  // const {
+  //   data: currentUser,
+  //   backgroundTheme,
+  //   textTheme,
+  //   landingPageTheme,
+  // } = useSelector((state: RootState) => state.currentUserDetailsReducer)
   const navigation = useNavigation()
 
   const checkAuthenticationStatus = async () => {
     try {
       const isAuthenticated = await AsyncStorage.getItem('accessToken')
+
+      if (isAuthenticated) {
+        navigation.navigate('Tabs')
+      }
+
+      // console.log(">>>>>>accessTokn", is);
 
       const isGuest = await AsyncStorage.getItem('isGuest')
       // console.log('>>>>auth stuff', isAuthenticated, isGuest)
@@ -42,12 +55,18 @@ const MainNavigation = () => {
   }, [])
 
   useEffect(() => {
-    if (isAuthenticated && isGuest !== null) {
-      navigation.navigate('Tabs')
+    if (!isAuthenticated && isGuest !== null) {
+      // navigation.navigate('GuestScreen')
     }
   }, [isAuthenticated, isGuest])
 
-  return <>{isGuest === null ? <GuestStack /> : <MainStack />}</>
+  return (
+    <>
+      {isGuest === null && <GuestStack />}
+      {!isAuthenticated && <MainStack />}
+      {isAuthenticated && <TabStack/>}
+    </>
+  )
 }
 
 export default MainNavigation

@@ -1,9 +1,11 @@
 import { Feather, FontAwesome } from '@expo/vector-icons'
+import { useFocusEffect } from '@react-navigation/native'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
-  Platform,
+  BackHandler,
+  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -21,6 +23,7 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { getTimeOfDay, getUserId } from '../../utils/helper'
 
 const LandingTest = ({ navigation }: any) => {
+  const loaderGif = '../../assets/images/loading-SWAVE.gif'
   const [clicked, setClicked] = useState(false)
   // const theme = useColorScheme()
   // const isDarkTheme = theme === 'dark'
@@ -31,13 +34,13 @@ const LandingTest = ({ navigation }: any) => {
   // }
 
   const dispatch = useAppDispatch()
-  const darkMode = useSelector((state: RootState) => state.darkMode.darkMode)
 
   const {
     data: currentUser,
     backgroundTheme,
     textTheme,
     landingPageTheme,
+    loading,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
@@ -63,11 +66,33 @@ const LandingTest = ({ navigation }: any) => {
   })
   // console.log(data)
 
-  if (isLoading) {
+  useFocusEffect(() => {
+    const onBackPress = () => {
+      if (currentUser) {
+        return true // Prevent navigation back to the login screen
+      }
+      return false // Allow navigation back to the login screen
+    }
+
+    BackHandler.addEventListener('hardwareBackPress', onBackPress)
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', onBackPress)
+    }
+  })
+
+  if (loading) {
     return (
-      <SafeAreaView className="pt-20 bg-gray-200 w-screen h-[100vh] mt-5">
-        {/* <Text className='m-auto'><EvilIcons name="spinner" size={28} color="black" /></Text> */}
-        <ActivityIndicator color="black" size="large" />
+      <SafeAreaView
+        style={styles.container}
+        // className="pt-20 bg-gray-200 w-screen h-[100vh] mt-5"
+      >
+        {/* <Image
+          style={styles.image}
+          className="mx-auto"
+          source={require(loaderGif)}
+        /> */}
+        <ActivityIndicator color={'white'} size="large" />
       </SafeAreaView>
     )
   }
@@ -84,112 +109,112 @@ const LandingTest = ({ navigation }: any) => {
               marginBottom: Platform.OS === 'android' ? 10 : 35,
             }}
           > */}
-            <View className="mt-6 flex-row items-center justify-between">
-              <Text
-                className="font-bold text-[25px] leading-7"
-                style={{ color: textTheme }}
-              >
-                Good {getTimeOfDay()}
+          <View className="mt-6 flex-row items-center justify-between">
+            <Text
+              className="font-bold text-[25px] leading-7"
+              style={{ color: textTheme }}
+            >
+              Good {getTimeOfDay()}
+            </Text>
+
+            <View className="items-center flex-row gap-4 mr-2">
+              <Text style={{ color: textTheme }}>
+                <FontAwesome
+                  name="bell-o"
+                  size={24}
+                  onPress={() => {
+                    navigation.navigate('Notification')
+                  }}
+                />
               </Text>
-
-              <View className="items-center flex-row gap-4 mr-2">
-                <Text style={{ color: textTheme }}>
-                  <FontAwesome
-                    name="bell-o"
-                    size={24}
-                    onPress={() => {
-                      navigation.navigate('Notification')
-                    }}
-                  />
-                </Text>
-                <Text style={{ color: textTheme }}>
-                  <Feather
-                    name="help-circle"
-                    size={24}
-                    onPress={() => {
-                      navigation.navigate('Contact')
-                    }}
-                  />
-                </Text>
-              </View>
-            </View>
-
-            <View className="flex-row items-center gap-4 mt-1">
-              <TouchableOpacity
-                onPress={() => navigation.navigate('Market')}
-                className="bg-gray-200 px-4 py-1 rounded-xl border border-[#e9ebf2]"
-                style={{ backgroundColor: landingPageTheme }}
-              >
-                <Text
-                  className="text-white text-base"
-                  style={{ color: theme ? 'black' : 'white' }}
-                >
-                  Explore
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => navigation.navigate('MyErrands')}
-                className=" px-4 py-1 rounded-xl border border-[#e9ebf2] "
-                style={{ backgroundColor: landingPageTheme }}
-              >
-                <Text
-                  className=" text-base"
-                  style={{ color: theme ? 'black' : 'white' }}
-                >
-                  Manage your Errands
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View className="mt-10">
-              <Text
-                className=" text-[25px] leading-7 font-bold"
-                style={{ color: textTheme }}
-              >
-                What do you need help with?
+              <Text style={{ color: textTheme }}>
+                <Feather
+                  name="help-circle"
+                  size={24}
+                  onPress={() => {
+                    navigation.navigate('Contact')
+                  }}
+                />
               </Text>
-
-              <View className="mt-4 w-[90vw] flex-row flex-wrap items-center mx-auto">
-                {data
-                  ? data?.data?.map((category: any) => (
-                      <>
-                        <View className="flex-row mt-3 " key={category.id}>
-                          <TouchableOpacity
-                            className="border-[#aaa] border px-4 py-1 rounded-xl mr-2 bg-white"
-                            style={{
-                              backgroundColor: theme ? '#1E3A79' : 'white',
-                            }}
-                            onPress={() => {
-                              dispatch(getDraftErrand())
-                              navigation.navigate('LandingForm', { category })
-                            }}
-                            key={category.id}
-                          >
-                            <Text
-                              className="text-base"
-                              style={{ color: textTheme }}
-                            >{`${category.description}`}</Text>
-                          </TouchableOpacity>
-                        </View>
-                      </>
-                    ))
-                  : null}
-              </View>
             </View>
+          </View>
 
-            <View className="mt-12">
+          <View className="flex-row items-center gap-4 mt-1">
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Market')}
+              className="bg-gray-200 px-4 py-1 rounded-xl border border-[#e9ebf2]"
+              style={{ backgroundColor: landingPageTheme }}
+            >
               <Text
-                className=" text-[25px] leading-7 font-bold"
-                style={{ color: textTheme }}
+                className="text-white text-base"
+                style={{ color: theme ? 'black' : 'white' }}
               >
-                Urgent Errands
+                Explore
               </Text>
+            </TouchableOpacity>
 
-              <ScrollView horizontal showHorizontalIndicator={false}>
-                <LandingDetails navigation={navigation} />
-              </ScrollView>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('MyErrands')}
+              className=" px-4 py-1 rounded-xl border border-[#e9ebf2] "
+              style={{ backgroundColor: landingPageTheme }}
+            >
+              <Text
+                className=" text-base"
+                style={{ color: theme ? 'black' : 'white' }}
+              >
+                Manage your Errands
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View className="mt-10">
+            <Text
+              className=" text-[25px] leading-7 font-bold"
+              style={{ color: textTheme }}
+            >
+              What do you need help with?
+            </Text>
+
+            <View className="mt-4 w-[90vw] flex-row flex-wrap items-center mx-auto">
+              {data
+                ? data?.data?.map((category: any) => (
+                    <>
+                      <View className="flex-row mt-3 " key={category.id}>
+                        <TouchableOpacity
+                          className="border-[#aaa] border px-4 py-1 rounded-xl mr-2 bg-white"
+                          style={{
+                            backgroundColor: theme ? '#1E3A79' : 'white',
+                          }}
+                          onPress={() => {
+                            dispatch(getDraftErrand())
+                            navigation.navigate('LandingForm', { category })
+                          }}
+                          key={category.id}
+                        >
+                          <Text
+                            className="text-base"
+                            style={{ color: textTheme }}
+                          >{`${category.description}`}</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </>
+                  ))
+                : null}
             </View>
+          </View>
+
+          <View className="mt-12">
+            <Text
+              className=" text-[25px] leading-7 font-bold"
+              style={{ color: textTheme }}
+            >
+              Urgent Errands
+            </Text>
+
+            <ScrollView horizontal showHorizontalIndicator={false}>
+              <LandingDetails navigation={navigation} />
+            </ScrollView>
+          </View>
 
           <View className="mt-4">
             <Text
@@ -199,8 +224,8 @@ const LandingTest = ({ navigation }: any) => {
               You may have missed these...
             </Text>
 
-              <NewNotifications />
-            </View>
+            <NewNotifications />
+          </View>
           {/* </View> */}
         </ScrollView>
         {!isLoading && <PostErrandButton className="bottom-5 right-3" />}
@@ -208,5 +233,18 @@ const LandingTest = ({ navigation }: any) => {
     </Container>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center', // Center vertically
+    alignItems: 'center', // Center horizontally
+    backgroundColor: '#0c1730',
+  },
+  image: {
+    width: 200,
+    height: 200,
+  },
+})
 
 export default LandingTest

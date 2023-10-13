@@ -4,6 +4,7 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
+import { LinearGradient } from 'expo-linear-gradient'
 import React, {
   useCallback,
   useEffect,
@@ -12,10 +13,12 @@ import React, {
   useState,
 } from 'react'
 import {
+  ActivityIndicator,
   ImageBackground,
   RefreshControl,
   SafeAreaView,
   ScrollView,
+  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -37,16 +40,17 @@ import { Transaction } from '../../types'
 import AccountStatement from './AccountStatement'
 import WithdrawalScreen from './WithdrawalScreen'
 
-const balanceLayer = '../../assets/images/Alison.jpg'
+const balanceLayer = '../../assets/images/balance-bg.png'
 
 const WalletScreen = ({ navigation }: any) => {
-
   const {
     data: currentUser,
     backgroundTheme,
     textTheme,
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const walletBalanceSvg = '../../assets/images/walletbalance.svg'
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
@@ -146,11 +150,29 @@ const WalletScreen = ({ navigation }: any) => {
 
   const darkMode = useSelector((state: RootState) => state.darkMode.darkMode)
 
+  if (detailsLoading) {
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: backgroundTheme,
+        }}
+      >
+        <ActivityIndicator color={theme ? '#e4eaf7' : ''} size="large" />
+      </SafeAreaView>
+    )
+  }
+
   return (
     <BottomSheetModalProvider>
       <Container>
         <>
-          <SafeAreaView className=" bg-[#e4eaf7]" style={{backgroundColor: backgroundTheme}}>
+          <SafeAreaView
+            className=" bg-[#e4eaf7]"
+            style={{ backgroundColor: backgroundTheme }}
+          >
             <ScrollView
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -244,8 +266,8 @@ const WalletScreen = ({ navigation }: any) => {
                 </Menu>
               </View>
 
-              <View className="relative ">
-                <View className="px-4">
+              <View className="pt-4 ">
+                  <View className="px-4">
                   <ImageBackground
                     source={{uri: balanceLayer}}
                     resizeMode="cover"
@@ -292,6 +314,7 @@ const WalletScreen = ({ navigation }: any) => {
               {/* Account Balance */}
               <View className="px-4">
                 {/* Escrow Balance */}
+
                 <View className=" bg-[#3F60AC] border mt-4 border-[#DAE1F1] rounded-xl p-6">
                   <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
                     <Text>
@@ -333,7 +356,12 @@ const WalletScreen = ({ navigation }: any) => {
 
               {/* Transction */}
               <View className="mt-[64px] mb-8 flex-row justify-between items-center mx-4">
-                <Text className="text-xl font-medium" style={{color: textTheme}}>Transactions</Text>
+                <Text
+                  className="text-xl font-medium"
+                  style={{ color: textTheme }}
+                >
+                  Transactions
+                </Text>
                 <TouchableOpacity
                   className="bg-[#3F60AC] w-[65px] h-[28px] items-center justify-center rounded-md"
                   onPress={() => navigation.navigate('TransactionScreen')}
@@ -343,7 +371,10 @@ const WalletScreen = ({ navigation }: any) => {
               </View>
 
               {/*Transctions info */}
-              <View className="bg-white mx-4 rounded-lg"  style={{backgroundColor: backgroundTheme}}>
+              <View
+                className="bg-white mx-4 rounded-lg"
+                style={{ backgroundColor: backgroundTheme }}
+              >
                 {transactions?.slice(0, 5).map((transaction) => {
                   return <TransactionDetails {...transaction} />
                 })}
@@ -351,7 +382,12 @@ const WalletScreen = ({ navigation }: any) => {
 
               {/* Escrow */}
               <View className="mt-[64px] mb-8 flex-row justify-between items-center mx-4">
-                <Text className="text-xl font-medium" style={{color: textTheme}}>Escrow Breakdown</Text>
+                <Text
+                  className="text-xl font-medium"
+                  style={{ color: textTheme }}
+                >
+                  Escrow Breakdown
+                </Text>
 
                 <TouchableOpacity
                   className="bg-[#3F60AC] w-[65px] h-[28px] items-center justify-center rounded-md"
@@ -361,7 +397,10 @@ const WalletScreen = ({ navigation }: any) => {
                 </TouchableOpacity>
               </View>
 
-              <View className="bg-white mx-4 rounded-lg" style={{backgroundColor: backgroundTheme}}>
+              <View
+                className="bg-white mx-4 rounded-lg"
+                style={{ backgroundColor: backgroundTheme }}
+              >
                 {data?.escrow_breakdown?.slice(0, 5).map((escrows) => {
                   return <EscrowDetails {...escrows} />
                 })}
@@ -383,7 +422,6 @@ const WalletScreen = ({ navigation }: any) => {
             index={0}
             snapPoints={['50%']}
             backdropComponent={renderBackdrop}
-           
           >
             <AccountStatement />
           </BottomSheetModal>
@@ -392,5 +430,32 @@ const WalletScreen = ({ navigation }: any) => {
     </BottomSheetModalProvider>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  imgBackground: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+  },
+  linearGradient: {
+    width: '100%',
+    height: '100%',
+    opacity: 0.95,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    color: '#fff',
+    fontSize: 40,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+})
 
 export default WalletScreen
