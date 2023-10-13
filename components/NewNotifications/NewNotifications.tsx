@@ -43,7 +43,7 @@ export default function NewNotifications() {
   }
 
   if (isSuccess) {
-    console.log(">>>>>>notigyffff", data.data)
+    console.log('>>>>>>notigyffff', data.data)
   }
 
   return (
@@ -51,7 +51,7 @@ export default function NewNotifications() {
       {data
         ? data.data.map((notification: any) => (
             <View
-              className="mt-3 py-2 mr-3 w-full border border-gray-400 px-2 rounded-md mb-2"
+              className="mt-3 py-2 border border-gray-400 px-2 rounded-md mb-2"
               key={notification.id}
               style={{ backgroundColor: theme ? '#152955' : 'white' }}
             >
@@ -82,7 +82,7 @@ export default function NewNotifications() {
                       </Text>
                     ) : notification.type === 2 ? (
                       <Text>
-                        
+                        {' '}
                         <Ionicons
                           name="ios-hammer-outline"
                           size={24}
@@ -106,10 +106,10 @@ export default function NewNotifications() {
                       className="font-semibold text-base"
                       style={{ color: textTheme }}
                     >
-                    {notification.title}
+                      {notification.message}
                     </Text>
                     <Text style={{ color: textTheme }} className="">
-                    {notification.message} 
+                      {notification.title}
                     </Text>
                   </View>
                 </View>
@@ -119,62 +119,13 @@ export default function NewNotifications() {
                   className="mb-4 text-[#808080] "
                   style={{ color: textTheme }}
                 >
-                {getTimeAgo(notification.created_at)}
+                  {getTimeAgo(notification.created_at)}
                 </Text>
                 </View>
               </View>
             </View>
           ))
         : 'No Notifications Available'}
-
-      {/* <View className='mt-3 py-2 border border-gray-400 px-2 bg-white rounded-md' >
-      <View className='flex-row justify-between items-center'>
-
-      <View className='flex-row '>
-      <Image
-      source={require('../../assets/images/franence.jpg')}
-      style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
-    />
-    <View>
-    <Text className='font-semibold text-base' style={{ color: textTheme }}>Francene Smith</Text>
-    <Text style={{ color: textTheme }} className=''>Placed a bid on your errand</Text>
-    </View>
-    
-    </View>
-
-      
-      <Text className='mb-4 text-[#808080]' style={{ color: textTheme }}>3hrs ago</Text>
-     
-      
-      </View>
-
-      </View>
-
-     
-     
-
-
-      <View className='mt-3 py-2 border border-gray-400 px-2 bg-white rounded-md mb-10' >
-      <View className='flex-row justify-between items-center'>
-
-      <View className='flex-row '>
-      <Image
-      source={require('../../assets/images/franence.jpg')}
-      style={{ width: 40, height: 40, borderRadius: 50, marginRight: 8 }}
-    />
-    <View>
-    <Text className='font-semibold text-base' style={{ color: textTheme }}>Francene Smith</Text>
-    <Text style={{ color: textTheme }} className=''>Placed a bid on your errand</Text>
-    </View>
-    
-    </View>
-
-      
-      <Text className='mb-4 text-[#808080]' style={{ color: textTheme }}>3hrs ago</Text>
-     
-     </View>
-     </View>
- */}
     </>
   )
 }

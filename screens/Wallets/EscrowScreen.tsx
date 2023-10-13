@@ -21,17 +21,6 @@ import { walletAction } from '../../services/wallet/walletBalance'
 import { EscrowBreakDown } from '../../types'
 
 const EscrowScreen = ({ navigation }: any) => {
-
-  
-  const {
-    data: currentUser,
-    backgroundTheme,
-    textTheme,
-    landingPageTheme,
-  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
-
-  const theme = currentUser?.preferred_theme === 'light' ? true : false
-
   const dispatch = useAppDispatch()
 
   const { data, loading: detailsLoading } = useSelector(
@@ -42,14 +31,13 @@ const EscrowScreen = ({ navigation }: any) => {
     navigation.setOptions({
       headerShown: true,
       title: 'Escrow Breakdown',
-      headerStyle: { backgroundColor: backgroundTheme },
-      headerTitleStyle: {color: textTheme},
+      headerStyle: { backgroundColor: '#F8F9FC' },
       headerLeft: () => (
         <TouchableOpacity
           className="flex-row items-center justify-between mx-0 px-3 py-3"
           onPress={() => navigation.goBack()}
         >
-          <AntDesign name="arrowleft" size={24} color={textTheme} />
+          <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableOpacity>
       ),
       headerRight: () => (
@@ -59,7 +47,7 @@ const EscrowScreen = ({ navigation }: any) => {
               </TouchableOpacity> */}
           <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
             <MenuTrigger>
-              <Entypo name="dots-three-vertical" color={textTheme} size={20} />
+              <Entypo name="dots-three-vertical" color={'black'} size={20} />
             </MenuTrigger>
             <MenuOptions
               customStyles={{
@@ -89,7 +77,7 @@ const EscrowScreen = ({ navigation }: any) => {
   }, [])
 
   return (
-    <SafeAreaView style={{backgroundColor: backgroundTheme}} className='h-full'>
+    <SafeAreaView>
       {/* Heder */}
 
       <View className="bg-[rgb(248,249,252)]">
@@ -99,12 +87,12 @@ const EscrowScreen = ({ navigation }: any) => {
               name="search"
               size={22}
               className="w-1/12"
-              color={textTheme}
+              color="#808080"
             />
             <TextInput
               className=" w-9/12"
               placeholder="Search here..."
-              placeholderTextColor={textTheme}
+              placeholderTextColor="#808080"
             />
           </View>
           <TouchableOpacity>
@@ -120,7 +108,7 @@ const EscrowScreen = ({ navigation }: any) => {
       {/* Body */}
 
       <ScrollView className="mx-4" showsVerticalScrollIndicator={false}>
-        <Text className="mt-[34px] text-center" style={{color: textTheme}}>Today</Text>
+        <Text className="mt-[34px] text-center">Today</Text>
 
         {data?.escrow_breakdown?.slice(0, 5).map((escrows: EscrowBreakDown) => {
           return <EscrowDetails {...escrows} />
@@ -128,7 +116,7 @@ const EscrowScreen = ({ navigation }: any) => {
 
         {/* Yesterdy */}
 
-        <Text className="mt-[34px] text-center" style={{color: textTheme}}>Yesterday</Text>
+        <Text className="mt-[34px] text-center">Yesterday</Text>
 
         {data?.escrow_breakdown
           ?.slice(5, 15)
@@ -136,7 +124,7 @@ const EscrowScreen = ({ navigation }: any) => {
             return <EscrowDetails {...escrows} />
           })}
 
-        <Text className="mt-[34px] text-center" style={{color: textTheme}}>Previous Escrow BreakDown</Text>
+        <Text className="mt-[34px] text-center">Previous Escrow BreakDown</Text>
         {data?.escrow_breakdown?.map((escrows: EscrowBreakDown) => {
           return <EscrowDetails {...escrows} />
         })}

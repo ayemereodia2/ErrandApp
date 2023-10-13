@@ -22,15 +22,6 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { getAccounts } from '../../services/wallet/getAccount'
 
 const WalletAccount = ({ navigation }: any) => {
-  const {
-    data: currentUser,
-    backgroundTheme,
-    textTheme,
-    landingPageTheme,
-  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
-
-  const theme = currentUser?.preferred_theme === 'light' ? true : false
-
   const dispatch = useAppDispatch()
   const bottomSheetRef = useRef<BottomSheetModal>(null)
 
@@ -61,13 +52,13 @@ const WalletAccount = ({ navigation }: any) => {
     navigation.setOptions({
       headerShown: true,
       title: 'My Accounts',
-      headerStyle: { backgroundColor: backgroundTheme },
+      headerStyle: { backgroundColor: '#F8F9FC' },
       headerLeft: () => (
         <TouchableOpacity
           className="flex-row items-center justify-between mx-0 px-3 py-3"
           onPress={() => navigation.goBack()}
         >
-          <AntDesign name="arrowleft" size={24} color={textTheme} />
+          <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableOpacity>
       ),
     })
@@ -96,8 +87,8 @@ const WalletAccount = ({ navigation }: any) => {
 
   return (
     <BottomSheetModalProvider>
-      <SafeAreaView style={{backgroundColor: backgroundTheme}}>
-        <ScrollView className="mt-4 h-full" style={{backgroundColor: backgroundTheme}}>
+      <SafeAreaView>
+        <ScrollView className="mt-4">
           <View className="bg-[rgb(248,249,252)]">
             <View className="mx-4 mt-4 flex-row items-center justify-between">
               <View className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center px-3 w-full space-x-3">
@@ -105,12 +96,12 @@ const WalletAccount = ({ navigation }: any) => {
                   name="search"
                   size={22}
                   className="w-1/12"
-                  color={textTheme}
+                  color="#808080"
                 />
                 <TextInput
                   className="w-9/12"
                   placeholder="Search here..."
-                  placeholderTextColor={textTheme}
+                  placeholderTextColor="#808080"
                 />
               </View>
               {/* <TouchableOpacity>
