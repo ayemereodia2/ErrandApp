@@ -13,7 +13,7 @@ const MainNavigation = () => {
       const isAuthenticated = await AsyncStorage.getItem('accessToken')
 
       const isGuest = await AsyncStorage.getItem('isGuest')
-      console.log('>>>>auth stuff', isAuthenticated)
+      console.log('>>>>auth stuff', isAuthenticated, isGuest)
       // await AsyncStorage.clear()
       // await AsyncStorage.setItem('isGuest', 'false')
 
@@ -47,7 +47,6 @@ const MainNavigation = () => {
   }, [isAuthenticated, isGuest])
 
   return <>{isGuest === null ? <GuestStack /> : <MainStack />}</>
-  return <></>
 }
 
 export default MainNavigation
