@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { GuestStack, MainStack } from './StackNavigation'
 
 const MainNavigation = () => {
-  const [isGuest, setIsGuest] = useState(false)
+  const [isGuest, setIsGuest] = useState<any>()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const navigation = useNavigation()
 
@@ -13,8 +13,11 @@ const MainNavigation = () => {
       const isAuthenticated = await AsyncStorage.getItem('accessToken')
 
       const isGuest = await AsyncStorage.getItem('isGuest')
+      console.log('>>>>auth stuff', isAuthenticated, isGuest)
+      // await AsyncStorage.clear()
+      // await AsyncStorage.setItem('isGuest', 'false')
 
-      console.log('>>>>asuth guest', isGuest, isAuthenticated)
+      setIsGuest(isGuest)
 
       // Check if the value is 'true' to determine authentication status
       if (isAuthenticated) {
@@ -38,10 +41,10 @@ const MainNavigation = () => {
   }, [])
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && isGuest !== null) {
       navigation.navigate('Tabs')
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, isGuest])
 
   return <>{isGuest === null ? <GuestStack /> : <MainStack />}</>
 }
