@@ -13,7 +13,7 @@ const MainNavigation = () => {
       const isAuthenticated = await AsyncStorage.getItem('accessToken')
 
       const isGuest = await AsyncStorage.getItem('isGuest')
-      console.log('>>>>auth stuff', isAuthenticated, isGuest)
+      // console.log('>>>>auth stuff', isAuthenticated, isGuest)
       // await AsyncStorage.clear()
       // await AsyncStorage.setItem('isGuest', 'false')
 
