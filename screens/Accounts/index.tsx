@@ -1,4 +1,4 @@
-import { AntDesign, Feather } from '@expo/vector-icons'
+import { AntDesign, Feather, MaterialIcons } from '@expo/vector-icons'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
@@ -144,9 +144,16 @@ const AccountScreen = ({ navigation }: any) => {
             >
               {data?.data?.first_name} {data?.data?.last_name}{' '}
             </Text>
-            {/* <Text>
+
+            {data?.data?.verification === 100 ? 
+            ( <Text>
               <MaterialIcons name="verified" size={20} color="green" />
-            </Text> */}
+            </Text> )
+            :
+            null
+            
+          }
+            
           </View>
 
           <Text
