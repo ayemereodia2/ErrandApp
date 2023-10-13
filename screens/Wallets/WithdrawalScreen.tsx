@@ -3,6 +3,7 @@ import { AxiosError } from 'axios'
 import React, { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,16 +13,27 @@ import {
 import { RadioButton } from 'react-native-paper'
 import Toast from 'react-native-toast-message'
 import { _fetch } from '../../services/axios/http'
-import { useAppDispatch } from '../../services/store'
+import { RootState, useAppDispatch } from '../../services/store'
 import { walletAction } from '../../services/wallet/walletBalance'
 import { Account } from '../../types'
 import { currencyMask, getBankName, parseAmount } from '../../utils/helper'
+import { useSelector } from 'react-redux'
 
 interface WithdrawalProps {
   toggleWithdrawaltModal: (open: boolean) => void
 }
 
 const WithdrawalScreen = ({ toggleWithdrawaltModal }: WithdrawalProps) => {
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
   const dispatch = useAppDispatch()
   const [accLoading, setAccLoading] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -79,11 +91,12 @@ const WithdrawalScreen = ({ toggleWithdrawaltModal }: WithdrawalProps) => {
   }
 
   return (
-    <ScrollView className="mx-4">
-      <Text>Make Withdrawal</Text>
+    <SafeAreaView className='w-full h-full' style={{backgroundColor: backgroundTheme}}>
+    <ScrollView className="mx-4 mt-2" >
+      <Text style={{color: textTheme}} className='text-base'>Make Withdrawal</Text>
 
       <View className="mt-8">
-        <Text className="font-medium">
+        <Text className="font-medium" style={{color: textTheme}}>
           How much would you like to withdraw?
         </Text>
       </View>
@@ -101,7 +114,7 @@ const WithdrawalScreen = ({ toggleWithdrawaltModal }: WithdrawalProps) => {
       </View>
 
       <View>
-        <Text className="mt-6 font-semibold mb-3">
+        <Text className="mt-6 font-semibold mb-3" style={{color: textTheme}}>
           Select Withdrawal Account
         </Text>
       </View>
@@ -123,10 +136,10 @@ const WithdrawalScreen = ({ toggleWithdrawaltModal }: WithdrawalProps) => {
                     onPress={() => setSelectedAccount(acc.id)}
                   >
                     <RadioButton value={acc.id} />
-                    <Text className="text-center py-1 font-semibold pr-2">
+                    <Text className="text-center py-1 font-semibold pr-2" style={{color: textTheme}}>
                       {getBankName(acc.bank_code)}
                     </Text>
-                    <Text className="text-center leading-6">
+                    <Text className="text-center leading-6" style={{color: textTheme}}>
                       {acc.account_number}
                     </Text>
                   </TouchableOpacity>
@@ -149,6 +162,7 @@ const WithdrawalScreen = ({ toggleWithdrawaltModal }: WithdrawalProps) => {
         </>
       )}
     </ScrollView>
+    </SafeAreaView>
   )
 }
 

@@ -225,7 +225,7 @@ export default function MainScreen() {
               >
                 <View className="mx-4">
                   {!loading && (
-                    <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white">
+                    <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white" style={{backgroundColor: theme ? '#1E3A79' : 'white'}}>
                       <EvilIcons
                         name="search"
                         size={22}
@@ -237,6 +237,7 @@ export default function MainScreen() {
                         placeholder="Search for Errands"
                         placeholderTextColor="#808080"
                         onChangeText={(text) => errandSearchHandler(text)}
+                        
                       />
                       <TouchableOpacity onPress={handleViewChange}>
                         <View className="mr-1 b rounded-md w-[38px]">

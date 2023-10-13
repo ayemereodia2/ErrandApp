@@ -22,6 +22,7 @@ import { myErrandList } from '../../services/errands/myErrands'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData, SingleSubErrand } from '../../types'
 import { getUserId } from '../../utils/helper'
+import DarkMode from '../../services/DarkMode/DarkMode'
 
 const ErrandScreen = ({ navigation }: any) => {
   const [firstName, setFirstName] = useState('')
@@ -114,6 +115,8 @@ const ErrandScreen = ({ navigation }: any) => {
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
   }, [])
 
+  const darkMode = useSelector((state: RootState) => state.darkMode.darkMode)
+
   return (
     <Container>
       <>
@@ -137,8 +140,8 @@ const ErrandScreen = ({ navigation }: any) => {
                       style={{ backgroundColor: backgroundTheme }}
                       className="bg-[#e4eaf7] "
                     >
-                      <View className="mx-4 mt-4 bg-white">
-                        <View className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
+                      <View className="mx-4 mt-4 bg-white" style={{backgroundColor: darkMode ? '#1E3A79' : 'white'}}>
+                        <View className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3" style={{backgroundColor: darkMode ? '#1E3A79' : 'white'}}>
                           <EvilIcons
                             name="search"
                             size={22}
@@ -147,8 +150,10 @@ const ErrandScreen = ({ navigation }: any) => {
                           <TextInput
                             className=" w-9/12"
                             placeholder="Search for Errands or Bids"
-                            placeholderTextColor="#808080"
+                            placeholderTextColor={darkMode ? 'white' : '#808080'}
                             onChangeText={(text) => errandSearchHandler(text)}
+                             style={{backgroundColor: darkMode ? '#1E3A79' : 'white'}}
+
                           />
                           <Image
                             style={{

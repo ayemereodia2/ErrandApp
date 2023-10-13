@@ -75,7 +75,7 @@ const LandingTest = ({ navigation }: any) => {
   return (
     <Container>
       <SafeAreaView
-        className="px-4 w-[100%]"
+        className="px-4 w-screen"
         style={{ backgroundColor: backgroundTheme }}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -198,9 +198,8 @@ const LandingTest = ({ navigation }: any) => {
             >
               You may have missed these...
             </Text>
-
-              <NewNotifications />
             </View>
+            <NewNotifications />
           {/* </View> */}
         </ScrollView>
         {!isLoading && <PostErrandButton className="bottom-5 right-3" />}

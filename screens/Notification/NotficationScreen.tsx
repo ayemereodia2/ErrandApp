@@ -82,7 +82,7 @@ const NotificationScreen = ({ navigation }: any) => {
   return (
     <SafeAreaView className=""  style={{backgroundColor: backgroundTheme}}>
       {/* Indicator */}
-      <ScrollView  style={{backgroundColor: backgroundTheme}} className='h-full'>
+      <ScrollView  style={{backgroundColor: backgroundTheme}} className='h-full mb-30'>
         <View className="h-[64px] w-[380px] mx-4 flex-row bg-[#E6E6E6] justify-center items-center">
           <TouchableOpacity>
             <View className="flex-row w-full h-[40px] bg-[#F7F7F7] justify-center items-center mr-2 ml-2">
