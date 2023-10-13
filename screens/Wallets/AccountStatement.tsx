@@ -11,21 +11,8 @@ import { ActivityIndicator } from 'react-native-paper'
 import { _fetch } from '../../services/axios/http'
 import { Transaction } from '../../types'
 import { transformDateTime } from '../../utils/helper'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../services/store'
 
 const AccountStatement = () => {
-
-  const {
-    data: currentUser,
-    backgroundTheme,
-    textTheme,
-    landingPageTheme,
-  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
-
-  const theme = currentUser?.preferred_theme === 'light' ? true : false
-
-
   const [transactions, setTransactions] = useState<Array<Transaction>>([])
   const [showStartDatePicker, setShowStartDatePicker] = useState(false)
   const [showEndDatePicker, setShowEndDatePicker] = useState(false)
