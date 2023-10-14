@@ -23,75 +23,61 @@ const Notify = ({ data }: Notify) => {
     <>
       {data
         ? data.data.map((notification: any) => (
-            <View
-              className="mt-4 py-2 w-full  mx-auto border border-gray-400 px-4 rounded-md"
-              key={notification.id}
-              style={{ backgroundColor: theme ? '#152955' : 'white' }}
-            >
-              <View className="flex-row justify-between items-center">
-                <View className="flex-row mx-1.5">
-                  <View className="mt-2 mr-0.5">
-                    {notification.type === 0 ? (
-                      <Text>
-                        {' '}
-                        <AntDesign 
-                        name="exclamationcircleo" 
-                        size={24}
-                         color={textTheme} 
-                        />{'   '}
-                      </Text>
-                    ) : notification.type === 1 ? (
-                      <Text>
-                        {' '}
-                        <FontAwesome5
-                          name="running"
-                          size={40}
-                          color={textTheme}
-                        />{'   '}
-                      </Text>
-                    ) : notification.type === 2 ? (
-                      <Text>
-                        {' '}
-                        <Ionicons
-                          name="ios-hammer-outline"
-                          size={24}
-                          color={textTheme}
-                        />{'   '}
-                      </Text>
-                    ) : notification.type === 3 ? (
-                      <Text>
-                        {' '}
-                        <Ionicons
-                          name="md-swap-vertical"
-                          size={24}
-                          color={textTheme}
-                        />{'   '}
-                      </Text>
-                    ) : null}
-                  </View>
-                  <View>
-                    <Text
-                      className="font-semibold text-base"
-                      style={{ color: textTheme }}
-                    >
-                       {notification.title}
-                    </Text>
-                    <Text style={{ color: textTheme }} className="">
-                    {notification.message} 
-                    </Text>
-                  </View>
+          <View className='py-2 mb-3 mt-4 border border-gray-400 rounded-md' style={{ backgroundColor: theme ? '#152955' : 'white' }} key={notification.id}>
+          <View className='flex-row items-center justify-between mx-2 mb-1 mt-2'>
+
+          <View className='flex-row items-center'>
+          {notification.type === 0 ? (
+                  <Text style={{ color: textTheme }}>
+                    {' '}
+                    <AntDesign 
+                    name="exclamationcircleo" 
+                    size={20}
+                     color={textTheme} 
+                    />{'   '}
+                  </Text>
+                ) : notification.type === 1 ? (
+                  <Text style={{ color: textTheme }}>
+                    {' '}
+                    <FontAwesome5
+                      name="running"
+                      size={20}
+                      color={textTheme}
+                    />{'   '}
+                  </Text>
+                ) : notification.type === 2 ? (
+                  <Text style={{ color: textTheme }}>
+                    {' '}
+                    <Ionicons
+                      name="ios-hammer-outline"
+                      size={20}
+                      color={textTheme}
+                    />{'   '}
+                  </Text>
+                ) : notification.type === 3 ? (
+                  <Text style={{ color: textTheme }}>
+                    {' '}
+                    <Ionicons
+                      name="md-swap-vertical"
+                      size={20}
+                      color={textTheme}
+                    />{'   '}
+                  </Text>
+                ) : null}
+               
+                <Text style={{ color: textTheme }} className='text-base font-bold'>{notification.title}</Text>
+
                 </View>
 
-                <Text
-                  className="mb-4 text-[#808080]"
-                  style={{ color: textTheme }}
-                >
-                  {getTimeAgo(notification.created_at)}
-                </Text>
-              </View>
-            </View>
-          ))
-        : 'No Notifications Available'}
+            <Text style={{ color: textTheme }}>{getTimeAgo(notification.created_at)}</Text>
+          </View>
+
+          <View>
+            <Text className='mx-10 text-base' style={{ color: textTheme }}>{notification.message}</Text>
+          </View>
+        </View>
+      ))
+    : 'No Notifications Available'}
     </>
   )
 }

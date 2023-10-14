@@ -186,7 +186,7 @@ const LandingTest = ({ navigation }: any) => {
                 Urgent Errands
               </Text>
 
-              <ScrollView horizontal showHorizontalIndicator={false}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <LandingDetails navigation={navigation} />
               </ScrollView>
             </View>
