@@ -23,6 +23,7 @@ import { myErrandList } from '../../services/errands/myErrands'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData, SingleSubErrand } from '../../types'
 import { getUserId } from '../../utils/helper'
+import DarkMode from '../../services/DarkMode/DarkMode'
 
 const ErrandScreen = ({ navigation }: any) => {
   const [firstName, setFirstName] = useState('')
@@ -148,33 +149,33 @@ const ErrandScreen = ({ navigation }: any) => {
               ) : (
                 <>
                   <View>
-                    <View>
-                      <View
-                        style={{ backgroundColor: backgroundTheme }}
-                        className="bg-[#e4eaf7] "
-                      >
-                        <View className="mx-4 mt-4 bg-white">
-                          <View className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3">
-                            <EvilIcons
-                              name="search"
-                              size={22}
-                              className="w-1/12"
-                            />
-                            <TextInput
-                              className=" w-9/12"
-                              placeholder="Search for Errands or Bids"
-                              placeholderTextColor="#808080"
-                              onChangeText={(text) => errandSearchHandler(text)}
-                            />
-                            <Image
-                              style={{
-                                width: 30,
-                                height: 30,
-                                resizeMode: 'contain',
-                              }}
-                              source={require('../../assets/images/filter.png')}
-                            />
-                          </View>
+                    <View
+                      style={{ backgroundColor: backgroundTheme }}
+                      className="bg-[#e4eaf7] "
+                    >
+                      <View className="mx-4 mt-4 bg-white" style={{backgroundColor: theme ? '#1E3A79' : 'white'}}>
+                        <View className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3" style={{backgroundColor: theme ? '#1E3A79' : 'white'}}>
+                          <EvilIcons
+                            name="search"
+                            size={22}
+                            className="w-1/12"
+                          />
+                          <TextInput
+                            className=" w-9/12"
+                            placeholder="Search for Errands or Bids"
+                            placeholderTextColor={theme ? 'white' : '#808080'}
+                            onChangeText={(text) => errandSearchHandler(text)}
+                             style={{backgroundColor: theme ? '#1E3A79' : 'white'}}
+
+                          />
+                          <Image
+                            style={{
+                              width: 30,
+                              height: 30,
+                              resizeMode: 'contain',
+                            }}
+                            source={require('../../assets/images/filter.png')}
+                          />
                         </View>
                       </View>
 

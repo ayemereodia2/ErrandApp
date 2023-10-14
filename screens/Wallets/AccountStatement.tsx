@@ -143,12 +143,12 @@ const AccountStatement = () => {
   }, [startDate, endDate])
 
   return (
-    <View>
-      <Text className="text-base font-md text-center mt-2">
+    <View style={{backgroundColor: backgroundTheme}} className='h-screen'>
+      <Text className="text-base font-md text-center mt-2" style={{color: textTheme}}>
         Generate Account Statement
       </Text>
       <>
-        <View className="bg-[#fff] mt-6 rounded-md flex-row justify-center items-center space-x-4">
+        <View className="bg-[#fff] mt-6 rounded-md flex-row justify-center items-center space-x-4" style={{backgroundColor: backgroundTheme}}>
           <View className="h-20">
             <Pressable
               onPress={() => setShowStartDatePicker(true)}
@@ -158,12 +158,12 @@ const AccountStatement = () => {
                 className="mr-2"
                 name="calendar"
                 size={20}
-                color="black"
+                color={textTheme}
               />
-              <Text className="">Choose Start Date</Text>
+              <Text className="" style={{color: textTheme}}>Choose Start Date</Text>
             </Pressable>
             <View className="pt-2">
-              <Text> {startDate.toDateString()}</Text>
+              <Text style={{color: textTheme}}> {startDate.toDateString()}</Text>
               {showStartDatePicker && (
                 <DateTimePicker
                   value={startDate}
@@ -174,17 +174,17 @@ const AccountStatement = () => {
               )}
             </View>
           </View>
-          <Text>--</Text>
+          <Text style={{color: textTheme}}>--</Text>
           <View className="h-20">
             <Pressable
               onPress={() => setShowEndDatePicker(true)}
               className="text-center flex-row items-center space-x-1 "
             >
               <FontAwesome name="calendar" size={20} color="black" />
-              <Text>Choose End Date</Text>
+              <Text style={{color: textTheme}}>Choose End Date</Text>
             </Pressable>
             <View className="pt-2">
-              <Text>{endDate.toDateString()}</Text>
+              <Text style={{color: textTheme}}>{endDate.toDateString()}</Text>
               {showEndDatePicker && (
                 <DateTimePicker
                   value={endDate}

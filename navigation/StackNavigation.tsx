@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import FundWalletModal from '../components/Modals/Errands/FundWallet'
 import AccountScreen from '../screens/Accounts'
 import AccountRecoveryScreen from '../screens/Auth/AccountRecovery'
@@ -33,6 +33,7 @@ import WalletScreen from '../screens/Wallets'
 import EscrowScreen from '../screens/Wallets/EscrowScreen'
 import TransactionScreen from '../screens/Wallets/TransactionScreen'
 import WalletAccount from '../screens/Wallets/WalletAccount'
+import { getUserId } from '../utils/helper'
 import { TabsNavigation } from './TabsNavigation'
 
 const Stack = createNativeStackNavigator()
@@ -41,7 +42,7 @@ export function TabStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Tabs" component={TabsNavigation} />
-       <Stack.Screen
+      <Stack.Screen
         name="GuestScreen"
         component={GuestScreen}
         options={{ headerShown: false }}
@@ -314,15 +315,17 @@ export function GuestStack() {
 }
 
 export const MainStack = () => {
+ 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
 
-      <Stack.Screen
-        name="GuestScreen"
-        component={GuestScreen}
-        options={{ headerShown: false }}
-      />
+     
+        <Stack.Screen
+          name="GuestScreen"
+          component={GuestScreen}
+          options={{ headerShown: false }}
+        />
 
       <Stack.Screen
         name="GuestDetails"

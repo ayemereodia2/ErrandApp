@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { GuestStack, MainStack, TabStack } from './StackNavigation'
+import { GuestStack, MainStack } from './StackNavigation'
 
 const MainNavigation = () => {
   const [isGuest, setIsGuest] = useState<any>()
@@ -62,9 +62,7 @@ const MainNavigation = () => {
 
   return (
     <>
-      {isGuest === null && <GuestStack />}
-      {!isAuthenticated && <MainStack />}
-      {isAuthenticated && <TabStack/>}
+      {isGuest === null?  <GuestStack /> : <MainStack/>}
     </>
   )
 }

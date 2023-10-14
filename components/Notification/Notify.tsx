@@ -1,4 +1,4 @@
-import { EvilIcons, FontAwesome5, Ionicons } from '@expo/vector-icons'
+import { AntDesign, EvilIcons, FontAwesome5, Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -24,7 +24,7 @@ const Notify = ({ data }: Notify) => {
       {data
         ? data.data.map((notification: any) => (
             <View
-              className="mt-4 py-2 w-[90vw] mx-auto border border-gray-400 px-2 rounded-md"
+              className="mt-4 py-2 w-full  mx-auto border border-gray-400 px-4 rounded-md"
               key={notification.id}
               style={{ backgroundColor: theme ? '#152955' : 'white' }}
             >
@@ -34,11 +34,11 @@ const Notify = ({ data }: Notify) => {
                     {notification.type === 0 ? (
                       <Text>
                         {' '}
-                        <EvilIcons
-                          name="question"
-                          size={24}
-                          color={textTheme}
-                        />{' '}
+                        <AntDesign 
+                        name="exclamationcircleo" 
+                        size={24}
+                         color={textTheme} 
+                        />{'   '}
                       </Text>
                     ) : notification.type === 1 ? (
                       <Text>
@@ -47,7 +47,7 @@ const Notify = ({ data }: Notify) => {
                           name="running"
                           size={40}
                           color={textTheme}
-                        />{' '}
+                        />{'   '}
                       </Text>
                     ) : notification.type === 2 ? (
                       <Text>
@@ -56,7 +56,7 @@ const Notify = ({ data }: Notify) => {
                           name="ios-hammer-outline"
                           size={24}
                           color={textTheme}
-                        />{' '}
+                        />{'   '}
                       </Text>
                     ) : notification.type === 3 ? (
                       <Text>
@@ -65,7 +65,7 @@ const Notify = ({ data }: Notify) => {
                           name="md-swap-vertical"
                           size={24}
                           color={textTheme}
-                        />{' '}
+                        />{'   '}
                       </Text>
                     ) : null}
                   </View>
@@ -74,10 +74,10 @@ const Notify = ({ data }: Notify) => {
                       className="font-semibold text-base"
                       style={{ color: textTheme }}
                     >
-                      {notification.message}
+                       {notification.title}
                     </Text>
                     <Text style={{ color: textTheme }} className="">
-                      {notification.title}
+                    {notification.message} 
                     </Text>
                   </View>
                 </View>
