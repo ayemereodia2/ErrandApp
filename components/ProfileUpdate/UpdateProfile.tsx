@@ -15,8 +15,24 @@ import {
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { _fetch } from '../../services/axios/http'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../services/store'
 
 const UpdateProfile = ({ image, data }: any) => {
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
+  const darkMode = useSelector((state: RootState) => state.darkMode.darkMode)
+
+
   const navigation = useNavigation()
   const [loading, setLoading] = useState(false)
 
@@ -126,7 +142,7 @@ const UpdateProfile = ({ image, data }: any) => {
       <ScrollView className="px-4">
         <View className="mt-10">
           <View>
-            <Text className="font-medium text-lg text-[#1E3A79]">Bio</Text>
+            <Text className="font-medium text-lg text-[#1E3A79]" style={{color: textTheme}}>Bio</Text>
             <TextInput
               className="w-full mt-2 b rounded-md h-[120px] pl-3 pb-[70px] mx-auto bg-[#E6E6E6] text-sm"
               placeholder={data?.data.bio ? data.data.bio : 'Enter a message'}
@@ -137,7 +153,7 @@ const UpdateProfile = ({ image, data }: any) => {
           </View>
 
           <View className="mt-8">
-            <Text className="font-medium text-lg text-[#1E3A79]">
+            <Text className="font-medium text-lg text-[#1E3A79]" style={{color: textTheme}}>
               First Name
             </Text>
             <TextInput
@@ -150,7 +166,7 @@ const UpdateProfile = ({ image, data }: any) => {
           </View>
 
           <View className="mt-8">
-            <Text className="font-medium text-lg text-[#1E3A79]">
+            <Text className="font-medium text-lg text-[#1E3A79]" style={{color: textTheme}}>
               Last Name
             </Text>
             <TextInput
@@ -163,7 +179,7 @@ const UpdateProfile = ({ image, data }: any) => {
           </View>
 
           <View className="mt-8">
-            <Text className="font-medium text-lg text-[#1E3A79]">
+            <Text className="font-medium text-lg text-[#1E3A79]" style={{color: textTheme}}>
               Email Address
             </Text>
             <TextInput
@@ -176,7 +192,7 @@ const UpdateProfile = ({ image, data }: any) => {
           </View>
 
           <View className="mt-8">
-            <Text className="font-medium text-lg text-[#1E3A79]">
+            <Text className="font-medium text-lg text-[#1E3A79]" style={{color: textTheme}}>
               Date of Birth
             </Text>
 

@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import FundWalletModal from '../components/Modals/Errands/FundWallet'
 import AccountScreen from '../screens/Accounts'
 import AccountRecoveryScreen from '../screens/Auth/AccountRecovery'
@@ -33,15 +33,17 @@ import WalletScreen from '../screens/Wallets'
 import EscrowScreen from '../screens/Wallets/EscrowScreen'
 import TransactionScreen from '../screens/Wallets/TransactionScreen'
 import WalletAccount from '../screens/Wallets/WalletAccount'
-import { getUserId } from '../utils/helper'
 import { TabsNavigation } from './TabsNavigation'
 
 const Stack = createNativeStackNavigator()
 
-export function TabStack() {
+export const TabStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+
       <Stack.Screen name="Tabs" component={TabsNavigation} />
+
       <Stack.Screen
         name="GuestScreen"
         component={GuestScreen}
@@ -242,6 +244,13 @@ export function GuestStack() {
           }}
         />
         <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="CreateErrand"
+          component={PostErrand}
+        />
+        <Stack.Screen
           name="CategoryInterest"
           component={CategoryInterest}
           options={{
@@ -303,6 +312,7 @@ export function GuestStack() {
             },
           }}
         />
+        <Stack.Screen name="LandingForm" component={LandingForm} />
         <Stack.Screen
           name="ErrorScreen"
           component={ErrorScreen}
@@ -315,17 +325,15 @@ export function GuestStack() {
 }
 
 export const MainStack = () => {
- 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
 
-     
-        <Stack.Screen
-          name="GuestScreen"
-          component={GuestScreen}
-          options={{ headerShown: false }}
-        />
+      <Stack.Screen
+        name="GuestScreen"
+        component={GuestScreen}
+        options={{ headerShown: false }}
+      />
 
       <Stack.Screen
         name="GuestDetails"
@@ -362,21 +370,6 @@ export const MainStack = () => {
         component={WalletAccount}
         options={{ headerShown: false }}
       />
-
-      {/* <Stack.Screen
-        name="Withd"
-        component={WalletAccount}
-        options={{ headerShown: false }}
-      /> */}
-
-      {/* <Stack.Screen
-        name="CategoryInterest"
-        component={CategoryInterest}
-        options={{
-          title: 'Category Interest',
-          presentation: 'fullScreenModal',
-        }}
-      /> */}
 
       <Stack.Screen
         options={{
@@ -552,13 +545,13 @@ export const LandingPageStack = () => {
 
       <Stack.Screen name="MyErrands" component={ErrandScreen} />
 
-      <Stack.Screen
+      {/* <Stack.Screen
         options={{
           headerShown: false,
         }}
         name="CreateErrand"
         component={PostErrand}
-      />
+      /> */}
       <Stack.Screen
         name="Notification"
         component={NotificationScreen}
@@ -613,19 +606,19 @@ export const WalletStack = () => {
   )
 }
 
-export const PostErrandStack = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="CreateErrand"
-        component={PostErrand}
-      />
-    </Stack.Navigator>
-  )
-}
+// export const PostErrandStack = () => {
+//   return (
+//     <Stack.Navigator screenOptions={{ headerShown: false }}>
+//       <Stack.Screen
+//         options={{
+//           headerShown: false,
+//         }}
+//         name="CreateErrand"
+//         component={PostErrand}
+//       />
+//     </Stack.Navigator>
+//   )
+// }
 
 export const SetttingsStack = () => {
   return (

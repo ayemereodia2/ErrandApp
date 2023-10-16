@@ -106,7 +106,8 @@ export default function GuestScreen({ navigation }: any) {
     navigation.setOptions({
       headerShown: true,
       title: 'Errand Market',
-      headerStyle: { backgroundColor: '#F8F9FC' },
+      headerStyle: { backgroundColor: userId ? '#0c1730' : ' #F8F9FC' },
+      headerTitleStyle: {color: userId ? 'white' : 'black'},
       headerLeft: () => (
         <View
           style={{ marginRight: 10 }}
@@ -135,13 +136,20 @@ export default function GuestScreen({ navigation }: any) {
     })
   }, [])
 
-  if (!fontsLoaded) {
+ if (loading) {
     return (
-      <View>
-        <Text>Loading ...</Text>
-      </View>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: userId ? "#0c1730" : '',
+        }}
+      >
+        <ActivityIndicator color={userId ?'white': 'blue'} size="large" />
+      </SafeAreaView>
     )
-  } else {
+  }
     return (
       <SafeAreaView>
         <View
@@ -292,7 +300,7 @@ export default function GuestScreen({ navigation }: any) {
       </SafeAreaView>
     )
   }
-}
+
 
 const styles = StyleSheet.create({
   container: {

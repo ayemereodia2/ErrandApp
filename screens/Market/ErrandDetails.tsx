@@ -204,29 +204,46 @@ export default function ErrandDetails({ route, navigation }: any) {
                     <ActivityIndicator size={'large'} />
                   </View>
                 ) : (
-                  <View className="p-4 px-6 mt-2">
-                    <View className="">
-                      <View className="items-center justify-center">
-                        <ProfileInitials
-                          textClass="text-white text-2xl"
-                          firstName={user.first_name}
-                          lastName={user.last_name}
-                          profile_pic={user.profile_picture}
-                          className="w-20 h-20 bg-[#616161] rounded-full text-2xl"
-                        />
-                        <View className="pt-2">
-                          <View className="flex-row space-x-2 items-center justify-center">
-                            <Text
+                  <View className="p-4 px-6">
+                    <View className="p-4 px-6 mt-2">
+                      <View className="">
+                        <View className="items-center justify-center">
+                          <ProfileInitials
+                            textClass="text-white text-2xl"
+                            firstName={user.first_name}
+                            lastName={user.last_name}
+                            profile_pic={user.profile_picture}
+                            className="w-20 h-20 bg-[#616161] rounded-full text-2xl"
+                          />
+                          <View className="pt-2">
+                            <View className="flex-row space-x-2 items-center justify-center">
+                              <Text
+                                style={{ color: textTheme }}
+                                className="text-center text-base font-semibold"
+                              >
+                                {user?.first_name} {user?.last_name}
+                              </Text>
+                              {user?.verification === 100 ? (
+                                <Text>
+                                  <MaterialIcons
+                                    name="verified"
+                                    color="green"
+                                    size={20}
+                                  />
+                                </Text>
+                              ) : null}
+                            </View>
+                            {/* <Text
                               style={{ color: textTheme }}
                               className="text-center text-base font-semibold"
                             >
                               {user?.first_name} {user?.last_name}
-                            </Text>
-                            <MaterialIcons
+                            </Text> */}
+                            {/* <MaterialIcons
                               name="verified"
                               color="green"
                               size={20}
-                            />
+                            /> */}
                           </View>
                           <Text
                             style={{ color: textTheme }}

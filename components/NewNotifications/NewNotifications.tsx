@@ -43,23 +43,20 @@ export default function NewNotifications() {
   }
 
   if (isSuccess) {
-    console.log('>>>>>>notigyffff', data.data)
+    // console.log('>>>>>>notigyffff', data.data)
   }
 
   return (
     <>
       {data
-        ? data.data.map((notification: any) => (
-          <View
-          className="mt-4 py-2 w-full mx-auto border border-gray-400 px-4 rounded-md"
-          key={notification.id}
-          style={{ backgroundColor: theme ? '#152955' : 'white' }}
-        >
-          <View className="flex-row justify-between items-center">
-            <View className="flex-row mx-1.5">
-              <View className="mt-2 mr-0.5">
-                {notification.type === 0 ? (
-                  <Text>
+        ? data?.data?.map((notification: any) => (
+          
+        <View className='py-2 mb-3 mt-4 border border-gray-400 rounded-md' style={{ backgroundColor: theme ? '#152955' : 'white' }} key={notification.id}>
+          <View className='flex-row items-center justify-between mx-2 mb-1 mt-2'>
+
+          <View className='flex-row items-center'>
+          {notification.type === 0 ? (
+                  <Text style={{ color: textTheme }}>
                     {' '}
                     <AntDesign 
                     name="exclamationcircleo" 
@@ -68,7 +65,7 @@ export default function NewNotifications() {
                     />{'   '}
                   </Text>
                 ) : notification.type === 1 ? (
-                  <Text>
+                  <Text style={{ color: textTheme }}>
                     {' '}
                     <FontAwesome5
                       name="running"
@@ -77,7 +74,7 @@ export default function NewNotifications() {
                     />{'   '}
                   </Text>
                 ) : notification.type === 2 ? (
-                  <Text>
+                  <Text style={{ color: textTheme }}>
                     {' '}
                     <Ionicons
                       name="ios-hammer-outline"
@@ -86,7 +83,7 @@ export default function NewNotifications() {
                     />{'   '}
                   </Text>
                 ) : notification.type === 3 ? (
-                  <Text>
+                  <Text style={{ color: textTheme }}>
                     {' '}
                     <Ionicons
                       name="md-swap-vertical"
@@ -95,26 +92,16 @@ export default function NewNotifications() {
                     />{'   '}
                   </Text>
                 ) : null}
-              </View>
-              <View>
-                <Text
-                  className="font-semibold text-base"
-                  style={{ color: textTheme }}
-                >
-                   {notification.title}
-                </Text>
-                <Text style={{ color: textTheme }} className="">
-                {notification.message} 
-                </Text>
-              </View>
-            </View>
+               
+                <Text style={{ color: textTheme }} className='text-base font-bold'>{notification.title}</Text>
 
-            <Text
-              className="mb-4 text-[#808080] left-[-28px]"
-              style={{ color: textTheme }}
-            >
-              {getTimeAgo(notification.created_at)}
-            </Text>
+                </View>
+
+            <Text style={{ color: textTheme }}>{getTimeAgo(notification.created_at)}</Text>
+          </View>
+
+          <View>
+            <Text className='mx-10 text-base' style={{ color: textTheme }}>{notification.message}</Text>
           </View>
         </View>
       ))

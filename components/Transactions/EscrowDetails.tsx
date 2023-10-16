@@ -20,7 +20,12 @@ const EscrowDetails = (escrows: EscrowBreakDown) => {
         <View className="flex-row justify-between items-center mr-2">
           <View className="px-2 mr-2">
             <Text className="text-base font-medium w-56" style={{color: textTheme}}>
-              {escrows.description}
+              {escrows.description.length > 50 ? 
+              
+              ( <Text>{escrows.description.slice(0, 50)}...</Text> )
+              :
+              ( <Text>{escrows.description}</Text> )
+              }
             </Text>
           </View>
           <Text className={`font-bold text-base text-[#21B06E]`}>

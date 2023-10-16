@@ -49,7 +49,7 @@ const LandingTest = ({ navigation }: any) => {
     getUserId({})
   }, [])
 
-  console.log('>>>>>>themeBackgriubd', backgroundTheme, textTheme)
+  // console.log('>>>>>>themeBackgriubd', backgroundTheme, textTheme)
 
   const getCategory = async () => {
     const _rs = await _fetch({
@@ -84,15 +84,19 @@ const LandingTest = ({ navigation }: any) => {
   if (loading) {
     return (
       <SafeAreaView
-        style={styles.container}
-        // className="pt-20 bg-gray-200 w-screen h-[100vh] mt-5"
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: backgroundTheme,
+        }}
       >
         {/* <Image
           style={styles.image}
           className="mx-auto"
           source={require(loaderGif)}
         /> */}
-        <ActivityIndicator color={'white'} size="large" />
+        <ActivityIndicator color={theme ? 'blue': 'white'} size="large" />
       </SafeAreaView>
     )
   }
@@ -223,8 +227,8 @@ const LandingTest = ({ navigation }: any) => {
             >
               You may have missed these...
             </Text>
-            </View>
-            <NewNotifications />
+          </View>
+          <NewNotifications />
           {/* </View> */}
         </ScrollView>
         {!isLoading && <PostErrandButton className="bottom-5 right-3" />}

@@ -2,8 +2,8 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { useQuery } from '@tanstack/react-query'
 import * as Clipboard from 'expo-clipboard'
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator } from 'react-native'
 import {
+  ActivityIndicator,
   Image,
   SafeAreaView,
   ScrollView,
@@ -77,7 +77,7 @@ const SettingScreen = ({ navigation }: any) => {
           backgroundColor: backgroundTheme,
         }}
       >
-        <ActivityIndicator color={'white'} size="large" />
+        <ActivityIndicator color={theme ? 'blue' : 'white'} size="large" />
       </SafeAreaView>
     )
   }

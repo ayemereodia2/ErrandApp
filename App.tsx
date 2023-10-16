@@ -2,78 +2,105 @@
 
 // import { SafeAreaProvider } from 'react-native-safe-area-context'
 // import { Provider } from 'react-redux'
-import {
-  focusManager,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
-import React from 'react'
-import { AppStateStatus, Platform, View } from 'react-native'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import React, { useEffect, useState } from 'react'
+import { View } from 'react-native'
 // import 'react-native-gesture-handler'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as NetInfo from '@react-native-community/netinfo'
 import { NavigationContainer } from '@react-navigation/native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { NetworkProvider } from 'react-native-offline'
 import { MenuProvider } from 'react-native-popup-menu'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
 import { Provider } from 'react-redux'
+import ErrorBoundary from './components/ErrorBoundary'
 import useCachedResources from './hooks/useCachedResources'
 import useColorScheme from './hooks/useColorScheme'
 import { useOnlineManager } from './hooks/useOnlineManager'
 import MainNavigation from './navigation/MainNavigation'
+import { GuestStack } from './navigation/StackNavigation'
 import { store } from './services/store'
-import ErrorBoundary from './components/ErrorBoundary'
 
 const queryClient = new QueryClient()
-
-function onAppStateChange(status: AppStateStatus) {
-  // React Query already supports in web browser refetch on window focus by defaunpm update
-
-  if (Platform.OS !== 'web') {
-    focusManager.setFocused(status === 'active')
-  }
-}
 
 // import { store } from './services/store'
 
 export default function App() {
   const isLoadingComplete = useCachedResources()
+  const [isGuest, setIsGuest] = useState<any>()
+
+  // const [isAuthenticated, setIsAuthenticated] = useState<any>('')
   const colorScheme = useColorScheme()
 
   useOnlineManager()
 
-  // useAppState(onAppStateChange);
+  useEffect(() => {
+    checkAuthenticationStatus()
+    NetInfo.fetch().then((state) => {
+      if (state.isConnected) {
+        Toast.show({
+          type: 'success',
+          text1: 'Back Online',
+        })
+      }
+      Toast.show({
+        type: 'error',
+        text1: 'Sorry, you are offline, please check your network',
+      })
+      return <ErrorBoundary />
+    })
+  }, [])
+
+  const checkAuthenticationStatus = async () => {
+    console.log('>>>>ok', isGuest)
+
+    // await AsyncStorage.clear()
+
+    try {
+      const isGuest = await AsyncStorage.getItem('isGuest')
+      setIsGuest(isGuest)
+      // const isAuthenticated = await AsyncStorage.getItem('accessToken')
+      // setIsAuthenticated(isAuthenticated)
+    } catch (error) {
+      throw error
+    }
+  }
 
   if (!isLoadingComplete) {
     return null
   } else {
     return (
-      <ErrorBoundary>
-        <View style={{ flex: 1 }}>
-          <QueryClientProvider client={queryClient}>
-            <MenuProvider>
-              <Provider store={store}>
-                <SafeAreaProvider>
-                  {/* <Navigation /> */}
-                  <GestureHandlerRootView style={{ flex: 1 }}>
-                    {/* Conditionally render AuthStack or AppStack based on authentication status */}
+      <NetworkProvider>
+        <ErrorBoundary>
+          <View style={{ flex: 1 }}>
+            <QueryClientProvider client={queryClient}>
+              <MenuProvider>
+                <Provider store={store}>
+                  <SafeAreaProvider>
+                    {/* <Navigation /> */}
+                    <GestureHandlerRootView style={{ flex: 1 }}>
+                      {/* Conditionally render AuthStack or AppStack based on authentication status */}
 
-                    {/* {isAuthenticated ? ( */}
-                    <NavigationContainer>
-                      <MainNavigation />
-                    </NavigationContainer>
-                    {/* ) : (
+                      {/* {isAuthenticated ? ( */}
+                      <NavigationContainer>
+                        {isGuest === null ? <GuestStack /> : <MainNavigation />}
+                      </NavigationContainer>
+                      {/* ) : (
                     <NavigationContainer>
                       <GuestNavigator />
                     </NavigationContainer>
                   )} */}
-                  </GestureHandlerRootView>
-                </SafeAreaProvider>
-                <Toast />
-              </Provider>
-            </MenuProvider>
-          </QueryClientProvider>
-        </View>
-      </ErrorBoundary>
+                    </GestureHandlerRootView>
+                  </SafeAreaProvider>
+                  <Toast />
+                </Provider>
+              </MenuProvider>
+            </QueryClientProvider>
+          </View>
+        </ErrorBoundary>
+      </NetworkProvider>
     )
   }
 }

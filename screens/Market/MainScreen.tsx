@@ -135,7 +135,7 @@ export default function MainScreen() {
           backgroundColor: backgroundTheme,
         }}
       >
-        <ActivityIndicator color={'white'} size="large" />
+        <ActivityIndicator color={userId ? 'white' : 'blue'} size="large" />
       </SafeAreaView>
     )
   }
@@ -185,30 +185,36 @@ export default function MainScreen() {
               >
                 <View className="mx-4">
                   {!loading && (
-                    <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white" style={{backgroundColor: theme ? '#1E3A79' : 'white'}}>
+                    <View
+                      className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white"
+                      style={{ backgroundColor: theme ? '#1E3A79' : 'white' }}
+                    >
                       <EvilIcons
                         name="search"
                         size={22}
                         className="w-1/12"
-                        color="#808080"
+                        color={theme ? 'white' : '#808080'}
                       />
                       <TextInput
                         className=" w-8/12"
                         placeholder="Search for Errands"
-                        placeholderTextColor="#808080"
+                        placeholderTextColor={theme ? 'white' : '#808080'}
                         onChangeText={(text) => errandSearchHandler(text)}
-                        
                       />
                       <TouchableOpacity onPress={handleViewChange}>
                         <View className="mr-1 b rounded-md w-[38px]">
                           <Text className="p-2 text-center">
                             {toggleView ? (
-                              <Feather name="list" size={20} color="black" />
+                              <Feather
+                                name="list"
+                                size={20}
+                                color={theme ? 'white' : 'black'}
+                              />
                             ) : (
                               <MaterialCommunityIcons
                                 name="view-dashboard"
                                 size={20}
-                                color="black"
+                                color={theme ? 'white' : 'black'}
                               />
                             )}
                           </Text>

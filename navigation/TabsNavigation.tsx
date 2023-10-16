@@ -12,18 +12,12 @@ import {
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   getFocusedRouteNameFromRoute,
-  useFocusEffect,
   useNavigation,
   useRoute,
 } from '@react-navigation/native'
 import React, { useEffect } from 'react'
-import {
-  BackHandler,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { useIsConnected } from 'react-native-offline'
 import { useSelector } from 'react-redux'
 import { ProfileInitials } from '../components/ProfileInitials'
 import { RootState, useAppDispatch } from '../services/store'
@@ -60,6 +54,7 @@ export const TabsNavigation = ({ navigation }: any) => {
   const [lastName, setLastName] = React.useState('')
   const [profilePic, setProfilePic] = React.useState('')
   const navigate = useNavigation()
+  const isConnected = useIsConnected()
 
   // const navigation = useNavigation()
 
@@ -109,7 +104,6 @@ export const TabsNavigation = ({ navigation }: any) => {
             color={textTheme}
             size={24}
           />
-
           <Feather
             onPress={() => navigation.navigate('Contact')}
             color={textTheme}
@@ -129,9 +123,7 @@ export const TabsNavigation = ({ navigation }: any) => {
   useEffect(() => {
     // dispatch(market({}))
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
-  }, [])
-
- 
+  }, [isConnected])
 
   return (
     <Tab.Navigator
@@ -142,7 +134,7 @@ export const TabsNavigation = ({ navigation }: any) => {
           bottom: 0,
           // left: 25,
           // right: 20,
-          backgroundColor: backgroundTheme,
+          backgroundColor: theme ? '#0c1730' : 'white',
           borderTopRightRadius: 10,
           borderTopLeftRadius: 10,
           // borderRadius: 15,
@@ -162,7 +154,7 @@ export const TabsNavigation = ({ navigation }: any) => {
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
-                <Entypo name="home" size={24} color={textTheme} />
+                <Entypo name="home" size={24} color={theme ? 'white' : 'black'} />
               ) : (
                 <AntDesign name="home" size={24} color={textTheme} />
               )}

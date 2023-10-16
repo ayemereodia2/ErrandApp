@@ -159,6 +159,7 @@ const ErrandScreen = ({ navigation }: any) => {
                             name="search"
                             size={22}
                             className="w-1/12"
+                            color={theme ? 'white' : 'black'}
                           />
                           <TextInput
                             className=" w-9/12"

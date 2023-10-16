@@ -1,50 +1,52 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { GuestStack, MainStack } from './StackNavigation'
+import { useIsConnected } from 'react-native-offline'
+import Toast from 'react-native-toast-message'
+import ErrorBoundary from '../components/ErrorBoundary'
+import { MainStack, TabStack } from './StackNavigation'
 
 const MainNavigation = () => {
   const [isGuest, setIsGuest] = useState<any>()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const isConnected = useIsConnected()
 
-  // const {
-  //   data: currentUser,
-  //   backgroundTheme,
-  //   textTheme,
-  //   landingPageTheme,
-  // } = useSelector((state: RootState) => state.currentUserDetailsReducer)
   const navigation = useNavigation()
+
+  const checkNetworkConnectivity = async () => {
+    console.log('>>>>>isConnect', isConnected)
+
+    if (isConnected === null) {
+      return
+    }
+    if (isConnected === false) {
+      Toast.show({
+        type: 'error',
+        text1: 'Sorry, you are offline, please check your network',
+      })
+      return <ErrorBoundary />
+    }
+    Toast.show({
+      type: 'success',
+      text1: 'Back Online',
+    })
+  }
 
   const checkAuthenticationStatus = async () => {
     try {
       const isAuthenticated = await AsyncStorage.getItem('accessToken')
-
-      if (isAuthenticated) {
-        navigation.navigate('Tabs')
-      }
-
-      // console.log(">>>>>>accessTokn", is);
-
       const isGuest = await AsyncStorage.getItem('isGuest')
-      // console.log('>>>>auth stuff', isAuthenticated, isGuest)
 
-      // await AsyncStorage.clear()
-      // await AsyncStorage.setItem('isGuest', 'false')
+      console.log('>>>>>>>', isAuthenticated)
 
       setIsGuest(isGuest)
 
-      // Check if the value is 'true' to determine authentication status
       if (isAuthenticated) {
-        // User is authenticated, you can navigate to the AppStack
-        // or perform any other actions as needed
         setIsAuthenticated(true)
       } else {
-        // User is not authenticated, you can navigate to the AuthStack
-        // or perform any other actions as needed
         setIsAuthenticated(false)
       }
     } catch (error) {
-      // Handle AsyncStorage read error
       console.log(error)
     }
   }
@@ -52,17 +54,30 @@ const MainNavigation = () => {
   useEffect(() => {
     // Call the authentication status check function
     checkAuthenticationStatus()
-  }, [])
+    checkNetworkConnectivity()
+  }, [isAuthenticated, isGuest, isConnected])
 
-  useEffect(() => {
-    if (!isAuthenticated && isGuest !== null) {
-      // navigation.navigate('GuestScreen')
-    }
-  }, [isAuthenticated, isGuest])
+  // useEffect(() => {
+  //   if (!isAuthenticated && isGuest !== null) {
+  //     navigation.navigate('GuestScreen')
+  //   }
+  // }, [isAuthenticated, isGuest, isConnected])
 
   return (
     <>
-      {isGuest === null?  <GuestStack /> : <MainStack/>}
+      {/* {isGuest === null ? (
+        <GuestStack />
+      ) : !isAuthenticated ? (
+        <MainStack />
+      ) : isAuthenticated ? (
+        <TabStack />
+      ) : (
+        ''
+      )} */}
+
+      {!isAuthenticated ? <MainStack /> : <TabStack />}
+
+      {/* {!isAuthenticated ? <MainStack/> : ''} */}
     </>
   )
 }

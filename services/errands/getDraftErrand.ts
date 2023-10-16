@@ -17,7 +17,7 @@ export const getDraftErrand = createAsyncThunk<
 
     const rs = await _rs.json()
 
-    console.log(">>>>>_draft", rs.data.id);
+    // console.log(">>>>>_draft", rs.data.id);
 
     if (rs.success === true) {
       await AsyncStorage.setItem('errandId', rs.data.id)

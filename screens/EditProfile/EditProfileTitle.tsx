@@ -10,21 +10,38 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu'
 import UpdateProfile from '../../components/ProfileUpdate/UpdateProfile'
+import { RootState } from '../../services/store'
+import { useSelector } from 'react-redux'
 
 const EditProfileTitle = ({ navigation, route }: any) => {
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const darkMode = useSelector((state: RootState) => state.darkMode.darkMode)
+
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
+
   const [image, setImage] = useState(null)
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
       title: 'Edit Profile',
-      headerStyle: { backgroundColor: '#F8F9FC' },
+      headerStyle: { backgroundColor: backgroundTheme },
+      headerTitleStyle: {color: textTheme},
       headerLeft: () => (
         <TouchableOpacity
           className="flex-row items-center justify-between mx-0 px-3 py-3"
           onPress={() => navigation.goBack()}
         >
-          <AntDesign name="arrowleft" size={24} color="black" />
+          <AntDesign name="arrowleft" size={24} color={textTheme} />
         </TouchableOpacity>
       ),
       headerRight: () => (
@@ -34,7 +51,7 @@ const EditProfileTitle = ({ navigation, route }: any) => {
               </TouchableOpacity> */}
           <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
             <MenuTrigger>
-              <Entypo name="dots-three-vertical" color={'black'} size={20} />
+              <Entypo name="dots-three-vertical" color={textTheme} size={20} />
             </MenuTrigger>
             <MenuOptions
               customStyles={{
@@ -100,7 +117,7 @@ const EditProfileTitle = ({ navigation, route }: any) => {
   const { data } = route.params
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{backgroundColor: backgroundTheme}}>
       <ScrollView>
         {/* Top Profile */}
 
@@ -130,17 +147,24 @@ const EditProfileTitle = ({ navigation, route }: any) => {
           {/* Name Area */}
 
           <View className="flex-row justify-center items-center mt-5">
-            <Text className="text-[18px] font-bold leading-6">
+            <Text className="text-[18px] font-bold leading-6" style={{color: textTheme}}>
               {data?.data.first_name} {data?.data.last_name}{' '}
             </Text>
-            <Text>
-              <MaterialIcons name="verified" size={20} color="green" />
-            </Text>
+            
+              {data?.data.verification === 100 ? 
+              ( <Text> 
+                <MaterialIcons name="verified" size={20} color="green" />
+              </Text> )
+              :
+              null
+              
+            }
+              
           </View>
 
           {/*Occupation */}
 
-          <Text className="text-center mt-3 text-base font-medium">
+          <Text className="text-center mt-3 text-base font-medium" style={{color: textTheme}}>
             {data?.data.occupation ? data.occupation : 'Swave User'}
           </Text>
         </View>

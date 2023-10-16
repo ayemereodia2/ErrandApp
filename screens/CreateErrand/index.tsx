@@ -192,7 +192,7 @@ const PostErrand = ({ navigation }: any) => {
       duration: { period: dur_value, value: Number(dur_period) },
       images: images,
       restriction: res_by_qualification ? 'qualification' : 'verification',
-      // pickup_location: { lat: pickup?.lat, lng: pickup?.lng },
+      // pickup_location: { lat: picpkup?.lat, lng: pickup?.lng },
       // dropoff_location: { lat: delivery?.lat, lng: delivery?.lng },
       pickup_location: { lat: 0, lng: 0 },
       dropoff_location: { lat: 0, lng: 0 },
@@ -224,15 +224,15 @@ const PostErrand = ({ navigation }: any) => {
     dispatch(getDraftErrand())
   }, [])
 
-  useEffect(() => {
-    navigation
-      .getParent()
-      ?.setOptions({ tabBarStyle: { display: 'none' }, tabBarVisible: false })
-    return () =>
-      navigation
-        .getParent()
-        ?.setOptions({ tabBarStyle: undefined, tabBarVisible: undefined })
-  }, [navigation])
+  // useEffect(() => {
+  //   navigation
+  //     .getParent()
+  //     ?.setOptions({ tabBarStyle: { display: 'none' }, tabBarVisible: false })
+  //   return () =>
+  //     navigation
+  //       .getParent()
+  //       ?.setOptions({ tabBarStyle: undefined, tabBarVisible: undefined })
+  // }, [navigation])
 
   useLayoutEffect(() => {
     navigation.setOptions({

@@ -4,7 +4,6 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
-import { LinearGradient } from 'expo-linear-gradient'
 import React, {
   useCallback,
   useEffect,
@@ -181,8 +180,14 @@ const WalletScreen = ({ navigation }: any) => {
               style={{ backgroundColor: backgroundTheme }}
               showsVerticalScrollIndicator={false}
             >
-              <View className="flex-row items-center justify-between bg-[#e4eaf7] px-4 mt-2"  style={{backgroundColor: backgroundTheme}}>
-                <Text className="font-medium text-xl leading-[29px]" style={{color: textTheme}}>
+              <View
+                className="flex-row items-center justify-between bg-[#e4eaf7] px-4 mt-2"
+                style={{ backgroundColor: backgroundTheme }}
+              >
+                <Text
+                  className="font-medium text-xl leading-[29px]"
+                  style={{ color: textTheme }}
+                >
                   Overview
                 </Text>
 
@@ -191,14 +196,12 @@ const WalletScreen = ({ navigation }: any) => {
                     shadowColor: 'none',
                     shadowOpacity: 0,
                     borderRadius: 30,
-                    
                   }}
                 >
                   <MenuTrigger>
                     <View
                       className="bg-[#3F60AC] w-[131px] items-center p-2 rounded-md"
                       // onPress={handleQuickLinks}
-                     
                     >
                       <View className="flex-row items-center justify-center">
                         <Text className=" text-center text-white">
@@ -218,7 +221,6 @@ const WalletScreen = ({ navigation }: any) => {
                     customStyles={{
                       optionWrapper: {
                         marginTop: 20,
-                        
                       },
                       optionText: { textAlign: 'center', fontWeight: '600' },
                     }}
@@ -270,23 +272,32 @@ const WalletScreen = ({ navigation }: any) => {
               </View>
 
               <View className="pt-4 ">
-                  <View className="px-4">
+                <View className="px-4">
                   <ImageBackground
-                    source={{uri: balanceLayer}}
+                    source={{ uri: balanceLayer }}
                     resizeMode="cover"
                     style={{ flex: 1, justifyContent: 'center' }}
                   >
-                    <View className="w-full bg-[#FFF] border mt-3 border-[#DAE1F1] rounded-xl p-6 mx-auto z-1 " style={{backgroundColor: backgroundTheme}}>
+                    <View
+                      className="w-full bg-[#FFF] border mt-3 border-[#DAE1F1] rounded-xl p-6 mx-auto z-1 "
+                      style={{ backgroundColor: backgroundTheme }}
+                    >
                       <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
                         <Text>
                           <FontAwesome name="bank" size={24} color="#C85604" />
                         </Text>
                       </View>
 
-                      <Text className="mt-6 text-[#888] text-base font-medium leading-[24px]" style={{color: darkMode ? '#888' : 'white'}}>
+                      <Text
+                        className="mt-6 text-[#888] text-base font-medium leading-[24px]"
+                        style={{ color: darkMode ? '#888' : 'white' }}
+                      >
                         Account Balance
                       </Text>
-                      <Text className="font-bold text-[32px] mt-2" style={{color: textTheme}}>
+                      <Text
+                        className="font-bold text-[32px] mt-2"
+                        style={{ color: textTheme }}
+                      >
                         {' '}
                         ₦
                         {Number(data?.balance) === 0
@@ -303,7 +314,10 @@ const WalletScreen = ({ navigation }: any) => {
                         }}
                         className="w-[200px] h-[44px] mt-5 items-center justify-center border border-[#314B87] rounded-lg"
                       >
-                        <Text className="text-center text-base" style={{color: textTheme}}>
+                        <Text
+                          className="text-center text-base"
+                          style={{ color: textTheme }}
+                        >
                           {' '}
                           + <Text>Fund Wallet</Text>
                         </Text>

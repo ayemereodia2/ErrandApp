@@ -177,9 +177,9 @@ const LandingForm = ({ navigation, route }: any) => {
   return (
     <SafeAreaView
       style={{ backgroundColor: backgroundTheme, flex: 1 }}
-      className="px-4 pt-10 "
+      className=" pt-4 "
     >
-      <ScrollView style={{ backgroundColor: backgroundTheme }}>
+      <ScrollView style={{ backgroundColor: backgroundTheme }} className="px-4">
         <View className="mt-6 flex-row items-center justify-between mx-3">
           <Text
             style={{ color: textTheme }}
@@ -297,10 +297,10 @@ const LandingForm = ({ navigation, route }: any) => {
         )}
       </ScrollView>
 
-      <View className="absolute bottom-0 flex-row justify-center">
+      <View className="absolute bottom-0 flex-row justify-center w-full">
         <TouchableOpacity
           onPress={() => submitErrandhandler()}
-          className="bg-[#1E3A79] h-16 w-[100%] mt-6 flex-row justify-center items-center "
+          className="bg-[#1E3A79] h-16 w-full  mt-6 flex-row justify-center items-center "
         >
           {creatingErrand ? (
             <ActivityIndicator size="small" color="blue" />

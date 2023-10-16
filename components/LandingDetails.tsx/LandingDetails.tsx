@@ -59,7 +59,7 @@ const LandingDetails = ({ navigation }: any) => {
   }
 
   if (isSuccess) {
-    console.log(data)
+    // console.log(data)
   }
 
   const regex = /(<([^>]+)>)/gi
