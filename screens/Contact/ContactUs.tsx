@@ -20,6 +20,8 @@ import { string } from 'yup'
 import { contactUs } from '../../services/Contacts/ContactUsSlice'
 import { RootState, useAppDispatch } from '../../services/store'
 import { ContactData } from '../../types'
+import Toast from 'react-native-toast-message'
+import { _fetch } from '../../services/axios/http'
 
 const ContactUs = ({ navigation }: any) => {
 
@@ -36,6 +38,7 @@ const ContactUs = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
 
   const [name, setName] = useState('')
+  const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [number, setNumber] = useState('')
@@ -98,40 +101,75 @@ const ContactUs = ({ navigation }: any) => {
     })
   }, [])
 
-  const onSubmit = (data: ContactData) => {
-    const UserMessage = {
-      name: string,
-      email: string,
-      message: string,
-      phone_number: string,
+  const updateUserProfile = async (userData: any) => {
+    setLoading(true)
+    try {
+      const _rs = await _fetch({
+        method: 'POST',
+        _url: `/user/send-enquiry`,
+        body: userData,
+      })
+
+      // Check if the response status code indicates an error
+      if (!_rs.ok) {
+        const errorResponse = await _rs.json()
+        throw new Error(`Server error: ${errorResponse.message}`)
+      }
+      setLoading(false)
+      const responseData = await _rs.json()
+      return responseData
+    } catch (error) {
+      throw error
     }
-    dispatch(contactUs(UserMessage))
   }
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      name: '',
-      email: '',
-      message: '',
-      phone_number: '',
-    },
-  })
+  const handleSubmit = async () => {
+    const updatedData = {
+      first_name: name,
+      email: email,
+     
+    }
 
-  const { loading, error } = useSelector(
-    (state: RootState) => state.contactUsReducer,
-  )
+    try {
+      const responseData = await updateUserProfile(updatedData)
+      if (responseData.success) {
+        Toast.show({
+          type: 'success',
+          text1: 'Your message was sent!',
+        })
+        
+
+        // Navigate back to the Account screen
+        navigation.navigate('Home')
+
+        console.log(updatedData)
+      } else {
+        // Handle the case where the server responded with an error message
+        console.error('Profile update failed:', responseData.message)
+
+        Toast.show({
+          type: 'error',
+          text1: 'Profile update failed:' + responseData.message,
+        })
+      }
+    } catch (error) {
+      // Handle errors here, such as network errors or server-side errors
+      console.error('Error updating profile:', error)
+
+      Toast.show({
+        type: 'error',
+        text1: 'Sorry, something went wrong',
+      })
+    }
+  }
 
   return (
     <SafeAreaView>
       {/* Header */}
 
       {/* End Of Header */}
-      <ScrollView style={{backgroundColor: backgroundTheme}}>
-        <View className="w-[382px] h-[350px] mt-[80px] bg-[#CBD5EC] mx-auto b rounded-md" >
+      <ScrollView className='h-screen' style={{backgroundColor: backgroundTheme}}>
+        {/* <View className="w-[382px] h-[350px] mt-[80px] bg-[#CBD5EC] mx-auto b rounded-md" >
           <Text className="ml-5 mt-5 leading-6 text-lg font-semibold" >
             We're always<Text className="text-[#317ACF]"> Connected</Text>
           </Text>
@@ -162,11 +200,11 @@ const ContactUs = ({ navigation }: any) => {
           <Text className="ml-11 text-sm font-normal text-[#3A3A3A]">
             +234 (806) 259 2207 +234 (916) 488 7552
           </Text>
-        </View>
+        </View> */}
 
         {/* Body */}
 
-        <View className="mx-auto bg-[#FAFAFA] w-[382px] h-[40px] mt-5 items-center justify-center">
+        {/* <View className="mx-auto bg-[#FAFAFA] w-[382px] h-[40px] mt-5 items-center justify-center">
           <Text>
             <Feather name="mail" size={16} color="#317ACF" /> Via Email Form
           </Text>
@@ -188,7 +226,7 @@ const ContactUs = ({ navigation }: any) => {
               <AntDesign name="linkedin-square" size={24} color="blue" />
             </Text>
           </View>
-        </View>
+        </View> */}
 
         <View className="mt-[40px] ml-4 ">
           <Text style={{color: textTheme}}>Full Name</Text>
@@ -237,7 +275,7 @@ const ContactUs = ({ navigation }: any) => {
 
         <TouchableOpacity
           className=" mt-[52px] mb-[200px]"
-          onPress={handleSubmit(onSubmit)}
+          onPress={handleSubmit}
         >
           <View className="w-[300px] h-[50px] bg-[#243763]  mx-auto items-center justify-center">
             <Text className="text-white text-center items-center">

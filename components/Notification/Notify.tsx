@@ -23,8 +23,8 @@ const Notify = ({ data }: Notify) => {
     <>
       {data
         ? data.data.map((notification: any) => (
-          <View className='py-2 mb-3 mt-4 border border-gray-400 rounded-md' style={{ backgroundColor: theme ? '#152955' : 'white' }} key={notification.id}>
-          <View className='flex-row items-center justify-between mx-2 mb-1 mt-2'>
+          <View className='py-2 mb-1 mt-3 border border-gray-400 rounded-sm' style={{ backgroundColor: theme ? '#152955' : 'white' }} key={notification.id}>
+          <View className='flex-row items-center justify-between mx-2 mb-1 mt-1'>
 
           <View className='flex-row items-center'>
           {notification.type === 0 ? (

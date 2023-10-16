@@ -86,8 +86,8 @@ const NotificationScreen = ({ navigation }: any) => {
       >
         <View className="h-[64px] w-[380px] mx-4 flex-row bg-[#E6E6E6] justify-center items-center">
           <TouchableOpacity>
-            <View className="flex-row w-full h-[40px] bg-[#F7F7F7] justify-center items-center mr-2 ml-2">
-              <Text className="text-center">Incoming Notifications</Text>
+            <View className="flex-row justify-center items-center mr-2 ml-2">
+              <Text className="text-center">Unread Notifications</Text>
               <Text className="bg-red-500 text-white ml-2 p-1 rounded-md">
                 {' '}
                 {data.data.length}{' '}
