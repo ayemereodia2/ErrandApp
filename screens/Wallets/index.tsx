@@ -280,7 +280,7 @@ const WalletScreen = ({ navigation }: any) => {
                   >
                     <View
                       className="w-full bg-[#FFF] border mt-3 border-[#DAE1F1] rounded-xl p-6 mx-auto z-1 "
-                      style={{ backgroundColor: backgroundTheme }}
+                      style={{ backgroundColor: theme ? backgroundTheme : 'white' }}
                     >
                       <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
                         <Text>
@@ -290,13 +290,13 @@ const WalletScreen = ({ navigation }: any) => {
 
                       <Text
                         className="mt-6 text-[#888] text-base font-medium leading-[24px]"
-                        style={{ color: darkMode ? '#888' : 'white' }}
+                        style={{ color: theme ? textTheme : 'black' }}
                       >
                         Account Balance
                       </Text>
                       <Text
                         className="font-bold text-[32px] mt-2"
-                        style={{ color: textTheme }}
+                        style={{ color: theme ? textTheme : 'black' }}
                       >
                         {' '}
                         ₦

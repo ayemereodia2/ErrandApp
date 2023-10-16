@@ -318,11 +318,11 @@ const CreateErrandDetails = ({
           <View className="flex-row space-x-6">
             <View className="">
               <View className="mt-[40px]">
-                <Text style={{color: textTheme}} >Number of Errand Runners</Text>
+                <Text style={{color: textTheme}} >Type of Errand</Text>
               </View>
               <SelectDropdown
                 defaultValue={postErrandData.errandType}
-                data={['multi', 'single']}
+                data={['multi-user', 'single-user']}
                 buttonStyle={style.dropdownInput}
                 onSelect={(selectedItem, index) => {
                   handleInputChange(selectedItem, 'errandType')

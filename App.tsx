@@ -56,7 +56,7 @@ export default function App() {
   const checkAuthenticationStatus = async () => {
     console.log('>>>>ok', isGuest)
 
-    // await AsyncStorage.clear()
+    await AsyncStorage.clear()
 
     try {
       const isGuest = await AsyncStorage.getItem('isGuest')
