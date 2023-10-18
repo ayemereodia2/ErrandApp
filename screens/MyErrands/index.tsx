@@ -1,10 +1,9 @@
 // import { fetchMyErrands } from '@app/lib/errand/api'
-import { EvilIcons } from '@expo/vector-icons'
+import { AntDesign, EvilIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
-  Image,
   RefreshControl,
   SafeAreaView,
   ScrollView,
@@ -23,7 +22,6 @@ import { myErrandList } from '../../services/errands/myErrands'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData, SingleSubErrand } from '../../types'
 import { getUserId } from '../../utils/helper'
-import DarkMode from '../../services/DarkMode/DarkMode'
 
 const ErrandScreen = ({ navigation }: any) => {
   const [firstName, setFirstName] = useState('')
@@ -35,6 +33,7 @@ const ErrandScreen = ({ navigation }: any) => {
   const [userId, setUserId] = useState('')
   const [refreshing, setRefreshing] = React.useState(false)
   const [status, setStatus] = useState('')
+  const [searchValue, setSearchValue] = useState('')
   const [subErrand, setSubErrand] = useState<SingleSubErrand>({
     id: '',
     original_errand_id: '',
@@ -72,8 +71,8 @@ const ErrandScreen = ({ navigation }: any) => {
 
   // console.log(">>>>>>>myErrands", myErrands);
 
-  const errandSearchHandler = (text: string) => {
-    const value = text.toLowerCase()
+  const errandSearchHandler = () => {
+    const value = searchValue.toLowerCase()
 
     const searchResult = myErrands.filter((errand) =>
       errand?.description?.toLowerCase().includes(value),
@@ -116,6 +115,10 @@ const ErrandScreen = ({ navigation }: any) => {
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
   }, [])
 
+  useEffect(() => {
+    errandSearchHandler()
+  }, [searchValue])
+
   if (loading) {
     return (
       <SafeAreaView
@@ -126,7 +129,7 @@ const ErrandScreen = ({ navigation }: any) => {
           backgroundColor: backgroundTheme,
         }}
       >
-        <ActivityIndicator color={'white'} size="large" />
+        <ActivityIndicator color={theme ? 'white' : 'blue'} size="large" />
       </SafeAreaView>
     )
   }
@@ -153,8 +156,16 @@ const ErrandScreen = ({ navigation }: any) => {
                       style={{ backgroundColor: backgroundTheme }}
                       className="bg-[#e4eaf7] "
                     >
-                      <View className="mx-4 mt-4 bg-white" style={{backgroundColor: theme ? '#1E3A79' : 'white'}}>
-                        <View className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3" style={{backgroundColor: theme ? '#1E3A79' : 'white'}}>
+                      <View
+                        className="mx-4 mt-4 bg-white"
+                        style={{ backgroundColor: theme ? '#1E3A79' : 'white' }}
+                      >
+                        <View
+                          className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3"
+                          style={{
+                            backgroundColor: theme ? '#1E3A79' : 'white',
+                          }}
+                        >
                           <EvilIcons
                             name="search"
                             size={22}
@@ -165,18 +176,30 @@ const ErrandScreen = ({ navigation }: any) => {
                             className=" w-9/12"
                             placeholder="Search for Errands or Bids"
                             placeholderTextColor={theme ? 'white' : '#808080'}
-                            onChangeText={(text) => errandSearchHandler(text)}
-                             style={{backgroundColor: theme ? '#1E3A79' : 'white'}}
-
+                            onChangeText={(text) => setSearchValue(text)}
+                            style={{
+                              backgroundColor: theme ? '#1E3A79' : 'white',
+                              color: theme ? 'white' : '#808080',
+                            }}
                           />
-                          <Image
+                          {searchValue ? (
+                            <AntDesign
+                              onPress={() => setSearchValue('')}
+                              name="close"
+                              size={20}
+                              color={theme ? 'white' : 'black'}
+                            />
+                          ) : (
+                            ''
+                          )}
+                          {/* <Image
                             style={{
                               width: 30,
                               height: 30,
                               resizeMode: 'contain',
                             }}
                             source={require('../../assets/images/filter.png')}
-                          />
+                          /> */}
                         </View>
                       </View>
 
@@ -187,26 +210,33 @@ const ErrandScreen = ({ navigation }: any) => {
                     </View>
 
                     {searchedErrand?.length === 0 && (
-                      <Text className="text-xs text-center pt-3">
+                      <Text
+                        style={{
+                          color: theme ? 'white' : '#808080',
+                        }}
+                        className="text-xs text-center pt-3"
+                      >
                         No {status} Errands at the moment
                       </Text>
                     )}
 
                     <ScrollView className="mt-6">
-                      {searchedErrand?.map((errand, index) => {
-                        return (
-                          <View key={index}>
-                            <MyErrandCard
-                              index={index}
-                              errand={errand}
-                              navigation={navigation}
-                              setManageErrandClicked={setManageErrandClicked}
-                              setSubErrand={setSubErrand}
-                              user_id={userId}
-                            />
-                          </View>
-                        )
-                      })}
+                      <>
+                        {searchedErrand?.map((errand, index) => {
+                          return (
+                            <View key={index}>
+                              <MyErrandCard
+                                index={index}
+                                errand={errand}
+                                navigation={navigation}
+                                setManageErrandClicked={setManageErrandClicked}
+                                setSubErrand={setSubErrand}
+                                user_id={userId}
+                              />
+                            </View>
+                          )
+                        })}
+                      </>
                     </ScrollView>
                   </View>
                   {/* )} */}

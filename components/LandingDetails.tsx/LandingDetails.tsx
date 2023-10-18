@@ -79,7 +79,7 @@ const LandingDetails = ({ navigation }: any) => {
                   dispatch(errandDetails({ errandId: errand?.id }))
                   dispatch(externalUserDetails({ user_id: errand?.user_id }))
                 }}
-                className="mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border"
+                className="mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border " 
                 style={{
                   backgroundColor: theme ? '#152955' : 'white',
                   borderColor: theme ? '#e9ebbf2' : 'lightgrey',
@@ -154,7 +154,7 @@ const LandingDetails = ({ navigation }: any) => {
                 >
                   {errand.description?.length >= 60
                     ? errand?.description
-                        ?.substring(0, 120)
+                        ?.substring(0, 40)
                         .concat('', '...')
                         .replace(regex, '')
                     : errand?.description.replace(regex, '')}

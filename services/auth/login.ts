@@ -28,28 +28,26 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
       await AsyncStorage.setItem("first_name", _rs.data.first_name)
       navigation.navigate('Tabs')
       await AsyncStorage.setItem('profile_pic', _rs.data.profile_picture)
-       await AsyncStorage.setItem('isGuest', 'false')
+      await AsyncStorage.setItem('isGuest', 'false')
 
-     
-        
-
-
-      // setCookie("access_token", rs.data.data.access_token)
-      // localStorage.setItem('user_id', rs.data.data.id)
-      // localStorage.setItem("accessToken", rs.data.data.access_token)
-      // localStorage.setItem("refreshToken", rs.data.data.refresh_token)
-      // localStorage?.setItem("last_name", rs.data.data.last_name)
-      // localStorage?.setItem("first_name", rs.data.data.first_name)
-
-      // setSuccess(true)
-
-      // toast.success('Login Successful')
        Toast.show({
         type: 'success',
         text1: 'Login Successful',
       });
       navigation.navigate('Tabs')
+    } 
+
+    if (_rs.success === false) {
+       Toast.show({
+        type: 'error',
+        text1: _rs.message,
+      });
     }
+
+
+    
+
+    return rejectWithValue(_rs)
 
   } catch (e: any) {
     
@@ -94,10 +92,14 @@ const loginSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {
+      console.log(">>>>rejecgt", state)
+
       state.loading = false;
       state.error = "";
     });
     builder.addCase(loginUser.pending, (state, action) => {
+      console.log(">>>>rejecgt", state)
+
       state.loading = true;
       state.error = action.payload;
       

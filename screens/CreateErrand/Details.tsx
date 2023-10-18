@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import SelectDropdown from 'react-native-select-dropdown'
+import { Dropdown } from 'react-native-element-dropdown'
 import { useSelector } from 'react-redux'
 import { postAudioFiles } from '../../services/errands/postAudioFIle'
 import { postFiles } from '../../services/errands/postFiles'
@@ -94,6 +94,30 @@ const CreateErrandDetails = ({
   const [IsPLaying, SetIsPLaying] = useState<boolean>(false)
   const [RecordedURI, SetRecordedURI] = useState<string>('')
   const [recorded, setRecorded] = useState(false)
+  const [selectedTime, setSelectedTime] = useState('')
+
+  const data = [
+    { label: 'Today', value: 'today' },
+    { label: 'One to three days', value: 'One to three days' },
+    { label: "It doesn't matter", value: "It doesn't matter" },
+    { label: 'Specify', value: 'Specify' },
+  ]
+
+  const errandData = [
+    { label: 'One Person', value: 'One Person' },
+    { label: 'Multiple People', value: 'Multiple People' },
+  ]
+
+  const Periods = [
+    { label: 'Day(s)', value: 'Day(s)' },
+    { label: 'Week(s)', value: 'Week(s)' },
+    { label: 'Month(s)', value: 'Month(s)' },
+  ]
+
+  const errandRestrictions = [
+    { label: 'Yes', value: 'Yes' },
+    { label: 'No', value: 'Ni' },
+  ]
 
   const removeImage = (index: number) => {
     const allFiles = [...uploadedFiles]
@@ -273,11 +297,13 @@ const CreateErrandDetails = ({
 
         <View className="px-4">
           <View className="mt-[56px]">
-            <Text style={{ color: textTheme }}>Description</Text>
+            <Text style={{ color: textTheme }}>
+              Explain exactly what you need
+            </Text>
           </View>
           <TextInput
             className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3"
-            placeholder="Describe the issue that you need help with"
+            placeholder="Give full details of what you need help with"
             multiline={true}
             numberOfLines={10}
             onChangeText={(text) => handleInputChange(text, 'description')}
@@ -286,22 +312,34 @@ const CreateErrandDetails = ({
           />
 
           <View className="flex-row space-x-6">
-            <View className="w-[160px]">
+            <View className="w-full">
               <View className="mt-[40px]">
-                <Text style={{color: textTheme}} >Duration</Text>
+                <Text style={{ color: textTheme }}>
+                  When do you need this done ?
+                </Text>
               </View>
-              <TextInput
-                onChangeText={(text) => handleInputChange(text, 'dur_period')}
-                className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3"
-                keyboardType={'numeric'}
-                placeholder="Enter a Number"
-                placeholderTextColor={'#888888'}
-                defaultValue={postErrandData.dur_period.toString()}
-              ></TextInput>
+              <Dropdown
+                style={style.dropdown}
+                placeholderStyle={style.placeholderStyle}
+                selectedTextStyle={style.selectedTextStyle}
+                inputSearchStyle={style.inputSearchStyle}
+                iconStyle={style.iconStyle}
+                data={data}
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder={'Today'}
+                value={postErrandData.dur_period.toString()}
+                onChange={(item) => {
+                  setSelectedTime(item.label)
+                  handleInputChange(item.label, 'dur_period')
+                }}
+              />
             </View>
-            <View className="w-[160px]">
+
+            {/* <View className="w-[160px]">
               <View className="mt-[40px]">
-                <Text style={{color: textTheme}} >Duration Type</Text>
+                <Text style={{ color: textTheme }}>Duration Type</Text>
               </View>
               <SelectDropdown
                 defaultButtonText="-Select-"
@@ -312,31 +350,109 @@ const CreateErrandDetails = ({
                   handleInputChange(selectedItem, 'dur_value')
                 }}
               />
-            </View>
+            </View> */}
           </View>
 
-          <View className="flex-row space-x-6">
-            <View className="">
-              <View className="mt-[40px]">
-                <Text style={{color: textTheme}} >Type of Errand</Text>
+          {selectedTime === 'Specify' ? (
+            <View className="flex-row space-x-6">
+              <View>
+                <Text style={{ color: textTheme }} className="pt-4">
+                  Duration
+                </Text>
+                {/* <TextInput
+              onChangeText={(text) => handleInputChange(text, 'dur')}
+              className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3"
+              keyboardType={'numeric'}
+              placeholder="Enter a Number"
+              placeholderTextColor={'#888888'}
+              defaultValue={postErrandData.dur_period.toString()}
+            ></TextInput> */}
+                <View className="flex-row mt-4  space-x-5">
+                  <Text className="text-white text-2xl">-</Text>
+                  <View className="w-10 h-10 bg-white flex-row justify-center items-center rounded-lg">
+                    <Text className="text-xl">1</Text>
+                  </View>
+                  <Text className="text-white text-2xl">+</Text>
+                </View>
               </View>
-              <SelectDropdown
+
+              <View className="flex-row">
+                <View className="w-[230px]">
+                  <View className="pt-4 pb-2">
+                    <Text style={{ color: textTheme }}>
+                      Choose The Period of Time
+                    </Text>
+                  </View>
+
+                  <Dropdown
+                    style={style.dropdown}
+                    placeholderStyle={style.placeholderStyle}
+                    selectedTextStyle={style.selectedTextStyle}
+                    inputSearchStyle={style.inputSearchStyle}
+                    iconStyle={style.iconStyle}
+                    data={Periods}
+                    maxHeight={300}
+                    labelField="label"
+                    valueField="value"
+                    placeholder={'Day(s)'}
+                    value={postErrandData.errandType}
+                    onChange={(item) => {
+                      handleInputChange(item.label, 'errandType')
+                    }}
+                  />
+                </View>
+              </View>
+            </View>
+          ) : (
+            ''
+          )}
+
+          <View className="flex-row">
+            <View className="w-full">
+              <View className="pt-6 pb-2">
+                <Text style={{ color: textTheme }}>
+                  how many people do you want running this errand ?
+                </Text>
+              </View>
+              {/* <SelectDropdown
                 defaultValue={postErrandData.errandType}
                 data={['multi-user', 'single-user']}
                 buttonStyle={style.dropdownInput}
                 onSelect={(selectedItem, index) => {
                   handleInputChange(selectedItem, 'errandType')
                 }}
+              /> */}
+              <Dropdown
+                style={style.dropdown}
+                placeholderStyle={style.placeholderStyle}
+                selectedTextStyle={style.selectedTextStyle}
+                inputSearchStyle={style.inputSearchStyle}
+                iconStyle={style.iconStyle}
+                data={errandData}
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder={'One Person'}
+                value={postErrandData.errandType}
+                onChange={(item) => {
+                  handleInputChange(item.label, 'errandType')
+                }}
               />
             </View>
           </View>
 
           {/* <View className="w-[398px] h-[38px] mx-auto mt-10 ml-4"></View> */}
+
+          <View className="pt-6">
+            <Text style={{ color: textTheme }}>
+              You can add up to three Image to this errand if you choose
+            </Text>
+          </View>
           <View className="w-full rounded-lg h-[150px] bg-[#FCFCFC] mx-auto mt-4 border-[0.5px] border-[#E6E6E6]">
             {uploadingImages ? (
               <View className="flex-row justify-center items-center mt-16 space-x-2">
                 <ActivityIndicator color="blue" size="small" />
-                <Text >Uploading Images..</Text>
+                <Text>Uploading Images..</Text>
               </View>
             ) : (
               <TouchableOpacity
@@ -358,7 +474,7 @@ const CreateErrandDetails = ({
           </View>
 
           <View className="mt-4">
-            <Text style={{color: textTheme}}  className="text-[#3F60AC]">
+            <Text style={{ color: textTheme }} className="text-[#3F60AC]">
               {uploadedFiles.length === 0 ? 0 : uploadedFiles.length} images
               selected
             </Text>
@@ -377,10 +493,9 @@ const CreateErrandDetails = ({
             })}
           </ScrollView>
 
-          <View className="mt-10">
-            <Text style={{color: textTheme}}  className="text-[#243763]">
-              <Text style={{color: textTheme}}  className="font-semibold text-sm">Supporting Audio </Text>
-              (Upload a voice note to further describe your request)
+          <View className="mt-4">
+            <Text style={{ color: textTheme }} className="text-[#243763]">
+              You can record a voice note to better describe this errand
             </Text>
           </View>
           <TouchableOpacity
@@ -405,7 +520,10 @@ const CreateErrandDetails = ({
               </View>
             )}
 
-            <Text style={{color: textTheme}}  className="mx-auto text-[#808080] text-center pt-2">
+            <Text
+              style={{ color: textTheme }}
+              className="mx-auto text-[#808080] text-center pt-2"
+            >
               {IsRecording
                 ? 'Click to stop recording'
                 : 'Click on the Mic icon above to record your voice message'}
@@ -446,29 +564,65 @@ const CreateErrandDetails = ({
             </View>
           )}
 
-          <View className="space-x-6">
+          <View>
             <View className="mt-[40px]">
-              <Text style={{color: textTheme}} >Restrict Errand by Qualification</Text>
+              <Text style={{ color: textTheme }}>
+                Restrict Errand by Qualification
+              </Text>
             </View>
-            <SelectDropdown
+            {/* <SelectDropdown
               defaultValue={postErrandData.res_by_qualification}
               data={['Yes', 'No']}
               buttonStyle={style.restrictInput}
               onSelect={(selectedItem, index) => {
                 handleInputChange(selectedItem, 'res_by_qualification')
               }}
+            /> */}
+            <Dropdown
+              style={style.dropdown}
+              placeholderStyle={style.placeholderStyle}
+              selectedTextStyle={style.selectedTextStyle}
+              inputSearchStyle={style.inputSearchStyle}
+              iconStyle={style.iconStyle}
+              data={errandRestrictions}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={'No'}
+              value={postErrandData.res_by_qualification}
+              onChange={(item) => {
+                handleInputChange(item.label, 'res_by_qualification')
+              }}
             />
           </View>
-          <View className="space-x-6">
+          <View>
             <View className="mt-[40px]">
-              <Text style={{color: textTheme}} >Restrict Errand by Verification</Text>
+              <Text style={{ color: textTheme }}>
+                Restrict Errand by Verification
+              </Text>
             </View>
-            <SelectDropdown
+            {/* <SelectDropdown
               defaultValue={postErrandData.res_by_verification}
               data={['Yes', 'No']}
               buttonStyle={style.restrictInput}
               onSelect={(selectedItem, index) => {
                 handleInputChange(selectedItem, 'res_by_verification')
+              }}
+            /> */}
+            <Dropdown
+              style={style.dropdown}
+              placeholderStyle={style.placeholderStyle}
+              selectedTextStyle={style.selectedTextStyle}
+              inputSearchStyle={style.inputSearchStyle}
+              iconStyle={style.iconStyle}
+              data={errandRestrictions}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={'No'}
+              value={postErrandData.res_by_verification}
+              onChange={(item) => {
+                handleInputChange(item.label, 'res_by_verification')
               }}
             />
           </View>
@@ -511,6 +665,35 @@ const style = StyleSheet.create({
     backgroundColor: '#F5F5F5',
     borderColor: '#E6E6E6',
     borderWidth: 1,
+  },
+
+  dropdown: {
+    margin: 4,
+    height: 45,
+    backgroundColor: '#FCFCFC',
+    paddingHorizontal: 6,
+    borderRadius: 4,
+    borderColor: '#ccc',
+    borderWidth: 1,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+    paddingLeft: 4,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 0,
+    fontSize: 16,
+    paddingVertical: 0,
   },
 })
 

@@ -1,4 +1,4 @@
-import { AntDesign, Entypo, EvilIcons, FontAwesome } from '@expo/vector-icons'
+import { AntDesign, Entypo, EvilIcons, Feather, FontAwesome } from '@expo/vector-icons'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
@@ -127,32 +127,14 @@ const TransactionScreen = ({ navigation }: any) => {
         </TouchableOpacity>
       ),
       headerRight: () => (
-        <View className="flex-row items-center justify-between mx-3 px-3 py-3 space-x-3 ">
-          {/* <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
-                <MaterialIcons name="notifications" color={'black'} size={22} />
-              </TouchableOpacity> */}
-          <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
-            <MenuTrigger>
-              <Entypo name="dots-three-vertical" color={textTheme} size={20} />
-            </MenuTrigger>
-            <MenuOptions
-              customStyles={{
-                optionWrapper: {
-                  // borderBottomWidth: 0.2,
-                  borderBottomColor: '#AAAAAA',
-                },
-                optionText: { textAlign: 'center', fontWeight: '600' },
-              }}
-            >
-              <MenuOption
-                onSelect={() => navigation.navigate('Contact')}
-                text="Contact Us"
-                customStyles={{
-                  optionText: { textAlign: 'center', fontWeight: '600' },
-                }}
-              />
-            </MenuOptions>
-          </Menu>
+        <View className='pr-3'>
+        <Feather
+          name="help-circle"
+          color={theme ? 'blue' : 'white'}
+          
+          size={24}
+          onPress={() => navigation.navigate('Contact')}
+        />
         </View>
       ),
     })

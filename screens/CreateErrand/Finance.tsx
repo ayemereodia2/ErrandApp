@@ -7,11 +7,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import SelectDropdown from 'react-native-select-dropdown'
+import { Dropdown } from 'react-native-element-dropdown'
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../../services/store'
 import { walletAction } from '../../services/wallet/walletBalance'
 import { PostErrandData } from '../../types'
+import { currencyMask } from '../../utils/helper'
 
 interface FinanceProp {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>
@@ -48,6 +49,11 @@ const CreateErrandFinance = ({
     dispatch(walletAction({ request: 'wallet' }))
   }, [])
 
+  const insuranceRestrictions = [
+    { label: 'Yes', value: 'Yes' },
+    { label: 'No', value: 'Ni' },
+  ]
+
   return (
     <>
       {/* Header */}
@@ -61,7 +67,7 @@ const CreateErrandFinance = ({
             style={{ color: textTheme }}
             className="font-semibold text-[#243763] text-base"
           >
-            Errand Finances
+            Errand Finance
           </Text>
         </View>
 
@@ -80,20 +86,34 @@ const CreateErrandFinance = ({
             What is your budget for this errand?
           </Text>
         </View>
-        <TextInput
+
+        <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2 mx-4">
+          <Text className="text-lg ">&#x20A6;</Text>
+
+          <TextInput
+            className="w-full"
+            placeholder="Enter your Budget Amount"
+            // onChangeText={(e) => setAmount(currencyMask(e))}
+            onChangeText={(text) =>
+              handleInputChange(currencyMask(text), 'budget')
+            }
+            keyboardType="number-pad"
+            defaultValue={postErrandData.budget.toString()}
+          />
+        </View>
+
+        {/* <TextInput
           className="md:w-[390px] mt-2 p-2 h-[50px] b rounded-md mx-[16px] bg-[#E6E6E6]"
           placeholder="Enter your Budget Amount"
           placeholderTextColor={'#B3B3B3'}
           onChangeText={(text) => handleInputChange(text, 'budget')}
           keyboardType="number-pad"
           defaultValue={postErrandData.budget.toString()}
-        />
+        /> */}
         <TouchableOpacity
           onPress={() => {
             setCurrentWalletAmount(Number(data?.balance) / 100)
-            navigation.navigate('FundWalletModal', [
-              currentWalletAmount,
-            ])
+            navigation.navigate('FundWalletModal', [currentWalletAmount])
           }}
           className="flex-row items-center"
         >
@@ -113,7 +133,7 @@ const CreateErrandFinance = ({
           </Text>
         </TouchableOpacity>
 
-        <View className="mt-4 ml-4">
+        {/* <View className="mt-4 ml-4">
           <Text
             style={{ color: textTheme }}
             className="text-[#FF0000] text-sm font-medium"
@@ -121,7 +141,7 @@ const CreateErrandFinance = ({
             The Budget for this errand is calculated against the current market
             rate and it is currently ₦2,000.{' '}
           </Text>
-        </View>
+        </View> */}
 
         <View className="mt-10 ml-4 ">
           <Text
@@ -138,24 +158,41 @@ const CreateErrandFinance = ({
           >
             Setting an Insurance value on your errand forces bidders to have
             that value in their wallet before they can bid for your errand. The
-            value is then held by GOFER until the errand is completed in order
+            value is then held by SWAVE until the errand is completed in order
             to secure your valuables.. Use this option carefully as it will
             likely limit the number of bids you receive on this errand
           </Text>
         </View>
 
-        <View className="space-x-6 px-4">
+        <View className="px-4">
           <View className="mt-[40px]">
             <Text style={{ color: textTheme }}>
               Restrict Errand by Insurance
             </Text>
           </View>
-          <SelectDropdown
+          {/* <SelectDropdown
             defaultValue={postErrandData.insurance}
             data={['Yes', 'No']}
             buttonStyle={style.restrictInput}
             onSelect={(selectedItem, index) => {
               handleInputChange(selectedItem, 'insurance')
+            }}
+          /> */}
+
+          <Dropdown
+            style={style.dropdown}
+            placeholderStyle={style.placeholderStyle}
+            selectedTextStyle={style.selectedTextStyle}
+            inputSearchStyle={style.inputSearchStyle}
+            iconStyle={style.iconStyle}
+            data={insuranceRestrictions}
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={'No'}
+            value={postErrandData.res_by_qualification}
+            onChange={(item) => {
+              handleInputChange(item.label, 'insurance')
             }}
           />
         </View>
@@ -166,14 +203,27 @@ const CreateErrandFinance = ({
             errand?
           </Text>
         </View>
-        <TextInput
+        {/* <TextInput
           className="md:w-[390px] mt-2 p-2 h-[50px] b rounded-md mx-[16px] bg-[#E6E6E6]"
           placeholder="Enter your Insurance Amount"
           placeholderTextColor={'#B3B3B3'}
           onChangeText={(text) => handleInputChange(text, 'ins_amount')}
           keyboardType="number-pad"
           defaultValue={postErrandData.ins_amount?.toString()}
-        />
+        /> */}
+        <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2 mx-4">
+          <Text className="text-lg ">&#x20A6;</Text>
+
+          <TextInput
+            className="w-full"
+            placeholder="Enter your Insurance Amount"
+            onChangeText={(text) =>
+              handleInputChange(currencyMask(text), 'ins_amount')
+            }
+            keyboardType="number-pad"
+            defaultValue={postErrandData.budget.toString()}
+          />
+        </View>
       </ScrollView>
     </>
   )
@@ -197,6 +247,34 @@ const style = StyleSheet.create({
     backgroundColor: '#F5F5F5',
     borderColor: '#E6E6E6',
     borderWidth: 1,
+  },
+  dropdown: {
+    margin: 4,
+    height: 45,
+    backgroundColor: '#FCFCFC',
+    paddingHorizontal: 6,
+    borderRadius: 4,
+    borderColor: '#ccc',
+    borderWidth: 1,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+    paddingLeft: 4,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 0,
+    fontSize: 16,
+    paddingVertical: 0,
   },
 })
 

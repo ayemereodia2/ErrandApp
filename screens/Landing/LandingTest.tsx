@@ -115,10 +115,10 @@ const LandingTest = ({ navigation }: any) => {
           > */}
           <View className="mt-6 flex-row items-center justify-between">
             <Text
-              className="font-bold text-[25px] leading-7"
+              className="font-bold text-[20px] leading-7"
               style={{ color: textTheme }}
             >
-              Good {getTimeOfDay()}
+              Good {getTimeOfDay()}, {currentUser?.first_name}
             </Text>
 
             <View className="items-center flex-row gap-4 mr-2">

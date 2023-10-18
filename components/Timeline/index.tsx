@@ -106,7 +106,7 @@ const Timeline = ({
           backgroundColor: backgroundTheme,
         }}
       >
-         <ActivityIndicator size="large" color={theme ? 'blue' : 'white'} />
+         <ActivityIndicator color={theme ? 'white' : 'blue'} size="large" />
       </SafeAreaView>
     )
   }

@@ -63,7 +63,7 @@ const MyErrandCard = ({
         }}
         className=" bg-white py-4 px-5 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]"
       >
-        <View className="flex-row items-center justify-between">
+        <View className="flex-row items-center justify-between gap-6">
           <View className="flex-row items-center space-x-3">
             {errand?.user?.profile_picture === undefined ? (
               <View className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center">
@@ -87,17 +87,17 @@ const MyErrandCard = ({
                 source={{ uri: errand?.user?.profile_picture }}
               />
             )}
-            <Text
-              style={{ color: textTheme }}
-              className="text-sm font-medium w-[190px]"
-            >
-              {' '}
-              {errand.errand_type === 1 ? (
-                <>Multiple Users Errand</>
-              ) : (
-                <>{errand?.category.name.substring(0, 20).concat('', '....')}</>
-              )}
-            </Text>
+            <View className="pt-2">
+              <Text
+                style={{ color: textTheme }}
+                className="text-sm font-medium w-[160px]"
+              >
+                {errand?.user?.first_name} {errand?.user?.last_name}
+              </Text>
+              <Text style={{ color: textTheme }} className="pt-1">
+                {errand?.category.name.substring(0, 16).concat('', '...')}
+              </Text>
+            </View>
           </View>
 
           <Text
@@ -108,7 +108,7 @@ const MyErrandCard = ({
           </Text>
         </View>
 
-        <View className="mt-4">
+        <View className="mt-4 w-[300px]">
           <Text style={{ color: textTheme }} className="text-sm font-medium">
             {result?.substring(0, 80).concat('', '....')}
           </Text>

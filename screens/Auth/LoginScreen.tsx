@@ -7,7 +7,7 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -76,7 +76,7 @@ export default function LoginScreen() {
                 Welcome Back, Please Login
               </Text>
               <Text className="text-sm text-center">
-                Enter your Gofer credentials and Login
+                Enter your Swave credentials and Login
               </Text>
 
               <View className="pt-2 space-y-2">
@@ -106,10 +106,10 @@ export default function LoginScreen() {
 
                   <TouchableOpacity
                     onPress={() => setShowPassword(!showPassword)}
-                    className="absolute right-7 bottom-3"
+                    className="absolute right-4 bottom-5"
                   >
                     <Icon
-                      name={showPassword ? 'eye' : 'eye-slash'}
+                      name={showPassword ? 'eye-slash' : 'eye'}
                       size={24}
                       color="gray"
                     />
@@ -120,7 +120,7 @@ export default function LoginScreen() {
                   className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
                   child={
                     loading ? (
-                      <ActivityIndicator size="small" color="#000000" />
+                      <ActivityIndicator size="small" color="white" />
                     ) : (
                       'Login'
                     )
@@ -134,9 +134,6 @@ export default function LoginScreen() {
                 <Text style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</Text>
               )}
 
-
-               
-                
 
                 <Text className="text-black text-center pb-6 pt-3">
                   Don’t Have an Account?

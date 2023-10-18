@@ -4,7 +4,7 @@ import {
   FlatList,
   ScrollView,
   Text,
-  View,
+  View
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import CategoryBox from '../../components/CategoryBox'
@@ -58,8 +58,7 @@ const Categories = ({
 
         <View className="mx-auto items-center justify-center w-[309px] h-[48px] mt-5">
           <Text  style={{color: textTheme}}  className="text-[#777777] text-center">
-            In this section, you can select the category which your errand falls
-            under here.{' '}
+           what do you need help with ?
           </Text>
         </View>
 

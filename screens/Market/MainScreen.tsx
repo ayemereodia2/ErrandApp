@@ -3,6 +3,7 @@ import {
   useFonts,
 } from '@expo-google-fonts/abril-fatface'
 import {
+  AntDesign,
   EvilIcons,
   Feather,
   Ionicons,
@@ -49,6 +50,7 @@ export default function MainScreen() {
   const [refreshing, setRefreshing] = React.useState(false)
   const [toggleView, setToggleView] = useState(true)
   const [searchedErrand, setSearchedErrand] = useState<MarketData[]>([])
+  const [searchValue, setSearchValue] = useState('')
 
   const handleViewChange = () => {
     setToggleView(!toggleView)
@@ -75,9 +77,12 @@ export default function MainScreen() {
     (state: RootState) => state.errandMarketListReducer,
   )
 
-  const errandSearchHandler = (text: string) => {
-    const value = text.toLowerCase()
+  // const clearSearchText = () => {
+  //   setShowCloseIcon(false)
+  // }
 
+  const errandSearchHandler = () => {
+    const value = searchValue.toLowerCase()
     const searchResult = errands.filter((errand) =>
       errand?.description?.toLowerCase().includes(value),
     )
@@ -121,6 +126,10 @@ export default function MainScreen() {
     dispatch(getCategoriesList())
   }, [])
 
+  useEffect(() => {
+    errandSearchHandler()
+  }, [searchValue])
+
   let [fontsLoaded] = useFonts({
     AbrilFatface_400Regular,
   })
@@ -135,7 +144,7 @@ export default function MainScreen() {
           backgroundColor: backgroundTheme,
         }}
       >
-        <ActivityIndicator color={userId ? 'white' : 'blue'} size="large" />
+        <ActivityIndicator color={theme ? 'white' : 'blue'} size="large" />
       </SafeAreaView>
     )
   }
@@ -196,13 +205,27 @@ export default function MainScreen() {
                         color={theme ? 'white' : '#808080'}
                       />
                       <TextInput
-                        className=" w-8/12"
+                        style={{ color: theme ? 'white' : '#808080' }}
+                        className=" w-7/12 pl-1"
                         placeholder="Search for Errands"
-                        placeholderTextColor={theme ? 'white' : '#808080'}
-                        onChangeText={(text) => errandSearchHandler(text)}
+                        placeholderTextColor={theme ? 'white' : 'black'}
+                        value={searchValue}
+                        onChangeText={(text) => setSearchValue(text)}
                       />
+
+                      {searchValue ? (
+                        <AntDesign
+                          onPress={() => setSearchValue('')}
+                          name="close"
+                          size={20}
+                          color={theme ? 'white' : 'black'}
+                        />
+                      ) : (
+                        ''
+                      )}
+
                       <TouchableOpacity onPress={handleViewChange}>
-                        <View className="mr-1 b rounded-md w-[38px]">
+                        <View className="rounded-md w-[36px]">
                           <Text className="p-2 text-center">
                             {toggleView ? (
                               <Feather
@@ -262,10 +285,9 @@ export default function MainScreen() {
             </>
             {/* )} */}
           </ScrollView>
-
-          {!loading && <PostErrandButton className="bottom-5 right-3" />}
         </SafeAreaView>
       </Container>
+      {!loading && <PostErrandButton className="bottom-20 right-3" />}
     </>
   )
 }

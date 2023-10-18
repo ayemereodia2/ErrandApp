@@ -132,7 +132,7 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
 
       <Text
         style={{ color: textTheme }}
-        className="text-[16px] font-medium py-4 pt-4 text-[#000000]"
+        className="text-[16px] font-medium py-4 pt-4 text-[#000000] w-[300px]"
       >
         {result?.length >= 60
           ? result?.substring(0, 120).concat('', '...')

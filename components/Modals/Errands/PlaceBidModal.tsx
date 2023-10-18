@@ -20,7 +20,6 @@ interface PlaceBidModalProp {
 }
 
 const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
-
   const {
     data: currentUser,
     backgroundTheme,
@@ -29,7 +28,6 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
-
 
   const dispatch = useAppDispatch()
   const [comment, setComment] = useState('')
@@ -63,59 +61,48 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
   }
 
   return (
-    <View className="py-4 pb-10 h-full" style={{backgroundColor: backgroundTheme}}>
-      {/* <View>
-        <View className="items-center justify-center">
-          <ProfileInitials
-            firstName={owner.first_name}
-            lastName={owner.last_name}
-            className="w-12 h-12 bg-[#616161] rounded-full text-xl"
-            textClass="text-white text-lg"
-          />
-
-          <View className="pt-2">
-            <View className="flex-row space-x-2 items-center justify-center">
-              <Text className="text-center text-base font-semibold">
-                {owner?.first_name} {owner?.last_name}
-              </Text>
-              <MaterialIcons name="verified" color="green" size={20} />
-            </View>
-            <Text className="text-[#555555] text-center py-2 text-base font-semibold">
-              Swave User
-            </Text>
-            <View className="flex-row items-center">
-              <Text>
-                {owner?.rating} <Entypo name="star" size={16} color="#FBB955" />{' '}
-              </Text>
-              <Text className="text-[#6D6D6D] text-sm">
-                ( {owner?.errands_completed}{' '}
-                {owner.errands_completed > 1 ? 'errands' : 'errand'} Completed)
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View> */}
-
-      <Text className="text-lg text-center font-semibold" style={{color: textTheme}}>Enter Your Bid</Text>
+    <View
+      className="py-4 pb-10 h-full"
+      style={{ backgroundColor: backgroundTheme }}
+    >
+      <Text
+        className="text-lg text-center font-semibold"
+        style={{ color: textTheme }}
+      >
+        Enter Your Bid
+      </Text>
 
       <View className="px-4 mt-6">
-        <Text className="text-sm text-[#243763] font-semibold" style={{color: textTheme}}>Amount</Text>
+        <Text
+          className="text-sm text-[#243763] font-semibold"
+          style={{ color: textTheme }}
+        >
+          Amount
+        </Text>
 
-        <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
-          <Text className="text-lg " >&#x20A6;</Text>
+        <View className="border border-[#E6E6E6] bg-white  text-xs rounded-lg  flex-row space-x-2 justify-center items-center">
+          <Text className="text-lg pl-1 ">&#x20A6;</Text>
 
           <BottomSheetTextInput
             className="w-full"
-            placeholder="Enter amount"
+            placeholder="Enter Amount"
             onChangeText={(e) => setAmount(currencyMask(e))}
             value={amount}
-            keyboardType="decimal-pad"
+          keyboardType="numeric"
+            style={styles.input}
+          
           />
         </View>
       </View>
 
       <View className="px-4 mt-4">
-        <Text className="text-sm font-semibold text-[#243763]" style={{color: textTheme}}> Comment </Text>
+        <Text
+          className="text-sm font-semibold text-[#243763]"
+          style={{ color: textTheme }}
+        >
+          {' '}
+          Comment{' '}
+        </Text>
 
         <View className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3">
           <BottomSheetTextInput
@@ -174,6 +161,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 100,
     backgroundColor: 'white',
+  },
+  input: {
+    marginTop: 8,
+    marginBottom: 10,
+    borderRadius: 10,
+    fontSize: 14,
+    lineHeight: 20,
+    width: 300,
+    padding: 4,
+    backgroundColor: '#fff'
   },
 })
 

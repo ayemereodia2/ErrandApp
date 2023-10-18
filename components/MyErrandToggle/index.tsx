@@ -30,7 +30,7 @@ const MyErrandToggle = ({
 
   return (
     <View className="mt-4 mx-4 flex-row">
-      <View className="w-[180px]">
+      <View className="w-6/12">
         <DropdownComponent
           placeHolder="My Bids"
           data={BidsToggleData}
@@ -38,7 +38,7 @@ const MyErrandToggle = ({
           setValue={filterBidByStatus}
         />
       </View>
-      <View className="w-[180px]">
+      <View className="w-6/12">
         <DropdownComponent
           placeHolder="My Errands"
           data={ErrandToggleData}

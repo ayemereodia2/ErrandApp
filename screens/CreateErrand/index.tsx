@@ -332,7 +332,18 @@ const PostErrand = ({ navigation }: any) => {
             <Entypo name="arrow-with-circle-left" color="white" size={30} />
           </TouchableOpacity>
         )}
-        <View
+        <TouchableOpacity
+          onPress={() => {
+            activeStep <= 1
+              ? categoryHandler()
+              : activeStep <= 2
+              ? detailHandler()
+              : activeStep <= 3
+              ? locationHandler()
+              : activeStep <= 4
+              ? financeHandler()
+              : submitErrandhandler()
+          }}
           className={
             activeStep > 1
               ? 'pl-10 flex-row justify-center  items-center pt-3 pb-3'
@@ -377,7 +388,7 @@ const PostErrand = ({ navigation }: any) => {
               </Text>
             </TouchableOpacity>
           )}
-        </View>
+        </TouchableOpacity>
       </View>
 
       {/* <BottomSheetModal ref={fundWalletRef} index={0} snapPoints={['50%']}>

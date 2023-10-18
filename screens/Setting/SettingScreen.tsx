@@ -77,7 +77,7 @@ const SettingScreen = ({ navigation }: any) => {
           backgroundColor: backgroundTheme,
         }}
       >
-        <ActivityIndicator color={theme ? 'blue' : 'white'} size="large" />
+        <ActivityIndicator color={theme ? 'white' : 'blue'} size="large" />
       </SafeAreaView>
     )
   }

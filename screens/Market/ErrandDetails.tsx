@@ -171,7 +171,7 @@ export default function ErrandDetails({ route, navigation }: any) {
           className="mx-auto"
           source={require(loaderGif)}
         /> */}
-        <ActivityIndicator color={'white'} size="large" />
+         <ActivityIndicator color={theme ? 'white' : 'blue'} size="large" />
       </SafeAreaView>
     )
   }
@@ -292,7 +292,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                         style={{ color: textTheme }}
                         className=" font-bold text-base text-[#555555]"
                       >
-                        Budget
+                        This errand pays
                       </Text>
 
                       <View className="flex-row items-center">
@@ -492,7 +492,7 @@ export default function ErrandDetails({ route, navigation }: any) {
             }}
           >
             <Text className="text-white text-lg font-medium">
-              Place Your Bid
+              I can do this
             </Text>
           </TouchableOpacity>
         ) : (

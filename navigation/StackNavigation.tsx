@@ -303,6 +303,7 @@ export function GuestStack() {
           name="ErrandDetails"
           component={ErrandDetails}
         />
+        <Stack.Screen name="ErrandUserDetails" component={ErrandUserDetails} />
         <Stack.Screen
           name="MyErrandDetails"
           component={MyErrandInfo}
@@ -313,6 +314,18 @@ export function GuestStack() {
           }}
         />
         <Stack.Screen name="LandingForm" component={LandingForm} />
+        <Stack.Screen
+          name="TransactionScreen"
+          component={TransactionScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="EscrowScreen"
+          component={EscrowScreen}
+          options={{ headerShown: false }}
+        />
+
         <Stack.Screen
           name="ErrorScreen"
           component={ErrorScreen}
