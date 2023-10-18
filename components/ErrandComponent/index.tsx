@@ -142,12 +142,12 @@ export default function ErrandComp({ errand, navigation }: ErrandCardProp) {
       <Text style={{color: theme ? '#a09e9e' : '#666666',}} className="text-sm text-[#a09e9e] font-light">
         {' '}
         <Text>
-          <EvilIcons name="location" size={14} color={theme ? '#a09e9e': "green"} />{' '}
+          <EvilIcons name="location" size={16} color={ "green"} />{' '}
         </Text>
         {errand.dropoff_address?.address_text ? (
-          truncatedAddressText
+         <Text style={{color: textTheme}}> truncatedAddressText </Text>
         ) : (
-          <Text>No Location</Text>
+          <Text style={{color: textTheme}}>No Location</Text>
         )}
       </Text>
 

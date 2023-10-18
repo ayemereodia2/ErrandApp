@@ -55,6 +55,15 @@ const Filter = ({
     CategoriesList[]
   >([])
 
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
   const [selectedSortAction, setSelectedSortAction] = useState('')
 
   const { data: errands, loading } = useSelector(
@@ -114,20 +123,20 @@ const Filter = ({
 
   return (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView style={{backgroundColor: backgroundTheme}}>
         <View
           className="fixed top-0 right-[-3%] w-[95%] bg-[#F5F5F5] z-5 duration-200"
-          style={{ display: filterOn ? 'flex' : 'none' }}
+          style={{ display: filterOn ? 'flex' : 'none', backgroundColor: backgroundTheme }}
         >
           {/* Header */}
           <View className="flex-row justify-between items-center mt-5 mx-4">
             <TouchableOpacity onPress={onClose}>
               <Text>
-                <AntDesign name="close" size={24} color="black" />
+                <AntDesign name="close" size={24} color={textTheme} />
               </Text>
             </TouchableOpacity>
 
-            <Text className="text-lg font-medium leading-6">
+            <Text className="text-lg font-medium leading-6" style={{color: textTheme}}>
               Filter Errands
             </Text>
 
@@ -137,13 +146,14 @@ const Filter = ({
                 dispatch(errandMarketList({}))
               }}
               className="border py-2 px-[12px]  rounded-md  font-medium leading-6"
+              style={{borderColor: textTheme}}
             >
-              <Text className="font-mdtext-base">Reset</Text>
+              <Text className="font-mdtext-base" style={{color: textTheme}}>Reset</Text>
             </TouchableOpacity>
           </View>
 
           <View className="mt-16 mx-6">
-            <Text className="font-medium text-base leading-6">Category</Text>
+            <Text className="font-medium text-base leading-6" style={{color: textTheme}}>Category</Text>
 
             <View className="mx-auto">
               <View className="flex-row items-center border-b p-2 mt-3 border-[#ccc] rounded-lg space-x-2">
@@ -157,7 +167,7 @@ const Filter = ({
               </View>
             </View>
 
-            <Text className="mt-6 font-medium text-base leading-6">
+            <Text className="mt-6 font-medium text-base leading-6" style={{color: textTheme}}>
               Top Options
             </Text>
 
@@ -193,6 +203,7 @@ const Filter = ({
                 <View className="py-2">
                   <TouchableOpacity
                     onPress={() => setValue(item.identifier)}
+                    
                     className={` bg-white border-[1px] border-[#1E3A79] px-4 py-2 rounded-3xl mr-5 ${
                       value === item.identifier
                         ? 'bg-[#1E3A79]'
@@ -281,7 +292,7 @@ const Filter = ({
             </TouchableOpacity>
 
             <View className="mb-[100px]">
-              <Text className="mt-6 font-medium text-base leading-6">
+              <Text className="mt-6 font-medium text-base leading-6" style={{color: textTheme}}>
                 Sort By
               </Text>
 

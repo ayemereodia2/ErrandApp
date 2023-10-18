@@ -1,6 +1,6 @@
 import { AntDesign, EvilIcons, FontAwesome5, Ionicons } from '@expo/vector-icons'
 import React from 'react'
-import { Text, View } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
 import { getTimeAgo } from '../../utils/helper'
@@ -23,6 +23,7 @@ const Notify = ({ data }: Notify) => {
     <>
       {data
         ? data.data.map((notification: any) => (
+          <ScrollView>
           <View className='py-2 mb-1 mt-3 border border-gray-400 rounded-sm' style={{ backgroundColor: theme ? '#152955' : 'white' }} key={notification.id}>
           <View className='flex-row items-center justify-between mx-2 mb-1 mt-1'>
 
@@ -76,8 +77,9 @@ const Notify = ({ data }: Notify) => {
             <Text className='mx-10 text-base' style={{ color: textTheme }}>{notification.message}</Text>
           </View>
         </View>
+        </ScrollView>
       ))
-    : 'No Notifications Available'}
+    : 'No Notifications Available' }
     </>
   )
 }

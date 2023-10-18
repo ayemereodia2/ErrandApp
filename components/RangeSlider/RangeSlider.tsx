@@ -13,6 +13,8 @@ import Notch from '../Slider/Notch'
 import Rail from '../Slider/Rail'
 import RailSelected from '../Slider/RailSelected'
 import Thumb from '../Slider/Thumb'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../services/store'
 
 interface Prop {
   low: number
@@ -48,10 +50,19 @@ const RangeSlider = ({ low, setHigh, setLow, high, setMinCheck }: Prop) => {
     setHigh(text)
   }
 
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
+
   return (
     <>
       <ScrollView className="mt-12">
-        <Text className="font-medium text-base leading-6">Price Range</Text>
+        <Text className="font-medium text-base leading-6" style={{color: textTheme}}>Price Range</Text>
 
         <KeyboardAvoidingView
           behavior="padding"

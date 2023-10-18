@@ -113,7 +113,7 @@ const AccountScreen = ({ navigation }: any) => {
   // console.log('data', data?.last_name)
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{backgroundColor: backgroundTheme}} className='h-screen'>
       <ScrollView
         style={{ backgroundColor: backgroundTheme }}
         className="bg-white"

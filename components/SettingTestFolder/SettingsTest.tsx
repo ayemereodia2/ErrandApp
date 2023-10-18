@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   ScrollView,
   Switch,
@@ -13,8 +13,12 @@ import { _fetch } from '../../services/axios/http'
 import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
 import { RootState, useAppDispatch } from '../../services/store'
 import { getUserId } from '../../utils/helper'
+import { StyleSheet } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
+
 
 const SettingsTest = () => {
+  const [IsLoading, setIsLoading] = useState(false)
   const dispatch = useAppDispatch()
 
   const {
@@ -40,12 +44,15 @@ const SettingsTest = () => {
   )
 
   const updateUserProfile = async (userData: any) => {
+    setIsLoading(true)
     try {
       const _rs = await _fetch({
         method: 'PUT',
         _url: `/user/profile`,
         body: userData,
       })
+
+      setIsLoading(false)
 
       // Check if the response status code indicates an error
       if (!_rs.ok) {
@@ -65,8 +72,15 @@ const SettingsTest = () => {
     getUserId({ dispatch })
   }, [])
 
+  if(IsLoading){
+    <ActivityIndicator color="black" size="large" />
+  }
+
   return (
     <ScrollView>
+
+     
+
       <View className="mt-6 ml-4 ">
         <Text
           style={{ color: textTheme }}
@@ -334,5 +348,8 @@ const SettingsTest = () => {
     </ScrollView>
   )
 }
+
+
+
 
 export default SettingsTest
