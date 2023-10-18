@@ -1,7 +1,7 @@
 import { AntDesign, EvilIcons, FontAwesome5, Ionicons } from '@expo/vector-icons'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
-import { Text, View } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
@@ -50,6 +50,8 @@ export default function NewNotifications() {
     <>
       {data
         ? data?.data?.map((notification: any) => (
+
+          <ScrollView>
           
         <View className='py-2 mb-3 mt-4 border border-gray-400 rounded-md' style={{ backgroundColor: theme ? '#152955' : 'white' }} key={notification.id}>
           <View className='flex-row items-center justify-between mx-2 mb-1 mt-2'>
@@ -104,6 +106,7 @@ export default function NewNotifications() {
             <Text className='mx-10 text-base' style={{ color: textTheme }}>{notification.message}</Text>
           </View>
         </View>
+        </ScrollView>
       ))
     : 'No Notifications Available'}
     </>

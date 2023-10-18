@@ -14,25 +14,39 @@ import { NetworkProvider } from 'react-native-offline'
 import { MenuProvider } from 'react-native-popup-menu'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
-import { Provider } from 'react-redux'
+import {  Provider } from 'react-redux';
+// import {  useSelector} from 'react-redux'
+import { StatusBar, useColorScheme } from 'react-native'
 import ErrorBoundary from './components/ErrorBoundary'
 import useCachedResources from './hooks/useCachedResources'
-import useColorScheme from './hooks/useColorScheme'
+// import useColorScheme from './hooks/useColorScheme'
 import { useOnlineManager } from './hooks/useOnlineManager'
 import MainNavigation from './navigation/MainNavigation'
 import { GuestStack } from './navigation/StackNavigation'
-import { store } from './services/store'
+import { RootState, store } from './services/store'
 
 const queryClient = new QueryClient()
 
 // import { store } from './services/store'
 
 export default function App() {
+
+  // const {
+  //   data: currentUser,
+  //   backgroundTheme,
+  //   textTheme,
+  //   landingPageTheme,
+  // } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
   const isLoadingComplete = useCachedResources()
   const [isGuest, setIsGuest] = useState<any>()
 
   // const [isAuthenticated, setIsAuthenticated] = useState<any>('')
   const colorScheme = useColorScheme()
+  const statusBarBarStyle = colorScheme === 'dark' ? 'light-content' : 'dark-content';
+  // const theme = currentUser?.preferred_theme === 'light' ? true : false
+
+
 
   useOnlineManager()
 
@@ -79,6 +93,9 @@ export default function App() {
               <MenuProvider>
                 <Provider store={store}>
                   <SafeAreaProvider>
+                    <StatusBar
+                    barStyle="light-content"
+                     backgroundColor="lightblue" />
                     {/* <Navigation /> */}
                     <GestureHandlerRootView style={{ flex: 1 }}>
                       {/* Conditionally render AuthStack or AppStack based on authentication status */}

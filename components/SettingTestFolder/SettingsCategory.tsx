@@ -60,10 +60,10 @@ const SettingsCategory = ({ navigation }: any) => {
           className=""
         >
           <View style={{ backgroundColor: theme ? '#152955' : 'white' }} className="py-3 px-4 w-[149px] rounded-full bg-[#3F60AC] mt-4 items-center flex-row space-x-4">
-            <Text className="text-white items-center justify-center">
+            <Text className="text-white items-center justify-center" style={{color: textTheme}}>
               Add Category
             </Text>
-            <AntDesign name="pluscircle" size={16} color="white" />
+            <AntDesign name="pluscircle" size={16} color={textTheme} />
           </View>
         </TouchableOpacity>
       </View>

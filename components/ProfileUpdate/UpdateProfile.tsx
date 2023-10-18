@@ -43,6 +43,8 @@ const UpdateProfile = ({ image, data }: any) => {
   const [date, setDate] = useState(new Date())
   const [showPicker, setShowPicker] = useState(false)
   const [dateOfBirth, setDateOfBirth] = useState(data?.data.dob)
+  const [occupation, setOccupation] = useState(data?.data.occupation)
+
 
   const toggleDatepicker = () => {
     setShowPicker(!showPicker)
@@ -96,6 +98,7 @@ const UpdateProfile = ({ image, data }: any) => {
       bio: about,
       email: email,
       dob: dateOfBirth,
+      occupation: occupation,
       profile_picture: image,
     }
 
@@ -174,6 +177,19 @@ const UpdateProfile = ({ image, data }: any) => {
               placeholder={' Enter your last name'}
               value={lastName}
               onChangeText={(text) => setLastName(text)}
+              placeholderTextColor={'#B3B3B3'}
+            />
+          </View>
+
+          <View className="mt-8">
+            <Text className="font-medium text-lg text-[#1E3A79]" style={{color: textTheme}}>
+              Occupation
+            </Text>
+            <TextInput
+              className="w-full mt-2 b rounded-md h-[60px] pl-3 items-center mx-auto bg-[#E6E6E6] text-sm"
+              placeholder={' Enter your occupation'}
+              value={occupation}
+              onChangeText={(text) => setOccupation(text)}
               placeholderTextColor={'#B3B3B3'}
             />
           </View>
