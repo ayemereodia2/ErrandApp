@@ -69,6 +69,7 @@ const ErrandBid = ({
           toggleAcceptModal(false)
           toggleRejectModal(false)
           toggleNegotiateModal(false)
+          toggleBidHistoryModal(false)
         }}
         // onChange={handleSheetChanges}
       />

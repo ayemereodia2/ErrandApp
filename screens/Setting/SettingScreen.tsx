@@ -21,6 +21,7 @@ import { _fetch } from '../../services/axios/http'
 import { notificationPreferences } from '../../services/notification/preferences'
 import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
 import { RootState, useAppDispatch } from '../../services/store'
+import { StatusBar } from 'react-native'
 
 const SettingScreen = ({ navigation }: any) => {
   const { data: preferences } = useSelector(
@@ -89,6 +90,8 @@ const SettingScreen = ({ navigation }: any) => {
           style={{ backgroundColor: backgroundTheme }}
           className="bg-[#F8F9FC]"
         >
+          <StatusBar backgroundColor={backgroundTheme} barStyle={theme ? "light-content" : 'dark-content'} />
+
           <View className=" mt-6 px-4">
             <View className=" h-[88px] mt-1 border-b-[#CCCCCC] border-b-[1px]">
               <View className="flex-row justify-between items-center">

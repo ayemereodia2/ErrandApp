@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
   BackHandler,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -107,6 +108,7 @@ const LandingTest = ({ navigation }: any) => {
         className="px-4 w-screen"
         style={{ backgroundColor: backgroundTheme }}
       >
+        <StatusBar backgroundColor={backgroundTheme} barStyle={theme ? "light-content" : 'dark-content'} />
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* <View
             style={{
