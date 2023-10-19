@@ -10,12 +10,13 @@ import {
 } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 // import { ScrollView } from 'native-base'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   RefreshControl,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -32,8 +33,13 @@ import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
 import { getUserId } from '../../utils/helper'
+import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import BidHistory from '../../components/Modals/Bids/BidHistory'
+import UserInfo from '../../components/UserInfo/UserInfo'
+
 
 export default function MainScreen() {
+
   const navigation = useNavigation()
   const dispatch = useAppDispatch()
   // const [loading, setLoading] = useState(false)
@@ -50,9 +56,14 @@ export default function MainScreen() {
   const [toggleView, setToggleView] = useState(true)
   const [searchedErrand, setSearchedErrand] = useState<MarketData[]>([])
 
+  const [userData, setUserData] = useState(null);
+
+
+
   const handleViewChange = () => {
     setToggleView(!toggleView)
   }
+
 
   // const { data } = useSelector((state: RootState) => state.userDetailsReducer)
   const [filterOn, setFilterOn] = useState(false)
@@ -67,6 +78,19 @@ export default function MainScreen() {
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
+
+  const bidHistoryRef = useRef<BottomSheetModal>(null)
+
+  function toggleBidHistoryModal(open: boolean, user) {
+    if (open) {
+      setUserData(user);
+      bidHistoryRef.current?.present();
+    } else {
+      setUserData(null);
+      bidHistoryRef.current?.dismiss();
+    }
+  }
+  
 
   const handleFilter = () => {
     setFilterOn(!filterOn)
@@ -139,10 +163,16 @@ export default function MainScreen() {
       </SafeAreaView>
     )
   }
+
+
   return (
     <>
+   
       <Container>
+      <BottomSheetModalProvider>
         <SafeAreaView>
+        <StatusBar backgroundColor={backgroundTheme} barStyle={theme ? "light-content" : 'dark-content'} />
+
           <ScrollView
             style={{ backgroundColor: backgroundTheme }}
             scrollEventThrottle={16}
@@ -244,12 +274,16 @@ export default function MainScreen() {
                                 errand={errand}
                                 navigation={navigation}
                                 key={index}
+                                toggleBidHistoryModal={toggleBidHistoryModal}
+                                
                               />
                             ) : (
                               <ListErrandComp
                                 errand={errand}
                                 navigation={navigation}
                                 key={index}
+                                toggleBidHistoryModal={toggleBidHistoryModal}
+                                
                               />
                             )}
                           </>
@@ -265,7 +299,24 @@ export default function MainScreen() {
 
           {!loading && <PostErrandButton className="bottom-5 right-3" />}
         </SafeAreaView>
+
+        <BottomSheetModal
+          // backdropComponent={renderBackdrop}
+          ref={bidHistoryRef}
+          index={0}
+          snapPoints={['70%']}
+        >
+         <UserInfo
+          user={userData}
+          navigation={navigation}
+         
+         />
+         
+        </BottomSheetModal>
+      </BottomSheetModalProvider>
       </Container>
+
+  
     </>
   )
 }

@@ -41,6 +41,7 @@ import { ProfileInitials } from '../../components/ProfileInitials'
 import { userDetails } from '../../services/auth/userInfo'
 import { RootState, useAppDispatch } from '../../services/store'
 import { formatDate, getAddress } from '../../utils/helper'
+import { StatusBar } from 'react-native'
 
 export default function ErrandDetails({ route, navigation }: any) {
   const dispatch = useAppDispatch()
@@ -184,6 +185,8 @@ export default function ErrandDetails({ route, navigation }: any) {
         style={{ flex: 1, backgroundColor: backgroundTheme }}
         className="bg-[#F8F9FC]"
       >
+        <StatusBar backgroundColor={backgroundTheme} barStyle={theme ? "light-content" : 'dark-content'} />
+
         <View
           style={{
             flexDirection: 'column-reverse',

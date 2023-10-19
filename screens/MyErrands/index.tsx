@@ -24,6 +24,7 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData, SingleSubErrand } from '../../types'
 import { getUserId } from '../../utils/helper'
 import DarkMode from '../../services/DarkMode/DarkMode'
+import { StatusBar } from 'react-native'
 
 const ErrandScreen = ({ navigation }: any) => {
   const [firstName, setFirstName] = useState('')
@@ -140,6 +141,8 @@ const ErrandScreen = ({ navigation }: any) => {
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
           >
+          <StatusBar backgroundColor={backgroundTheme} barStyle={theme ? "light-content" : 'dark-content'} />
+
             <View
               style={{ backgroundColor: backgroundTheme }}
               className="bg-[#e4eaf7]"

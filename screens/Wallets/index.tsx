@@ -17,6 +17,7 @@ import {
   RefreshControl,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -172,6 +173,8 @@ const WalletScreen = ({ navigation }: any) => {
             className=" bg-[#e4eaf7]"
             style={{ backgroundColor: backgroundTheme }}
           >
+          <StatusBar backgroundColor={backgroundTheme} barStyle={theme ? "light-content" : 'dark-content'} />
+
             <ScrollView
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
