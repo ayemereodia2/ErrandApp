@@ -21,7 +21,7 @@ const UserInfo = ({user, key}:any) => {
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
     const dispatch = useAppDispatch()
-    const [profile, setProfile] = useState(true)
+    const [profile, setProfile] = useState(false)
 
     const handleProfile = () => {
       setProfile(false)
@@ -36,7 +36,7 @@ const UserInfo = ({user, key}:any) => {
     // dispatch(externalUserDetails({ user_id: errand?.user_id }))
 
   return (
-    <SafeAreaView key={user.id} style={{backgroundColor: backgroundTheme}} className='h-full'>
+    <SafeAreaView key={user.id} style={{backgroundColor: theme ? '#3F60AC' : 'white'}} className='h-full'>
       <ScrollView>
      <View className='justify-center items-center rounded-full mt-4'>
       <Image source={{uri: user.profile_picture}} style={{width: 100, height: 100, borderRadius: 100}}/>
@@ -73,7 +73,27 @@ const UserInfo = ({user, key}:any) => {
       </View>
 
 
-      <View className="flex-row mr-[16px] mt-8 ml-[16px] md:w-[398px] mx-auto ">
+      <View className="flex-row mr-[16px] mt-4 ml-[16px] md:w-[398px] mx-auto ">
+
+      <TouchableOpacity onPress={handleProfile}>
+              <View
+                className="w-[190px] h-[52px] border-b items-center justify-center "
+                style={{
+                  borderBottomColor: profile ? '#243763' : '#3F60AC',
+                  borderBottomWidth: profile ? 1 : 2,
+                }}
+              >
+                <Text
+                  className="text-center font-medium"
+                  style={{ color: profile ? '#243763' : '#3F60AC' }}
+                >
+                  Verifications
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+
+
             <TouchableOpacity onPress={handleVerification}>
               <View
                 className="w-[199px] h-[52px] border-b items-center justify-center "
@@ -91,22 +111,7 @@ const UserInfo = ({user, key}:any) => {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={handleProfile}>
-              <View
-                className="w-[190px] h-[52px] border-b items-center justify-center "
-                style={{
-                  borderBottomColor: profile ? '#243763' : '#3F60AC',
-                  borderBottomWidth: profile ? 1 : 2,
-                }}
-              >
-                <Text
-                  className="text-center font-medium"
-                  style={{ color: profile ? '#243763' : '#3F60AC' }}
-                >
-                  Verifications
-                </Text>
-              </View>
-            </TouchableOpacity>
+
           </View>
 
           {profile ? (

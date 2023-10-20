@@ -2,6 +2,7 @@ import { AntDesign, FontAwesome } from '@expo/vector-icons'
 import Checkbox from 'expo-checkbox'
 import React, { useEffect, useLayoutEffect } from 'react'
 import {
+  SafeAreaView,
   ScrollView,
   Text,
   TextInput,
@@ -51,6 +52,7 @@ const CategoryInterest = ({ navigation }: any) => {
 
 
   return (
+    <SafeAreaView className='mt-4'>
     <ScrollView className="mt-4 px-4 mb-10">
       <View>
         <Text className="text-center text-base font-semibold">
@@ -58,7 +60,7 @@ const CategoryInterest = ({ navigation }: any) => {
         </Text>
       </View>
 
-      <View className="mx-auto">
+      {/* <View className="mx-auto">
         <View className="flex-row items-center border-b p-2 mt-3 border-[#ccc] rounded-lg space-x-2">
           <TextInput
             className="w-[300px] "
@@ -66,10 +68,10 @@ const CategoryInterest = ({ navigation }: any) => {
           />
           <FontAwesome name="search" size={16} color="#ccc" />
         </View>
-      </View>
+      </View> */}
 
       <View>
-        <Text className="text-left text-sm font-light pt-3">
+        <Text className="text-center text-sm font-light pt-3">
           Select the categories you are interested in
         </Text>
 
@@ -89,7 +91,7 @@ const CategoryInterest = ({ navigation }: any) => {
               <View className="flex-row py-3 space-x-3">
                 <Checkbox
                   // style={styles.checkbox}
-                  value={true}
+                  value={false}
                   // onValueChange={setChecked}
                   // color={isChecked ? '#4630EB' : undefined}
                 />
@@ -121,6 +123,7 @@ const CategoryInterest = ({ navigation }: any) => {
         </TouchableOpacity>
       </View>
     </ScrollView>
+    </SafeAreaView>
   )
 }
 

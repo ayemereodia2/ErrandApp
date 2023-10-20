@@ -4,7 +4,7 @@
     "slug": "Swave",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/adaptive.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "androidStatusBar": {
@@ -48,6 +48,10 @@
       }
     },
     "android": {
+      "adaptiveIcon": {
+        "foregroundImage":"./assets/adaptive.png",
+        "backgroundColor":"#a9c1f8"
+      },
       "package": "com.orj5.Swave",
        "config": {
         "googleMaps": {

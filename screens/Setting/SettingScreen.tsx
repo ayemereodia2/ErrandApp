@@ -33,6 +33,9 @@ const SettingScreen = ({ navigation }: any) => {
     sms_notifications: false,
   })
 
+  const [loading, setLoading] = useState(false);
+
+
   const {
     data: currentUser,
     backgroundTheme,
@@ -83,6 +86,12 @@ const SettingScreen = ({ navigation }: any) => {
     )
   }
 
+  {loading ? (
+    <ActivityIndicator color={theme ? 'blue' : 'black'} size="large" />
+  ) : (
+    null
+  )}
+
   return (
     <Container>
       <SafeAreaView>
@@ -128,13 +137,13 @@ const SettingScreen = ({ navigation }: any) => {
                     </Text>
                   </View>
                 </View>
-                <Text className="mt-1 text-[#808080]">
+                {/* <Text className="mt-1 text-[#808080]">
                   <MaterialIcons
                     name="keyboard-arrow-right"
                     size={24}
                     color="#808080"
                   />
-                </Text>
+                </Text> */}
               </View>
             </View>
 
@@ -242,6 +251,7 @@ const SettingScreen = ({ navigation }: any) => {
                       trackColor={{ false: '#767577', true: 'green' }}
                       value={preferences?.email_notifications}
                       onValueChange={(value: boolean) => {
+                        setLoading(true)
                         dispatch(
                           updateNotificationPrefeference({
                             ...preferences,
@@ -263,6 +273,7 @@ const SettingScreen = ({ navigation }: any) => {
                   >
                     <Text className="text-xs">
                       {preferences.email_notifications ? 'Enabled' : 'Disabled'}{' '}
+                     
                     </Text>
                   </View>
                 </View>

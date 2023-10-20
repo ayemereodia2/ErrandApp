@@ -83,7 +83,7 @@ const UserProfile = () => {
         </Text>
       </View>
 
-      <View className="w-[380px] mx-auto">
+      {/* <View className="w-[380px] mx-auto">
         <View className="flex-row justify-between items-center ml-4 mr-4 pb-1">
           <Text
             style={{ color: textTheme }}
@@ -98,9 +98,9 @@ const UserProfile = () => {
         >
           {data?.referral_code}
         </Text>
-      </View>
+      </View> */}
 
-      <View className="w-[380px] mx-auto mb-14">
+      {/* <View className="w-[380px] mx-auto mb-14">
         <View className="flex-row justify-between items-center ml-4 mr-4">
           <Text
             style={{ color: textTheme }}
@@ -115,7 +115,7 @@ const UserProfile = () => {
         >
           {data?.referred_by ? data?.referred_by : 'N/A'}
         </Text>
-      </View>
+      </View> */}
     </ScrollView>
   )
 }

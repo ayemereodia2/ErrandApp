@@ -1,5 +1,4 @@
 import { AntDesign, Feather, MaterialIcons } from '@expo/vector-icons'
-import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
@@ -16,11 +15,8 @@ import UserVerification from '../../components/UsersProfile/UserVerification'
 import { _fetch } from '../../services/axios/http'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import Toast from 'react-native-toast-message'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../../services/store'
-import { UserDetail } from '../../types'
-import { currentUserDetails } from '../../services/auth/currentUserInfo'
 
 interface AccountScreenProp {
   navigation: any
@@ -33,6 +29,8 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
   // const [data, setData] = useState<any>()
   const [isLoading, setIsLoading] = useState(false)
   const dispatch = useAppDispatch()
+
+  const [refreshing, setRefreshing] = React.useState(false)
 
   const {
     loading,
@@ -80,11 +78,10 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
   }
 
   const getUserProfile = async () => {
-
     // const user_id = await AsyncStorage.getItem('userId') || ''
     // console.log(">>>user_id", user_id);
     // dispatch(currentUserDetails({user_id}))
-    
+
     setIsLoading(true)
     const _rs = await _fetch({
       method: 'GET',
@@ -92,13 +89,11 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
     })
     const data = await _rs.json()
 
-
     // console.log(">>>>>>>>>hello", data)
 
     // setIsLoading(false)
 
     // setData(data)
-
   }
 
   // const { isLoading, isError, data } = useQuery({
@@ -108,8 +103,23 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
   // })
   // console.log(data)
 
+  const onRefresh = React.useCallback(() => {
+    getUserProfile()
+    setRefreshing(true)
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 500)
+  }, [data])
+
   const clearStorage = async () => {
-    await AsyncStorage.multiRemove(['accessToken', 'refreshToken', 'user_id', 'last_name', 'first_name', 'profile_pic'])
+    await AsyncStorage.multiRemove([
+      'accessToken',
+      'refreshToken',
+      'user_id',
+      'last_name',
+      'first_name',
+      'profile_pic',
+    ])
   }
 
   useEffect(() => {
@@ -127,7 +137,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
         }}
         className="pt-20 bg-gray-200 w-screen h-[100vh]"
       >
-         <ActivityIndicator color={theme ? 'white' : 'blue'} size="large" />
+        <ActivityIndicator color={theme ? 'white' : 'blue'} size="large" />
       </SafeAreaView>
     )
   }
@@ -142,7 +152,10 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
   // console.log('data', data?.last_name)
 
   return (
-    <SafeAreaView style={{backgroundColor: backgroundTheme}} className='h-screen'>
+    <SafeAreaView
+      style={{ backgroundColor: backgroundTheme }}
+      className="h-screen"
+    >
       <ScrollView
         style={{ backgroundColor: backgroundTheme }}
         className="bg-white"
@@ -174,14 +187,11 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
               {data?.first_name} {data?.last_name}{' '}
             </Text>
 
-            {data?.verification === 100 ? 
-            ( <Text>
-              <MaterialIcons name="verified" size={20} color="green" />
-            </Text> )
-            :
-            null
-          }
-            
+            {data?.verification === 100 ? (
+              <Text>
+                <MaterialIcons name="verified" size={20} color="green" />
+              </Text>
+            ) : null}
           </View>
 
           <Text
@@ -197,13 +207,13 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
                 style={{ color: textTheme }}
                 className="text-center mb-1 font-bold"
               >
-                400
+                {data?.errands_posted}
               </Text>
               <Text
                 style={{ color: textTheme }}
                 className="text-center font-light"
               >
-                total Errands{' '}
+                Total Errands{' '}
               </Text>
             </View>
 
@@ -311,11 +321,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
             </TouchableOpacity>
           </View>
 
-          {profile ? (
-            <UserProfile data={data} />
-          ) : (
-            <UserVerification data={data} />
-          )}
+          {profile ? <UserProfile /> : <UserVerification data={data} />}
         </View>
       </ScrollView>
     </SafeAreaView>

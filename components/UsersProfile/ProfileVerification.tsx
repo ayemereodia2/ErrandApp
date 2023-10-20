@@ -16,7 +16,7 @@ const ProfileVerification = ({user}:any) => {
 
   return (
     <View className='mx-4 mt-3'>
-      <View className="flex-row justify-between items-center mx-4">
+      <View className="flex-row justify-between items-center mt-3 mx-4">
            
             <Text className="font-light leading-8 " style={{color: textTheme}}>Email Verification</Text>
             <View className="w-[100px] h-[34px] bg-[] justify-center items-center rounded-[20px]" style={{backgroundColor: user.has_verified_email ? '#D8F8E9' : '#FEE1CD'}}>

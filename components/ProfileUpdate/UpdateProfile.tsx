@@ -22,6 +22,7 @@ import { RootState, useAppDispatch } from '../../services/store'
 
 const UpdateProfile = ({ image, data }: any) => {
   const {
+    loading: isLoading,
     data: currentUser,
     backgroundTheme,
     textTheme,
@@ -80,10 +81,12 @@ const UpdateProfile = ({ image, data }: any) => {
         const errorResponse = await _rs.json()
         throw new Error(`Server error: ${errorResponse.message}`)
       }
-      setLoading(false)
       const responseData = await _rs.json()
       const user_id = (await AsyncStorage.getItem('user_id')) || ''
       dispatch(currentUserDetails({ user_id }))
+
+      setLoading(false)
+
 
       return responseData
     } catch (error) {

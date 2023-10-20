@@ -59,6 +59,7 @@ export default function MainScreen() {
   const [searchValue, setSearchValue] = useState('')
 
   const [userData, setUserData] = useState(null)
+  const [modalOpen, setModalOpen] = useState(false)
 
   const handleViewChange = () => {
     setToggleView(!toggleView)
@@ -83,6 +84,7 @@ export default function MainScreen() {
   function toggleBidHistoryModal(open: boolean, user: any) {
     if (open) {
       setUserData(user)
+      setModalOpen(true)
       bidHistoryRef.current?.present()
     } else {
       setUserData(null)
@@ -173,7 +175,9 @@ export default function MainScreen() {
     <>
       <Container>
         <BottomSheetModalProvider>
-          <SafeAreaView>
+          <SafeAreaView
+            style={{ backgroundColor: modalOpen ? 'black' : 'none' }}
+          >
             <StatusBar
               backgroundColor={backgroundTheme}
               barStyle={theme ? 'light-content' : 'dark-content'}
@@ -312,7 +316,6 @@ export default function MainScreen() {
                   </View>
                 </View>
               </>
-              {/* )} */}
             </ScrollView>
           </SafeAreaView>
 

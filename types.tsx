@@ -542,6 +542,7 @@ export interface UserDetail {
   has_transaction_pin: boolean
   preferred_theme: 'light' | 'dark',
   referred_by: string
+  errands_posted: number
 }
 
 export interface NotificationList extends CommonState {
