@@ -16,10 +16,22 @@ import { setHeight, setWidth } from '../../utils/Display'
 import Fonts from '../../utils/fonts'
 
 interface PinModalProps {
+  createErrand?: boolean
   closePinModal: () => void
+  submitErrandhandler: () => void
+  verifyPin?: boolean
+  makeWithdrawalHandler: () => void
+  withdraw?: boolean
 }
 
-const PinModal = ({ closePinModal }: PinModalProps) => {
+const PinModal = ({
+  closePinModal,
+  createErrand,
+  submitErrandhandler,
+  verifyPin,
+  withdraw,
+  makeWithdrawalHandler,
+}: PinModalProps) => {
   const firstInput = useRef()
   const secondInput = useRef()
   const thirdInput = useRef()
@@ -109,11 +121,13 @@ const PinModal = ({ closePinModal }: PinModalProps) => {
     signinButton: {
       backgroundColor: Colors.DEFAULT_GREEN,
       borderRadius: 8,
-      marginHorizontal: 20,
+      margintop: 30,
       height: setHeight(6),
       justifyContent: 'center',
       alignItems: 'center',
-      marginVertical: 20,
+      marginBottom: 80,
+      marginHorizontal: 20,
+      // paddingBottom:40
     },
     signinButtonText: {
       fontSize: 18,
@@ -128,16 +142,19 @@ const PinModal = ({ closePinModal }: PinModalProps) => {
         text1: 'Please make sure your pin is 4 digits',
         type: 'error',
       })
+      return
     }
     setLoader(true)
+
+    console.log('<<<<<pin stuff', verifyPin ? 'verify-pin' : 'pin', pin)
+
     const _rs = await _fetch({
-      _url: `/user/security/pin`,
+      _url: `/user/security/${verifyPin ? 'verify-pin' : 'pin'}`,
       method: 'POST',
       body: { transaction_pin: pin },
     })
 
     const rs = await _rs.json()
-    
     if (rs.success === false) {
       Toast.show({
         type: 'error',
@@ -145,90 +162,116 @@ const PinModal = ({ closePinModal }: PinModalProps) => {
       })
       setLoader(false)
     }
-    closePinModal()
-    Toast.show({
-      type: 'success',
-      text1: 'Your Pin has been set successfully',
-    })
-    setLoader(false)
+
+    if (rs.success === true) {
+      if (createErrand) {
+        submitErrandhandler()
+        Toast.show({
+          type: 'success',
+          text1: 'Pin was confirmed successfully',
+        })
+        setLoader(false)
+        closePinModal()
+        return
+      }
+      if (withdraw) {
+        Toast.show({
+          type: 'success',
+          text1: 'Pin was confirmed successfully',
+        })
+        makeWithdrawalHandler()
+        setLoader(false)
+        closePinModal()
+      }
+      closePinModal()
+      Toast.show({
+        type: 'success',
+        text1: 'Your Pin has been set successfully',
+      })
+      setLoader(false)
+    }
   }
 
   return (
-    <View style={{ backgroundColor: backgroundTheme, paddingBottom: 20 }}>
-      <Text
-        style={{ color: theme ? 'white' : 'blue' }}
-        className="text-center mt-6 text-lg"
-      >
-        Set Your Pin
-      </Text>
-      <Text
-        style={{ color: theme ? 'white' : 'blue' }}
-        className="text-center py-4 text-base"
-      >
-        Please Enter the Pin
-      </Text>
+    <View className="mb-20">
+      <View style={{ backgroundColor: backgroundTheme, paddingBottom: 20 }}>
+        <Text
+          style={{ color: theme ? 'white' : 'blue' }}
+          className="text-center mt-6 text-lg"
+        >
+          {createErrand ? 'Confirm Your Pin' : 'Set Your Pin'}
+        </Text>
+        <Text
+          style={{ color: theme ? 'white' : 'blue' }}
+          className="text-center py-4 text-base font-light"
+        >
+          Please Enter the Pin
+        </Text>
 
-      <View style={styles.otpContainer}>
-        <View style={styles.otpBox}>
-          <BottomSheetTextInput
-            style={styles.otpText}
-            keyboardType="number-pad"
-            maxLength={1}
-            ref={firstInput}
-            onChangeText={(text) => {
-              setOtp({ ...otp, 1: text })
-              text && secondInput.current.focus()
-            }}
-          />
+        <View style={styles.otpContainer}>
+          <View style={styles.otpBox}>
+            <BottomSheetTextInput
+              style={styles.otpText}
+              keyboardType="number-pad"
+              maxLength={1}
+              ref={firstInput}
+              onChangeText={(text) => {
+                setOtp({ ...otp, 1: text })
+                text && secondInput.current.focus()
+              }}
+            />
+          </View>
+          <View style={styles.otpBox}>
+            <BottomSheetTextInput
+              style={styles.otpText}
+              className="px-10"
+              keyboardType="number-pad"
+              maxLength={1}
+              ref={secondInput}
+              onChangeText={(text) => {
+                setOtp({ ...otp, 2: text })
+                text ? thirdInput.current.focus() : firstInput.current.focus()
+              }}
+            />
+          </View>
+          <View style={styles.otpBox}>
+            <BottomSheetTextInput
+              style={styles.otpText}
+              keyboardType="number-pad"
+              maxLength={1}
+              ref={thirdInput}
+              onChangeText={(text) => {
+                setOtp({ ...otp, 3: text })
+                text ? fourthInput.current.focus() : secondInput.current.focus()
+              }}
+            />
+          </View>
+          <View style={styles.otpBox}>
+            <BottomSheetTextInput
+              style={styles.otpText}
+              keyboardType="number-pad"
+              maxLength={1}
+              ref={fourthInput}
+              onChangeText={(text) => {
+                setOtp({ ...otp, 4: text })
+                !text && thirdInput.current.focus()
+              }}
+            />
+          </View>
         </View>
-        <View style={styles.otpBox}>
-          <BottomSheetTextInput
-            style={styles.otpText}
-            className="px-10"
-            keyboardType="number-pad"
-            maxLength={1}
-            ref={secondInput}
-            onChangeText={(text) => {
-              setOtp({ ...otp, 2: text })
-              text ? thirdInput.current.focus() : firstInput.current.focus()
-            }}
-          />
-        </View>
-        <View style={styles.otpBox}>
-          <BottomSheetTextInput
-            style={styles.otpText}
-            keyboardType="number-pad"
-            maxLength={1}
-            ref={thirdInput}
-            onChangeText={(text) => {
-              setOtp({ ...otp, 3: text })
-              text ? fourthInput.current.focus() : secondInput.current.focus()
-            }}
-          />
-        </View>
-        <View style={styles.otpBox}>
-          <BottomSheetTextInput
-            style={styles.otpText}
-            keyboardType="number-pad"
-            maxLength={1}
-            ref={fourthInput}
-            onChangeText={(text) => {
-              setOtp({ ...otp, 4: text })
-              !text && thirdInput.current.focus()
-            }}
-          />
-        </View>
+        <TouchableOpacity
+          style={styles.signinButton}
+          onPress={() => saveTransactionPin(Object.values(otp).join(''))}
+        >
+          {loader ? (
+            <ActivityIndicator color="blue" size="small" />
+          ) : (
+            <Text style={styles.signinButtonText}>
+              {createErrand ? 'Confirm' : 'Verify'}
+            </Text>
+          )}
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        style={styles.signinButton}
-        onPress={() => saveTransactionPin(Object.values(otp).join(''))}
-      >
-        {loader ? (
-          <ActivityIndicator color="blue" size="small" />
-        ) : (
-          <Text style={styles.signinButtonText}>Verify</Text>
-        )}
-      </TouchableOpacity>
     </View>
   )
 }

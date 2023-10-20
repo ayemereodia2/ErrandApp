@@ -1,20 +1,25 @@
 import { AntDesign, Entypo, MaterialIcons } from '@expo/vector-icons'
-import React, { useLayoutEffect, useState } from 'react'
-import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
-import { Image, ScrollView } from 'react-native'
+import React, { useLayoutEffect, useState } from 'react'
+import {
+  Image,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import {
   Menu,
   MenuOption,
   MenuOptions,
   MenuTrigger,
 } from 'react-native-popup-menu'
+import { useSelector } from 'react-redux'
 import UpdateProfile from '../../components/ProfileUpdate/UpdateProfile'
 import { RootState } from '../../services/store'
-import { useSelector } from 'react-redux'
 
 const EditProfileTitle = ({ navigation, route }: any) => {
-
   const {
     data: currentUser,
     backgroundTheme,
@@ -24,10 +29,7 @@ const EditProfileTitle = ({ navigation, route }: any) => {
 
   const darkMode = useSelector((state: RootState) => state.darkMode.darkMode)
 
-
   const theme = currentUser?.preferred_theme === 'light' ? true : false
-
-
   const [image, setImage] = useState(null)
 
   useLayoutEffect(() => {
@@ -35,7 +37,7 @@ const EditProfileTitle = ({ navigation, route }: any) => {
       headerShown: true,
       title: 'Edit Profile',
       headerStyle: { backgroundColor: backgroundTheme },
-      headerTitleStyle: {color: textTheme},
+      headerTitleStyle: { color: textTheme },
       headerLeft: () => (
         <TouchableOpacity
           className="flex-row items-center justify-between mx-0 px-3 py-3"
@@ -46,9 +48,6 @@ const EditProfileTitle = ({ navigation, route }: any) => {
       ),
       headerRight: () => (
         <View className="flex-row items-center justify-between mx-3 px-3 py-3 space-x-3 ">
-          {/* <TouchableOpacity onPress={() => navigation.navigate('Errands')}>
-                <MaterialIcons name="notifications" color={'black'} size={22} />
-              </TouchableOpacity> */}
           <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
             <MenuTrigger>
               <Entypo name="dots-three-vertical" color={textTheme} size={20} />
@@ -117,7 +116,7 @@ const EditProfileTitle = ({ navigation, route }: any) => {
   const { data } = route.params
 
   return (
-    <SafeAreaView style={{backgroundColor: backgroundTheme}}>
+    <SafeAreaView style={{ backgroundColor: backgroundTheme }}>
       <ScrollView>
         {/* Top Profile */}
 
@@ -131,7 +130,7 @@ const EditProfileTitle = ({ navigation, route }: any) => {
           ) : (
             <Image
               // source={require('../../assets/images/profile.png')}
-              source={{ uri: data?.data.profile_picture }}
+              source={{ uri: data?.profile_picture }}
               className="b rounded-full w-[150px] h-[150px]"
             />
           )}
@@ -147,25 +146,27 @@ const EditProfileTitle = ({ navigation, route }: any) => {
           {/* Name Area */}
 
           <View className="flex-row justify-center items-center mt-5">
-            <Text className="text-[18px] font-bold leading-6" style={{color: textTheme}}>
-              {data?.data.first_name} {data?.data.last_name}{' '}
+            <Text
+              className="text-[18px] font-bold leading-6"
+              style={{ color: textTheme }}
+            >
+              {data?.first_name} {data?.last_name}{' '}
             </Text>
-            
-              {data?.data.verification === 100 ? 
-              ( <Text> 
+
+            {data?.verification === 100 ? (
+              <Text>
                 <MaterialIcons name="verified" size={20} color="green" />
-              </Text> )
-              :
-              null
-              
-            }
-              
+              </Text>
+            ) : null}
           </View>
 
           {/*Occupation */}
 
-          <Text className="text-center mt-3 text-base font-bold" style={{color: textTheme}}>
-            {data?.data.occupation ? data.occupation : 'Swave User'}
+          <Text
+            className="text-center mt-3 text-base font-bold"
+            style={{ color: textTheme }}
+          >
+            {data?.occupation ? data.occupation : 'Swave User'}
           </Text>
         </View>
 

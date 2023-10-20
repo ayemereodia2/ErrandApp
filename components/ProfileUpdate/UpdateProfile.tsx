@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
@@ -14,37 +15,33 @@ import {
   View,
 } from 'react-native'
 import Toast from 'react-native-toast-message'
-import { _fetch } from '../../services/axios/http'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../services/store'
+import { currentUserDetails } from '../../services/auth/currentUserInfo'
+import { _fetch } from '../../services/axios/http'
+import { RootState, useAppDispatch } from '../../services/store'
 
 const UpdateProfile = ({ image, data }: any) => {
-
   const {
     data: currentUser,
     backgroundTheme,
     textTheme,
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
-
+  const dispatch = useAppDispatch()
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
-
-  const darkMode = useSelector((state: RootState) => state.darkMode.darkMode)
-
 
   const navigation = useNavigation()
   const [loading, setLoading] = useState(false)
 
-  const [about, setAbout] = useState(data?.data.bio)
-  const [lastName, setLastName] = useState(data?.data.last_name)
-  const [firstName, setFirstName] = useState(data?.data.first_name)
-  const [email, setEmail] = useState(data?.data.email)
+  const [about, setAbout] = useState(data?.bio)
+  const [lastName, setLastName] = useState(data?.last_name)
+  const [firstName, setFirstName] = useState(data?.first_name)
+  const [email, setEmail] = useState(data?.email)
   const [date, setDate] = useState(new Date())
   const [showPicker, setShowPicker] = useState(false)
-  const [dateOfBirth, setDateOfBirth] = useState(data?.data.dob)
-  const [occupation, setOccupation] = useState(data?.data.occupation)
-
+  const [dateOfBirth, setDateOfBirth] = useState(data?.dob)
+  const [occupation, setOccupation] = useState(data?.occupation)
 
   const toggleDatepicker = () => {
     setShowPicker(!showPicker)
@@ -85,6 +82,9 @@ const UpdateProfile = ({ image, data }: any) => {
       }
       setLoading(false)
       const responseData = await _rs.json()
+      const user_id = (await AsyncStorage.getItem('user_id')) || ''
+      dispatch(currentUserDetails({ user_id }))
+
       return responseData
     } catch (error) {
       throw error
@@ -104,26 +104,14 @@ const UpdateProfile = ({ image, data }: any) => {
 
     try {
       const responseData = await updateUserProfile(updatedData)
-      if (responseData.success) {
+
+      if (responseData.success === true) {
         Toast.show({
           type: 'success',
           text1: 'Profile update is successful',
         })
-
-      const ok =  await _fetch({
-          method: 'GET',
-          _url: `/user/profile`,
-        })
-        
-
-        // Navigate back to the Account screen
         navigation.navigate('Profile')
-
-        console.log(updatedData)
       } else {
-        // Handle the case where the server responded with an error message
-        console.error('Profile update failed:', responseData.message)
-
         Toast.show({
           type: 'error',
           text1: 'Profile update failed:' + responseData.message,
@@ -145,10 +133,15 @@ const UpdateProfile = ({ image, data }: any) => {
       <ScrollView className="px-4">
         <View className="mt-10">
           <View>
-            <Text className="font-medium text-lg text-[#1E3A79]" style={{color: textTheme}}>Bio</Text>
+            <Text
+              className="font-medium text-lg text-[#1E3A79]"
+              style={{ color: textTheme }}
+            >
+              Bio
+            </Text>
             <TextInput
               className="w-full mt-2 b rounded-md h-[120px] pl-3 pb-[70px] mx-auto bg-[#E6E6E6] text-sm"
-              placeholder={data?.data.bio ? data.data.bio : 'Enter a message'}
+              placeholder={data?.bio ? data.bio : 'Enter a message'}
               value={about}
               onChangeText={(text) => setAbout(text)}
               placeholderTextColor={'#B3B3B3'}
@@ -156,7 +149,10 @@ const UpdateProfile = ({ image, data }: any) => {
           </View>
 
           <View className="mt-8">
-            <Text className="font-medium text-lg text-[#1E3A79]" style={{color: textTheme}}>
+            <Text
+              className="font-medium text-lg text-[#1E3A79]"
+              style={{ color: textTheme }}
+            >
               First Name
             </Text>
             <TextInput
@@ -169,7 +165,10 @@ const UpdateProfile = ({ image, data }: any) => {
           </View>
 
           <View className="mt-8">
-            <Text className="font-medium text-lg text-[#1E3A79]" style={{color: textTheme}}>
+            <Text
+              className="font-medium text-lg text-[#1E3A79]"
+              style={{ color: textTheme }}
+            >
               Last Name
             </Text>
             <TextInput
@@ -182,7 +181,10 @@ const UpdateProfile = ({ image, data }: any) => {
           </View>
 
           <View className="mt-8">
-            <Text className="font-medium text-lg text-[#1E3A79]" style={{color: textTheme}}>
+            <Text
+              className="font-medium text-lg text-[#1E3A79]"
+              style={{ color: textTheme }}
+            >
               Occupation
             </Text>
             <TextInput
@@ -195,7 +197,10 @@ const UpdateProfile = ({ image, data }: any) => {
           </View>
 
           <View className="mt-8">
-            <Text className="font-medium text-lg text-[#1E3A79]" style={{color: textTheme}}>
+            <Text
+              className="font-medium text-lg text-[#1E3A79]"
+              style={{ color: textTheme }}
+            >
               Email Address
             </Text>
             <TextInput
@@ -208,7 +213,10 @@ const UpdateProfile = ({ image, data }: any) => {
           </View>
 
           <View className="mt-8">
-            <Text className="font-medium text-lg text-[#1E3A79]" style={{color: textTheme}}>
+            <Text
+              className="font-medium text-lg text-[#1E3A79]"
+              style={{ color: textTheme }}
+            >
               Date of Birth
             </Text>
 

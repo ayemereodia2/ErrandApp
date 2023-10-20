@@ -2,14 +2,14 @@ import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
-  BottomSheetModalProvider,
+  BottomSheetModalProvider
 } from '@gorhom/bottom-sheet'
 import React, {
   useCallback,
   useEffect,
   useLayoutEffect,
   useRef,
-  useState,
+  useState
 } from 'react'
 import {
   ActivityIndicator,
@@ -21,18 +21,19 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native'
 import {
   Menu,
   MenuOption,
   MenuOptions,
-  MenuTrigger,
+  MenuTrigger
 } from 'react-native-popup-menu'
 import { useSelector } from 'react-redux'
 import Container from '../../components/Container'
 import EscrowDetails from '../../components/Transactions/EscrowDetails'
 import TransactionDetails from '../../components/Transactions/TransactionDetails'
+import PinModal from '../../components/VerificationModals/PinModal'
 import { _fetch } from '../../services/axios/http'
 import { RootState, useAppDispatch } from '../../services/store'
 import { walletAction } from '../../services/wallet/walletBalance'
@@ -57,6 +58,8 @@ const WalletScreen = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
   const [refreshing, setRefreshing] = React.useState(false)
   const bottomSheetRef = useRef<BottomSheetModal>(null)
+  const pinSheetRef = useRef<BottomSheetModal>(null)
+
   const statementRef = useRef<BottomSheetModal>(null)
 
   function toggleWithdrawaltModal(open: boolean) {
@@ -65,6 +68,14 @@ const WalletScreen = ({ navigation }: any) => {
 
   function toggleAccountStatementModal(open: boolean) {
     open ? statementRef.current?.present() : statementRef.current?.dismiss()
+  }
+
+  function openPinModal() {
+    pinSheetRef.current?.present()
+  }
+
+  function closePinModal() {
+    pinSheetRef.current?.dismiss()
   }
 
   const [dateRange, setDateRange] = useState<any>([null, null])
@@ -88,6 +99,7 @@ const WalletScreen = ({ navigation }: any) => {
         onPress={() => {
           statementRef.current?.dismiss()
           bottomSheetRef.current?.dismiss()
+          pinSheetRef.current?.dismiss()
         }}
       />
     ),
@@ -101,11 +113,8 @@ const WalletScreen = ({ navigation }: any) => {
           method: 'GET',
           _url: '/user/transactions',
         })
-
         const res = await rs.json()
-
         setTransactions(res.data)
-
         return
       }
       const rs = await _fetch({
@@ -173,7 +182,10 @@ const WalletScreen = ({ navigation }: any) => {
             className=" bg-[#e4eaf7]"
             style={{ backgroundColor: backgroundTheme }}
           >
-          <StatusBar backgroundColor={backgroundTheme} barStyle={theme ? "light-content" : 'dark-content'} />
+            <StatusBar
+              backgroundColor={backgroundTheme}
+              barStyle={theme ? 'light-content' : 'dark-content'}
+            />
 
             <ScrollView
               refreshControl={
@@ -283,7 +295,9 @@ const WalletScreen = ({ navigation }: any) => {
                   >
                     <View
                       className="w-full bg-[#FFF] border mt-3 border-[#DAE1F1] rounded-xl p-6 mx-auto z-1 "
-                      style={{ backgroundColor: theme ? backgroundTheme : 'white' }}
+                      style={{
+                        backgroundColor: theme ? backgroundTheme : 'white',
+                      }}
                     >
                       <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
                         <Text>
@@ -431,10 +445,10 @@ const WalletScreen = ({ navigation }: any) => {
           <BottomSheetModal
             ref={bottomSheetRef}
             index={0}
-            snapPoints={['70%']}
+            snapPoints={['60%']}
             backdropComponent={renderBackdrop}
           >
-            <WithdrawalScreen toggleWithdrawaltModal={toggleWithdrawaltModal} />
+            <WithdrawalScreen closePinModal={closePinModal} openPinModal={openPinModal} toggleWithdrawaltModal={toggleWithdrawaltModal} />
           </BottomSheetModal>
 
           <BottomSheetModal
@@ -445,6 +459,22 @@ const WalletScreen = ({ navigation }: any) => {
           >
             <AccountStatement />
           </BottomSheetModal>
+
+          {/* <BottomSheetModal
+            ref={pinSheetRef}
+            index={0}
+            snapPoints={['50%']}
+            containerStyle={{
+              marginHorizontal: 10,
+            }}
+            backdropComponent={renderBackdrop}
+          >
+            <PinModal
+              createErrand={false}
+              submitErrandhandler={() => {}}
+              closePinModal={closePinModal}
+            />
+          </BottomSheetModal> */}
         </>
       </Container>
     </BottomSheetModalProvider>

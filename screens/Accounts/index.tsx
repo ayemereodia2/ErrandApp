@@ -17,21 +17,32 @@ import { _fetch } from '../../services/axios/http'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Toast from 'react-native-toast-message'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../services/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState, useAppDispatch } from '../../services/store'
+import { UserDetail } from '../../types'
+import { currentUserDetails } from '../../services/auth/currentUserInfo'
 
-const AccountScreen = ({ navigation }: any) => {
+interface AccountScreenProp {
+  navigation: any
+  route: any
+}
+
+const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [profile, setProfile] = useState(true)
+  // const [data, setData] = useState<any>()
+  const [isLoading, setIsLoading] = useState(false)
+  const dispatch = useAppDispatch()
 
   const {
-    data: currentUser,
+    loading,
+    data,
     backgroundTheme,
     textTheme,
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
-  const theme = currentUser?.preferred_theme === 'light' ? true : false
+  const theme = data?.preferred_theme === 'light' ? true : false
 
   const handleProfile = () => {
     setProfile(false)
@@ -69,19 +80,33 @@ const AccountScreen = ({ navigation }: any) => {
   }
 
   const getUserProfile = async () => {
+
+    // const user_id = await AsyncStorage.getItem('userId') || ''
+    // console.log(">>>user_id", user_id);
+    // dispatch(currentUserDetails({user_id}))
+    
+    setIsLoading(true)
     const _rs = await _fetch({
       method: 'GET',
       _url: `/user/profile`,
     })
-    return await _rs.json()
+    const data = await _rs.json()
+
+
+    // console.log(">>>>>>>>>hello", data)
+
+    // setIsLoading(false)
+
+    // setData(data)
+
   }
 
-  const { isLoading, isError, data } = useQuery({
-    queryKey: ['user-profile'],
-    queryFn: getUserProfile,
-    refetchOnMount: 'always',
-  })
-  console.log(data)
+  // const { isLoading, isError, data } = useQuery({
+  //   queryKey: ['user-profile'],
+  //   queryFn: getUserProfile,
+  //   refetchOnMount: 'always',
+  // })
+  // console.log(data)
 
   const clearStorage = async () => {
     await AsyncStorage.multiRemove(['accessToken', 'refreshToken', 'user_id', 'last_name', 'first_name', 'profile_pic'])
@@ -91,24 +116,28 @@ const AccountScreen = ({ navigation }: any) => {
     getUserProfile()
   }, [])
 
-  if (isLoading) {
+  if (loading) {
     return (
       <SafeAreaView
-        style={{ backgroundColor: backgroundTheme }}
-        className="pt-20 bg-gray-200 w-screen h-[100vh] mt-5"
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: backgroundTheme,
+        }}
+        className="pt-20 bg-gray-200 w-screen h-[100vh]"
       >
-        {/* <Text className='m-auto'><EvilIcons name="spinner" size={28} color="black" /></Text> */}
-        <ActivityIndicator color="black" size="large" />
+         <ActivityIndicator color={theme ? 'white' : 'blue'} size="large" />
       </SafeAreaView>
     )
   }
 
-  if (isError) {
-    return Toast.show({
-      type: 'error',
-      text1: 'Sorry, something went wrong',
-    })
-  }
+  // if (isError) {
+  //   return Toast.show({
+  //     type: 'error',
+  //     text1: 'Sorry, something went wrong',
+  //   })
+  // }
 
   // console.log('data', data?.last_name)
 
@@ -120,18 +149,18 @@ const AccountScreen = ({ navigation }: any) => {
       >
         {/* Top Profile */}
 
-        {data?.data?.profile_picture ? (
+        {data?.profile_picture ? (
           <View className="mt-8 mx-auto">
             <Image
-              source={{ uri: data?.data?.profile_picture }}
+              source={{ uri: data?.profile_picture }}
               className="b rounded-full w-[100px] h-[100px]"
             />
           </View>
         ) : (
           <View className="bg-gray-700 w-[80px] h-[80px] rounded-full items-center justify-center mx-auto mt-8">
             <Text className="text-white font-bold text-center text-2xl">
-              {data?.data?.first_name.charAt(0)}
-              {data?.data?.last_name.charAt(0)}
+              {data?.first_name.charAt(0)}
+              {data?.last_name.charAt(0)}
             </Text>
           </View>
         )}
@@ -142,16 +171,15 @@ const AccountScreen = ({ navigation }: any) => {
               style={{ color: textTheme }}
               className="text-[18px] font-bold leading-6"
             >
-              {data?.data?.first_name} {data?.data?.last_name}{' '}
+              {data?.first_name} {data?.last_name}{' '}
             </Text>
 
-            {data?.data?.verification === 100 ? 
+            {data?.verification === 100 ? 
             ( <Text>
               <MaterialIcons name="verified" size={20} color="green" />
             </Text> )
             :
             null
-            
           }
             
           </View>
@@ -160,7 +188,7 @@ const AccountScreen = ({ navigation }: any) => {
             style={{ color: textTheme }}
             className="text-center mt-3 text-base font-medium"
           >
-            {data?.data?.occupation ? data?.data?.occupation : 'Swave User'}
+            {data?.occupation ? data?.occupation : 'Swave User'}
           </Text>
 
           <View className="flex-row mt-5 mx-auto">
@@ -184,7 +212,7 @@ const AccountScreen = ({ navigation }: any) => {
                 style={{ color: textTheme }}
                 className="text-center mb-1 font-bold"
               >
-                {data?.data?.errands_completed}
+                {data?.errands_completed}
               </Text>
               <Text
                 style={{ color: textTheme }}
@@ -199,7 +227,7 @@ const AccountScreen = ({ navigation }: any) => {
                 style={{ color: textTheme }}
                 className="text-center mb-1 font-bold"
               >
-                {data?.data?.errands_cancelled}
+                {data?.errands_cancelled}
               </Text>
               <Text
                 style={{ color: textTheme }}

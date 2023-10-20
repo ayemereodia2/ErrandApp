@@ -29,16 +29,19 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
       await AsyncStorage.setItem("first_name", _rs.data.first_name)
       await AsyncStorage.setItem('profile_pic', _rs.data.profile_picture)
       await AsyncStorage.setItem('isGuest', 'false')
+      await AsyncStorage.setItem('pin', JSON.stringify(_rs.data.has_transaction_pin))
 
       dispatch(currentUserDetails({user_id: _rs.data.id}))
 
-      navigation.navigate('Tabs')
+      // navigation.navigate('Tabs')
 
        Toast.show({
         type: 'success',
         text1: 'Login Successful',
       });
-      // navigation.navigate('Tabs')
+      navigation.navigate('Tabs')
+
+      return _rs
     } 
 
     if (_rs.success === false) {
@@ -47,14 +50,9 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
         text1: _rs.message,
       });
     }
-
-
-    
-
     return rejectWithValue(_rs)
 
   } catch (e: any) {
-    
      if (e.response.status === 400) {
       // toast.error("Invalid Login Credentials")
       return rejectWithValue(e.response.data.message)

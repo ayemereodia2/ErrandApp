@@ -1,7 +1,18 @@
 import { Entypo, Ionicons } from '@expo/vector-icons'
-import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import {
   ActivityIndicator,
   ScrollView,
@@ -11,7 +22,8 @@ import {
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
-import {createErrand} from '../../services/errands/createErrand'
+import PinModal from '../../components/VerificationModals/PinModal'
+import { createErrand } from '../../services/errands/createErrand'
 import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
 import { CreateErrandRequest, PostErrandData } from '../../types'
@@ -31,6 +43,30 @@ const PostErrand = ({ navigation }: any) => {
     desc: '',
     value: '',
   })
+  const bottomSheetRef = useRef<BottomSheetModal>(null)
+  const snapPoints = useMemo(() => ['40%'], [])
+
+  function openPinModal() {
+    bottomSheetRef.current?.present()
+  }
+
+  function closePinModal() {
+    bottomSheetRef.current?.dismiss()
+  }
+
+  const renderBackdrop = useCallback(
+    (props) => (
+      <BottomSheetBackdrop
+        pressBehavior={'collapse'}
+        opacity={0.7}
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        // onChange={handleSheetChanges}
+      />
+    ),
+    [],
+  )
 
   const {
     data: currentUser,
@@ -329,72 +365,57 @@ const PostErrand = ({ navigation }: any) => {
   }
 
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView
-        keyboardShouldPersistTaps="always"
-        contentContainerStyle={{
-          flexGrow: 1,
-          marginBottom: 5,
-          height: '80%',
-        }}
-        style={{
-          backgroundColor: theme ? '#152955' : 'white',
-        }}
-        className="bg-white"
-      >
-        {showComponent()}
-      </ScrollView>
-
-      <View
-        style={{ backgroundColor: '#1E3A79', height: 60 }}
-        className="flex-row"
-      >
-        {activeStep > 1 && (
-          <TouchableOpacity
-            onPress={() => setActiveStep(activeStep - 1)}
-            className="bg-[#2856c1] px-6 flex justify-center items-center py-2 "
-          >
-            <Entypo name="arrow-with-circle-left" color="white" size={30} />
-          </TouchableOpacity>
-        )}
-        <TouchableOpacity
-          onPress={() => {
-            activeStep <= 1
-              ? categoryHandler()
-              : activeStep <= 2
-              ? detailHandler()
-              : activeStep <= 3
-              ? locationHandler()
-              : activeStep <= 4
-              ? financeHandler()
-              : submitErrandhandler()
+    <BottomSheetModalProvider>
+      <View style={{ flex: 1 }}>
+        <ScrollView
+          keyboardShouldPersistTaps="always"
+          contentContainerStyle={{
+            flexGrow: 1,
+            marginBottom: 5,
+            height: '80%',
           }}
-          className={
-            activeStep > 1
-              ? 'pl-10 flex-row justify-center  items-center pt-3 pb-3'
-              : 'flex-row justify-center w-full items-center pt-3 pb-3'
-          }
+          style={{
+            backgroundColor: theme ? '#152955' : 'white',
+          }}
+          className="bg-white"
         >
-          {creatingErrand ? (
-            <ActivityIndicator size="large" color="blue" />
-          ) : (
+          {showComponent()}
+        </ScrollView>
+
+        <View
+          style={{ backgroundColor: '#1E3A79', height: 60 }}
+          className="flex-row"
+        >
+          {activeStep > 1 && (
             <TouchableOpacity
-              onPress={() => {
-                activeStep <= 1
-                  ? categoryHandler()
-                  : activeStep <= 2
-                  ? detailHandler()
-                  : activeStep <= 3
-                  ? locationHandler()
-                  : activeStep <= 4
-                  ? financeHandler()
-                  : submitErrandhandler()
-              }}
-              style={{ backgroundColor: '#1E3A79' }}
-              className="flex-row justify-end"
+              onPress={() => setActiveStep(activeStep - 1)}
+              className="bg-[#2856c1] px-6 flex justify-center items-center py-2 "
             >
-              <Text
-                className="text-white  rounded-lg text-lg"
+              <Entypo name="arrow-with-circle-left" color="white" size={30} />
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity
+            onPress={() => {
+              activeStep <= 1
+                ? categoryHandler()
+                : activeStep <= 2
+                ? detailHandler()
+                : activeStep <= 3
+                ? locationHandler()
+                : activeStep <= 4
+                ? financeHandler()
+                : submitErrandhandler()
+            }}
+            className={
+              activeStep > 1
+                ? 'pl-10 flex-row justify-center  items-center pt-3 pb-3'
+                : 'flex-row justify-center w-full items-center pt-3 pb-3'
+            }
+          >
+            {creatingErrand ? (
+              <ActivityIndicator size="large" color="blue" />
+            ) : (
+              <TouchableOpacity
                 onPress={() => {
                   activeStep <= 1
                     ? categoryHandler()
@@ -406,16 +427,50 @@ const PostErrand = ({ navigation }: any) => {
                     ? financeHandler()
                     : submitErrandhandler()
                 }}
+                style={{ backgroundColor: '#1E3A79' }}
+                className="flex-row justify-end"
               >
-                {activeStep >= 5
-                  ? 'Submit'
-                  : ` Proceed to Errand ${steps[activeStep]}`}
-              </Text>
-            </TouchableOpacity>
-          )}
-        </TouchableOpacity>
+                <Text
+                  className="text-white  rounded-lg text-lg"
+                  onPress={() => {
+                    activeStep <= 1
+                      ? categoryHandler()
+                      : activeStep <= 2
+                      ? detailHandler()
+                      : activeStep <= 3
+                      ? locationHandler()
+                      : activeStep <= 4
+                      ? financeHandler()
+                      : openPinModal()
+                  }}
+                >
+                  {activeStep >= 5
+                    ? 'Submit'
+                    : ` Proceed to Errand ${steps[activeStep]}`}
+                </Text>
+              </TouchableOpacity>
+            )}
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+
+      <BottomSheetModal
+        ref={bottomSheetRef}
+        index={0}
+        snapPoints={snapPoints}
+        containerStyle={{
+          marginHorizontal: 10,
+        }}
+        backdropComponent={renderBackdrop}
+      >
+        <PinModal
+          createErrand={true}
+          submitErrandhandler={submitErrandhandler}
+          closePinModal={closePinModal}
+          verifyPin={true}
+        />
+      </BottomSheetModal>
+    </BottomSheetModalProvider>
   )
 }
 

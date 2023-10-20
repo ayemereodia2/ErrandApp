@@ -3,15 +3,15 @@ import { ScrollView, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
 
-const UserProfile = ({ data }: any) => {
+const UserProfile = () => {
   const {
-    data: currentUser,
+    data,
     backgroundTheme,
     textTheme,
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
-  const theme = currentUser?.preferred_theme === 'light' ? true : false
+  const theme = data?.preferred_theme === 'light' ? true : false
 
   return (
     <ScrollView>
@@ -28,7 +28,7 @@ const UserProfile = ({ data }: any) => {
           style={{ color: textTheme }}
           className=" font-light ml-4 pb-6 leading-6"
         >
-          {data?.data?.bio}
+          {data?.bio}
         </Text>
       </View>
 
@@ -45,7 +45,7 @@ const UserProfile = ({ data }: any) => {
           style={{ color: textTheme }}
           className=" ml-4 leading-6  pb-6 font-light"
         >
-          {data?.data?.email}{' '}
+          {data?.email}
         </Text>
       </View>
 
@@ -62,7 +62,7 @@ const UserProfile = ({ data }: any) => {
           style={{ color: textTheme }}
           className=" ml-4 leading-6 pb-6 font-light"
         >
-          {data?.data?.phone_number}
+          {data?.phone_number}
         </Text>
       </View>
 
@@ -79,7 +79,7 @@ const UserProfile = ({ data }: any) => {
           style={{ color: textTheme }}
           className=" ml-4 leading-6 font-light  pb-6"
         >
-          {data?.data?.dob}
+          {data?.dob}
         </Text>
       </View>
 
@@ -96,7 +96,7 @@ const UserProfile = ({ data }: any) => {
           style={{ color: textTheme }}
           className=" ml-4 pb-6 leading-6 font-light"
         >
-          {data?.data?.referral_code}
+          {data?.referral_code}
         </Text>
       </View>
 
@@ -113,7 +113,7 @@ const UserProfile = ({ data }: any) => {
           style={{ color: textTheme }}
           className=" ml-4 pb-6 leading-6 font-light "
         >
-          {data?.data?.referred_by ? data?.data?.referred_by : 'N/A'}
+          {data?.referred_by ? data?.referred_by : 'N/A'}
         </Text>
       </View>
     </ScrollView>

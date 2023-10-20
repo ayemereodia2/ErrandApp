@@ -110,20 +110,20 @@ const UserVerification = ({ data }: any) => {
               className="w-[100px] h-[34px] justify-center items-center rounded-[20px]"
               style={{
                 backgroundColor:
-                  data.data.has_verified_personal_id === 0 || 1 || 2
+                  data.has_verified_personal_id === 0 || 1 || 2
                     ? '#FEE1CD'
                     : '#D8F8E9',
               }}
             >
-              {data.data.has_verified_personal_id === 0 ? (
+              {data.has_verified_personal_id === 0 ? (
                 <Text className="text-[#642B02] font-md text-sm">
                   Incomplete
                 </Text>
-              ) : data.data.has_verified_personal_id === 1 ? (
+              ) : data.has_verified_personal_id === 1 ? (
                 <Text className="text-[#642B02] font-md text-sm">Pending</Text>
-              ) : data.data.has_verified_personal_id === 2 ? (
+              ) : data.has_verified_personal_id === 2 ? (
                 <Text className="text-[#642B02] font-md text-sm">Rejected</Text>
-              ) : data.data.has_verified_personal_id === 3 ? (
+              ) : data.has_verified_personal_id === 3 ? (
                 <Text className="text-[#115A38] font-md text-sm">
                   Completed
                 </Text>
@@ -148,7 +148,7 @@ const UserVerification = ({ data }: any) => {
             <View
               className="w-[100px] h-[34px] justify-center items-center rounded-[20px] "
               style={{
-                backgroundColor: data.data.has_verified_email
+                backgroundColor: data.has_verified_email
                   ? '#D8F8E9'
                   : '#FEE1CD',
               }}
@@ -156,10 +156,10 @@ const UserVerification = ({ data }: any) => {
               <Text
                 className="font-md text-sm"
                 style={{
-                  color: data.data.has_verified_email ? '#115A38' : '#642B02',
+                  color: data.has_verified_email ? '#115A38' : '#642B02',
                 }}
               >
-                {data.data.has_verified_email ? 'Completed' : 'Incomplete'}
+                {data.has_verified_email ? 'Completed' : 'Incomplete'}
               </Text>
             </View>
           </TouchableOpacity>
@@ -184,20 +184,20 @@ const UserVerification = ({ data }: any) => {
               className="w-[100px] h-[34px] justify-center items-center rounded-[20px]"
               style={{
                 backgroundColor:
-                  data.data.has_verified_location === 0 || 1 || 2
+                  data.has_verified_location === 0 || 1 || 2
                     ? '#FEE1CD'
                     : '#D8F8E9',
               }}
             >
-              {data.data.has_verified_location === 0 ? (
+              {data.has_verified_location === 0 ? (
                 <Text className="text-[#642B02] font-md text-sm">
                   Incomplete
                 </Text>
-              ) : data.data.has_verified_location === 1 ? (
+              ) : data.has_verified_location === 1 ? (
                 <Text className="text-[#642B02] font-md text-sm">Pending</Text>
-              ) : data.data.data.data.has_verified_location === 2 ? (
+              ) : data.has_verified_location === 2 ? (
                 <Text className="text-[#642B02] font-md text-sm">Rejected</Text>
-              ) : data.data.has_verified_loaction === 3 ? (
+              ) : data.has_verified_loaction === 3 ? (
                 <Text className="text-[#115A38] font-md text-sm">
                   Completed
                 </Text>
@@ -225,20 +225,20 @@ const UserVerification = ({ data }: any) => {
               className="w-[100px] h-[34px] justify-center items-center rounded-[20px]"
               style={{
                 backgroundColor:
-                  data.data.has_verified_guarantor === 0 || 1 || 2
+                  data.has_verified_guarantor === 0 || 1 || 2
                     ? '#FEE1CD'
                     : '#D8F8E9',
               }}
             >
-              {data.data.has_verified_guarantor === 0 ? (
+              {data.has_verified_guarantor === 0 ? (
                 <Text className="text-[#642B02] font-md text-sm">
                   Incomplete
                 </Text>
-              ) : data.data.has_verified_guarantor === 1 ? (
+              ) : data.has_verified_guarantor === 1 ? (
                 <Text className="text-[#642B02] font-md text-sm">Pending</Text>
-              ) : data.data.has_verified_guarantor === 2 ? (
+              ) : data.has_verified_guarantor === 2 ? (
                 <Text className="text-[#642B02] font-md text-sm">Rejected</Text>
-              ) : data.data.has_verified_guarantor === 3 ? (
+              ) : data.has_verified_guarantor === 3 ? (
                 <Text className="text-[#115A38] font-md text-sm">
                   Completed
                 </Text>

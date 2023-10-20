@@ -17,6 +17,7 @@ export const currentUserDetails = createAsyncThunk<UserDetailsResponse, UserProp
             _url:  `/user/${user_id}`,
         })
       
+      
       const rs = await _rs.json()
         if (rs.success === true) {
         return rs
@@ -65,7 +66,8 @@ const initialState: UserDetailsResponse = {
     insurance_amount: 0,
     referral_info: "",
     profile_picture: "",
-    preferred_theme: 'light'
+    preferred_theme: 'light',
+    has_transaction_pin: false
   }
 }
 

@@ -539,7 +539,9 @@ export interface UserDetail {
   has_insurance: boolean
   insurance_amount: number
   profile_picture: string
-  preferred_theme: 'light' | 'dark'
+  has_transaction_pin: boolean
+  preferred_theme: 'light' | 'dark',
+  referred_by: string
 }
 
 export interface NotificationList extends CommonState {

@@ -4,12 +4,12 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
 import { useQuery } from '@tanstack/react-query'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   BackHandler,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -31,7 +31,7 @@ import { getTimeOfDay } from '../../utils/helper'
 const LandingTest = ({ navigation }: any) => {
   const loaderGif = '../../assets/images/loading-SWAVE.gif'
   const bottomSheetRef = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ['37%'], [])
+  const snapPoints = useMemo(() => ['40%'], [])
   const [verifiedPin, setVerifiedPin] = useState(true)
 
   function openPinModal() {
@@ -56,21 +56,7 @@ const LandingTest = ({ navigation }: any) => {
     [],
   )
 
-  useEffect(() => {
-    if (verifiedPin) {
-      openPinModal()
-    }
-  }, [])
-
   const [clicked, setClicked] = useState(false)
-  // const theme = useColorScheme()
-  // const isDarkTheme = theme === 'dark'
-  // const [darkMode, setDarkMode] = useState(false)
-
-  // const handleDarkMode = () => {
-  //   setDarkMode(!darkMode)
-  // }
-
   const dispatch = useAppDispatch()
 
   const {
@@ -114,6 +100,18 @@ const LandingTest = ({ navigation }: any) => {
       BackHandler.removeEventListener('hardwareBackPress', onBackPress)
     }
   })
+
+  const checkPinIsVerified = async () => {
+    const isPinVerified = await AsyncStorage.getItem('pin')
+    console.log('>>>>>>isPinVerified', isPinVerified)
+    if (isPinVerified === 'false') {
+      openPinModal()
+    }
+  }
+
+  useEffect(() => {
+    checkPinIsVerified()
+  }, [])
 
   // if (loading ) {
   //   return (
@@ -276,7 +274,11 @@ const LandingTest = ({ navigation }: any) => {
           }}
           backdropComponent={renderBackdrop}
         >
-          <PinModal closePinModal={closePinModal}/>
+          <PinModal
+            createErrand={false}
+            submitErrandhandler={() => {}}
+            closePinModal={closePinModal}
+          />
         </BottomSheetModal>
       </BottomSheetModalProvider>
     </Container>
