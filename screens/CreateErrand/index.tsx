@@ -331,7 +331,7 @@ const PostErrand = ({ navigation }: any) => {
           setActiveStep={setActiveStep}
           uploadedFiles={uploadedFiles}
           setUploadedFiles={setUploadedFiles}
-          audios={audio}
+          audio={audio}
           setAudio={setAudio}
         />
       )
@@ -468,6 +468,7 @@ const PostErrand = ({ navigation }: any) => {
           submitErrandhandler={submitErrandhandler}
           closePinModal={closePinModal}
           verifyPin={true}
+          makeWithdrawalHandler={() => {}}
         />
       </BottomSheetModal>
     </BottomSheetModalProvider>

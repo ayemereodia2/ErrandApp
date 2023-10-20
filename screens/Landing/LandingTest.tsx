@@ -276,9 +276,8 @@ const LandingTest = ({ navigation }: any) => {
         >
           <PinModal
             createErrand={false}
-            submitErrandhandler={() => {}}
-            closePinModal={closePinModal}
-          />
+            submitErrandhandler={() => { } }
+            closePinModal={closePinModal} makeWithdrawalHandler={() => {} }          />
         </BottomSheetModal>
       </BottomSheetModalProvider>
     </Container>
