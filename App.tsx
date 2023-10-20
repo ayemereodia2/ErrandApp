@@ -46,6 +46,7 @@ export default function App() {
   const statusBarBarStyle = colorScheme === 'dark' ? 'light-content' : 'dark-content';
   // const theme = currentUser?.preferred_theme === 'light' ? true : false
 
+    console.log('>>>>ok', isGuest)
 
 
   useOnlineManager()
@@ -68,9 +69,9 @@ export default function App() {
   }, [])
 
   const checkAuthenticationStatus = async () => {
-    console.log('>>>>ok', isGuest)
+    console.log('>>>>o00', isGuest)
 
-    await AsyncStorage.clear()
+    // await AsyncStorage.clear()
 
     try {
       const isGuest = await AsyncStorage.getItem('isGuest')
