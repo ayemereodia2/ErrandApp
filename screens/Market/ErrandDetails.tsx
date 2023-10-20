@@ -62,6 +62,8 @@ export default function ErrandDetails({ route, navigation }: any) {
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
+  const regex = /(<([^>]+)>)/gi
+
   function openPlaceBid() {
     bottomSheetRef.current?.present()
   }
@@ -249,7 +251,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                             style={{ color: textTheme }}
                             className="text-[#555555] text-center py-2 text-base font-semibold"
                           >
-                            Swave User
+                            {user.occupation ? user.occupation : 'Swave User'}
                           </Text>
                           <View className="flex-row items-center">
                             {/* {showStars(data.rating)} */}
@@ -283,7 +285,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                         style={{ color: textTheme }}
                         className="text-sm pt-1 text-[#383737] font-light"
                       >
-                        {errand.description}
+                        {errand.description.replace(regex, '')}
                       </Text>
                     </View>
 

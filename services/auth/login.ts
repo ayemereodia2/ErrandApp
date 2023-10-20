@@ -6,8 +6,9 @@ import { deleteCookie } from 'cookies-next';
 import Toast from 'react-native-toast-message';
 import { _fetch } from '../../services/axios/http';
 import { ILogin } from '../../types';
+import { currentUserDetails } from './currentUserInfo';
 
-export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>("/users/sign-in", async ({ navigation, ...rest }: ILogin, { rejectWithValue }) => {
+export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>("/users/sign-in", async ({ navigation, dispatch, ...rest }: ILogin, { rejectWithValue }) => {
   
   try {
     const rs = await _fetch({
@@ -26,15 +27,18 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
       await AsyncStorage.setItem('user_id', _rs.data.id)
       await AsyncStorage.setItem("last_name", _rs.data.last_name)
       await AsyncStorage.setItem("first_name", _rs.data.first_name)
-      navigation.navigate('Tabs')
       await AsyncStorage.setItem('profile_pic', _rs.data.profile_picture)
       await AsyncStorage.setItem('isGuest', 'false')
+
+      dispatch(currentUserDetails({user_id: _rs.data.id}))
+
+      navigation.navigate('Tabs')
 
        Toast.show({
         type: 'success',
         text1: 'Login Successful',
       });
-      navigation.navigate('Tabs')
+      // navigation.navigate('Tabs')
     } 
 
     if (_rs.success === false) {

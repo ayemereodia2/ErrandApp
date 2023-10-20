@@ -38,14 +38,14 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
         <View className="mx-auto items-center justify-center w-[309px] h-[48px] mt-5">
           <Text
             style={{ color: textTheme }}
-            className="text-[#777777] text-center"
+            className="text-[#777777] text-center "
           >
             In this section, you can set the location that you want the errand
             to take place in.
           </Text>
         </View>
 
-        <View className="border-b-[1px] px-4 pb-2 mt-14 border-[#EEEEEE]">
+        <View className="border-b-[1px] px-4 pb-2 mt-10 border-[#EEEEEE]">
           <Text
             style={{ color: textTheme }}
             className="text-[#243763] font-semibold text-base"
@@ -54,132 +54,159 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
           </Text>
         </View>
 
-        <View className="ml-4 mt-3">
-          <Text style={{ color: textTheme }} className="font-bold text-[14px]">
+        <View className="mx-4 mt-2 flex-row items-center space-x-2">
+          <Text
+            style={{ color: textTheme }}
+            className="font-md text-[14px] w-28"
+          >
             Category Type
           </Text>
           <Text
             style={{ color: textTheme }}
-            className="font-medium text-base text-[#333333]"
+            className="font-light text-base text-[#333333] text-left w-[200px]"
           >
             {postErrandData.type}
           </Text>
         </View>
 
-        <View className="ml-4 mt-6">
-          <Text style={{ color: textTheme }} className="font-bold text-[14px]">
+        <View className="mx-4 mt-4 flex-row items-center space-x-10">
+          <Text style={{ color: textTheme }} className="font-md text-base w-20">
             Activity
           </Text>
           <Text
             style={{ color: textTheme }}
-            className="font-light text-base text-[#333333]"
+            className="font-light text-sm text-[#333333] w-[200px]"
           >
             {postErrandData.categoryName}
           </Text>
         </View>
 
-        <View className="border-b-[1px] px-4 pb-2 mt-6 border-[#EEEEEE]">
+        <View className="border-b-[1px] px-4 pb-2 mt-8 border-[#EEEEEE]">
           <Text
             style={{ color: textTheme }}
-            className="text-[#243763] font-semibold text-base"
+            className="text-[#243763] font-semibold text-sm"
           >
             Errand Details
           </Text>
         </View>
 
-        <View className="ml-4 mt-6">
-          <Text style={{ color: textTheme }} className="font-bold text-[14px]">
+        <View className="mx-4 mt-2 flex-row space-x-10 ">
+          <Text
+            style={{ color: textTheme }}
+            className="font-md text-[14px] w-20"
+          >
             Description
           </Text>
           <Text
             style={{ color: textTheme }}
-            className="font-light text-base text-[#333333]"
+            className="font-light text-sm text-[#333333] w-[200px]"
           >
             {postErrandData.description}
           </Text>
         </View>
 
-        <Text
-          style={{ color: textTheme }}
-          className="font-bold text-[14px] pl-4 pt-4"
-        >
-          Images
-        </Text>
-        <View className="pl-4 flex-row space-x-3">
-          {postErrandData?.images.map((img, index) => {
-            return (
-              <ImageViewer selectedImage={img} removeImage={''} index={index} />
-            )
-          })}
+        <View className='flex-row space-x-14 pt-4'>
+          <Text
+            style={{ color: textTheme }}
+            className="font-md text-[14px] pl-4 "
+          >
+            Images
+          </Text>
+          <View className="pl-4 flex-row space-x-3 ">
+            {postErrandData?.images.length === 0 ? (
+              <Text className='font-light' style={{ color: textTheme }}>No Images</Text>
+            ) : (
+              <>
+                {postErrandData?.images.map((img, index) => {
+                  return (
+                    <ImageViewer
+                      selectedImage={img}
+                      removeImage={''}
+                      index={index}
+                    />
+                  )
+                })}
+              </>
+            )}
+          </View>
         </View>
 
-        <View className="ml-4 mt-6">
-          <Text style={{ color: textTheme }} className="font-bold text-[14px]">
+        <View className="mx-4 mt-6 flex-row space-x-[76px] ">
+          <Text style={{ color: textTheme }} className="font-md text-[14px]">
             Budget
           </Text>
           <Text
             style={{ color: textTheme }}
-            className="font-light text-base text-[#333333]"
+            className="font-light text-light text-[#333333]"
           >
             {postErrandData.budget}
           </Text>
         </View>
 
-        <View className="ml-4 mt-6">
-          <Text style={{ color: textTheme }} className="font-bold text-[14px]">
+        <View className="mx-4 mt-6 flex-row space-x-16">
+          <Text style={{ color: textTheme }} className="font-md text-[14px]">
             Location
           </Text>
           <Text
             style={{ color: textTheme }}
-            className="font-light text-base text-[#333333]"
+            className="font-light text-sm text-[#333333] w-[200px]"
           >
             {postErrandData.currentLocation}
           </Text>
         </View>
 
-        <View className="ml-4 mt-6">
-          <Text style={{ color: textTheme }} className="font-bold text-[14px]">
+        <View className="mx-4 mt-6 flex-row space-x-14">
+          <Text style={{ color: textTheme }} className="font-md text-[14px]">
             Insurance
           </Text>
           <Text
             style={{ color: textTheme }}
-            className="font-light text-base text-[#333333]"
+            className="font-light text-sm text-[#333333]"
           >
-            {postErrandData.insurance}
+            {!postErrandData.insurance ? 'No' : postErrandData.insurance}
           </Text>
         </View>
 
-        <View className="ml-4 mt-6">
-          <Text style={{ color: textTheme }} className="font-bold text-[14px]">
+        <View className="mx-4 mt-6 flex-row space-x-10">
+          <Text
+            style={{ color: textTheme }}
+            className="font-md w-20 text-[14px]"
+          >
             Insurance Amount
           </Text>
           <Text
             style={{ color: textTheme }}
-            className="font-light text-base text-[#333333]"
+            className="font-light text-sm text-[#333333]"
           >
             {postErrandData.ins_amount.toLocaleString()}
           </Text>
         </View>
 
-        <View className="ml-4 mt-6">
-          <Text style={{ color: textTheme }} className="font-bold text-[14px]">
+        <View className="mx-4 mt-6 flex-row space-x-2 ">
+          <Text
+            style={{ color: textTheme }}
+            className="font-md text-[14px] w-28"
+          >
             Restrict Errand by Qualification
           </Text>
           <Text
             style={{ color: textTheme }}
-            className="font-light text-base text-[#333333]"
+            className="font-light text-sm text-[#333333]"
           >
             {postErrandData.res_by_qualification}
           </Text>
         </View>
 
-        <View className="ml-4 mt-6">
-          <Text style={{ color: textTheme }} className="font-bold text-[14px]">
+        <View className="mx-4 mt-6 flex-row space-x-2">
+          <Text
+            style={{ color: textTheme }}
+            className="font-md text-[14px] w-28"
+          >
             Restrict Errand by Verification
           </Text>
           <Text
             style={{ color: textTheme }}
-            className="font-light text-base text-[#333333]"
+            className="font-light text-sm text-[#333333]"
           >
             {postErrandData.res_by_verification}
           </Text>

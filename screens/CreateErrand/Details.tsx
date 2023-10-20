@@ -95,6 +95,22 @@ const CreateErrandDetails = ({
   const [RecordedURI, SetRecordedURI] = useState<string>('')
   const [recorded, setRecorded] = useState(false)
   const [selectedTime, setSelectedTime] = useState('')
+  const [durationNumber, setDurationNumber] = useState(1)
+
+  console.log('>>>>>>>>durartion from dropdown', postErrandData)
+
+  const adjustDuration = (dur: number, sign: string) => {
+    if (sign === 'substract') {
+      if (dur === 1) {
+        return
+      }
+      dur--
+      handleInputChange(dur, 'dur_value')
+      return setDurationNumber(dur)
+    } else dur++
+    handleInputChange(dur, 'dur_value')
+    return setDurationNumber(dur)
+  }
 
   const data = [
     { label: 'Today', value: 'today' },
@@ -368,11 +384,21 @@ const CreateErrandDetails = ({
               defaultValue={postErrandData.dur_period.toString()}
             ></TextInput> */}
                 <View className="flex-row mt-4  space-x-5">
-                  <Text className="text-white text-2xl">-</Text>
+                  <TouchableOpacity
+                    onPress={() => adjustDuration(durationNumber, 'substract')}
+                    className="text-white text-2xl"
+                  >
+                    <Text className="text-white text-2xl">-</Text>
+                  </TouchableOpacity>
                   <View className="w-10 h-10 bg-white flex-row justify-center items-center rounded-lg">
-                    <Text className="text-xl">1</Text>
+                    <Text className="text-lg">{durationNumber}</Text>
                   </View>
-                  <Text className="text-white text-2xl">+</Text>
+                  <TouchableOpacity
+                    onPress={() => adjustDuration(durationNumber, 'add')}
+                    className="text-white text-2xl"
+                  >
+                    <Text className="text-white text-2xl">+</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
 
@@ -397,7 +423,7 @@ const CreateErrandDetails = ({
                     placeholder={'Day(s)'}
                     value={postErrandData.errandType}
                     onChange={(item) => {
-                      handleInputChange(item.label, 'errandType')
+                      handleInputChange(item.label, 'dur_period')
                     }}
                   />
                 </View>

@@ -102,7 +102,7 @@ const CategoryInterest = ({ navigation }: any) => {
 
       <View className="flex-row justify-center items-center space-x-3">
         <TouchableOpacity
-          onPress={() => navigation.navigate('CategoryInterest')}
+          onPress={() => navigation.navigate('Settings')}
           className="mb-101"
         >
           <View className="py-3 px-4 w-[149px] rounded-full bg-[#3F60AC] mt-4 items-center justify-center flex-row space-x-4">

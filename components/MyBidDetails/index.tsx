@@ -11,6 +11,7 @@ import ActionButton from '../ActionButtons'
 import AcceptBid from '../Modals/Bids/Accept'
 import NegotiateBid from '../Modals/Bids/Negotiate'
 import RejectBid from '../Modals/Bids/Reject'
+import BidHistory from '../Modals/Bids/BidHistory'
 
 const ErrandBid = ({
   navigation,
@@ -28,6 +29,8 @@ const ErrandBid = ({
   const acceptBidRef = useRef<BottomSheetModal>(null)
   const acceptPoints = ['46%']
   const negotiateRef = useRef<BottomSheetModal>(null)
+  const bidHistoryRef = useRef<BottomSheetModal>(null)
+
   const rejectRef = useRef<BottomSheetModal>(null)
 
   function toggleAcceptModal(open: boolean) {
@@ -40,6 +43,10 @@ const ErrandBid = ({
 
   function toggleNegotiateModal(open: boolean) {
     open ? negotiateRef.current?.present() : negotiateRef.current?.dismiss()
+  }
+
+  function toggleBidHistoryModal(open: boolean) {
+    open ? bidHistoryRef.current?.present() : bidHistoryRef.current?.dismiss()
   }
 
   const dispatch = useAppDispatch()
@@ -173,7 +180,7 @@ const ErrandBid = ({
               </View>
 
               <TouchableOpacity
-                onPress={handleReplies}
+                onPress={()=>toggleBidHistoryModal(true)}
                 className="flex-row space-x-2 items-center border-[0.3px] rounded-2xl py-1 px-3 mt-2"
               >
                 {/* <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
@@ -250,7 +257,7 @@ const ErrandBid = ({
                     />
                   </View>
 
-                  <TouchableOpacity onPress={handleReplies} className="">
+                  <TouchableOpacity onPress={()=>toggleBidHistoryModal(true)} className="">
                     <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
                       <Text className="text-xs text-center text-[#243763]">
                         Bid History
@@ -277,6 +284,16 @@ const ErrandBid = ({
             toggleSuccessDialogue={toggleSuccessDialogue}
             haggle={haggle}
           />
+        </BottomSheetModal>
+
+        <BottomSheetModal
+          backdropComponent={renderBackdrop}
+          ref={bidHistoryRef}
+          index={0}
+          snapPoints={['60%']}
+        >
+         <BidHistory />
+         
         </BottomSheetModal>
 
         <BottomSheetModal

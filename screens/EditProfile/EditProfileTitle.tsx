@@ -164,7 +164,7 @@ const EditProfileTitle = ({ navigation, route }: any) => {
 
           {/*Occupation */}
 
-          <Text className="text-center mt-3 text-base font-medium" style={{color: textTheme}}>
+          <Text className="text-center mt-3 text-base font-bold" style={{color: textTheme}}>
             {data?.data.occupation ? data.occupation : 'Swave User'}
           </Text>
         </View>

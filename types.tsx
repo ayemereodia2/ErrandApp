@@ -190,7 +190,7 @@ export interface PostErrandData {
   audio: string
   budget: number
   dur_value: string
-  dur_period: number
+  dur_period: string
   res_by_qualification: string
   res_by_verification: string
   ins_amount: number

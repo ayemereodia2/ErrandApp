@@ -16,12 +16,13 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu'
 import { useSelector } from 'react-redux'
-import { string } from 'yup'
+import { number, string } from 'yup'
 import { contactUs } from '../../services/Contacts/ContactUsSlice'
 import { RootState, useAppDispatch } from '../../services/store'
 import { ContactData } from '../../types'
 import Toast from 'react-native-toast-message'
 import { _fetch } from '../../services/axios/http'
+import { ActivityIndicator } from 'react-native'
 
 const ContactUs = ({ navigation }: any) => {
 
@@ -41,7 +42,9 @@ const ContactUs = ({ navigation }: any) => {
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
-  const [number, setNumber] = useState('')
+  const [phone, setPhone] = useState('')
+
+ 
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -101,22 +104,24 @@ const ContactUs = ({ navigation }: any) => {
     })
   }, [])
 
-  const updateUserProfile = async (userData: any) => {
+  const ContactUs = async (userData: any) => {
     setLoading(true)
+    
     try {
       const _rs = await _fetch({
         method: 'POST',
         _url: `/user/send-enquiry`,
-        body: userData,
+        body:  userData
       })
 
       // Check if the response status code indicates an error
-      if (!_rs.ok) {
-        const errorResponse = await _rs.json()
-        throw new Error(`Server error: ${errorResponse.message}`)
-      }
+      // if (!_rs.ok) {
+      //   const errorResponse = await _rs.json()
+      //   throw new Error(`Server error: ${errorResponse.message}`)
+      // }
       setLoading(false)
       const responseData = await _rs.json()
+      
       return responseData
     } catch (error) {
       throw error
@@ -124,14 +129,18 @@ const ContactUs = ({ navigation }: any) => {
   }
 
   const handleSubmit = async () => {
-    const updatedData = {
-      first_name: name,
+    const userMessage = {
+      name: name,
       email: email,
+      message: message,
+      phone: '+234' + phone,
+      subject: "General Complaints"
+      
      
     }
 
     try {
-      const responseData = await updateUserProfile(updatedData)
+      const responseData = await ContactUs(userMessage)
       if (responseData.success) {
         Toast.show({
           type: 'success',
@@ -140,9 +149,9 @@ const ContactUs = ({ navigation }: any) => {
         
 
         // Navigate back to the Account screen
-        navigation.navigate('Home')
+        navigation.goBack()
 
-        console.log(updatedData)
+        console.log(userMessage)
       } else {
         // Handle the case where the server responded with an error message
         console.error('Profile update failed:', responseData.message)
@@ -155,7 +164,7 @@ const ContactUs = ({ navigation }: any) => {
     } catch (error) {
       // Handle errors here, such as network errors or server-side errors
       console.error('Error updating profile:', error)
-
+      console.log(userMessage)
       Toast.show({
         type: 'error',
         text1: 'Sorry, something went wrong',
@@ -233,7 +242,8 @@ const ContactUs = ({ navigation }: any) => {
         </View>
         <TextInput
           className="w-[380px] mt-2 b rounded-md h-[60px] pl-3 items-center mx-auto bg-[#E6E6E6] text-sm"
-          placeholder="Enter your First Name"
+          style={{backgroundColor: theme ? '#bbb' : '#E6E6E6'}}
+          placeholder="Enter your Full Name"
           value={name}
           onChangeText={(text) => setName(text)}
           placeholderTextColor={'#000'}
@@ -244,6 +254,7 @@ const ContactUs = ({ navigation }: any) => {
         </View>
         <TextInput
           className="w-[380px] mt-2 b rounded-md h-[60px] pl-3 mx-auto bg-[#E6E6E6] text-sm"
+          style={{backgroundColor: theme ? '#bbb' : '#E6E6E6'}}
           placeholder="Enter your Email Address"
           value={email}
           onChangeText={(text) => setEmail(text)}
@@ -255,10 +266,11 @@ const ContactUs = ({ navigation }: any) => {
         </View>
         <TextInput
           className="w-[380px] mt-2 b rounded-md h-[60px] pl-3  mx-auto bg-[#E6E6E6] text-sm"
+          style={{backgroundColor: theme ? '#bbb' : '#E6E6E6'}}
           placeholder="Enter your Phone Number"
           keyboardType="numeric"
-          value={number}
-          onChangeText={(text) => setNumber(text)}
+          value={phone}
+          onChangeText={(text) => setPhone(text)}
           placeholderTextColor={'#000'}
         />
 
@@ -267,6 +279,7 @@ const ContactUs = ({ navigation }: any) => {
         </View>
         <TextInput
           className="w-[380px] mt-2 b rounded-md h-[120px] pl-3 pb-[70px] mx-auto bg-[#E6E6E6] text-sm"
+          style={{backgroundColor: theme ? '#bbb' : '#E6E6E6'}}
           placeholder="Enter your Message Here"
           value={message}
           onChangeText={(text) => setMessage(text)}
@@ -279,7 +292,7 @@ const ContactUs = ({ navigation }: any) => {
         >
           <View className="w-[300px] h-[50px] bg-[#243763]  mx-auto items-center justify-center">
             <Text className="text-white text-center items-center">
-              Send a message{' '}
+           { loading ? <ActivityIndicator /> : 'Send a message ' }
             </Text>
           </View>
         </TouchableOpacity>

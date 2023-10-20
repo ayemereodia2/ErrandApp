@@ -86,7 +86,7 @@ const CreateErrandLocation = ({
 
   return (
     <>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="always">
         <View className="flex-row mt-[38px] items-center justify-center">
           <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
             <Text className="text-black mx-auto">3</Text>
@@ -109,7 +109,7 @@ const CreateErrandLocation = ({
           </Text>
         </View>
 
-        <View className="mt-[56px] ml-4 mt-40">
+        <View className=" ml-4 mt-40 w-[340px]">
           <Text style={{ color: textTheme }} className="text-[#243763]">
             <Text
               style={{ color: textTheme }}
@@ -122,85 +122,54 @@ const CreateErrandLocation = ({
           </Text>
         </View>
 
-        {/* <View className="mt-[41px] ml-4">
-          <Text className="text-[#243763]">What is your Current Location?</Text>
-        </View>
-        <TextInput
-          className="mt-2 p-2 h-[50px] b rounded-md mx-[16px] bg-[#E6E6E6]"
-          placeholder="Enter current location"
-          defaultValue={postErrandData.cur_loc}
-          placeholderTextColor={'#B3B3B3'}
-          onChangeText={(text) => handleInputChange(text, 'cur_loc')}
-        /> */}
-
-        {/* <View className="mt-[41px] ml-4">
-          <Text className="text-[#243763]">
-            What Delivery address do you want to provide?
+        <View className="mt-4 px-4">
+          <Text style={{ color: textTheme }} className="text-[#243763]">
+            Pick Up Location
           </Text>
-        </View>
-        <TextInput
-          className="md:w-[390px] mt-2 p-2 h-[50px] b rounded-md mx-[16px] bg-[#E6E6E6]"
-          placeholder="Enter your delivery Address"
-          placeholderTextColor={'#B3B3B3'}
-          defaultValue={postErrandData.del_add}
-          onChangeText={(text) => handleInputChange(text, 'del_add')}
-        /> */}
 
-        {/* <View style={styles.inputContainer}>
-          <Text>Current Location:</Text>
-          <TextInput
-            style={styles.input}
-            value={currentLocation}
-            onChangeText={(text) => setCurrentLocation(text)}
+          <GooglePlacesAutocomplete
+            placeholder="Enter Delivery Address"
+            // keepResultsAfterBlur={true}
+            keyboardShouldPersistTaps={'handled'}
+            onPress={(data, details) =>
+              handleLocationSelect(data, details, 'currentLocation')
+            }
+            fetchDetails={true}
+            query={{
+              key: 'AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo',
+              language: 'en',
+            }}
+            styles={{
+              container: styles.googlePlacesContainer,
+              textInputContainer: styles.textInputContainer,
+              textInput: styles.textInput,
+              listView: styles.listView,
+            }}
           />
-        </View> */}
-        <View className="mt-5">
-          <View className="mt-4 px-4">
-            <Text style={{color:textTheme}} className="text-[#243763]">
-              What is your Current Location
-            </Text>
-            <GooglePlacesAutocomplete
-              placeholder="Enter Delivery Address"
-              onPress={(data, details) =>
-                handleLocationSelect(data, details, 'currentLocation')
-              }
-              fetchDetails={true}
-              query={{
-                key: 'AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo',
-                language: 'en',
-              }}
-              styles={{
-                container: styles.googlePlacesContainer,
-                textInputContainer: styles.textInputContainer,
-                textInput: styles.textInput,
-                listView: styles.listView,
-              }}
-            />
-          </View>
+        </View>
 
-          <View style={styles.inputContainer} className="mt-20 px-4">
-            <Text style={{color:textTheme}} className="text-[#243763]">
-              {' '}
-              What Delivery address do you want to provide?
-            </Text>
-            <GooglePlacesAutocomplete
-              placeholder="Enter Delivery Address"
-              onPress={(data, details) =>
-                handleLocationSelect(data, details, 'deliveryAddress')
-              }
-              fetchDetails={true}
-              query={{
-                key: 'AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo',
-                language: 'en',
-              }}
-              styles={{
-                container: styles.googlePlacesContainer,
-                textInputContainer: styles.textInputContainer,
-                textInput: styles.textInput,
-                listView: styles.listView,
-              }}
-            />
-          </View>
+        <View style={styles.inputContainer} className="mt-20 px-4">
+          <Text style={{ color: textTheme }} className="text-[#243763]">
+            {' '}
+            Delivery/End Location
+          </Text>
+          <GooglePlacesAutocomplete
+            placeholder="Enter Delivery Address"
+            onPress={(data, details) =>
+              handleLocationSelect(data, details, 'deliveryAddress')
+            }
+            fetchDetails={true}
+            query={{
+              key: 'AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo',
+              language: 'en',
+            }}
+            styles={{
+              container: styles.googlePlacesContainer,
+              textInputContainer: styles.textInputContainer,
+              textInput: styles.textInput,
+              listView: styles.listView,
+            }}
+          />
         </View>
 
         <MapView
@@ -216,13 +185,6 @@ const CreateErrandLocation = ({
             coordinate={{ latitude: marker.lat, longitude: marker.lng }}
           />
 
-          {/* {deliveryAddressLatLng && (
-          <Marker
-            coordinate={deliveryAddressLatLng}
-            title="Delivery Location"
-            pinColor="red"
-          />
-        )} */}
         </MapView>
       </ScrollView>
     </>
@@ -235,7 +197,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   inputContainer: {
-    marginBottom: 16,
+    paddingBottom: 60,
   },
   input: {
     borderWidth: 1,

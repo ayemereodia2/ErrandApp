@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
-import { createErrand } from '../../services/errands/createErrand'
+import {createErrand} from '../../services/errands/createErrand'
 import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
 import { CreateErrandRequest, PostErrandData } from '../../types'
@@ -75,7 +75,7 @@ const PostErrand = ({ navigation }: any) => {
   // console.log(">>>>>>images", images);
 
   const [postErrandData, setPostErrandData] = useState<PostErrandData>({
-    errandType: 'single',
+    errandType: 'One Person',
     description: '',
     categoryId: '',
     categoryName: '',
@@ -85,8 +85,8 @@ const PostErrand = ({ navigation }: any) => {
     budget: 0,
     audio: '',
     images: [],
-    dur_value: '',
-    dur_period: 1,
+    dur_value: '1',
+    dur_period: 'Today',
     res_by_qualification: 'No',
     res_by_verification: 'No',
     ins_amount: 0.0,
@@ -186,10 +186,34 @@ const PostErrand = ({ navigation }: any) => {
       deliveryAddress,
     } = postErrandData
 
+    const duration =
+      dur_period === 'Today'
+        ? 1
+        : 'One to three days'
+        ? 3
+        : "It doesn't matter"
+        ? 10
+        : 'Specify'
+        ? Number(dur_value)
+        : 1
+
+    const period =
+      dur_period === 'specify'
+        ? 'days'
+        : dur_value === 'Day(s)'
+        ? 'days'
+        : 'Week(s)'
+        ? 'weeks'
+        : 'Hour(s)'
+        ? 'hours'
+        : 'days'
+
+    const _errand = errandType === 'One Person' ? 'single' : 'multi'
+
     const data: CreateErrandRequest = {
-      errand_type: errandType,
+      errand_type: _errand,
       description,
-      duration: { period: dur_value, value: Number(dur_period) },
+      duration: { period, value: Number(duration) },
       images: images,
       restriction: res_by_qualification ? 'qualification' : 'verification',
       // pickup_location: { lat: picpkup?.lat, lng: pickup?.lng },
@@ -307,6 +331,7 @@ const PostErrand = ({ navigation }: any) => {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView
+        keyboardShouldPersistTaps="always"
         contentContainerStyle={{
           flexGrow: 1,
           marginBottom: 5,
@@ -390,10 +415,6 @@ const PostErrand = ({ navigation }: any) => {
           )}
         </TouchableOpacity>
       </View>
-
-      {/* <BottomSheetModal ref={fundWalletRef} index={0} snapPoints={['50%']}>
-          <FundWalletModal toggleFundWalletModal={toggleFundWalletModal} />
-        </BottomSheetModal> */}
     </View>
   )
 }

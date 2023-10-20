@@ -36,6 +36,7 @@ export default function LoginScreen() {
       phone_number: `+234${data?.phone_number.substring(1)}`,
       password: data.password,
       navigation,
+      dispatch
     }
     
     try {

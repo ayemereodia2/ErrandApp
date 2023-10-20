@@ -100,7 +100,7 @@ const UserProfile = ({ data }: any) => {
         </Text>
       </View>
 
-      <View className="w-[380px] mx-auto ">
+      <View className="w-[380px] mx-auto mb-14">
         <View className="flex-row justify-between items-center ml-4 mr-4">
           <Text
             style={{ color: textTheme }}
