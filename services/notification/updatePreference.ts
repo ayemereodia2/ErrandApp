@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { NotificationPreferenceResponse, NotificationPreferences } from '../../types';
 import { _fetch } from '../axios/http';
 import { notificationPreferences } from './preferences';
+import { ActivityIndicator } from 'react-native-paper';
 
 export const updateNotificationPrefeference = createAsyncThunk<NotificationPreferenceResponse, NotificationPreferences, { rejectValue: string }>(
   "updatePreference",
@@ -15,7 +16,7 @@ export const updateNotificationPrefeference = createAsyncThunk<NotificationPrefe
       body:data
     })
     const rs = await _rs.json()
-    dispatch(notificationPreferences())
+    dispatch(notificationPreferences()),
     Toast.show({
        type: 'success',
         text1: 'Update Successful',
@@ -42,6 +43,7 @@ const initialState: NotificationPreferenceResponse = {
     location_errand_notifications:false,
     bid_notifications:false,
     errand_status_notifications:false,
+    loader: true
   }
 }
 

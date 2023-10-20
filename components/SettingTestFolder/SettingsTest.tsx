@@ -15,11 +15,16 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { getUserId } from '../../utils/helper'
 import { StyleSheet } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
+import { setLoading } from '../../services/errands/market'
 
 
 const SettingsTest = () => {
   const [IsLoading, setIsLoading] = useState(false)
+  const [loading1, setLoading1] = useState(false);
+
   const dispatch = useAppDispatch()
+
+ 
 
   const {
     data: currentUser,
@@ -29,6 +34,12 @@ const SettingsTest = () => {
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
+
+  {loading1 ? (
+    <ActivityIndicator color={theme ? 'blue' : 'black'} size="large" />
+  ) : (
+    null
+  )}
 
   const { data: preferences } = useSelector(
     (state: RootState) => state.notificationPreferenceReducer,
@@ -73,6 +84,14 @@ const SettingsTest = () => {
   }, [])
 
   if(IsLoading){
+    <ActivityIndicator color="black" size="large" />
+  }
+
+  if(loading){
+    <ActivityIndicator color="black" size="large" />
+  }
+
+  if(loading1){
     <ActivityIndicator color="black" size="large" />
   }
 
@@ -173,14 +192,17 @@ const SettingsTest = () => {
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 onValueChange={(value: boolean) => {
+                  setLoading1(true)
                   dispatch(
                     updateNotificationPrefeference({
+                     
                       ...preferences,
                       dispatch,
                       Toast,
                       promotions_notifications: value,
                     }),
                   )
+                  setLoading1(false)
                 }}
                 value={preferences?.promotions_notifications}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
@@ -192,6 +214,53 @@ const SettingsTest = () => {
           </Text>
         </View>
 
+        {/* <View className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]">
+          <View className="flex-row items-center justify-between">
+            <Text
+              style={{ color: textTheme }}
+              className="font-medium text-base "
+            >
+              Dark Mode
+            </Text>
+          
+            <Switch
+              trackColor={{ false: '#767577', true: 'green' }}
+              value={data?.preferred_theme === 'light' ? true : false}
+              onValueChange={(value: boolean) =>
+                
+                updateUserProfile({
+                  first_name: data.first_name,
+                  last_name: data.last_name,
+                  bio: data.bio,
+                  email: data.email,
+                  dob: data.dob,
+                  preferred_theme: value === true ? 'light' : 'dark',
+                })
+               
+              }
+              style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
+            />
+           
+          </View>
+        </View> */}
+      </View>
+
+      <View className="mt-6 ml-4 ">
+        <Text
+          style={{ color: textTheme }}
+          className=" text-base font-bold leading-6"
+        >
+          DISPLAY
+        </Text>
+        <Text style={{ color: textTheme }} className="text-[14px] font-md">
+          Change display settings of swave app
+        </Text>
+      </View>
+
+      <View
+        style={{ backgroundColor: theme ? '#152955' : 'white' }}
+        className=" bg-[#ECF0F8] mt-5 rounded-lg pb-3"
+      >
         <View className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
             <Text
@@ -205,6 +274,7 @@ const SettingsTest = () => {
               trackColor={{ false: '#767577', true: 'green' }}
               value={data?.preferred_theme === 'light' ? true : false}
               onValueChange={(value: boolean) =>
+                
                 updateUserProfile({
                   first_name: data.first_name,
                   last_name: data.last_name,
@@ -213,6 +283,7 @@ const SettingsTest = () => {
                   dob: data.dob,
                   preferred_theme: value === true ? 'light' : 'dark',
                 })
+               
               }
               style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
             />

@@ -19,10 +19,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
+import { RefreshControl } from 'react-native'
 
 const AccountScreen = ({ navigation }: any) => {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [profile, setProfile] = useState(true)
+
+  const [refreshing, setRefreshing] = React.useState(false)
+
+
 
   const {
     data: currentUser,
@@ -83,6 +88,14 @@ const AccountScreen = ({ navigation }: any) => {
   })
   console.log(data)
 
+  const onRefresh = React.useCallback(() => {
+    getUserProfile()
+     setRefreshing(true)
+     setTimeout(() => {
+       setRefreshing(false)
+     }, 500)
+   }, [data])
+
   const clearStorage = async () => {
     await AsyncStorage.multiRemove(['accessToken', 'refreshToken', 'user_id', 'last_name', 'first_name', 'profile_pic'])
   }
@@ -113,8 +126,15 @@ const AccountScreen = ({ navigation }: any) => {
   // console.log('data', data?.last_name)
 
   return (
+    
     <SafeAreaView style={{backgroundColor: backgroundTheme}} className='h-screen'>
+
+  
+              
+            
+
       <ScrollView
+
         style={{ backgroundColor: backgroundTheme }}
         className="bg-white"
       >
@@ -169,13 +189,13 @@ const AccountScreen = ({ navigation }: any) => {
                 style={{ color: textTheme }}
                 className="text-center mb-1 font-bold"
               >
-                400
+                {data?.data.errands_posted}
               </Text>
               <Text
                 style={{ color: textTheme }}
                 className="text-center font-light"
               >
-                total Errands{' '}
+                Total Errands{' '}
               </Text>
             </View>
 
@@ -290,7 +310,9 @@ const AccountScreen = ({ navigation }: any) => {
           )}
         </View>
       </ScrollView>
+     
     </SafeAreaView>
+    
   )
 }
 

@@ -57,6 +57,7 @@ export default function MainScreen() {
   const [searchedErrand, setSearchedErrand] = useState<MarketData[]>([])
 
   const [userData, setUserData] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false)
 
 
 
@@ -84,7 +85,9 @@ export default function MainScreen() {
   function toggleBidHistoryModal(open: boolean, user) {
     if (open) {
       setUserData(user);
+      setModalOpen(true);
       bidHistoryRef.current?.present();
+     
     } else {
       setUserData(null);
       bidHistoryRef.current?.dismiss();
@@ -170,7 +173,7 @@ export default function MainScreen() {
    
       <Container>
       <BottomSheetModalProvider>
-        <SafeAreaView>
+        <SafeAreaView style={{backgroundColor: modalOpen ? 'black' : 'none'}}>
         <StatusBar backgroundColor={backgroundTheme} barStyle={theme ? "light-content" : 'dark-content'} />
 
           <ScrollView

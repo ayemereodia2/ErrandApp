@@ -57,15 +57,40 @@ const LandingTest = ({ navigation }: any) => {
       method: 'GET',
       _url: `/errand/categories?limit=8`,
     })
+
     return await _rs.json()
+    
+
   }
 
-  const { isLoading, data, isError } = useQuery({
+  const getProfile = async () => {
+
+    const _rs1 = await _fetch({
+      method: 'GET',
+      _url: `/user/profile`,
+    })
+
+    return await _rs1.json()
+
+  }
+
+  
+
+  const { isLoading: isCategoryLoading, data: categoryData, isError:  isCategoryError} = useQuery({
     queryKey: ['get-category'],
     queryFn: getCategory,
     refetchOnMount: 'always',
   })
+
+  const { isLoading: isProfileLoading, data: profileData, isError:  isProfileError} = useQuery({
+    queryKey: ['get-profile'],
+    queryFn: getProfile,
+    refetchOnMount: 'always',
+  })
+
+
   // console.log(data)
+  console.log(profileData)
 
   useFocusEffect(() => {
     const onBackPress = () => {
@@ -82,7 +107,7 @@ const LandingTest = ({ navigation }: any) => {
     }
   })
 
-  if (loading) {
+  if (loading || isCategoryLoading || isProfileLoading) {
     return (
       <SafeAreaView
         style={{
@@ -120,7 +145,7 @@ const LandingTest = ({ navigation }: any) => {
               className="font-bold text-[25px] leading-7"
               style={{ color: textTheme }}
             >
-              Good {getTimeOfDay()}
+              Good {getTimeOfDay()} {profileData.data.first_name ? profileData.data.first_name : ''}
             </Text>
 
             <View className="items-center flex-row gap-4 mr-2">
@@ -182,8 +207,8 @@ const LandingTest = ({ navigation }: any) => {
             </Text>
 
             <View className="mt-4 w-[90vw] flex-row flex-wrap items-center mx-auto">
-              {data
-                ? data?.data?.map((category: any) => (
+              {categoryData
+                ? categoryData?.data?.map((category: any) => (
                     <>
                       <View className="flex-row mt-3 " key={category.id}>
                         <TouchableOpacity
@@ -233,7 +258,7 @@ const LandingTest = ({ navigation }: any) => {
           <NewNotifications />
           {/* </View> */}
         </ScrollView>
-        {!isLoading && <PostErrandButton className="bottom-5 right-3" />}
+        {!isCategoryLoading || !isProfileLoading && <PostErrandButton className="bottom-5 right-3" />}
       </SafeAreaView>
     </Container>
   )
