@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   BackHandler,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,

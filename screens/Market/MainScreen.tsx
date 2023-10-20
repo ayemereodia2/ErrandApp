@@ -11,12 +11,17 @@ import {
 } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 // import { ScrollView } from 'native-base'
-import React, { useEffect, useState } from 'react'
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   RefreshControl,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -28,6 +33,7 @@ import Container from '../../components/Container'
 import ErrandComp, { ListErrandComp } from '../../components/ErrandComponent'
 import Filter from '../../components/Filter/Filter'
 import PostErrandButton from '../../components/PostErrandBtn'
+import UserInfo from '../../components/UserInfo/UserInfo'
 import { errandMarketList, setLoading } from '../../services/errands/market'
 import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -52,6 +58,8 @@ export default function MainScreen() {
   const [searchedErrand, setSearchedErrand] = useState<MarketData[]>([])
   const [searchValue, setSearchValue] = useState('')
 
+  const [userData, setUserData] = useState(null)
+
   const handleViewChange = () => {
     setToggleView(!toggleView)
   }
@@ -69,6 +77,18 @@ export default function MainScreen() {
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
+
+  const bidHistoryRef = useRef<BottomSheetModal>(null)
+
+  function toggleBidHistoryModal(open: boolean, user: any) {
+    if (open) {
+      setUserData(user)
+      bidHistoryRef.current?.present()
+    } else {
+      setUserData(null)
+      bidHistoryRef.current?.dismiss()
+    }
+  }
 
   const handleFilter = () => {
     setFilterOn(!filterOn)
@@ -148,144 +168,163 @@ export default function MainScreen() {
       </SafeAreaView>
     )
   }
+
   return (
     <>
       <Container>
-        <SafeAreaView>
-          <ScrollView
-            style={{ backgroundColor: backgroundTheme }}
-            scrollEventThrottle={16}
-            className={theme ? 'bg-[#e4eaf7]' : '#e9ebf2'}
-            refreshControl={
-              <RefreshControl
-                // tintColor="white"
-                // colors={['white']}
-                // style={{ backgroundColor: 'white' }}
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-              />
-            }
-          >
-            <>
-              {/* {loading && <MainLoader />} */}
+        <BottomSheetModalProvider>
+          <SafeAreaView>
+            <StatusBar
+              backgroundColor={backgroundTheme}
+              barStyle={theme ? 'light-content' : 'dark-content'}
+            />
 
-              {filterOn && (
-                <Filter
-                  data={category}
-                  value={value}
-                  setValue={setValue}
-                  onClose={handleFilter}
-                  filterOn={filterOn}
-                  low={low}
-                  high={high}
-                  setLow={setLow}
-                  setHigh={setHigh}
-                  filterMarketList={filterMarketList}
-                  setMinCheck={setMinCheck}
+            <ScrollView
+              style={{ backgroundColor: backgroundTheme }}
+              scrollEventThrottle={16}
+              className={theme ? 'bg-[#e4eaf7]' : '#e9ebf2'}
+              refreshControl={
+                <RefreshControl
+                  // tintColor="white"
+                  // colors={['white']}
+                  // style={{ backgroundColor: 'white' }}
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
                 />
-              )}
+              }
+            >
+              <>
+                {/* {loading && <MainLoader />} */}
 
-              <View
-                className="bg-[#e4eaf7]"
-                style={{
-                  display: filterOn ? 'none' : 'flex',
-                  backgroundColor: backgroundTheme,
-                }}
-              >
-                <View className="mx-4">
-                  {!loading && (
-                    <View
-                      className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white"
-                      style={{ backgroundColor: theme ? '#1E3A79' : 'white' }}
-                    >
-                      <EvilIcons
-                        name="search"
-                        size={22}
-                        className="w-1/12"
-                        color={theme ? 'white' : '#808080'}
-                      />
-                      <TextInput
-                        style={{ color: theme ? 'white' : '#808080' }}
-                        className=" w-7/12 pl-1"
-                        placeholder="Search for Errands"
-                        placeholderTextColor={theme ? 'white' : 'black'}
-                        value={searchValue}
-                        onChangeText={(text) => setSearchValue(text)}
-                      />
+                {filterOn && (
+                  <Filter
+                    data={category}
+                    value={value}
+                    setValue={setValue}
+                    onClose={handleFilter}
+                    filterOn={filterOn}
+                    low={low}
+                    high={high}
+                    setLow={setLow}
+                    setHigh={setHigh}
+                    filterMarketList={filterMarketList}
+                    setMinCheck={setMinCheck}
+                  />
+                )}
 
-                      {searchValue ? (
-                        <AntDesign
-                          onPress={() => setSearchValue('')}
-                          name="close"
-                          size={20}
-                          color={theme ? 'white' : 'black'}
+                <View
+                  className="bg-[#e4eaf7]"
+                  style={{
+                    display: filterOn ? 'none' : 'flex',
+                    backgroundColor: backgroundTheme,
+                  }}
+                >
+                  <View className="mx-4">
+                    {!loading && (
+                      <View
+                        className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white"
+                        style={{ backgroundColor: theme ? '#1E3A79' : 'white' }}
+                      >
+                        <EvilIcons
+                          name="search"
+                          size={22}
+                          className="w-1/12"
+                          color={theme ? 'white' : '#808080'}
                         />
-                      ) : (
-                        ''
-                      )}
+                        <TextInput
+                          style={{ color: theme ? 'white' : '#808080' }}
+                          className=" w-7/12 pl-1"
+                          placeholder="Search for Errands"
+                          placeholderTextColor={theme ? 'white' : 'black'}
+                          value={searchValue}
+                          onChangeText={(text) => setSearchValue(text)}
+                        />
 
-                      <TouchableOpacity onPress={handleViewChange}>
-                        <View className="rounded-md w-[36px]">
-                          <Text className="p-2 text-center">
-                            {toggleView ? (
-                              <Feather
-                                name="list"
-                                size={20}
-                                color={theme ? 'white' : 'black'}
-                              />
-                            ) : (
-                              <MaterialCommunityIcons
-                                name="view-dashboard"
-                                size={20}
-                                color={theme ? 'white' : 'black'}
-                              />
-                            )}
-                          </Text>
-                        </View>
-                      </TouchableOpacity>
-                      <TouchableOpacity onPress={handleFilter}>
-                        <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
-                          <Text className="p-2 text-center">
-                            <Ionicons
-                              name="md-filter-outline"
-                              size={18}
-                              color="white"
-                            />
-                          </Text>
-                        </View>
-                      </TouchableOpacity>
-                    </View>
-                  )}
+                        {searchValue ? (
+                          <AntDesign
+                            onPress={() => setSearchValue('')}
+                            name="close"
+                            size={20}
+                            color={theme ? 'white' : 'black'}
+                          />
+                        ) : (
+                          ''
+                        )}
 
-                  <View className="pt-2">
-                    {searchedErrand?.map(
-                      (errand: MarketData, index: number) => {
-                        return (
-                          <>
-                            {toggleView ? (
-                              <ErrandComp
-                                errand={errand}
-                                navigation={navigation}
-                                key={index}
+                        <TouchableOpacity onPress={handleViewChange}>
+                          <View className="rounded-md w-[36px]">
+                            <Text className="p-2 text-center">
+                              {toggleView ? (
+                                <Feather
+                                  name="list"
+                                  size={20}
+                                  color={theme ? 'white' : 'black'}
+                                />
+                              ) : (
+                                <MaterialCommunityIcons
+                                  name="view-dashboard"
+                                  size={20}
+                                  color={theme ? 'white' : 'black'}
+                                />
+                              )}
+                            </Text>
+                          </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleFilter}>
+                          <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
+                            <Text className="p-2 text-center">
+                              <Ionicons
+                                name="md-filter-outline"
+                                size={18}
+                                color="white"
                               />
-                            ) : (
-                              <ListErrandComp
-                                errand={errand}
-                                navigation={navigation}
-                                key={index}
-                              />
-                            )}
-                          </>
-                        )
-                      },
+                            </Text>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
                     )}
+
+                    <View className="pt-2">
+                      {searchedErrand?.map(
+                        (errand: MarketData, index: number) => {
+                          return (
+                            <>
+                              {toggleView ? (
+                                <ErrandComp
+                                  errand={errand}
+                                  navigation={navigation}
+                                  key={index}
+                                  toggleBidHistoryModal={toggleBidHistoryModal}
+                                />
+                              ) : (
+                                <ListErrandComp
+                                  errand={errand}
+                                  navigation={navigation}
+                                  key={index}
+                                  toggleBidHistoryModal={toggleBidHistoryModal}
+                                />
+                              )}
+                            </>
+                          )
+                        },
+                      )}
+                    </View>
                   </View>
                 </View>
-              </View>
-            </>
-            {/* )} */}
-          </ScrollView>
-        </SafeAreaView>
+              </>
+              {/* )} */}
+            </ScrollView>
+          </SafeAreaView>
+
+          <BottomSheetModal
+            // backdropComponent={renderBackdrop}
+            ref={bidHistoryRef}
+            index={0}
+            snapPoints={['70%']}
+          >
+            <UserInfo user={userData} navigation={navigation} />
+          </BottomSheetModal>
+        </BottomSheetModalProvider>
       </Container>
       {!loading && <PostErrandButton className="bottom-20 right-3" />}
     </>
