@@ -3,16 +3,18 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
+import { _fetch } from '../../services/axios/http'
+import { useQuery } from '@tanstack/react-query'
 
-const data = [
-  { label: 'Laundry', value: '1' },
-  { label: 'Baby Sitting', value: '2' },
-  { label: 'Chat', value: '3' },
-  { label: 'Personal Errands', value: '4' },
-  { label: 'Baking & Catering', value: '5' },
-  { label: 'Shopping', value: '6' },
-  { label: 'House Cleaning', value: '7' },
-]
+// const data = [
+//   { label: 'Laundry', value: '1' },
+//   { label: 'Baby Sitting', value: '2' },
+//   { label: 'Chat', value: '3' },
+//   { label: 'Personal Errands', value: '4' },
+//   { label: 'Baking & Catering', value: '5' },
+//   { label: 'Shopping', value: '6' },
+//   { label: 'House Cleaning', value: '7' },
+// ]
 
 const SettingsCategory = ({ navigation }: any) => {
   const {
@@ -24,7 +26,50 @@ const SettingsCategory = ({ navigation }: any) => {
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-  const [selected, setSelected] = useState([])
+  const getChoices = async () => {
+
+    const _rs = await _fetch({
+      method: 'GET',
+      _url: `/user/category-interest`,
+    })
+
+    return await _rs.json()
+
+  }
+
+  const { isLoading: interestLoading, data: interestData, isError} = useQuery({
+    queryKey: ['get-choice'],
+    queryFn: getChoices,
+    refetchOnMount: 'always',
+  })
+
+  // console.log(data)
+
+  if ( interestLoading) {
+    return (
+     
+      
+      <TouchableOpacity
+      onPress={() => navigation.navigate('CategoryInterest')}
+      className=""
+    >
+      <View
+        style={{ backgroundColor: theme ? '#152955' : 'white' }}
+        className="py-3 px-4 w-[149px] rounded-full border border-[#3F60AC] mt-4 items-center flex-row space-x-4"
+      >
+        <Text style={{color: textTheme}} className="text-black items-center justify-center">
+          Laundry Services
+        </Text>
+      </View>
+    </TouchableOpacity>
+
+    
+    )
+  }
+
+  console.log(interestData)
+
+  // const [selected, setSelected] = useState([])
 
   return (
     <View>
@@ -40,8 +85,75 @@ const SettingsCategory = ({ navigation }: any) => {
         </Text>
       </View>
 
-      <View style={styles.container} className="flex-row space-x-3">
-        <TouchableOpacity
+      <View style={styles.container} className=" space-x-3">
+        {/* {interestData ? interestData.data.map((interest:any)=>(
+            <TouchableOpacity
+            onPress={() => navigation.navigate('CategoryInterest')}
+            className=""
+            >
+            <View
+              style={{ backgroundColor: theme ? '#152955' : 'white' }}
+              className="py-3 px-4 w-[149px] rounded-full border border-[#3F60AC] mt-4 items-center flex-row space-x-4"
+            >
+              <Text style={{color: textTheme}} className="text-black items-center justify-center">
+                {interest.name}
+              </Text>
+            </View>
+            </TouchableOpacity>
+        )) : 
+
+        (   <TouchableOpacity
+          onPress={() => navigation.navigate('CategoryInterest')}
+          className=""
+          >
+          <View
+            style={{ backgroundColor: theme ? '#152955' : 'white' }}
+            className="py-3 px-2 w-[149px] rounded-full border border-[#3F60AC] mt-4 items-center flex-row space-x-4"
+          >
+            <Text style={{color: textTheme}} className="text-black items-center justify-center">
+              No selected category
+            </Text>
+          </View>
+          </TouchableOpacity>)
+        } */}
+
+        {interestData ? interestData.data.splice(0, 6)
+          .filter((item) => typeof item === 'string') // Filter items that are strings
+          .map((categoryName, index) => (
+
+            <View className="flex-row mt-3 " key={index}>
+            <TouchableOpacity
+              className="border-[#aaa] border px-4 py-1 rounded-xl mr-2 bg-white"
+              style={{
+                backgroundColor: theme ? '#1E3A79' : 'white',
+              }}
+             
+              key={index}
+            >
+              <Text
+                className="text-base"
+                style={{ color: textTheme }}
+              >{categoryName}</Text>
+            </TouchableOpacity>
+          </View>
+            // <TouchableOpacity
+            //   key={index}
+            //   // onPress={() => navigation.navigate('CategoryInterest')}
+            //   className=""
+            // >
+            //   <View
+            //     style={{ backgroundColor: theme ? '#152955' : 'white' }}
+            //     className="py-3 px-4 w-[149px] rounded-full border border-[#3F60AC] mt-4 items-center flex-row space-x-4"
+            //   >
+            //     <Text style={{ color: textTheme }} className="text-black items-center justify-center">
+            //       {categoryName}
+            //     </Text>
+            //   </View>
+            // </TouchableOpacity>
+          )) : null}
+
+
+        {/* <TouchableOpacity
           onPress={() => navigation.navigate('CategoryInterest')}
           className=""
         >
@@ -53,7 +165,7 @@ const SettingsCategory = ({ navigation }: any) => {
               Laundry Services
             </Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
           onPress={() => navigation.navigate('CategoryInterest')}
