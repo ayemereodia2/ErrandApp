@@ -149,7 +149,7 @@ const SettingScreen = ({ navigation }: any) => {
 
             <SettingsTest />
 
-            <SettingsCategory navigation={navigation} />
+            {/* <SettingsCategory navigation={navigation} /> */}
 
             <View className="mt-8 ml-4">
               <Text

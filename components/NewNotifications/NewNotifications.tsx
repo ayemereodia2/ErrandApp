@@ -1,4 +1,4 @@
-import { AntDesign, EvilIcons, FontAwesome5, Ionicons } from '@expo/vector-icons'
+import { AntDesign, FontAwesome5, Ionicons } from '@expo/vector-icons'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { ScrollView, Text, View } from 'react-native'
@@ -33,6 +33,8 @@ export default function NewNotifications() {
     refetchOnMount: 'always',
   })
 
+  // console.log('>>>>>>data notificaito', data.data)
+
   if (isLoading) {
     return (
       <SafeAreaView className="pt-20 bg-gray-200 w-screen h-[40vh] mt-5">
@@ -48,67 +50,84 @@ export default function NewNotifications() {
 
   return (
     <>
-      {data
-        ? data?.data?.map((notification: any) => (
-
-          <ScrollView>
+      {data?.data === null ? (
+        <Text className='text-base pt-4' style={{ color: textTheme }}>There are no new notifications</Text>
+      ) : (
+        
           
-        <View className='py-2 mb-3 mt-4 border border-gray-400 rounded-md' style={{ backgroundColor: theme ? '#152955' : 'white' }} key={notification.id}>
-          <View className='flex-row items-center justify-between mx-2 mb-1 mt-2'>
+        data?.data?.map((notification: any) => (
+          <ScrollView>
+            <View
+              className="py-2 mb-3 mt-4 border border-gray-400 rounded-md"
+              style={{ backgroundColor: theme ? '#152955' : 'white' }}
+              key={notification.id}
+            >
+              <View className="flex-row items-center justify-between mx-2 mb-1 mt-2">
+                <View className="flex-row items-center">
+                  {notification.type === 0 ? (
+                    <Text style={{ color: textTheme }}>
+                      {' '}
+                      <AntDesign
+                        name="exclamationcircleo"
+                        size={20}
+                        color={textTheme}
+                      />
+                      {'   '}
+                    </Text>
+                  ) : notification.type === 1 ? (
+                    <Text style={{ color: textTheme }}>
+                      {' '}
+                      <FontAwesome5
+                        name="running"
+                        size={20}
+                        color={textTheme}
+                      />
+                      {'   '}
+                    </Text>
+                  ) : notification.type === 2 ? (
+                    <Text style={{ color: textTheme }}>
+                      {' '}
+                      <Ionicons
+                        name="ios-hammer-outline"
+                        size={20}
+                        color={textTheme}
+                      />
+                      {'   '}
+                    </Text>
+                  ) : notification.type === 3 ? (
+                    <Text style={{ color: textTheme }}>
+                      {' '}
+                      <Ionicons
+                        name="md-swap-vertical"
+                        size={20}
+                        color={textTheme}
+                      />
+                      {'   '}
+                    </Text>
+                  ) : null}
 
-          <View className='flex-row items-center'>
-          {notification.type === 0 ? (
-                  <Text style={{ color: textTheme }}>
-                    {' '}
-                    <AntDesign 
-                    name="exclamationcircleo" 
-                    size={20}
-                     color={textTheme} 
-                    />{'   '}
+                  <Text
+                    style={{ color: textTheme }}
+                    className="text-base font-bold"
+                  >
+                    {notification.title}
                   </Text>
-                ) : notification.type === 1 ? (
-                  <Text style={{ color: textTheme }}>
-                    {' '}
-                    <FontAwesome5
-                      name="running"
-                      size={20}
-                      color={textTheme}
-                    />{'   '}
-                  </Text>
-                ) : notification.type === 2 ? (
-                  <Text style={{ color: textTheme }}>
-                    {' '}
-                    <Ionicons
-                      name="ios-hammer-outline"
-                      size={20}
-                      color={textTheme}
-                    />{'   '}
-                  </Text>
-                ) : notification.type === 3 ? (
-                  <Text style={{ color: textTheme }}>
-                    {' '}
-                    <Ionicons
-                      name="md-swap-vertical"
-                      size={20}
-                      color={textTheme}
-                    />{'   '}
-                  </Text>
-                ) : null}
-               
-                <Text style={{ color: textTheme }} className='text-base font-bold'>{notification.title}</Text>
-
                 </View>
 
-            <Text style={{ color: textTheme }}>{getTimeAgo(notification.created_at)}</Text>
-          </View>
+                <Text style={{ color: textTheme }}>
+                  {getTimeAgo(notification.created_at)}
+                </Text>
+              </View>
 
-          <View>
-            <Text className='mx-10 text-base' style={{ color: textTheme }}>{notification.message}</Text>
-          </View>
-        </View>
-        </ScrollView>
-      ))
-    : 'No Notifications Available'}
+              <View>
+                <Text className="mx-10 text-base" style={{ color: textTheme }}>
+                  {notification.message}
+                </Text>
+              </View>
+            </View>
+          </ScrollView>
+        ))
+      )}
     </>
   )
 }

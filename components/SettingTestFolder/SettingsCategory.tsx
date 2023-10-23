@@ -1,10 +1,10 @@
 import AntDesign from '@expo/vector-icons/AntDesign'
-import React, { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../services/store'
 import { _fetch } from '../../services/axios/http'
-import { useQuery } from '@tanstack/react-query'
+import { RootState } from '../../services/store'
 
 // const data = [
 //   { label: 'Laundry', value: '1' },
@@ -27,17 +27,15 @@ const SettingsCategory = ({ navigation }: any) => {
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   const getChoices = async () => {
-
     const _rs = await _fetch({
       method: 'GET',
       _url: `/user/category-interest`,
     })
 
     return await _rs.json()
-
   }
 
-  const { isLoading: interestLoading, data: interestData, isError} = useQuery({
+  const { isLoading: interestLoading, data: interestData, isError } = useQuery({
     queryKey: ['get-choice'],
     queryFn: getChoices,
     refetchOnMount: 'always',
@@ -45,29 +43,28 @@ const SettingsCategory = ({ navigation }: any) => {
 
   // console.log(data)
 
-  if ( interestLoading) {
+  if (interestLoading) {
     return (
-     
-      
       <TouchableOpacity
-      onPress={() => navigation.navigate('CategoryInterest')}
-      className=""
-    >
-      <View
-        style={{ backgroundColor: theme ? '#152955' : 'white' }}
-        className="py-3 px-4 w-[149px] rounded-full border border-[#3F60AC] mt-4 items-center flex-row space-x-4"
+        onPress={() => navigation.navigate('CategoryInterest')}
+        className=""
       >
-        <Text style={{color: textTheme}} className="text-black items-center justify-center">
-          Laundry Services
-        </Text>
-      </View>
-    </TouchableOpacity>
-
-    
+        <View
+          style={{ backgroundColor: theme ? '#152955' : 'white' }}
+          className="py-3 px-4 w-[149px] rounded-full border border-[#3F60AC] mt-4 items-center flex-row space-x-4"
+        >
+          <Text
+            style={{ color: textTheme }}
+            className="text-black items-center justify-center"
+          >
+            Laundry Services
+          </Text>
+        </View>
+      </TouchableOpacity>
     )
   }
 
-  console.log(interestData)
+
 
   // const [selected, setSelected] = useState([])
 
@@ -117,41 +114,42 @@ const SettingsCategory = ({ navigation }: any) => {
           </TouchableOpacity>)
         } */}
 
-        {interestData ? interestData.data.splice(0, 6)
-          .filter((item) => typeof item === 'string') // Filter items that are strings
-          .map((categoryName, index) => (
-
-            <View className="flex-row mt-3 " key={index}>
-            <TouchableOpacity
-              className="border-[#aaa] border px-4 py-1 rounded-xl mr-2 bg-white"
-              style={{
-                backgroundColor: theme ? '#1E3A79' : 'white',
-              }}
-             
-              key={index}
-            >
-              <Text
-                className="text-base"
-                style={{ color: textTheme }}
-              >{categoryName}</Text>
-            </TouchableOpacity>
-          </View>
-            // <TouchableOpacity
-            //   key={index}
-            //   // onPress={() => navigation.navigate('CategoryInterest')}
-            //   className=""
-            // >
-            //   <View
-            //     style={{ backgroundColor: theme ? '#152955' : 'white' }}
-            //     className="py-3 px-4 w-[149px] rounded-full border border-[#3F60AC] mt-4 items-center flex-row space-x-4"
-            //   >
-            //     <Text style={{ color: textTheme }} className="text-black items-center justify-center">
-            //       {categoryName}
-            //     </Text>
-            //   </View>
-            // </TouchableOpacity>
-          )) : null}
-
+        {interestData === null ? (
+          <Text>No Category Interest Added</Text>
+        ) : (
+          categoryInterests?.data
+            .splice(0, 6)
+            .filter((item) => typeof item === 'string') // Filter items that are strings
+            .map((categoryName: string, index: number) => (
+              <View className="flex-row mt-3 " key={index}>
+                <TouchableOpacity
+                  className="border-[#aaa] border px-4 py-1 rounded-xl mr-2 bg-white"
+                  style={{
+                    backgroundColor: theme ? '#1E3A79' : 'white',
+                  }}
+                  key={index}
+                >
+                  <Text className="text-base" style={{ color: textTheme }}>
+                    {categoryName}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              // <TouchableOpacity
+              //   key={index}
+              //   // onPress={() => navigation.navigate('CategoryInterest')}
+              //   className=""
+              // >
+              //   <View
+              //     style={{ backgroundColor: theme ? '#152955' : 'white' }}
+              //     className="py-3 px-4 w-[149px] rounded-full border border-[#3F60AC] mt-4 items-center flex-row space-x-4"
+              //   >
+              //     <Text style={{ color: textTheme }} className="text-black items-center justify-center">
+              //       {categoryName}
+              //     </Text>
+              //   </View>
+              // </TouchableOpacity>
+            ))
+        )}
 
         {/* <TouchableOpacity
           onPress={() => navigation.navigate('CategoryInterest')}
@@ -171,8 +169,14 @@ const SettingsCategory = ({ navigation }: any) => {
           onPress={() => navigation.navigate('CategoryInterest')}
           className=""
         >
-          <View style={{ backgroundColor: theme ? '#152955' : 'white' }} className="py-3 px-4 w-[149px] rounded-full bg-[#3F60AC] mt-4 items-center flex-row space-x-4">
-            <Text className="text-white items-center justify-center" style={{color: textTheme}}>
+          <View
+            style={{ backgroundColor: theme ? '#152955' : 'white' }}
+            className="py-3 px-4 w-[149px] rounded-full bg-[#3F60AC] mt-4 items-center flex-row space-x-4"
+          >
+            <Text
+              className="text-white items-center justify-center"
+              style={{ color: textTheme }}
+            >
               Add Category
             </Text>
             <AntDesign name="pluscircle" size={16} color={textTheme} />

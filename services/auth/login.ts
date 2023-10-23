@@ -22,25 +22,26 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
     console.log(">>>>Login res", _rs);
   
     if (_rs.success === true) {
-      await AsyncStorage.setItem('accessToken', _rs.data.access_token )
+      await AsyncStorage.setItem('accessToken', _rs.data.access_token)
       await AsyncStorage.setItem('refreshToken', _rs.data.refresh_token)
       await AsyncStorage.setItem('user_id', _rs.data.id)
       await AsyncStorage.setItem("last_name", _rs.data.last_name)
       await AsyncStorage.setItem("first_name", _rs.data.first_name)
-      await AsyncStorage.setItem('profile_pic', _rs.data.profile_picture)
+      if (_rs.data.profile_picture) {
+         await AsyncStorage.setItem('profile_pic', _rs.data.profile_picture)
+      }
       await AsyncStorage.setItem('isGuest', 'false')
       await AsyncStorage.setItem('pin', JSON.stringify(_rs.data.has_transaction_pin))
 
       dispatch(currentUserDetails({user_id: _rs.data.id}))
 
-      // navigation.navigate('Tabs')
-
        Toast.show({
         type: 'success',
         text1: 'Login Successful',
-      });
+       });
+      
       navigation.navigate('Tabs')
-
+      
       return _rs
     } 
 

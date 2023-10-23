@@ -146,8 +146,6 @@ const PinModal = ({
     }
     setLoader(true)
 
-    console.log('<<<<<pin stuff', verifyPin ? 'verify-pin' : 'pin', pin)
-
     const _rs = await _fetch({
       _url: `/user/security/${verifyPin ? 'verify-pin' : 'pin'}`,
       method: 'POST',

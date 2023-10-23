@@ -25,6 +25,12 @@ import MainNavigation from './navigation/MainNavigation'
 import { GuestStack } from './navigation/StackNavigation'
 import { RootState, store } from './services/store'
 
+//  "preview": {
+//       "android": {
+//         "buildType": "apk"
+//       }
+//     },
+
 const queryClient = new QueryClient()
 
 // import { store } from './services/store'

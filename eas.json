@@ -1,6 +1,23 @@
 {
+  "cli": {
+    "appVersionSource": "remote"
+  },
   "build": {
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://apis.swave.ng/v1"
+      },
+      "autoIncrement": true
+    },
+    "staging": {
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://staging.apis.swave.ng/v1"
+      }
+    },
     "preview": {
+       "env": {
+        "EXPO_PUBLIC_API_URL": "https://staging.apis.swave.ng/v1"
+      },
       "android": {
         "buildType": "apk"
       }
@@ -12,7 +29,6 @@
     },
     "preview3": {
       "developmentClient": true
-    },
-    "production": {}
+    }
   }
 }

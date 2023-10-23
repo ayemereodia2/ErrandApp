@@ -127,6 +127,7 @@ export const TabsNavigation = ({ navigation }: any) => {
 
   return (
     <Tab.Navigator
+      initialRouteName='LandingPageTab'
       screenOptions={{
         tabBarShowLabel: false,
         tabBarStyle: {
@@ -161,7 +162,7 @@ export const TabsNavigation = ({ navigation }: any) => {
             </View>
           ),
         })}
-        name="Landing Page"
+        name="LandingPageTab"
         component={LandingPageStack}
       />
       <Tab.Screen

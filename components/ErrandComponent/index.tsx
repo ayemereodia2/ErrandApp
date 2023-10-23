@@ -416,21 +416,20 @@ export function ListErrandComp({
             </Text>
           </View>
 
-          <Text className="text-[#808080] text-sm w-[100px] mb-2">
-            {/* {getTimeAgo(errand?.updated_at)} */}
+          {/* <Text className="text-[#808080] text-sm w-[100px] mb-2">
             <View className=" px-1 ">
               <Text className="text-[18px] font-medium text-[#1E3A79] ">
                 &#x20A6; {budgetInNaira.toLocaleString()}
               </Text>
             </View>
-          </Text>
+          </Text> */}
         </View>
 
-        <View className=" px-1 ">
+        {/* <View className=" px-1 ">
           <Text className="text-[20px] font-bold text-[#1E3A79] ">
             &#x20A6; {budgetInNaira.toLocaleString()}
           </Text>
-        </View>
+        </View> */}
         <View className="flex-row justify-between items-center mt-2">
           <View className="w-[60%] pr-10">
             <Text

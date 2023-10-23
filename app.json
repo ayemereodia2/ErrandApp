@@ -23,11 +23,11 @@
           }
         ],
         [
-        "expo-location",
-        {
-          "locationAlwaysAndWhenInUsePermission": "Allow Swave to use your location."
-        }
-      ]
+          "expo-location",
+          {
+            "locationAlwaysAndWhenInUsePermission": "Allow Swave to use your location."
+          }
+        ]
       ]
     },
     "updates": {
@@ -43,28 +43,29 @@
           "audio"
         ]
       },
-       "config": {
+      "config": {
         "googleMapsApiKey": "AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo"
-      }
+      },
+      "bundleIdentifier": "com.orj5.Swave"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage":"./assets/adaptive.png",
-        "backgroundColor":"#a9c1f8"
+        "foregroundImage": "./assets/adaptive.png",
+        "backgroundColor": "#a9c1f8"
       },
-      "package": "com.orj5.Swave",
-       "config": {
+      "config": {
         "googleMaps": {
           "apiKey": "AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo"
         }
-      }
+      },
+      "package": "com.orj5.Swave"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "f0690626-04d2-480a-a17b-67b2afed0b31"
+        "projectId": "67d2b98f-b0e0-49db-a3f4-4d46c6386ce3"
       }
     }
   }
