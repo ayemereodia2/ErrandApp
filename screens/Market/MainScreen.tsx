@@ -30,7 +30,7 @@ import {
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import Container from '../../components/Container'
-import ErrandComp, { ListErrandComp } from '../../components/ErrandComponent'
+import ErrandComp from '../../components/ErrandComponent'
 import Filter from '../../components/Filter/Filter'
 import PostErrandButton from '../../components/PostErrandBtn'
 import UserInfo from '../../components/UserInfo/UserInfo'
@@ -54,16 +54,16 @@ export default function MainScreen() {
   const [high, setHigh] = useState(0)
   const [minCheck, setMinCheck] = useState(false)
   const [refreshing, setRefreshing] = React.useState(false)
-  const [toggleView, setToggleView] = useState(true)
+  // const [toggleView, setToggleView] = useState(true)
   const [searchedErrand, setSearchedErrand] = useState<MarketData[]>([])
   const [searchValue, setSearchValue] = useState('')
 
   const [userData, setUserData] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
 
-  const handleViewChange = () => {
-    setToggleView(!toggleView)
-  }
+  // const handleViewChange = () => {
+  //   setToggleView(!toggleView)
+  // }
 
   // const { data } = useSelector((state: RootState) => state.userDetailsReducer)
   const [filterOn, setFilterOn] = useState(false)
@@ -255,7 +255,7 @@ export default function MainScreen() {
                           ''
                         )}
 
-                        <TouchableOpacity onPress={handleViewChange}>
+                        {/* <TouchableOpacity >
                           <View className="rounded-md w-[36px]">
                             <Text className="p-2 text-center">
                               {toggleView ? (
@@ -271,9 +271,11 @@ export default function MainScreen() {
                                   color={theme ? 'white' : 'black'}
                                 />
                               )}
+                             
                             </Text>
                           </View>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
+                        
                         <TouchableOpacity onPress={handleFilter}>
                           <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
                             <Text className="p-2 text-center">
@@ -293,7 +295,7 @@ export default function MainScreen() {
                         (errand: MarketData, index: number) => {
                           return (
                             <>
-                              {toggleView ? (
+                              {/* {toggleView ? (
                                 <ErrandComp
                                   errand={errand}
                                   navigation={navigation}
@@ -307,7 +309,13 @@ export default function MainScreen() {
                                   key={index}
                                   toggleBidHistoryModal={toggleBidHistoryModal}
                                 />
-                              )}
+                              )} */}
+                               <ErrandComp
+                                  errand={errand}
+                                  navigation={navigation}
+                                  key={index}
+                                  toggleBidHistoryModal={toggleBidHistoryModal}
+                                />
                             </>
                           )
                         },
