@@ -148,6 +148,27 @@ interface AddressProps {
   }
  }
 
+ export function getCardTimeAgo(dateString: string): string {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMilliseconds = now.getTime() - date.getTime();
+
+  // Calculate the time difference in minutes
+  const diffMinutes = Math.floor(diffMilliseconds / (1000 * 60));
+
+  if (diffMinutes < 1) {
+    return "just now";
+  } else if (diffMinutes < 60) {
+    return diffMinutes + "m ";
+  } else if (diffMinutes < 1440) {
+    const diffHours = Math.floor(diffMinutes / 60);
+    return diffHours + "h ";
+  } else {
+    const diffDays = Math.floor(diffMinutes / 1440);
+    return diffDays + "d ";
+  }
+ }
+
 interface getUserIdProps {
   setFirstName?: any
   setLastName?: any

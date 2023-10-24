@@ -107,8 +107,8 @@ const SettingsTest = () => {
   }
 
   return (
-    <ScrollView>
-      <View className="mt-6 ml-4 ">
+    <ScrollView style={{backgroundColor: backgroundTheme}}>
+      <View className="mt-6 ml-4 " style={{backgroundColor: backgroundTheme}}>
         <Text
           style={{ color: textTheme }}
           className=" text-base font-bold leading-6"
@@ -121,11 +121,11 @@ const SettingsTest = () => {
       </View>
 
       <View
-        style={{ backgroundColor: theme ? '#152955' : 'white' }}
+       style={{backgroundColor: backgroundTheme}}
         className=" bg-[#ECF0F8] mt-5 rounded-lg pb-4"
       >
         <View className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
-          <View className="flex-row items-center justify-between">
+          <View className="flex-row items-center justify-between" >
             <Text
               style={{ color: textTheme }}
               className="font-medium text-base"
@@ -253,7 +253,7 @@ const SettingsTest = () => {
         </View> */}
       </View>
 
-      <View className="mt-6 ml-4 ">
+      <View className="mt-6 ml-4 " >
         <Text
           style={{ color: textTheme }}
           className=" text-base font-bold leading-6"
@@ -266,7 +266,7 @@ const SettingsTest = () => {
       </View>
 
       <View
-        style={{ backgroundColor: theme ? '#152955' : 'white' }}
+       style={{backgroundColor: backgroundTheme}}
         className=" bg-[#ECF0F8] mt-5 rounded-lg pb-3"
       >
         <View className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]">
@@ -313,7 +313,7 @@ const SettingsTest = () => {
       </View>
 
       <View
-        style={{ backgroundColor: theme ? '#152955' : 'white' }}
+       style={{backgroundColor: backgroundTheme}}
         className=" bg-[#ECF0F8] mt-5 rounded-md pb-4"
       >
         <View className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
