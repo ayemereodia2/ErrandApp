@@ -29,6 +29,7 @@ import {
   ActivityIndicator,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableNativeFeedback,
@@ -41,7 +42,6 @@ import { ProfileInitials } from '../../components/ProfileInitials'
 import { userDetails } from '../../services/auth/userInfo'
 import { RootState, useAppDispatch } from '../../services/store'
 import { formatDate, getAddress } from '../../utils/helper'
-import { StatusBar } from 'react-native'
 
 export default function ErrandDetails({ route, navigation }: any) {
   const dispatch = useAppDispatch()
@@ -174,7 +174,7 @@ export default function ErrandDetails({ route, navigation }: any) {
           className="mx-auto"
           source={require(loaderGif)}
         /> */}
-         <ActivityIndicator color={theme ? 'white' : 'blue'} size="large" />
+        <ActivityIndicator color={theme ? 'white' : 'blue'} size="large" />
       </SafeAreaView>
     )
   }
@@ -185,7 +185,10 @@ export default function ErrandDetails({ route, navigation }: any) {
         style={{ flex: 1, backgroundColor: backgroundTheme }}
         className="bg-[#F8F9FC]"
       >
-        <StatusBar backgroundColor={backgroundTheme} barStyle={theme ? "light-content" : 'dark-content'} />
+        <StatusBar
+          backgroundColor={backgroundTheme}
+          barStyle={theme ? 'light-content' : 'dark-content'}
+        />
 
         <View
           style={{
@@ -477,6 +480,10 @@ export default function ErrandDetails({ route, navigation }: any) {
               snapPoints={snapPoints}
               containerStyle={{ marginHorizontal: 10 }}
               backdropComponent={renderBackdrop}
+              keyboardBehavior="extend"
+              enablePanDownToClose
+              keyboardBlurBehavior="restore"
+              android_keyboardInputMode="adjustResize"
             >
               <PlaceBidModal
                 owner={owner}

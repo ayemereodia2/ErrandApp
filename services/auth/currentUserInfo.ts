@@ -10,13 +10,11 @@ interface UserProps {
 export const currentUserDetails = createAsyncThunk<UserDetailsResponse, UserProps, { rejectValue: string }>(
   "current_user_details/get",
   async ({  user_id}: UserProps, { rejectWithValue }) => {
-    
     try {
-        const _rs = await _fetch({
-            method: "GET",
-            _url:  `/user/${user_id}`,
-        })
-      
+      const _rs = await _fetch({
+        method: "GET",
+        _url: `/user/${user_id}`,
+      });
       
       const rs = await _rs.json()
         if (rs.success === true) {
@@ -77,10 +75,10 @@ const currentUserDetailsSlice = createSlice({
   name: "current_user_details/get",
   initialState,
   reducers: {
-     toggleLightTheme: (state) => {
+    toggleLightTheme: (state) => {
       state.data.preferred_theme = 'light'
     },
-    toggleDarkTheme: (state) => {
+    toggleDarkTheme: async (state) => {
       state.data.preferred_theme = 'dark'
     },
   },
@@ -96,8 +94,6 @@ const currentUserDetailsSlice = createSlice({
       state.backgroundTheme = state.data.preferred_theme === 'light' ? '#0c1730' : '#e9ebf2'
       state.textTheme = state.data.preferred_theme === 'light' ? 'white' : 'black'
       state.landingPageTheme = state.data.preferred_theme === 'light' ? '#d2d8e4' : 'grey'
-      
-      
     });
     builder.addCase(currentUserDetails.pending, (state, action) => {
       state.loading = true;

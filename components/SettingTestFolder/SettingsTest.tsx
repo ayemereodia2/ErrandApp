@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useState } from 'react'
 import {
   ScrollView,
@@ -7,24 +8,23 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
 import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
 import { RootState, useAppDispatch } from '../../services/store'
 import { getUserId } from '../../utils/helper'
-import { StyleSheet } from 'react-native'
-import { ActivityIndicator } from 'react-native-paper'
-import { setLoading } from '../../services/errands/market'
-
 
 const SettingsTest = () => {
   const [IsLoading, setIsLoading] = useState(false)
-  const [loading1, setLoading1] = useState(false);
+  const [loading1, setLoading1] = useState(false)
+  const [accountUpdate, setAccountUpdate] = useState(false)
+  const [newsLetter, setNewsLetter] = useState(false)
+  const [theme, setTheme] = useState('light')
+
 
   const dispatch = useAppDispatch()
-
- 
 
   const {
     data: currentUser,
@@ -33,15 +33,15 @@ const SettingsTest = () => {
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
-  const theme = currentUser?.preferred_theme === 'light' ? true : false
+  // const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-  {loading1 ? (
-    <ActivityIndicator color={theme ? 'blue' : 'black'} size="large" />
-  ) : (
-    null
-  )}
+  {
+    loading1 ? (
+      <ActivityIndicator color={theme ? 'blue' : 'black'} size="large" />
+    ) : null
+  }
 
-  const { data: preferences } = useSelector(
+  const { data: preferences, loading: preferencesLoading } = useSelector(
     (state: RootState) => state.notificationPreferenceReducer,
   )
 
@@ -79,27 +79,35 @@ const SettingsTest = () => {
     }
   }
 
+  const toggleTheme = async (theme: boolean) => {
+    // const theme = await AsyncStorage.getItem('theme')
+    if (theme === true) {
+      await AsyncStorage.setItem('theme', 'light')
+    } else {
+      await AsyncStorage.setItem('theme', 'dark')
+    }
+  }
+
+  console.log(preferences?.account_update_notifications)
+
   useEffect(() => {
-    getUserId({ dispatch })
+    getUserId({ dispatch, setTheme })
   }, [])
 
-  if(IsLoading){
-    <ActivityIndicator color="black" size="large" />
+  if (IsLoading) {
+    ;<ActivityIndicator color="black" size="large" />
   }
 
-  if(loading){
-    <ActivityIndicator color="black" size="large" />
+  if (loading) {
+    ;<ActivityIndicator color="black" size="large" />
   }
 
-  if(loading1){
-    <ActivityIndicator color="black" size="large" />
+  if (loading1) {
+    ;<ActivityIndicator color="black" size="large" />
   }
 
   return (
     <ScrollView>
-
-     
-
       <View className="mt-6 ml-4 ">
         <Text
           style={{ color: textTheme }}
@@ -160,6 +168,7 @@ const SettingsTest = () => {
                 <Switch
                   trackColor={{ false: '#767577', true: 'green' }}
                   onValueChange={(value: boolean) => {
+                    setNewsLetter(!newsLetter)
                     dispatch(
                       updateNotificationPrefeference({
                         ...preferences,
@@ -195,7 +204,6 @@ const SettingsTest = () => {
                   setLoading1(true)
                   dispatch(
                     updateNotificationPrefeference({
-                     
                       ...preferences,
                       dispatch,
                       Toast,
@@ -273,8 +281,8 @@ const SettingsTest = () => {
             <Switch
               trackColor={{ false: '#767577', true: 'green' }}
               value={data?.preferred_theme === 'light' ? true : false}
-              onValueChange={(value: boolean) =>
-                
+              // value={theme === 'light' ? true : false} 
+              onValueChange={(value: boolean) => 
                 updateUserProfile({
                   first_name: data.first_name,
                   last_name: data.last_name,
@@ -283,7 +291,7 @@ const SettingsTest = () => {
                   dob: data.dob,
                   preferred_theme: value === true ? 'light' : 'dark',
                 })
-               
+                // toggleTheme(value)
               }
               style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
             />
@@ -310,7 +318,10 @@ const SettingsTest = () => {
       >
         <View className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text style={{ color: textTheme }} className="font-medium text-base">
+            <Text
+              style={{ color: textTheme }}
+              className="font-medium text-base"
+            >
               New errands in your category interest
             </Text>
             <TouchableWithoutFeedback>
@@ -338,7 +349,10 @@ const SettingsTest = () => {
 
         <View className="h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text style={{ color: textTheme }} className="font-medium text-base">
+            <Text
+              style={{ color: textTheme }}
+              className="font-medium text-base"
+            >
               Errands within your area
             </Text>
             <TouchableWithoutFeedback>
@@ -366,7 +380,12 @@ const SettingsTest = () => {
 
         <View className="  h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text style={{ color: textTheme }} className="font-medium text-base">Bids on your errands</Text>
+            <Text
+              style={{ color: textTheme }}
+              className="font-medium text-base"
+            >
+              Bids on your errands
+            </Text>
             <TouchableWithoutFeedback>
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
@@ -392,7 +411,12 @@ const SettingsTest = () => {
 
         <View className="h-[63px] ml-4 mt-5 border-b-[#AAAAAA]">
           <View className="flex-row items-center justify-between">
-            <Text style={{ color: textTheme }} className="font-medium text-base">Errand status updates</Text>
+            <Text
+              style={{ color: textTheme }}
+              className="font-medium text-base"
+            >
+              Errand status updates
+            </Text>
             <TouchableOpacity>
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
@@ -419,8 +443,5 @@ const SettingsTest = () => {
     </ScrollView>
   )
 }
-
-
-
 
 export default SettingsTest

@@ -33,6 +33,8 @@ const LandingForm = ({ navigation, route }: any) => {
   const [clicked, setClicked] = useState(false)
   const dispatch = useAppDispatch()
   const [currentLocation, setCurrentLocation] = useState<string>('')
+  const [deliveryLocation, setDeliveryLocation] = useState<string>('')
+
   const [
     currentLocationLatLng,
     setCurrentLocationLatLng,
@@ -159,8 +161,11 @@ const LandingForm = ({ navigation, route }: any) => {
   ) => {
     const { lat, lng } = details.geometry.location
 
-    setCurrentLocation(data.description)
-    setCurrentLocationLatLng({ lat, lng })
+    if (locationType === 'currentLocation') {
+      setCurrentLocation(data.description)
+      setCurrentLocationLatLng({ lat, lng })
+    }
+    setDeliveryLocation(data.description)
 
     setMapRegion({
       latitude: lat,
@@ -259,10 +264,18 @@ const LandingForm = ({ navigation, route }: any) => {
         </View>
 
         <View className="flex-row mt-6 mx-4 items-center ">
-          <Text style={{ color: textTheme }} className="text-sm font-semibold text-[#243763]">Address</Text>
+          <Text
+            style={{ color: textTheme }}
+            className="text-sm font-semibold text-[#243763]"
+          >
+            Address
+          </Text>
 
           <TouchableOpacity onPress={handleClicked}>
-            <Text style={{ color: textTheme }} className="text-[28px] text-center">
+            <Text
+              style={{ color: textTheme }}
+              className="text-[28px] text-center"
+            >
               {' '}
               {clicked ? '-' : '+'}{' '}
             </Text>
@@ -274,6 +287,24 @@ const LandingForm = ({ navigation, route }: any) => {
             style={{ marginBottom: 16, display: clicked ? 'flex' : 'none' }}
             className="mt-2 px-4"
           >
+            <GooglePlacesAutocomplete
+              placeholder="Enter Pickup Address"
+              onPress={(data, details) =>
+                handleLocationSelect(data, details, 'currentLocation')
+              }
+              fetchDetails={true}
+              query={{
+                key: 'AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo',
+                language: 'en',
+              }}
+              styles={{
+                container: styles.googlePlacesContainer,
+                textInputContainer: styles.textInputContainer,
+                textInput: styles.textInput,
+                listView: styles.listView,
+              }}
+            />
+
             <GooglePlacesAutocomplete
               placeholder="Enter Delivery Address"
               onPress={(data, details) =>

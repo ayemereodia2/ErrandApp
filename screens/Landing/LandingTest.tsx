@@ -72,7 +72,7 @@ const LandingTest = ({ navigation }: any) => {
   // console.log('>>>>>>themeBackgriubd', backgroundTheme, textTheme)
 
   const getCategory = async () => {
-  const _rs = await _fetch({
+    const _rs = await _fetch({
       method: 'GET',
       _url: `/errand/categories?limit=8`,
     })
@@ -262,10 +262,11 @@ const LandingTest = ({ navigation }: any) => {
             <NewNotifications />
             {/* </View> */}
           </ScrollView>
-          {!isLoading &&  <PostErrandButton className="bottom-5 right-3" />}
+          {!isLoading && <PostErrandButton className="bottom-5 right-3" />}
         </SafeAreaView>
 
         <BottomSheetModal
+          android_keyboardInputMode="adjustResize"
           ref={bottomSheetRef}
           index={0}
           snapPoints={snapPoints}
@@ -273,11 +274,16 @@ const LandingTest = ({ navigation }: any) => {
             marginHorizontal: 10,
           }}
           backdropComponent={renderBackdrop}
+          keyboardBehavior="extend"
+          enablePanDownToClose
+          keyboardBlurBehavior="restore"
         >
           <PinModal
             createErrand={false}
-            submitErrandhandler={() => { } }
-            closePinModal={closePinModal} makeWithdrawalHandler={() => {} }          />
+            submitErrandhandler={() => {}}
+            closePinModal={closePinModal}
+            makeWithdrawalHandler={() => {}}
+          />
         </BottomSheetModal>
       </BottomSheetModalProvider>
     </Container>

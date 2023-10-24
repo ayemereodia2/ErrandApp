@@ -154,18 +154,21 @@ interface getUserIdProps {
   setProfilePic?:any
   dispatch?: any
   setUserId?: any
+  setTheme?: any
  }
 
- export const getUserId = async ({setFirstName, setLastName, setProfilePic, setUserId, dispatch}: getUserIdProps) => {
+ export const getUserId = async ({setFirstName, setLastName, setProfilePic, setUserId, setTheme, dispatch}: getUserIdProps) => {
     const userId = (await AsyncStorage.getItem('user_id')) || ''
     const first_name = (await AsyncStorage.getItem('first_name')) || ''
     const last_name = (await AsyncStorage.getItem('last_name')) || ''
    const profile_pic = (await AsyncStorage.getItem('profile_pic')) || ''
-   if (setFirstName || setLastName || setProfilePic || setUserId) {
+   const theme = await AsyncStorage.getItem('theme') || ''
+    if (setFirstName || setLastName || setProfilePic || setUserId) {
       setFirstName(first_name)
       setLastName(last_name)
       setProfilePic(profile_pic)
       setUserId(userId)
+      setTheme(theme)
    }
    
    dispatch(userDetails({ user_id: userId }))

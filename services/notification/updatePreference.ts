@@ -43,7 +43,6 @@ const initialState: NotificationPreferenceResponse = {
     location_errand_notifications:false,
     bid_notifications:false,
     errand_status_notifications:false,
-    loader: true
   }
 }
 

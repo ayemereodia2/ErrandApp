@@ -88,9 +88,8 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
             placeholder="Enter Amount"
             onChangeText={(e) => setAmount(currencyMask(e))}
             value={amount}
-          keyboardType="numeric"
+            keyboardType="numeric"
             style={styles.input}
-          
           />
         </View>
       </View>
@@ -170,7 +169,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     width: 300,
     padding: 4,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
 })
 

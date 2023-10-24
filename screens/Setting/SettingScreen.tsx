@@ -1,4 +1,3 @@
-import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { useQuery } from '@tanstack/react-query'
 import * as Clipboard from 'expo-clipboard'
 import React, { useEffect, useState } from 'react'
@@ -7,6 +6,7 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   Switch,
   Text,
   TouchableOpacity,
@@ -21,20 +21,20 @@ import { _fetch } from '../../services/axios/http'
 import { notificationPreferences } from '../../services/notification/preferences'
 import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
 import { RootState, useAppDispatch } from '../../services/store'
-import { StatusBar } from 'react-native'
 
 const SettingScreen = ({ navigation }: any) => {
   const { data: preferences } = useSelector(
     (state: RootState) => state.notificationPreferenceReducer,
   )
+  const [interests, setInterests] = useState([])
+
   const dispatch = useAppDispatch()
   const [notifications, setNotifications] = useState({
     email_notifications: false,
     sms_notifications: false,
   })
 
-  const [loading, setLoading] = useState(false);
-
+  const [loading, setLoading] = useState(false)
 
   const {
     data: currentUser,
@@ -67,7 +67,23 @@ const SettingScreen = ({ navigation }: any) => {
     refetchOnMount: 'always',
   })
 
+  const getInterests = async () => {
+    const _rs = await _fetch({
+      method: 'GET',
+      _url: `/user/category-interest`,
+    })
+
+    const rs = await _rs.json()
+
+    console.log('>>>>>>>res', rs)
+
+    setInterests(rs.data)
+  }
+
+  console.log('>>>>interests', interests)
+
   useEffect(() => {
+    getInterests()
     dispatch(notificationPreferences())
   }, [])
 
@@ -86,11 +102,11 @@ const SettingScreen = ({ navigation }: any) => {
     )
   }
 
-  {loading ? (
-    <ActivityIndicator color={theme ? 'blue' : 'black'} size="large" />
-  ) : (
-    null
-  )}
+  {
+    loading ? (
+      <ActivityIndicator color={theme ? 'blue' : 'black'} size="large" />
+    ) : null
+  }
 
   return (
     <Container>
@@ -99,7 +115,10 @@ const SettingScreen = ({ navigation }: any) => {
           style={{ backgroundColor: backgroundTheme }}
           className="bg-[#F8F9FC]"
         >
-          <StatusBar backgroundColor={backgroundTheme} barStyle={theme ? "light-content" : 'dark-content'} />
+          <StatusBar
+            backgroundColor={backgroundTheme}
+            barStyle={theme ? 'light-content' : 'dark-content'}
+          />
 
           <View className=" mt-6 px-4">
             <View className=" h-[88px] mt-1 border-b-[#CCCCCC] border-b-[1px]">
@@ -149,7 +168,7 @@ const SettingScreen = ({ navigation }: any) => {
 
             <SettingsTest />
 
-            {/* <SettingsCategory navigation={navigation} /> */}
+            <SettingsCategory navigation={navigation} interests={interests} />
 
             <View className="mt-8 ml-4">
               <Text
@@ -193,7 +212,7 @@ const SettingScreen = ({ navigation }: any) => {
                 </View>
               </View>
 
-              <View className=" h-[44px] mt-5 border-b border-b-[#AAAAAA]">
+              {/* <View className=" h-[44px] mt-5 border-b border-b-[#AAAAAA]">
                 <View className="flex-row items-center justify-between">
                   <Text
                     style={{ color: textTheme }}
@@ -209,7 +228,7 @@ const SettingScreen = ({ navigation }: any) => {
                     />
                   </Text>
                 </View>
-              </View>
+              </View> */}
 
               <View className=" mt-5 border-b border-b-[#AAAAAA] bg-[#3F60AC] rounded-lg">
                 <Text className="text-[#FAFAFA] text-base font-light  px-5 py-4">
@@ -273,7 +292,6 @@ const SettingScreen = ({ navigation }: any) => {
                   >
                     <Text className="text-xs">
                       {preferences.email_notifications ? 'Enabled' : 'Disabled'}{' '}
-                     
                     </Text>
                   </View>
                 </View>

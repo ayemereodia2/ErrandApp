@@ -1,31 +1,21 @@
-import { AntDesign, Entypo, Feather, FontAwesome5 } from '@expo/vector-icons'
+import { AntDesign } from '@expo/vector-icons'
 import React, { useLayoutEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
 import {
+  ActivityIndicator,
   SafeAreaView,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  ScrollView
 } from 'react-native'
-import {
-  Menu,
-  MenuOption,
-  MenuOptions,
-  MenuTrigger,
-} from 'react-native-popup-menu'
-import { useSelector } from 'react-redux'
-import { number, string } from 'yup'
-import { contactUs } from '../../services/Contacts/ContactUsSlice'
-import { RootState, useAppDispatch } from '../../services/store'
-import { ContactData } from '../../types'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Toast from 'react-native-toast-message'
+import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
-import { ActivityIndicator } from 'react-native'
+import { RootState, useAppDispatch } from '../../services/store'
 
 const ContactUs = ({ navigation }: any) => {
-
   const {
     data: currentUser,
     backgroundTheme,
@@ -35,7 +25,6 @@ const ContactUs = ({ navigation }: any) => {
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-
   const dispatch = useAppDispatch()
 
   const [name, setName] = useState('')
@@ -43,15 +32,14 @@ const ContactUs = ({ navigation }: any) => {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [phone, setPhone] = useState('')
-
- 
+  const [error, setError] = useState('')
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
       title: 'Contact Us',
       headerStyle: { backgroundColor: backgroundTheme },
-      headerTitleStyle: {color: textTheme},
+      headerTitleStyle: { color: textTheme },
       headerLeft: () => (
         <TouchableOpacity
           className="flex-row items-center justify-between mx-0 px-3 py-3"
@@ -60,68 +48,23 @@ const ContactUs = ({ navigation }: any) => {
           <AntDesign name="arrowleft" size={24} color={textTheme} />
         </TouchableOpacity>
       ),
-      // headerRight: () => (
-      //   <View className="flex-row items-center justify-between mx-3 px-3 py-3 space-x-3 ">
-      //     <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
-      //       <MenuTrigger>
-      //         <Entypo name="dots-three-vertical" color={'black'} size={20} />
-      //       </MenuTrigger>
-      //       <MenuOptions
-      //         customStyles={{
-      //           optionWrapper: {
-      //             // borderBottomWidth: 0.2,
-      //             borderBottomColor: '#AAAAAA',
-      //           },
-      //           optionText: { textAlign: 'center', fontWeight: '600' },
-      //         }}
-      //       >
-      //         <MenuOption
-      //           onSelect={() => navigation.navigate('Settings')}
-      //           text="Settings"
-      //           customStyles={{
-      //             optionWrapper: {
-      //               borderBottomWidth: 1,
-      //               borderBottomColor: '#AAAAAA',
-      //             },
-      //             optionText: { textAlign: 'center', fontWeight: '600' },
-      //           }}
-      //         />
-      //         <MenuOption
-      //           onSelect={() => navigation.navigate('Account')}
-      //           text="Profile"
-      //           customStyles={{
-      //             optionWrapper: {
-      //               borderBottomWidth: 1,
-      //               borderBottomColor: '#AAAAAA',
-      //             },
-      //             optionText: { textAlign: 'center', fontWeight: '600' },
-      //           }}
-      //         />
-      //       </MenuOptions>
-      //     </Menu>
-      //   </View>
-      // ),
     })
   }, [])
 
   const ContactUs = async (userData: any) => {
     setLoading(true)
-    
+    setError('')
+
     try {
       const _rs = await _fetch({
         method: 'POST',
         _url: `/user/send-enquiry`,
-        body:  userData
+        body: userData,
       })
 
-      // Check if the response status code indicates an error
-      // if (!_rs.ok) {
-      //   const errorResponse = await _rs.json()
-      //   throw new Error(`Server error: ${errorResponse.message}`)
-      // }
       setLoading(false)
       const responseData = await _rs.json()
-      
+
       return responseData
     } catch (error) {
       throw error
@@ -134,9 +77,11 @@ const ContactUs = ({ navigation }: any) => {
       email: email,
       message: message,
       phone: '+234' + phone,
-      subject: "General Complaints"
-      
-     
+      subject: 'General Complaints',
+    }
+
+    if (!name || !email || !message || !phone) {
+      return setError('Please, make sure you fill in the required fields')
     }
 
     try {
@@ -146,7 +91,6 @@ const ContactUs = ({ navigation }: any) => {
           type: 'success',
           text1: 'Your message was sent!',
         })
-        
 
         // Navigate back to the Account screen
         navigation.goBack()
@@ -163,8 +107,6 @@ const ContactUs = ({ navigation }: any) => {
       }
     } catch (error) {
       // Handle errors here, such as network errors or server-side errors
-      console.error('Error updating profile:', error)
-      console.log(userMessage)
       Toast.show({
         type: 'error',
         text1: 'Sorry, something went wrong',
@@ -177,8 +119,16 @@ const ContactUs = ({ navigation }: any) => {
       {/* Header */}
 
       {/* End Of Header */}
-      <ScrollView className='h-screen' style={{backgroundColor: backgroundTheme}}>
-        {/* <View className="w-[382px] h-[350px] mt-[80px] bg-[#CBD5EC] mx-auto b rounded-md" >
+      <ScrollView
+        className="h-screen"
+        style={{ backgroundColor: backgroundTheme }}
+      >
+        <KeyboardAwareScrollView
+          style={{ flex: 1, marginTop: 52 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          enableOnAndroid={true}
+        >
+          {/* <View className="w-[382px] h-[350px] mt-[80px] bg-[#CBD5EC] mx-auto b rounded-md" >
           <Text className="ml-5 mt-5 leading-6 text-lg font-semibold" >
             We're always<Text className="text-[#317ACF]"> Connected</Text>
           </Text>
@@ -211,9 +161,9 @@ const ContactUs = ({ navigation }: any) => {
           </Text>
         </View> */}
 
-        {/* Body */}
+          {/* Body */}
 
-        {/* <View className="mx-auto bg-[#FAFAFA] w-[382px] h-[40px] mt-5 items-center justify-center">
+          {/* <View className="mx-auto bg-[#FAFAFA] w-[382px] h-[40px] mt-5 items-center justify-center">
           <Text>
             <Feather name="mail" size={16} color="#317ACF" /> Via Email Form
           </Text>
@@ -237,65 +187,74 @@ const ContactUs = ({ navigation }: any) => {
           </View>
         </View> */}
 
-        <View className="mt-[40px] ml-4 ">
-          <Text style={{color: textTheme}}>Full Name</Text>
-        </View>
-        <TextInput
-          className="w-[380px] mt-2 b rounded-md h-[60px] pl-3 items-center mx-auto bg-[#E6E6E6] text-sm"
-          style={{backgroundColor: theme ? '#bbb' : '#E6E6E6'}}
-          placeholder="Enter your Full Name"
-          value={name}
-          onChangeText={(text) => setName(text)}
-          placeholderTextColor={'#000'}
-        />
-
-        <View className="mt-[40px] ml-4 ">
-          <Text style={{color: textTheme}}>Email Address</Text>
-        </View>
-        <TextInput
-          className="w-[380px] mt-2 b rounded-md h-[60px] pl-3 mx-auto bg-[#E6E6E6] text-sm"
-          style={{backgroundColor: theme ? '#bbb' : '#E6E6E6'}}
-          placeholder="Enter your Email Address"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          placeholderTextColor={'#000'}
-        />
-
-        <View className="mt-[40px] ml-4 ">
-          <Text style={{color: textTheme}}>Phone Number</Text>
-        </View>
-        <TextInput
-          className="w-[380px] mt-2 b rounded-md h-[60px] pl-3  mx-auto bg-[#E6E6E6] text-sm"
-          style={{backgroundColor: theme ? '#bbb' : '#E6E6E6'}}
-          placeholder="Enter your Phone Number"
-          keyboardType="numeric"
-          value={phone}
-          onChangeText={(text) => setPhone(text)}
-          placeholderTextColor={'#000'}
-        />
-
-        <View className="mt-[30px] ml-[16px]">
-          <Text style={{color: textTheme}}>Your message</Text>
-        </View>
-        <TextInput
-          className="w-[380px] mt-2 b rounded-md h-[120px] pl-3 pb-[70px] mx-auto bg-[#E6E6E6] text-sm"
-          style={{backgroundColor: theme ? '#bbb' : '#E6E6E6'}}
-          placeholder="Enter your Message Here"
-          value={message}
-          onChangeText={(text) => setMessage(text)}
-          placeholderTextColor={'#000'}
-        ></TextInput>
-
-        <TouchableOpacity
-          className=" mt-[52px] mb-[200px]"
-          onPress={handleSubmit}
-        >
-          <View className="w-[300px] h-[50px] bg-[#243763]  mx-auto items-center justify-center">
-            <Text className="text-white text-center items-center">
-           { loading ? <ActivityIndicator /> : 'Send a message ' }
+          {error && (
+            <Text className="pt-2 text-center" style={{ color: 'red' }}>
+              {error}
             </Text>
+          )}
+
+          <View className="px-4">
+            <View className="mt-[30px] ">
+              <Text style={{ color: textTheme }}>Full Name</Text>
+            </View>
+            <TextInput
+              className="w-full mt-2 b rounded-md h-[50px] px-3 items-center mx-auto bg-[#E6E6E6] text-sm"
+              style={{ backgroundColor: theme ? '#bbb' : '#E6E6E6' }}
+              placeholder="Enter your Full Name"
+              value={name}
+              onChangeText={(text) => setName(text)}
+              placeholderTextColor={'#000'}
+            />
+
+            <View className="mt-[40px] ">
+              <Text style={{ color: textTheme }}>Email Address</Text>
+            </View>
+            <TextInput
+              className="w-full mt-2 px-3 rounded-md h-[50px] mx-auto bg-[#E6E6E6] text-sm"
+              style={{ backgroundColor: theme ? '#bbb' : '#E6E6E6' }}
+              placeholder="Enter your Email Address"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+              placeholderTextColor={'#000'}
+            />
+
+            <View className="mt-[40px] ">
+              <Text style={{ color: textTheme }}>Phone Number </Text>
+            </View>
+            <TextInput
+              className="w-full mt-2 b rounded-md h-[50px] px-3  mx-auto bg-[#E6E6E6] text-sm"
+              style={{ backgroundColor: theme ? '#bbb' : '#E6E6E6' }}
+              placeholder="Enter your Phone Number"
+              keyboardType="numeric"
+              value={phone}
+              onChangeText={(text) => setPhone(text)}
+              placeholderTextColor={'#000'}
+            />
+
+            <View className="mt-[30px]">
+              <Text style={{ color: textTheme }}>Your message</Text>
+            </View>
+            <TextInput
+              className="w-full mt-2 b rounded-md h-[120px] px-3 pb-[70px] mx-auto bg-[#E6E6E6] text-sm"
+              style={{ backgroundColor: theme ? '#bbb' : '#E6E6E6' }}
+              placeholder="Enter your Message Here"
+              value={message}
+              onChangeText={(text) => setMessage(text)}
+              placeholderTextColor={'#000'}
+            ></TextInput>
           </View>
-        </TouchableOpacity>
+
+          <TouchableOpacity
+            className=" mt-[52px] mb-[200px] mx-4 rounded-lg"
+            onPress={handleSubmit}
+          >
+            <View className="w-full h-[50px] bg-[#243763]  items-center justify-center">
+              <Text className="text-white text-center items-center">
+                {loading ? <ActivityIndicator /> : 'Send a message '}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </KeyboardAwareScrollView>
       </ScrollView>
     </SafeAreaView>
   )

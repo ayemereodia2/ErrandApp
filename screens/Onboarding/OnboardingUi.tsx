@@ -7,11 +7,11 @@ const OnboardingUi = () => {
   const navigation = useNavigation()
 
   const handleDone = () => {
-    navigation.navigate('GuestScreen')
+    navigation.navigate('Default')
   }
 
   const handleOnSkip = () => {
-    navigation.navigate('GuestScreen')
+    navigation.navigate('Default')
   }
   return (
     <Onboarding

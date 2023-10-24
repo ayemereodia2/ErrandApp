@@ -11,6 +11,7 @@ import VerifyOtpScreen from '../screens/Auth/VerifyOtp'
 import VerifyPhone from '../screens/Auth/VerifyPhone'
 import ContactUs from '../screens/Contact/ContactUs'
 import PostErrand from '../screens/CreateErrand'
+import DefaultGuestScreen from '../screens/DefaultGuestScreen'
 import EditProfileTitle from '../screens/EditProfile/EditProfileTitle'
 import ErrorScreen from '../screens/Error'
 import GuestDetails from '../screens/Guest/GuestDetails'
@@ -216,6 +217,12 @@ export function GuestStack() {
         />
 
         <Stack.Screen
+          name="Default"
+          component={DefaultGuestScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
           name="GuestScreen"
           component={GuestScreen}
           options={{ headerShown: false }}
@@ -341,6 +348,12 @@ export const MainStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+
+      <Stack.Screen
+        name="Default"
+        component={DefaultGuestScreen}
+        options={{ headerShown: false }}
+      />
 
       <Stack.Screen
         name="GuestScreen"

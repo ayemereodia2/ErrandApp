@@ -1,29 +1,28 @@
-import { AntDesign, FontAwesome } from '@expo/vector-icons'
+import { AntDesign } from '@expo/vector-icons'
 import Checkbox from 'expo-checkbox'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   SafeAreaView,
   ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native'
 import { useSelector } from 'react-redux'
+import { _fetch } from '../../services/axios/http'
 import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
-import { _fetch } from '../../services/axios/http'
 
 type SelectedCategories = {
-  [categoryId: string]: boolean;
-};
+  [categoryId: string]: boolean
+}
 
 const CategoryInterest = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
-  const [selectedCategories, setSelectedCategories] = useState<SelectedCategories>({});
-  const [selectAll, setSelectAll] = useState(false);
-
-  
+  const [selectedCategories, setSelectedCategories] = useState<
+    SelectedCategories
+  >({})
+  const [selectAll, setSelectAll] = useState(false)
 
   const { data: categories } = useSelector(
     (state: RootState) => state.categoriesListReducer,
@@ -62,72 +61,76 @@ const CategoryInterest = ({ navigation }: any) => {
 
   // console.log(categories)
 
-  const handleCategorySelection = (category) => {
+  const handleCategorySelection = (category: any) => {
     setSelectedCategories((prevState) => ({
       ...prevState,
       [category.id]: !prevState[category.id], // Toggle the category state
-    }));
-  };
+    }))
+  }
 
   const handleSelectAll = () => {
-    const newSelectAllState = !selectAll;
-    setSelectAll(newSelectAllState);
+    const newSelectAllState = !selectAll
+    setSelectAll(newSelectAllState)
 
     // Update the selectedCategories state for all categories
-    const updatedSelectedCategories = {} as SelectedCategories;
+    const updatedSelectedCategories = {} as SelectedCategories
     categories.forEach((category) => {
-      updatedSelectedCategories[category.id] = newSelectAllState;
-    });
-    setSelectedCategories(updatedSelectedCategories);
-  };
-
+      updatedSelectedCategories[category.id] = newSelectAllState
+    })
+    setSelectedCategories(updatedSelectedCategories)
+  }
 
   const AddCategories = async () => {
     // const categoryInterestData = {
     //   category_interest: Object.keys(selectedCategories).filter((categoryId) => selectedCategories[categoryId])
-    // };  
+    // };
     const selectedCategoryNames = categories
-    .filter((category) => selectedCategories[category.id])
-    .map((category) => category.name);
+      .filter((category) => selectedCategories[category.id])
+      .map((category) => category.name)
 
-  const categoryInterestData = {
-    category_interest: selectedCategoryNames,
-  };
+    const categoryInterestData = {
+      category_interest: selectedCategoryNames,
+    }
 
     try {
       const _rs = await _fetch({
         method: 'PATCH',
         _url: `/user/category-interest`,
         body: categoryInterestData, // Send selected category IDs as JSON data
-       
-      });
+      })
 
-      if (_rs.ok) {
-        // Successfully sent data
-        // You can handle the response here
-        const responseData = await _rs.json();
-        console.log(responseData);
+      const rs = await _rs.json()
+
+      console.log(">>>>>>res from patch", rs);
+      
+
+      if (rs.success === true) {
+        const responseData = await _rs.json()
+        await _fetch({
+          method: 'GET',
+          _url: `/user/category-interest`,
+        })
+        console.log(responseData)
         navigation.navigate('Settings')
       } else {
         // Handle error
-        console.error('Error sending data');
+        console.error('Error sending data')
       }
     } catch (error) {
-      console.error('An error occurred:', error);
+      console.error('An error occurred:', error)
     }
-  };
-
+  }
 
   return (
-    <SafeAreaView className='mt-4'>
-    <ScrollView className="mt-4 px-4 mb-10">
-      <View>
-        <Text className="text-center text-base font-semibold">
-          Choose Your Category Interest
-        </Text>
-      </View>
+    <SafeAreaView className="mt-4">
+      <ScrollView className="mt-4 px-4 mb-10">
+        <View>
+          <Text className="text-center text-base font-semibold">
+            Choose Your Category Interest
+          </Text>
+        </View>
 
-      {/* <View className="mx-auto">
+        {/* <View className="mx-auto">
         <View className="flex-row items-center border-b p-2 mt-3 border-[#ccc] rounded-lg space-x-2">
           <TextInput
             className="w-[300px] "
@@ -137,64 +140,60 @@ const CategoryInterest = ({ navigation }: any) => {
         </View>
       </View> */}
 
-      <View>
-        <Text className="text-center text-sm font-light pt-3">
-          Select the categories you are interested in
-        </Text>
-
-        <View className="flex-row py-3 space-x-3 justify-end">
-          <Checkbox
-            // style={styles.checkbox}
-            // value={true}
-            value={selectAll}
-            onValueChange={handleSelectAll}
-            // onValueChange={setChecked}
-            // color={isChecked ? '#4630EB' : undefined}
-          />
-          <Text>Select All</Text>
-        </View>
-
         <View>
-          {categories.map((category) => {
-            return (
-              <View className="flex-row py-3 space-x-3">
-                <Checkbox
-                  // style={styles.checkbox}
-                  // value={false}
-                  value={selectedCategories[category.id]}
-                  onValueChange={() => handleCategorySelection(category)}
-                  // onValueChange={setChecked}
-                  // color={isChecked ? '#4630EB' : undefined}
-                />
-                <Text>{category.name}</Text>
-              </View>
-            )
-            
-          })}
-        </View>
-      </View>
+          <Text className="text-center text-sm font-light pt-3">
+            Select the categories you are interested in
+          </Text>
 
-      <View className="flex-row justify-center items-center space-x-3">
-        <TouchableOpacity
-          onPress={AddCategories}
-          className="mb-101"
-        >
-          <View className="py-3 px-4 w-[149px] rounded-full bg-[#3F60AC] mt-4 items-center justify-center flex-row space-x-4">
-            <Text className="text-white items-center justify-center">
-              Submit
-            </Text>
+          <View className="flex-row py-3 space-x-3 justify-end">
+            <Checkbox
+              // style={styles.checkbox}
+              // value={true}
+              value={selectAll}
+              onValueChange={handleSelectAll}
+              // onValueChange={setChecked}
+              // color={isChecked ? '#4630EB' : undefined}
+            />
+            <Text>Select All</Text>
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Settings')}
-          className="mb-101"
-        >
-          <View className="py-3 px-4 w-[149px] rounded-full border border-red-200 bg-white mt-4 items-center justify-center flex-row space-x-4">
-            <Text className="text-red-500 ">Cancel</Text>
+
+          <View>
+            {categories.map((category) => {
+              return (
+                <View className="flex-row py-3 space-x-3">
+                  <Checkbox
+                    // style={styles.checkbox}
+                    // value={false}
+                    value={selectedCategories[category.id]}
+                    onValueChange={() => handleCategorySelection(category)}
+                    // onValueChange={setChecked}
+                    // color={isChecked ? '#4630EB' : undefined}
+                  />
+                  <Text>{category.name}</Text>
+                </View>
+              )
+            })}
           </View>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+        </View>
+
+        <View className="flex-row justify-center items-center space-x-3">
+          <TouchableOpacity onPress={AddCategories} className="mb-101">
+            <View className="py-3 px-4 w-[149px] rounded-full bg-[#3F60AC] mt-4 items-center justify-center flex-row space-x-4">
+              <Text className="text-white items-center justify-center">
+                Submit
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Settings')}
+            className="mb-101"
+          >
+            <View className="py-3 px-4 w-[149px] rounded-full border border-red-200 bg-white mt-4 items-center justify-center flex-row space-x-4">
+              <Text className="text-red-500 ">Cancel</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
