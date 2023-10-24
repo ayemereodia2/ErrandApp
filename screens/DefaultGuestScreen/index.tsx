@@ -1,10 +1,16 @@
+import { AntDesign } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
-import { Text } from 'react-native'
-import { ActivityIndicator, SafeAreaView, TouchableOpacity, View } from 'react-native'
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { SliderBox } from 'react-native-image-slider-box'
 import { _fetch } from '../../services/axios/http'
 
-const DefaultGuestScreen = ({navigation}: any) => {
+const DefaultGuestScreen = ({ navigation }: any) => {
   const [adsImages, setAdsImages] = useState([])
   const [loading, setLoading] = useState(false)
 
@@ -60,36 +66,55 @@ const DefaultGuestScreen = ({navigation}: any) => {
       <SliderBox
         height={200}
         width={100}
-        imageLoadingColor="black"
+        imageLoadingColor="white"
         autoplay={true}
         images={adsImages}
         sliderBoxHeight={740}
-        autoplayInterval={4000}
+        autoplayInterval={14000}
         circleLoop={true}
       />
 
       <View
-        className="w-full h-[60px] absolute bottom-0 flex-row justify-between items-center bg-[#1E3A79]"
+        className=" h-[50px] absolute top-32 left-8 flex-row justify-between items-center bg-[#1E3A79] w-[48%] px-3 rounded-lg"
         style={{ display: loading ? 'none' : 'flex' }}
       >
         <TouchableOpacity
-          className="bg-[#1E3A79] w-[100%] h-[60px] items-center justify-center"
+          className="bg-[#1E3A79] items-center justify-center flex-row"
           onPress={() => navigation.navigate('GuestScreen')}
         >
-          <Text className="text-white text-lg font-medium text-center">
-            Go to Market
+          <Text className="text-white text-lg font-medium text-center pr-2">
+            Visit the market
           </Text>
+          <AntDesign name="arrowright" color="white" size={20} />
         </TouchableOpacity>
-
-        {/* <TouchableOpacity
-          className="bg-[#2856c1] w-[50%] h-[60px] items-center justify-center"
-          // onPress={() => navigation.navigate('VerifyPhone')}
-        >
-          <Text className="text-white text-lg text-center font-medium">
-            Sign Up
-          </Text>
-        </TouchableOpacity> */}
       </View>
+
+      {loading ? (
+        ''
+      ) : (
+        <View
+          className="w-full h-[60px] absolute bottom-0 flex-row justify-between items-center bg-[#1E3A79]"
+          style={{ display: loading ? 'none' : 'flex' }}
+        >
+          <TouchableOpacity
+            className="bg-[#1E3A79] w-[50%] h-[60px] items-center justify-center"
+            onPress={() => navigation.navigate('Login')}
+          >
+            <Text className="text-white text-lg font-medium text-center">
+              Login
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            className="bg-[#2856c1] w-[50%] h-[60px] items-center justify-center"
+            onPress={() => navigation.navigate('VerifyPhone')}
+          >
+            <Text className="text-white text-lg text-center font-medium">
+              Sign Up
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </SafeAreaView>
   )
 }

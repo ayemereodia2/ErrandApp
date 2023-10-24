@@ -53,8 +53,7 @@ export default function App() {
   // const theme = currentUser?.preferred_theme === 'light' ? true : false
 
     console.log('>>>>ok', isGuest)
-
-
+  
   useOnlineManager()
 
   useEffect(() => {
