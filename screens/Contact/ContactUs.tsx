@@ -312,9 +312,9 @@ const ContactUs = ({ navigation }: any) => {
           </Text>
         </View>
 
-        <View className="flex-row justify-around items-center mt-5 mb-[200px]">
+        <View className="flex-row justify-around items-center mt-5 mb-[200px] mx-4">
           <Text style={{color: textTheme}} className='text-base font-medium'>Catch and Chat Us on Social Media</Text>
-          <View className="flex-row space-x-2.5">
+          <View className="flex-row items-center space-x-1.5">
 
             <TouchableOpacity onPress={handleFaceBook}>
             <Text className="text-white">
