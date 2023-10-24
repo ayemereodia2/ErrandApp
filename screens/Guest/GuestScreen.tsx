@@ -3,7 +3,6 @@ import {
   useFonts,
 } from '@expo-google-fonts/abril-fatface'
 import {
-  AntDesign,
   EvilIcons,
   Feather,
   Ionicons,
@@ -47,6 +46,7 @@ export default function GuestScreen({ navigation }: any) {
   const [minCheck, setMinCheck] = useState(false)
   const [refreshing, setRefreshing] = React.useState(false)
   const [toggleView, setToggleView] = useState(true)
+  const [searchedErrand, setSearchedErrand] = useState<MarketData[]>([])
 
   const handleViewChange = () => {
     setToggleView(!toggleView)
@@ -83,18 +83,21 @@ export default function GuestScreen({ navigation }: any) {
   }, [])
 
   const filterMarketList = () => {
+    const max = high * 100
+    const min = low * 100
     dispatch(
       errandMarketList({
+        setSearchedErrand,
         category: value,
-        minPrice: minCheck ? low : 0,
-        maxPrice: minCheck ? high : 0,
+        minPrice: minCheck ? min : 0,
+        maxPrice: minCheck ? max : 0,
       }),
     )
   }
 
   useEffect(() => {
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
-    dispatch(errandMarketList({}))
+    dispatch(errandMarketList({ setSearchedErrand }))
     dispatch(getCategoriesList())
   }, [])
 
@@ -113,7 +116,12 @@ export default function GuestScreen({ navigation }: any) {
           style={{ marginRight: 6 }}
           className="flex-row items-center justify-between mx-0 px-3 pb-1 w-10 h-10 rounded-full "
         >
-          <Ionicons name="arrow-back" color="#0c1730" size={24} onPress={() => navigation.goBack()}/>
+          <Ionicons
+            name="arrow-back"
+            color="#0c1730"
+            size={24}
+            onPress={() => navigation.goBack()}
+          />
         </View>
       ),
       headerRight: () => (
@@ -144,21 +152,22 @@ export default function GuestScreen({ navigation }: any) {
     )
   }
   return (
-    <SafeAreaView>
-      <View
-        style={{
-          flexDirection: 'column-reverse',
-          marginBottom: Platform.OS === 'android' ? 40 : 20,
-        }}
-      >
-        <ScrollView
-          scrollEventThrottle={16}
-          className="bg-[#e4eaf7]"
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
+    <>
+      <SafeAreaView>
+        <View
+          style={{
+            flexDirection: 'column-reverse',
+            marginBottom: Platform.OS === 'android' ? 40 : 20,
+          }}
         >
-          {/* {loading ? (
+          <ScrollView
+            scrollEventThrottle={16}
+            className="bg-[#e4eaf7]"
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
+            {/* {loading ? (
               <View style={styles.container} className="mt-10">
                 <ActivityIndicator
                   size={'large'}
@@ -167,106 +176,110 @@ export default function GuestScreen({ navigation }: any) {
                 />
               </View>
             ) : ( */}
-          {loading && (
-            <View style={styles.container} className="mt-10">
-              <ActivityIndicator
-                size={'large'}
-                style={[{ height: 80 }]}
-                color="blue"
-              />
-            </View>
-          )}
-          <>
-            {filterOn && (
-              <Filter
-                data={category}
-                value={value}
-                setValue={setValue}
-                onClose={handleFilter}
-                filterOn={filterOn}
-                low={low}
-                high={high}
-                setLow={setLow}
-                setHigh={setHigh}
-                filterMarketList={filterMarketList}
-                setMinCheck={setMinCheck}
-              />
+            {loading && (
+              <View style={styles.container} className="mt-10">
+                <ActivityIndicator
+                  size={'large'}
+                  style={[{ height: 80 }]}
+                  color="blue"
+                />
+              </View>
             )}
+            <>
+              {filterOn && (
+                <Filter
+                  data={category}
+                  value={value}
+                  setValue={setValue}
+                  onClose={handleFilter}
+                  filterOn={filterOn}
+                  low={low}
+                  high={high}
+                  setLow={setLow}
+                  setHigh={setHigh}
+                  filterMarketList={filterMarketList}
+                  setMinCheck={setMinCheck}
+                  setSearchedErrand={setSearchedErrand}
+                />
+              )}
 
-            <View
-              className="bg-[#e4eaf7]"
-              style={{ display: filterOn ? 'none' : 'flex' }}
-            >
-              <View className="mx-4">
-                {!loading && (
-                  <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white">
-                    <EvilIcons
-                      name="search"
-                      size={22}
-                      className="w-1/12"
-                      color="#808080"
-                    />
-                    <TextInput
-                      className=" w-8/12"
-                      placeholder="Search for Errands"
-                      placeholderTextColor="#808080"
-                    />
-                    <TouchableOpacity onPress={handleViewChange}>
-                      <View className="mr-1 b rounded-md w-[38px]">
-                        <Text className="p-2 text-center">
-                          {toggleView ? (
-                            <Feather name="list" size={20} color="black" />
-                          ) : (
-                            <MaterialCommunityIcons
-                              name="view-dashboard"
-                              size={20}
-                              color="black"
+              <View
+                className="bg-[#e4eaf7]"
+                style={{ display: filterOn ? 'none' : 'flex' }}
+              >
+                <View className="mx-4">
+                  {!loading && (
+                    <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white">
+                      <EvilIcons
+                        name="search"
+                        size={22}
+                        className="w-1/12"
+                        color="#808080"
+                      />
+                      <TextInput
+                        className=" w-8/12"
+                        placeholder="Search for Errands"
+                        placeholderTextColor="#808080"
+                      />
+                      <TouchableOpacity onPress={handleViewChange}>
+                        <View className="mr-1 b rounded-md w-[38px]">
+                          <Text className="p-2 text-center">
+                            {toggleView ? (
+                              <Feather name="list" size={20} color="black" />
+                            ) : (
+                              <MaterialCommunityIcons
+                                name="view-dashboard"
+                                size={20}
+                                color="black"
+                              />
+                            )}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={handleFilter}>
+                        <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
+                          <Text className="p-2 text-center">
+                            <Ionicons
+                              name="md-filter-outline"
+                              size={18}
+                              color="white"
                             />
-                          )}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={handleFilter}>
-                      <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
-                        <Text className="p-2 text-center">
-                          <Ionicons
-                            name="md-filter-outline"
-                            size={18}
-                            color="white"
-                          />
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                )}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  )}
 
-                <View className="mt-2">
-                  {errands?.map((errand: MarketData, index: number) => {
-                    return (
-                      <>
-                        {toggleView ? (
-                          <GuestComp
-                            errand={errand}
-                            navigate={navigation}
-                            key={index}
-                          />
-                        ) : (
-                          <GuestList
-                            errand={errand}
-                            navigate={navigation}
-                            key={index}
-                          />
-                        )}
-                      </>
-                    )
-                  })}
+                  <View className="mt-2">
+                    {searchedErrand?.map(
+                      (errand: MarketData, index: number) => {
+                        return (
+                          <>
+                            {toggleView ? (
+                              <GuestComp
+                                errand={errand}
+                                navigate={navigation}
+                                key={index}
+                              />
+                            ) : (
+                              <GuestList
+                                errand={errand}
+                                navigate={navigation}
+                                key={index}
+                              />
+                            )}
+                          </>
+                        )
+                      },
+                    )}
+                  </View>
                 </View>
               </View>
-            </View>
-          </>
-          {/* )} */}
-        </ScrollView>
-      </View>
+            </>
+            {/* )} */}
+          </ScrollView>
+        </View>
+      </SafeAreaView>
 
       <View
         className="w-full h-[60px] absolute bottom-0 flex-row justify-between items-center bg-[#1E3A79]"
@@ -290,7 +303,7 @@ export default function GuestScreen({ navigation }: any) {
           </Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </>
   )
 }
 

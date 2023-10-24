@@ -219,7 +219,7 @@ const UserVerification = ({ data }: any) => {
               </Text>
             </View>
             <Text  style={{ color: textTheme }} className="font-light leading-8">
-              Swave Referrence
+              Swave Reference
             </Text>
             <View
               className="w-[100px] h-[34px] justify-center items-center rounded-[20px]"

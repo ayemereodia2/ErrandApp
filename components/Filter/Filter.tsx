@@ -6,13 +6,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native'
 import { useSelector } from 'react-redux'
-import {
-  errandMarketList,
-  setSortedErrands
-} from '../../services/errands/market'
+import { errandMarketList } from '../../services/errands/market'
 import { RootState, useAppDispatch } from '../../services/store'
 import { CategoriesList, MarketData } from '../../types'
 import RangeSlider from '../RangeSlider/RangeSlider'
@@ -34,6 +31,7 @@ interface FilterProp {
   setHigh: React.Dispatch<React.SetStateAction<number>>
   filterMarketList: () => void
   setMinCheck: React.Dispatch<React.SetStateAction<boolean>>
+  setSearchedErrand: React.Dispatch<React.SetStateAction<MarketData[]>>
 }
 
 const Filter = ({
@@ -48,6 +46,7 @@ const Filter = ({
   setLow,
   filterMarketList,
   setMinCheck,
+  setSearchedErrand,
 }: FilterProp) => {
   const dispatch = useAppDispatch()
   const [searchedItem, setSearchedItem] = useState('')
@@ -79,24 +78,24 @@ const Filter = ({
       const sortByCreatedAt = (a: MarketData, b: MarketData) =>
         new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
       const allErrands = [...errands]
-      dispatch(setSortedErrands(allErrands?.sort(sortByCreatedAt)))
+      setSearchedErrand(allErrands?.sort(sortByCreatedAt))
     }
     if (selectedSortAction === 'bids') {
       const allErrands = [...errands]
       const sortByBids = (a: MarketData, b: MarketData) =>
         a.total_bids - b.total_bids
-      dispatch(setSortedErrands(allErrands?.sort(sortByBids)))
+      setSearchedErrand(allErrands?.sort(sortByBids))
     }
 
     if (selectedSortAction === 'low') {
       const allErrands = [...errands]
       const sortByAmount = (a: MarketData, b: MarketData) => a.budget - b.budget
-      dispatch(setSortedErrands(allErrands?.sort(sortByAmount)))
+      setSearchedErrand(allErrands?.sort(sortByAmount))
     }
     if (selectedSortAction === 'high') {
       const allErrands = [...errands]
       const sortByAmount = (a: MarketData, b: MarketData) => a.budget - b.budget
-      dispatch(setSortedErrands(allErrands?.sort((a, b) => sortByAmount(b, a))))
+      setSearchedErrand(allErrands?.sort((a, b) => sortByAmount(b, a)))
     }
   }
 
@@ -113,8 +112,6 @@ const Filter = ({
       })
       setSearchedCategoryList(searchedValue)
     }
-      
-
   }
 
   useEffect(() => {
@@ -123,10 +120,13 @@ const Filter = ({
 
   return (
     <SafeAreaView>
-      <ScrollView style={{backgroundColor: backgroundTheme}}>
+      <ScrollView style={{ backgroundColor: backgroundTheme }}>
         <View
           className="fixed top-0 right-[-3%] w-[95%] bg-[#F5F5F5] z-5 duration-200"
-          style={{ display: filterOn ? 'flex' : 'none', backgroundColor: backgroundTheme }}
+          style={{
+            display: filterOn ? 'flex' : 'none',
+            backgroundColor: backgroundTheme,
+          }}
         >
           {/* Header */}
           <View className="flex-row justify-between items-center mt-5 mx-4">
@@ -136,7 +136,10 @@ const Filter = ({
               </Text>
             </TouchableOpacity>
 
-            <Text className="text-lg font-medium leading-6" style={{color: textTheme}}>
+            <Text
+              className="text-lg font-medium leading-6"
+              style={{ color: textTheme }}
+            >
               Filter Errands
             </Text>
 
@@ -144,16 +147,27 @@ const Filter = ({
               onPress={() => {
                 onClose()
                 dispatch(errandMarketList({}))
+                setSelectedSortAction('')
+                setSearchedItem('')
+                setValue('')
+                // searchedCategoryList()
               }}
               className="border py-2 px-[12px]  rounded-md  font-medium leading-6"
-              style={{borderColor: textTheme}}
+              style={{ borderColor: textTheme }}
             >
-              <Text className="font-mdtext-base" style={{color: textTheme}}>Reset</Text>
+              <Text className="font-mdtext-base" style={{ color: textTheme }}>
+                Reset
+              </Text>
             </TouchableOpacity>
           </View>
 
           <View className="mt-16 mx-6">
-            <Text className="font-medium text-base leading-6" style={{color: textTheme}}>Category</Text>
+            <Text
+              className="font-medium text-base leading-6"
+              style={{ color: textTheme }}
+            >
+              Category
+            </Text>
 
             <View className="mx-auto">
               <View className="flex-row items-center border-b p-2 mt-3 border-[#ccc] rounded-lg space-x-2">
@@ -167,7 +181,10 @@ const Filter = ({
               </View>
             </View>
 
-            <Text className="mt-6 font-medium text-base leading-6" style={{color: textTheme}}>
+            <Text
+              className="mt-6 font-medium text-base leading-6"
+              style={{ color: textTheme }}
+            >
               Top Options
             </Text>
 
@@ -203,7 +220,6 @@ const Filter = ({
                 <View className="py-2">
                   <TouchableOpacity
                     onPress={() => setValue(item.identifier)}
-                    
                     className={` bg-white border-[1px] border-[#1E3A79] px-4 py-2 rounded-3xl mr-5 ${
                       value === item.identifier
                         ? 'bg-[#1E3A79]'
@@ -292,7 +308,10 @@ const Filter = ({
             </TouchableOpacity>
 
             <View className="mb-[100px]">
-              <Text className="mt-6 font-medium text-base leading-6" style={{color: textTheme}}>
+              <Text
+                className="mt-6 font-medium text-base leading-6"
+                style={{ color: textTheme }}
+              >
                 Sort By
               </Text>
 

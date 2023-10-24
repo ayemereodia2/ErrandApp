@@ -2,13 +2,7 @@ import {
   AbrilFatface_400Regular,
   useFonts,
 } from '@expo-google-fonts/abril-fatface'
-import {
-  AntDesign,
-  EvilIcons,
-  Feather,
-  Ionicons,
-  MaterialCommunityIcons,
-} from '@expo/vector-icons'
+import { AntDesign, EvilIcons, Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 // import { ScrollView } from 'native-base'
 import {
@@ -132,12 +126,14 @@ export default function MainScreen() {
   }, [])
 
   const filterMarketList = () => {
+    const max = high * 100
+    const min = low * 100
     dispatch(
       errandMarketList({
         setSearchedErrand,
         category: value,
-        minPrice: minCheck ? low : 0,
-        maxPrice: minCheck ? high : 0,
+        minPrice: minCheck ? min : 0,
+        maxPrice: minCheck ? max  : 0,
       }),
     )
   }
@@ -275,7 +271,7 @@ export default function MainScreen() {
                             </Text>
                           </View>
                         </TouchableOpacity> */}
-                        
+
                         <TouchableOpacity onPress={handleFilter}>
                           <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
                             <Text className="p-2 text-center">
@@ -310,12 +306,12 @@ export default function MainScreen() {
                                   toggleBidHistoryModal={toggleBidHistoryModal}
                                 />
                               )} */}
-                               <ErrandComp
-                                  errand={errand}
-                                  navigation={navigation}
-                                  key={index}
-                                  toggleBidHistoryModal={toggleBidHistoryModal}
-                                />
+                              <ErrandComp
+                                errand={errand}
+                                navigation={navigation}
+                                key={index}
+                                toggleBidHistoryModal={toggleBidHistoryModal}
+                              />
                             </>
                           )
                         },

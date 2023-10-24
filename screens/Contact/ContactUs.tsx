@@ -2,6 +2,7 @@ import { AntDesign, Entypo, Feather, FontAwesome5 } from '@expo/vector-icons'
 import React, { useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
+  Linking,
   SafeAreaView,
   ScrollView,
   Text,
@@ -14,7 +15,6 @@ import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
 import { RootState, useAppDispatch } from '../../services/store'
-import { Linking } from 'react-native'
 
 const ContactUs = ({ navigation }: any) => {
   const {
@@ -34,37 +34,33 @@ const ContactUs = ({ navigation }: any) => {
   const [message, setMessage] = useState('')
   const [phone, setPhone] = useState('')
 
-  const [nameError, setNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [phoneError, setPhoneError] = useState('');
-  const [messageError, setMessageError] = useState('');
+  const [nameError, setNameError] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [phoneError, setPhoneError] = useState('')
+  const [messageError, setMessageError] = useState('')
 
-
- 
   const [error, setError] = useState('')
 
-  const twitterUrl = 'https://twitter.com/swavework';
-  const instagramUrl = 'https://www.instagram.com/swavework/?hl=en';
-  const facebookUrl = 'https://www.facebook.com/swavework/';
-  const linkedInUrl = 'https://linkedin.com/showcase/swavework';
+  const twitterUrl = 'https://twitter.com/swavework'
+  const instagramUrl = 'https://www.instagram.com/swavework/?hl=en'
+  const facebookUrl = 'https://www.facebook.com/swavework/'
+  const linkedInUrl = 'https://linkedin.com/showcase/swavework'
 
   const handleTwitter = () => {
-    Linking.openURL(twitterUrl);
-  };
+    Linking.openURL(twitterUrl)
+  }
 
   const handleInstagram = () => {
-    Linking.openURL(instagramUrl);
-  };
+    Linking.openURL(instagramUrl)
+  }
 
   const handleFaceBook = () => {
-    Linking.openURL(facebookUrl);
-  };
+    Linking.openURL(facebookUrl)
+  }
 
   const handleLinkedIn = () => {
-    Linking.openURL(linkedInUrl);
-  };
-
-  
+    Linking.openURL(linkedInUrl)
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -104,12 +100,10 @@ const ContactUs = ({ navigation }: any) => {
   }
 
   const handleSubmit = async () => {
-
-    setNameError('');
-    setEmailError('');
-    setPhoneError('');
-    setMessageError('');
-
+    setNameError('')
+    setEmailError('')
+    setPhoneError('')
+    setMessageError('')
 
     const userMessage = {
       name: name,
@@ -123,23 +117,23 @@ const ContactUs = ({ navigation }: any) => {
       return setError('Please, make sure you fill in the required fields')
     }
 
-      // Validation rules
-      if (userMessage.name.trim() === '') {
-        setNameError('Name is required');
-        return;
-      }
-      if (userMessage.email.trim() === '') {
-        setEmailError('Email is required');
-        return;
-      }
-      if (userMessage.phone.trim() === '') {
-        setEmailError('Phone is required');
-        return;
-      }
-      if (userMessage.message.trim() === '') {
-        setEmailError('Message is required');
-        return;
-      }
+    // Validation rules
+    if (userMessage.name.trim() === '') {
+      setNameError('Name is required')
+      return
+    }
+    if (userMessage.email.trim() === '') {
+      setEmailError('Email is required')
+      return
+    }
+    if (userMessage.phone.trim() === '') {
+      setEmailError('Phone is required')
+      return
+    }
+    if (userMessage.message.trim() === '') {
+      setEmailError('Message is required')
+      return
+    }
 
     try {
       const responseData = await ContactUs(userMessage)
@@ -186,7 +180,6 @@ const ContactUs = ({ navigation }: any) => {
           contentContainerStyle={{ flexGrow: 1 }}
           enableOnAndroid={true}
         >
-
           {error && (
             <Text className="pt-2 text-center" style={{ color: 'red' }}>
               {error}
@@ -194,7 +187,12 @@ const ContactUs = ({ navigation }: any) => {
           )}
 
           <View className="px-4">
-            <Text className='mb-5 font-bold text-lg' style={{color: textTheme}}>Reach out to us directly</Text>
+            <Text
+              className="mb-5 font-bold text-lg"
+              style={{ color: textTheme }}
+            >
+              Reach out to us directly
+            </Text>
             <View className="">
               <Text style={{ color: textTheme }}>Full Name</Text>
             </View>
@@ -206,8 +204,11 @@ const ContactUs = ({ navigation }: any) => {
               onChangeText={(text) => setName(text)}
               placeholderTextColor={'#000'}
             />
-          {nameError && <Text className='ml-4' style={{ color: 'red' }}>{nameError}</Text>}
-
+            {nameError && (
+              <Text className="ml-4" style={{ color: 'red' }}>
+                {nameError}
+              </Text>
+            )}
 
             <View className="mt-[40px] ">
               <Text style={{ color: textTheme }}>Email Address</Text>
@@ -221,9 +222,11 @@ const ContactUs = ({ navigation }: any) => {
               placeholderTextColor={'#000'}
             />
 
-      {emailError && <Text className='ml-4' style={{ color: 'red' }}>{emailError}</Text>}
-
-
+            {emailError && (
+              <Text className="ml-4" style={{ color: 'red' }}>
+                {emailError}
+              </Text>
+            )}
 
             <View className="mt-[40px] ">
               <Text style={{ color: textTheme }}>Phone Number </Text>
@@ -238,8 +241,11 @@ const ContactUs = ({ navigation }: any) => {
               placeholderTextColor={'#000'}
             />
 
-      {phoneError && <Text className='ml-4' style={{ color: 'red' }}>{phoneError}</Text>}
-
+            {phoneError && (
+              <Text className="ml-4" style={{ color: 'red' }}>
+                {phoneError}
+              </Text>
+            )}
 
             <View className="mt-[30px]">
               <Text style={{ color: textTheme }}>Your message</Text>
@@ -254,8 +260,11 @@ const ContactUs = ({ navigation }: any) => {
             ></TextInput>
           </View>
 
-        {messageError && <Text className='ml-4' style={{ color: 'red' }}>{messageError}</Text>}
-
+          {messageError && (
+            <Text className="ml-4" style={{ color: 'red' }}>
+              {messageError}
+            </Text>
+          )}
 
           <TouchableOpacity
             className=" mt-5 mb-10 mx-4 rounded-lg"
@@ -268,80 +277,114 @@ const ContactUs = ({ navigation }: any) => {
             </View>
           </TouchableOpacity>
 
-          <View className="w-[95%] h-[350px]  mx-auto b rounded-md" style={{backgroundColor: backgroundTheme}}>
-          <Text className="ml-5 mt-5 leading-6 text-lg font-semibold" style={{color: theme ? 'white' : '#317ACF'}}>
-            We're always Connected
-          </Text>
+          <View
+            className="w-[95%] h-[350px]  mx-auto b rounded-md"
+            style={{ backgroundColor: backgroundTheme }}
+          >
+            <Text
+              className="ml-5 mt-5 leading-6 text-lg font-semibold"
+              style={{ color: theme ? 'white' : '#317ACF' }}
+            >
+              We're always Connected
+            </Text>
 
-          <Text className="ml-5 mt-3 text-base font-normal" style={{color: theme ? 'white' : '#011E3E'}}>
-            Looking to partner with us or explore business opportunities? Our
-            amazing team would love to hear from you.
-          </Text>
+            <Text
+              className="ml-5 mt-3 text-base font-normal"
+              style={{ color: theme ? 'white' : '#011E3E' }}
+            >
+              Looking to partner with us or explore business opportunities? Our
+              amazing team would love to hear from you.
+            </Text>
 
-          <Text className="ml-5 mt-3 text-base font-bold text-[#317ACF]" style={{color: theme ? 'white' : '#317ACF'}}>
-            <Feather name="mail" size={16} color="#317ACF" /> Send us a mail -
-            Swave Client Support
-          </Text>
+            <Text
+              className="ml-5 mt-3 text-base font-bold text-[#317ACF]"
+              style={{ color: theme ? 'white' : '#317ACF' }}
+            >
+              <Feather name="mail" size={16} color="#317ACF" /> Send us a mail -
+              Swave Client Support
+            </Text>
 
-          <Text className="ml-11 text-base font-normal text-[#3A3A3A]" style={{color: theme ? 'white' : '#011E3E'}}>
-            swaveafrica@gmail.com
-          </Text>
+            <Text
+              className="ml-11 text-base font-normal text-[#3A3A3A]"
+              style={{ color: theme ? 'white' : '#011E3E' }}
+            >
+              support@swaveafrica.com
+            </Text>
 
-          <Text className="ml-5 mt-3 text-base font-bold text-[#317ACF]" style={{color: theme ? 'white' : '#317ACF'}}>
-            <Entypo name="phone" size={16} color="#317ACF" /> Give us a phone
-            call anytime
-          </Text>
-          <Text className="ml-11 text-sm font-normal text-[]" style={{color: theme ? 'white' : '#3A3A3A'}}>
-            +234 (806) 259 2207      +234 (916) 488 7552
-          </Text>
+            <Text
+              className="ml-5 mt-3 text-base font-bold text-[#317ACF]"
+              style={{ color: theme ? 'white' : '#317ACF' }}
+            >
+              <Entypo name="phone" size={16} color="#317ACF" /> Give us a phone
+              call anytime
+            </Text>
+            <Text
+              className="ml-11 text-sm font-normal text-[]"
+              style={{ color: theme ? 'white' : '#3A3A3A' }}
+            >
+              +234 (806) 259 2207 +234 (916) 488 7552
+            </Text>
 
-          <Text className="ml-5 mt-3 text-base font-bold text-[#317ACF]" style={{color: theme ? 'white' : '#317ACF'}}>
-            <FontAwesome5 name="whatsapp" size={16} color="#317ACF" /> We’re on
-            Whatsapp too!
-          </Text>
-          <Text className="ml-11 text-sm font-normal text-[#3A3A3A]" style={{color: theme ? 'white' : '#3A3A3A'}}>
-            +234 (806) 259 2207       +234 (916) 488 7552
-          </Text>
-        </View>
+            <Text
+              className="ml-5 mt-3 text-base font-bold text-[#317ACF]"
+              style={{ color: theme ? 'white' : '#317ACF' }}
+            >
+              <FontAwesome5 name="whatsapp" size={16} color="#317ACF" /> We’re
+              on Whatsapp too!
+            </Text>
+            <Text
+              className="ml-11 text-sm font-normal text-[#3A3A3A]"
+              style={{ color: theme ? 'white' : '#3A3A3A' }}
+            >
+              +234 (806) 259 2207 +234 (916) 488 7552
+            </Text>
+          </View>
 
           {/* Body */}
 
-          <View className="mx-auto bg-[] w-[382px] h-[40px] mt-5 items-center justify-center" style={{backgroundColor: theme ? '#243763' : '#FAFAFA'}}>
-          <Text className='text-base'>
-            <Feather name="mail" size={16} color="#317ACF" /> <Text style={{color: textTheme}}>Subscribe</Text>
-          </Text>
-        </View>
-
-        <View className="flex-row justify-around items-center mt-5 mb-[200px]">
-          <Text style={{color: textTheme}} className='text-base font-medium'>Catch and Chat Us on Social Media</Text>
-          <View className="flex-row space-x-2.5">
-
-            <TouchableOpacity onPress={handleFaceBook}>
-            <Text className="text-white">
-              <AntDesign name="facebook-square" size={28} color="blue" />
+          <View
+            className="mx-auto bg-[] w-[382px] h-[40px] mt-5 items-center justify-center"
+            style={{ backgroundColor: theme ? '#243763' : '#FAFAFA' }}
+          >
+            <Text className="text-base">
+              <Feather name="mail" size={16} color="#317ACF" />{' '}
+              <Text style={{ color: textTheme }}>Subscribe</Text>
             </Text>
-            </TouchableOpacity>
-
-          <TouchableOpacity onPress={handleTwitter}>
-            <Text>
-              <Entypo name="twitter" size={28} color="lightblue" />
-            </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={handleInstagram}>
-            <Text>
-              <Entypo name="instagram" size={28} color="red" />
-            </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={handleLinkedIn}>
-            <Text className="text-white">
-              <AntDesign name="linkedin-square" size={28} color="blue" />
-            </Text>
-            </TouchableOpacity>
-
           </View>
-        </View>
+
+          <View className=" items-center mt-5 mb-[200px]">
+            <Text
+              style={{ color: textTheme }}
+              className="text-base font-medium"
+            >
+              Catch and Chat Us on Social Media
+            </Text>
+            <View className="flex-row space-x-2.5 mt-2">
+              <TouchableOpacity onPress={handleFaceBook}>
+                <Text className="text-white">
+                  <AntDesign name="facebook-square" size={28} color="blue" />
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={handleTwitter}>
+                <Text>
+                  <Entypo name="twitter" size={28} color="lightblue" />
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={handleInstagram}>
+                <Text>
+                  <Entypo name="instagram" size={28} color="red" />
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={handleLinkedIn}>
+                <Text className="text-white">
+                  <AntDesign name="linkedin-square" size={28} color="blue" />
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </KeyboardAwareScrollView>
       </ScrollView>
     </SafeAreaView>

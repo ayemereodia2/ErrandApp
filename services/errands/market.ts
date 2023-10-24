@@ -12,40 +12,52 @@ export interface MarketQueryParams {
   setSearchedErrand?: any
 }
 
-const constructQueryParams = (raw: MarketQueryParams) => {
-  // console.log(">>>>>raw", raw);
+// const constructQueryParams = (raw: MarketQueryParams) => {
+//   // console.log(">>>>>raw", raw);
   
-  const params = new URLSearchParams();
-  if (raw.lat) {
-    params.append('lat', raw.lat.toString());
+//   const params = new URLSearchParams();
+//   if (raw.lat) {
+//     params.append('lat', raw.lat.toString());
 
-  }
-  if (raw.lng) {
-    params.append('lng', raw.lng.toString());
-  }
-  if (raw.minPrice) {
+//   }
+//   if (raw.lng) {
+//     params.append('lng', raw.lng.toString());
+//   }
+//   if (raw.minPrice) {
     
-    params.append('minPrice', raw.minPrice.toString());
-  }
-  if (raw.maxPrice) {
-    params.append('maxPrice', raw.maxPrice.toString());
-  }
-  if (raw.category) {
-    params.append('category', raw.category);
-  }
+//     params.append('minPrice', raw.minPrice.toString());
+//   }
+//   if (raw.maxPrice) {
+//     params.append('maxPrice', raw.maxPrice.toString());
+//   }
+//   if (raw.category) {
+//     params.append('category', raw.category);
+//   }
 
-  return params
-}
+//   return params
+// }
 
 export const errandMarketList = createAsyncThunk<any, MarketQueryParams, { rejectValue: string }>(
   "errandMarketList/get",
-  async ({setSearchedErrand, ...marketQueryParams}, { rejectWithValue }) => {
+  async ({setSearchedErrand, minPrice, maxPrice, category, ...marketQueryParams}, { rejectWithValue }) => {
   try {
     let url = "/errand/market";
-    const params = constructQueryParams(marketQueryParams)
-    if (params.toString()) {
-      url += `?${params.toString()}`;
+    // const params = constructQueryParams(marketQueryParams)
+    // if (params.toString()) {
+    //   url += `?${params.toString()}`;
+    // }
+
+    // if (minPrice && maxPrice) {
+    //   url += `?minPrice=${minPrice}&maxPrice=${maxPrice}`
+    // } 
+    if (minPrice && maxPrice && category) {
+      url += `?minPrice=${minPrice}&maxPrice=${maxPrice}&category=${category}`
     }
+
+
+    console.log(">url", url)
+
+
 
     const rs = await _fetch({ method: 'GET', _url: url });
     const res = await rs.json()
@@ -53,7 +65,9 @@ export const errandMarketList = createAsyncThunk<any, MarketQueryParams, { rejec
      if (setSearchedErrand) {
           const marketErrand = res.data ?? []
           setSearchedErrand(marketErrand)
-      }
+     }
+    
+    
 
     if (res.success) {
       return res.data
