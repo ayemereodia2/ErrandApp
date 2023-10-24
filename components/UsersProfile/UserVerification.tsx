@@ -4,10 +4,11 @@ import {
   MaterialIcons
 } from '@expo/vector-icons'
 import {
+  BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetModalProvider
 } from '@gorhom/bottom-sheet'
-import React, { useMemo, useRef } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
 import {
   SafeAreaView,
   ScrollView,
@@ -73,6 +74,21 @@ const UserVerification = ({ data }: any) => {
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
+
+  const renderBackdrop = useCallback(
+    (props:any) => (
+      <BottomSheetBackdrop
+        pressBehavior={'collapse'}
+        opacity={0.7}
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        
+        // onChange={handleSheetChanges}
+      />
+    ),
+    [],
+  )
 
   return (
     <BottomSheetModalProvider>
@@ -251,6 +267,7 @@ const UserVerification = ({ data }: any) => {
             index={0}
             snapPoints={snapPoints}
             containerStyle={{ marginHorizontal: 10 }}
+            backdropComponent={renderBackdrop}
           >
             <EmailModal closeEmailModal={closeEmailModal} />
           </BottomSheetModal>
@@ -260,6 +277,7 @@ const UserVerification = ({ data }: any) => {
             index={0}
             snapPoints={snapPoints1}
             containerStyle={{ marginHorizontal: 10 }}
+            backdropComponent={renderBackdrop}
           >
             <PersonalId closePersonalId={closePersonalId} />
           </BottomSheetModal>
@@ -269,6 +287,7 @@ const UserVerification = ({ data }: any) => {
             index={0}
             snapPoints={snapPoints2}
             containerStyle={{ marginHorizontal: 10 }}
+            backdropComponent={renderBackdrop}
           >
             <OfficeAddressModal closeOfficeModal={closeOfficeModal} />
           </BottomSheetModal>
@@ -278,6 +297,7 @@ const UserVerification = ({ data }: any) => {
             index={0}
             snapPoints={snapPoints3}
             containerStyle={{ marginHorizontal: 10 }}
+            backdropComponent={renderBackdrop}
           >
             <GuarantorModal closeGuarantorModal={closeGuarantorModal} />
           </BottomSheetModal>

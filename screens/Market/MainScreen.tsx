@@ -6,10 +6,11 @@ import { AntDesign, EvilIcons, Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 // import { ScrollView } from 'native-base'
 import {
+  BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   RefreshControl,
@@ -72,6 +73,21 @@ export default function MainScreen() {
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
+
+  const renderBackdrop = useCallback(
+    (props:any) => (
+      <BottomSheetBackdrop
+        pressBehavior={'collapse'}
+        opacity={0.7}
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        
+        // onChange={handleSheetChanges}
+      />
+    ),
+    [],
+  )
 
   const bidHistoryRef = useRef<BottomSheetModal>(null)
 
@@ -209,6 +225,7 @@ export default function MainScreen() {
                     setHigh={setHigh}
                     filterMarketList={filterMarketList}
                     setMinCheck={setMinCheck}
+                    setSearchedErrand={setSearchedErrand}
                   />
                 )}
 
@@ -328,6 +345,7 @@ export default function MainScreen() {
             ref={bidHistoryRef}
             index={0}
             snapPoints={['70%']}
+            backdropComponent={renderBackdrop}
           >
             <UserInfo user={userData} navigation={navigation} />
           </BottomSheetModal>
