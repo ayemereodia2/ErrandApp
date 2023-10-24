@@ -16,6 +16,7 @@ import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { errandDetails } from '../../services/errands/errandDetails'
 import { RootState, useAppDispatch } from '../../services/store'
+import { getCardTimeAgo } from '../../utils/helper'
 
 const LandingDetails = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
@@ -116,6 +117,8 @@ const LandingDetails = ({ navigation }: any) => {
                         {errand?.user?.first_name} {errand?.user?.last_name}
                       </Text>
 
+                     
+
                       <View className="flex-row justify-between -mt-4">
                         <View className="w-60">
                           <Text className="text-[#000000] text-sm font-bold"></Text>
@@ -143,6 +146,7 @@ const LandingDetails = ({ navigation }: any) => {
                             </View>
                           </View>
                         </View>
+                        <Text className='mr-6' style={{color: textTheme}}> {getCardTimeAgo(errand?.updated_at)}</Text>
                       </View>
                     </View>
                   </View>

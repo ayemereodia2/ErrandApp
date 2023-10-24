@@ -1,4 +1,4 @@
-import { AntDesign } from '@expo/vector-icons'
+import { AntDesign, Entypo, Feather, FontAwesome5 } from '@expo/vector-icons'
 import React, { useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
@@ -14,6 +14,7 @@ import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
 import { RootState, useAppDispatch } from '../../services/store'
+import { Linking } from 'react-native'
 
 const ContactUs = ({ navigation }: any) => {
   const {
@@ -41,6 +42,29 @@ const ContactUs = ({ navigation }: any) => {
 
  
   const [error, setError] = useState('')
+
+  const twitterUrl = 'https://twitter.com/swavework';
+  const instagramUrl = 'https://www.instagram.com/swavework/?hl=en';
+  const facebookUrl = 'https://www.facebook.com/swavework/';
+  const linkedInUrl = 'https://linkedin.com/showcase/swavework';
+
+  const handleTwitter = () => {
+    Linking.openURL(twitterUrl);
+  };
+
+  const handleInstagram = () => {
+    Linking.openURL(instagramUrl);
+  };
+
+  const handleFaceBook = () => {
+    Linking.openURL(facebookUrl);
+  };
+
+  const handleLinkedIn = () => {
+    Linking.openURL(linkedInUrl);
+  };
+
+  
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -155,70 +179,13 @@ const ContactUs = ({ navigation }: any) => {
       <ScrollView
         className="h-screen"
         style={{ backgroundColor: backgroundTheme }}
+        showsVerticalScrollIndicator={false}
       >
         <KeyboardAwareScrollView
           style={{ flex: 1, marginTop: 52 }}
           contentContainerStyle={{ flexGrow: 1 }}
           enableOnAndroid={true}
         >
-          {/* <View className="w-[382px] h-[350px] mt-[80px] bg-[#CBD5EC] mx-auto b rounded-md" >
-          <Text className="ml-5 mt-5 leading-6 text-lg font-semibold" >
-            We're always<Text className="text-[#317ACF]"> Connected</Text>
-          </Text>
-          <Text className="ml-5 mt-3 text-base font-normal text-[#011E3E]">
-            Looking to partner with us or explore business opportunities? Our
-            amazing team would love to hear from you.
-          </Text>
-          <Text className="ml-5 mt-3 text-base font-bold text-[#317ACF]">
-            <Feather name="mail" size={16} color="#317ACF" /> Send us an mail -
-            Swave Client Support
-          </Text>
-          <Text className="ml-11 text-base font-normal text-[#3A3A3A]">
-            swaveafrica@gmail.com
-          </Text>
-
-          <Text className="ml-5 mt-3 text-base font-bold text-[#317ACF]">
-            <Entypo name="phone" size={16} color="#317ACF" /> Give us a phone
-            call anytime
-          </Text>
-          <Text className="ml-11 text-sm font-normal text-[#3A3A3A]">
-            +234 (806) 259 2207 +234 (916) 488 7552
-          </Text>
-
-          <Text className="ml-5 mt-3 text-base font-bold text-[#317ACF]">
-            <FontAwesome5 name="whatsapp" size={16} color="#317ACF" /> We’re on
-            Whatsapp too!
-          </Text>
-          <Text className="ml-11 text-sm font-normal text-[#3A3A3A]">
-            +234 (806) 259 2207 +234 (916) 488 7552
-          </Text>
-        </View> */}
-
-          {/* Body */}
-
-          {/* <View className="mx-auto bg-[#FAFAFA] w-[382px] h-[40px] mt-5 items-center justify-center">
-          <Text>
-            <Feather name="mail" size={16} color="#317ACF" /> Via Email Form
-          </Text>
-        </View>
-
-        <View className="flex-row justify-around items-center mt-5">
-          <Text style={{color: textTheme}}>Catch and Chat Us on Social Media</Text>
-          <View className="flex-row gap-2">
-            <Text className="text-white">
-              <AntDesign name="facebook-square" size={24} color="blue" />
-            </Text>
-            <Text>
-              <Entypo name="twitter" size={24} color="lightblue" />
-            </Text>
-            <Text>
-              <Entypo name="instagram" size={24} color="red" />
-            </Text>
-            <Text className="text-white">
-              <AntDesign name="linkedin-square" size={24} color="blue" />
-            </Text>
-          </View>
-        </View> */}
 
           {error && (
             <Text className="pt-2 text-center" style={{ color: 'red' }}>
@@ -227,7 +194,8 @@ const ContactUs = ({ navigation }: any) => {
           )}
 
           <View className="px-4">
-            <View className="mt-[30px] ">
+            <Text className='mb-5 font-bold text-lg' style={{color: textTheme}}>Reach out to us directly</Text>
+            <View className="">
               <Text style={{ color: textTheme }}>Full Name</Text>
             </View>
             <TextInput
@@ -290,15 +258,90 @@ const ContactUs = ({ navigation }: any) => {
 
 
           <TouchableOpacity
-            className=" mt-[52px] mb-[200px] mx-4 rounded-lg"
+            className=" mt-5 mb-10 mx-4 rounded-lg"
             onPress={handleSubmit}
           >
-            <View className="w-full h-[50px] bg-[#243763]  items-center justify-center">
+            <View className="w-full h-[50px] bg-[#243763] items-center justify-center">
               <Text className="text-white text-center items-center">
                 {loading ? <ActivityIndicator /> : 'Send a message '}
               </Text>
             </View>
           </TouchableOpacity>
+
+          <View className="w-[95%] h-[350px]  mx-auto b rounded-md" style={{backgroundColor: backgroundTheme}}>
+          <Text className="ml-5 mt-5 leading-6 text-lg font-semibold" style={{color: theme ? 'white' : '#317ACF'}}>
+            We're always Connected
+          </Text>
+
+          <Text className="ml-5 mt-3 text-base font-normal" style={{color: theme ? 'white' : '#011E3E'}}>
+            Looking to partner with us or explore business opportunities? Our
+            amazing team would love to hear from you.
+          </Text>
+
+          <Text className="ml-5 mt-3 text-base font-bold text-[#317ACF]" style={{color: theme ? 'white' : '#317ACF'}}>
+            <Feather name="mail" size={16} color="#317ACF" /> Send us a mail -
+            Swave Client Support
+          </Text>
+
+          <Text className="ml-11 text-base font-normal text-[#3A3A3A]" style={{color: theme ? 'white' : '#011E3E'}}>
+            swaveafrica@gmail.com
+          </Text>
+
+          <Text className="ml-5 mt-3 text-base font-bold text-[#317ACF]" style={{color: theme ? 'white' : '#317ACF'}}>
+            <Entypo name="phone" size={16} color="#317ACF" /> Give us a phone
+            call anytime
+          </Text>
+          <Text className="ml-11 text-sm font-normal text-[]" style={{color: theme ? 'white' : '#3A3A3A'}}>
+            +234 (806) 259 2207      +234 (916) 488 7552
+          </Text>
+
+          <Text className="ml-5 mt-3 text-base font-bold text-[#317ACF]" style={{color: theme ? 'white' : '#317ACF'}}>
+            <FontAwesome5 name="whatsapp" size={16} color="#317ACF" /> We’re on
+            Whatsapp too!
+          </Text>
+          <Text className="ml-11 text-sm font-normal text-[#3A3A3A]" style={{color: theme ? 'white' : '#3A3A3A'}}>
+            +234 (806) 259 2207       +234 (916) 488 7552
+          </Text>
+        </View>
+
+          {/* Body */}
+
+          <View className="mx-auto bg-[] w-[382px] h-[40px] mt-5 items-center justify-center" style={{backgroundColor: theme ? '#243763' : '#FAFAFA'}}>
+          <Text className='text-base'>
+            <Feather name="mail" size={16} color="#317ACF" /> <Text style={{color: textTheme}}>Subscribe</Text>
+          </Text>
+        </View>
+
+        <View className="flex-row justify-around items-center mt-5 mb-[200px]">
+          <Text style={{color: textTheme}} className='text-base font-medium'>Catch and Chat Us on Social Media</Text>
+          <View className="flex-row space-x-2.5">
+
+            <TouchableOpacity onPress={handleFaceBook}>
+            <Text className="text-white">
+              <AntDesign name="facebook-square" size={28} color="blue" />
+            </Text>
+            </TouchableOpacity>
+
+          <TouchableOpacity onPress={handleTwitter}>
+            <Text>
+              <Entypo name="twitter" size={28} color="lightblue" />
+            </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={handleInstagram}>
+            <Text>
+              <Entypo name="instagram" size={28} color="red" />
+            </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={handleLinkedIn}>
+            <Text className="text-white">
+              <AntDesign name="linkedin-square" size={28} color="blue" />
+            </Text>
+            </TouchableOpacity>
+
+          </View>
+        </View>
         </KeyboardAwareScrollView>
       </ScrollView>
     </SafeAreaView>
