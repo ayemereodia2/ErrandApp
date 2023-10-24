@@ -79,7 +79,7 @@ const LandingDetails = ({ navigation }: any) => {
                   dispatch(errandDetails({ errandId: errand?.id }))
                   dispatch(externalUserDetails({ user_id: errand?.user_id }))
                 }}
-                className="mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border " 
+                className="pt-1 mt-2 pb-1 bg-[#fff] rounded-xl py-1 px-6 border " 
                 style={{
                   backgroundColor: theme ? '#152955' : 'white',
                   borderColor: theme ? '#e9ebbf2' : 'lightgrey',
@@ -176,7 +176,7 @@ const LandingDetails = ({ navigation }: any) => {
                 </Text>
 
                 <View className="flex-row items-center">
-                  <View className=" rounded-3xl mt-2">
+                  {/* <View className=" rounded-3xl mt-2">
                     <Text
                       className="font-medium text-sm inline-block"
                       style={{ color: textTheme }}
@@ -184,15 +184,15 @@ const LandingDetails = ({ navigation }: any) => {
                       {' '}
                       {errand?.category.name?.substring(0, 20)}
                     </Text>
-                  </View>
+                  </View> */}
                 </View>
 
-                <View className="h-[0.3px] bg-[#AAAAAA] mt-3 items-center"></View>
+                {/* <View className="h-[0.3px] bg-[#AAAAAA] mt-3 items-center"></View> */}
 
-                <View className="flex-row justify-between items-center mt-2">
+                <View className="flex-row justify-between items-center">
                   <Text
                     className="text-[20px] font-bold text-[#1E3A79]"
-                    style={{ color: textTheme }}
+                    style={{ color: theme ? 'white' : '#1E3A79' }}
                   >
                     &#x20A6;
                     {(errand?.budget / 100).toLocaleString()}

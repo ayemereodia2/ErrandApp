@@ -12,7 +12,7 @@
       "translucent": false
     },
     "splash": {
-      "image": "./assets/images/swave-splashScreen.png",
+      "image": "./assets/images/finalswave.jpg",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff",
       "plugins": [

@@ -166,6 +166,7 @@ export interface ILogin {
   phone_number: string
   password: string
   navigation: any
+  dispatch: any
 }
 
 export interface ContactData {

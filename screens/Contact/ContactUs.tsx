@@ -32,6 +32,14 @@ const ContactUs = ({ navigation }: any) => {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [phone, setPhone] = useState('')
+
+  const [nameError, setNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [messageError, setMessageError] = useState('');
+
+
+ 
   const [error, setError] = useState('')
 
   useLayoutEffect(() => {
@@ -72,6 +80,13 @@ const ContactUs = ({ navigation }: any) => {
   }
 
   const handleSubmit = async () => {
+
+    setNameError('');
+    setEmailError('');
+    setPhoneError('');
+    setMessageError('');
+
+
     const userMessage = {
       name: name,
       email: email,
@@ -83,6 +98,24 @@ const ContactUs = ({ navigation }: any) => {
     if (!name || !email || !message || !phone) {
       return setError('Please, make sure you fill in the required fields')
     }
+
+      // Validation rules
+      if (userMessage.name.trim() === '') {
+        setNameError('Name is required');
+        return;
+      }
+      if (userMessage.email.trim() === '') {
+        setEmailError('Email is required');
+        return;
+      }
+      if (userMessage.phone.trim() === '') {
+        setEmailError('Phone is required');
+        return;
+      }
+      if (userMessage.message.trim() === '') {
+        setEmailError('Message is required');
+        return;
+      }
 
     try {
       const responseData = await ContactUs(userMessage)
@@ -98,11 +131,11 @@ const ContactUs = ({ navigation }: any) => {
         console.log(userMessage)
       } else {
         // Handle the case where the server responded with an error message
-        console.error('Profile update failed:', responseData.message)
+        console.error('Contact us failed:', responseData.message)
 
         Toast.show({
           type: 'error',
-          text1: 'Profile update failed:' + responseData.message,
+          text1: 'Please fill all the required fields',
         })
       }
     } catch (error) {
@@ -205,6 +238,8 @@ const ContactUs = ({ navigation }: any) => {
               onChangeText={(text) => setName(text)}
               placeholderTextColor={'#000'}
             />
+          {nameError && <Text className='ml-4' style={{ color: 'red' }}>{nameError}</Text>}
+
 
             <View className="mt-[40px] ">
               <Text style={{ color: textTheme }}>Email Address</Text>
@@ -217,6 +252,10 @@ const ContactUs = ({ navigation }: any) => {
               onChangeText={(text) => setEmail(text)}
               placeholderTextColor={'#000'}
             />
+
+      {emailError && <Text className='ml-4' style={{ color: 'red' }}>{emailError}</Text>}
+
+
 
             <View className="mt-[40px] ">
               <Text style={{ color: textTheme }}>Phone Number </Text>
@@ -231,6 +270,9 @@ const ContactUs = ({ navigation }: any) => {
               placeholderTextColor={'#000'}
             />
 
+      {phoneError && <Text className='ml-4' style={{ color: 'red' }}>{phoneError}</Text>}
+
+
             <View className="mt-[30px]">
               <Text style={{ color: textTheme }}>Your message</Text>
             </View>
@@ -243,6 +285,9 @@ const ContactUs = ({ navigation }: any) => {
               placeholderTextColor={'#000'}
             ></TextInput>
           </View>
+
+        {messageError && <Text className='ml-4' style={{ color: 'red' }}>{messageError}</Text>}
+
 
           <TouchableOpacity
             className=" mt-[52px] mb-[200px] mx-4 rounded-lg"

@@ -6,7 +6,7 @@ import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { errandDetails } from '../../services/errands/errandDetails'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
-import { getAddress } from '../../utils/helper'
+import { getAddress, getCardTimeAgo, getTimeAgo } from '../../utils/helper'
 
 interface ErrandCardProp {
   errand: MarketData
@@ -86,7 +86,7 @@ export default function ErrandComp({
 
   return (
     <View
-      className="pt-4 mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border"
+      className="pt-1 mt-2 pb-1 bg-[#fff] rounded-xl py-1 px-6 border"
       style={{
         backgroundColor: theme ? '#152955' : 'white',
         borderColor: theme ? '' : 'lightgrey',
@@ -172,10 +172,14 @@ export default function ErrandComp({
                     </View>
                   </View>
                 </View>
+                <Text className='mr-6'> {getCardTimeAgo(errand?.updated_at)}</Text>
               </View>
+             
             </View>
           </TouchableOpacity>
+          
         </View>
+        
       </View>
 
       <TouchableOpacity
@@ -213,22 +217,22 @@ export default function ErrandComp({
         </Text>
 
         <View className="flex-row items-center">
-          <View className=" rounded-3xl mt-2">
+          {/* <View className=" rounded-3xl mt-2">
             <Text
               className="font-medium text-sm inline-block"
               style={{ color: textTheme }}
             >
               {' '}
-              {errand?.category.name} {/*?.substring(0, 20)} */}
+              {errand?.category.name} ?.substring(0, 20)
             </Text>
-          </View>
+          </View> */}
         </View>
 
-        <View className="h-[0.3px] bg-[#AAAAAA] mt-3 items-center"></View>
+        {/* <View className="h-[0.3px] bg-[#AAAAAA] mt-3 items-center"></View> */}
 
-        <View className="flex-row justify-between items-center mt-2">
+        <View className="flex-row justify-between items-center">
           <Text
-            style={{ color: textTheme }}
+            style={{ color: theme ? 'white' : '#1E3A79' }}
             className="text-[20px] font-bold text-[#1E3A79] "
           >
             &#x20A6; {budgetInNaira.toLocaleString()}
@@ -265,195 +269,195 @@ export default function ErrandComp({
   )
 }
 
-export function ListErrandComp({
-  errand,
-  navigation,
-  toggleBidHistoryModal,
-}: ErrandCardProp) {
-  const [address, setAddress] = useState('')
-  const dispatch = useAppDispatch()
+// export function ListErrandComp({
+//   errand,
+//   navigation,
+//   toggleBidHistoryModal,
+// }: ErrandCardProp) {
+//   const [address, setAddress] = useState('')
+//   const dispatch = useAppDispatch()
 
-  // const navigation = useNavigation()
-  const budgetInNaira = Number(errand?.budget / Number(100))
-  const MAX_ADDRESS_LENGTH = 50 // Maximum character length for address
+//   // const navigation = useNavigation()
+//   const budgetInNaira = Number(errand?.budget / Number(100))
+//   const MAX_ADDRESS_LENGTH = 50 // Maximum character length for address
 
-  const truncateAddress = (text: string, maxLength: number) => {
-    if (text?.length > maxLength) {
-      return text?.substring(0, maxLength) + '...'
-    }
-    return text
-  }
+//   const truncateAddress = (text: string, maxLength: number) => {
+//     if (text?.length > maxLength) {
+//       return text?.substring(0, maxLength) + '...'
+//     }
+//     return text
+//   }
 
-  const darkMode = useSelector((state: RootState) => state.darkMode.darkMode)
+//   const darkMode = useSelector((state: RootState) => state.darkMode.darkMode)
 
-  const {
-    data: currentUser,
-    backgroundTheme,
-    textTheme,
-    landingPageTheme,
-  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+//   const {
+//     data: currentUser,
+//     backgroundTheme,
+//     textTheme,
+//     landingPageTheme,
+//   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
-  const theme = currentUser?.preferred_theme === 'light' ? true : false
+//   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-  const regex = /(<([^>]+)>)/gi
-  const result = errand.description.replace(regex, '')
+//   const regex = /(<([^>]+)>)/gi
+//   const result = errand.description.replace(regex, '')
 
-  const truncResult = (text: string, maxLength: number) => {
-    if (text?.length > maxLength) {
-      return text?.substring(0, maxLength) + '...'
-    }
-    return text
-  }
+//   const truncResult = (text: string, maxLength: number) => {
+//     if (text?.length > maxLength) {
+//       return text?.substring(0, maxLength) + '...'
+//     }
+//     return text
+//   }
 
-  const truncatedAddress = truncateAddress(address, MAX_ADDRESS_LENGTH)
+//   const truncatedAddress = truncateAddress(address, MAX_ADDRESS_LENGTH)
 
-  const truncatedAddressText = truncateAddress(
-    errand?.dropoff_address?.address_text,
-    MAX_ADDRESS_LENGTH,
-  )
+//   const truncatedAddressText = truncateAddress(
+//     errand?.dropoff_address?.address_text,
+//     MAX_ADDRESS_LENGTH,
+//   )
 
-  // const mob_Address = truncateAddress(address, 20)
+//   // const mob_Address = truncateAddress(address, 20)
 
-  useEffect(() => {
-    getAddress({ errand, setAddress })
-  }, [])
+//   useEffect(() => {
+//     getAddress({ errand, setAddress })
+//   }, [])
 
-  return (
-    <>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('ErrandDetails', {
-            errand_id: errand?.id,
-            user_id: errand?.user_id,
-          })
-          dispatch(errandDetails({ errandId: errand?.id, navigation }))
-          dispatch(externalUserDetails({ user_id: errand?.user_id }))
-        }}
-        className="mx-0 shadow-sm rounded-sm"
-        style={{
-          backgroundColor: theme ? '#152955' : 'white',
-          borderColor: theme ? '' : 'lightgrey',
-        }}
-      >
-        {/* <View className=" bg-white py-4 px-6 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]">
-        <View className="flex-row  gap-3">
-          <View className="mt-4 w-[230px]">
-            <Text className="text-base font-medium">
-              {result?.substring(0, 80).concat('', '....')}
-              {truncResult(result, 60)}
-            </Text>
-            <Text className="text-sm text-[#666666] font-light pt-1 w-[200px]">
-              {' '}
-              <Text>
-                <EvilIcons name="location" size={14} color="green" />{' '}
-              </Text>
-              {errand.dropoff_address?.address_text ? (
-                <Text>{truncatedAddressText}</Text>
-              ) : (
-                <Text>No Location</Text>
-              )}
-            </Text>
-          </View>
+//   return (
+//     <>
+//       <TouchableOpacity
+//         onPress={() => {
+//           navigation.navigate('ErrandDetails', {
+//             errand_id: errand?.id,
+//             user_id: errand?.user_id,
+//           })
+//           dispatch(errandDetails({ errandId: errand?.id, navigation }))
+//           dispatch(externalUserDetails({ user_id: errand?.user_id }))
+//         }}
+//         className="mx-0 shadow-sm rounded-sm"
+//         style={{
+//           backgroundColor: theme ? '#152955' : 'white',
+//           borderColor: theme ? '' : 'lightgrey',
+//         }}
+//       >
+//         {/* <View className=" bg-white py-4 px-6 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]">
+//         <View className="flex-row  gap-3">
+//           <View className="mt-4 w-[230px]">
+//             <Text className="text-base font-medium">
+//               {result?.substring(0, 80).concat('', '....')}
+//               {truncResult(result, 60)}
+//             </Text>
+//             <Text className="text-sm text-[#666666] font-light pt-1 w-[200px]">
+//               {' '}
+//               <Text>
+//                 <EvilIcons name="location" size={14} color="green" />{' '}
+//               </Text>
+//               {errand.dropoff_address?.address_text ? (
+//                 <Text>{truncatedAddressText}</Text>
+//               ) : (
+//                 <Text>No Location</Text>
+//               )}
+//             </Text>
+//           </View>
 
-          <Text className="text-[18px] font-bold text-[#1E3A79] w-[100px]">
-            &#x20A6; {budgetInNaira.toLocaleString()}
-          </Text>
-        </View>
+//           <Text className="text-[18px] font-bold text-[#1E3A79] w-[100px]">
+//             &#x20A6; {budgetInNaira.toLocaleString()}
+//           </Text>
+//         </View>
 
-        <View className="flex-row justify-between items-center"></View>
-      </View> */}
+//         <View className="flex-row justify-between items-center"></View>
+//       </View> */}
 
-        <View
-          className=" bg-white py-4 px-5 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]"
-          style={{ backgroundColor: backgroundTheme }}
-        >
-          <View className="flex-row items-center justify-between">
-            <View className="flex-row items-center space-x-3">
-              {errand?.user?.profile_picture === undefined ? (
-                <View className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center">
-                  <Text className="uppercase text-lg items-center text-white">
-                    {errand?.user?.first_name.charAt(0).toUpperCase()}
-                    {errand?.user?.last_name.charAt(0).toUpperCase()}
-                  </Text>
-                  <View className="pt-[1px]">
-                    <Text
-                      className="font-light text-sm inline-block"
-                      // style={{ }}
-                    >
-                      {' '}
-                      {errand?.category.name} {/*?.substring(0, 20)} */}
-                    </Text>
-                  </View>
-                </View>
-              ) : (
-                <Image
-                  style={{
-                    width: 40,
-                    height: 40,
-                    resizeMode: 'contain',
-                    borderRadius: 20,
-                  }}
-                  alt="okay"
-                  source={{ uri: errand?.user?.profile_picture }}
-                />
-              )}
-              <Text
-                className="text-sm font-medium w-[190px]"
-                style={{ color: textTheme }}
-              >
-                {errand?.user?.first_name} {errand?.user?.last_name}
-              </Text>
-            </View>
+//         <View
+//           className=" bg-white py-4 px-5 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]"
+//           style={{ backgroundColor: backgroundTheme }}
+//         >
+//           <View className="flex-row items-center justify-between">
+//             <View className="flex-row items-center space-x-3">
+//               {errand?.user?.profile_picture === undefined ? (
+//                 <View className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center">
+//                   <Text className="uppercase text-lg items-center text-white">
+//                     {errand?.user?.first_name.charAt(0).toUpperCase()}
+//                     {errand?.user?.last_name.charAt(0).toUpperCase()}
+//                   </Text>
+//                   <View className="pt-[1px]">
+//                     <Text
+//                       className="font-light text-sm inline-block"
+//                       // style={{ }}
+//                     >
+//                       {' '}
+//                       {errand?.category.name} {/*?.substring(0, 20)} */}
+//                     </Text>
+//                   </View>
+//                 </View>
+//               ) : (
+//                 <Image
+//                   style={{
+//                     width: 40,
+//                     height: 40,
+//                     resizeMode: 'contain',
+//                     borderRadius: 20,
+//                   }}
+//                   alt="okay"
+//                   source={{ uri: errand?.user?.profile_picture }}
+//                 />
+//               )}
+//               <Text
+//                 className="text-sm font-medium w-[190px]"
+//                 style={{ color: textTheme }}
+//               >
+//                 {errand?.user?.first_name} {errand?.user?.last_name}
+//               </Text>
+//             </View>
 
-            <Text className="text-[#808080] text-sm w-[100px]">
-              {/* {getTimeAgo(errand?.updated_at)} */}
-            </Text>
-          </View>
+//             <Text className="text-[#808080] text-sm w-[100px]">
+//               {/* {getTimeAgo(errand?.updated_at)} */}
+//             </Text>
+//           </View>
 
-          <View className="mt-4">
-            <Text className="text-sm font-medium" style={{ color: textTheme }}>
-              {result?.substring(0, 80).concat('', '....')}
-            </Text>
-          </View>
+//           <View className="mt-4">
+//             <Text className="text-sm font-medium" style={{ color: textTheme }}>
+//               {result?.substring(0, 80).concat('', '....')}
+//             </Text>
+//           </View>
 
-          {/* <Text className="text-[#808080] text-sm w-[100px] mb-2">
-            <View className=" px-1 ">
-              <Text className="text-[18px] font-medium text-[#1E3A79] ">
-                &#x20A6; {budgetInNaira.toLocaleString()}
-              </Text>
-            </View>
-          </Text> */}
-        </View>
+//           {/* <Text className="text-[#808080] text-sm w-[100px] mb-2">
+//             <View className=" px-1 ">
+//               <Text className="text-[18px] font-medium text-[#1E3A79] ">
+//                 &#x20A6; {budgetInNaira.toLocaleString()}
+//               </Text>
+//             </View>
+//           </Text> */}
+//         </View>
 
-        {/* <View className=" px-1 ">
-          <Text className="text-[20px] font-bold text-[#1E3A79] ">
-            &#x20A6; {budgetInNaira.toLocaleString()}
-          </Text>
-        </View> */}
-        <View className="flex-row justify-between items-center mt-2">
-          <View className="w-[60%] pr-10">
-            <Text
-              className="text-center text-sm capitalize font-medium"
-              style={{ color: textTheme }}
-            >
-              {errand.dropoff_address?.address_text ? (
-                truncatedAddressText
-              ) : (
-                <Text style={{ color: textTheme }}>No Location</Text>
-              )}
-            </Text>
-          </View>
+//         {/* <View className=" px-1 ">
+//           <Text className="text-[20px] font-bold text-[#1E3A79] ">
+//             &#x20A6; {budgetInNaira.toLocaleString()}
+//           </Text>
+//         </View> */}
+//         <View className="flex-row justify-between items-center mt-2">
+//           <View className="w-[60%] pr-10">
+//             <Text
+//               className="text-center text-sm capitalize font-medium"
+//               style={{ color: textTheme }}
+//             >
+//               {errand.dropoff_address?.address_text ? (
+//                 truncatedAddressText
+//               ) : (
+//                 <Text style={{ color: textTheme }}>No Location</Text>
+//               )}
+//             </Text>
+//           </View>
 
-          <View className=" px-1 ">
-            <Text
-              className="text-[20px] font-bold text-[#1E3A79] "
-              style={{ color: textTheme }}
-            >
-              &#x20A6; {budgetInNaira.toLocaleString()}
-            </Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    </>
-  )
-}
+//           <View className=" px-1 ">
+//             <Text
+//               className="text-[20px] font-bold text-[#1E3A79] "
+//               style={{ color: textTheme }}
+//             >
+//               &#x20A6; {budgetInNaira.toLocaleString()}
+//             </Text>
+//           </View>
+//         </View>
+//       </TouchableOpacity>
+//     </>
+//   )
+// }
