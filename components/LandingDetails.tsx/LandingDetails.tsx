@@ -33,7 +33,7 @@ const LandingDetails = ({ navigation }: any) => {
   const getMarket = async () => {
     const _rs = await _fetch({
       method: 'GET',
-      _url: `/errand/market`,
+      _url: `/errand/market?urgent=1`,
     })
     return await _rs.json()
   }

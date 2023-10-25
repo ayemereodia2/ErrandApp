@@ -32,6 +32,7 @@ interface FilterProp {
   filterMarketList: () => void
   setMinCheck: React.Dispatch<React.SetStateAction<boolean>>
   setSearchedErrand: React.Dispatch<React.SetStateAction<MarketData[]>>
+  setCheckFilterToggle: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Filter = ({
@@ -47,12 +48,15 @@ const Filter = ({
   filterMarketList,
   setMinCheck,
   setSearchedErrand,
+  setCheckFilterToggle,
 }: FilterProp) => {
   const dispatch = useAppDispatch()
   const [searchedItem, setSearchedItem] = useState('')
   const [searchedCategoryList, setSearchedCategoryList] = useState<
     CategoriesList[]
   >([])
+
+  const [toggleState, setToggleState] = useState('filter')
 
   const {
     data: currentUser,
@@ -84,6 +88,9 @@ const Filter = ({
       const allErrands = [...errands]
       const sortByBids = (a: MarketData, b: MarketData) =>
         a.total_bids - b.total_bids
+
+      console.log('>>>>>>>>>ok', allErrands?.sort(sortByBids))
+
       setSearchedErrand(allErrands?.sort(sortByBids))
     }
 
@@ -101,8 +108,6 @@ const Filter = ({
 
   // console.log(allCategories);
 
-  let allCategories = [...categories]
-
   const handleSearchCategory = () => {
     if (searchedItem === '') {
       setSearchedCategoryList(categories.slice(0, 5))
@@ -111,6 +116,14 @@ const Filter = ({
         return item.name.toLowerCase().includes(searchedItem.toLowerCase())
       })
       setSearchedCategoryList(searchedValue)
+    }
+  }
+
+  const handleSelectedItem = (item: any) => {
+    if (item.identifier !== value) {
+      setValue(item.identifier)
+    } else {
+      setValue('')
     }
   }
 
@@ -129,196 +142,154 @@ const Filter = ({
           }}
         >
           {/* Header */}
-          <View className="flex-row justify-between items-center mt-5 mx-4">
-            <TouchableOpacity onPress={onClose}>
+          <View className="flex-row justify-between items-center mt-5 mx-2">
+            <TouchableOpacity
+              onPress={() => {
+                setCheckFilterToggle(false)
+                onClose()
+                dispatch(errandMarketList({ setSearchedErrand }))
+              }}
+            >
               <Text>
-                <AntDesign name="close" size={24} color={textTheme} />
+                <AntDesign name="close" size={22} color={textTheme} />
               </Text>
             </TouchableOpacity>
 
-            <Text
-              className="text-lg font-medium leading-6"
-              style={{ color: textTheme }}
+            <TouchableOpacity
+              onPress={() => setToggleState('filter')}
+              className={toggleState === 'filter' ? 'border-b' : ''}
             >
-              Filter Errands
-            </Text>
+              <Text
+                className="text-sm font-medium leading-6 border-2 border-blue-600"
+                style={{ color: textTheme }}
+              >
+                Filter Errands
+              </Text>
+            </TouchableOpacity>
+
+            <Text>|</Text>
 
             <TouchableOpacity
               onPress={() => {
-                onClose()
-                dispatch(errandMarketList({}))
+                setToggleState('Sort')
+                setCheckFilterToggle(false)
+              }}
+              className={toggleState === 'Sort' ? 'border-b' : ''}
+            >
+              <Text
+                className="text-sm font-medium leading-6"
+                style={{ color: textTheme }}
+              >
+                Sort Errands
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                // onClose()
+                // dispatch(errandMarketList({}))
+                setLow(0)
+                setHigh(0)
                 setSelectedSortAction('')
                 setSearchedItem('')
                 setValue('')
-                // searchedCategoryList()
+                setCheckFilterToggle(false)
               }}
-              className="border py-2 px-[12px]  rounded-md  font-medium leading-6"
+              className="border py-[2px] px-[12px]  rounded-md  font-medium leading-6"
               style={{ borderColor: textTheme }}
             >
               <Text className="font-mdtext-base" style={{ color: textTheme }}>
-                Reset
+                Clear
               </Text>
             </TouchableOpacity>
           </View>
 
-          <View className="mt-16 mx-6">
-            <Text
-              className="font-medium text-base leading-6"
-              style={{ color: textTheme }}
-            >
-              Category
-            </Text>
+          {toggleState === 'filter' ? (
+            <View className="mt-14 mx-6">
+              <Text
+                className="font-medium text-base leading-6"
+                style={{ color: textTheme }}
+              >
+                Category
+              </Text>
 
-            <View className="mx-auto">
-              <View className="flex-row items-center border-b p-2 mt-3 border-[#ccc] rounded-lg space-x-2">
-                <TextInput
-                  className="w-[300px] "
-                  placeholder="Type to get top Categories"
-                  onChangeText={(text) => setSearchedItem(text)}
-                  value={searchedItem}
-                />
-                <FontAwesome name="search" size={16} color="#ccc" />
-              </View>
-            </View>
-
-            <Text
-              className="mt-6 font-medium text-base leading-6"
-              style={{ color: textTheme }}
-            >
-              Top Options
-            </Text>
-
-            {/* <FlatList
-              data={allCategories}
-              renderItem={({ item, index }) => (
-                <View className="py-2">
-                  <TouchableOpacity
-                    onPress={() => setValue(item.identifier)}
-                    className={` bg-white border-[1px] border-[#1E3A79] px-4 py-2 rounded-3xl mr-5 ${
-                      value === item.identifier
-                        ? 'bg-[#1E3A79]'
-                        : 'bg-white border-[1px] border-[#1E3A79]'
-                    }`}
-                  >
-                    <Text
-                      className={`capitalize font-md text-base text-[#1E3A79]  ${
-                        value === item.identifier
-                          ? 'text-white'
-                          : 'text-[#1E3A79]'
-                      }`}
-                    >
-                      {item.identifier}
-                    </Text>
-                  </TouchableOpacity>
+              <View className="mx-auto">
+                <View className="flex-row items-center border-b p-2 mt-3 border-[#ccc] rounded-lg space-x-2">
+                  <TextInput
+                    className="w-[300px] "
+                    placeholder="Type to get top Categories"
+                    onChangeText={(text) => setSearchedItem(text)}
+                    value={searchedItem}
+                  />
+                  <FontAwesome name="search" size={16} color="#ccc" />
                 </View>
-              )}
-              numColumns={2}
-            /> */}
-
-            {searchedCategoryList?.map((item) => {
-              return (
-                <View className="py-2">
-                  <TouchableOpacity
-                    onPress={() => setValue(item.identifier)}
-                    className={` bg-white border-[1px] border-[#1E3A79] px-4 py-2 rounded-3xl mr-5 ${
-                      value === item.identifier
-                        ? 'bg-[#1E3A79]'
-                        : 'bg-white border-[1px] border-[#1E3A79]'
-                    }`}
-                  >
-                    <Text
-                      className={`capitalize font-md text-base text-[#1E3A79]  ${
-                        value === item.identifier
-                          ? 'text-white'
-                          : 'text-[#1E3A79]'
-                      }`}
-                    >
-                      {item.identifier}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              )
-            })}
-
-            {/* <Text className="mt-12 font-medium text-base leading-6">
-              Location
-            </Text>
-
-            <View className="">
-              <TextInput
-                placeholder="Find a Location"
-                placeholderTextColor={'#AAA'}
-                className="w-[310px] bg-white border-[0.5px] border-[#DDD] mx-auto mr-3 pl-4 mt-2 rounded-md py-3.5"
-              />
-            </View>
-
-            <Text className="mt-6 font-medium text-base leading-6">
-              Quick Options
-            </Text> */}
-
-            {/* <View className="mt-2">
-              <View className="mb-3">
-                <TouchableOpacity
-                  className={` bg-white border-[1px] border-[#1E3A79] px-4 py-3 rounded-3xl mr-5 mb-4`}
-                >
-                  <Text className={`font-md text-base text-[#1E3A79]`}>
-                    Lagos - 10 errands
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  className={` bg-white border-[1px] border-[#1E3A79] px-4 py-3 rounded-3xl mr-5`}
-                >
-                  <Text className={`font-md text-base text-[#1E3A79]`}>
-                    Uyo - 20 Errands
-                  </Text>
-                </TouchableOpacity>
               </View>
 
-              <View className="flex-row mt-4">
-                <TouchableOpacity className="px-4 py-2 rounded-[20px] bg-white border border-[#1E3A79] mr-6">
-                  <Text className="font-medium text-base text-[#1E3A79]">
-                    Ogun - 20 Errands
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity className="px-1 py-2 rounded-[20px] ml-[-15px] bg-white border border-[#1E3A79]">
-                  <Text className="font-medium text-base text-[#1E3A79]">
-                    Kwara - 20 Errands
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View> */}
-
-            <RangeSlider
-              setMinCheck={setMinCheck}
-              setHigh={setHigh}
-              setLow={setLow}
-              low={low}
-              high={high}
-            />
-
-            <TouchableOpacity
-              className="bg-[#1E3A79] w-[330px] h-[56px] rounded-md mx-auto mt-[80px] justify-center items-center mb-[40px]"
-              onPress={() => {
-                onClose(), filterMarketList()
-              }}
-            >
-              <Text className="text-white text-center">Filter Errands</Text>
-            </TouchableOpacity>
-
-            <View className="mb-[100px]">
               <Text
                 className="mt-6 font-medium text-base leading-6"
+                style={{ color: textTheme }}
+              >
+                Top Options
+              </Text>
+
+              {searchedCategoryList?.map((item) => {
+                return (
+                  <View className="py-2">
+                    <TouchableOpacity
+                      onPress={() => {
+                        // setValue(item.identifier)
+                        handleSelectedItem(item)
+                      }}
+                      className={` bg-white border-[1px] border-[#1E3A79] px-4 py-2 rounded-3xl mr-5 ${
+                        value === item.identifier
+                          ? 'bg-[#1E3A79]'
+                          : 'bg-white border-[1px] border-[#1E3A79]'
+                      }`}
+                    >
+                      <Text
+                        className={`capitalize font-md text-base text-[#1E3A79]  ${
+                          value === item.identifier
+                            ? 'text-white'
+                            : 'text-[#1E3A79]'
+                        }`}
+                      >
+                        {item.identifier}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )
+              })}
+
+              <RangeSlider
+                setMinCheck={setMinCheck}
+                setHigh={setHigh}
+                setLow={setLow}
+                low={low}
+                high={high}
+              />
+
+              <TouchableOpacity
+                className="bg-[#1E3A79] w-[330px] h-[56px] rounded-md mx-auto mt-[80px] justify-center items-center mb-[40px]"
+                onPress={() => {
+                  onClose(), filterMarketList()
+                }}
+              >
+                <Text className="text-white text-center">Filter Errands</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View className="mb-[100px]">
+              <Text
+                className="mt-6 font-medium text-base leading-6 px-6"
                 style={{ color: textTheme }}
               >
                 Sort By
               </Text>
 
-              <View className="flex-row justify-around items-center mt-5">
+              <View className="flex-row ml-5 mt-5">
                 <TouchableOpacity
                   onPress={() => setSelectedSortAction('duration')}
-                  className={`bg-white  h-12 px-4 py-2 rounded-3xl mr-5 items-center justify-center ${
+                  className={`bg-white  h-12 px-4 py-2 rounded-3xl items-center justify-center ${
                     selectedSortAction === 'duration'
                       ? 'bg-[#1E3A79]'
                       : 'bg-white border-[1px] border-[#1E3A79]'
@@ -337,7 +308,7 @@ const Filter = ({
 
                 <TouchableOpacity
                   onPress={() => setSelectedSortAction('bids')}
-                  className={`bg-white w-[100px]  h-12 px-4 py-2 rounded-3xl mr-5 items-center justify-center ${
+                  className={`bg-white w-[100px]  h-12 px-4 py-2 rounded-3xl items-center justify-center ml-5 ${
                     selectedSortAction === 'bids'
                       ? 'bg-[#1E3A79]'
                       : 'bg-white border-[1px] border-[#1E3A79]'
@@ -354,10 +325,10 @@ const Filter = ({
                   </Text>
                 </TouchableOpacity>
               </View>
-              <View className="justify-around  mt-5 space-y-6">
+              <View className="mt-5 space-y-6 ml-5">
                 <TouchableOpacity
                   onPress={() => setSelectedSortAction('high')}
-                  className={`bg-white w-[200px]  h-12 px-4 py-2 rounded-3xl mr-5 items-center justify-center ${
+                  className={`bg-white w-[170px]  h-12 py-2 rounded-3xl items-center justify-center ${
                     selectedSortAction === 'high'
                       ? 'bg-[#1E3A79]'
                       : 'bg-white border-[1px] border-[#1E3A79]'
@@ -376,7 +347,7 @@ const Filter = ({
 
                 <TouchableOpacity
                   onPress={() => setSelectedSortAction('low')}
-                  className={`bg-white w-[200px]  h-12 px-4 py-2 rounded-3xl mr-5 items-center justify-center ${
+                  className={`bg-white w-[170px]  h-12 px-4 py-2 rounded-3xl items-center justify-center ${
                     selectedSortAction === 'low'
                       ? 'bg-[#1E3A79]'
                       : 'bg-white border-[1px] border-[#1E3A79]'
@@ -403,7 +374,7 @@ const Filter = ({
                 <Text className="text-white text-center">Sort Errands</Text>
               </TouchableOpacity>
             </View>
-          </View>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

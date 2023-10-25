@@ -10,49 +10,16 @@ export interface MarketQueryParams {
   maxPrice?: number,
   category?: string
   setSearchedErrand?: any
+  start?: number
+  count?: number
 }
-
-// const constructQueryParams = (raw: MarketQueryParams) => {
-//   // console.log(">>>>>raw", raw);
-  
-//   const params = new URLSearchParams();
-//   if (raw.lat) {
-//     params.append('lat', raw.lat.toString());
-
-//   }
-//   if (raw.lng) {
-//     params.append('lng', raw.lng.toString());
-//   }
-//   if (raw.minPrice) {
-    
-//     params.append('minPrice', raw.minPrice.toString());
-//   }
-//   if (raw.maxPrice) {
-//     params.append('maxPrice', raw.maxPrice.toString());
-//   }
-//   if (raw.category) {
-//     params.append('category', raw.category);
-//   }
-
-//   return params
-// }
 
 export const errandMarketList = createAsyncThunk<any, MarketQueryParams, { rejectValue: string }>(
   "errandMarketList/get",
   async ({setSearchedErrand, minPrice, maxPrice, category, ...marketQueryParams}, { rejectWithValue }) => {
   try {
-    let url = "/errand/market";
-    // const params = constructQueryParams(marketQueryParams)
-    // if (params.toString()) {
-    //   url += `?${params.toString()}`;
-    // }
+    let url = `/errand/market?start=1&count=5${category ? `&category=${category}`: ""}${minPrice === 0 ? '' : `&minPrice=${minPrice}`}${maxPrice === 0 ? '' : `&maxPrice=${maxPrice}`}`;
 
-    // if (minPrice && maxPrice) {
-    //   url += `?minPrice=${minPrice}&maxPrice=${maxPrice}`
-    // } 
-    if (minPrice && maxPrice && category) {
-      url += `?minPrice=${minPrice}&maxPrice=${maxPrice}&category=${category}`
-    }
 
 
     console.log(">url", url)

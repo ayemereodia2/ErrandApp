@@ -31,21 +31,21 @@ const RangeSlider = ({ low, setHigh, setLow, high, setMinCheck }: Prop) => {
   )
   const renderRail = useCallback(() => <Rail />, [])
   const renderRailSelected = useCallback(() => <RailSelected />, [])
-  const renderLabel = useCallback((value) => <Label text={value} />, [])
+  const renderLabel = useCallback((value: string) => <Label text={value} />, [])
   const renderNotch = useCallback(() => <Notch />, [])
 
-  const handleValueChange = useCallback((lowValue, highValue) => {
+  const handleValueChange = useCallback((lowValue: number, highValue: number) => {
     setMinCheck(true)
     setLow(lowValue)
     setHigh(highValue)
   }, [])
 
-  const handleMinInputChange = (text) => {
+  const handleMinInputChange = (text: any) => {
     setMinCheck(true)
     setLow(text)
   }
 
-  const handleMaxInputChange = (text) => {
+  const handleMaxInputChange = (text: any) => {
     setMinCheck(true)
     setHigh(text)
   }
@@ -90,7 +90,9 @@ const RangeSlider = ({ low, setHigh, setLow, high, setMinCheck }: Prop) => {
 
       <View className="mt-12 mx-auto w-[300px]">
         <Slider
-          min={1000}
+          low={low}
+          high={high}
+          min={0}
           max={300000}
           step={1}
           floatingLabel

@@ -12,7 +12,7 @@
       "translucent": false
     },
     "splash": {
-      "image": "./assets/images/finalswave.jpg",
+      "image": "./assets/images/app-1.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff",
       "plugins": [
