@@ -20,6 +20,8 @@ const UserInfo = ({user, key}:any) => {
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
+  
+
     const dispatch = useAppDispatch()
     const [profile, setProfile] = useState(false)
 

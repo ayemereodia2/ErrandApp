@@ -160,7 +160,7 @@ const Filter = ({
               className={toggleState === 'filter' ? 'border-b' : ''}
             >
               <Text
-                className="text-sm font-medium leading-6 border-2 border-blue-600"
+                className="text-sm font-medium leading-6"
                 style={{ color: textTheme }}
               >
                 Filter Errands
