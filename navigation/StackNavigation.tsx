@@ -35,6 +35,9 @@ import EscrowScreen from '../screens/Wallets/EscrowScreen'
 import TransactionScreen from '../screens/Wallets/TransactionScreen'
 import WalletAccount from '../screens/Wallets/WalletAccount'
 import { TabsNavigation } from './TabsNavigation'
+import AboutSwave from '../screens/AboutSwave/AboutSwave'
+import PrivacyPolicy from '../screens/Privacy/PrivacyPolicy'
+import TermsAndConditions from '../screens/Terms & Condition/TermsAndConditions'
 
 const Stack = createNativeStackNavigator()
 
@@ -133,6 +136,36 @@ export const TabStack = () => {
       <Stack.Screen
         name="Profile"
         component={AccountScreen}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+       <Stack.Screen
+        name="About"
+        component={AboutSwave}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+       <Stack.Screen
+        name="Privacy"
+        component={PrivacyPolicy}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+       <Stack.Screen
+        name="Terms"
+        component={TermsAndConditions}
         options={{
           headerShown: false,
           headerStyle: {
@@ -286,6 +319,36 @@ export function GuestStack() {
             },
           }}
         />
+         <Stack.Screen
+        name="About"
+        component={AboutSwave}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+       <Stack.Screen
+        name="Privacy"
+        component={PrivacyPolicy}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+       <Stack.Screen
+        name="Terms"
+        component={TermsAndConditions}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+        />
         <Stack.Screen
           name="WalletAccount"
           component={WalletAccount}
@@ -435,6 +498,37 @@ export const MainStack = () => {
           },
         }}
       />
+       <Stack.Screen
+        name="About"
+        component={AboutSwave}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+       <Stack.Screen
+        name="Privacy"
+        component={PrivacyPolicy}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+       <Stack.Screen
+        name="Terms"
+        component={TermsAndConditions}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+
       <Stack.Screen
         name="Notification"
         component={NotificationScreen}

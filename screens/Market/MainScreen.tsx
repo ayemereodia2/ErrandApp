@@ -40,6 +40,7 @@ import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
 import { getUserId } from '../../utils/helper'
+import Content from '../../components/AboutContent/Content'
 
 export default function MainScreen() {
   const navigation = useNavigation()
@@ -96,6 +97,7 @@ export default function MainScreen() {
   )
 
   const bidHistoryRef = useRef<BottomSheetModal>(null)
+  const bottomSheetRef1 = useRef<BottomSheetModal>(null)
 
   function toggleBidHistoryModal(open: boolean, user: any) {
     if (open) {
@@ -106,6 +108,14 @@ export default function MainScreen() {
       setUserData(null)
       bidHistoryRef.current?.dismiss()
     }
+  }
+
+  function openMoreModal() {
+    bottomSheetRef1.current?.present()
+  }
+
+  function closeMoreModal() {
+    bottomSheetRef1.current?.dismiss()
   }
 
   const handleFilter = () => {
@@ -351,6 +361,16 @@ export default function MainScreen() {
             backdropComponent={renderBackdrop}
           >
             <UserInfo user={userData} navigation={navigation} />
+          </BottomSheetModal>
+
+          <BottomSheetModal
+            // backdropComponent={renderBackdrop}
+            ref={bottomSheetRef1}
+            index={0}
+            snapPoints={['40%']}
+            backdropComponent={renderBackdrop}
+          >
+            <Content navigation={navigation} />
           </BottomSheetModal>
         </BottomSheetModalProvider>
       </Container>
