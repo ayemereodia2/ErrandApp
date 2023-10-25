@@ -15,7 +15,7 @@ import {
   useNavigation,
   useRoute,
 } from '@react-navigation/native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useIsConnected } from 'react-native-offline'
 import { useSelector } from 'react-redux'
@@ -29,6 +29,7 @@ import {
   SetttingsStack,
   WalletStack,
 } from './StackNavigation'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
 
 const Header = (props: any) => {
   return (
@@ -68,6 +69,13 @@ export const TabsNavigation = ({ navigation }: any) => {
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   const optionsHandler = ({ headerShown, title, tabBarIcon }: OptionsProps) => {
+
+    const bottomSheetRef1 = useRef<BottomSheetModal>(null)
+    
+  function openMoreModal() {
+    bottomSheetRef1.current?.present()
+  }
+
     return {
       headerShown,
       title,
@@ -104,12 +112,21 @@ export const TabsNavigation = ({ navigation }: any) => {
             color={textTheme}
             size={24}
           />
-          <Feather
+          {/* <Feather
             onPress={() => navigation.navigate('Contact')}
             color={textTheme}
             size={24}
             name="help-circle"
-          />
+          /> */}
+          <TouchableOpacity  onPress={
+                     
+                      openMoreModal
+                    }>
+                <Text style={{ color: textTheme }}>
+          
+                  <Entypo name="dots-three-vertical" size={24} />
+                </Text>
+                </TouchableOpacity>
         </View>
       ),
     }

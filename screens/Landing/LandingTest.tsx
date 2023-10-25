@@ -1,4 +1,4 @@
-import { Feather, FontAwesome } from '@expo/vector-icons'
+import { Entypo, Feather, FontAwesome } from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -27,10 +27,12 @@ import { _fetch } from '../../services/axios/http'
 import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
 import { getTimeOfDay } from '../../utils/helper'
+import Content from '../../components/AboutContent/Content'
 
 const LandingTest = ({ navigation }: any) => {
   const loaderGif = '../../assets/images/loading-SWAVE.gif'
   const bottomSheetRef = useRef<BottomSheetModal>(null)
+  const bottomSheetRef1 = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ['40%'], [])
   const [verifiedPin, setVerifiedPin] = useState(true)
 
@@ -40,6 +42,15 @@ const LandingTest = ({ navigation }: any) => {
 
   function closePinModal() {
     bottomSheetRef.current?.dismiss()
+  }
+
+
+  function openMoreModal() {
+    bottomSheetRef1.current?.present()
+  }
+
+  function closeMoreModal() {
+    bottomSheetRef1.current?.dismiss()
   }
 
   const renderBackdrop = useCallback(
@@ -162,15 +173,22 @@ const LandingTest = ({ navigation }: any) => {
                     }}
                   />
                 </Text>
+                <TouchableOpacity  onPress={
+                      // navigation.navigate('Contact')
+                      openMoreModal
+                    }>
                 <Text style={{ color: textTheme }}>
-                  <Feather
+                  {/* <Feather
                     name="help-circle"
                     size={24}
                     onPress={() => {
                       navigation.navigate('Contact')
+                     
                     }}
-                  />
+                  /> */}
+                  <Entypo name="dots-three-vertical" size={24} />
                 </Text>
+                </TouchableOpacity>
               </View>
             </View>
 
@@ -284,6 +302,24 @@ const LandingTest = ({ navigation }: any) => {
             closePinModal={closePinModal}
             makeWithdrawalHandler={() => {}}
           />
+        </BottomSheetModal>
+
+        <BottomSheetModal
+          android_keyboardInputMode="adjustResize"
+          ref={bottomSheetRef1}
+          index={0}
+          snapPoints={snapPoints}
+          containerStyle={{
+            marginHorizontal: 10,
+            
+          }}
+          backdropComponent={renderBackdrop}
+          keyboardBehavior="extend"
+          enablePanDownToClose
+          keyboardBlurBehavior="restore"
+        >
+        <Content navigation={navigation} />
+
         </BottomSheetModal>
       </BottomSheetModalProvider>
     </Container>

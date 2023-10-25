@@ -192,7 +192,7 @@ const GuarantorModal = ({closeGuarantorModal}:any) => {
                 onPress={() => {
                   pickImageAsync()
                 }}
-                className=""
+                className="mx-4"
               >
                 <Text className="mx-auto mt-8">
                   <Feather name="image" size={40} color="#3F60AC" />
