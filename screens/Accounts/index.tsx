@@ -267,7 +267,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('GuestScreen')
+                navigation.navigate('Default')
                 clearStorage()
               }}
               className="w-[140px] h-[40px] bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-md"

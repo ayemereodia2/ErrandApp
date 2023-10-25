@@ -13,6 +13,8 @@ import {
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
+  FlatList,
+  Pressable,
   RefreshControl,
   SafeAreaView,
   ScrollView,
@@ -20,7 +22,6 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -29,6 +30,7 @@ import ErrandComp from '../../components/ErrandComponent'
 import Filter from '../../components/Filter/Filter'
 import PostErrandButton from '../../components/PostErrandBtn'
 import UserInfo from '../../components/UserInfo/UserInfo'
+import { _fetch } from '../../services/axios/http'
 import { errandMarketList, setLoading } from '../../services/errands/market'
 import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -55,6 +57,9 @@ export default function MainScreen() {
 
   const [userData, setUserData] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
+  const [loadingMore, setLoadingMore] = useState(false)
+  const [page, setPage] = useState(1)
+  const [checkFilterToggle, setCheckFilterToggle] = useState(false)
 
   // const handleViewChange = () => {
   //   setToggleView(!toggleView)
@@ -75,14 +80,14 @@ export default function MainScreen() {
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   const renderBackdrop = useCallback(
-    (props:any) => (
+    (props: any) => (
       <BottomSheetBackdrop
         pressBehavior={'collapse'}
         opacity={0.7}
         {...props}
         appearsOnIndex={0}
         disappearsOnIndex={-1}
-        
+
         // onChange={handleSheetChanges}
       />
     ),
@@ -141,6 +146,9 @@ export default function MainScreen() {
     }, 500)
   }, [])
 
+  const max = high * 100
+  const min = low * 100
+
   const filterMarketList = () => {
     const max = high * 100
     const min = low * 100
@@ -149,9 +157,29 @@ export default function MainScreen() {
         setSearchedErrand,
         category: value,
         minPrice: minCheck ? min : 0,
-        maxPrice: minCheck ? max  : 0,
+        maxPrice: minCheck ? max : 0,
       }),
     )
+  }
+
+  const loadMoreData = async () => {
+    if (!loadingMore) {
+      if (checkFilterToggle && searchedErrand.length < 5) {
+        return null
+      }
+      const rs = await _fetch({
+        _url: `/errand/market?start=${page + 1}&count=5${
+          value ? `&category=${value}` : ''
+        }${min === 0 ? '' : `&minPrice=${min}`}${
+          max === 0 ? '' : `&maxPrice=${max}`
+        }`,
+        method: 'GET',
+      })
+      const _rs = await rs.json()
+      setSearchedErrand([...searchedErrand, ..._rs.data])
+      setPage(page + 1)
+      setLoadingMore(false)
+    }
   }
 
   useEffect(() => {
@@ -159,6 +187,26 @@ export default function MainScreen() {
     dispatch(errandMarketList({ setSearchedErrand }))
     dispatch(getCategoriesList())
   }, [])
+
+  const renderListFooter = () => {
+    if (checkFilterToggle) {
+      return null
+    }
+    if (!loadMoreData) {
+      return null
+    }
+    return (
+      <View
+        style={{
+          paddingVertical: 20,
+          borderTopWidth: 1,
+          borderColor: '#CED0CE',
+        }}
+      >
+        <ActivityIndicator animating size="large" />
+      </View>
+    )
+  }
 
   useEffect(() => {
     errandSearchHandler()
@@ -226,6 +274,7 @@ export default function MainScreen() {
                     filterMarketList={filterMarketList}
                     setMinCheck={setMinCheck}
                     setSearchedErrand={setSearchedErrand}
+                    setCheckFilterToggle={setCheckFilterToggle}
                   />
                 )}
 
@@ -239,7 +288,7 @@ export default function MainScreen() {
                   <View className="mx-4">
                     {!loading && (
                       <View
-                        className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white"
+                        className="mt-2 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white"
                         style={{ backgroundColor: theme ? '#1E3A79' : 'white' }}
                       >
                         <EvilIcons
@@ -268,28 +317,7 @@ export default function MainScreen() {
                           ''
                         )}
 
-                        {/* <TouchableOpacity >
-                          <View className="rounded-md w-[36px]">
-                            <Text className="p-2 text-center">
-                              {toggleView ? (
-                                <Feather
-                                  name="list"
-                                  size={20}
-                                  color={theme ? 'white' : 'black'}
-                                />
-                              ) : (
-                                <MaterialCommunityIcons
-                                  name="view-dashboard"
-                                  size={20}
-                                  color={theme ? 'white' : 'black'}
-                                />
-                              )}
-                             
-                            </Text>
-                          </View>
-                        </TouchableOpacity> */}
-
-                        <TouchableOpacity onPress={handleFilter}>
+                        <Pressable onPress={handleFilter}>
                           <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
                             <Text className="p-2 text-center">
                               <Ionicons
@@ -299,30 +327,42 @@ export default function MainScreen() {
                               />
                             </Text>
                           </View>
-                        </TouchableOpacity>
+                        </Pressable>
                       </View>
                     )}
 
-                    <View className="pt-2">
+                    <FlatList
+                      refreshControl={
+                        <RefreshControl
+                          refreshing={refreshing}
+                          onRefresh={onRefresh}
+                        />
+                      }
+                      onEndReached={loadMoreData}
+                      onEndReachedThreshold={0.5}
+                      ListFooterComponent={renderListFooter}
+                      data={searchedErrand}
+                      renderItem={({ item, index }) => {
+                        return (
+                          <>
+                            <ErrandComp
+                              errand={item}
+                              navigation={navigation}
+                              key={index}
+                              toggleBidHistoryModal={toggleBidHistoryModal}
+                            />
+                          </>
+                        )
+                      }}
+                      keyExtractor={(item) => item.id}
+                      style={{ flexGrow: 0, height: 650 }}
+                    />
+
+                    {/* <View className="pt-2">
                       {searchedErrand?.map(
                         (errand: MarketData, index: number) => {
                           return (
                             <>
-                              {/* {toggleView ? (
-                                <ErrandComp
-                                  errand={errand}
-                                  navigation={navigation}
-                                  key={index}
-                                  toggleBidHistoryModal={toggleBidHistoryModal}
-                                />
-                              ) : (
-                                <ListErrandComp
-                                  errand={errand}
-                                  navigation={navigation}
-                                  key={index}
-                                  toggleBidHistoryModal={toggleBidHistoryModal}
-                                />
-                              )} */}
                               <ErrandComp
                                 errand={errand}
                                 navigation={navigation}
@@ -333,7 +373,7 @@ export default function MainScreen() {
                           )
                         },
                       )}
-                    </View>
+                    </View> */}
                   </View>
                 </View>
               </>

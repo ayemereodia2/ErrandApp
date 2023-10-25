@@ -12,10 +12,10 @@ import {
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
+  FlatList,
   Platform,
   RefreshControl,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -24,7 +24,8 @@ import {
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import Filter from '../../components/Filter/Filter'
-import GuestComp, { GuestList } from '../../components/GuestComp/GuestComp'
+import GuestComp from '../../components/GuestComp/GuestComp'
+import { _fetch } from '../../services/axios/http'
 import { errandMarketList, setLoading } from '../../services/errands/market'
 import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -47,6 +48,9 @@ export default function GuestScreen({ navigation }: any) {
   const [refreshing, setRefreshing] = React.useState(false)
   const [toggleView, setToggleView] = useState(true)
   const [searchedErrand, setSearchedErrand] = useState<MarketData[]>([])
+  const [loadingMore, setLoadingMore] = useState(false)
+  const [page, setPage] = useState(1)
+  const [checkFilterToggle, setCheckFilterToggle] = useState(false)
 
   const handleViewChange = () => {
     setToggleView(!toggleView)
@@ -56,6 +60,7 @@ export default function GuestScreen({ navigation }: any) {
   const [filterOn, setFilterOn] = useState(false)
 
   const handleFilter = () => {
+    setCheckFilterToggle(true)
     setFilterOn(!filterOn)
   }
   const { data: errands, loading } = useSelector(
@@ -82,9 +87,13 @@ export default function GuestScreen({ navigation }: any) {
     }, 500)
   }, [])
 
+  console.log(">>>>>fiterOn", filterOn);
+  
+
+  const max = high * 100
+  const min = low * 100
+
   const filterMarketList = () => {
-    const max = high * 100
-    const min = low * 100
     dispatch(
       errandMarketList({
         setSearchedErrand,
@@ -101,6 +110,46 @@ export default function GuestScreen({ navigation }: any) {
     dispatch(getCategoriesList())
   }, [])
 
+  const loadMoreData = async () => {
+    if (!loadingMore) {
+      if (checkFilterToggle && searchedErrand.length < 5) {
+        return null
+      }
+      const rs = await _fetch({
+        _url: `/errand/market?start=${page + 1}&count=5${
+          value ? `&category=${value}` : ''
+        }${min === 0 ? '' : `&minPrice=${min}`}${
+          max === 0 ? '' : `&maxPrice=${max}`
+        }`,
+        method: 'GET',
+      })
+      const _rs = await rs.json()
+      setSearchedErrand([...searchedErrand, ..._rs.data])
+      setPage(page + 1)
+      setLoadingMore(false)
+    }
+  }
+
+  const renderListFooter = () => {
+    if (checkFilterToggle) {
+      return null
+    }
+    if (!loadMoreData) {
+      return null
+    }
+    return (
+      <View
+        style={{
+          paddingVertical: 20,
+          borderTopWidth: 1,
+          borderColor: '#CED0CE',
+        }}
+      >
+        <ActivityIndicator animating size="large" />
+      </View>
+    )
+  }
+
   let [fontsLoaded] = useFonts({
     AbrilFatface_400Regular,
   })
@@ -109,8 +158,8 @@ export default function GuestScreen({ navigation }: any) {
     navigation.setOptions({
       headerShown: true,
       title: 'Errand Market',
-      headerStyle: { backgroundColor: userId ? '#0c1730' : ' #F8F9FC' },
-      headerTitleStyle: { color: userId ? 'white' : 'black' },
+      headerStyle: { backgroundColor: '#e4eaf7' },
+      headerTitleStyle: 'black',
       headerLeft: () => (
         <View
           style={{ marginRight: 6 }}
@@ -120,7 +169,7 @@ export default function GuestScreen({ navigation }: any) {
             name="arrow-back"
             color="#0c1730"
             size={24}
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate('Default')}
           />
         </View>
       ),
@@ -144,10 +193,10 @@ export default function GuestScreen({ navigation }: any) {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: userId ? '#0c1730' : '',
+          // backgroundColor: userId ? '#0c1730' : '',
         }}
       >
-        <ActivityIndicator color={userId ? 'white' : 'blue'} size="large" />
+        <ActivityIndicator color="blue" size="large" />
       </SafeAreaView>
     )
   }
@@ -160,124 +209,118 @@ export default function GuestScreen({ navigation }: any) {
             marginBottom: Platform.OS === 'android' ? 40 : 20,
           }}
         >
-          <ScrollView
+          {/* <ScrollView
             scrollEventThrottle={16}
             className="bg-[#e4eaf7]"
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
-          >
-            {/* {loading ? (
-              <View style={styles.container} className="mt-10">
-                <ActivityIndicator
-                  size={'large'}
-                  style={[{ height: 80 }]}
-                  color="blue"
-                />
-              </View>
-            ) : ( */}
-            {loading && (
-              <View style={styles.container} className="mt-10">
-                <ActivityIndicator
-                  size={'large'}
-                  style={[{ height: 80 }]}
-                  color="blue"
-                />
-              </View>
+          > */}
+          {loading && (
+            <View style={styles.container} className="mt-10">
+              <ActivityIndicator
+                size={'large'}
+                style={[{ height: 80 }]}
+                color="blue"
+              />
+            </View>
+          )}
+          <>
+            {filterOn && (
+              <Filter
+                data={category}
+                value={value}
+                setValue={setValue}
+                onClose={handleFilter}
+                filterOn={filterOn}
+                low={low}
+                high={high}
+                setLow={setLow}
+                setHigh={setHigh}
+                filterMarketList={filterMarketList}
+                setMinCheck={setMinCheck}
+                setSearchedErrand={setSearchedErrand}
+                setCheckFilterToggle={setCheckFilterToggle}
+              />
             )}
-            <>
-              {filterOn && (
-                <Filter
-                  data={category}
-                  value={value}
-                  setValue={setValue}
-                  onClose={handleFilter}
-                  filterOn={filterOn}
-                  low={low}
-                  high={high}
-                  setLow={setLow}
-                  setHigh={setHigh}
-                  filterMarketList={filterMarketList}
-                  setMinCheck={setMinCheck}
-                  setSearchedErrand={setSearchedErrand}
-                />
-              )}
 
-              <View
-                className="bg-[#e4eaf7]"
-                style={{ display: filterOn ? 'none' : 'flex' }}
-              >
-                <View className="mx-4">
-                  {!loading && (
-                    <View className="mt-6 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white">
-                      <EvilIcons
-                        name="search"
-                        size={22}
-                        className="w-1/12"
-                        color="#808080"
-                      />
-                      <TextInput
-                        className=" w-8/12"
-                        placeholder="Search for Errands"
-                        placeholderTextColor="#808080"
-                      />
-                      <TouchableOpacity onPress={handleViewChange}>
-                        <View className="mr-1 b rounded-md w-[38px]">
-                          <Text className="p-2 text-center">
-                            {toggleView ? (
-                              <Feather name="list" size={20} color="black" />
-                            ) : (
-                              <MaterialCommunityIcons
-                                name="view-dashboard"
-                                size={20}
-                                color="black"
-                              />
-                            )}
-                          </Text>
-                        </View>
-                      </TouchableOpacity>
-                      <TouchableOpacity onPress={handleFilter}>
-                        <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
-                          <Text className="p-2 text-center">
-                            <Ionicons
-                              name="md-filter-outline"
-                              size={18}
-                              color="white"
+            <View
+              className="bg-[#e4eaf7]"
+              style={{ display: filterOn ? 'none' : 'flex' }}
+            >
+              <View className="mx-4">
+                {!loading && (
+                  <View className="mt-4 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white">
+                    <EvilIcons
+                      name="search"
+                      size={22}
+                      className="w-1/12"
+                      color="#808080"
+                    />
+                    <TextInput
+                      className=" w-8/12"
+                      placeholder="Search for Errands"
+                      placeholderTextColor="#808080"
+                    />
+                    <TouchableOpacity onPress={handleViewChange}>
+                      <View className="mr-1 b rounded-md w-[38px]">
+                        <Text className="p-2 text-center">
+                          {toggleView ? (
+                            <Feather name="list" size={20} color="black" />
+                          ) : (
+                            <MaterialCommunityIcons
+                              name="view-dashboard"
+                              size={20}
+                              color="black"
                             />
-                          </Text>
-                        </View>
-                      </TouchableOpacity>
-                    </View>
-                  )}
-
-                  <View className="mt-2">
-                    {searchedErrand?.map(
-                      (errand: MarketData, index: number) => {
-                        return (
-                          <>
-                            {toggleView ? (
-                              <GuestComp
-                                errand={errand}
-                                navigate={navigation}
-                                key={index}
-                              />
-                            ) : (
-                              <GuestList
-                                errand={errand}
-                                navigate={navigation}
-                                key={index}
-                              />
-                            )}
-                          </>
-                        )
-                      },
-                    )}
+                          )}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleFilter}>
+                      <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
+                        <Text className="p-2 text-center">
+                          <Ionicons
+                            name="md-filter-outline"
+                            size={18}
+                            color="white"
+                          />
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
                   </View>
-                </View>
+                )}
+
+                <FlatList
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={refreshing}
+                      onRefresh={onRefresh}
+                    />
+                  }
+                  onEndReached={loadMoreData}
+                  onEndReachedThreshold={0.5}
+                  ListFooterComponent={renderListFooter}
+                  data={searchedErrand}
+                  renderItem={({ item, index }) => {
+                    return (
+                      <>
+                        <GuestComp
+                          errand={item}
+                          navigate={navigation}
+                          key={index}
+                        />
+                      </>
+                    )
+                  }}
+                  keyExtractor={(item) => item.id}
+                  style={{ flexGrow: 0, height: 650 }}
+                />
               </View>
-            </>
-            {/* )} */}
-          </ScrollView>
+            </View>
+          </>
+
+          {/* </ScrollView> */}
         </View>
       </SafeAreaView>
 

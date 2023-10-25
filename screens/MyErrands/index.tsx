@@ -4,9 +4,11 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
+  FlatList,
   RefreshControl,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   Text,
   TextInput,
   useWindowDimensions,
@@ -18,12 +20,11 @@ import MyErrandCard from '../../components/MyErrandCard'
 import { MyErrandEmptyState } from '../../components/MyErrandEmptyState'
 import MyErrandToggle from '../../components/MyErrandToggle'
 import PostErrandButton from '../../components/PostErrandBtn'
+import { _fetch } from '../../services/axios/http'
 import { myErrandList } from '../../services/errands/myErrands'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData, SingleSubErrand } from '../../types'
 import { getUserId } from '../../utils/helper'
-import DarkMode from '../../services/DarkMode/DarkMode'
-import { StatusBar } from 'react-native'
 
 const ErrandScreen = ({ navigation }: any) => {
   const [firstName, setFirstName] = useState('')
@@ -36,6 +37,9 @@ const ErrandScreen = ({ navigation }: any) => {
   const [refreshing, setRefreshing] = React.useState(false)
   const [status, setStatus] = useState('')
   const [searchValue, setSearchValue] = useState('')
+  const [loadingMore, setLoadingMore] = useState(false)
+  const [page, setPage] = useState(1)
+  const [checkFilterToggle, setCheckFilterToggle] = useState(false)
   const [subErrand, setSubErrand] = useState<SingleSubErrand>({
     id: '',
     original_errand_id: '',
@@ -104,6 +108,39 @@ const ErrandScreen = ({ navigation }: any) => {
     setSearchedErrand(errands)
   }
 
+  const renderListFooter = () => {
+    if (checkFilterToggle) {
+      return null
+    }
+    if (!loadMoreData) {
+      return null
+    }
+    return (
+      <View
+        style={{
+          paddingVertical: 20,
+          borderTopWidth: 1,
+          borderColor: '#CED0CE',
+        }}
+      >
+        <ActivityIndicator animating size="large" />
+      </View>
+    )
+  }
+
+  const loadMoreData = async () => {
+    if (!loadingMore) {
+      const rs = await _fetch({
+        _url: `/user/errands/?start=${page + 1}&count=5`,
+        method: 'GET',
+      })
+      const _rs = await rs.json()
+      setSearchedErrand([...searchedErrand, ..._rs.data])
+      setPage(page + 1)
+      setLoadingMore(false)
+    }
+  }
+
   const onRefresh = React.useCallback(() => {
     dispatch(myErrandList({ setSearchedErrand }))
     setRefreshing(true)
@@ -145,7 +182,10 @@ const ErrandScreen = ({ navigation }: any) => {
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
           >
-          <StatusBar backgroundColor={backgroundTheme} barStyle={theme ? "light-content" : 'dark-content'} />
+            <StatusBar
+              backgroundColor={backgroundTheme}
+              barStyle={theme ? 'light-content' : 'dark-content'}
+            />
 
             <View
               style={{ backgroundColor: backgroundTheme }}
@@ -224,7 +264,7 @@ const ErrandScreen = ({ navigation }: any) => {
                       </Text>
                     )}
 
-                    <ScrollView className="mt-6">
+                    {/* <ScrollView className="mt-6">
                       <>
                         {searchedErrand?.map((errand, index) => {
                           return (
@@ -241,7 +281,36 @@ const ErrandScreen = ({ navigation }: any) => {
                           )
                         })}
                       </>
-                    </ScrollView>
+                    </ScrollView> */}
+
+                    <FlatList
+                      refreshControl={
+                        <RefreshControl
+                          refreshing={refreshing}
+                          onRefresh={onRefresh}
+                        />
+                      }
+                      onEndReached={loadMoreData}
+                      onEndReachedThreshold={0.5}
+                      ListFooterComponent={renderListFooter}
+                      data={searchedErrand}
+                      renderItem={({ item, index }) => {
+                        return (
+                          <>
+                            <MyErrandCard
+                              index={index}
+                              errand={item}
+                              navigation={navigation}
+                              setManageErrandClicked={setManageErrandClicked}
+                              setSubErrand={setSubErrand}
+                              user_id={userId}
+                            />
+                          </>
+                        )
+                      }}
+                      keyExtractor={(item) => item.id}
+                      style={{ flexGrow: 0, height: 650 }}
+                    />
                   </View>
                   {/* )} */}
                 </>
