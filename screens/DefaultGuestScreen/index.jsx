@@ -130,7 +130,7 @@ const DefaultGuestScreen = ({ navigation }) => {
     // </SafeAreaView>
 
    
-    <Swiper autoplayTimeout={2000} loop={true} autoplay={true} activeDotColor={"white"}>
+    <Swiper autoplayTimeout={7000} loop={true} autoplay={true} activeDotColor={"white"}>
        <ImageBackground source={{uri: ads[0]}} resizeMode="cover" style={{flex:1}}>
           <View
             style={{

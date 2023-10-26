@@ -27,6 +27,8 @@ import { categoriesListReducer } from "./PostErrand/categories";
 import { getAccountsReducer } from "./wallet/getAccount";
 import { walletActionReducer } from "./wallet/walletBalance";
 import darkModeReducer from './DarkMode/DarkMode';
+import modalSliceReducer from './Modal/ModalSlice';
+
 
 // "adaptiveIcon": {
 //         "foregroundImage": "./assets/images/logo.png",
@@ -46,6 +48,7 @@ export const store = configureStore({
     myErrandReducer,
     bidActionReducer,
     darkMode: darkModeReducer,
+    modal: modalSliceReducer,
     startErrandReducer,
     contactUsReducer,
     timelineActionReducer,
