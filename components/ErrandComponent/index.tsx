@@ -172,7 +172,7 @@ export default function ErrandComp({
                     </View>
                   </View>
                 </View>
-                <Text className='mr-6'> {getCardTimeAgo(errand?.updated_at)}</Text>
+                <Text className='mr-6' style={{color: textTheme}}> {getCardTimeAgo(errand?.updated_at)}</Text>
               </View>
              
             </View>

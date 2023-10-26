@@ -18,7 +18,7 @@ import {
 import React, { useEffect, useRef } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useIsConnected } from 'react-native-offline'
-import { useSelector } from 'react-redux'
+
 import { ProfileInitials } from '../components/ProfileInitials'
 import { RootState, useAppDispatch } from '../services/store'
 import { getUserId } from '../utils/helper'
@@ -29,7 +29,10 @@ import {
   SetttingsStack,
   WalletStack,
 } from './StackNavigation'
-import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import { useDispatch, useSelector } from 'react-redux'
+import { openModal } from '../services/Modal/ModalSlice'
+import Content from '../components/AboutContent/Content'
 
 const Header = (props: any) => {
   return (
@@ -57,6 +60,8 @@ export const TabsNavigation = ({ navigation }: any) => {
   const navigate = useNavigation()
   const isConnected = useIsConnected()
 
+
+
   // const navigation = useNavigation()
 
   const {
@@ -71,6 +76,7 @@ export const TabsNavigation = ({ navigation }: any) => {
   const optionsHandler = ({ headerShown, title, tabBarIcon }: OptionsProps) => {
 
     const bottomSheetRef1 = useRef<BottomSheetModal>(null)
+
     
   function openMoreModal() {
     bottomSheetRef1.current?.present()
@@ -101,6 +107,7 @@ export const TabsNavigation = ({ navigation }: any) => {
         </TouchableOpacity>
       ),
       headerRight: () => (
+        <BottomSheetModalProvider>
         <View
           style={{ display: 'flex', flexDirection: 'row', marginRight: 20 }}
           className="flex-row items-center justify-between mx-0 px-3 py-3 "
@@ -128,9 +135,21 @@ export const TabsNavigation = ({ navigation }: any) => {
                 </Text>
                 </TouchableOpacity>
         </View>
+        <BottomSheetModal
+            // backdropComponent={renderBackdrop}
+            ref={bottomSheetRef1}
+            index={0}
+            snapPoints={['40%']}
+            // backdropComponent={renderBackdrop}
+          >
+            <Content navigation={navigation} />
+          </BottomSheetModal>
+        </BottomSheetModalProvider>
       ),
     }
-  }
+  };
+
+  
 
   const route = useRoute()
   const nav = useNavigation()

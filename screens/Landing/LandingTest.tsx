@@ -34,6 +34,7 @@ const LandingTest = ({ navigation }: any) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null)
   const bottomSheetRef1 = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ['40%'], [])
+  const snapPoints1 = useMemo(() => ['43%'], [])
   const [verifiedPin, setVerifiedPin] = useState(true)
 
   function openPinModal() {
@@ -308,7 +309,7 @@ const LandingTest = ({ navigation }: any) => {
           android_keyboardInputMode="adjustResize"
           ref={bottomSheetRef1}
           index={0}
-          snapPoints={snapPoints}
+          snapPoints={snapPoints1}
           containerStyle={{
             marginHorizontal: 10,
             

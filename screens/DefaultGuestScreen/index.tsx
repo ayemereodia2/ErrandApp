@@ -45,7 +45,7 @@ const ImageViewer = ({ navigation }: Props) => {
       <View className=" h-[50px] absolute bottom-14 flex-row px-3 rounded-lg w-[80%] space-x-4">
         <TouchableOpacity
           className="bg-[#1E3A79] items-center justify-center flex-row py-2 px-4 rounded-lg w-[60%]"
-          onPress={() => navigation.navigate('GuestScreen')}
+          onPress={() => navigation.navigate('Login')}
         >
           <Text className="text-white text-lg font-medium text-center">
             Login
@@ -53,7 +53,7 @@ const ImageViewer = ({ navigation }: Props) => {
         </TouchableOpacity>
         <TouchableOpacity
           className="bg-[#1E3A79] items-center justify-center flex-row py-2 px-4 rounded-lg w-[60%]"
-          onPress={() => navigation.navigate('GuestScreen')}
+          onPress={() => navigation.navigate('VerifyPhone')}
         >
           <Text className="text-white text-lg font-medium text-center pr-2">
             Sign up
@@ -184,7 +184,7 @@ const DefaultGuestScreen = ({ navigation }: any) => {
     <>
       <StatusBar translucent backgroundColor="transparent" />
 
-      <Swiper loop={true} autoplay={true} activeDotColor={'white'}>
+      <Swiper loop={true} autoplay={true} autoplayTimeout={7} activeDotColor={'white'}>
         <ImageBackground
           source={require('../../assets/images/slide-1.png')}
           resizeMode="cover"
