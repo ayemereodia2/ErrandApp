@@ -541,7 +541,7 @@ export interface UserDetail {
   insurance_amount: number
   profile_picture: string
   has_transaction_pin: boolean
-  preferred_theme: 'light' | 'dark',
+  preferred_theme: string,
   referred_by: string
   errands_posted: number
 }

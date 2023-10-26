@@ -80,7 +80,7 @@ const LandingDetails = ({ navigation }: any) => {
                   dispatch(errandDetails({ errandId: errand?.id }))
                   dispatch(externalUserDetails({ user_id: errand?.user_id }))
                 }}
-                className="pt-1 mt-2 pb-1 bg-[#fff] rounded-xl py-1 px-6 border " 
+                className="pt-1 mt-2 pb-1 bg-[#fff] rounded-xl py-1 px-6 border w-[350px]" 
                 style={{
                   backgroundColor: theme ? '#152955' : 'white',
                   borderColor: theme ? '#e9ebbf2' : 'lightgrey',

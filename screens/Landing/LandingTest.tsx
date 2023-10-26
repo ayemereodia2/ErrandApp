@@ -1,4 +1,4 @@
-import { Entypo, Feather, FontAwesome } from '@expo/vector-icons'
+import { Entypo, FontAwesome } from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -18,22 +18,23 @@ import {
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
+import Content from '../../components/AboutContent/Content'
 import Container from '../../components/Container'
 import LandingDetails from '../../components/LandingDetails.tsx/LandingDetails'
 import NewNotifications from '../../components/NewNotifications/NewNotifications'
 import PostErrandButton from '../../components/PostErrandBtn'
 import PinModal from '../../components/VerificationModals/PinModal'
+import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
 import { getTimeOfDay } from '../../utils/helper'
-import Content from '../../components/AboutContent/Content'
 
 const LandingTest = ({ navigation }: any) => {
   const loaderGif = '../../assets/images/loading-SWAVE.gif'
   const bottomSheetRef = useRef<BottomSheetModal>(null)
   const bottomSheetRef1 = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ['40%'], [])
+  const snapPoints = useMemo(() => ['45%'], [])
   const [verifiedPin, setVerifiedPin] = useState(true)
 
   function openPinModal() {
@@ -43,7 +44,6 @@ const LandingTest = ({ navigation }: any) => {
   function closePinModal() {
     bottomSheetRef.current?.dismiss()
   }
-
 
   function openMoreModal() {
     bottomSheetRef1.current?.present()
@@ -61,7 +61,10 @@ const LandingTest = ({ navigation }: any) => {
         {...props}
         appearsOnIndex={0}
         disappearsOnIndex={-1}
-        // onChange={handleSheetChanges}
+        onPress={() => {
+          bottomSheetRef.current?.dismiss()
+          bottomSheetRef1.current?.dismiss()
+        }}
       />
     ),
     [],
@@ -80,7 +83,12 @@ const LandingTest = ({ navigation }: any) => {
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-  // console.log('>>>>>>themeBackgriubd', backgroundTheme, textTheme)
+  console.log(
+    '>>>>>>themeBackgriubd',
+    currentUser.preferred_theme,
+    backgroundTheme,
+    textTheme,
+  )
 
   const getCategory = async () => {
     const _rs = await _fetch({
@@ -114,7 +122,10 @@ const LandingTest = ({ navigation }: any) => {
 
   const checkPinIsVerified = async () => {
     const isPinVerified = await AsyncStorage.getItem('pin')
-    console.log('>>>>>>isPinVerified', isPinVerified)
+    const user_id = (await AsyncStorage.getItem('user_id')) || ''
+
+    console.log('>>>>>>isPinVerified', user_id)
+    dispatch(currentUserDetails({ user_id }))
     if (isPinVerified === 'false') {
       openPinModal()
     }
@@ -155,7 +166,7 @@ const LandingTest = ({ navigation }: any) => {
               marginBottom: Platform.OS === 'android' ? 10 : 35,
             }}
           > */}
-            <View className="mt-6 flex-row items-center justify-between">
+            <View className="flex-row items-center justify-between">
               <Text
                 className="font-bold text-[20px] leading-7"
                 style={{ color: textTheme }}
@@ -173,12 +184,14 @@ const LandingTest = ({ navigation }: any) => {
                     }}
                   />
                 </Text>
-                <TouchableOpacity  onPress={
-                      // navigation.navigate('Contact')
-                      openMoreModal
-                    }>
-                <Text style={{ color: textTheme }}>
-                  {/* <Feather
+                <TouchableOpacity
+                  onPress={
+                    // navigation.navigate('Contact')
+                    openMoreModal
+                  }
+                >
+                  <Text style={{ color: textTheme }}>
+                    {/* <Feather
                     name="help-circle"
                     size={24}
                     onPress={() => {
@@ -186,8 +199,8 @@ const LandingTest = ({ navigation }: any) => {
                      
                     }}
                   /> */}
-                  <Entypo name="dots-three-vertical" size={24} />
-                </Text>
+                    <Entypo name="dots-three-vertical" size={24} />
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -311,15 +324,13 @@ const LandingTest = ({ navigation }: any) => {
           snapPoints={snapPoints}
           containerStyle={{
             marginHorizontal: 10,
-            
           }}
           backdropComponent={renderBackdrop}
           keyboardBehavior="extend"
           enablePanDownToClose
           keyboardBlurBehavior="restore"
         >
-        <Content navigation={navigation} />
-
+          <Content navigation={navigation} />
         </BottomSheetModal>
       </BottomSheetModalProvider>
     </Container>

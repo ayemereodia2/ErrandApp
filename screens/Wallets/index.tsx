@@ -1,15 +1,15 @@
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
+import { Entypo, FontAwesome, MaterialIcons } from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
-  BottomSheetModalProvider
+  BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
 import React, {
   useCallback,
   useEffect,
   useLayoutEffect,
   useRef,
-  useState
+  useState,
 } from 'react'
 import {
   ActivityIndicator,
@@ -21,23 +21,25 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native'
 import {
   Menu,
   MenuOption,
   MenuOptions,
-  MenuTrigger
+  MenuTrigger,
 } from 'react-native-popup-menu'
 import { useSelector } from 'react-redux'
+import Content from '../../components/AboutContent/Content'
 import Container from '../../components/Container'
+import { ProfileInitials } from '../../components/ProfileInitials'
 import EscrowDetails from '../../components/Transactions/EscrowDetails'
 import TransactionDetails from '../../components/Transactions/TransactionDetails'
-import PinModal from '../../components/VerificationModals/PinModal'
 import { _fetch } from '../../services/axios/http'
 import { RootState, useAppDispatch } from '../../services/store'
 import { walletAction } from '../../services/wallet/walletBalance'
 import { Transaction } from '../../types'
+import { getUserId } from '../../utils/helper'
 import AccountStatement from './AccountStatement'
 import WithdrawalScreen from './WithdrawalScreen'
 
@@ -50,6 +52,12 @@ const WalletScreen = ({ navigation }: any) => {
     textTheme,
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [profilePic, setProfilePic] = useState('')
+  const [userId, setUserId] = useState('')
+  const bottomSheetRef1 = useRef<BottomSheetModal>(null)
 
   const walletBalanceSvg = '../../assets/images/walletbalance.svg'
 
@@ -88,6 +96,8 @@ const WalletScreen = ({ navigation }: any) => {
     (state: RootState) => state.walletActionReducer,
   )
 
+
+
   const renderBackdrop = useCallback(
     (props) => (
       <BottomSheetBackdrop
@@ -100,6 +110,7 @@ const WalletScreen = ({ navigation }: any) => {
           statementRef.current?.dismiss()
           bottomSheetRef.current?.dismiss()
           pinSheetRef.current?.dismiss()
+          bottomSheetRef1.current?.dismiss()
         }}
       />
     ),
@@ -133,6 +144,10 @@ const WalletScreen = ({ navigation }: any) => {
     }
   }
 
+  function openMoreModal() {
+    bottomSheetRef1.current?.present()
+  }
+
   const onRefresh = React.useCallback(() => {
     dispatch(walletAction({ request: 'wallet' }))
     getTransactions()
@@ -157,6 +172,10 @@ const WalletScreen = ({ navigation }: any) => {
     })
   }, [])
 
+  useEffect(() => {
+    getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
+  }, [])
+
   const darkMode = useSelector((state: RootState) => state.darkMode.darkMode)
 
   if (detailsLoading) {
@@ -175,292 +194,333 @@ const WalletScreen = ({ navigation }: any) => {
   }
 
   return (
-    <BottomSheetModalProvider>
-      <Container>
-        <>
-          <SafeAreaView
-            className=" bg-[#e4eaf7]"
+    <Container>
+      <BottomSheetModalProvider>
+        <SafeAreaView
+          className=" bg-[#e4eaf7]"
+          style={{ backgroundColor: backgroundTheme }}
+        >
+          <StatusBar
+            backgroundColor={backgroundTheme}
+            barStyle={theme ? 'light-content' : 'dark-content'}
+          />
+
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            className="bg-[#e4eaf7]"
             style={{ backgroundColor: backgroundTheme }}
+            showsVerticalScrollIndicator={false}
           >
-            <StatusBar
-              backgroundColor={backgroundTheme}
-              barStyle={theme ? 'light-content' : 'dark-content'}
-            />
-
-            <ScrollView
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-              className="bg-[#e4eaf7] mt-4"
-              style={{ backgroundColor: backgroundTheme }}
-              showsVerticalScrollIndicator={false}
-            >
-              <View
-                className="flex-row items-center justify-between bg-[#e4eaf7] px-4 mt-2"
-                style={{ backgroundColor: backgroundTheme }}
+            <View className=" flex-row items-center justify-between">
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Profile')}
+                style={{ marginLeft: 20 }}
+                className="flex-row items-center justify-between my-3"
               >
-                <Text
-                  className="font-medium text-xl leading-[29px]"
-                  style={{ color: textTheme }}
-                >
-                  Overview
-                </Text>
+                <ProfileInitials
+                  firstName={firstName.charAt(0).toUpperCase()}
+                  lastName={lastName.charAt(0).toUpperCase()}
+                  profile_pic={profilePic}
+                  textClass="text-white text-base"
+                  width={35}
+                  height={35}
+                />
+              </TouchableOpacity>
 
-                <Menu
-                  style={{
-                    shadowColor: 'none',
-                    shadowOpacity: 0,
-                    borderRadius: 30,
+              <Text
+                className="font-bold text-[20px] leading-7"
+                style={{ color: textTheme }}
+              >
+                Wallet
+              </Text>
+
+              <View className="items-center flex-row gap-4 mr-2">
+                <Text style={{ color: textTheme }}>
+                  <FontAwesome
+                    name="bell-o"
+                    size={24}
+                    onPress={() => {
+                      navigation.navigate('Notification')
+                    }}
+                  />
+                </Text>
+                <TouchableOpacity onPress={openMoreModal}>
+                  <Text style={{ color: textTheme }}>
+                    <Entypo name="dots-three-vertical" size={24} />
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <View
+              className="flex-row items-center justify-between bg-[#e4eaf7] px-4 mt-2"
+              style={{ backgroundColor: backgroundTheme }}
+            >
+              <Text
+                className="font-medium text-xl leading-[29px]"
+                style={{ color: textTheme }}
+              >
+                Overview
+              </Text>
+
+              <Menu
+                style={{
+                  shadowColor: 'none',
+                  shadowOpacity: 0,
+                  borderRadius: 30,
+                }}
+              >
+                <MenuTrigger>
+                  <View className="bg-[#3F60AC] w-[131px] items-center p-2 rounded-md">
+                    <View className="flex-row items-center justify-center">
+                      <Text className=" text-center text-white">
+                        Quick Links{' '}
+                      </Text>
+                      <Text>
+                        <MaterialIcons
+                          name="keyboard-arrow-down"
+                          size={24}
+                          color="white"
+                        />
+                      </Text>
+                    </View>
+                  </View>
+                </MenuTrigger>
+                <MenuOptions
+                  customStyles={{
+                    optionWrapper: {
+                      marginTop: 20,
+                    },
+                    optionText: { textAlign: 'center', fontWeight: '600' },
                   }}
                 >
-                  <MenuTrigger>
-                    <View
-                      className="bg-[#3F60AC] w-[131px] items-center p-2 rounded-md"
-                      // onPress={handleQuickLinks}
-                    >
-                      <View className="flex-row items-center justify-center">
-                        <Text className=" text-center text-white">
-                          Quick Links{' '}
-                        </Text>
-                        <Text>
-                          <MaterialIcons
-                            name="keyboard-arrow-down"
-                            size={24}
-                            color="white"
-                          />
-                        </Text>
-                      </View>
-                    </View>
-                  </MenuTrigger>
-                  <MenuOptions
+                  <MenuOption
+                    onSelect={() => toggleAccountStatementModal(true)}
+                    text="Generate Account Statement"
                     customStyles={{
                       optionWrapper: {
-                        marginTop: 20,
+                        paddingVertical: 6,
                       },
-                      optionText: { textAlign: 'center', fontWeight: '600' },
+                      optionText: {
+                        fontSize: 14,
+                        textAlign: 'center',
+                        fontWeight: '300',
+                      },
+                    }}
+                  />
+                  <MenuOption
+                    onSelect={() => toggleWithdrawaltModal(true)}
+                    text="Make Withdrawal Request"
+                    customStyles={{
+                      optionWrapper: {
+                        paddingVertical: 6,
+                      },
+                      optionText: {
+                        fontSize: 14,
+                        textAlign: 'center',
+                        fontWeight: '300',
+                      },
+                    }}
+                  />
+                  <MenuOption
+                    onSelect={() => navigation.navigate('WalletAccount')}
+                    text="My Accounts"
+                    customStyles={{
+                      optionWrapper: {
+                        paddingVertical: 6,
+                      },
+                      optionText: {
+                        fontSize: 14,
+                        textAlign: 'center',
+                        fontWeight: '300',
+                      },
+                    }}
+                  />
+                </MenuOptions>
+              </Menu>
+            </View>
+
+            <View className="pt-4 ">
+              <View className="px-4">
+                <ImageBackground
+                  source={{ uri: balanceLayer }}
+                  resizeMode="cover"
+                  style={{ flex: 1, justifyContent: 'center' }}
+                >
+                  <View
+                    className="w-full bg-[#FFF] border mt-3 border-[#DAE1F1] rounded-xl p-6 mx-auto z-1 "
+                    style={{
+                      backgroundColor: theme ? backgroundTheme : 'white',
                     }}
                   >
-                    <MenuOption
-                      onSelect={() => toggleAccountStatementModal(true)}
-                      text="Generate Account Statement"
-                      customStyles={{
-                        optionWrapper: {
-                          paddingVertical: 6,
-                        },
-                        optionText: {
-                          fontSize: 14,
-                          textAlign: 'center',
-                          fontWeight: '300',
-                        },
-                      }}
-                    />
-                    <MenuOption
-                      onSelect={() => toggleWithdrawaltModal(true)}
-                      text="Make Withdrawal Request"
-                      customStyles={{
-                        optionWrapper: {
-                          paddingVertical: 6,
-                        },
-                        optionText: {
-                          fontSize: 14,
-                          textAlign: 'center',
-                          fontWeight: '300',
-                        },
-                      }}
-                    />
-                    <MenuOption
-                      onSelect={() => navigation.navigate('WalletAccount')}
-                      text="My Accounts"
-                      customStyles={{
-                        optionWrapper: {
-                          paddingVertical: 6,
-                        },
-                        optionText: {
-                          fontSize: 14,
-                          textAlign: 'center',
-                          fontWeight: '300',
-                        },
-                      }}
-                    />
-                  </MenuOptions>
-                </Menu>
-              </View>
-
-              <View className="pt-4 ">
-                <View className="px-4">
-                  <ImageBackground
-                    source={{ uri: balanceLayer }}
-                    resizeMode="cover"
-                    style={{ flex: 1, justifyContent: 'center' }}
-                  >
-                    <View
-                      className="w-full bg-[#FFF] border mt-3 border-[#DAE1F1] rounded-xl p-6 mx-auto z-1 "
-                      style={{
-                        backgroundColor: theme ? backgroundTheme : 'white',
-                      }}
-                    >
-                      <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
-                        <Text>
-                          <FontAwesome name="bank" size={24} color="#C85604" />
-                        </Text>
-                      </View>
-
-                      <Text
-                        className="mt-6 text-[#888] text-base font-medium leading-[24px]"
-                        style={{ color: theme ? textTheme : 'black' }}
-                      >
-                        Account Balance
+                    <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
+                      <Text>
+                        <FontAwesome name="bank" size={24} color="#C85604" />
                       </Text>
+                    </View>
+
+                    <Text
+                      className="mt-6 text-[#888] text-base font-medium leading-[24px]"
+                      style={{ color: theme ? textTheme : 'black' }}
+                    >
+                      Account Balance
+                    </Text>
+                    <Text
+                      className="font-bold text-[32px] mt-2"
+                      style={{ color: theme ? textTheme : 'black' }}
+                    >
+                      {' '}
+                      ₦
+                      {Number(data?.balance) === 0
+                        ? '0.00'
+                        : (Number(data?.balance) / 100).toLocaleString()}
+                    </Text>
+
+                    <TouchableOpacity
+                      onPress={() => {
+                        setCurrentWalletAmount(Number(data?.balance) / 100)
+                        navigation.navigate('FundWalletModal', {
+                          currentWalletAmount,
+                        })
+                      }}
+                      className="w-[200px] h-[44px] mt-5 items-center justify-center border border-[#314B87] rounded-lg"
+                    >
                       <Text
-                        className="font-bold text-[32px] mt-2"
-                        style={{ color: theme ? textTheme : 'black' }}
+                        className="text-center text-base"
+                        style={{ color: textTheme }}
                       >
                         {' '}
-                        ₦
-                        {Number(data?.balance) === 0
-                          ? '0.00'
-                          : (Number(data?.balance) / 100).toLocaleString()}
+                        + <Text>Fund Wallet</Text>
                       </Text>
-
-                      <TouchableOpacity
-                        onPress={() => {
-                          setCurrentWalletAmount(Number(data?.balance) / 100)
-                          navigation.navigate('FundWalletModal', {
-                            currentWalletAmount,
-                          })
-                        }}
-                        className="w-[200px] h-[44px] mt-5 items-center justify-center border border-[#314B87] rounded-lg"
-                      >
-                        <Text
-                          className="text-center text-base"
-                          style={{ color: textTheme }}
-                        >
-                          {' '}
-                          + <Text>Fund Wallet</Text>
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  </ImageBackground>
-                </View>
-
-                {/* THE END OF QUICKLINKS DROPDOWN */}
-              </View>
-              {/* Account Balance */}
-              <View className="px-4">
-                {/* Escrow Balance */}
-
-                <View className=" bg-[#3F60AC] border mt-4 border-[#DAE1F1] rounded-xl p-6">
-                  <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
-                    <Text>
-                      <FontAwesome name="bank" size={24} color="#C85604" />
-                    </Text>
+                    </TouchableOpacity>
                   </View>
-
-                  <Text className="mt-6 text-[#fff] text-base font-medium leading-[24px]">
-                    Escrow Account
+                </ImageBackground>
+              </View>
+            </View>
+            <View className="px-4">
+              <View className=" bg-[#3F60AC] border mt-4 border-[#DAE1F1] rounded-xl p-6">
+                <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
+                  <Text>
+                    <FontAwesome name="bank" size={24} color="#C85604" />
                   </Text>
-                  <Text className="font-bold text-[32px] text-white mt-2">
-                    ₦
-                    {Number(data?.escrow) === 0
-                      ? '0.00'
-                      : (Number(data?.escrow) / 100).toLocaleString()}
+                </View>
+
+                <Text className="mt-6 text-[#fff] text-base font-medium leading-[24px]">
+                  Escrow Account
+                </Text>
+                <Text className="font-bold text-[32px] text-white mt-2">
+                  ₦
+                  {Number(data?.escrow) === 0
+                    ? '0.00'
+                    : (Number(data?.escrow) / 100).toLocaleString()}
+                </Text>
+              </View>
+
+              <View className="bg-[#FFB536] border mt-4 border-[#DAE1F1] rounded-xl p-6">
+                <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
+                  <Text>
+                    <FontAwesome name="bank" size={24} color="#C85604" />
                   </Text>
                 </View>
 
-                {/* Incoming Funds */}
-
-                <View className="bg-[#FFB536] border mt-4 border-[#DAE1F1] rounded-xl p-6">
-                  <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
-                    <Text>
-                      <FontAwesome name="bank" size={24} color="#C85604" />
-                    </Text>
-                  </View>
-
-                  <Text className="mt-6 text-black text-base font-medium leading-[24px]">
-                    Incoming Funds
-                  </Text>
-                  <Text className="font-bold text-black text-[32px] mt-2">
-                    ₦
-                    {Number(data?.incoming) === 0
-                      ? '0.00'
-                      : (Number(data?.incoming) / 100).toLocaleString()}
-                  </Text>
-                </View>
-              </View>
-
-              {/* Transction */}
-              <View className="mt-[64px] mb-8 flex-row justify-between items-center mx-4">
-                <Text
-                  className="text-xl font-medium"
-                  style={{ color: textTheme }}
-                >
-                  Transactions
+                <Text className="mt-6 text-black text-base font-medium leading-[24px]">
+                  Incoming Funds
                 </Text>
-                <TouchableOpacity
-                  className="bg-[#3F60AC] w-[65px] h-[28px] items-center justify-center rounded-md"
-                  onPress={() => navigation.navigate('TransactionScreen')}
-                >
-                  <Text className="text-white">View All</Text>
-                </TouchableOpacity>
-              </View>
-
-              {/*Transctions info */}
-              <View
-                className="bg-white mx-4 rounded-lg"
-                style={{ backgroundColor: backgroundTheme }}
-              >
-                {transactions?.slice(0, 5).map((transaction) => {
-                  return <TransactionDetails {...transaction} />
-                })}
-              </View>
-
-              {/* Escrow */}
-              <View className="mt-[64px] mb-8 flex-row justify-between items-center mx-4">
-                <Text
-                  className="text-xl font-medium"
-                  style={{ color: textTheme }}
-                >
-                  Escrow Breakdown
+                <Text className="font-bold text-black text-[32px] mt-2">
+                  ₦
+                  {Number(data?.incoming) === 0
+                    ? '0.00'
+                    : (Number(data?.incoming) / 100).toLocaleString()}
                 </Text>
-
-                <TouchableOpacity
-                  className="bg-[#3F60AC] w-[65px] h-[28px] items-center justify-center rounded-md"
-                  onPress={() => navigation.navigate('EscrowScreen')}
-                >
-                  <Text className="text-white">View All</Text>
-                </TouchableOpacity>
               </View>
+            </View>
 
-              <View
-                className="bg-white mx-4 rounded-lg"
-                style={{ backgroundColor: backgroundTheme }}
+            <View className="mt-[64px] mb-8 flex-row justify-between items-center mx-4">
+              <Text
+                className="text-xl font-medium"
+                style={{ color: textTheme }}
               >
-                {data?.escrow_breakdown?.slice(0, 5).map((escrows) => {
-                  return <EscrowDetails {...escrows} />
-                })}
-              </View>
-            </ScrollView>
-          </SafeAreaView>
+                Transactions
+              </Text>
+              <TouchableOpacity
+                className="bg-[#3F60AC] w-[65px] h-[28px] items-center justify-center rounded-md"
+                onPress={() => navigation.navigate('TransactionScreen')}
+              >
+                <Text className="text-white">View All</Text>
+              </TouchableOpacity>
+            </View>
 
-          <BottomSheetModal
-            ref={bottomSheetRef}
-            index={0}
-            snapPoints={['60%']}
-            backdropComponent={renderBackdrop}
-          >
-            <WithdrawalScreen closePinModal={closePinModal} openPinModal={openPinModal} toggleWithdrawaltModal={toggleWithdrawaltModal} />
-          </BottomSheetModal>
+            <View
+              className="bg-white mx-4 rounded-lg"
+              style={{ backgroundColor: backgroundTheme }}
+            >
+              {transactions?.slice(0, 5).map((transaction) => {
+                return <TransactionDetails {...transaction} />
+              })}
+            </View>
 
-          <BottomSheetModal
-            ref={statementRef}
-            index={0}
-            snapPoints={['50%']}
-            backdropComponent={renderBackdrop}
-          >
-            <AccountStatement />
-          </BottomSheetModal>
+            <View className="mt-[64px] mb-8 flex-row justify-between items-center mx-4">
+              <Text
+                className="text-xl font-medium"
+                style={{ color: textTheme }}
+              >
+                Escrow Breakdown
+              </Text>
 
-          {/* <BottomSheetModal
+              <TouchableOpacity
+                className="bg-[#3F60AC] w-[65px] h-[28px] items-center justify-center rounded-md"
+                onPress={() => navigation.navigate('EscrowScreen')}
+              >
+                <Text className="text-white">View All</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View
+              className="bg-white mx-4 rounded-lg"
+              style={{ backgroundColor: backgroundTheme }}
+            >
+              {data?.escrow_breakdown?.slice(0, 5).map((escrows) => {
+                return <EscrowDetails {...escrows} />
+              })}
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+
+        <BottomSheetModal
+          ref={bottomSheetRef}
+          index={0}
+          snapPoints={['60%']}
+          backdropComponent={renderBackdrop}
+        >
+          <WithdrawalScreen
+            closePinModal={closePinModal}
+            openPinModal={openPinModal}
+            toggleWithdrawaltModal={toggleWithdrawaltModal}
+          />
+        </BottomSheetModal>
+
+        <BottomSheetModal
+          ref={statementRef}
+          index={0}
+          snapPoints={['50%']}
+          backdropComponent={renderBackdrop}
+        >
+          <AccountStatement />
+        </BottomSheetModal>
+
+        <BottomSheetModal
+          // backdropComponent={renderBackdrop}
+          ref={bottomSheetRef1}
+          index={0}
+          snapPoints={['45%']}
+          backdropComponent={renderBackdrop}
+        >
+          <Content navigation={navigation} />
+        </BottomSheetModal>
+
+        {/* <BottomSheetModal
             ref={pinSheetRef}
             index={0}
             snapPoints={['50%']}
@@ -475,9 +535,8 @@ const WalletScreen = ({ navigation }: any) => {
               closePinModal={closePinModal}
             />
           </BottomSheetModal> */}
-        </>
-      </Container>
-    </BottomSheetModalProvider>
+      </BottomSheetModalProvider>
+    </Container>
   )
 }
 

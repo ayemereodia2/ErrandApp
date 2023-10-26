@@ -21,8 +21,6 @@ const SettingsTest = () => {
   const [loading1, setLoading1] = useState(false)
   const [accountUpdate, setAccountUpdate] = useState(false)
   const [newsLetter, setNewsLetter] = useState(false)
-  const [theme, setTheme] = useState('light')
-
 
   const dispatch = useAppDispatch()
 
@@ -33,7 +31,7 @@ const SettingsTest = () => {
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
-  // const theme = currentUser?.preferred_theme === 'light' ? true : false
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   {
     loading1 ? (
@@ -91,7 +89,7 @@ const SettingsTest = () => {
   console.log(preferences?.account_update_notifications)
 
   useEffect(() => {
-    getUserId({ dispatch, setTheme })
+    getUserId({ dispatch })
   }, [])
 
   if (IsLoading) {
@@ -121,10 +119,10 @@ const SettingsTest = () => {
       </View>
 
       <View
-       style={{ backgroundColor: theme ? 'white' : '#152955' }}
+       style={{ backgroundColor: theme ? '#152955' : 'white' }}
         className=" bg-[#ECF0F8] mt-5 rounded-lg pb-4"
       >
-        <View className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]" style={{ backgroundColor: theme ? 'white' : '#152955' }}>
+        <View className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]" style={{ backgroundColor: theme ? '#152955' : 'white'  }}>
           <View className="flex-row items-center justify-between" >
             <Text
               style={{ color: textTheme }}
@@ -155,7 +153,7 @@ const SettingsTest = () => {
           </Text>
         </View>
 
-        <View className=" h-[63px] ml-4 mt-5 border-b pb-2 border-b-[#AAAAAA]" style={{ backgroundColor: theme ? 'white' : '#152955' }}>
+        <View className=" h-[63px] ml-4 mt-5 border-b pb-2 border-b-[#AAAAAA]" style={{ backgroundColor: theme ? '#152955' : 'white'  }}>
           <View className="flex-row items-center justify-between">
             <Text
               style={{ color: textTheme }}
@@ -189,7 +187,7 @@ const SettingsTest = () => {
           </Text>
         </View>
 
-        <View className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]" style={{ backgroundColor: theme ? 'white' : '#152955' }}>
+        <View className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]" style={{ backgroundColor: theme ? '#152955' : 'white'  }}>
           <View className="flex-row items-center justify-between">
             <Text
               style={{ color: textTheme }}
@@ -266,11 +264,11 @@ const SettingsTest = () => {
       </View>
 
       <View
-       style={{ backgroundColor: theme ? 'white' : '#152955' }}
+       style={{ backgroundColor: theme ? '#152955' : 'white'  }}
         className=" bg-[#ECF0F8] mt-5 rounded-lg pb-3"
       >
-        <View className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]" style={{ backgroundColor: theme ? 'white' : '#152955' }}>
-          <View className="flex-row items-center justify-between" style={{ backgroundColor: theme ? 'white' : '#152955' }}>
+        <View className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]" style={{ backgroundColor: theme ? '#152955' : 'white'  }}>
+          <View className="flex-row items-center justify-between" style={{ backgroundColor: theme ? '#152955' : 'white'  }}>
             <Text
               style={{ color: textTheme }}
               className="font-medium text-base "
@@ -313,7 +311,7 @@ const SettingsTest = () => {
       </View>
 
       <View
-       style={{ backgroundColor: theme ? 'white' : '#152955' }}
+       style={{ backgroundColor: theme ? '#152955' : 'white'  }}
         className=" bg-[#ECF0F8] mt-5 rounded-md pb-4"
       >
         <View className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">

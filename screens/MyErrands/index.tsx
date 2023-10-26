@@ -1,7 +1,12 @@
 // import { fetchMyErrands } from '@app/lib/errand/api'
-import { AntDesign, EvilIcons } from '@expo/vector-icons'
+import { AntDesign, Entypo, EvilIcons, FontAwesome } from '@expo/vector-icons'
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet'
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   FlatList,
@@ -11,15 +16,18 @@ import {
   StatusBar,
   Text,
   TextInput,
+  TouchableOpacity,
   useWindowDimensions,
   View,
 } from 'react-native'
 import { useSelector } from 'react-redux'
+import Content from '../../components/AboutContent/Content'
 import Container from '../../components/Container'
 import MyErrandCard from '../../components/MyErrandCard'
 import { MyErrandEmptyState } from '../../components/MyErrandEmptyState'
 import MyErrandToggle from '../../components/MyErrandToggle'
 import PostErrandButton from '../../components/PostErrandBtn'
+import { ProfileInitials } from '../../components/ProfileInitials'
 import { _fetch } from '../../services/axios/http'
 import { myErrandList } from '../../services/errands/myErrands'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -40,6 +48,7 @@ const ErrandScreen = ({ navigation }: any) => {
   const [loadingMore, setLoadingMore] = useState(false)
   const [page, setPage] = useState(1)
   const [checkFilterToggle, setCheckFilterToggle] = useState(false)
+  const bottomSheetRef1 = useRef<BottomSheetModal>(null)
   const [subErrand, setSubErrand] = useState<SingleSubErrand>({
     id: '',
     original_errand_id: '',
@@ -66,6 +75,23 @@ const ErrandScreen = ({ navigation }: any) => {
     (state: RootState) => state.myErrandReducer,
   )
 
+  const renderBackdrop = useCallback(
+    (props: any) => (
+      <BottomSheetBackdrop
+        pressBehavior={'collapse'}
+        opacity={0.7}
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        onPress={() => {
+          bottomSheetRef1.current?.dismiss()
+        }}
+        // onChange={handleSheetChanges}
+      />
+    ),
+    [],
+  )
+
   const {
     data: currentUser,
     backgroundTheme,
@@ -84,6 +110,10 @@ const ErrandScreen = ({ navigation }: any) => {
       errand?.description?.toLowerCase().includes(value),
     )
     setSearchedErrand(searchResult)
+  }
+
+  function openMoreModal() {
+    bottomSheetRef1.current?.present()
   }
 
   const filterErrandByStatus = (status: string) => {
@@ -176,67 +206,109 @@ const ErrandScreen = ({ navigation }: any) => {
   return (
     <>
       <Container>
-        <View className="">
-          <ScrollView
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-          >
-            <StatusBar
-              backgroundColor={backgroundTheme}
-              barStyle={theme ? 'light-content' : 'dark-content'}
-            />
-
-            <View
-              style={{ backgroundColor: backgroundTheme }}
-              className="bg-[#e4eaf7]"
+        <BottomSheetModalProvider>
+          <View className="">
+            <ScrollView
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
             >
-              {!searchedErrand ? (
-                <MyErrandEmptyState />
-              ) : (
-                <>
-                  <View>
-                    <View
-                      style={{ backgroundColor: backgroundTheme }}
-                      className="bg-[#e4eaf7] "
-                    >
+              <StatusBar
+                backgroundColor={backgroundTheme}
+                barStyle={theme ? 'light-content' : 'dark-content'}
+              />
+
+              <View className=" flex-row items-center justify-between">
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Profile')}
+                  style={{ marginLeft: 20 }}
+                  className="flex-row items-center justify-between my-3"
+                >
+                  <ProfileInitials
+                    firstName={firstName.charAt(0).toUpperCase()}
+                    lastName={lastName.charAt(0).toUpperCase()}
+                    profile_pic={profilePic}
+                    textClass="text-white text-base"
+                    width={35}
+                    height={35}
+                  />
+                </TouchableOpacity>
+
+                <Text
+                  className="font-bold text-[20px] leading-7"
+                  style={{ color: textTheme }}
+                >
+                  My Errands
+                </Text>
+
+                <View className="items-center flex-row gap-4 mr-2">
+                  <Text style={{ color: textTheme }}>
+                    <FontAwesome
+                      name="bell-o"
+                      size={24}
+                      onPress={() => {
+                        navigation.navigate('Notification')
+                      }}
+                    />
+                  </Text>
+                  <TouchableOpacity onPress={openMoreModal}>
+                    <Text style={{ color: textTheme }}>
+                      <Entypo name="dots-three-vertical" size={24} />
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <View
+                style={{ backgroundColor: backgroundTheme }}
+                className="bg-[#e4eaf7]"
+              >
+                {!searchedErrand ? (
+                  <MyErrandEmptyState />
+                ) : (
+                  <>
+                    <View>
                       <View
-                        className="mx-4 mt-4 bg-white"
-                        style={{ backgroundColor: theme ? '#1E3A79' : 'white' }}
+                        // style={{ backgroundColor: backgroundTheme }}
+                        className=""
                       >
                         <View
-                          className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3"
-                          style={{
-                            backgroundColor: theme ? '#1E3A79' : 'white',
-                          }}
+                          className="mx-4 mt-2"
+                          // style={{ backgroundColor: theme ? '#1E3A79' : 'white' }}
                         >
-                          <EvilIcons
-                            name="search"
-                            size={22}
-                            className="w-1/12"
-                            color={theme ? 'white' : 'black'}
-                          />
-                          <TextInput
-                            className=" w-9/12"
-                            placeholder="Search for Errands or Bids"
-                            placeholderTextColor={theme ? 'white' : '#808080'}
-                            onChangeText={(text) => setSearchValue(text)}
+                          <View
+                            className="border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3"
                             style={{
                               backgroundColor: theme ? '#1E3A79' : 'white',
-                              color: theme ? 'white' : '#808080',
                             }}
-                          />
-                          {searchValue ? (
-                            <AntDesign
-                              onPress={() => setSearchValue('')}
-                              name="close"
-                              size={20}
+                          >
+                            <EvilIcons
+                              name="search"
+                              size={22}
+                              className="w-1/12"
                               color={theme ? 'white' : 'black'}
                             />
-                          ) : (
-                            ''
-                          )}
-                          {/* <Image
+                            <TextInput
+                              className=" w-9/12"
+                              placeholder="Search for Errands or Bids"
+                              placeholderTextColor={theme ? 'white' : '#808080'}
+                              onChangeText={(text) => setSearchValue(text)}
+                              style={{
+                                backgroundColor: theme ? '#1E3A79' : 'white',
+                                color: theme ? 'white' : '#808080',
+                              }}
+                            />
+                            {searchValue ? (
+                              <AntDesign
+                                onPress={() => setSearchValue('')}
+                                name="close"
+                                size={20}
+                                color={theme ? 'white' : 'black'}
+                              />
+                            ) : (
+                              ''
+                            )}
+                            {/* <Image
                             style={{
                               width: 30,
                               height: 30,
@@ -244,27 +316,27 @@ const ErrandScreen = ({ navigation }: any) => {
                             }}
                             source={require('../../assets/images/filter.png')}
                           /> */}
+                          </View>
                         </View>
+
+                        <MyErrandToggle
+                          filterBidByStatus={filterBidByStatus}
+                          filterErrandByStatus={filterErrandByStatus}
+                        />
                       </View>
 
-                      <MyErrandToggle
-                        filterBidByStatus={filterBidByStatus}
-                        filterErrandByStatus={filterErrandByStatus}
-                      />
-                    </View>
+                      {searchedErrand?.length === 0 && (
+                        <Text
+                          style={{
+                            color: theme ? 'white' : '#808080',
+                          }}
+                          className="text-xs text-center pt-3"
+                        >
+                          No {status} Errands at the moment
+                        </Text>
+                      )}
 
-                    {searchedErrand?.length === 0 && (
-                      <Text
-                        style={{
-                          color: theme ? 'white' : '#808080',
-                        }}
-                        className="text-xs text-center pt-3"
-                      >
-                        No {status} Errands at the moment
-                      </Text>
-                    )}
-
-                    {/* <ScrollView className="mt-6">
+                      {/* <ScrollView className="mt-6">
                       <>
                         {searchedErrand?.map((errand, index) => {
                           return (
@@ -283,41 +355,52 @@ const ErrandScreen = ({ navigation }: any) => {
                       </>
                     </ScrollView> */}
 
-                    <FlatList
-                      refreshControl={
-                        <RefreshControl
-                          refreshing={refreshing}
-                          onRefresh={onRefresh}
-                        />
-                      }
-                      onEndReached={loadMoreData}
-                      onEndReachedThreshold={0.5}
-                      ListFooterComponent={renderListFooter}
-                      data={searchedErrand}
-                      renderItem={({ item, index }) => {
-                        return (
-                          <>
-                            <MyErrandCard
-                              index={index}
-                              errand={item}
-                              navigation={navigation}
-                              setManageErrandClicked={setManageErrandClicked}
-                              setSubErrand={setSubErrand}
-                              user_id={userId}
-                            />
-                          </>
-                        )
-                      }}
-                      keyExtractor={(item) => item.id}
-                      style={{ flexGrow: 0, height: 650 }}
-                    />
-                  </View>
-                  {/* )} */}
-                </>
-              )}
-            </View>
-          </ScrollView>
-        </View>
+                      <FlatList
+                        refreshControl={
+                          <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                          />
+                        }
+                        onEndReached={loadMoreData}
+                        onEndReachedThreshold={0.5}
+                        ListFooterComponent={renderListFooter}
+                        data={searchedErrand}
+                        renderItem={({ item, index }) => {
+                          return (
+                            <>
+                              <MyErrandCard
+                                index={index}
+                                errand={item}
+                                navigation={navigation}
+                                setManageErrandClicked={setManageErrandClicked}
+                                setSubErrand={setSubErrand}
+                                user_id={userId}
+                              />
+                            </>
+                          )
+                        }}
+                        keyExtractor={(item) => item.id}
+                        style={{ flexGrow: 0, height: 650 }}
+                      />
+                    </View>
+                    {/* )} */}
+                  </>
+                )}
+              </View>
+            </ScrollView>
+          </View>
+
+          <BottomSheetModal
+            // backdropComponent={renderBackdrop}
+            ref={bottomSheetRef1}
+            index={0}
+            snapPoints={['45%']}
+            backdropComponent={renderBackdrop}
+          >
+            <Content navigation={navigation} />
+          </BottomSheetModal>
+        </BottomSheetModalProvider>
       </Container>
 
       <PostErrandButton className="bottom-20 right-3" />

@@ -4,7 +4,7 @@
 // import { Provider } from 'react-redux'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 // import 'react-native-gesture-handler'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as NetInfo from '@react-native-community/netinfo'
@@ -24,35 +24,52 @@ import { useOnlineManager } from './hooks/useOnlineManager'
 import MainNavigation from './navigation/MainNavigation'
 import { GuestStack } from './navigation/StackNavigation'
 import { RootState, store } from './services/store'
-
-//  "preview": {
-//       "android": {
-//         "buildType": "apk"
-//       }
-//     },
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 
 const queryClient = new QueryClient()
 
-// import { store } from './services/store'
-
 export default function App() {
 
-  // const {
-  //   data: currentUser,
-  //   backgroundTheme,
-  //   textTheme,
-  //   landingPageTheme,
-  // } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+  async function registerForPushNotificationsAsync() {
+  let token: any;
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = await Notifications.getExpoPushTokenAsync({
+      projectId: Constants.expoConfig.extra.eas.projectId,
+    });
+    console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  return token.data;
+}
 
   const isLoadingComplete = useCachedResources()
   const [isGuest, setIsGuest] = useState<any>()
-
-  // const [isAuthenticated, setIsAuthenticated] = useState<any>('')
   const colorScheme = useColorScheme()
   const statusBarBarStyle = colorScheme === 'dark' ? 'light-content' : 'dark-content';
-  // const theme = currentUser?.preferred_theme === 'light' ? true : false
-
-    console.log('>>>>ok', isGuest)
   
   useOnlineManager()
 
@@ -74,15 +91,12 @@ export default function App() {
   }, [])
 
   const checkAuthenticationStatus = async () => {
-    console.log('>>>>o00', isGuest)
 
     // await AsyncStorage.clear()
 
     try {
       const isGuest = await AsyncStorage.getItem('isGuest')
       setIsGuest(isGuest)
-      // const isAuthenticated = await AsyncStorage.getItem('accessToken')
-      // setIsAuthenticated(isAuthenticated)
     } catch (error) {
       throw error
     }

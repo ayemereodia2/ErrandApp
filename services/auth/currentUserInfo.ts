@@ -64,7 +64,7 @@ const initialState: UserDetailsResponse = {
     insurance_amount: 0,
     referral_info: "",
     profile_picture: "",
-    preferred_theme: 'light',
+    preferred_theme: '',
     has_transaction_pin: false,
     errands_posted: 0,
     referred_by: ''
@@ -78,7 +78,7 @@ const currentUserDetailsSlice = createSlice({
     toggleLightTheme: (state) => {
       state.data.preferred_theme = 'light'
     },
-    toggleDarkTheme: async (state) => {
+    toggleDarkTheme: (state) => {
       state.data.preferred_theme = 'dark'
     },
   },

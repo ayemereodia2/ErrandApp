@@ -9,6 +9,7 @@ import {
   MaterialIcons,
   SimpleLineIcons,
 } from '@expo/vector-icons'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   getFocusedRouteNameFromRoute,
@@ -29,7 +30,6 @@ import {
   SetttingsStack,
   WalletStack,
 } from './StackNavigation'
-import { BottomSheetModal } from '@gorhom/bottom-sheet'
 
 const Header = (props: any) => {
   return (
@@ -69,12 +69,11 @@ export const TabsNavigation = ({ navigation }: any) => {
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   const optionsHandler = ({ headerShown, title, tabBarIcon }: OptionsProps) => {
-
     const bottomSheetRef1 = useRef<BottomSheetModal>(null)
-    
-  function openMoreModal() {
-    bottomSheetRef1.current?.present()
-  }
+
+    function openMoreModal() {
+      bottomSheetRef1.current?.present()
+    }
 
     return {
       headerShown,
@@ -118,15 +117,11 @@ export const TabsNavigation = ({ navigation }: any) => {
             size={24}
             name="help-circle"
           /> */}
-          <TouchableOpacity  onPress={
-                     
-                      openMoreModal
-                    }>
-                <Text style={{ color: textTheme }}>
-          
-                  <Entypo name="dots-three-vertical" size={24} />
-                </Text>
-                </TouchableOpacity>
+          <TouchableOpacity onPress={openMoreModal}>
+            <Text style={{ color: textTheme }}>
+              <Entypo name="dots-three-vertical" size={24} />
+            </Text>
+          </TouchableOpacity>
         </View>
       ),
     }
@@ -144,7 +139,7 @@ export const TabsNavigation = ({ navigation }: any) => {
 
   return (
     <Tab.Navigator
-      initialRouteName='LandingPageTab'
+      initialRouteName="LandingPageTab"
       screenOptions={{
         tabBarShowLabel: false,
         tabBarStyle: {
@@ -172,7 +167,11 @@ export const TabsNavigation = ({ navigation }: any) => {
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
-                <Entypo name="home" size={24} color={theme ? 'white' : 'black'} />
+                <Entypo
+                  name="home"
+                  size={24}
+                  color={theme ? 'white' : 'black'}
+                />
               ) : (
                 <AntDesign name="home" size={24} color={textTheme} />
               )}
@@ -185,7 +184,7 @@ export const TabsNavigation = ({ navigation }: any) => {
       <Tab.Screen
         options={optionsHandler({
           title: 'Errand Market',
-          headerShown: true,
+          headerShown: false,
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
@@ -202,7 +201,7 @@ export const TabsNavigation = ({ navigation }: any) => {
       <Tab.Screen
         options={optionsHandler({
           title: 'My Errands',
-          headerShown: true,
+          headerShown: false,
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
@@ -220,7 +219,7 @@ export const TabsNavigation = ({ navigation }: any) => {
       <Tab.Screen
         options={optionsHandler({
           title: 'Wallet',
-          headerShown: true,
+          headerShown: false,
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
@@ -237,7 +236,7 @@ export const TabsNavigation = ({ navigation }: any) => {
       <Tab.Screen
         options={optionsHandler({
           title: 'Settings',
-          headerShown: true,
+          headerShown: false,
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
