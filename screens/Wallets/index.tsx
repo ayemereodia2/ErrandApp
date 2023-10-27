@@ -14,6 +14,7 @@ import React, {
 import {
   ActivityIndicator,
   ImageBackground,
+  Platform,
   RefreshControl,
   SafeAreaView,
   ScrollView,
@@ -213,7 +214,7 @@ const WalletScreen = ({ navigation }: any) => {
             style={{ backgroundColor: backgroundTheme }}
             showsVerticalScrollIndicator={false}
           >
-            <View className=" flex-row items-center justify-between">
+             <View className={Platform.OS === 'android' ? "flex-row items-center justify-between mt-6" : "flex-row items-center justify-between"}>
               <TouchableOpacity
                 onPress={() => navigation.navigate('Profile')}
                 style={{ marginLeft: 20 }}

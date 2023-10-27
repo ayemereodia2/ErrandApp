@@ -10,6 +10,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   Image,
+  Platform,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -162,7 +163,7 @@ const SettingScreen = ({ navigation }: any) => {
               barStyle={theme ? 'light-content' : 'dark-content'}
             />
 
-            <View className=" flex-row items-center justify-between">
+             <View className={Platform.OS === 'android' ? "flex-row items-center justify-between mt-6" : "flex-row items-center justify-between"}>
               <TouchableOpacity
                 onPress={() => navigation.navigate('Profile')}
                 style={{ marginLeft: 20 }}

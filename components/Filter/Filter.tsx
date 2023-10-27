@@ -1,17 +1,17 @@
 import { AntDesign, FontAwesome } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
 import {
-  SafeAreaView,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import { errandMarketList } from '../../services/errands/market'
 import { RootState, useAppDispatch } from '../../services/store'
 import { CategoriesList, MarketData } from '../../types'
+import Container from '../Container'
 import RangeSlider from '../RangeSlider/RangeSlider'
 
 interface DropDownProp {
@@ -132,8 +132,9 @@ const Filter = ({
   }, [selectedSortAction, searchedItem])
 
   return (
-    <SafeAreaView>
-      <ScrollView style={{ backgroundColor: backgroundTheme }}>
+    // <SafeAreaView>
+    //  <Container>
+      // <ScrollView style={{ backgroundColor: backgroundTheme }}>
         <View
           className="fixed top-0 right-[-3%] w-[95%] bg-[#F5F5F5] z-5 duration-200"
           style={{
@@ -376,8 +377,9 @@ const Filter = ({
             </View>
           )}
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      // </ScrollView>
+      // </Container>
+    // </SafeAreaView>
   )
 }
 

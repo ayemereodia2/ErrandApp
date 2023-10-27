@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
-  FlatList,
+  Platform,
   RefreshControl,
   SafeAreaView,
   ScrollView,
@@ -28,7 +28,6 @@ import { MyErrandEmptyState } from '../../components/MyErrandEmptyState'
 import MyErrandToggle from '../../components/MyErrandToggle'
 import PostErrandButton from '../../components/PostErrandBtn'
 import { ProfileInitials } from '../../components/ProfileInitials'
-import { _fetch } from '../../services/axios/http'
 import { myErrandList } from '../../services/errands/myErrands'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData, SingleSubErrand } from '../../types'
@@ -138,38 +137,38 @@ const ErrandScreen = ({ navigation }: any) => {
     setSearchedErrand(errands)
   }
 
-  const renderListFooter = () => {
-    if (checkFilterToggle) {
-      return null
-    }
-    if (!loadMoreData) {
-      return null
-    }
-    return (
-      <View
-        style={{
-          paddingVertical: 20,
-          borderTopWidth: 1,
-          borderColor: '#CED0CE',
-        }}
-      >
-        <ActivityIndicator animating size="large" />
-      </View>
-    )
-  }
+  // const renderListFooter = () => {
+  //   if (checkFilterToggle) {
+  //     return null
+  //   }
+  //   if (!loadMoreData) {
+  //     return null
+  //   }
+  //   return (
+  //     <View
+  //       style={{
+  //         paddingVertical: 20,
+  //         borderTopWidth: 1,
+  //         borderColor: '#CED0CE',
+  //       }}
+  //     >
+  //       <ActivityIndicator animating size="large" />
+  //     </View>
+  //   )
+  // }
 
-  const loadMoreData = async () => {
-    if (!loadingMore) {
-      const rs = await _fetch({
-        _url: `/user/errands/?start=${page + 1}&count=5`,
-        method: 'GET',
-      })
-      const _rs = await rs.json()
-      setSearchedErrand([...searchedErrand, ..._rs.data])
-      setPage(page + 1)
-      setLoadingMore(false)
-    }
-  }
+  // const loadMoreData = async () => {
+  //   if (!loadingMore) {
+  //     const rs = await _fetch({
+  //       _url: `/user/errands/?start=${page + 1}&count=5`,
+  //       method: 'GET',
+  //     })
+  //     const _rs = await rs.json()
+  //     setSearchedErrand([...searchedErrand, ..._rs.data])
+  //     setPage(page + 1)
+  //     setLoadingMore(false)
+  //   }
+  // }
 
   const onRefresh = React.useCallback(() => {
     dispatch(myErrandList({ setSearchedErrand }))
@@ -218,7 +217,13 @@ const ErrandScreen = ({ navigation }: any) => {
                 barStyle={theme ? 'light-content' : 'dark-content'}
               />
 
-              <View className=" flex-row items-center justify-between">
+              <View
+                className={
+                  Platform.OS === 'android'
+                    ? 'flex-row items-center justify-between mt-6'
+                    : 'flex-row items-center justify-between'
+                }
+              >
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Profile')}
                   style={{ marginLeft: 20 }}
@@ -336,26 +341,28 @@ const ErrandScreen = ({ navigation }: any) => {
                         </Text>
                       )}
 
-                      {/* <ScrollView className="mt-6">
-                      <>
-                        {searchedErrand?.map((errand, index) => {
-                          return (
-                            <View key={index}>
-                              <MyErrandCard
-                                index={index}
-                                errand={errand}
-                                navigation={navigation}
-                                setManageErrandClicked={setManageErrandClicked}
-                                setSubErrand={setSubErrand}
-                                user_id={userId}
-                              />
-                            </View>
-                          )
-                        })}
-                      </>
-                    </ScrollView> */}
+                      <ScrollView className="mt-2">
+                        <>
+                          {searchedErrand?.map((errand, index) => {
+                            return (
+                              <View key={index}>
+                                <MyErrandCard
+                                  index={index}
+                                  errand={errand}
+                                  navigation={navigation}
+                                  setManageErrandClicked={
+                                    setManageErrandClicked
+                                  }
+                                  setSubErrand={setSubErrand}
+                                  user_id={userId}
+                                />
+                              </View>
+                            )
+                          })}
+                        </>
+                      </ScrollView>
 
-                      <FlatList
+                      {/* <FlatList
                         refreshControl={
                           <RefreshControl
                             refreshing={refreshing}
@@ -382,7 +389,7 @@ const ErrandScreen = ({ navigation }: any) => {
                         }}
                         keyExtractor={(item) => item.id}
                         style={{ flexGrow: 0, height: 650 }}
-                      />
+                      /> */}
                     </View>
                     {/* )} */}
                   </>

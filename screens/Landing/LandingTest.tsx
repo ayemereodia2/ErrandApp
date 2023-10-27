@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   BackHandler,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -167,7 +168,7 @@ const LandingTest = ({ navigation }: any) => {
               marginBottom: Platform.OS === 'android' ? 10 : 35,
             }}
           > */}
-            <View className="flex-row items-center justify-between">
+            <View className={Platform.OS === 'android' ? "flex-row items-center justify-between mt-6" : "flex-row items-center justify-between"}>
               <Text
                 className="font-bold text-[20px] leading-7"
                 style={{ color: textTheme }}

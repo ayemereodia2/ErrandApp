@@ -16,13 +16,15 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   FlatList,
+  Platform,
   Pressable,
   RefreshControl,
   SafeAreaView,
+  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -202,8 +204,6 @@ export default function MainScreen() {
     }
   }
 
-
-
   useEffect(() => {
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
     dispatch(errandMarketList({ setSearchedErrand }))
@@ -265,7 +265,13 @@ export default function MainScreen() {
               barStyle={theme ? 'light-content' : 'dark-content'}
             />
 
-            <View className=" flex-row items-center justify-between">
+            <View
+              className={
+                Platform.OS === 'android'
+                  ? 'flex-row items-center justify-between mt-6'
+                  : 'flex-row items-center justify-between'
+              }
+            >
               <TouchableOpacity
                 onPress={() => navigation.navigate('Profile')}
                 style={{ marginLeft: 20 }}
@@ -323,21 +329,23 @@ export default function MainScreen() {
               {/* {loading && <MainLoader />} */}
 
               {filterOn && (
-                <Filter
-                  data={category}
-                  value={value}
-                  setValue={setValue}
-                  onClose={handleFilter}
-                  filterOn={filterOn}
-                  low={low}
-                  high={high}
-                  setLow={setLow}
-                  setHigh={setHigh}
-                  filterMarketList={filterMarketList}
-                  setMinCheck={setMinCheck}
-                  setSearchedErrand={setSearchedErrand}
-                  setCheckFilterToggle={setCheckFilterToggle}
-                />
+                <ScrollView>
+                  <Filter
+                    data={category}
+                    value={value}
+                    setValue={setValue}
+                    onClose={handleFilter}
+                    filterOn={filterOn}
+                    low={low}
+                    high={high}
+                    setLow={setLow}
+                    setHigh={setHigh}
+                    filterMarketList={filterMarketList}
+                    setMinCheck={setMinCheck}
+                    setSearchedErrand={setSearchedErrand}
+                    setCheckFilterToggle={setCheckFilterToggle}
+                  />
+                </ScrollView>
               )}
 
               <View
