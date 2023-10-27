@@ -188,15 +188,18 @@ export default function MainScreen() {
         return null
       }
       const rs = await _fetch({
-        _url: `/errand/market?start=${page + 1}&count=5${
-          value ? `&category=${value}` : ''
-        }${min === 0 ? '' : `&minPrice=${min}`}${
-          max === 0 ? '' : `&maxPrice=${max}`
-        }`,
         method: 'GET',
+        // _url: `/errand/market?start=${page + 1}&count=5${
+        //   value ? `&category=${value}` : ''
+        // }${min === 0 ? '' : `&minPrice=${min}`}${
+        //   max === 0 ? '' : `&maxPrice=${max}`
+        // }`,
+        _url: `/errand/market`,
+        
       })
       const _rs = await rs.json()
-      setSearchedErrand([...searchedErrand, ..._rs.data])
+      // setSearchedErrand([...searchedErrand, ..._rs.data])
+      setSearchedErrand([..._rs.data])
       setPage(page + 1)
       setLoadingMore(false)
     }
@@ -403,6 +406,7 @@ export default function MainScreen() {
                     onEndReached={loadMoreData}
                     onEndReachedThreshold={0.5}
                     ListFooterComponent={renderListFooter}
+                    
                     data={searchedErrand}
                     renderItem={({ item, index }) => {
                       return (
