@@ -132,10 +132,10 @@ const Filter = ({
   }, [selectedSortAction, searchedItem])
 
   return (
-    <SafeAreaView>
-      <ScrollView style={{ backgroundColor: backgroundTheme }}>
+    <SafeAreaView className=''>
+      <ScrollView style={{ backgroundColor: backgroundTheme }} className=''>
         <View
-          className="fixed top-0 right-[-3%] w-[95%] bg-[#F5F5F5] z-5 duration-200"
+          className=" top-0 right-[-3%] w-[95%] bg-[#F5F5F5] z-5 duration-200"
           style={{
             display: filterOn ? 'flex' : 'none',
             backgroundColor: backgroundTheme,
@@ -177,14 +177,14 @@ const Filter = ({
               className={toggleState === 'Sort' ? 'border-b' : ''}
             >
               <Text
-                className="text-sm font-medium leading-6"
+                className="text-sm font-medium leading-6 mr-5"
                 style={{ color: textTheme }}
               >
                 Sort Errands
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 // onClose()
                 // dispatch(errandMarketList({}))
@@ -201,8 +201,43 @@ const Filter = ({
               <Text className="font-mdtext-base" style={{ color: textTheme }}>
                 Clear
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
+
+
+          <View className='flex-row items-center justify-between'>
+
+          <TouchableOpacity
+                className="bg-[#1E3A79] w-[50%] h-[56px] rounded-md mx-auto mt-[40px] justify-center items-center mb-[10px]"
+                onPress={() => {
+                  onClose(), filterMarketList()
+                }}
+              >
+                <Text className="text-white text-center">Filter</Text>
+              </TouchableOpacity>
+
+
+              <TouchableOpacity
+              onPress={() => {
+                // onClose()
+                // dispatch(errandMarketList({}))
+                setLow(0)
+                setHigh(0)
+                setSelectedSortAction('')
+                setSearchedItem('')
+                setValue('')
+                setCheckFilterToggle(false)
+              }}
+              className="border w-[40%] py-[8px] items-center mr-2 h-[56px] mt-7 rounded-md  font-medium leading-6"
+              style={{ borderColor: textTheme }}
+            >
+              <Text className="font-mdtext-base text-center mt-2" style={{ color: textTheme }}>
+                Clear
+              </Text>
+            </TouchableOpacity>
+
+          </View>
+          
 
           {toggleState === 'filter' ? (
             <View className="mt-14 mx-6">
@@ -268,14 +303,14 @@ const Filter = ({
                 high={high}
               />
 
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 className="bg-[#1E3A79] w-[330px] h-[56px] rounded-md mx-auto mt-[80px] justify-center items-center mb-[40px]"
                 onPress={() => {
                   onClose(), filterMarketList()
                 }}
               >
                 <Text className="text-white text-center">Filter Errands</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           ) : (
             <View className="mb-[100px]">

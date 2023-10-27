@@ -89,7 +89,7 @@ const RangeSlider = ({ low, setHigh, setLow, high, setMinCheck }: Prop) => {
       </ScrollView>
 
       <View className="mt-12 mx-auto w-[300px]">
-        <Slider
+        {/* <Slider
           low={low}
           high={high}
           min={0}
@@ -102,7 +102,7 @@ const RangeSlider = ({ low, setHigh, setLow, high, setMinCheck }: Prop) => {
           renderLabel={renderLabel}
           renderNotch={renderNotch}
           onValueChanged={handleValueChange}
-        />
+        /> */}
 
         <View className="flex-row justify-around items-center mt-5">
           <View className="bg-[#1E3A79] w-[120px] h-12 px-4 py-2 rounded-3xl mr-5 items-center justify-center">
