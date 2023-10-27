@@ -60,6 +60,8 @@ export default function ErrandComp({
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
+  console.log(errand)
+
   // const bidHistoryRef = useRef<BottomSheetModal>(null)
 
   // function toggleBidHistoryModal(open: boolean) {
