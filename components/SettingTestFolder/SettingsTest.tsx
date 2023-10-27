@@ -1,3 +1,4 @@
+import { AntDesign } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useState } from 'react'
 import {
@@ -16,7 +17,11 @@ import { updateNotificationPrefeference } from '../../services/notification/upda
 import { RootState, useAppDispatch } from '../../services/store'
 import { getUserId } from '../../utils/helper'
 
-const SettingsTest = () => {
+interface Props {
+  openVerifyModal: () => void
+}
+
+const SettingsTest = ({openVerifyModal}: Props) => {
   const [IsLoading, setIsLoading] = useState(false)
   const [loading1, setLoading1] = useState(false)
   const [accountUpdate, setAccountUpdate] = useState(false)
@@ -263,6 +268,8 @@ const SettingsTest = () => {
         </Text>
       </View>
 
+      
+
       <View
        style={{ backgroundColor: theme ? '#152955' : 'white'  }}
         className=" bg-[#ECF0F8] mt-5 rounded-lg pb-3"
@@ -293,6 +300,37 @@ const SettingsTest = () => {
               }
               style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
             />
+            {/* </TouchableOpacity> */}
+          </View>
+        </View>
+      </View>
+
+       <View className="mt-6 ml-4 " >
+        <Text
+          style={{ color: textTheme }}
+          className=" text-base font-bold leading-6"
+        >
+          PIN 
+        </Text>
+        <Text style={{ color: textTheme }} className="text-[14px] font-md">
+          set and verify your pin
+        </Text>
+      </View>
+
+      <View
+       style={{ backgroundColor: theme ? '#152955' : 'white'  }}
+        className=" bg-[#ECF0F8] mt-5 rounded-lg pb-3"
+      >
+        <View className=" h-[63px] mx-4 mt-5  border-b-[#AAAAAA]" style={{ backgroundColor: theme ? '#152955' : 'white'  }}>
+          <View className="flex-row items-center justify-between" style={{ backgroundColor: theme ? '#152955' : 'white'  }}>
+            <Text
+              style={{ color: textTheme }}
+              className="font-medium text-base "
+            >
+              Change Pin
+            </Text>
+            {/* <TouchableOpacity onPress={() => )}> */}
+            <AntDesign onPress={() => openVerifyModal()} name='edit' size={20} className="mr-4"/>
             {/* </TouchableOpacity> */}
           </View>
         </View>

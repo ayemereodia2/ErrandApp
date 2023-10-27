@@ -26,6 +26,8 @@ import Container from '../../components/Container'
 import { ProfileInitials } from '../../components/ProfileInitials'
 import SettingsCategory from '../../components/SettingTestFolder/SettingsCategory'
 import SettingsTest from '../../components/SettingTestFolder/SettingsTest'
+import PinModal from '../../components/VerificationModals/PinModal'
+import VerifyPassword from '../../components/VerifyPassword'
 import { _fetch } from '../../services/axios/http'
 import { notificationPreferences } from '../../services/notification/preferences'
 import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
@@ -38,6 +40,8 @@ const SettingScreen = ({ navigation }: any) => {
   const [userId, setUserId] = useState('')
   const [profilePic, setProfilePic] = useState('')
   const bottomSheetRef1 = useRef<BottomSheetModal>(null)
+  const bottomSheetRef2 = useRef<BottomSheetModal>(null)
+  const bottomSheetRef3 = useRef<BottomSheetModal>(null)
 
   const renderBackdrop = useCallback(
     (props: any) => (
@@ -49,6 +53,8 @@ const SettingScreen = ({ navigation }: any) => {
         disappearsOnIndex={-1}
         onPress={() => {
           bottomSheetRef1.current?.dismiss()
+          bottomSheetRef2.current?.dismiss()
+          bottomSheetRef3.current?.dismiss()
         }}
 
         // onChange={handleSheetChanges}
@@ -95,8 +101,24 @@ const SettingScreen = ({ navigation }: any) => {
     return await _rs.json()
   }
 
+  function closePinModal() {
+    bottomSheetRef3.current?.dismiss()
+  }
+
+  function openPinModal() {
+    bottomSheetRef3.current?.present()
+  }
+
   function openMoreModal() {
     bottomSheetRef1.current?.present()
+  }
+
+  function openVerifyModal() {
+    bottomSheetRef2.current?.present()
+  }
+
+  function closeVerifyModal() {
+    bottomSheetRef2.current?.dismiss()
   }
 
   const { isLoading, isError, data } = useQuery({
@@ -110,15 +132,9 @@ const SettingScreen = ({ navigation }: any) => {
       method: 'GET',
       _url: `/user/category-interest`,
     })
-
     const rs = await _rs.json()
-
-    console.log('>>>>>>>res', rs)
-
     setInterests(rs.data)
   }
-
-  console.log('>>>>interests', interests)
 
   useEffect(() => {
     getInterests()
@@ -163,7 +179,13 @@ const SettingScreen = ({ navigation }: any) => {
               barStyle={theme ? 'light-content' : 'dark-content'}
             />
 
-             <View className={Platform.OS === 'android' ? "flex-row items-center justify-between mt-6" : "flex-row items-center justify-between"}>
+            <View
+              className={
+                Platform.OS === 'android'
+                  ? 'flex-row items-center justify-between mt-6'
+                  : 'flex-row items-center justify-between'
+              }
+            >
               <TouchableOpacity
                 onPress={() => navigation.navigate('Profile')}
                 style={{ marginLeft: 20 }}
@@ -250,7 +272,7 @@ const SettingScreen = ({ navigation }: any) => {
                 </View>
               </View>
 
-              <SettingsTest />
+              <SettingsTest openVerifyModal={openVerifyModal} />
 
               <SettingsCategory navigation={navigation} interests={interests} />
 
@@ -440,6 +462,39 @@ const SettingScreen = ({ navigation }: any) => {
           backdropComponent={renderBackdrop}
         >
           <Content navigation={navigation} />
+        </BottomSheetModal>
+        <BottomSheetModal
+          // backdropComponent={renderBackdrop}
+          ref={bottomSheetRef2}
+          index={0}
+          snapPoints={['40%']}
+          backdropComponent={renderBackdrop}
+        >
+          <VerifyPassword
+            closeVerifyModal={closeVerifyModal}
+            openPinModal={openPinModal}
+          />
+        </BottomSheetModal>
+
+        <BottomSheetModal
+          android_keyboardInputMode="adjustResize"
+          ref={bottomSheetRef3}
+          index={0}
+          snapPoints={['45%']}
+          containerStyle={{
+            marginHorizontal: 10,
+          }}
+          backdropComponent={renderBackdrop}
+          keyboardBehavior="extend"
+          enablePanDownToClose
+          keyboardBlurBehavior="restore"
+        >
+          <PinModal
+            createErrand={false}
+            submitErrandhandler={() => {}}
+            closePinModal={closePinModal}
+            makeWithdrawalHandler={() => {}}
+          />
         </BottomSheetModal>
       </BottomSheetModalProvider>
     </Container>

@@ -265,7 +265,7 @@ const PinModal = ({
             <ActivityIndicator color="blue" size="small" />
           ) : (
             <Text style={styles.signinButtonText}>
-              {createErrand ? 'Confirm' : 'Verify'}
+              {createErrand ? 'Confirm' : 'Set Pin'}
             </Text>
           )}
         </TouchableOpacity>
