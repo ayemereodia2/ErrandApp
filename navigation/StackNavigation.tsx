@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 import FundWalletModal from '../components/Modals/Errands/FundWallet'
+import AboutSwave from '../screens/AboutSwave/AboutSwave'
 import AccountScreen from '../screens/Accounts'
 import AccountRecoveryScreen from '../screens/Auth/AccountRecovery'
 import CreateAccountScreen from '../screens/Auth/CreateAccountScreen'
@@ -28,16 +29,15 @@ import ErrandUserDetails from '../screens/MyErrands/ErrandUserDetails'
 import MyErrandInfo from '../screens/MyErrands/MyErrandInfo'
 import NotificationScreen from '../screens/Notification/NotficationScreen'
 import OnboardingUi from '../screens/Onboarding/OnboardingUi'
+import PrivacyPolicy from '../screens/Privacy/PrivacyPolicy'
 import CategoryInterest from '../screens/Setting/AddCategory'
 import SettingScreen from '../screens/Setting/SettingScreen'
+import TermsAndConditions from '../screens/Terms & Condition/TermsAndConditions'
 import WalletScreen from '../screens/Wallets'
 import EscrowScreen from '../screens/Wallets/EscrowScreen'
 import TransactionScreen from '../screens/Wallets/TransactionScreen'
 import WalletAccount from '../screens/Wallets/WalletAccount'
 import { TabsNavigation } from './TabsNavigation'
-import AboutSwave from '../screens/AboutSwave/AboutSwave'
-import PrivacyPolicy from '../screens/Privacy/PrivacyPolicy'
-import TermsAndConditions from '../screens/Terms & Condition/TermsAndConditions'
 
 const Stack = createNativeStackNavigator()
 
@@ -143,7 +143,7 @@ export const TabStack = () => {
           },
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="About"
         component={AboutSwave}
         options={{
@@ -153,7 +153,7 @@ export const TabStack = () => {
           },
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="Privacy"
         component={PrivacyPolicy}
         options={{
@@ -163,7 +163,7 @@ export const TabStack = () => {
           },
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="Terms"
         component={TermsAndConditions}
         options={{
@@ -319,35 +319,35 @@ export function GuestStack() {
             },
           }}
         />
-         <Stack.Screen
-        name="About"
-        component={AboutSwave}
-        options={{
-          headerShown: false,
-          headerStyle: {
-            backgroundColor: '#F8F9FC',
-          },
-        }}
-      />
-       <Stack.Screen
-        name="Privacy"
-        component={PrivacyPolicy}
-        options={{
-          headerShown: false,
-          headerStyle: {
-            backgroundColor: '#F8F9FC',
-          },
-        }}
-      />
-       <Stack.Screen
-        name="Terms"
-        component={TermsAndConditions}
-        options={{
-          headerShown: false,
-          headerStyle: {
-            backgroundColor: '#F8F9FC',
-          },
-        }}
+        <Stack.Screen
+          name="About"
+          component={AboutSwave}
+          options={{
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: '#F8F9FC',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Privacy"
+          component={PrivacyPolicy}
+          options={{
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: '#F8F9FC',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Terms"
+          component={TermsAndConditions}
+          options={{
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: '#F8F9FC',
+            },
+          }}
         />
         <Stack.Screen
           name="WalletAccount"
@@ -498,7 +498,7 @@ export const MainStack = () => {
           },
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="About"
         component={AboutSwave}
         options={{
@@ -508,7 +508,7 @@ export const MainStack = () => {
           },
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="Privacy"
         component={PrivacyPolicy}
         options={{
@@ -518,7 +518,7 @@ export const MainStack = () => {
           },
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="Terms"
         component={TermsAndConditions}
         options={{
@@ -598,6 +598,16 @@ export const MyErrandStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="MyErrands" component={ErrandScreen} />
+      <Stack.Screen
+        name="Notification"
+        component={NotificationScreen}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
       {/* <Stack.Screen
         options={{
           headerShown: false,
@@ -631,6 +641,16 @@ export const MarketStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Market" component={MainScreen} />
+      <Stack.Screen
+        name="Notification"
+        component={NotificationScreen}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
       {/* <Stack.Screen
         options={{
           headerShown: false,
@@ -662,6 +682,7 @@ export const LandingPageStack = () => {
         //   },
         // }}
       />
+      
 
       <Stack.Screen name="MyErrands" component={ErrandScreen} />
 
@@ -701,11 +722,23 @@ export const WalletStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Wallet" component={WalletScreen} />
+      <Stack.Screen
+        name="Notification"
+        component={NotificationScreen}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
       {/* <Stack.Screen
         name="TransactionScreen"
         component={TransactionScreen}
         options={{ headerShown: false }}
       />
+
+      
 
       <Stack.Screen
         name="EscrowScreen"
@@ -744,6 +777,16 @@ export const SetttingsStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Settings" component={SettingScreen} />
+      <Stack.Screen
+        name="Notification"
+        component={NotificationScreen}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
       {/* <Stack.Screen
         name="CategoryInterest"
         component={CategoryInterest}

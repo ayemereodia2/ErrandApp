@@ -16,7 +16,7 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   FlatList,
@@ -201,6 +201,8 @@ export default function MainScreen() {
       setLoadingMore(false)
     }
   }
+
+
 
   useEffect(() => {
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })

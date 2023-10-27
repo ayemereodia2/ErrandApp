@@ -20,6 +20,7 @@ import React, { useEffect, useRef } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useIsConnected } from 'react-native-offline'
 import { useSelector } from 'react-redux'
+
 import { ProfileInitials } from '../components/ProfileInitials'
 import { RootState, useAppDispatch } from '../services/store'
 import { getUserId } from '../utils/helper'
