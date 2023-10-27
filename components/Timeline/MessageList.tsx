@@ -35,7 +35,7 @@ const MessagesList = ({
       style={{ backgroundColor: backgroundTheme, height: '78%' }}
       onContentSizeChange={scrollToBottom}
     >
-      <KeyboardAwareScrollView>
+      <>
         {timeline?.updates.map((update, index) => {
           const checkMessageType = () => {
             switch (update.content_type) {
@@ -266,7 +266,7 @@ const MessagesList = ({
             </View>
           )
         })}
-      </KeyboardAwareScrollView>
+      </>
     </ScrollView>
   )
 }

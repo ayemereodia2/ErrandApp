@@ -64,12 +64,17 @@ const ErrandUserDetails = ({ navigation, route }: any) => {
           <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableOpacity>
       ),
+
       headerRight: () => (
         <View className="pr-2">
           <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
-            <MenuTrigger>
-              <Entypo name="dots-three-vertical" color={'black'} size={16} />
-            </MenuTrigger>
+            {errand.status === 'open' ? (
+              ''
+            ) : (
+              <MenuTrigger>
+                <Entypo name="dots-three-vertical" color={'black'} size={16} />
+              </MenuTrigger>
+            )}
             <MenuOptions
               customStyles={{
                 optionsContainer: {

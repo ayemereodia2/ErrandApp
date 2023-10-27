@@ -7,9 +7,11 @@ import { useHeaderHeight } from '@react-navigation/elements'
 import React, { useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
+  Dimensions,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
+  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -85,7 +87,7 @@ const Timeline = ({
     }
   }, [])
 
-  const keyboardVerticalOffset = Platform.OS === 'ios' ? -60 : 150
+  const keyboardVerticalOffset = Platform.OS === 'ios' ? -60 : 80
 
   const {
     data: currentUser,
@@ -114,15 +116,16 @@ const Timeline = ({
   return (
     <BottomSheetModalProvider>
       <KeyboardAvoidingView
-        keyboardVerticalOffset={keyboardVerticalOffset}
-        style={{ flex: 1, backgroundColor: backgroundTheme }}
-        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+        // keyboardVerticalOffset={keyboardVerticalOffset}
+        // keyboardVerticalOffset={Platform.OS === 'ios' ? 64 :  StatusBar.currentHeight || 0 + 450}
+        // style={{ flex: 1, backgroundColor: backgroundTheme }}
+        // behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+          behavior="position"
+        style={{
+          height: Platform.OS === 'android' ? Dimensions.get('window').height - (0) : '110%',
+        }}
       >
-        {/* {loadingErrand ? (
-          <ActivityIndicator size="large" color={theme ? 'blue' : 'white'} />
-        ) : (
-          ''
-        )} */}
+        
         <View>
           <View className="h-[56px] bg-[#FEE1CD] mx-4 items-center justify-center border border-[#C85604] mt-4 rounded-lg">
             {errand.status === 'active' && (

@@ -24,8 +24,8 @@ const AdjustAmountModal = ({
       <View className="px-4 mt-4">
         <Text className="text-sm text-[#243763] font-light">Amount</Text>
 
-        <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
-          <Text className="text-lg ">&#x20A6;</Text>
+        <View className="border border-[#E6E6E6] bg-white  text-xs rounded-lg  flex-row space-x-2 justify-center items-center">
+          <Text className="text-lg pl-1 ">&#x20A6;</Text>
 
           <BottomSheetTextInput
             className="w-full"
@@ -33,6 +33,7 @@ const AdjustAmountModal = ({
             onChangeText={(e) => setAmount(currencyMask(e))}
             value={amount}
             keyboardType="decimal-pad"
+            style={styles.input}
           />
         </View>
       </View>
@@ -72,6 +73,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 100,
     backgroundColor: 'white',
+  },
+   input: {
+    marginTop: 8,
+    marginBottom: 10,
+    borderRadius: 10,
+    fontSize: 14,
+    lineHeight: 20,
+    width: 300,
+    padding: 4,
+    backgroundColor: '#fff',
   },
 })
 

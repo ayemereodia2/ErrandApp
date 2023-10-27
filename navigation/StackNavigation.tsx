@@ -60,6 +60,12 @@ export const TabStack = () => {
         options={{ headerShown: false }}
       />
 
+      <Stack.Screen
+        name="Default"
+        component={DefaultGuestScreen}
+        options={{ headerShown: false }}
+      />
+
       {/* <Stack.Screen name="MyErrands" component={ErrandScreen} /> */}
 
       <Stack.Screen
@@ -608,6 +614,12 @@ export const MyErrandStack = () => {
           },
         }}
       />
+
+      <Stack.Screen
+        name="Default"
+        component={DefaultGuestScreen}
+        options={{ headerShown: false }}
+      />
       {/* <Stack.Screen
         options={{
           headerShown: false,
@@ -651,6 +663,12 @@ export const MarketStack = () => {
           },
         }}
       />
+
+      <Stack.Screen
+        name="Default"
+        component={DefaultGuestScreen}
+        options={{ headerShown: false }}
+      />
       {/* <Stack.Screen
         options={{
           headerShown: false,
@@ -681,6 +699,12 @@ export const LandingPageStack = () => {
         //     backgroundColor: '#F8F9FC',
         //   },
         // }}
+      />
+
+      <Stack.Screen
+        name="Default"
+        component={DefaultGuestScreen}
+        options={{ headerShown: false }}
       />
       
 
@@ -731,6 +755,11 @@ export const WalletStack = () => {
             backgroundColor: '#F8F9FC',
           },
         }}
+      />
+      <Stack.Screen
+        name="Default"
+        component={DefaultGuestScreen}
+        options={{ headerShown: false }}
       />
       {/* <Stack.Screen
         name="TransactionScreen"
@@ -786,6 +815,12 @@ export const SetttingsStack = () => {
             backgroundColor: '#F8F9FC',
           },
         }}
+      />
+
+      <Stack.Screen
+        name="Default"
+        component={DefaultGuestScreen}
+        options={{ headerShown: false }}
       />
       {/* <Stack.Screen
         name="CategoryInterest"

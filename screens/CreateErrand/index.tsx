@@ -142,6 +142,8 @@ const PostErrand = ({ navigation }: any) => {
   ]
 
   const categoryHandler = () => {
+    console.log('>>>>>Ok')
+
     setPostErrandData({
       ...postErrandData,
       categoryId: selectedItem,
@@ -382,20 +384,20 @@ const PostErrand = ({ navigation }: any) => {
           {showComponent()}
         </ScrollView>
 
-        <View
-          style={{ backgroundColor: '#1E3A79', height: 60 }}
-          className="flex-row"
-        >
-          {activeStep > 1 && (
-            <TouchableOpacity
-              onPress={() => setActiveStep(activeStep - 1)}
-              className="bg-[#2856c1] px-6 flex justify-center items-center py-2 "
-            >
-              <Entypo name="arrow-with-circle-left" color="white" size={30} />
-            </TouchableOpacity>
-          )}
+        <View className="flex-row">
+          <View style={{ height: 60, backgroundColor:'#2856c1' }}>
+            {activeStep > 1 && (
+              <TouchableOpacity
+                onPress={() => setActiveStep(activeStep - 1)}
+                className=" px-6 flex justify-center items-center py-2 mt-2"
+              >
+                <Entypo name="arrow-with-circle-left" color="white" size={30} />
+              </TouchableOpacity>
+            )}
+          </View>
           <TouchableOpacity
             onPress={() => {
+              console.log('man')
               activeStep <= 1
                 ? categoryHandler()
                 : activeStep <= 2
@@ -406,17 +408,17 @@ const PostErrand = ({ navigation }: any) => {
                 ? financeHandler()
                 : submitErrandhandler()
             }}
-            className={
-              activeStep > 1
-                ? 'pl-10 flex-row justify-center  items-center pt-3 pb-3'
-                : 'flex-row justify-center w-full items-center pt-3 pb-3'
-            }
+            style={{ backgroundColor: '#1E3A79', height: 60 }}
+            className={activeStep <= 1 ? "flex-row items-center justify-center  w-full" :'flex-row items-center justify-center  w-[80%]'}
           >
             {creatingErrand ? (
               <ActivityIndicator size="large" color="blue" />
             ) : (
-              <TouchableOpacity
+              <Text
+                className="text-white text-center  rounded-lg text-lg"
                 onPress={() => {
+                  console.log('man')
+
                   activeStep <= 1
                     ? categoryHandler()
                     : activeStep <= 2
@@ -425,30 +427,13 @@ const PostErrand = ({ navigation }: any) => {
                     ? locationHandler()
                     : activeStep <= 4
                     ? financeHandler()
-                    : submitErrandhandler()
+                    : openPinModal()
                 }}
-                style={{ backgroundColor: '#1E3A79' }}
-                className="flex-row justify-end"
               >
-                <Text
-                  className="text-white  rounded-lg text-lg"
-                  onPress={() => {
-                    activeStep <= 1
-                      ? categoryHandler()
-                      : activeStep <= 2
-                      ? detailHandler()
-                      : activeStep <= 3
-                      ? locationHandler()
-                      : activeStep <= 4
-                      ? financeHandler()
-                      : openPinModal()
-                  }}
-                >
-                  {activeStep >= 5
-                    ? 'Submit'
-                    : ` Proceed to Errand ${steps[activeStep]}`}
-                </Text>
-              </TouchableOpacity>
+                {activeStep >= 5
+                  ? 'Create Your Errand'
+                  : ` Proceed to Errand ${steps[activeStep]}`}
+              </Text>
             )}
           </TouchableOpacity>
         </View>

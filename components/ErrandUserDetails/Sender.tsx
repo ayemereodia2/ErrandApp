@@ -1,16 +1,11 @@
-import {
-  Entypo,
-  FontAwesome,
-  Ionicons,
-  MaterialIcons,
-} from '@expo/vector-icons'
+import { Entypo, FontAwesome, Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { errandAction } from '../../services/errands/errandAction'
 import { useAppDispatch } from '../../services/store'
 import { Bids, MarketData, SingleSubErrand } from '../../types'
-import { formatDate } from '../../utils/helper'
+import { formatDate, getAddress } from '../../utils/helper'
 import { ProfileInitials } from '../ProfileInitials'
 
 interface SenderProp {
@@ -30,26 +25,35 @@ export const SenderDetails = ({
   const dispatch = useAppDispatch()
   const navigation = useNavigation()
   const budgetInNaira = Number(errand?.budget / Number(100))
-  // console.log("<<<<<errandssssss", userId, errand.user_id, manageErrandClicked, singleSubErrand?.status)
+  const [address, setAddress] = useState('')
+
+  const regex = /(<([^>]+)>)/gi
+
+  useEffect(() => {
+    getAddress({ errand, setAddress })
+  }, [])
   return (
     <ScrollView className="mt-10 px-6">
       <View className="">
-        <View className="items-center justify-center">
-          <ProfileInitials
-            textClass="text-white text-2xl"
-            firstName={errand?.user.first_name}
-            lastName={errand?.user.last_name}
-            profile_pic={errand?.user.profile_picture}
-            width={80}
-            height={80}
-            className=" bg-[#616161] rounded-full text-2xl"
-          />
+        <View className="items-center justify-between">
+          <View className="flex-row items-center justify-between my-3">
+            <ProfileInitials
+              textClass="text-white text-2xl"
+              firstName={errand?.user.first_name}
+              lastName={errand?.user.last_name}
+              profile_pic={errand?.user.profile_picture}
+              width={80}
+              height={80}
+              className=" bg-[#616161] rounded-full text-2xl w-20 h-20"
+            />
+          </View>
+
           <View className="pt-2">
             <View className="flex-row space-x-2 items-center justify-center">
               <Text className="text-center text-base font-semibold">
                 {errand?.user?.first_name} {errand?.user?.last_name}
               </Text>
-              <MaterialIcons name="verified" color="green" size={20} />
+              {/* <MaterialIcons name="verified" color="green" size={20} /> */}
             </View>
             <Text className="text-[#555555] text-center py-2 text-base font-semibold">
               Swave User
@@ -71,8 +75,8 @@ export const SenderDetails = ({
       </View>
       <View className="pt-6 ">
         <Text className=" font-bold text-base text-[#555555]">Description</Text>
-        <Text className="text-sm pt-1 text-[#383737] font-light">
-          {errand.description}
+        <Text className="text-sm pt-1 text-[#383737] font-md">
+          {errand.description.replace(regex, '')}
         </Text>
       </View>
       <View className="pt-6 ">
@@ -110,8 +114,7 @@ export const SenderDetails = ({
             Location
           </Text>
           <Text className=" text-sm text-[#000] w-60 font-semibold">
-            From Road 1, ikota shopping complex, Ajah, lagos. To No. 126, Mende,
-            Maryland, Lagos
+            {!address ? errand.dropoff_address?.address_text : address}
           </Text>
         </View>
 
@@ -242,34 +245,34 @@ export const SenderDetails = ({
       {errand.user_id === userId &&
         singleSubErrand?.status === 'active' &&
         manageErrandClicked && (
-        <View className="border-[#C85604] border-[1px] rounded-lg bg-[#FEF0E6] p-4 mt-6 mb-14">
-          <Text className="text-center">
-            If you wish to cancel this errand, click this button. Please note
-            that if this errand has begun you will be fined for this action
-          </Text>
+          <View className="border-[#C85604] border-[1px] rounded-lg bg-[#FEF0E6] p-4 mt-6 mb-14">
+            <Text className="text-center">
+              If you wish to cancel this errand, click this button. Please note
+              that if this errand has begun you will be fined for this action
+            </Text>
 
-          <View className="items-center">
-            <TouchableOpacity
-              onPress={() => {
-                dispatch(
-                  errandAction({
-                    sub_errand_id: singleSubErrand?.id,
-                    type: 'complete',
-                    method: 'PATCH',
-                    source: userId === errand.user_id ? 'sender' : 'runner',
-                    errandId: errand.id,
-                    dispatch,
-                    navigation,
-                  }),
-                )
-              }}
-              className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
-            >
-              <Text className="text-center text-white">Cancel</Text>
-            </TouchableOpacity>
+            <View className="items-center">
+              <TouchableOpacity
+                onPress={() => {
+                  dispatch(
+                    errandAction({
+                      sub_errand_id: singleSubErrand?.id,
+                      type: 'complete',
+                      method: 'PATCH',
+                      source: userId === errand.user_id ? 'sender' : 'runner',
+                      errandId: errand.id,
+                      dispatch,
+                      navigation,
+                    }),
+                  )
+                }}
+                className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
+              >
+                <Text className="text-center text-white">Cancel</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      )}
+        )}
     </ScrollView>
   )
 }

@@ -265,65 +265,61 @@ export default function MainScreen() {
               barStyle={theme ? 'light-content' : 'dark-content'}
             />
 
-            <View
-              className={
-                Platform.OS === 'android'
-                  ? 'flex-row items-center justify-between mt-6'
-                  : 'flex-row items-center justify-between'
-              }
-            >
-              <TouchableOpacity
-                onPress={() => navigation.navigate('Profile')}
-                style={{ marginLeft: 20 }}
-                className="flex-row items-center justify-between my-3"
+            {filterOn ? (
+              ''
+            ) : (
+              <View
+                className={
+                  Platform.OS === 'android'
+                    ? 'flex-row items-center justify-between mt-5'
+                    : 'flex-row items-center justify-between'
+                }
               >
-                <ProfileInitials
-                  firstName={firstName.charAt(0).toUpperCase()}
-                  lastName={lastName.charAt(0).toUpperCase()}
-                  profile_pic={profilePic}
-                  textClass="text-white text-base"
-                  width={35}
-                  height={35}
-                />
-              </TouchableOpacity>
-
-              <Text
-                className="font-bold text-[20px] leading-7"
-                style={{ color: textTheme }}
-              >
-                Errand Market
-              </Text>
-
-              <View className="items-center flex-row gap-4 mr-2">
-                <Text style={{ color: textTheme }}>
-                  <FontAwesome
-                    name="bell-o"
-                    size={24}
-                    onPress={() => {
-                      navigation.navigate('Notification')
-                    }}
-                  />
-                </Text>
                 <TouchableOpacity
-                  onPress={
-                    // navigation.navigate('Contact')
-                    openMoreModal
-                  }
+                  onPress={() => navigation.navigate('Profile')}
+                  style={{ marginLeft: 20 }}
+                  className="flex-row items-center justify-between my-3"
                 >
-                  <Text style={{ color: textTheme }}>
-                    {/* <Feather
-                    name="help-circle"
-                    size={24}
-                    onPress={() => {
-                      navigation.navigate('Contact')
-                     
-                    }}
-                  /> */}
-                    <Entypo name="dots-three-vertical" size={24} />
-                  </Text>
+                  <ProfileInitials
+                    firstName={firstName.charAt(0).toUpperCase()}
+                    lastName={lastName.charAt(0).toUpperCase()}
+                    profile_pic={profilePic}
+                    textClass="text-white text-base"
+                    width={35}
+                    height={35}
+                  />
                 </TouchableOpacity>
+
+                <Text
+                  className="font-bold text-[20px] leading-7"
+                  style={{ color: textTheme }}
+                >
+                  Errand Market
+                </Text>
+
+                <View className="items-center flex-row gap-4 mr-2">
+                  <Text style={{ color: textTheme }}>
+                    <FontAwesome
+                      name="bell-o"
+                      size={24}
+                      onPress={() => {
+                        navigation.navigate('Notification')
+                      }}
+                    />
+                  </Text>
+                  <TouchableOpacity
+                    onPress={
+                      // navigation.navigate('Contact')
+                      openMoreModal
+                    }
+                  >
+                    <Text style={{ color: textTheme }}>
+                      <Entypo name="dots-three-vertical" size={24} />
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
+            )}
 
             <>
               {/* {loading && <MainLoader />} */}
@@ -344,6 +340,11 @@ export default function MainScreen() {
                     setMinCheck={setMinCheck}
                     setSearchedErrand={setSearchedErrand}
                     setCheckFilterToggle={setCheckFilterToggle}
+                    navigation={navigation}
+                    openMoreModal={openMoreModal}
+                    firstName={firstName}
+                    lastName={lastName}
+                    profilePic={profilePic}
                   />
                 </ScrollView>
               )}

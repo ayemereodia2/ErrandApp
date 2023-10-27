@@ -4,7 +4,7 @@
     "slug": "Swave",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/adaptive.png",
+    "icon": "./assets/images/new-icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "androidStatusBar": {
@@ -50,7 +50,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive.png",
+        "foregroundImage": "./assets/images/icon-bg.png",
         "backgroundColor": "#a9c1f8"
       },
       "config": {

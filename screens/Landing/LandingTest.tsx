@@ -64,7 +64,7 @@ const LandingTest = ({ navigation }: any) => {
         appearsOnIndex={0}
         disappearsOnIndex={-1}
         onPress={() => {
-          bottomSheetRef.current?.dismiss()
+          // bottomSheetRef.current?.dismiss()
           bottomSheetRef1.current?.dismiss()
         }}
       />

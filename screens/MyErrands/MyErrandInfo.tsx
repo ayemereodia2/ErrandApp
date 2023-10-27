@@ -108,6 +108,9 @@ const MyErrandInfo = ({ navigation, route }: any) => {
     setUserId(userId)
   }
 
+  console.log(">>>>>>errand dtails", errand.errand_type, errand?.status);
+  
+
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -129,7 +132,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
           <TouchableOpacity>
             <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
               <MenuTrigger>
-                <Entypo name="dots-three-vertical" color={textTheme} size={16} />
+                <Entypo name="dots-three-vertical" color={textTheme} size={24} />
               </MenuTrigger>
               <MenuOptions
                 customStyles={{
@@ -229,6 +232,54 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                     }}
                   />
                 )}
+                {errand.status === 'open' && (
+                  <MenuOption
+                    onSelect={() =>
+                      navigation.navigate('ErrandUserDetails', {
+                        errand,
+                        userId,
+                        singleSubErrand,
+                        manageErrandClicked,
+                        bids,
+                      })
+                    }
+                    text="Details"
+                    customStyles={{
+                      optionWrapper: {
+                        paddingVertical: 2,
+                      },
+                      optionText: {
+                        fontSize: 14,
+                        textAlign: 'center',
+                        fontWeight: '300',
+                      },
+                    }}
+                  />
+                )}
+                 { errand.status === 'active' && (
+                  <MenuOption
+                    onSelect={() =>
+                      navigation.navigate('ErrandUserDetails', {
+                        errand,
+                        userId,
+                        singleSubErrand,
+                        manageErrandClicked,
+                        bids,
+                      })
+                    }
+                    text="Details"
+                    customStyles={{
+                      optionWrapper: {
+                        paddingVertical: 2,
+                      },
+                      optionText: {
+                        fontSize: 14,
+                        textAlign: 'center',
+                        fontWeight: '300',
+                      },
+                    }}
+                  />
+                )}
                 {/* <MenuOption
                   onSelect={() => {}}
                   text="Refresh"
@@ -261,9 +312,9 @@ const MyErrandInfo = ({ navigation, route }: any) => {
         singleSubErrand?.status === 'active' &&
         manageErrandClicked) ||
       (singleSubErrand?.status === 'completed' && manageErrandClicked) ? (
-        <KeyboardAvoidingView
-          style={{ flex: 1, backgroundColor: backgroundTheme, }}
-          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+        <
+          // style={{ flex: 1, backgroundColor: backgroundTheme, }}
+          // behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
         >
           {/* sender's timeline */}
           <Timeline
@@ -275,7 +326,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
             toggleCompleteDialogue={toggleCompleteDialogue}
             toggleSuccessDialogue={toggleSuccessDialogue}
           />
-        </KeyboardAvoidingView>
+        </>
       ) : (errand?.user_id !== userId &&
           singleSubErrand?.status === 'active') ||
         (errand?.user_id !== userId &&
