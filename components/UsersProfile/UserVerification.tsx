@@ -31,7 +31,7 @@ const UserVerification = ({ data }: any) => {
 
   const snapPoints = useMemo(() => ['60%'], [])
   const snapPoints1 = useMemo(() => ['80%'], [])
-  const snapPoints2 = useMemo(() => ['77%'], [])
+  const snapPoints2 = useMemo(() => ['90%'], [])
   const snapPoints3 = useMemo(() => ['77%'], [])
 
   function openEmailModal() {
@@ -147,6 +147,47 @@ const UserVerification = ({ data }: any) => {
             </View>
           </TouchableOpacity>
 
+            <TouchableOpacity
+            className="flex-row justify-between items-center mx-4 mt-6"
+            onPress={() => openOFficeModal()}
+          >
+            <View className="w-10 h-10 border border-[#3F60AC] items-center justify-center rounded-md">
+              <Text>
+                <MaterialCommunityIcons
+                  name="office-building-outline"
+                  size={24}
+                  color="#3F60AC"
+                />
+              </Text>
+            </View>
+            <Text  style={{ color: textTheme }} className="font-light leading-8">
+              Personal ID confirmation
+            </Text>
+            <View
+              className="w-[100px] h-[34px] justify-center items-center rounded-[20px]"
+              style={{
+                backgroundColor:
+                  data.has_verified_location === 0 || 1 || 2
+                    ? '#FEE1CD'
+                    : '#D8F8E9',
+              }}
+            >
+              {data.has_verified_location === 0 ? (
+                <Text className="text-[#642B02] font-md text-sm">
+                  Incomplete
+                </Text>
+              ) : data.has_verified_location === 1 ? (
+                <Text className="text-[#642B02] font-md text-sm">Pending</Text>
+              ) : data.has_verified_location === 2 ? (
+                <Text className="text-[#642B02] font-md text-sm">Rejected</Text>
+              ) : data.has_verified_loaction === 3 ? (
+                <Text className="text-[#115A38] font-md text-sm">
+                  Completed
+                </Text>
+              ) : null}
+            </View>
+          </TouchableOpacity>
+
           <TouchableOpacity
             className="flex-row justify-between items-center mx-4 mt-6"
             onPress={() => openEmailModal()}
@@ -180,48 +221,9 @@ const UserVerification = ({ data }: any) => {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            className="flex-row justify-between items-center mx-4 mt-6"
-            onPress={() => openOFficeModal()}
-          >
-            <View className="w-10 h-10 border border-[#3F60AC] items-center justify-center rounded-md">
-              <Text>
-                <MaterialCommunityIcons
-                  name="office-building-outline"
-                  size={24}
-                  color="#3F60AC"
-                />
-              </Text>
-            </View>
-            <Text  style={{ color: textTheme }} className="font-light leading-8">
-              Office Address Verification
-            </Text>
-            <View
-              className="w-[100px] h-[34px] justify-center items-center rounded-[20px]"
-              style={{
-                backgroundColor:
-                  data.has_verified_location === 0 || 1 || 2
-                    ? '#FEE1CD'
-                    : '#D8F8E9',
-              }}
-            >
-              {data.has_verified_location === 0 ? (
-                <Text className="text-[#642B02] font-md text-sm">
-                  Incomplete
-                </Text>
-              ) : data.has_verified_location === 1 ? (
-                <Text className="text-[#642B02] font-md text-sm">Pending</Text>
-              ) : data.has_verified_location === 2 ? (
-                <Text className="text-[#642B02] font-md text-sm">Rejected</Text>
-              ) : data.has_verified_loaction === 3 ? (
-                <Text className="text-[#115A38] font-md text-sm">
-                  Completed
-                </Text>
-              ) : null}
-            </View>
-          </TouchableOpacity>
+        
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             className="flex-row justify-between items-center mx-4 mt-6 mb-40"
             onPress={() => openGuarantorModal()}
           >
@@ -260,7 +262,7 @@ const UserVerification = ({ data }: any) => {
                 </Text>
               ) : null}
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <BottomSheetModal
             ref={bottomSheetRef}

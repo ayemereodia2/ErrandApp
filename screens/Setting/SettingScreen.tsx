@@ -274,7 +274,7 @@ const SettingScreen = ({ navigation }: any) => {
 
               <SettingsTest openVerifyModal={openVerifyModal} />
 
-              <SettingsCategory navigation={navigation} interests={interests} />
+              {/* <SettingsCategory navigation={navigation} interests={interests} /> */}
 
               <View className="mt-8 ml-4">
                 <Text

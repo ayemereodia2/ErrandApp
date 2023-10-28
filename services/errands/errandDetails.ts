@@ -15,16 +15,12 @@ export const errandDetails = createAsyncThunk<SingleErrandDetail, DetailProps, {
                 method: "GET",
                 _url: `/errand/${errandId}`,
             })
-        
           const rs = await _rs.json()
-
-          console.log(">>>>>>>_rs market", rs)
 
             if (rs.success === true) {
                 return rs
             }
           if (rs.success === false) {
-            console.log("<<<<<<<error screen")
             if (navigation) {
               navigation.navigate('ErrorScreen')
             }

@@ -116,16 +116,17 @@ const Timeline = ({
   return (
     <BottomSheetModalProvider>
       <KeyboardAvoidingView
-        // keyboardVerticalOffset={keyboardVerticalOffset}
+        keyboardVerticalOffset={keyboardVerticalOffset}
         // keyboardVerticalOffset={Platform.OS === 'ios' ? 64 :  StatusBar.currentHeight || 0 + 450}
         // style={{ flex: 1, backgroundColor: backgroundTheme }}
-        // behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-          behavior="position"
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+          // behavior="position"
         style={{
-          height: Platform.OS === 'android' ? Dimensions.get('window').height - (0) : '110%',
+          flex: 1,
+          height: Platform.OS === 'android' ? Dimensions.get('window').height - (30) : '80%',
         }}
       >
-        
+
         <View>
           <View className="h-[56px] bg-[#FEE1CD] mx-4 items-center justify-center border border-[#C85604] mt-4 rounded-lg">
             {errand.status === 'active' && (
@@ -222,7 +223,7 @@ const Timeline = ({
               scrollViewRef={scrollViewRef}
               scrollToBottom={scrollToBottom}
             />
-          )}
+          )} 
         </View>
 
         <BottomSheetModal

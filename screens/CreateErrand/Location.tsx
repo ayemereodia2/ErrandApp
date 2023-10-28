@@ -136,7 +136,7 @@ const CreateErrandLocation = ({
             }
             fetchDetails={true}
             query={{
-              key: 'AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo',
+              key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
               language: 'en',
             }}
             styles={{
@@ -160,7 +160,7 @@ const CreateErrandLocation = ({
             }
             fetchDetails={true}
             query={{
-              key: 'AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo',
+              key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
               language: 'en',
             }}
             styles={{

@@ -1,11 +1,10 @@
-import { View, Text, ScrollView } from 'react-native'
+import { AntDesign } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 import React from 'react'
+import { Linking, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
-import { TouchableOpacity } from 'react-native'
-import { AntDesign } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
 
 const PrivacyPolicy = () => {
 
@@ -21,6 +20,8 @@ const PrivacyPolicy = () => {
     
       const theme = currentUser?.preferred_theme === 'light' ? true : false
 
+  // https://tools.google.com/dlpage/gaoptout
+
   return (
     <SafeAreaView style={{backgroundColor: backgroundTheme}} className='px-4 pt-4 h-full'>
 
@@ -35,7 +36,8 @@ const PrivacyPolicy = () => {
       <Text style={{color: textTheme}}className='mb-2 text-base leading-6'>
 SWAVE manages the information that we collect from you in accordance with applicable international privacy laws for data protection 2021. In this Policy, "SWAVE", "we", "our" and/or "us" means.</Text>
  <Text style={{color: textTheme}} className='mb-2 text-base leading-6'> (i) where you reside in any country Africa or other country you are using the SWAVE platform</Text>
-<Text style={{color: textTheme}} className='mb-2 text-base leading-6'>(ii) where you reside anywhere outside the African region Exemplar Projects Group Pty Limited, an Australian company.</Text>
+  <Text style={{ color: textTheme }} className='mb-2 text-base leading-6'>(ii) where you reside anywhere outside the African region Exemplar Projects Group Pty Limited, an Australian company.</Text>
+  <Text className='text-blue-600 py-2 text-base' onPress={() => Linking.openURL('http://www.swave.ng/privacy-policy')}> Read More at http://www.swave.ng/privacy-policy</Text>
  <Text style={{color: textTheme}} className='mb-2 text-base leading-6'> This Privacy Policy describes how SWAVE collects, uses, shares, and handles your personal data, and sets out the rights and obligations that both you and SWAVE have in relation to your personal data.
 By accessing www.swave.com or our mobile application (together, the "Services") you accept and agree to the Terms and Conditions of SWAVE's user agreement ("User Agreement"), and acknowledge that your personal data may be collected, used and disclosed in accordance with this Privacy Policy. Except for any terms that are defined in this Privacy Policy then all other defined terms shall have the same meaning as that defined in the User Agreement. Note that under SWAVE's Terms and Conditions, you must not use the Services if you are under 18 years old.
 SWAVE may, from time to time, modify this Privacy Policy (and update the web page on which it is displayed). If we materially change the ways in which SWAVE uses or shares your personal data previously collected from you through the Services, SWAVE will notify you through your SWAVE account, your registered email address or other communication. You should check that account regularly.</Text>
@@ -133,7 +135,7 @@ If you wish to prevent your data from being used by Google Analytics, Google has
 SWAVE may disclose the information We collect from you as follows:
 SWAVE Affiliates. We may share your personal data with our affiliated companies.
 Service Providers. We share your personal data with third party service providers that provide business, verification, professional or technical support functions for us, help us operate our business and the Services, or administer activities on our behalf.
-Analytics Partners. We use analytics services such as Google Analytics to collect and process certain analytics data. These services may also collect information about your use of other websites, apps, and online resources. You can learn about Google’s practices by going to https://www.google.com/policies/privacy/partners/, and opt-out of them by downloading the Google Analytics opt-out browser add-on, available at https://tools.google.com/dlpage/gaoptout.
+Analytics Partners. We use analytics services such as Google Analytics to collect and process certain analytics data. These services may also collect information about your use of other websites, apps, and online resources. You can learn about Google’s practices by going to <Text className='text-blue-600 py-2' onPress={() => Linking.openURL('https://www.google.com/policies/privacy/partners/')}>https://www.google.com/policies/privacy/partners/.</Text>   , and opt-out of them by downloading the Google Analytics opt-out browser add-on, available at <Text className='text-blue-600 py-2' onPress={() => Linking.openURL('https://tools.google.com/dlpage/gaoptout')}>https://tools.google.com/dlpage/gaoptout.</Text> 
 Advertising Partners. We may work with third party advertising partners to show you ads that we think may interest you. If you do not wish to receive personalized ads, please opt-out by going to the 'Setting' link, then 'Notification Settings' and update your preferences.
 Other Third Parties. We may share your personal data with other third parties who participate in SWAVE marketing initiatives, as authorised by you or on an aggregate basis, and with consultants, advisors, and analytics providers as necessary to measure and improve the Services we provide to you. We do not rent, sell, or share information about you with nonaffiliated third parties for their direct marketing purposes, unless we have your permission.
 Sharing Between Users. We may share information, such as ratings and reviews about you, with other users who are looking for Runners on the Services.
@@ -164,7 +166,7 @@ We retain your personal data for as long as is necessary regarding the purposes 
 <Text style={{color: textTheme}} className='mb-2 text-base leading-6'>11. Children’s Privacy
 We do not knowingly collect, maintain, or use personal data from children under 18 years of age, and no part of the Services are directed to children. If you learn that a child has provided us with personal data in violation of this Privacy Policy, please alert us using our contact information below.</Text>
 <Text style={{color: textTheme}} className='mb-2 text-base leading-6'>12. Contact us
-If you have any questions about this Privacy Policy or about the way we process your personal data, please contact us: support@swaveafrica.com contactline@exemplarproject.org</Text>
+If you have any questions about this Privacy Policy or about the way we process your personal data, please contact us: <Text className='text-blue-600 font-semibold'>support@swaveafrica.com, contactline@exemplarproject.org </Text></Text>
 
 <Text style={{color: textTheme}} className='mb-2 text-base leading-6'>SWAVE Data Retention Policy</Text>
 <Text style={{color: textTheme}} className='mb-2 text-base leading-6'>1. Introduction
@@ -203,8 +205,10 @@ Users have control over some aspects of their data retention. This includes the 
 <Text style={{color: textTheme}} className='mb-2 text-base leading-6'>7. Compliance with Regulations
 SWAVE is committed to adhering to data protection laws and regulations that may require specific data retention periods or procedures. We continuously review and update our data retention practices, remaining compliant with evolving legal requirements.</Text>
 <Text style={{color: textTheme}} className='mb-2 text-base leading-6'>8. Contact Information
-If you have questions or concerns about our Data Retention Policy, or if you wish to request the deletion of specific data, please contact us at support@swaveafrica.com contactline@exemplarproject.org
-SWAVE Data Disclosure Policy</Text>
+If you have questions or concerns about our Data Retention Policy, or if you wish to request the deletion of specific data, please contact us at <Text className='text-blue-600 font-semibold'>support@swaveafrica.com, contactline@exemplarproject.org </Text>
+        </Text>
+        
+<Text className='pb-2 text-base'> SWAVE Data Disclosure Policy</Text>
 <Text style={{color: textTheme}} className='mb-2 text-base leading-6'>1. Introduction
 This Data Disclosure Policy outlines SWAVE's approach to the disclosure of user data and the circumstances under which user data may be shared with third parties. We are committed to ensuring the privacy and security of user data and to being transparent about our data sharing practices.</Text>
 <Text style={{color: textTheme}} className='mb-2 text-base leading-6' >2. Data Categories
@@ -239,7 +243,7 @@ We take data security seriously and have implemented measures to protect user da
 <Text style={{color: textTheme}} className='mb-2 text-base leading-6'>8. Compliance with Regulations
 SWAVE is committed to adhering to data protection laws and regulations related to data disclosure. We continuously review and update our data disclosure practices, remaining compliant with evolving legal requirements.</Text>
 <Text style={{color: textTheme}} className='mb-2 text-base leading-6'>9. Contact Information
-If you have questions or concerns about our Data Disclosure Policy or the disclosure of specific data, please contact us at support@swaveafrica.com contactline@exemplarproject.org</Text>
+If you have questions or concerns about our Data Disclosure Policy or the disclosure of specific data, please contact us at <Text className='text-blue-600 font-semibold'>support@swaveafrica.com, contactline@exemplarproject.org </Text></Text>
 
 <Text style={{color: textTheme}} className='mb-2 text-base leading-6'>Secure Data Handling Policy for SWAVE</Text>
 <Text style={{color: textTheme}} className='mb-2 text-base leading-6'>1. Introduction
@@ -296,9 +300,9 @@ Successful data deletion is verified to ensure data is irreversibly removed.</Te
 <Text style={{color: textTheme}} className='mb-2 text-base leading-6' >4. Legal and Regulatory Compliance
 SWAVE complies with data protection regulations that may require specific data deletion periods or procedures. We continuously review and update our data deletion practices remaining compliant with evolving legal requirements.</Text>
 <Text style={{color: textTheme}} className='mb-2 text-base leading-6'>5. User Control
-Users can update or delete their account information through the SWclassName='mb-2 text-base leading-6'AVE app. They may also revoke consent for certain data processing activities, as outlined in our Privacy Policy.</Text>
+Users can update or delete their account information through the SWAVE app. They may also revoke consent for certain data processing activities, as outlined in our Privacy Policy.</Text>
 <Text style={{color: textTheme}} className='mb-2 text-base leading-6'>6. Contact Information
-If you have questions or concerns about our Data Deletion Policy or the deletion of specific data, please contact us at support@swaveafrica.com contactline@exemplarproject.org</Text>
+If you have questions or concerns about our Data Deletion Policy or the deletion of specific data, please contact us at <Text className='text-blue-600 font-semibold'>support@swaveafrica.com, contactline@exemplarproject.org </Text> </Text>
     
 </ScrollView>
     </SafeAreaView>

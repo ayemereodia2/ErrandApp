@@ -304,6 +304,9 @@ const MyErrandInfo = ({ navigation, route }: any) => {
     dispatch(currentUserDetails({ user_id: userId }))
   }, [user, errand, manageErrandClicked, singleSubErrand])
 
+  console.log(">>>>errand status", errand.status);
+  
+
   return (
     <>
       {errand?.status === 'active' ||

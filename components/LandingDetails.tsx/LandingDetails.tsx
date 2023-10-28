@@ -34,6 +34,7 @@ const LandingDetails = ({ navigation }: any) => {
     const _rs = await _fetch({
       method: 'GET',
       _url: `/errand/market?urgent=1`,
+      // _url: `/errand/market`,
     })
     return await _rs.json()
   }
@@ -153,7 +154,7 @@ const LandingDetails = ({ navigation }: any) => {
                 </View>
 
                 <Text
-                  className="text-[18px] font-medium py-4 pt-4"
+                  className="text-[18px] font-medium py-4 pt-4 h-20"
                   style={{ color: textTheme }}
                 >
                   {errand.description?.length >= 60
@@ -165,7 +166,7 @@ const LandingDetails = ({ navigation }: any) => {
                 </Text>
 
                 <Text
-                  className="text-sm font-light"
+                  className="text-sm font-light h-6"
                   style={{ color: theme ? 'white' : '#666666' }}
                 >
                   {' '}

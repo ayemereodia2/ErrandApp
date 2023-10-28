@@ -173,7 +173,7 @@ const PersonalId = ({closePersonalId}:any) => {
       <Text className="text-lg text-center font-semibold">Personal Identification</Text>
 
       <View className="px-4 mt-6">
-        <Text className="text-sm text-[#243763] font-semibold">In other to validate your personal information, Please upload the relevant documents. Valid documents include International passport, National ID or Voters card</Text>
+        <Text className="text-sm text-[#243763] font-semibold">In other to validate your personal information, Please upload the relevant documents. Valid documents include International passport, National ID or Voters card. Images must be either PNG, JPG or JPEG format</Text>
 
       </View>
 

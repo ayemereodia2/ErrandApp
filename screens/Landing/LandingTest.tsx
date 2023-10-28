@@ -85,13 +85,6 @@ const LandingTest = ({ navigation }: any) => {
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-  console.log(
-    '>>>>>>themeBackgriubd',
-    currentUser.preferred_theme,
-    backgroundTheme,
-    textTheme,
-  )
-
   const getCategory = async () => {
     const _rs = await _fetch({
       method: 'GET',

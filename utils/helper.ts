@@ -154,18 +154,27 @@ interface AddressProps {
   const diffMilliseconds = now.getTime() - date.getTime();
 
   // Calculate the time difference in minutes
-  const diffMinutes = Math.floor(diffMilliseconds / (1000 * 60));
+   const diffMinutes = Math.floor(diffMilliseconds / (1000 * 60));
+   
+  //  console.log(">>>>>>diffMinutes", diffMinutes);
+   
 
   if (diffMinutes < 1) {
-    return "just now";
+    return "now";
   } else if (diffMinutes < 60) {
     return diffMinutes + "m ";
   } else if (diffMinutes < 1440) {
     const diffHours = Math.floor(diffMinutes / 60);
     return diffHours + "h ";
-  } else {
+  } else if (diffMinutes < 10080) {
     const diffDays = Math.floor(diffMinutes / 1440);
     return diffDays + "d ";
+  } else if (diffMinutes < 40320) {
+    const diffWeeks = Math.floor(diffMinutes / 10080);
+    return diffWeeks + "w ";
+  } else {
+    const diffMonths = Math.floor(diffMinutes / 40320);
+    return diffMonths + "mo ";
   }
  }
 

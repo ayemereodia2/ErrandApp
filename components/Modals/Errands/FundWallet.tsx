@@ -223,8 +223,8 @@ const FundWalletModal = ({ navigation, route }: any) => {
 
       <View>
         <Paystack
-          paystackKey="pk_test_0ea2496d44ff8e00a98762e85ab92a1639d7307e"
-          billingEmail={'pearlthelma299@gmail.com'}
+          paystackKey={process.env.EXPO_PUBLIC_PAYSTACK_KEY || ''} 
+          billingEmail={'user@gmail.com'}
           phone={'090644788883'}
           amount={parseAmount(amount.toString())}
           userId={userId}

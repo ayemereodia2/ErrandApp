@@ -19,10 +19,7 @@ export const getSubErrand = createAsyncThunk<SingleSubErrandResponse, Props, { r
       _url: `/errand/${errand_id}/sub-errand/${runner_id}`,
     })
       
-      
       const rs = await _rs.json();
-
-      console.log(">>>>>subErrand", rs);
       return rs
 
   

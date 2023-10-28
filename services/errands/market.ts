@@ -18,7 +18,7 @@ export const errandMarketList = createAsyncThunk<any, MarketQueryParams, { rejec
   "errandMarketList/get",
   async ({setSearchedErrand, minPrice, maxPrice, category, ...marketQueryParams}, { rejectWithValue }) => {
   try {
-    let url = `/errand/market?start=1&count=5${category ? `&category=${category}`: ""}${minPrice === 0 ? '' : `&minPrice=${minPrice}`}${maxPrice === 0 ? '' : `&maxPrice=${maxPrice}`}`;
+    let url = `/errand/market?start=0&count=20${category ? `&category=${category}`: ""}${minPrice === 0 ? '' : `&minPrice=${minPrice}`}${maxPrice === 0 ? '' : `&maxPrice=${maxPrice}`}`;
 
 
 

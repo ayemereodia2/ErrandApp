@@ -40,12 +40,12 @@ import Filter from '../../components/Filter/Filter'
 import PostErrandButton from '../../components/PostErrandBtn'
 import { ProfileInitials } from '../../components/ProfileInitials'
 import UserInfo from '../../components/UserInfo/UserInfo'
-import { _fetch } from '../../services/axios/http'
 import { errandMarketList, setLoading } from '../../services/errands/market'
 import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
 import { getUserId } from '../../utils/helper'
+import { _fetch } from '../../services/axios/http'
 
 export default function MainScreen() {
   const navigation = useNavigation()
@@ -160,6 +160,7 @@ export default function MainScreen() {
   })
 
   const onRefresh = React.useCallback(() => {
+    setSearchedErrand([])
     dispatch(errandMarketList({ setSearchedErrand }))
     dispatch(setLoading(false))
     setRefreshing(true)
@@ -190,15 +191,17 @@ export default function MainScreen() {
         return null
       }
       const rs = await _fetch({
+        method: 'GET',
         _url: `/errand/market?start=${page + 1}&count=5${
           value ? `&category=${value}` : ''
         }${min === 0 ? '' : `&minPrice=${min}`}${
           max === 0 ? '' : `&maxPrice=${max}`
         }`,
-        method: 'GET',
+        // _url: `/errand/market`,
+
       })
       const _rs = await rs.json()
-      setSearchedErrand([...searchedErrand, ..._rs.data])
+      setSearchedErrand([..._rs.data])
       setPage(page + 1)
       setLoadingMore(false)
     }
@@ -214,7 +217,7 @@ export default function MainScreen() {
     if (checkFilterToggle) {
       return null
     }
-    if (!loadMoreData) {
+    if (!loadingMore) {
       return null
     }
     return (
@@ -412,6 +415,7 @@ export default function MainScreen() {
                     onEndReached={loadMoreData}
                     onEndReachedThreshold={0.5}
                     ListFooterComponent={renderListFooter}
+                    
                     data={searchedErrand}
                     renderItem={({ item, index }) => {
                       return (
@@ -429,7 +433,8 @@ export default function MainScreen() {
                     style={{ flexGrow: 0, height: 650 }}
                   />
 
-                  {/* <View className="pt-2">
+                  {/* <ScrollView>
+                    <View className="pt-2">
                       {searchedErrand?.map(
                         (errand: MarketData, index: number) => {
                           return (
@@ -444,7 +449,8 @@ export default function MainScreen() {
                           )
                         },
                       )}
-                    </View> */}
+                    </View>
+                  </ScrollView> */}
                 </View>
               </View>
             </>
