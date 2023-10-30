@@ -144,7 +144,8 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
             numberOfLines={10}
             style={{ height: 100, textAlignVertical: 'top' }}
             keyboardType="default"
-            
+            onFocus={handleCommentFocus}
+            onBlur={handleCommentBlur}
           />
         </View>
       </View>
