@@ -114,14 +114,23 @@ const ErrandBid = ({
           <View className="flex-row items-center space-x-3">
             {errand.errand_type === 1 ? (
               <Image
-                source={require('../../assets/images/mulit.png')}
+                source={{uri: bid?.runner.profile_picture}}
                 className="w-8 h-8 rounded-full"
               />
             ) : (
-              <Image
-                source={require('../../assets/images/jagger.jpg')}
-                className="w-8 h-8 rounded-full"
-              />
+              // <Image
+              //   source={require('../../assets/images/jagger.jpg')}
+              //   className="w-8 h-8 rounded-full"
+              // />
+              <View className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center">
+                <Text
+                  // style={{ color: textTheme }}
+                  className="uppercase text-lg items-center text-white"
+                >
+                  {bid?.runner?.first_name.charAt(0).toUpperCase()}
+                  {bid?.runner?.last_name.charAt(0).toUpperCase()}
+                </Text>
+              </View>
             )}
             <Text className="text-sm font-medium">
               {bid?.runner.first_name} {bid?.runner.last_name}

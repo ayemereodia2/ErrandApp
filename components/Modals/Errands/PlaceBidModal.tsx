@@ -2,6 +2,8 @@ import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
 import React, { useState } from 'react'
 import {
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -13,6 +15,9 @@ import { postBid } from '../../../services/errands/placeBid'
 import { RootState, useAppDispatch } from '../../../services/store'
 import { MarketData, UserDetail } from '../../../types'
 import { currencyMask, parseAmount } from '../../../utils/helper'
+import { TouchableWithoutFeedback } from 'react-native'
+import { Keyboard } from 'react-native'
+import { ScrollView } from 'react-native'
 interface PlaceBidModalProp {
   owner: UserDetail
   errand: MarketData
@@ -60,11 +65,34 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
     dispatch(postBid(data))
   }
 
+  
+  const [commentFocused, setCommentFocused] = useState(false);
+
+  const handleCommentFocus = () => {
+    setCommentFocused(true);
+  };
+
+  const handleCommentBlur = () => {
+    setCommentFocused(false);
+  };
+
   return (
+    <ScrollView
+    style={{ flex: 1, backgroundColor: backgroundTheme }}
+    contentContainerStyle={{ flexGrow: 1 }}
+    keyboardShouldPersistTaps="handled"
+  >
     <View
       className="py-4 pb-10 h-full"
       style={{ backgroundColor: backgroundTheme }}
     >
+      <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
+      <KeyboardAvoidingView
+       style={{ flex: 1 }}
+       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100} 
+      >
+        
       <Text
         className="text-lg text-center font-semibold"
         style={{ color: textTheme }}
@@ -90,6 +118,7 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
             value={amount}
             keyboardType="numeric"
             style={styles.input}
+            
           />
         </View>
       </View>
@@ -115,6 +144,8 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
             numberOfLines={10}
             style={{ height: 100, textAlignVertical: 'top' }}
             keyboardType="default"
+            onFocus={handleCommentFocus}
+            onBlur={handleCommentBlur}
           />
         </View>
       </View>
@@ -135,7 +166,11 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
           </Text>
         </TouchableOpacity>
       </View>
+      
+      </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </View>
+    </ScrollView>
   )
 }
 
