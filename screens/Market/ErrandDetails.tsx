@@ -47,7 +47,7 @@ export default function ErrandDetails({ route, navigation }: any) {
   const dispatch = useAppDispatch()
   const [showBid, setShowBid] = useState(false)
   const bottomSheetRef = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ['63%'], [])
+  const snapPoints = useMemo(() => ['75%'], [])
   const [userId, setUserId] = useState('')
   const [showBidBtn, setShowBidBtn] = useState(true)
   const [address, setAddress] = useState('')

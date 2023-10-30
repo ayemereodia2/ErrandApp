@@ -65,7 +65,7 @@ const MyErrandCard = ({
       >
         <View className="flex-row items-center justify-between gap-6">
           <View className="flex-row items-center space-x-3">
-            {errand?.user?.profile_picture === undefined ? (
+            {!errand?.user?.profile_picture  ? (
               <View className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center">
                 <Text
                   style={{ color: textTheme }}
