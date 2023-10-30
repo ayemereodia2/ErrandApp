@@ -192,7 +192,7 @@ export default function MainScreen() {
       }
       const rs = await _fetch({
         method: 'GET',
-        _url: `/errand/market?start=${page + 1}&count=5${
+        _url: `/errand/market?start=${page + 0}&count=10${
           value ? `&category=${value}` : ''
         }${min === 0 ? '' : `&minPrice=${min}`}${
           max === 0 ? '' : `&maxPrice=${max}`
@@ -228,7 +228,7 @@ export default function MainScreen() {
           borderColor: '#CED0CE',
         }}
       >
-        <ActivityIndicator animating size="large" />
+        <ActivityIndicator animating size="large" color="blue"/>
       </View>
     )
   }
@@ -274,7 +274,7 @@ export default function MainScreen() {
               <View
                 className={
                   Platform.OS === 'android'
-                    ? 'flex-row items-center justify-between mt-5'
+                    ? 'flex-row items-center justify-between mt-6'
                     : 'flex-row items-center justify-between'
                 }
               >
@@ -470,7 +470,7 @@ export default function MainScreen() {
             // backdropComponent={renderBackdrop}
             ref={bottomSheetRef1}
             index={0}
-            snapPoints={['45%']}
+            snapPoints={['55%']}
             backdropComponent={renderBackdrop}
           >
             <Content navigation={navigation} />

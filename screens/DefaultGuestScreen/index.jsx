@@ -62,7 +62,7 @@ const DefaultGuestScreen = ({ navigation }) => {
 
   // const ads = ["https://d2ti6ck6wvghce.cloudfront.net/swave-staging/advert/64add98dc88053e63511f154/advert_image_1.png", "https://d2ti6ck6wvghce.cloudfront.net/swave-staging/advert/64add98dc88053e63511f154/advert_image_2.png", "https://d2ti6ck6wvghce.cloudfront.net/swave-staging/advert/64add98dc88053e63511f154/advert_image_3.png", "https://d2ti6ck6wvghce.cloudfront.net/swave-staging/advert/64add98dc88053e63511f154/advert_image_5.png", "https://d2ti6ck6wvghce.cloudfront.net/swave-staging/advert/64add98dc88053e63511f154/advert_image_4.png"]
 
-  const ads = ['../../assets/images/slide-1.png','../../assets/images/slide-2.png', '../../assets/images/slide-3.png', '../../assets/images/slide-4.png', '../../assets/images/slide-5.png' ]
+  const ads = ['../../assets/images/slide--1.jpeg','../../assets/images/slide--2.jpeg', '../../assets/images/slide--3.jpeg', '../../assets/images/slide--4.jpeg', '../../assets/images/slide--5.jpeg']
 
   return (
     // <SafeAreaView

@@ -55,7 +55,7 @@ const MyErrandCard = ({
         )
       }}
       key={index}
-      className="mx-4 shadow-sm rounded-sm"
+      className="mx-4 shadow-sm rounded-sm pt-2"
     >
       <View
         style={{

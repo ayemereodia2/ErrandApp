@@ -22,7 +22,6 @@ import {
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
-import Container from '../../components/Container'
 import MyErrandCard from '../../components/MyErrandCard'
 import { MyErrandEmptyState } from '../../components/MyErrandEmptyState'
 import MyErrandToggle from '../../components/MyErrandToggle'
@@ -105,7 +104,7 @@ const ErrandScreen = ({ navigation }: any) => {
   const errandSearchHandler = () => {
     const value = searchValue.toLowerCase()
 
-    const searchResult = myErrands.filter((errand) =>
+    const searchResult = myErrands?.filter((errand) =>
       errand?.description?.toLowerCase().includes(value),
     )
     setSearchedErrand(searchResult)
@@ -121,7 +120,7 @@ const ErrandScreen = ({ navigation }: any) => {
       setSearchedErrand(myErrands)
       return
     }
-    const errands = myErrands.filter((errand) => errand.status === status)
+    const errands = myErrands?.filter((errand) => errand.status === status)
     setSearchedErrand(errands)
   }
 
@@ -131,7 +130,7 @@ const ErrandScreen = ({ navigation }: any) => {
       setSearchedErrand(myErrands)
       return
     }
-    const errands = myErrands.filter(
+    const errands = myErrands?.filter(
       (errand) => errand.status === status && userId !== errand.user_id,
     )
     setSearchedErrand(errands)
@@ -204,7 +203,10 @@ const ErrandScreen = ({ navigation }: any) => {
 
   return (
     <>
-      <Container>
+      <SafeAreaView
+        className=" w-screen"
+        style={{ backgroundColor: backgroundTheme, flex: 1 }}
+      >
         <BottomSheetModalProvider>
           <View className="">
             <ScrollView
@@ -402,13 +404,13 @@ const ErrandScreen = ({ navigation }: any) => {
             // backdropComponent={renderBackdrop}
             ref={bottomSheetRef1}
             index={0}
-            snapPoints={['45%']}
+            snapPoints={['55%']}
             backdropComponent={renderBackdrop}
           >
             <Content navigation={navigation} />
           </BottomSheetModal>
         </BottomSheetModalProvider>
-      </Container>
+      </SafeAreaView>
 
       <PostErrandButton className="bottom-20 right-3" />
     </>

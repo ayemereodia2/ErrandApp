@@ -20,7 +20,6 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
-import Container from '../../components/Container'
 import LandingDetails from '../../components/LandingDetails.tsx/LandingDetails'
 import NewNotifications from '../../components/NewNotifications/NewNotifications'
 import PostErrandButton from '../../components/PostErrandBtn'
@@ -35,8 +34,8 @@ const LandingTest = ({ navigation }: any) => {
   const loaderGif = '../../assets/images/loading-SWAVE.gif'
   const bottomSheetRef = useRef<BottomSheetModal>(null)
   const bottomSheetRef1 = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ['40%'], [])
-  const snapPoints1 = useMemo(() => ['45%'], [])
+  const snapPoints = useMemo(() => ['50%'], [])
+  const snapPoints1 = useMemo(() => ['55%'], [])
   const [verifiedPin, setVerifiedPin] = useState(true)
 
   function openPinModal() {
@@ -146,47 +145,59 @@ const LandingTest = ({ navigation }: any) => {
   // }
 
   return (
-    <Container>
-      <BottomSheetModalProvider>
-        <SafeAreaView
-          className="px-4 w-screen"
-          style={{ backgroundColor: backgroundTheme }}
-        >
-          <ScrollView
-            keyboardShouldPersistTaps="always"
-            showsVerticalScrollIndicator={false}
+    <>
+      <SafeAreaView
+        className="px-4 w-screen"
+        style={{ backgroundColor: backgroundTheme, flex: 1 }}
+      >
+        <BottomSheetModalProvider>
+          <View
+            style={{
+              flexDirection: 'column-reverse',
+              marginBottom: Platform.OS === 'android' ? 75 : 35,
+            }}
           >
-            {/* <View
+            <ScrollView
+              keyboardShouldPersistTaps="always"
+              showsVerticalScrollIndicator={false}
+            >
+              {/* <View
             style={{
               marginBottom: Platform.OS === 'android' ? 10 : 35,
             }}
           > */}
-            <View className={Platform.OS === 'android' ? "flex-row items-center justify-between mt-6" : "flex-row items-center justify-between"}>
-              <Text
-                className="font-bold text-[20px] leading-7"
-                style={{ color: textTheme }}
+              <View
+                className={
+                  Platform.OS === 'android'
+                    ? 'flex-row items-center justify-between mt-6'
+                    : 'flex-row items-center justify-between'
+                }
               >
-                Good {getTimeOfDay()}, {currentUser?.first_name}
-              </Text>
-
-              <View className="items-center flex-row gap-4 mr-2">
-                <Text style={{ color: textTheme }}>
-                  <FontAwesome
-                    name="bell-o"
-                    size={24}
-                    onPress={() => {
-                      navigation.navigate('Notification')
-                    }}
-                  />
-                </Text>
-                <TouchableOpacity
-                  onPress={
-                    // navigation.navigate('Contact')
-                    openMoreModal
-                  }
+                <Text
+                  className="font-bold text-[20px] leading-7"
+                  style={{ color: textTheme }}
                 >
+                  Good {getTimeOfDay()}, {currentUser?.first_name}
+                </Text>
+
+                <View className="items-center flex-row gap-4 mr-2">
                   <Text style={{ color: textTheme }}>
-                    {/* <Feather
+                    <FontAwesome
+                      name="bell-o"
+                      size={24}
+                      onPress={() => {
+                        navigation.navigate('Notification')
+                      }}
+                    />
+                  </Text>
+                  <TouchableOpacity
+                    onPress={
+                      // navigation.navigate('Contact')
+                      openMoreModal
+                    }
+                  >
+                    <Text style={{ color: textTheme }}>
+                      {/* <Feather
                     name="help-circle"
                     size={24}
                     onPress={() => {
@@ -194,141 +205,142 @@ const LandingTest = ({ navigation }: any) => {
                      
                     }}
                   /> */}
-                    <Entypo name="dots-three-vertical" size={24} />
+                      <Entypo name="dots-three-vertical" size={24} />
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <View className="flex-row items-center gap-4 mt-1">
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Market')}
+                  className="bg-gray-200 px-4 py-1 rounded-xl border border-[#e9ebf2]"
+                  style={{ backgroundColor: landingPageTheme }}
+                >
+                  <Text
+                    className="text-white text-base"
+                    style={{ color: theme ? 'black' : 'white' }}
+                  >
+                    Explore
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('MyErrands')}
+                  className=" px-4 py-1 rounded-xl border border-[#e9ebf2] "
+                  style={{ backgroundColor: landingPageTheme }}
+                >
+                  <Text
+                    className=" text-base"
+                    style={{ color: theme ? 'black' : 'white' }}
+                  >
+                    Manage your Errands
                   </Text>
                 </TouchableOpacity>
               </View>
-            </View>
 
-            <View className="flex-row items-center gap-4 mt-1">
-              <TouchableOpacity
-                onPress={() => navigation.navigate('Market')}
-                className="bg-gray-200 px-4 py-1 rounded-xl border border-[#e9ebf2]"
-                style={{ backgroundColor: landingPageTheme }}
-              >
+              <View className="mt-10">
                 <Text
-                  className="text-white text-base"
-                  style={{ color: theme ? 'black' : 'white' }}
+                  className=" text-[25px] leading-7 font-bold"
+                  style={{ color: textTheme }}
                 >
-                  Explore
+                  What do you need help with?
                 </Text>
-              </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => navigation.navigate('MyErrands')}
-                className=" px-4 py-1 rounded-xl border border-[#e9ebf2] "
-                style={{ backgroundColor: landingPageTheme }}
-              >
-                <Text
-                  className=" text-base"
-                  style={{ color: theme ? 'black' : 'white' }}
-                >
-                  Manage your Errands
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View className="mt-10">
-              <Text
-                className=" text-[25px] leading-7 font-bold"
-                style={{ color: textTheme }}
-              >
-                What do you need help with?
-              </Text>
-
-              <View className="mt-4 w-[90vw] flex-row flex-wrap items-center mx-auto">
-                {data
-                  ? data?.data?.map((category: any) => (
-                      <>
-                        <View className="flex-row mt-3 " key={category.id}>
-                          <TouchableOpacity
-                            className="border-[#aaa] border px-4 py-1 rounded-xl mr-2 bg-white"
-                            style={{
-                              backgroundColor: theme ? '#1E3A79' : 'white',
-                            }}
-                            onPress={() => {
-                              dispatch(getDraftErrand())
-                              navigation.navigate('LandingForm', { category })
-                            }}
-                            key={category.id}
-                          >
-                            <Text
-                              className="text-base"
-                              style={{ color: textTheme }}
-                            >{`${category.description}`}</Text>
-                          </TouchableOpacity>
-                        </View>
-                      </>
-                    ))
-                  : null}
+                <View className="mt-4 w-[90vw] flex-row flex-wrap items-center mx-auto">
+                  {data
+                    ? data?.data?.map((category: any) => (
+                        <>
+                          <View className="flex-row mt-3 " key={category.id}>
+                            <TouchableOpacity
+                              className="border-[#aaa] border px-4 py-1 rounded-xl mr-2 bg-white"
+                              style={{
+                                backgroundColor: theme ? '#1E3A79' : 'white',
+                              }}
+                              onPress={() => {
+                                dispatch(getDraftErrand())
+                                navigation.navigate('LandingForm', { category })
+                              }}
+                              key={category.id}
+                            >
+                              <Text
+                                className="text-base"
+                                style={{ color: textTheme }}
+                              >{`${category.description}`}</Text>
+                            </TouchableOpacity>
+                          </View>
+                        </>
+                      ))
+                    : null}
+                </View>
               </View>
-            </View>
 
-            <View className="mt-12">
-              <Text
-                className=" text-[25px] leading-7 font-bold"
-                style={{ color: textTheme }}
-              >
-                Urgent Errands
-              </Text>
+              <View className="mt-12">
+                <Text
+                  className=" text-[25px] leading-7 font-bold"
+                  style={{ color: textTheme }}
+                >
+                  Urgent Errands
+                </Text>
 
-              <ScrollView horizontal showHorizontalIndicator={false}>
-                <LandingDetails navigation={navigation} />
-              </ScrollView>
-            </View>
+                <ScrollView horizontal showHorizontalIndicator={false}>
+                  <LandingDetails navigation={navigation} />
+                </ScrollView>
+              </View>
 
-            <View className="mt-4">
-              <Text
-                className=" text-[25px] leading-7 font-bold"
-                style={{ color: textTheme }}
-              >
-                You may have missed these...
-              </Text>
-            </View>
-            <NewNotifications />
-            {/* </View> */}
-          </ScrollView>
-          {!isLoading && <PostErrandButton className="bottom-5 right-3" />}
-        </SafeAreaView>
+              <View className="mt-6">
+                <Text
+                  className=" text-[25px] leading-7 font-bold"
+                  style={{ color: textTheme }}
+                >
+                  You may have missed these...
+                </Text>
+              </View>
+              <NewNotifications />
+              {/* </View> */}
+            </ScrollView>
 
-        <BottomSheetModal
-          android_keyboardInputMode="adjustResize"
-          ref={bottomSheetRef}
-          index={0}
-          snapPoints={snapPoints}
-          containerStyle={{
-            marginHorizontal: 10,
-          }}
-          backdropComponent={renderBackdrop}
-          keyboardBehavior="extend"
-          enablePanDownToClose
-          keyboardBlurBehavior="restore"
-        >
-          <PinModal
-            createErrand={false}
-            submitErrandhandler={() => {}}
-            closePinModal={closePinModal}
-            makeWithdrawalHandler={() => {}}
-          />
-        </BottomSheetModal>
+            <BottomSheetModal
+              android_keyboardInputMode="adjustResize"
+              ref={bottomSheetRef}
+              index={0}
+              snapPoints={snapPoints}
+              containerStyle={{
+                marginHorizontal: 10,
+              }}
+              backdropComponent={renderBackdrop}
+              keyboardBehavior="extend"
+              enablePanDownToClose
+              keyboardBlurBehavior="restore"
+            >
+              <PinModal
+                createErrand={false}
+                submitErrandhandler={() => {}}
+                closePinModal={closePinModal}
+                makeWithdrawalHandler={() => {}}
+              />
+            </BottomSheetModal>
 
-        <BottomSheetModal
-          android_keyboardInputMode="adjustResize"
-          ref={bottomSheetRef1}
-          index={0}
-          snapPoints={snapPoints1}
-          containerStyle={{
-            marginHorizontal: 10,
-          }}
-          backdropComponent={renderBackdrop}
-          keyboardBehavior="extend"
-          enablePanDownToClose
-          keyboardBlurBehavior="restore"
-        >
-          <Content navigation={navigation} />
-        </BottomSheetModal>
-      </BottomSheetModalProvider>
-    </Container>
+            <BottomSheetModal
+              android_keyboardInputMode="adjustResize"
+              ref={bottomSheetRef1}
+              index={0}
+              snapPoints={snapPoints1}
+              containerStyle={{
+                marginHorizontal: 10,
+              }}
+              backdropComponent={renderBackdrop}
+              keyboardBehavior="extend"
+              enablePanDownToClose
+              keyboardBlurBehavior="restore"
+            >
+              <Content navigation={navigation} />
+            </BottomSheetModal>
+          </View>
+        </BottomSheetModalProvider>
+      </SafeAreaView>
+      {!loading && <PostErrandButton className="bottom-20 right-3" />}
+    </>
   )
 }
 

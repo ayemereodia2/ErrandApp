@@ -39,10 +39,12 @@ const LandingDetails = ({ navigation }: any) => {
     return await _rs.json()
   }
 
-  const { isLoading, isSuccess, data, isError } = useQuery({
+  let { isLoading, isSuccess, data, isError } = useQuery({
     queryKey: ['get-market'],
     queryFn: getMarket,
   })
+
+  console.log('>>>>>>dataaaaaa uregnta', data)
 
   if (isLoading) {
     return (
@@ -60,16 +62,20 @@ const LandingDetails = ({ navigation }: any) => {
     )
   }
 
-  if (isSuccess) {
-    // console.log(data)
-  }
-
   const regex = /(<([^>]+)>)/gi
+
+  if (data === null) {
+    data = []
+  }
 
   return (
     <>
-      {data ? (
-        data.data.map((errand: any) => (
+      {data === null ? (
+        <>
+          <Text className="pt-2">There are no urgent errands yet</Text>
+        </>
+      ) : (
+        data?.data.map((errand: any) => (
           <SafeAreaView className="mb-10 mr-4">
             <ScrollView horizontal>
               <TouchableOpacity
@@ -81,7 +87,7 @@ const LandingDetails = ({ navigation }: any) => {
                   dispatch(errandDetails({ errandId: errand?.id }))
                   dispatch(externalUserDetails({ user_id: errand?.user_id }))
                 }}
-                className="pt-1 mt-2 pb-1 bg-[#fff] rounded-xl py-1 px-6 border w-[350px]" 
+                className="pt-1 mt-2 pb-1 bg-[#fff] rounded-xl py-1 px-6 border w-[350px]"
                 style={{
                   backgroundColor: theme ? '#152955' : 'white',
                   borderColor: theme ? '#e9ebbf2' : 'lightgrey',
@@ -118,8 +124,6 @@ const LandingDetails = ({ navigation }: any) => {
                         {errand?.user?.first_name} {errand?.user?.last_name}
                       </Text>
 
-                     
-
                       <View className="flex-row justify-between -mt-4">
                         <View className="w-60">
                           <Text className="text-[#000000] text-sm font-bold"></Text>
@@ -147,7 +151,10 @@ const LandingDetails = ({ navigation }: any) => {
                             </View>
                           </View>
                         </View>
-                        <Text className='mr-6' style={{color: textTheme}}> {getCardTimeAgo(errand?.updated_at)}</Text>
+                        <Text className="mr-6" style={{ color: textTheme }}>
+                          {' '}
+                          {getCardTimeAgo(errand?.updated_at)}
+                        </Text>
                       </View>
                     </View>
                   </View>
@@ -180,19 +187,7 @@ const LandingDetails = ({ navigation }: any) => {
                   )}
                 </Text>
 
-                <View className="flex-row items-center">
-                  {/* <View className=" rounded-3xl mt-2">
-                    <Text
-                      className="font-medium text-sm inline-block"
-                      style={{ color: textTheme }}
-                    >
-                      {' '}
-                      {errand?.category.name?.substring(0, 20)}
-                    </Text>
-                  </View> */}
-                </View>
-
-                {/* <View className="h-[0.3px] bg-[#AAAAAA] mt-3 items-center"></View> */}
+                <View className="flex-row items-center"></View>
 
                 <View className="flex-row justify-between items-center">
                   <Text
@@ -222,25 +217,6 @@ const LandingDetails = ({ navigation }: any) => {
             </ScrollView>
           </SafeAreaView>
         ))
-      ) : (
-        <SafeAreaView className="pt-20 bg-gray-200 w-screen h-[40vh] mt-5">
-          <TouchableOpacity
-            className="mt-4 pb-2 bg-[#fff] rounded-xl py-3 px-6 border"
-            style={{
-              backgroundColor: theme ? '#152955' : 'white',
-              borderColor: theme ? '#e9ebbf2' : 'lightgrey',
-            }}
-          >
-            <View className=" flex-row items-start mt-4">
-              <View className="flex-row items-start justify-center gap-3">
-                <View className=" mx-auto flex-row justify-center items-center">
-                  <ActivityIndicator color="black" size="large" />
-                </View>
-              </View>
-            </View>
-          </TouchableOpacity>
-          {/* <Text className='m-auto'><EvilIcons name="spinner" size={28} color="black" /></Text> */}
-        </SafeAreaView>
       )}
     </>
   )

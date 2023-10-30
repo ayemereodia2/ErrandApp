@@ -33,8 +33,6 @@ export default function NewNotifications() {
     refetchOnMount: 'always',
   })
 
-  // console.log('>>>>>>data notificaito', data.data)
-
   if (isLoading) {
     return (
       <SafeAreaView className="pt-20 bg-gray-200 w-screen h-[40vh] mt-5">
@@ -50,11 +48,13 @@ export default function NewNotifications() {
 
   return (
     <>
-      {data?.data === null ? (
-        <Text className='text-base pt-4' style={{ color: textTheme }}>There are no new notifications</Text>
+      {data?.data === undefined ? (
+        <>
+          <Text className="text-sm pt-2 mb-4 " style={{ color: textTheme }}>
+            There are no new notifications
+          </Text>
+        </>
       ) : (
-        
-          
         data?.data?.map((notification: any) => (
           <ScrollView>
             <View

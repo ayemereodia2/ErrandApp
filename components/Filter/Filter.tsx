@@ -149,7 +149,7 @@ const Filter = ({
         <View
           className={
             Platform.OS === 'android'
-              ? 'flex-row items-center justify-between mt-5'
+              ? 'flex-row items-center justify-between mt-8'
               : 'flex-row items-center justify-between'
           }
         >

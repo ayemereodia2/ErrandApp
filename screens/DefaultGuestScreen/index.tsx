@@ -1,5 +1,9 @@
 import { AntDesign } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
+import { Image } from 'react-native'
+
+import { Asset } from 'expo-asset'
+import * as SplashScreen from 'expo-splash-screen'
 import {
   ActivityIndicator,
   ImageBackground,
@@ -14,6 +18,16 @@ import { _fetch } from '../../services/axios/http'
 
 type Props = {
   navigation: any
+}
+
+function cacheImages(images: any) {
+  return images.map((image: any) => {
+    if (typeof image === 'string') {
+      return Image.prefetch(image)
+    } else {
+      return Asset.fromModule(image).downloadAsync()
+    }
+  })
 }
 
 const ImageViewer = ({ navigation }: Props) => {
@@ -67,22 +81,46 @@ const ImageViewer = ({ navigation }: Props) => {
 const DefaultGuestScreen = ({ navigation }: any) => {
   const [adsImages, setAdsImages] = useState([])
   const [loading, setLoading] = useState(false)
+  const [appIsReady, setAppIsReady] = useState(false)
 
-  const getAdsImages = async () => {
-    setLoading(true)
-    const _rs = await _fetch({
-      _url: '/advert-image',
-      method: 'GET',
-    })
-    const rs = await _rs.json()
-    const images = rs?.data.map((data) => data.url)
+  async function loadResourcesAndDataAsync() {
+    try {
+      SplashScreen.preventAutoHideAsync()
 
-    setAdsImages(images)
-    setLoading(false)
+      const imageAssets = cacheImages([
+        require('../../assets/images/slide--1.jpeg'),
+        require('../../assets/images/slide--2.jpeg'),
+        require('../../assets/images/slide--3.jpeg'),
+        require('../../assets/images/slide--4.jpeg'),
+        require('../../assets/images/slide--5.jpeg'),
+      ])
+
+      await Promise.all([...imageAssets])
+    } catch (e) {
+      // You might want to provide this error information to an error reporting service
+      console.warn(e)
+    } finally {
+      setAppIsReady(true)
+      SplashScreen.hideAsync()
+    }
   }
 
+  // const getAdsImages = async () => {
+  //   setLoading(true)
+  //   const _rs = await _fetch({
+  //     _url: '/advert-image',
+  //     method: 'GET',
+  //   })
+  //   const rs = await _rs.json()
+  //   const images = rs?.data.map((data) => data.url)
+
+  //   setAdsImages(images)
+  //   setLoading(false)
+  // }
+
   useEffect(() => {
-    getAdsImages()
+    loadResourcesAndDataAsync()
+    // getAdsImages()
   }, [])
 
   if (loading) {
@@ -100,6 +138,10 @@ const DefaultGuestScreen = ({ navigation }: any) => {
     )
   }
 
+  if (!appIsReady) {
+    return null
+  }
+
   // const ads = [
   //   'https://d2ti6ck6wvghce.cloudfront.net/swave-staging/advert/64add98dc88053e63511f154/advert_image_1.png',
   //   'https://d2ti6ck6wvghce.cloudfront.net/swave-staging/advert/64add98dc88053e63511f154/advert_image_2.png',
@@ -108,13 +150,9 @@ const DefaultGuestScreen = ({ navigation }: any) => {
   //   'https://d2ti6ck6wvghce.cloudfront.net/swave-staging/advert/64add98dc88053e63511f154/advert_image_4.png',
   // ]
 
-  const ads = [
-    '../../assets/images/slide-1.png',
-    '../../assets/images/slide-2.png',
-    '../../assets/images/slide-3.png',
-    '../../assets/images/slide-4.png',
-    '../../assets/images/slide-5.png',
-  ]
+  // const ads = [
+  //  '../../assets/images/slide--1.jpeg','../../assets/images/slide--2.jpeg', '../../assets/images/slide--3.jpeg', '../../assets/images/slide--4.jpeg', '../../assets/images/slide--5.jpeg'
+  // ]
 
   return (
     // <SafeAreaView
@@ -184,37 +222,42 @@ const DefaultGuestScreen = ({ navigation }: any) => {
     <>
       <StatusBar translucent backgroundColor="transparent" />
 
-      <Swiper loop={true} autoplay={true} autoplayTimeout={7} activeDotColor={'white'}>
+      <Swiper
+        loop={true}
+        autoplay={true}
+        autoplayTimeout={7}
+        activeDotColor={'white'}
+      >
         <ImageBackground
-          source={require('../../assets/images/slide-1.png')}
+          source={require('../../assets/images/slide--1.jpeg')}
           resizeMode="cover"
           style={{ flex: 1 }}
         >
           <ImageViewer navigation={navigation} />
         </ImageBackground>
         <ImageBackground
-          source={require('../../assets/images/slide-2.png')}
+          source={require('../../assets/images/slide--2.jpeg')}
           resizeMode="cover"
           style={{ flex: 1 }}
         >
           <ImageViewer navigation={navigation} />
         </ImageBackground>
         <ImageBackground
-          source={require('../../assets/images/slide-3.png')}
+          source={require('../../assets/images/slide--3.jpeg')}
           resizeMode="cover"
           style={{ flex: 1 }}
         >
           <ImageViewer navigation={navigation} />
         </ImageBackground>
         <ImageBackground
-          source={require('../../assets/images/slide-4.png')}
+          source={require('../../assets/images/slide--4.jpeg')}
           resizeMode="cover"
           style={{ flex: 1 }}
         >
           <ImageViewer navigation={navigation} />
         </ImageBackground>
         <ImageBackground
-          source={require('../../assets/images/slide-5.png')}
+          source={require('../../assets/images/slide--5.jpeg')}
           resizeMode="cover"
           style={{ flex: 1 }}
         >

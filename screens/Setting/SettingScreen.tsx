@@ -458,7 +458,7 @@ const SettingScreen = ({ navigation }: any) => {
           // backdropComponent={renderBackdrop}
           ref={bottomSheetRef1}
           index={0}
-          snapPoints={['45%']}
+          snapPoints={['55%']}
           backdropComponent={renderBackdrop}
         >
           <Content navigation={navigation} />

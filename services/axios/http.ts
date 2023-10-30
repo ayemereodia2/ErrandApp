@@ -7,44 +7,14 @@ interface FetchProps {
   body?: any
 }
 
-export const axiosInstance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BACKEND_BASE_URL,
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    timeout: 20000, // 20 seconds
-});
-
-axiosInstance.interceptors.request.use(async (config) => {
-   if (config.url?.includes('/sign-in')) return config;
-  if (config.url?.includes('/sign-up')) return config;
-
-   config.headers!['Authorization'] = "Bearer " + localStorage.getItem("accessToken")
-  return config
-
-},
-  (error) => {
-    return Promise.reject(error)
-  }
-)
-
-axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    if (error.response.status === 401) {
-    }
-    const request = error.config; //this is actual request that was sent, and error is received in response to that request 
-    return Promise.reject(error);
-  }
-);
-// console.log('test', process.env.EXPO_PUBLIC_API_URL)
 
 export async function _fetch({ _url, body, method }: FetchProps) {
   
   const url = `${process.env.EXPO_PUBLIC_API_URL}${_url}` 
   // const url = `https://staging.apis.swave.ng/v1${_url}`
+
+  console.log(">>>>url", url);
+  
   
   
   const token = await AsyncStorage.getItem('accessToken');
