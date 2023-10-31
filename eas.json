@@ -13,7 +13,7 @@
     },
     "development": {
        "env": {
-        "EXPO_PUBLIC_API_URL": "https://staging.apis.swave.ng/v1",
+        "EXPO_PUBLIC_API_URL": "https://apis.swave.ng/v1",
         "EXPO_PUBLIC_GOOGLE_KEY":"AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo",
         "EXPO_PUBLIC_PAYSTACK_KEY":"pk_test_0ea2496d44ff8e00a98762e85ab92a1639d7307e"
       },

@@ -9,7 +9,7 @@ import { _fetch } from '../../services/axios/http'
 import { RootState } from '../../services/store'
 import { getTimeAgo } from '../../utils/helper'
 
-export default function NewNotifications() {
+export default function NewNotifications({data, isLoading}) {
   const {
     data: currentUser,
     backgroundTheme,
@@ -27,11 +27,11 @@ export default function NewNotifications() {
     return await _rs.json()
   }
 
-  const { isLoading, isSuccess, data, isError } = useQuery({
-    queryKey: ['get-notification'],
-    queryFn: getNotifications,
-    refetchOnMount: 'always',
-  })
+  // const { isLoading, isSuccess, data, isError } = useQuery({
+  //   queryKey: ['get-notification'],
+  //   queryFn: getNotifications,
+  //   refetchOnMount: 'always',
+  // })
 
   if (isLoading) {
     return (
@@ -42,9 +42,6 @@ export default function NewNotifications() {
     )
   }
 
-  if (isSuccess) {
-    // console.log('>>>>>>notigyffff', data.data)
-  }
 
   return (
     <>

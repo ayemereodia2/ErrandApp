@@ -59,14 +59,14 @@
         }
       },
       "package": "com.orj5.Swave",
-      "versionCode":11
+      "versionCode": 11
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "67d2b98f-b0e0-49db-a3f4-4d46c6386ce3"
+        "projectId": "a735d128-a0e3-4322-b0ef-e6443ad2f338"
       }
     }
   }

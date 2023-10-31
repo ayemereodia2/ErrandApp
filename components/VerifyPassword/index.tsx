@@ -1,9 +1,12 @@
-import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
 import React, { useState } from 'react'
 import {
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native'
@@ -66,43 +69,55 @@ export default function VerifyPassword({
   }
 
   return (
-    <View
-      style={{ backgroundColor: backgroundTheme, paddingBottom: 20 }}
-      className="py-4 pb-10 h-full"
+    <ScrollView
+      style={{ flex: 1, backgroundColor: backgroundTheme }}
+      contentContainerStyle={{ flexGrow: 1 }}
+      keyboardShouldPersistTaps="handled"
     >
-      <Text className="text-lg text-center font-semibold">
-        Verify Your Password
-      </Text>
-
-      <View className="px-4 mt-6">
-        <Text>Password</Text>
-        <View className="border border-[#E6E6E6]  bg-white text-sm rounded-lg mt-2 pl-3 py-1">
-          <BottomSheetTextInput
-            className="w-full text-sm bg-transparent"
-            placeholder="Enter your password"
-            onChangeText={(e) => setPassword(e)}
-            value={password}
-            keyboardType="default"
-            style={styles.input}
-          />
-        </View>
-      </View>
-
-      <View className="flex-row justify-center items-center">
-        <TouchableOpacity
-          className="bg-[#1E3A79] h-12 w-4/6 mt-6 flex-row justify-center items-center rounded-lg"
-          onPress={() => verifyPassword()}
+      <View
+        style={{ backgroundColor: backgroundTheme, paddingBottom: 20 }}
+        className="py-4 pb-10 h-full"
+      >
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}
         >
-          <Text className="text-white text-base">
-            {loading ? (
-              <ActivityIndicator size="small" color="#000000" />
-            ) : (
-              'Verify Password'
-            )}
+          <Text className="text-lg text-center font-semibold">
+            Verify Your Password
           </Text>
-        </TouchableOpacity>
+
+          <View className="px-4 mt-6">
+            <Text>Password</Text>
+            <View className="border border-[#E6E6E6]  bg-white text-sm rounded-lg mt-2 pl-3 py-1">
+              <TextInput
+                className="w-full text-sm bg-transparent"
+                placeholder="Enter your password"
+                onChangeText={(e) => setPassword(e)}
+                value={password}
+                keyboardType="default"
+                style={styles.input}
+              />
+            </View>
+          </View>
+
+          <View className="flex-row justify-center items-center">
+            <TouchableOpacity
+              className="bg-[#1E3A79] h-12 w-4/6 mt-6 flex-row justify-center items-center rounded-lg"
+              onPress={() => verifyPassword()}
+            >
+              <Text className="text-white text-base">
+                {loading ? (
+                  <ActivityIndicator size="small" color="#000000" />
+                ) : (
+                  'Verify Password'
+                )}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 

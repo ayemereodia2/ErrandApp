@@ -24,7 +24,6 @@ import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
 import Container from '../../components/Container'
 import { ProfileInitials } from '../../components/ProfileInitials'
-import SettingsCategory from '../../components/SettingTestFolder/SettingsCategory'
 import SettingsTest from '../../components/SettingTestFolder/SettingsTest'
 import PinModal from '../../components/VerificationModals/PinModal'
 import VerifyPassword from '../../components/VerifyPassword'
@@ -469,6 +468,9 @@ const SettingScreen = ({ navigation }: any) => {
           index={0}
           snapPoints={['40%']}
           backdropComponent={renderBackdrop}
+          keyboardBehavior="extend"
+          enablePanDownToClose
+          keyboardBlurBehavior="restore"
         >
           <VerifyPassword
             closeVerifyModal={closeVerifyModal}
@@ -477,7 +479,7 @@ const SettingScreen = ({ navigation }: any) => {
         </BottomSheetModal>
 
         <BottomSheetModal
-          android_keyboardInputMode="adjustResize"
+          // android_keyboardInputMode="adjustResize"
           ref={bottomSheetRef3}
           index={0}
           snapPoints={['45%']}

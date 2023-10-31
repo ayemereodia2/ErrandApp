@@ -6,12 +6,12 @@ import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { getSubErrand } from '../../services/errands/subErrand'
 import { RootState, useAppDispatch } from '../../services/store'
 import { BidsProps } from '../../types'
-import { getTimeAgo } from '../../utils/helper'
+import { getCardTimeAgo } from '../../utils/helper'
 import ActionButton from '../ActionButtons'
 import AcceptBid from '../Modals/Bids/Accept'
+import BidHistory from '../Modals/Bids/BidHistory'
 import NegotiateBid from '../Modals/Bids/Negotiate'
 import RejectBid from '../Modals/Bids/Reject'
-import BidHistory from '../Modals/Bids/BidHistory'
 
 const ErrandBid = ({
   navigation,
@@ -30,6 +30,8 @@ const ErrandBid = ({
   const acceptPoints = ['46%']
   const negotiateRef = useRef<BottomSheetModal>(null)
   const bidHistoryRef = useRef<BottomSheetModal>(null)
+
+  console.log('>>>Okaaya', bid.state)
 
   const rejectRef = useRef<BottomSheetModal>(null)
 
@@ -114,7 +116,7 @@ const ErrandBid = ({
           <View className="flex-row items-center space-x-3">
             {errand.errand_type === 1 ? (
               <Image
-                source={{uri: bid?.runner.profile_picture}}
+                source={{ uri: bid?.runner.profile_picture }}
                 className="w-8 h-8 rounded-full"
               />
             ) : (
@@ -138,7 +140,7 @@ const ErrandBid = ({
           </View>
 
           <Text className="text-[#808080] text-sm">
-            {getTimeAgo(haggle.created_at)}{' '}
+            {getCardTimeAgo(haggle.created_at)}{' '}
           </Text>
         </View>
 
@@ -179,50 +181,128 @@ const ErrandBid = ({
           </View>
         </View>
 
-        {bid.state === 'cancelled' ||
-          bid.state === 'active' ||
-          (bid.state === 'completed' && (
-            <View className="flex-row justify-between items-center mt-2">
-              <View className="bg-[#ADF0D1] rounded-2xl py-1 px-3 mt-2 ">
-                <Text className="text-[#115A38] capitalize text-sm font-md">
-                  {bid.state}
-                </Text>
-              </View>
+        {bid.state === 'completed' && (
+          <View className="flex-row justify-between items-center mt-2">
+            <View className="bg-[#ADF0D1] rounded-2xl py-1 px-3 mt-2 ">
+              <Text className="text-[#115A38] capitalize text-sm font-md">
+                {bid.state}
+              </Text>
+            </View>
 
-              <TouchableOpacity
-                onPress={()=>toggleBidHistoryModal(true)}
-                className="flex-row space-x-2 items-center border-[0.3px] rounded-2xl py-1 px-3 mt-2"
-              >
-                {/* <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
+            <TouchableOpacity
+              onPress={() => toggleBidHistoryModal(true)}
+              className="flex-row space-x-2 items-center border-[0.3px] rounded-2xl py-1 px-3 mt-2"
+            >
+              {/* <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
                 <Text className="text-xs text-center text-[#243763]">
                   Bid History
                 </Text>
               </View> */}
 
-                <Text className="flex-row space-x-2 items-center rounded-xl">
+              <Text className="flex-row space-x-2 items-center rounded-xl">
+                Bid History
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                setManageErrandClicked(true)
+                dispatch(
+                  getSubErrand({
+                    errand_id: errand.id,
+                    runner_id: bid.runner.id,
+                    setSubErrand,
+                  }),
+                )
+              }}
+              className="bg-black  p-1 px-3 rounded-2xl mt-2"
+            >
+              <Text className="font-md text-white text-sm">View Timeline</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+        {bid.state === 'cancelled' && (
+          <View className="flex-row justify-between items-center mt-2">
+            <View className="bg-red-50 rounded-2xl py-1 px-3 mt-2 ">
+              <Text className="text-red-700 capitalize text-sm font-md">
+                {bid.state}
+              </Text>
+            </View>
+
+            <TouchableOpacity
+              onPress={() => toggleBidHistoryModal(true)}
+              className="flex-row space-x-2 items-center border-[0.3px] rounded-2xl py-1 px-3 mt-2"
+            >
+              {/* <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
+                <Text className="text-xs text-center text-[#243763]">
                   Bid History
                 </Text>
-              </TouchableOpacity>
+              </View> */}
 
-              <TouchableOpacity
-                onPress={() => {
-                  setManageErrandClicked(true)
-                  dispatch(
-                    getSubErrand({
-                      errand_id: errand.id,
-                      runner_id: bid.runner.id,
-                      setSubErrand,
-                    }),
-                  )
-                }}
-                className="bg-black  p-1 px-3 rounded-2xl mt-2"
-              >
-                <Text className="font-md text-white text-sm">
-                  View Timeline
-                </Text>
-              </TouchableOpacity>
+              <Text className="flex-row space-x-2 items-center rounded-xl">
+                Bid History
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                setManageErrandClicked(true)
+                dispatch(
+                  getSubErrand({
+                    errand_id: errand.id,
+                    runner_id: bid.runner.id,
+                    setSubErrand,
+                  }),
+                )
+              }}
+              className="bg-black  p-1 px-3 rounded-2xl mt-2"
+            >
+              <Text className="font-md text-white text-sm">View Timeline</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+        {bid.state === 'active' && (
+          <View className="flex-row justify-between items-center mt-2">
+            <View className="bg-blue-50 rounded-2xl py-1 px-3 mt-2 ">
+              <Text className="text-blue-800 capitalize text-sm font-md">
+                {bid.state}
+              </Text>
             </View>
-          ))}
+
+            <TouchableOpacity
+              onPress={() => toggleBidHistoryModal(true)}
+              className="flex-row space-x-2 items-center border-[0.3px] rounded-2xl py-1 px-3 mt-2"
+            >
+              {/* <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
+                <Text className="text-xs text-center text-[#243763]">
+                  Bid History
+                </Text>
+              </View> */}
+
+              <Text className="flex-row space-x-2 items-center rounded-xl">
+                Bid History
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                setManageErrandClicked(true)
+                dispatch(
+                  getSubErrand({
+                    errand_id: errand.id,
+                    runner_id: bid.runner.id,
+                    setSubErrand,
+                  }),
+                )
+              }}
+              className="bg-black  p-1 px-3 rounded-2xl mt-2"
+            >
+              <Text className="font-md text-white text-sm">View Timeline</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
         {negotiatorIsSender &&
         user_id === errand.user_id &&
@@ -267,7 +347,10 @@ const ErrandBid = ({
                     />
                   </View>
 
-                  <TouchableOpacity onPress={()=>toggleBidHistoryModal(true)} className="">
+                  <TouchableOpacity
+                    onPress={() => toggleBidHistoryModal(true)}
+                    className=""
+                  >
                     <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
                       <Text className="text-xs text-center text-[#243763]">
                         Bid History
@@ -283,7 +366,10 @@ const ErrandBid = ({
           backdropComponent={renderBackdrop}
           ref={negotiateRef}
           index={0}
-          snapPoints={['60%']}
+          snapPoints={['70%']}
+          keyboardBehavior="extend"
+          enablePanDownToClose
+          keyboardBlurBehavior="restore"
         >
           <NegotiateBid
             bid={bid}
@@ -302,13 +388,15 @@ const ErrandBid = ({
           index={0}
           snapPoints={['60%']}
         >
-         <BidHistory />
-         
+          <BidHistory />
         </BottomSheetModal>
 
         <BottomSheetModal
           backdropComponent={renderBackdrop}
-          ref={rejectRef} index={0} snapPoints={['40%']}>
+          ref={rejectRef}
+          index={0}
+          snapPoints={['40%']}
+        >
           <RejectBid
             toggleSuccessDialogue={toggleSuccessDialogue}
             toggleRejectModal={toggleRejectModal}

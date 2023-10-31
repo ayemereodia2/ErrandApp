@@ -1,12 +1,15 @@
-import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
 import React, { useState } from 'react'
 import {
   ActivityIndicator,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native'
 import Toast from 'react-native-toast-message'
@@ -15,9 +18,6 @@ import { postBid } from '../../../services/errands/placeBid'
 import { RootState, useAppDispatch } from '../../../services/store'
 import { MarketData, UserDetail } from '../../../types'
 import { currencyMask, parseAmount } from '../../../utils/helper'
-import { TouchableWithoutFeedback } from 'react-native'
-import { Keyboard } from 'react-native'
-import { ScrollView } from 'react-native'
 interface PlaceBidModalProp {
   owner: UserDetail
   errand: MarketData
@@ -65,111 +65,107 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
     dispatch(postBid(data))
   }
 
-  
-  const [commentFocused, setCommentFocused] = useState(false);
+  const [commentFocused, setCommentFocused] = useState(false)
 
   const handleCommentFocus = () => {
-    setCommentFocused(true);
-  };
+    setCommentFocused(true)
+  }
 
   const handleCommentBlur = () => {
-    setCommentFocused(false);
-  };
+    setCommentFocused(false)
+}
 
   return (
     <ScrollView
-    style={{ flex: 1, backgroundColor: backgroundTheme }}
-    contentContainerStyle={{ flexGrow: 1 }}
-    keyboardShouldPersistTaps="handled"
-  >
-    <View
-      className="py-4 pb-10 h-full"
-      style={{ backgroundColor: backgroundTheme }}
+      style={{ flex: 1, backgroundColor: backgroundTheme }}
+      contentContainerStyle={{ flexGrow: 1 }}
+      keyboardShouldPersistTaps="handled"
     >
-      <TouchableWithoutFeedback onPress={()=> Keyboard.dismiss()}>
-      <KeyboardAvoidingView
-       style={{ flex: 1 }}
-       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100} 
+      <View
+        className="py-4 pb-10"
+        style={{ backgroundColor: backgroundTheme }}
       >
-        
-      <Text
-        className="text-lg text-center font-semibold"
-        style={{ color: textTheme }}
-      >
-        Enter Your Bid
-      </Text>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}
+          >
+            <Text
+              className="text-lg text-center font-semibold"
+              style={{ color: textTheme }}
+            >
+              Enter Your Bid
+            </Text>
 
-      <View className="px-4 mt-6">
-        <Text
-          className="text-sm text-[#243763] font-semibold"
-          style={{ color: textTheme }}
-        >
-          Amount
-        </Text>
+            <View className="px-4 mt-6">
+              <Text
+                className="text-sm text-[#243763] font-semibold"
+                style={{ color: textTheme }}
+              >
+                Amount
+              </Text>
 
-        <View className="border border-[#E6E6E6] bg-white  text-xs rounded-lg  flex-row space-x-2 justify-center items-center">
-          <Text className="text-lg pl-1 ">&#x20A6;</Text>
+              <View className="border border-[#E6E6E6] bg-white  text-xs rounded-lg  flex-row space-x-2 justify-center items-center">
+                <Text className="text-lg pl-1 ">&#x20A6;</Text>
 
-          <BottomSheetTextInput
-            className="w-full"
-            placeholder="Enter Amount"
-            onChangeText={(e) => setAmount(currencyMask(e))}
-            value={amount}
-            keyboardType="numeric"
-            style={styles.input}
-            
-          />
-        </View>
+                <TextInput
+                  className="w-full"
+                  placeholder="Enter Amount"
+                  onChangeText={(e) => setAmount(currencyMask(e))}
+                  value={amount}
+                  keyboardType="numeric"
+                  style={styles.input}
+                />
+              </View>
+            </View>
+
+            <View className="px-4 mt-4">
+              <Text
+                className="text-sm font-semibold text-[#243763]"
+                style={{ color: textTheme }}
+              >
+                {' '}
+                Comment{' '}
+              </Text>
+
+              <View className="w-full border bg-white border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3">
+                <TextInput
+                  className={
+                    'w-full  text-sm py-3.5 mt-2 rounded-lg px-3'
+                  }
+                  placeholder="Describe the issue that you need help with."
+                  onChangeText={(e) => setComment(e)}
+                  value={comment}
+                  multiline={true}
+                  numberOfLines={10}
+                  style={{ height: 100, textAlignVertical: 'top' }}
+                  keyboardType="default"
+                  // onFocus={handleCommentFocus}
+                  // onBlur={handleCommentBlur}
+                />
+              </View>
+            </View>
+
+            <View className="flex-row justify-center items-center">
+              <TouchableOpacity
+                className="bg-[#1E3A79] h-12 w-4/6 mt-6 flex-row justify-center items-center rounded-lg"
+                onPress={() => {
+                  handlePlaceBid()
+                }}
+              >
+                <Text className="text-white text-base">
+                  {loading ? (
+                    <ActivityIndicator size="small" color="#000000" />
+                  ) : (
+                    'Submit Your Bid'
+                  )}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
       </View>
-
-      <View className="px-4 mt-4">
-        <Text
-          className="text-sm font-semibold text-[#243763]"
-          style={{ color: textTheme }}
-        >
-          {' '}
-          Comment{' '}
-        </Text>
-
-        <View className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3">
-          <BottomSheetTextInput
-            className={
-              'w-full border bg-[#CBD5EC] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3'
-            }
-            placeholder="Describe the issue that you need help with."
-            onChangeText={(e) => setComment(e)}
-            value={comment}
-            multiline={true}
-            numberOfLines={10}
-            style={{ height: 100, textAlignVertical: 'top' }}
-            keyboardType="default"
-            onFocus={handleCommentFocus}
-            onBlur={handleCommentBlur}
-          />
-        </View>
-      </View>
-
-      <View className="flex-row justify-center items-center">
-        <TouchableOpacity
-          className="bg-[#1E3A79] h-12 w-4/6 mt-6 flex-row justify-center items-center rounded-lg"
-          onPress={() => {
-            handlePlaceBid()
-          }}
-        >
-          <Text className="text-white text-base">
-            {loading ? (
-              <ActivityIndicator size="small" color="#000000" />
-            ) : (
-              'Submit Your Bid'
-            )}
-          </Text>
-        </TouchableOpacity>
-      </View>
-      
-      </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
-    </View>
     </ScrollView>
   )
 }

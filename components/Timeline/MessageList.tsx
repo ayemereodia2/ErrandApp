@@ -32,7 +32,7 @@ const MessagesList = ({
     <ScrollView
       ref={scrollViewRef}
       className="px-2 pb-16"
-      style={{ backgroundColor: backgroundTheme, height: '78%' }}
+      style={{ backgroundColor: backgroundTheme, height: '74%' }}
       onContentSizeChange={scrollToBottom}
     >
       <>

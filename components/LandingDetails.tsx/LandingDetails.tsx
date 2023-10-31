@@ -18,7 +18,7 @@ import { errandDetails } from '../../services/errands/errandDetails'
 import { RootState, useAppDispatch } from '../../services/store'
 import { getCardTimeAgo } from '../../utils/helper'
 
-const LandingDetails = ({ navigation }: any) => {
+const LandingDetails = ({ data, isLoading, navigation }: any) => {
   const dispatch = useAppDispatch()
 
   const {
@@ -39,10 +39,10 @@ const LandingDetails = ({ navigation }: any) => {
     return await _rs.json()
   }
 
-  let { isLoading, isSuccess, data, isError } = useQuery({
-    queryKey: ['get-market'],
-    queryFn: getMarket,
-  })
+  // let { isLoading, isSuccess, data, isError } = useQuery({
+  //   queryKey: ['get-market'],
+  //   queryFn: getMarket,
+  // })
 
   console.log('>>>>>>dataaaaaa uregnta', data)
 

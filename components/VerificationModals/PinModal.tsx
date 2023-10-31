@@ -1,9 +1,12 @@
 import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
 import React, { useRef, useState } from 'react'
+import { KeyboardAvoidingView, Platform } from 'react-native'
 import {
   ActivityIndicator,
+  ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native'
@@ -119,7 +122,7 @@ const PinModal = ({
       paddingVertical: 10,
     },
     signinButton: {
-      backgroundColor: Colors.DEFAULT_GREEN,
+      backgroundColor: theme ? 'white' : '#1E3A79',
       borderRadius: 8,
       margintop: 30,
       height: setHeight(6),
@@ -191,86 +194,101 @@ const PinModal = ({
   }
 
   return (
-    <View className="mb-20">
-      <View style={{ backgroundColor: backgroundTheme, paddingBottom: 20 }}>
-        <Text
-          style={{ color: theme ? 'white' : 'blue' }}
-          className="text-center mt-6 text-lg"
+    <ScrollView
+      style={{ flex: 1, backgroundColor: backgroundTheme }}
+      contentContainerStyle={{ flexGrow: 1 }}
+      keyboardShouldPersistTaps="handled"
+    >
+      <View className="mb-20">
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}
         >
-          {createErrand ? 'Confirm Your Pin' : 'Set Your Pin'}
-        </Text>
-        <Text
-          style={{ color: theme ? 'white' : 'blue' }}
-          className="text-center py-4 text-base font-light"
-        >
-          Please Enter the Pin
-        </Text>
-
-        <View style={styles.otpContainer}>
-          <View style={styles.otpBox}>
-            <BottomSheetTextInput
-              style={styles.otpText}
-              keyboardType="number-pad"
-              maxLength={1}
-              ref={firstInput}
-              onChangeText={(text) => {
-                setOtp({ ...otp, 1: text })
-                text && secondInput.current.focus()
-              }}
-            />
-          </View>
-          <View style={styles.otpBox}>
-            <BottomSheetTextInput
-              style={styles.otpText}
-              className="px-10"
-              keyboardType="number-pad"
-              maxLength={1}
-              ref={secondInput}
-              onChangeText={(text) => {
-                setOtp({ ...otp, 2: text })
-                text ? thirdInput.current.focus() : firstInput.current.focus()
-              }}
-            />
-          </View>
-          <View style={styles.otpBox}>
-            <BottomSheetTextInput
-              style={styles.otpText}
-              keyboardType="number-pad"
-              maxLength={1}
-              ref={thirdInput}
-              onChangeText={(text) => {
-                setOtp({ ...otp, 3: text })
-                text ? fourthInput.current.focus() : secondInput.current.focus()
-              }}
-            />
-          </View>
-          <View style={styles.otpBox}>
-            <BottomSheetTextInput
-              style={styles.otpText}
-              keyboardType="number-pad"
-              maxLength={1}
-              ref={fourthInput}
-              onChangeText={(text) => {
-                setOtp({ ...otp, 4: text })
-                !text && thirdInput.current.focus()
-              }}
-            />
-          </View>
-        </View>
-        <TouchableOpacity
-          style={styles.signinButton}
-          onPress={() => saveTransactionPin(Object.values(otp).join(''))}
-        >
-          {loader ? (
-            <ActivityIndicator color="blue" size="small" />
-          ) : (
-            <Text style={styles.signinButtonText}>
-              {createErrand ? 'Confirm' : 'Set Pin'}
+          <View style={{ backgroundColor: backgroundTheme, paddingBottom: 20 }}>
+            <Text
+              style={{ color: theme ? 'white' : 'black' }}
+              className="text-center mt-6 text-lg"
+            >
+              {createErrand ? 'Confirm Your Pin' : 'Set Your Pin'}
             </Text>
-          )}
-        </TouchableOpacity>
+            <Text
+              style={{ color: theme ? 'white' : 'black' }}
+              className="text-center py-4 text-base font-light"
+            >
+              Please Enter the Pin
+            </Text>
+
+            <View style={styles.otpContainer}>
+              <View style={styles.otpBox}>
+                <TextInput
+                  style={styles.otpText}
+                  keyboardType="number-pad"
+                  maxLength={1}
+                  ref={firstInput}
+                  onChangeText={(text) => {
+                    setOtp({ ...otp, 1: text })
+                    text && secondInput.current.focus()
+                  }}
+                />
+              </View>
+              <View style={styles.otpBox}>
+                <TextInput
+                  style={styles.otpText}
+                  keyboardType="number-pad"
+                  maxLength={1}
+                  ref={secondInput}
+                  onChangeText={(text) => {
+                    setOtp({ ...otp, 2: text })
+                    text
+                      ? thirdInput.current.focus()
+                      : firstInput.current.focus()
+                  }}
+                />
+              </View>
+              <View style={styles.otpBox}>
+                <BottomSheetTextInput
+                  style={styles.otpText}
+                  keyboardType="number-pad"
+                  maxLength={1}
+                  ref={thirdInput}
+                  onChangeText={(text) => {
+                    setOtp({ ...otp, 3: text })
+                    text
+                      ? fourthInput.current.focus()
+                      : secondInput.current.focus()
+                  }}
+                />
+              </View>
+              <View style={styles.otpBox}>
+                <TextInput
+                  style={styles.otpText}
+                  keyboardType="number-pad"
+                  maxLength={1}
+                  ref={fourthInput}
+                  onChangeText={(text) => {
+                    setOtp({ ...otp, 4: text })
+                    !text && thirdInput.current.focus()
+                  }}
+                />
+              </View>
+            </View>
+            <TouchableOpacity
+              style={styles.signinButton}
+              onPress={() => saveTransactionPin(Object.values(otp).join(''))}
+            >
+              {loader ? (
+                <ActivityIndicator color="blue" size="small" />
+              ) : (
+                <Text style={styles.signinButtonText}>
+                  {createErrand ? 'Confirm' : 'Set Pin'}
+                </Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 

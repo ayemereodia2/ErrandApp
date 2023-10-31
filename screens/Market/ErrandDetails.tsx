@@ -25,6 +25,7 @@ import {
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+
 import {
   ActivityIndicator,
   SafeAreaView,
@@ -47,7 +48,7 @@ export default function ErrandDetails({ route, navigation }: any) {
   const dispatch = useAppDispatch()
   const [showBid, setShowBid] = useState(false)
   const bottomSheetRef = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ['75%'], [])
+  const snapPoints = useMemo(() => ['60%'], [])
   const [userId, setUserId] = useState('')
   const [showBidBtn, setShowBidBtn] = useState(true)
   const [address, setAddress] = useState('')
@@ -478,12 +479,12 @@ export default function ErrandDetails({ route, navigation }: any) {
               ref={bottomSheetRef}
               index={0}
               snapPoints={snapPoints}
-              containerStyle={{ marginHorizontal: 10 }}
+              containerStyle={{ marginHorizontal: 0 }}
               backdropComponent={renderBackdrop}
               keyboardBehavior="extend"
               enablePanDownToClose
               keyboardBlurBehavior="restore"
-              android_keyboardInputMode="adjustResize"
+              // android_keyboardInputMode="adjustResize"
             >
               <PlaceBidModal
                 owner={owner}

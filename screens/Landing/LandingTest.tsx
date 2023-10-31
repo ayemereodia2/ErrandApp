@@ -11,12 +11,13 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   BackHandler,
   Platform,
+  RefreshControl,
   StyleSheet,
   Text,
   TouchableOpacity,
+  ScrollView,
   View,
 } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
@@ -37,6 +38,7 @@ const LandingTest = ({ navigation }: any) => {
   const snapPoints = useMemo(() => ['50%'], [])
   const snapPoints1 = useMemo(() => ['55%'], [])
   const [verifiedPin, setVerifiedPin] = useState(true)
+  const [refreshing, setRefreshing] = React.useState(false)
 
   function openPinModal() {
     bottomSheetRef.current?.present()
@@ -84,6 +86,24 @@ const LandingTest = ({ navigation }: any) => {
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
+  const getMarket = async () => {
+    const _rs = await _fetch({
+      method: 'GET',
+      _url: `/errand/market?urgent=1`,
+      // _url: `/errand/market`,
+    })
+    return await _rs.json()
+  }
+
+  let {
+    isLoading: loadingMarket,
+    isSuccess: success,
+    data: marketData,
+  } = useQuery({
+    queryKey: ['get-market'],
+    queryFn: getMarket,
+  })
+
   const getCategory = async () => {
     const _rs = await _fetch({
       method: 'GET',
@@ -92,12 +112,41 @@ const LandingTest = ({ navigation }: any) => {
     return await _rs.json()
   }
 
+  const getNotifications = async () => {
+    const _rs = await _fetch({
+      method: 'GET',
+      _url: `/user/app-notification?count=5`,
+    })
+    return await _rs.json()
+  }
+
+  const {
+    isLoading: loadingNotification,
+    isSuccess,
+    data: notifications,
+  } = useQuery({
+    queryKey: ['get-notification'],
+    queryFn: getNotifications,
+    refetchOnMount: 'always',
+  })
+
   const { isLoading, data, isError } = useQuery({
     queryKey: ['get-category'],
     queryFn: getCategory,
     refetchOnMount: 'always',
   })
   // console.log(data)
+
+  const onRefresh = React.useCallback(() => {
+    // dispatch(myErrandList({ setSearchedErrand }))
+    getCategory()
+    getMarket()
+    getNotifications()
+    setRefreshing(true)
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 500)
+  }, [])
 
   useFocusEffect(() => {
     const onBackPress = () => {
@@ -118,7 +167,6 @@ const LandingTest = ({ navigation }: any) => {
     const isPinVerified = await AsyncStorage.getItem('pin')
     const user_id = (await AsyncStorage.getItem('user_id')) || ''
 
-    console.log('>>>>>>isPinVerified', user_id)
     dispatch(currentUserDetails({ user_id }))
     if (isPinVerified === 'false') {
       openPinModal()
@@ -160,12 +208,10 @@ const LandingTest = ({ navigation }: any) => {
             <ScrollView
               keyboardShouldPersistTaps="always"
               showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
             >
-              {/* <View
-            style={{
-              marginBottom: Platform.OS === 'android' ? 10 : 35,
-            }}
-          > */}
               <View
                 className={
                   Platform.OS === 'android'
@@ -284,7 +330,11 @@ const LandingTest = ({ navigation }: any) => {
                 </Text>
 
                 <ScrollView horizontal showHorizontalIndicator={false}>
-                  <LandingDetails navigation={navigation} />
+                  <LandingDetails
+                    data={marketData}
+                    isLoading={loadingMarket}
+                    navigation={navigation}
+                  />
                 </ScrollView>
               </View>
 
@@ -296,12 +346,14 @@ const LandingTest = ({ navigation }: any) => {
                   You may have missed these...
                 </Text>
               </View>
-              <NewNotifications />
-              {/* </View> */}
+              <NewNotifications
+                data={notifications}
+                isLoading={loadingNotification}
+              />
             </ScrollView>
 
             <BottomSheetModal
-              android_keyboardInputMode="adjustResize"
+              // android_keyboardInputMode="adjustResize"
               ref={bottomSheetRef}
               index={0}
               snapPoints={snapPoints}
@@ -309,9 +361,9 @@ const LandingTest = ({ navigation }: any) => {
                 marginHorizontal: 10,
               }}
               backdropComponent={renderBackdrop}
-              keyboardBehavior="extend"
-              enablePanDownToClose
-              keyboardBlurBehavior="restore"
+              // keyboardBehavior="extend"
+              // enablePanDownToClose
+              // keyboardBlurBehavior="restore"
             >
               <PinModal
                 createErrand={false}
@@ -322,7 +374,7 @@ const LandingTest = ({ navigation }: any) => {
             </BottomSheetModal>
 
             <BottomSheetModal
-              android_keyboardInputMode="adjustResize"
+              // android_keyboardInputMode="adjustResize"
               ref={bottomSheetRef1}
               index={0}
               snapPoints={snapPoints1}
@@ -330,9 +382,9 @@ const LandingTest = ({ navigation }: any) => {
                 marginHorizontal: 10,
               }}
               backdropComponent={renderBackdrop}
-              keyboardBehavior="extend"
-              enablePanDownToClose
-              keyboardBlurBehavior="restore"
+              // keyboardBehavior="extend"
+              // enablePanDownToClose
+              // keyboardBlurBehavior="restore"
             >
               <Content navigation={navigation} />
             </BottomSheetModal>

@@ -10,6 +10,7 @@ import React, { useCallback, useMemo, useRef, useState } from 'react'
 import {
   Image,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -24,7 +25,7 @@ import {
   MenuOptions,
   MenuTrigger,
 } from 'react-native-popup-menu'
-import Animated, { useSharedValue } from 'react-native-reanimated'
+import { useSharedValue } from 'react-native-reanimated'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
@@ -73,7 +74,7 @@ const ChatInput = ({
   const [amount, setAmount] = useState('')
   const adjustAmountRef = useRef<BottomSheetModal>(null)
 
-  const snapPoints = useMemo(() => ['45%'], [])
+  const snapPoints = useMemo(() => ['55%'], [])
 
   function toggleAmountAdjustment(open: boolean) {
     open
@@ -307,10 +308,9 @@ const ChatInput = ({
 
   return (
     <BottomSheetModalProvider>
-      <Animated.View
-        className="bg-[#CBD5EC] mx-auto h-44 "
-        //  style={{ backgroundColor: '#F8F9FC', height: '78%' }}
-        // style={[styles.container, heightAnimatedStyle]}
+      <ScrollView
+        className="bg-[#CBD5EC] mx-auto h-60"
+        //  style={{ backgroundColor: '#CBD5EC', height: 120 }}
       >
         <View className="flex-row justify-center items-center px-6 mt-2">
           <View className="flex-row justify-between items-center mt-2  bg-white w-full space-x-2 py-2 px-3 h-14">
@@ -551,7 +551,7 @@ const ChatInput = ({
           keyboardBehavior="extend"
           enablePanDownToClose
           keyboardBlurBehavior="restore"
-          android_keyboardInputMode="adjustResize"
+          // android_keyboardInputMode="adjustResize"
         >
           <AdjustAmountModal
             toggleAmountAdjustment={toggleAmountAdjustment}
@@ -560,7 +560,7 @@ const ChatInput = ({
             sendProposal={sendProposal}
           />
         </BottomSheetModal>
-      </Animated.View>
+      </ScrollView>
     </BottomSheetModalProvider>
   )
 }

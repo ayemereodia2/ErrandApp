@@ -3,15 +3,12 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
-import { useHeaderHeight } from '@react-navigation/elements'
 import React, { useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
-  Dimensions,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
   View,
@@ -56,8 +53,6 @@ const Timeline = ({
       scrollViewRef.current.scrollToEnd({ animated: true })
     }
   }
-
-  const height = useHeaderHeight()
 
   const closeReply = () => {
     setReply('')
@@ -108,14 +103,14 @@ const Timeline = ({
           backgroundColor: backgroundTheme,
         }}
       >
-         <ActivityIndicator color={theme ? 'white' : 'blue'} size="large" />
+        <ActivityIndicator color={theme ? 'white' : 'blue'} size="large" />
       </SafeAreaView>
     )
   }
 
   return (
     <BottomSheetModalProvider>
-      <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         keyboardVerticalOffset={keyboardVerticalOffset}
         // keyboardVerticalOffset={Platform.OS === 'ios' ? 64 :  StatusBar.currentHeight || 0 + 450}
         // style={{ flex: 1, backgroundColor: backgroundTheme }}
@@ -125,8 +120,9 @@ const Timeline = ({
           flex: 1,
           height: Platform.OS === 'android' ? Dimensions.get('window').height - (30) : '80%',
         }}
-      >
+      > */}
 
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
         <View>
           <View className="h-[56px] bg-[#FEE1CD] mx-4 items-center justify-center border border-[#C85604] mt-4 rounded-lg">
             {errand.status === 'active' && (
@@ -223,7 +219,7 @@ const Timeline = ({
               scrollViewRef={scrollViewRef}
               scrollToBottom={scrollToBottom}
             />
-          )} 
+          )}
         </View>
 
         <BottomSheetModal

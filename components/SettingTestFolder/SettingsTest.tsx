@@ -21,7 +21,7 @@ interface Props {
   openVerifyModal: () => void
 }
 
-const SettingsTest = ({openVerifyModal}: Props) => {
+const SettingsTest = ({ openVerifyModal }: Props) => {
   const [IsLoading, setIsLoading] = useState(false)
   const [loading1, setLoading1] = useState(false)
   const [accountUpdate, setAccountUpdate] = useState(false)
@@ -110,8 +110,8 @@ const SettingsTest = ({openVerifyModal}: Props) => {
   }
 
   return (
-    <ScrollView >
-      <View className="mt-6 ml-4 " >
+    <ScrollView>
+      <View className="mt-6 ml-4 ">
         <Text
           style={{ color: textTheme }}
           className=" text-base font-bold leading-6"
@@ -124,11 +124,14 @@ const SettingsTest = ({openVerifyModal}: Props) => {
       </View>
 
       <View
-       style={{ backgroundColor: theme ? '#152955' : 'white' }}
+        style={{ backgroundColor: theme ? '#152955' : 'white' }}
         className=" bg-[#ECF0F8] mt-5 rounded-lg pb-4"
       >
-        <View className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]" style={{ backgroundColor: theme ? '#152955' : 'white'  }}>
-          <View className="flex-row items-center justify-between" >
+        <View
+          className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]"
+          style={{ backgroundColor: theme ? '#152955' : 'white' }}
+        >
+          <View className="flex-row items-center justify-between">
             <Text
               style={{ color: textTheme }}
               className="font-medium text-base"
@@ -158,7 +161,10 @@ const SettingsTest = ({openVerifyModal}: Props) => {
           </Text>
         </View>
 
-        <View className=" h-[63px] ml-4 mt-5 border-b pb-2 border-b-[#AAAAAA]" style={{ backgroundColor: theme ? '#152955' : 'white'  }}>
+        <View
+          className=" h-[63px] ml-4 mt-5 border-b pb-2 border-b-[#AAAAAA]"
+          style={{ backgroundColor: theme ? '#152955' : 'white' }}
+        >
           <View className="flex-row items-center justify-between">
             <Text
               style={{ color: textTheme }}
@@ -192,7 +198,10 @@ const SettingsTest = ({openVerifyModal}: Props) => {
           </Text>
         </View>
 
-        <View className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]" style={{ backgroundColor: theme ? '#152955' : 'white'  }}>
+        <View
+          className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]"
+          style={{ backgroundColor: theme ? '#152955' : 'white' }}
+        >
           <View className="flex-row items-center justify-between">
             <Text
               style={{ color: textTheme }}
@@ -256,7 +265,7 @@ const SettingsTest = ({openVerifyModal}: Props) => {
         </View> */}
       </View>
 
-      <View className="mt-6 ml-4 " >
+      <View className="mt-6 ml-4 ">
         <Text
           style={{ color: textTheme }}
           className=" text-base font-bold leading-6"
@@ -268,14 +277,18 @@ const SettingsTest = ({openVerifyModal}: Props) => {
         </Text>
       </View>
 
-      
-
       <View
-       style={{ backgroundColor: theme ? '#152955' : 'white'  }}
+        style={{ backgroundColor: theme ? '#152955' : 'white' }}
         className=" bg-[#ECF0F8] mt-5 rounded-lg pb-3"
       >
-        <View className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]" style={{ backgroundColor: theme ? '#152955' : 'white'  }}>
-          <View className="flex-row items-center justify-between" style={{ backgroundColor: theme ? '#152955' : 'white'  }}>
+        <View
+          className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]"
+          style={{ backgroundColor: theme ? '#152955' : 'white' }}
+        >
+          <View
+            className="flex-row items-center justify-between"
+            style={{ backgroundColor: theme ? '#152955' : 'white' }}
+          >
             <Text
               style={{ color: textTheme }}
               className="font-medium text-base "
@@ -286,16 +299,17 @@ const SettingsTest = ({openVerifyModal}: Props) => {
             <Switch
               trackColor={{ false: '#767577', true: 'green' }}
               value={data?.preferred_theme === 'light' ? true : false}
-              // value={theme === 'light' ? true : false} 
-              onValueChange={(value: boolean) => 
-                updateUserProfile({
-                  first_name: data.first_name,
-                  last_name: data.last_name,
-                  bio: data.bio,
-                  email: data.email,
-                  dob: data.dob,
-                  preferred_theme: value === true ? 'light' : 'dark',
-                })
+              // value={theme === 'light' ? true : false}
+              onValueChange={
+                (value: boolean) =>
+                  updateUserProfile({
+                    first_name: data.first_name,
+                    last_name: data.last_name,
+                    bio: data.bio,
+                    email: data.email,
+                    dob: data.dob,
+                    preferred_theme: value === true ? 'light' : 'dark',
+                  })
                 // toggleTheme(value)
               }
               style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
@@ -305,24 +319,31 @@ const SettingsTest = ({openVerifyModal}: Props) => {
         </View>
       </View>
 
-       <View className="mt-6 ml-4 " >
+      <View className="mt-6 ml-4 ">
         <Text
           style={{ color: textTheme }}
           className=" text-base font-bold leading-6"
         >
-          PIN 
+          PIN
         </Text>
         <Text style={{ color: textTheme }} className="text-[14px] font-md">
           set and verify your pin
         </Text>
       </View>
 
-      <View
-       style={{ backgroundColor: theme ? '#152955' : 'white'  }}
+      <TouchableOpacity
+        onPress={() => openVerifyModal()}
+        style={{ backgroundColor: theme ? '#152955' : 'white' }}
         className=" bg-[#ECF0F8] mt-5 rounded-lg pb-3"
       >
-        <View className=" h-[63px] mx-4 mt-5  border-b-[#AAAAAA]" style={{ backgroundColor: theme ? '#152955' : 'white'  }}>
-          <View className="flex-row items-center justify-between" style={{ backgroundColor: theme ? '#152955' : 'white'  }}>
+        <View
+          className=" h-[63px] mx-4 mt-5  border-b-[#AAAAAA]"
+          style={{ backgroundColor: theme ? '#152955' : 'white' }}
+        >
+          <View
+            className="flex-row items-center justify-between"
+            style={{ backgroundColor: theme ? '#152955' : 'white' }}
+          >
             <Text
               style={{ color: textTheme }}
               className="font-medium text-base "
@@ -330,11 +351,16 @@ const SettingsTest = ({openVerifyModal}: Props) => {
               Change Pin
             </Text>
             {/* <TouchableOpacity onPress={() => )}> */}
-            <AntDesign onPress={() => openVerifyModal()} name='edit' size={20} className="mr-4"/>
+            <AntDesign
+              onPress={() => openVerifyModal()}
+              name="edit"
+              size={24}
+              className="mr-4"
+            />
             {/* </TouchableOpacity> */}
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
 
       <View className="mt-8 ml-4">
         <Text
@@ -349,7 +375,7 @@ const SettingsTest = ({openVerifyModal}: Props) => {
       </View>
 
       <View
-       style={{ backgroundColor: theme ? '#152955' : 'white'  }}
+        style={{ backgroundColor: theme ? '#152955' : 'white' }}
         className=" bg-[#ECF0F8] mt-5 rounded-md pb-4"
       >
         <View className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]">
