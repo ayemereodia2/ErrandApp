@@ -33,7 +33,7 @@ export default function RecoverPasswordScreen() {
         <Logo />
 
         <KeyboardAwareScrollView
-          style={{ flex: 1 }}
+          // style={{ flex: 1 }}
           contentContainerStyle={{ flexGrow: 1 }}
           enableOnAndroid={true}
         >
@@ -61,7 +61,7 @@ export default function RecoverPasswordScreen() {
 
               <Button
                 style={{ marginTop: 20 }}
-                className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-20"
+                className="w-full text-black bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-20"
                 child="Recover Password"
               />
             </View>

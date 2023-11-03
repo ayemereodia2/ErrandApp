@@ -83,6 +83,10 @@ const DefaultGuestScreen = ({ navigation }: any) => {
   const [loading, setLoading] = useState(false)
   const [appIsReady, setAppIsReady] = useState(false)
 
+  
+
+
+
   async function loadResourcesAndDataAsync() {
     try {
       SplashScreen.preventAutoHideAsync()
@@ -227,12 +231,17 @@ const DefaultGuestScreen = ({ navigation }: any) => {
         autoplay={true}
         autoplayTimeout={7}
         activeDotColor={'white'}
+       
       >
         <ImageBackground
           source={require('../../assets/images/slide--1.jpeg')}
           resizeMode="cover"
           style={{ flex: 1 }}
+          
         >
+         
+        
+
           <ImageViewer navigation={navigation} />
         </ImageBackground>
         <ImageBackground
@@ -240,6 +249,9 @@ const DefaultGuestScreen = ({ navigation }: any) => {
           resizeMode="cover"
           style={{ flex: 1 }}
         >
+          
+          
+
           <ImageViewer navigation={navigation} />
         </ImageBackground>
         <ImageBackground
@@ -294,6 +306,10 @@ const styles = {
     color: '#fff',
     fontSize: 30,
     fontWeight: 'bold',
+  },
+  fadeContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.3)', // Adjust the background color for the fade effect
   },
 }
 
