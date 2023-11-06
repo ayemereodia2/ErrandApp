@@ -203,7 +203,7 @@ export default function App({navigation}: any) {
   }, [])
 
   const checkAuthenticationStatus = async () => {
-    // await AsyncStorage.clear()
+    await AsyncStorage.clear()
 
     try {
       const isGuest = await AsyncStorage.getItem('isGuest')

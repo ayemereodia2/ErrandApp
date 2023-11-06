@@ -425,16 +425,16 @@ const Filter = ({
               </View>
               <View className="mt-5 space-y-6 ml-5">
                 <TouchableOpacity
-                  onPress={() => setSelectedSortAction('high')}
+                  onPress={() => setSelectedSortAction('low')}
                   className={`bg-white w-[170px]  h-12 py-2 rounded-3xl items-center justify-center ${
-                    selectedSortAction === 'high'
+                    selectedSortAction === 'low'
                       ? 'bg-[#1E3A79]'
                       : 'bg-white border-[1px] border-[#1E3A79]'
                   }`}
                 >
                   <Text
                     className={`capitalize font-md text-base text-[#1E3A79]  ${
-                      selectedSortAction === 'high'
+                      selectedSortAction === 'low'
                         ? 'text-white'
                         : 'text-[#1E3A79]'
                     }`}
@@ -444,16 +444,16 @@ const Filter = ({
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  onPress={() => setSelectedSortAction('low')}
+                  onPress={() => setSelectedSortAction('high')}
                   className={`bg-white w-[170px]  h-12 px-4 py-2 rounded-3xl items-center justify-center ${
-                    selectedSortAction === 'low'
+                    selectedSortAction === 'high'
                       ? 'bg-[#1E3A79]'
                       : 'bg-white border-[1px] border-[#1E3A79]'
                   }`}
                 >
                   <Text
                     className={`capitalize font-md text-base text-[#1E3A79]  ${
-                      selectedSortAction === 'low'
+                      selectedSortAction === 'high'
                         ? 'text-white'
                         : 'text-[#1E3A79]'
                     }`}

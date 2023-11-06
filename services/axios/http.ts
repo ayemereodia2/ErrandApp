@@ -1,6 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createNavigationContainerRef } from '@react-navigation/native';
-import { navigateToScreen } from "../../navigation/StackNavigation";
 
 import * as RootNavigation from '../../navigation/StackNavigation';
 
@@ -22,10 +20,13 @@ const clearStorage = async () => {
   }
 
 
+
+  
 const {fetch: originalFetch} = window;
 
+
+// an interceptor handler to check if token has expires
 window.fetch = async (...args) => {
-  
   let [resource, config] = args;
   let response = await originalFetch(resource, config);
 

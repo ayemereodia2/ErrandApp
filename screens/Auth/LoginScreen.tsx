@@ -117,6 +117,16 @@ export default function LoginScreen() {
                   </TouchableOpacity>
                 </View>
 
+                <Text
+                    onPress={() => {
+                      navigation.navigate('RecoverPassword')
+                    }}
+                    className="font-bold text-[#243763] ml-64 mb-2"
+                  >
+                    
+                    Forgot Password?
+                  </Text>
+
                 <Button
                   className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
                   child={
