@@ -6,8 +6,6 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useRef, useState } from 'react'
 import {
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
   TouchableOpacity,
   useWindowDimensions,
@@ -108,13 +106,12 @@ const MyErrandInfo = ({ navigation, route }: any) => {
     setUserId(userId)
   }
 
-  console.log(">>>>>>errand dtails", errand.errand_type, errand?.status);
-  
+  console.log('>>>>>>errand dtails', errand.errand_type, errand?.status)
 
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-       headerStyle: { backgroundColor: backgroundTheme },
+      headerStyle: { backgroundColor: backgroundTheme },
       headerTitleStyle: { color: textTheme },
       title: DetailHeader({
         errand,
@@ -132,7 +129,13 @@ const MyErrandInfo = ({ navigation, route }: any) => {
           <TouchableOpacity>
             <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
               <MenuTrigger>
-                <Entypo name="dots-three-vertical" color={textTheme} size={24} />
+                <View className=' w-6'>
+                  <Entypo
+                    name="dots-three-vertical"
+                    color={textTheme}
+                    size={24}
+                  />
+                </View>
               </MenuTrigger>
               <MenuOptions
                 customStyles={{
@@ -146,8 +149,6 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                 {errand.user_id === userId && errand?.status === 'active' && (
                   <MenuOption
                     onSelect={() => {
-                      // console.log(">>>>>>>errand", errand);
-
                       navigation.navigate('CompleteErrandModal', {
                         errand,
                         userId,
@@ -256,7 +257,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                     }}
                   />
                 )}
-                 { errand.status === 'active' && (
+                {errand.status === 'active' && (
                   <MenuOption
                     onSelect={() =>
                       navigation.navigate('ErrandUserDetails', {
@@ -280,20 +281,6 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                     }}
                   />
                 )}
-                {/* <MenuOption
-                  onSelect={() => {}}
-                  text="Refresh"
-                  customStyles={{
-                        optionWrapper: {
-                          paddingVertical: 2,
-                        },
-                        optionText: {
-                          fontSize: 14,
-                          textAlign: 'center',
-                          fontWeight: '300',
-                        },
-                      }}
-                /> */}
               </MenuOptions>
             </Menu>
           </TouchableOpacity>
@@ -304,21 +291,18 @@ const MyErrandInfo = ({ navigation, route }: any) => {
     dispatch(currentUserDetails({ user_id: userId }))
   }, [user, errand, manageErrandClicked, singleSubErrand])
 
-  console.log(">>>>errand status", errand.status);
-  
+  // console.log(">>>>errand status", errand.status);
 
   return (
     <>
       {errand?.status === 'active' ||
-      errand?.status === 'completed' ||
+        errand?.status === 'completed' ||
+        errand?.status === 'cancelled' ||
       (errand?.user_id === userId &&
         singleSubErrand?.status === 'active' &&
         manageErrandClicked) ||
       (singleSubErrand?.status === 'completed' && manageErrandClicked) ? (
-        <
-          // style={{ flex: 1, backgroundColor: backgroundTheme, }}
-          // behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-        >
+        <>
           {/* sender's timeline */}
           <Timeline
             errand={errand}
@@ -344,7 +328,10 @@ const MyErrandInfo = ({ navigation, route }: any) => {
         />
       ) : (
         <BottomSheetModalProvider>
-          <ScrollView  style={{ backgroundColor: backgroundTheme }} className="px-3">
+          <ScrollView
+            style={{ backgroundColor: backgroundTheme }}
+            className="px-3"
+          >
             {/* // errand details and bid screen */}
             <View>
               <BidWrapper
@@ -362,6 +349,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
             </View>
 
             {/* success Dialogue */}
+            
             <BottomSheetModal
               ref={successDialogueRef}
               index={0}

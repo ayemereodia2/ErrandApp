@@ -29,7 +29,7 @@ export default function CreateAccountScreen() {
     //   .required()
     //   .trim(),
     last_name: yup.string().required('Last name is required').trim(),
-    referralCode: yup.string().required('Referral Code is required').trim(),
+    referralCode: yup.string().optional().trim(),
     password: yup
       .string()
       .min(8, 'Password must be more than 8 chars')
@@ -57,6 +57,7 @@ export default function CreateAccountScreen() {
 
     const phone_number = (await AsyncStorage.getItem('phone')) || ''
     const newData = {
+      dispatch,
       navigation,
       phone_number,
       client: 'web',
@@ -115,6 +116,7 @@ export default function CreateAccountScreen() {
                   label="Email"
                   placeholder="Enter your email"
                   keyboardType="default"
+                  optional="optional"
                   name="email"
                   control={control}
                   errors={errors.email}
@@ -145,6 +147,7 @@ export default function CreateAccountScreen() {
 
                 <InputField
                   label="Referral Code"
+                  optional="optional"
                   placeholder="Enter referral code"
                   control={control}
                   keyboardType="default"

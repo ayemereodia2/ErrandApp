@@ -5,13 +5,14 @@
   "build": {
     "production": {
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://apis.swave.ng/v1",
-        "EXPO_PUBLIC_PAYSTACK_KEY":"sk_test_720837e81398eb64875ad919c0aaa4927041cfd5",
-        "EXPO_PUBLIC_GOOGLE_KEY":"AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo"
+        "EXPO_PUBLIC_API_URL": "https://apis.swave.ng/v1"
       },
       "autoIncrement": true
     },
+
     "development": {
+      "developmentClient": true,
+      "distribution": "internal",
        "env": {
         "EXPO_PUBLIC_API_URL": "https://apis.swave.ng/v1",
         "EXPO_PUBLIC_GOOGLE_KEY":"AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo",

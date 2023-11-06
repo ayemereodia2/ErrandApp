@@ -2,7 +2,6 @@ import { Entypo, FontAwesome, Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import { errandAction } from '../../services/errands/errandAction'
 import { useAppDispatch } from '../../services/store'
 import { Bids, MarketData, SingleSubErrand } from '../../types'
 import { formatDate, getAddress } from '../../utils/helper'
@@ -21,6 +20,7 @@ export const SenderDetails = ({
   userId,
   singleSubErrand,
   manageErrandClicked,
+  bids,
 }: SenderProp) => {
   const dispatch = useAppDispatch()
   const navigation = useNavigation()
@@ -160,17 +160,12 @@ export const SenderDetails = ({
           <View className="items-center">
             <TouchableOpacity
               onPress={() => {
-                dispatch(
-                  errandAction({
-                    sub_errand_id: singleSubErrand?.id,
-                    type: 'complete',
-                    method: 'PATCH',
-                    source: userId === errand.user_id ? 'sender' : 'runner',
-                    errandId: errand.id,
-                    dispatch,
-                    navigation,
-                  }),
-                )
+                navigation.navigate('CompleteErrandModal', {
+                  errand,
+                  userId,
+                  singleSubErrand,
+                  bids,
+                })
               }}
               className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
             >
@@ -192,17 +187,12 @@ export const SenderDetails = ({
             <View className="items-center">
               <TouchableOpacity
                 onPress={() => {
-                  dispatch(
-                    errandAction({
-                      sub_errand_id: singleSubErrand?.id,
-                      type: 'complete',
-                      method: 'PATCH',
-                      source: userId === errand.user_id ? 'sender' : 'runner',
-                      errandId: errand.id,
-                      dispatch,
-                      navigation,
-                    }),
-                  )
+                  navigation.navigate('CompleteErrandModal', {
+                    errand,
+                    userId,
+                    singleSubErrand,
+                    bids,
+                  })
                 }}
                 className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
               >
@@ -212,8 +202,8 @@ export const SenderDetails = ({
           </View>
         )}
 
-      {errand?.user_id === userId && errand?.status === 'pending' && (
-        <View className="border-[#C85604] border-[1px] rounded-lg bg-[#FEF0E6] p-4 mt-6 mb-8">
+      {errand?.user_id === userId && errand?.status === 'active' && (
+        <View className="border-[#C85604] border-[1px] rounded-lg bg-[#FEF0E6] p-4 mb-8">
           <Text className="text-center">
             If you wish to cancel this errand, click this button. Please note
             that if this errand has begun you will be fined for this action
@@ -222,17 +212,86 @@ export const SenderDetails = ({
           <View className="items-center">
             <TouchableOpacity
               onPress={() => {
-                dispatch(
-                  errandAction({
-                    sub_errand_id: singleSubErrand?.id,
-                    type: 'complete',
-                    method: 'PATCH',
-                    source: userId === errand.user_id ? 'sender' : 'runner',
-                    errandId: errand.id,
-                    dispatch,
-                    navigation,
-                  }),
-                )
+                // dispatch(
+                //   errandAction({
+                //     sub_errand_id: singleSubErrand?.id,
+                //     type: 'complete',
+                //     method: 'PATCH',
+                //     source: userId === errand.user_id ? 'sender' : 'runner',
+                //     errandId: errand.id,
+                //     dispatch,
+                //     navigation,
+                //   }),
+                // )
+
+                navigation.navigate('CancelErrandModal', {
+                  errand,
+                  userId,
+                  singleSubErrand,
+                  bids,
+                })
+              }}
+              className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
+            >
+              <Text className="text-center text-white">Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+
+      {errand?.user_id === userId && errand?.status === 'open' && (
+        <View className="border-[#C85604] border-[1px] rounded-lg bg-[#FEF0E6] p-4 mb-8">
+          <Text className="text-center">
+            If you wish to cancel this errand, click this button. Please note
+            that if this errand has begun you will be fined for this action
+          </Text>
+
+          <View className="items-center">
+            <TouchableOpacity
+              onPress={() => {
+                // dispatch(
+                //   errandAction({
+                //     sub_errand_id: singleSubErrand?.id,
+                //     type: 'complete',
+                //     method: 'PATCH',
+                //     source: userId === errand.user_id ? 'sender' : 'runner',
+                //     errandId: errand.id,
+                //     dispatch,
+                //     navigation,
+                //   }),
+                // )
+
+                navigation.navigate('CancelErrandModal', {
+                  errand,
+                  userId,
+                  singleSubErrand,
+                  bids,
+                })
+              }}
+              className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
+            >
+              <Text className="text-center text-white">Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+
+      {errand?.user_id === userId && errand?.status === 'pending' && (
+        <View className="border-[#C85604] border-[1px] rounded-lg bg-[#FEF0E6] p-4 mb-8">
+          <Text className="text-center">
+            If you wish to cancel this errand, click this button. Please note
+            that if this errand has begun you will be fined for this action
+          </Text>
+
+          <View className="items-center">
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('CancelErrandModal', {
+                  errand,
+                  userId,
+                  singleSubErrand,
+                  bids,
+                })
               }}
               className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
             >
@@ -245,7 +304,7 @@ export const SenderDetails = ({
       {errand.user_id === userId &&
         singleSubErrand?.status === 'active' &&
         manageErrandClicked && (
-          <View className="border-[#C85604] border-[1px] rounded-lg bg-[#FEF0E6] p-4 mt-6 mb-14">
+          <View className="border-[#C85604] border-[1px] rounded-lg bg-[#FEF0E6] p-4 mt-2 mb-14">
             <Text className="text-center">
               If you wish to cancel this errand, click this button. Please note
               that if this errand has begun you will be fined for this action
@@ -254,17 +313,12 @@ export const SenderDetails = ({
             <View className="items-center">
               <TouchableOpacity
                 onPress={() => {
-                  dispatch(
-                    errandAction({
-                      sub_errand_id: singleSubErrand?.id,
-                      type: 'complete',
-                      method: 'PATCH',
-                      source: userId === errand.user_id ? 'sender' : 'runner',
-                      errandId: errand.id,
-                      dispatch,
-                      navigation,
-                    }),
-                  )
+                  navigation.navigate('CancelErrandModal', {
+                    errand,
+                    userId,
+                    singleSubErrand,
+                    bids,
+                  })
                 }}
                 className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
               >

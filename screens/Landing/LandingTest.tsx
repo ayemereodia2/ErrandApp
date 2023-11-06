@@ -73,6 +73,8 @@ const LandingTest = ({ navigation }: any) => {
     [],
   )
 
+  
+
   const [clicked, setClicked] = useState(false)
   const dispatch = useAppDispatch()
 
@@ -206,7 +208,7 @@ const LandingTest = ({ navigation }: any) => {
             }}
           >
             <ScrollView
-              keyboardShouldPersistTaps="always"
+              keyboardShouldPersistTaps="handled"
               showsVerticalScrollIndicator={false}
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

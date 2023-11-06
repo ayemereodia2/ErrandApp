@@ -67,9 +67,9 @@ export default function SecurityQuestion() {
 
     try {
       const _rs = await _fetch({
-        _url: 'security-question',
+        _url: '/security-question',
         method: 'POST',
-        body: JSON.stringify(newData),
+        body: newData,
       })
       const rs = await _rs.json()
 
@@ -79,7 +79,7 @@ export default function SecurityQuestion() {
           type: 'success',
           text1: rs.message,
         })
-        navigation.navigate('Main')
+        navigation.navigate('Tabs')
       }
 
       if (rs.success === false) {

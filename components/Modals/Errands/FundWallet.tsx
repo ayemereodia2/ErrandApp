@@ -53,30 +53,6 @@ const FundWalletModal = ({ navigation, route }: any) => {
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-  // const handlePlaceBid = () => {
-  //   if (!amount) {
-  //     return setError('Please, make sure you enter all fields for this bid')
-  //   }
-
-  //   console.log('>>>>>comment', amount)
-
-  //   // setPay(true)
-
-  //   const data = {
-  //     amount: parseAmount(amount.toString()) * 100,
-  //     dispatch,
-  //     Toast,
-  //   }
-
-  //   // console.log(pay)
-
-  //   setError('')
-  //   // console.log(">>>dtaa", data)
-  //   // dispatch(postBid(data))
-  // }
-
-  // console.log('>>>>>walletSuccs', walletSuccess)
-
   const getUserId = async () => {
     const userId = (await AsyncStorage.getItem('user_id')) || ''
     setUserId(userId)
@@ -90,7 +66,7 @@ const FundWalletModal = ({ navigation, route }: any) => {
       headerTitleStyle: { color: textTheme },
       headerLeft: () => (
         <TouchableOpacity
-          className="flex-row items-center justify-between mx-0 py-3"
+          className="flex-row items-center justify-between mx-0 py-3 pr-10"
           onPress={() => {
             navigation.goBack()
           }}
@@ -100,13 +76,6 @@ const FundWalletModal = ({ navigation, route }: any) => {
       ),
     })
   }, [])
-
-  console.log(
-    '>>>>>>>walletSuccess',
-    walletSuccess,
-    Number(data?.balance) / 100,
-    currentWalletAmount,
-  )
 
   useEffect(() => {
     if (walletSuccess && Number(data?.balance) / 100 > currentWalletAmount) {
@@ -224,7 +193,7 @@ const FundWalletModal = ({ navigation, route }: any) => {
       <View>
         <Paystack
           paystackKey={process.env.EXPO_PUBLIC_PAYSTACK_KEY || ''} 
-          billingEmail={'user@gmail.com'}
+          billingEmail={currentUser?.email ? currentUser?.email : 'user@gmail.com'}
           phone={'090644788883'}
           amount={parseAmount(amount.toString())}
           userId={userId}

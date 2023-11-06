@@ -352,6 +352,7 @@ const SettingsTest = ({ openVerifyModal }: Props) => {
             </Text>
             {/* <TouchableOpacity onPress={() => )}> */}
             <AntDesign
+              style={{color: theme ? 'white' : 'black'}}
               onPress={() => openVerifyModal()}
               name="edit"
               size={24}

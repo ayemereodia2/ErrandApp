@@ -1,6 +1,8 @@
 import { AntDesign } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
 import { Image } from 'react-native'
+import {Restart} from 'fiction-expo-restart';
+
 
 import { Asset } from 'expo-asset'
 import * as SplashScreen from 'expo-splash-screen'
@@ -119,6 +121,7 @@ const DefaultGuestScreen = ({ navigation }: any) => {
   // }
 
   useEffect(() => {
+    Restart()
     loadResourcesAndDataAsync()
     // getAdsImages()
   }, [])

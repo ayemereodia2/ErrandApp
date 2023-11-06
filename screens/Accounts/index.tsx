@@ -17,6 +17,8 @@ import { _fetch } from '../../services/axios/http'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../../services/store'
+import {Restart} from 'fiction-expo-restart';
+
 
 interface AccountScreenProp {
   navigation: any
@@ -120,6 +122,8 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
       'first_name',
       'profile_pic',
     ])
+
+    Restart()
   }
 
   useEffect(() => {

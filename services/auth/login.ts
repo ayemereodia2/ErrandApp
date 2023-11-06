@@ -31,7 +31,10 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
          await AsyncStorage.setItem('profile_pic', _rs.data.profile_picture)
       }
       await AsyncStorage.setItem('isGuest', 'false')
-      await AsyncStorage.setItem('pin', JSON.stringify(_rs.data.has_transaction_pin))
+     const pin = await AsyncStorage.setItem('pin', JSON.stringify(_rs.data.has_transaction_pin))
+
+      console.log(">>>>>pin", pin);
+      
 
       dispatch(currentUserDetails({user_id: _rs.data.id}))
 

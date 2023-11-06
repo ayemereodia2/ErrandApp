@@ -1,5 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
+import { createNavigationContainerRef } from '@react-navigation/native';
+import { navigateToScreen } from "../../navigation/StackNavigation";
+
+import * as RootNavigation from '../../navigation/StackNavigation';
 
 interface FetchProps {
   method: string
@@ -7,15 +10,42 @@ interface FetchProps {
   body?: any
 }
 
+const clearStorage = async () => {
+    await AsyncStorage.multiRemove([
+      'accessToken',
+      'refreshToken',
+      'user_id',
+      'last_name',
+      'first_name',
+      'profile_pic',
+    ])
+  }
+
+
+const {fetch: originalFetch} = window;
+
+window.fetch = async (...args) => {
+  
+  let [resource, config] = args;
+  let response = await originalFetch(resource, config);
+
+  if (!response.ok && response.status === 404) {
+    // 404 error handling
+    return Promise.reject(response);
+  }
+
+  if (response.status === 401) {
+      RootNavigation.navigateToScreen('Default')
+      clearStorage()
+  }
+  return response;
+};
+
 
 export async function _fetch({ _url, body, method }: FetchProps) {
   
   const url = `${process.env.EXPO_PUBLIC_API_URL}${_url}` 
   // const url = `https://apis.swave.ng/v1${_url}`
-
-  console.log(">>>>url", url);
-  
-  
   
   const token = await AsyncStorage.getItem('accessToken');
 

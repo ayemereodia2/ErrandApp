@@ -1,3 +1,4 @@
+import { createNavigationContainerRef } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 import FundWalletModal from '../components/Modals/Errands/FundWallet'
@@ -40,6 +41,14 @@ import WalletAccount from '../screens/Wallets/WalletAccount'
 import { TabsNavigation } from './TabsNavigation'
 
 const Stack = createNativeStackNavigator()
+
+export const navigationRef = createNavigationContainerRef()
+
+export function navigateToScreen(name: any) {
+  if (navigationRef.isReady()) {
+    navigationRef.navigate(name);
+  }
+}
 
 export const TabStack = () => {
   return (
@@ -88,6 +97,24 @@ export const TabStack = () => {
             backgroundColor: '#F8F9FC',
           },
         }}
+      />
+
+      <Stack.Screen
+        name="AbandonErrandModal"
+        component={AbandonErrandModal}
+        options={{ title: 'Modal', presentation: 'fullScreenModal' }}
+      />
+
+      <Stack.Screen
+        name="CompleteErrandModal"
+        component={CompleteErrandModal}
+        options={{ title: 'Modal', presentation: 'fullScreenModal' }}
+      />
+
+      <Stack.Screen
+        name="CancelErrandModal"
+        component={CancelErrandModal}
+        options={{ title: 'Modal', presentation: 'fullScreenModal' }}
       />
 
       <Stack.Screen
@@ -290,6 +317,22 @@ export function GuestStack() {
           }}
         />
         <Stack.Screen
+          name="AbandonErrandModal"
+          component={AbandonErrandModal}
+          options={{ title: 'Modal', presentation: 'fullScreenModal' }}
+        />
+        <Stack.Screen
+          name="CompleteErrandModal"
+          component={CompleteErrandModal}
+          options={{ title: 'Modal', presentation: 'fullScreenModal' }}
+        />
+
+        <Stack.Screen
+          name="CancelErrandModal"
+          component={CancelErrandModal}
+          options={{ title: 'Modal', presentation: 'fullScreenModal' }}
+        />
+        <Stack.Screen
           options={{
             headerShown: false,
           }}
@@ -442,6 +485,24 @@ export const MainStack = () => {
         options={{ headerShown: false }}
         name="ErrandDetails"
         component={ErrandDetails}
+      />
+
+      <Stack.Screen
+        name="AbandonErrandModal"
+        component={AbandonErrandModal}
+        options={{ title: 'Modal', presentation: 'fullScreenModal' }}
+      />
+
+      <Stack.Screen
+        name="CompleteErrandModal"
+        component={CompleteErrandModal}
+        options={{ title: 'Modal', presentation: 'fullScreenModal' }}
+      />
+
+      <Stack.Screen
+        name="CancelErrandModal"
+        component={CancelErrandModal}
+        options={{ title: 'Modal', presentation: 'fullScreenModal' }}
       />
 
       <Stack.Screen name="Login" component={LoginScreen} />
@@ -706,7 +767,6 @@ export const LandingPageStack = () => {
         component={DefaultGuestScreen}
         options={{ headerShown: false }}
       />
-      
 
       <Stack.Screen name="MyErrands" component={ErrandScreen} />
 

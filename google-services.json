@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "746544586943",
+    "project_id": "swave-android",
+    "storage_bucket": "swave-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746544586943:android:f7633288c593b05110260a",
+        "android_client_info": {
+          "package_name": "com.orj5.Swave"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbxERfTZu5jEIj7bFKamO9R7MjRygb8Zs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -25,6 +25,7 @@ const ErrandBid = ({
   setSubErrand,
   singleSubErrand,
   setManageErrandClicked,
+  toggleUserInfoModal,
 }: BidsProps) => {
   const acceptBidRef = useRef<BottomSheetModal>(null)
   const acceptPoints = ['46%']
@@ -112,7 +113,9 @@ const ErrandBid = ({
   return (
     <>
       <View className=" bg-white py-4 px-6 border-b-[0.2px] border-[#CCCCCC] hover:bg-[#CC9BFD] mt-4">
-        <View className="flex-row items-center justify-between">
+        <TouchableOpacity onPress={() => {
+          toggleUserInfoModal(true, bid.runner)
+        }} className="flex-row items-center justify-between">
           <View className="flex-row items-center space-x-3">
             {errand.errand_type === 1 ? (
               <Image
@@ -120,15 +123,8 @@ const ErrandBid = ({
                 className="w-8 h-8 rounded-full"
               />
             ) : (
-              // <Image
-              //   source={require('../../assets/images/jagger.jpg')}
-              //   className="w-8 h-8 rounded-full"
-              // />
               <View className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center">
-                <Text
-                  // style={{ color: textTheme }}
-                  className="uppercase text-lg items-center text-white"
-                >
+                <Text className="uppercase text-lg items-center text-white">
                   {bid?.runner?.first_name.charAt(0).toUpperCase()}
                   {bid?.runner?.last_name.charAt(0).toUpperCase()}
                 </Text>
@@ -142,7 +138,7 @@ const ErrandBid = ({
           <Text className="text-[#808080] text-sm">
             {getCardTimeAgo(haggle.created_at)}{' '}
           </Text>
-        </View>
+        </TouchableOpacity>
 
         {/*Second one */}
         <View className="mt-4">

@@ -167,6 +167,12 @@ const Timeline = ({
                   This Errand has been cancelled
                 </Text>
               ))}
+            
+            {errand.status === 'cancelled' && (
+                <Text className="font-medium text-sm px-4">
+                  This Errand has been cancelled
+                </Text>
+              )}
           </View>
 
           <MessagesList

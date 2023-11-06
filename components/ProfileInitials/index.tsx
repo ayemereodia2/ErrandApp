@@ -11,7 +11,7 @@ interface Props {
   height?: number
 }
 
-export function ProfileInitials({
+export function  ProfileInitials({
   firstName,
   lastName,
   className = '',

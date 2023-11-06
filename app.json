@@ -16,6 +16,15 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff",
       "plugins": [
+         "@react-native-firebase/app",
+          [
+          "expo-build-properties",
+          {
+            "ios": {
+              "useFrameworks": "static"
+            }
+          }
+        ],
         [
           "expo-image-picker",
           {
@@ -46,7 +55,8 @@
       "config": {
         "googleMapsApiKey": "AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo"
       },
-      "bundleIdentifier": "com.orj5.Swave"
+      "bundleIdentifier": "com.orj5.Swave",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
@@ -59,14 +69,16 @@
         }
       },
       "package": "com.orj5.Swave",
+      "googleServicesFile": "./google-services.json",
       "versionCode": 11
-    },
+    }, 
+   
     "web": {
       "favicon": "./assets/images/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "a735d128-a0e3-4322-b0ef-e6443ad2f338"
+        "projectId": "67d2b98f-b0e0-49db-a3f4-4d46c6386ce3"
       }
     }
   }

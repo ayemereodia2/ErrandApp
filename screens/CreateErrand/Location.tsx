@@ -174,7 +174,7 @@ const CreateErrandLocation = ({
 
         <MapView
           style={styles.map}
-          region={{
+          initialRegion={{
             latitude: regionCoords.lat,
             longitude: regionCoords.lng,
             latitudeDelta: 0.0922,

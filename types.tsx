@@ -33,6 +33,7 @@ export type InputProps = {
   name: string
   message?: string
   secureTextEntry?: boolean
+  optional?: string
 }
 
 export type ButtonProps = {
@@ -160,6 +161,8 @@ export interface ICreateAccount {
   confirmPassword: string
   email?: string
   referralCode?: string
+  dispatch?: any
+  navigation?: any
 }
 
 export interface ILogin {
@@ -499,8 +502,8 @@ export interface StartErrandProps {
 }
 
 export interface UserDetailsResponse extends CommonState {
-  backgroundTheme: string,
-  textTheme: string,
+  backgroundTheme: string
+  textTheme: string
   landingPageTheme: string
   data: UserDetail
 }
@@ -541,7 +544,7 @@ export interface UserDetail {
   insurance_amount: number
   profile_picture: string
   has_transaction_pin: boolean
-  preferred_theme: string,
+  preferred_theme: string
   referred_by: string
   errands_posted: number
 }
@@ -697,6 +700,7 @@ export interface BidsProps {
   singleSubErrand?: SubErrand
   setManageErrandClicked: React.Dispatch<React.SetStateAction<boolean>>
   setSubErrand?: React.Dispatch<React.SetStateAction<SingleSubErrand>>
+  toggleUserInfoModal: (open: boolean, user: any) => void
 }
 
 // PAYSTACK TYPES

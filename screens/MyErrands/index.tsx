@@ -27,6 +27,7 @@ import { MyErrandEmptyState } from '../../components/MyErrandEmptyState'
 import MyErrandToggle from '../../components/MyErrandToggle'
 import PostErrandButton from '../../components/PostErrandBtn'
 import { ProfileInitials } from '../../components/ProfileInitials'
+import UserInfo from '../../components/UserInfo/UserInfo'
 import { myErrandList } from '../../services/errands/myErrands'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData, SingleSubErrand } from '../../types'
@@ -83,6 +84,7 @@ const ErrandScreen = ({ navigation }: any) => {
         disappearsOnIndex={-1}
         onPress={() => {
           bottomSheetRef1.current?.dismiss()
+          userInfoRef.current?.dismiss()
         }}
         // onChange={handleSheetChanges}
       />
@@ -97,9 +99,20 @@ const ErrandScreen = ({ navigation }: any) => {
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
-  const theme = currentUser?.preferred_theme === 'light' ? true : false
+  const [userData, setUserData] = useState(null)
+  const userInfoRef = useRef<BottomSheetModal>(null)
 
-  // console.log(">>>>>>>myErrands", myErrands);
+  function toggleUserInfoModal(open: boolean, user: any) {
+    if (open) {
+      setUserData(user)
+      userInfoRef.current?.present()
+    } else {
+      setUserData(null)
+      userInfoRef.current?.dismiss()
+    }
+  }
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   const errandSearchHandler = () => {
     const value = searchValue.toLowerCase()
@@ -232,12 +245,12 @@ const ErrandScreen = ({ navigation }: any) => {
                   className="flex-row items-center justify-between my-3"
                 >
                   <ProfileInitials
-                    firstName={firstName.charAt(0).toUpperCase()}
-                    lastName={lastName.charAt(0).toUpperCase()}
-                    profile_pic={profilePic}
+                    firstName={currentUser?.first_name.charAt(0).toUpperCase()}
+                    lastName={currentUser?.last_name.charAt(0).toUpperCase()}
+                    profile_pic={currentUser?.profile_picture}
                     textClass="text-white text-base"
-                    width={35}
-                    height={35}
+                    width={30}
+                    height={30}
                   />
                 </TouchableOpacity>
 
@@ -357,6 +370,7 @@ const ErrandScreen = ({ navigation }: any) => {
                                   }
                                   setSubErrand={setSubErrand}
                                   user_id={userId}
+                                  toggleUserInfoModal={toggleUserInfoModal}
                                 />
                               </View>
                             )
@@ -399,6 +413,16 @@ const ErrandScreen = ({ navigation }: any) => {
               </View>
             </ScrollView>
           </View>
+
+          <BottomSheetModal
+            // backdropComponent={renderBackdrop}
+            ref={userInfoRef}
+            index={0}
+            snapPoints={['70%']}
+            backdropComponent={renderBackdrop}
+          >
+            <UserInfo user={userData} navigation={navigation} />
+          </BottomSheetModal>
 
           <BottomSheetModal
             // backdropComponent={renderBackdrop}

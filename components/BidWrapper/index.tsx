@@ -1,5 +1,5 @@
 import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet'
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { ActivityIndicator, SafeAreaView, ScrollView, Text } from 'react-native'
 import { useSelector } from 'react-redux'
 import { HaggleComponent } from '../../components/MyBidDetails/HaggleDetail'
@@ -8,6 +8,7 @@ import { Bids, Haggles, MarketData, SingleSubErrand } from '../../types'
 import BeginErrandModal from '../Modals/Errands/BeginErrand'
 import RejectErrandModal from '../Modals/Errands/RejectErrandModal'
 import ErrandBid from '../MyBidDetails'
+import UserInfo from '../UserInfo/UserInfo'
 
 interface BidWrapperProp {
   userId: string
@@ -41,6 +42,18 @@ const BidWrapper = ({
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
   const theme = currentUser?.preferred_theme === 'light' ? true : false
+  const userInfoRef = useRef<BottomSheetModal>(null)
+  const [userData, setUserData] = useState(null)
+
+  function toggleUserInfoModal(open: boolean, user: any) {
+    if (open) {
+      setUserData(user)
+      userInfoRef.current?.present()
+    } else {
+      setUserData(null)
+      userInfoRef.current?.dismiss()
+    }
+  }
 
   const acceptPoints = ['40%']
 
@@ -70,6 +83,8 @@ const BidWrapper = ({
           toggleAcceptModal(false)
           toggleBeginErrandModal(false)
           toggleRejectErrandModal(false)
+          userInfoRef.current?.dismiss()
+          
         }}
         // onChange={handleSheetChanges}
       />
@@ -188,6 +203,7 @@ const BidWrapper = ({
                   toggleSuccessDialogue={toggleSuccessDialogue}
                   setManageErrandClicked={setManageErrandClicked}
                   setSubErrand={setSubErrand}
+                  toggleUserInfoModal={toggleUserInfoModal}
                 />
               )
             })}
@@ -210,6 +226,7 @@ const BidWrapper = ({
                     haggle={hag}
                     otherHaggles={otherHaggles}
                     setManageErrandClicked={setManageErrandClicked}
+                    toggleUserInfoModal={toggleUserInfoModal}
                     // setSearchedErrand={setSearchedErrand}
                   />
                 )
@@ -229,6 +246,7 @@ const BidWrapper = ({
               toggleSuccessDialogue={toggleSuccessDialogue}
               toggleNegotiateModal={toggleNegotiateModal}
               setManageErrandClicked={setManageErrandClicked}
+              toggleUserInfoModal={toggleUserInfoModal}
             />
           </>
         )}
@@ -245,6 +263,7 @@ const BidWrapper = ({
               toggleSuccessDialogue={toggleSuccessDialogue}
               toggleNegotiateModal={toggleNegotiateModal}
               setManageErrandClicked={setManageErrandClicked}
+              toggleUserInfoModal={toggleUserInfoModal}
 
               // setSearchedErrand={setSearchedErrand}
               // singleSubErrand={singleSubErrand}
@@ -268,6 +287,16 @@ const BidWrapper = ({
               })}
             </>
           )} */}
+
+        <BottomSheetModal
+          // backdropComponent={renderBackdrop}
+          ref={userInfoRef}
+          index={0}
+          snapPoints={['70%']}
+          backdropComponent={renderBackdrop}
+        >
+          <UserInfo user={userData} navigation={navigation} />
+        </BottomSheetModal>
 
         <BottomSheetModal
           ref={beginErrandRef}

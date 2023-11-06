@@ -91,10 +91,10 @@ const MessagesList = ({
                     followsUserLocation={true}
                     initialRegion={{
                       latitude: !!userLocation
-                        ? userLocation.coords.latitude
+                        ? userLocation?.coords?.latitude
                         : 24.8607,
                       longitude: !!userLocation
-                        ? userLocation.coords.longitude
+                        ? userLocation?.coords?.longitude
                         : 67.0011,
                       latitudeDelta: 0.0922,
                       longitudeDelta: 0.0421,

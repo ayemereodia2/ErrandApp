@@ -83,12 +83,12 @@ export default function VerifyPassword({
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}
         >
-          <Text className="text-lg text-center font-semibold">
+          <Text style={{color: theme ? 'white' : 'black'}} className="text-lg text-center font-semibold">
             Verify Your Password
           </Text>
 
           <View className="px-4 mt-6">
-            <Text>Password</Text>
+            <Text style={{color: theme ? 'white' : 'black'}}>Password</Text>
             <View className="border border-[#E6E6E6]  bg-white text-sm rounded-lg mt-2 pl-3 py-1">
               <TextInput
                 className="w-full text-sm bg-transparent"

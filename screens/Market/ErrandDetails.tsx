@@ -511,6 +511,22 @@ export default function ErrandDetails({ route, navigation }: any) {
         ) : (
           ''
         )}
+        {errand.user_id !== userId && errand?.status !== 'completed' ? (
+          <TouchableOpacity
+            className="w-full h-[60px] absolute bottom-0 flex-row justify-center items-center bg-[#1E3A79]"
+            onPress={() => {
+              openPlaceBid()
+              dispatch(userDetails({ user_id: userId }))
+              setShowBidBtn(false)
+            }}
+          >
+            <Text className="text-white text-lg font-medium">
+              I can do this
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          ''
+        )}
       </SafeAreaView>
     </BottomSheetModalProvider>
   )

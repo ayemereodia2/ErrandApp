@@ -3,23 +3,32 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Toast from 'react-native-toast-message';
 import { ICreateAccount } from '../../types';
 import { _fetch } from '../axios/http';
+import { currentUserDetails } from './currentUserInfo';
 // import toast from 'react-hot-toast';
 
-export const createAccount = createAsyncThunk("/user/createAccount", async ({navigation, ...data}: ICreateAccount, {rejectWithValue}) => {
+export const createAccount = createAsyncThunk("/user/createAccount", async ({navigation, dispatch, ...data}: ICreateAccount, {rejectWithValue}) => {
   try {
     const _rs = await _fetch({ _url: `/user/sign-up`, method: "POST", body: data })
     const rs = await _rs.json();
 
-    
-
     if (rs.success === true) {
        await AsyncStorage.setItem('accessToken', rs.data.access_token )
       await AsyncStorage.setItem('refreshToken', rs.data.refresh_token )
-          // setCookie("access_token", rs.data.data.access_token)
+       await AsyncStorage.setItem('accessToken', rs.data.access_token)
+      await AsyncStorage.setItem('refreshToken', rs.data.refresh_token)
+      await AsyncStorage.setItem('user_id', rs.data.id)
+      await AsyncStorage.setItem("last_name", rs.data.last_name)
+      await AsyncStorage.setItem("first_name", rs.data.first_name)
+      if (rs.data.profile_picture) {
+         await AsyncStorage.setItem('profile_pic', rs.data.profile_picture)
+      }
+      await AsyncStorage.setItem('isGuest', 'false')
+      await AsyncStorage.setItem('pin', JSON.stringify(rs.data.has_transaction_pin))
       Toast.show({
         type: 'success',
         text1: rs.message,
       });
+       dispatch(currentUserDetails({user_id: rs.data.id}))
       navigation.navigate("SecurityQuestions")
     }
     if (rs.success === false) {

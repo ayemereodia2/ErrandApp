@@ -191,12 +191,12 @@ const SettingScreen = ({ navigation }: any) => {
                 className="flex-row items-center justify-between my-3"
               >
                 <ProfileInitials
-                  firstName={firstName.charAt(0).toUpperCase()}
-                  lastName={lastName.charAt(0).toUpperCase()}
-                  profile_pic={profilePic}
+                  firstName={currentUser?.first_name.charAt(0).toUpperCase()}
+                  lastName={currentUser?.last_name.charAt(0).toUpperCase()}
+                  profile_pic={currentUser?.profile_picture}
                   textClass="text-white text-base"
-                  width={35}
-                  height={35}
+                  width={30}
+                  height={30}
                 />
               </TouchableOpacity>
 
@@ -466,7 +466,7 @@ const SettingScreen = ({ navigation }: any) => {
           // backdropComponent={renderBackdrop}
           ref={bottomSheetRef2}
           index={0}
-          snapPoints={['40%']}
+          snapPoints={['50%']}
           backdropComponent={renderBackdrop}
           keyboardBehavior="extend"
           enablePanDownToClose
@@ -482,10 +482,10 @@ const SettingScreen = ({ navigation }: any) => {
           // android_keyboardInputMode="adjustResize"
           ref={bottomSheetRef3}
           index={0}
-          snapPoints={['45%']}
-          containerStyle={{
-            marginHorizontal: 10,
-          }}
+          snapPoints={['55%']}
+          // containerStyle={{
+          //   marginHorizontal: 10,
+          // }}
           backdropComponent={renderBackdrop}
           keyboardBehavior="extend"
           enablePanDownToClose

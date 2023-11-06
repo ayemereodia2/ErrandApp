@@ -313,9 +313,11 @@ const Filter = ({
                 <View className="flex-row items-center border-b p-2 mt-3 border-[#ccc] rounded-lg space-x-2">
                   <TextInput
                     className="w-[300px] "
+                    placeholderTextColor={theme ? '#cccccc' : 'black'}
                     placeholder="Type to get top Categories"
                     onChangeText={(text) => setSearchedItem(text)}
                     value={searchedItem}
+                    style={{color: theme ? 'white' : 'black'}}
                   />
                   <FontAwesome name="search" size={16} color="#ccc" />
                 </View>

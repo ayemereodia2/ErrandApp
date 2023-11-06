@@ -99,6 +99,7 @@ export default function MainScreen() {
         disappearsOnIndex={-1}
         onPress={() => {
           bottomSheetRef1.current?.dismiss()
+          bidHistoryRef.current?.dismiss()
         }}
 
         // onChange={handleSheetChanges}
@@ -281,15 +282,15 @@ export default function MainScreen() {
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Profile')}
                   style={{ marginLeft: 20 }}
-                  className="flex-row items-center justify-between my-3"
+                  className="flex-row items-center justify-between my-3 pt-2"
                 >
                   <ProfileInitials
-                    firstName={firstName.charAt(0).toUpperCase()}
-                    lastName={lastName.charAt(0).toUpperCase()}
-                    profile_pic={profilePic}
+                    firstName={currentUser?.first_name.charAt(0).toUpperCase()}
+                    lastName={currentUser?.last_name.charAt(0).toUpperCase()}
+                    profile_pic={currentUser?.profile_picture}
                     textClass="text-white text-base"
-                    width={35}
-                    height={35}
+                    width={30}
+                    height={30}
                   />
                 </TouchableOpacity>
 

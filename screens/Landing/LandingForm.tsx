@@ -3,6 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -184,148 +186,162 @@ const LandingForm = ({ navigation, route }: any) => {
       style={{ backgroundColor: backgroundTheme, flex: 1 }}
       className=" pt-4 "
     >
-      <ScrollView style={{ backgroundColor: backgroundTheme }} className="px-4">
-        <View className="mt-6 flex-row items-center justify-between mx-3">
-          <Text
-            style={{ color: textTheme }}
-            className="font-bold text-[18px] leading-5"
-          >
-            What do you need help with?{' '}
-            <Text className="text-base font-normal">{category?.name}</Text>
-          </Text>
-        </View>
-
-        <View className="px-4 mt-5">
-          <Text
-            style={{ color: textTheme }}
-            className="text-sm font-semibold text-[#243763]"
-          >
-            Description
-          </Text>
-
-          <View className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm mt-2 rounded-lg px-1">
-            <TextInput
-              className={'w-full text-sm py-2 mt-2 rounded-lg px-3'}
-              placeholder="How do we help you.."
-              onChangeText={(e) => setDescription(e)}
-              value={description}
-              multiline={true}
-              numberOfLines={10}
-              style={{ height: 100, textAlignVertical: 'top' }}
-              keyboardType="default"
-            />
-          </View>
-        </View>
-
-        <View className="px-4 mt-5">
-          <Text
-            style={{ color: textTheme }}
-            className="text-sm font-semibold text-[#243763]"
-          >
-            Amount
-          </Text>
-
-          <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
-            <Text className="text-lg ">&#x20A6;</Text>
-
-            <TextInput
-              className="w-full"
-              placeholder="Enter amount"
-              onChangeText={(e) => setAmount(currencyMask(e))}
-              value={amount}
-              keyboardType="decimal-pad"
-            />
-          </View>
-
-          <TouchableOpacity
-            onPress={() => {
-              setCurrentWalletAmount(Number(data?.balance) / 100)
-              navigation.navigate('FundWalletModal', {
-                currentWalletAmount,
-              })
-            }}
-            className="flex-row items-center"
-          >
-            <Text style={{ color: textTheme }} className="ml-2 pt-2 pr-2">
-              Fund Wallet
-            </Text>
-            <Text style={{ color: textTheme }} className="text-sm pt-2 font-md">
-              ({' '}
-              <Text style={{ color: textTheme }} className="font-bold">
-                Balance:
-              </Text>{' '}
-              ₦
-              {Number(data?.balance) === 0
-                ? '0.00'
-                : (Number(data?.balance) / 100).toLocaleString()}
-              )
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View className="flex-row mt-6 mx-4 items-center ">
-          <Text
-            style={{ color: textTheme }}
-            className="text-sm font-semibold text-[#243763]"
-          >
-            Address
-          </Text>
-
-          <TouchableOpacity onPress={handleClicked}>
+      <ScrollView
+        keyboardShouldPersistTaps="always"
+        style={{ backgroundColor: backgroundTheme }}
+        className="px-4"
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
+        {/* <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}
+        > */}
+          <View className="mt-6 flex-row items-center justify-between mx-3">
             <Text
               style={{ color: textTheme }}
-              className="text-[28px] text-center"
+              className="font-bold text-[18px] leading-5"
             >
-              {' '}
-              {clicked ? '-' : '+'}{' '}
+              What do you need help with?{' '}
+              <Text className="text-base font-normal">{category?.name}</Text>
             </Text>
-          </TouchableOpacity>
-        </View>
-
-        {clicked ? (
-          <View
-            style={{ marginBottom: 16, display: clicked ? 'flex' : 'none' }}
-            className="mt-2 px-4"
-          >
-            <GooglePlacesAutocomplete
-              placeholder="Enter Pickup Address"
-              onPress={(data, details) =>
-                handleLocationSelect(data, details, 'currentLocation')
-              }
-              fetchDetails={true}
-              query={{
-                key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
-                language: 'en',
-              }}
-              styles={{
-                container: styles.googlePlacesContainer,
-                textInputContainer: styles.textInputContainer,
-                textInput: styles.textInput,
-                listView: styles.listView,
-              }}
-            />
-
-            <GooglePlacesAutocomplete
-              placeholder="Enter Delivery Address"
-              onPress={(data, details) =>
-                handleLocationSelect(data, details, 'deliveryAddress')
-              }
-              fetchDetails={true}
-              query={{
-                key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
-                language: 'en',
-              }}
-              styles={{
-                container: styles.googlePlacesContainer,
-                textInputContainer: styles.textInputContainer,
-                textInput: styles.textInput,
-                listView: styles.listView,
-              }}
-            />
           </View>
-        ) : (
-          ''
-        )}
+
+          <View className="px-4 mt-5">
+            <Text
+              style={{ color: textTheme }}
+              className="text-sm font-semibold text-[#243763]"
+            >
+              Description
+            </Text>
+
+            <View className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm mt-2 rounded-lg px-1">
+              <TextInput
+                className={'w-full text-sm py-2 mt-2 rounded-lg px-3'}
+                placeholder="How do we help you.."
+                onChangeText={(e) => setDescription(e)}
+                value={description}
+                multiline={true}
+                numberOfLines={10}
+                style={{ height: 100, textAlignVertical: 'top' }}
+                keyboardType="default"
+              />
+            </View>
+          </View>
+
+          <View className="px-4 mt-5">
+            <Text
+              style={{ color: textTheme }}
+              className="text-sm font-semibold text-[#243763]"
+            >
+              Amount
+            </Text>
+
+            <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
+              <Text className="text-lg ">&#x20A6;</Text>
+
+              <TextInput
+                className="w-full"
+                placeholder="Enter amount"
+                onChangeText={(e) => setAmount(currencyMask(e))}
+                value={amount}
+                keyboardType="decimal-pad"
+              />
+            </View>
+
+            <TouchableOpacity
+              onPress={() => {
+                setCurrentWalletAmount(Number(data?.balance) / 100)
+                navigation.navigate('FundWalletModal', {
+                  currentWalletAmount,
+                })
+              }}
+              className="flex-row items-center"
+            >
+              <Text style={{ color: textTheme }} className="ml-2 pt-2 pr-2">
+                Fund Wallet
+              </Text>
+              <Text
+                style={{ color: textTheme }}
+                className="text-sm pt-2 font-md"
+              >
+                ({' '}
+                <Text style={{ color: textTheme }} className="font-bold">
+                  Balance:
+                </Text>{' '}
+                ₦
+                {Number(data?.balance) === 0
+                  ? '0.00'
+                  : (Number(data?.balance) / 100).toLocaleString()}
+                )
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View className="flex-row mt-6 mx-4 items-center ">
+            <Text
+              style={{ color: textTheme }}
+              className="text-sm font-semibold text-[#243763]"
+            >
+              Address
+            </Text>
+
+            <TouchableOpacity onPress={handleClicked}>
+              <Text
+                style={{ color: textTheme }}
+                className="text-[28px] text-center"
+              >
+                {' '}
+                {clicked ? '-' : '+'}{' '}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {clicked ? (
+            <View
+              style={{ marginBottom: 80, display: clicked ? 'flex' : 'none' }}
+              className="mt-2 px-4"
+            >
+              <GooglePlacesAutocomplete
+                placeholder="Enter Pickup Address"
+                onPress={(data, details) =>
+                  handleLocationSelect(data, details, 'currentLocation')
+                }
+                fetchDetails={true}
+                query={{
+                  key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
+                  language: 'en',
+                }}
+                styles={{
+                  container: styles.googlePlacesContainer,
+                  textInputContainer: styles.textInputContainer,
+                  textInput: styles.textInput,
+                  listView: styles.listView,
+                }}
+              />
+
+              <GooglePlacesAutocomplete
+                placeholder="Enter Delivery Address"
+                onPress={(data, details) =>
+                  handleLocationSelect(data, details, 'deliveryAddress')
+                }
+                fetchDetails={true}
+                query={{
+                  key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
+                  language: 'en',
+                }}
+                styles={{
+                  container: styles.googlePlacesContainer,
+                  textInputContainer: styles.textInputContainer,
+                  textInput: styles.textInput,
+                  listView: styles.listView,
+                }}
+              />
+            </View>
+          ) : (
+            ''
+          )}
+        {/* </KeyboardAvoidingView> */}
       </ScrollView>
 
       <View className="absolute bottom-0 flex-row justify-center w-full">
@@ -377,7 +393,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     paddingHorizontal: 8,
     marginTop: 10,
-    backgroundColor: '#E6E6E6',
+    backgroundColor: 'white',
   },
   listView: {
     paddingHorizontal: 2,

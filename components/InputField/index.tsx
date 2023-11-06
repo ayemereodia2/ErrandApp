@@ -15,6 +15,7 @@ export default function InputField({
   message,
   className,
   secureTextEntry,
+  optional,
 }: InputProps): JSX.Element {
   // const { control, handleSubmit, formState: { errors } } = useForm({
   //   defaultValues: {
@@ -27,7 +28,9 @@ export default function InputField({
 
   return (
     <View className="pt-6">
-      <Text className="text-[#243763] text-sm">{label}</Text>
+      <Text className="text-[#243763] text-sm">
+        {label} {optional && <Text className="text-[#aaa7a7] pl-3">({optional})</Text>}
+      </Text>
       {/* <TextInput
         className="w-full border border-[#E6E6E6] text-xs py-3.5 mt-2 rounded-lg px-3"
         onChangeText={onChangeText}

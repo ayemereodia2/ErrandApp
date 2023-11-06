@@ -1,14 +1,12 @@
 import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
 import React, { useRef, useState } from 'react'
-import { KeyboardAvoidingView, Platform } from 'react-native'
 import {
-  ActivityIndicator,
-  ScrollView,
+  ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
@@ -135,7 +133,7 @@ const PinModal = ({
     signinButtonText: {
       fontSize: 18,
       lineHeight: 18 * 1.4,
-      color: Colors.DEFAULT_WHITE,
+      color: theme ? "black" : 'white'
     },
   })
 

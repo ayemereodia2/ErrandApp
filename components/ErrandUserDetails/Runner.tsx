@@ -88,7 +88,7 @@ export const RunnerDetails = ({
                   <Text className="text-center text-base font-semibold">
                     {user?.runner.first_name} {user?.runner.last_name}
                   </Text>
-                  <MaterialIcons name="verified" color="green" size={20} />
+                  {/* <MaterialIcons name="verified" color="green" size={20} /> */}
                 </View>
                 <Text className="text-[#555555] text-center py-2 text-base font-semibold">
                   Swave User
@@ -197,17 +197,22 @@ export const RunnerDetails = ({
               <View className="items-center">
                 <TouchableOpacity
                   onPress={() => {
-                    dispatch(
-                      errandAction({
-                        sub_errand_id: singleSubErrand?.id,
-                        type: 'complete',
-                        method: 'PATCH',
-                        source: userId === errand.user_id ? 'sender' : 'runner',
-                        errandId: errand.id,
-                        dispatch,
-                        navigation,
-                      }),
-                    )
+                    // dispatch(
+                    //   errandAction({
+                    //     sub_errand_id: singleSubErrand?.id,
+                    //     type: 'complete',
+                    //     method: 'PATCH',
+                    //     source: 'runner',
+                    //     errandId: errand.id,
+                    //     dispatch,
+                    //     navigation,
+                    //   }),
+                    // )
+                      navigation.navigate('AbandonErrandModal', {
+                        errand,
+                        userId,
+                        singleSubErrand
+                       })
                   }}
                   className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
                 >
@@ -229,17 +234,18 @@ export const RunnerDetails = ({
               <View className="items-center">
                 <TouchableOpacity
                   onPress={() => {
-                    dispatch(
-                      errandAction({
-                        sub_errand_id: singleSubErrand?.id,
-                        type: 'complete',
-                        method: 'PATCH',
-                        source: userId === errand.user_id ? 'sender' : 'runner',
-                        errandId: errand.id,
-                        dispatch,
-                        navigation,
-                      }),
-                    )
+                    // dispatch(
+                    //   errandAction({
+                    //     sub_errand_id: singleSubErrand?.id,
+                    //     type: 'complete',
+                    //     method: 'PATCH',
+                    //     source: userId === errand.user_id ? 'sender' : 'runner',
+                    //     errandId: errand.id,
+                    //     dispatch,
+                    //     navigation,
+                    //   }),
+                    // )
+                        navigation.navigate('AbandonErrandModal')
                   }}
                   className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
                 >

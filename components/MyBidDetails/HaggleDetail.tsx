@@ -22,6 +22,8 @@ export const HaggleComponent = ({
   haggle,
   setSubErrand,
   setManageErrandClicked,
+  toggleUserInfoModal
+  
 }: BidsProps) => {
   const negotiateRef = useRef<BottomSheetModal>(null)
 
@@ -98,16 +100,18 @@ export const HaggleComponent = ({
   return (
     <>
       <View className=" bg-white py-4 px-6 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD] mt-4">
-        <View className="flex-row items-center justify-between">
+        <TouchableOpacity onPress={() => {
+          toggleUserInfoModal(true, bid.runner)
+        }} className="flex-row items-center justify-between">
           <View className="flex-row items-center space-x-3">
             {errand.errand_type === 1 ? (
               <Image
-                source={require('../../assets/images/mulit.png')}
+                source={{ uri: bid?.runner.profile_picture }}
                 className="w-8 h-8 rounded-full"
               />
             ) : (
-              <Image
-                source={require('../../assets/images/jagger.jpg')}
+            <Image
+                source={{ uri: bid?.runner.profile_picture }}
                 className="w-8 h-8 rounded-full"
               />
             )}
@@ -119,7 +123,7 @@ export const HaggleComponent = ({
           <Text className="text-[#808080] text-sm">
             {getTimeAgo(haggle.created_at)}{' '}
           </Text>
-        </View>
+        </TouchableOpacity>
 
         {/*Second one */}
         <View className="mt-4">

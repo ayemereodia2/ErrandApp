@@ -15,6 +15,7 @@ interface MyErrandCard {
   setSubErrand?: React.Dispatch<React.SetStateAction<SingleSubErrand>>
   setManageErrandClicked?: React.Dispatch<React.SetStateAction<boolean>>
   user_id: string
+  toggleUserInfoModal: (open: boolean, user: any) => void
 }
 
 const MyErrandCard = ({
@@ -23,6 +24,7 @@ const MyErrandCard = ({
   index,
   setSubErrand,
   user_id,
+  toggleUserInfoModal,
 }: MyErrandCard) => {
   const dispatch = useAppDispatch()
 
@@ -40,20 +42,20 @@ const MyErrandCard = ({
 
   return (
     <TouchableOpacity
-      onPress={() => {
-        navigation.navigate('MyErrandDetails', {
-          bids: errand.bids,
-        })
-        dispatch(errandDetails({ errandId: errand.id, navigation }))
-        dispatch(userDetails({ user_id: errand.user_id }))
-        dispatch(
-          getSubErrand({
-            errand_id: errand.id,
-            runner_id: errand.user_id === user_id ? errand.runner_id : user_id,
-            setSubErrand,
-          }),
-        )
-      }}
+      // onPress={() => {
+      //   navigation.navigate('MyErrandDetails', {
+      //     bids: errand.bids,
+      //   })
+      //   dispatch(errandDetails({ errandId: errand.id, navigation }))
+      //   dispatch(userDetails({ user_id: errand.user_id }))
+      //   dispatch(
+      //     getSubErrand({
+      //       errand_id: errand.id,
+      //       runner_id: errand.user_id === user_id ? errand.runner_id : user_id,
+      //       setSubErrand,
+      //     }),
+      //   )
+      // }}
       key={index}
       className="mx-4 shadow-sm rounded-sm pt-2"
     >
@@ -64,8 +66,13 @@ const MyErrandCard = ({
         className=" bg-white py-4 px-5 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD]"
       >
         <View className="flex-row items-center justify-between gap-6">
-          <View className="flex-row items-center space-x-3">
-            {!errand?.user?.profile_picture  ? (
+          <TouchableOpacity
+            onPress={() => {
+              toggleUserInfoModal(true, errand.user)
+            }}
+            className="flex-row items-center space-x-3"
+          >
+            {!errand?.user?.profile_picture ? (
               <View className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center">
                 <Text
                   style={{ color: textTheme }}
@@ -98,9 +105,24 @@ const MyErrandCard = ({
                 {errand?.category.name.substring(0, 16).concat('', '...')}
               </Text>
             </View>
-          </View>
+          </TouchableOpacity>
 
           <Text
+            onPress={() => {
+              navigation.navigate('MyErrandDetails', {
+                bids: errand.bids,
+              })
+              dispatch(errandDetails({ errandId: errand.id, navigation }))
+              dispatch(userDetails({ user_id: errand.user_id }))
+              dispatch(
+                getSubErrand({
+                  errand_id: errand.id,
+                  runner_id:
+                    errand.user_id === user_id ? errand.runner_id : user_id,
+                  setSubErrand,
+                }),
+              )
+            }}
             style={{ color: textTheme }}
             className="text-[#808080] text-sm w-[100px]"
           >
@@ -108,49 +130,67 @@ const MyErrandCard = ({
           </Text>
         </View>
 
-        <View className="mt-4 w-[300px]">
-          <Text style={{ color: textTheme }} className="text-sm font-medium">
-            {result?.substring(0, 80).concat('', '....')}
-          </Text>
-        </View>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('MyErrandDetails', {
+              bids: errand.bids,
+            })
+            dispatch(errandDetails({ errandId: errand.id, navigation }))
+            dispatch(userDetails({ user_id: errand.user_id }))
+            dispatch(
+              getSubErrand({
+                errand_id: errand.id,
+                runner_id:
+                  errand.user_id === user_id ? errand.runner_id : user_id,
+                setSubErrand,
+              }),
+            )
+          }}
+        >
+          <View className="mt-4 w-[300px]">
+            <Text style={{ color: textTheme }} className="text-sm font-medium">
+              {result?.substring(0, 80).concat('', '....')}
+            </Text>
+          </View>
 
-        <View className="flex-row justify-between items-center mt-4">
-          <View
-            className={`bg-yellow-200 rounded-md px-3 ${
-              errand.status === 'pending'
-                ? ' bg-orange-100'
-                : errand.status === 'active'
-                ? ' bg-[#ADF0D1]'
-                : errand.status === 'completed'
-                ? ' bg-blue-100'
-                : errand.status === 'cancelled'
-                ? ' bg-red-100'
-                : 'bg-[#FEE1CD]'
-            }`}
-          >
-            <Text
-              className={`text-center text-sm capitalize py-1 font-medium ${
+          <View className="flex-row justify-between items-center mt-4">
+            <View
+              className={`bg-yellow-200 rounded-md px-3 ${
                 errand.status === 'pending'
-                  ? 'text-orange-600'
+                  ? ' bg-orange-100'
                   : errand.status === 'active'
-                  ? 'text-[#115A38]'
+                  ? ' bg-[#ADF0D1]'
                   : errand.status === 'completed'
-                  ? 'text-blue-700'
+                  ? ' bg-blue-100'
                   : errand.status === 'cancelled'
-                  ? 'text-red-700'
-                  : ' text-[#642B02]'
+                  ? ' bg-red-100'
+                  : 'bg-[#FEE1CD]'
               }`}
             >
-              {errand.status}
-            </Text>
-          </View>
+              <Text
+                className={`text-center text-sm capitalize py-1 font-medium ${
+                  errand.status === 'pending'
+                    ? 'text-orange-600'
+                    : errand.status === 'active'
+                    ? 'text-[#115A38]'
+                    : errand.status === 'completed'
+                    ? 'text-blue-700'
+                    : errand.status === 'cancelled'
+                    ? 'text-red-700'
+                    : ' text-[#642B02]'
+                }`}
+              >
+                {errand.status}
+              </Text>
+            </View>
 
-          <View className="bg-[#3F60AC] rounded-md px-1">
-            <Text className="text-white p-1 text-center">
-              {errand?.total_bids}
-            </Text>
+            <View className="bg-[#3F60AC] rounded-md px-1">
+              <Text className="text-white p-1 text-center">
+                {errand?.total_bids}
+              </Text>
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   )

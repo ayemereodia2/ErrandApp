@@ -4,6 +4,7 @@ import React from 'react'
 import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
 // import AsyncStorage from '@react-native-community/async-storage'
 import FontAwesome from 'react-native-vector-icons/Ionicons'
+import {Restart} from 'fiction-expo-restart';
 // import RNRestart from 'react-native-restart'
 // some stylesheet
 // import { styles } from './styles'
@@ -81,7 +82,7 @@ export class ErrorBoundary extends React.Component<any, any> {
             <View className="flex-row justify-center items-center px-4">
               <TouchableOpacity
                 className="bg-[#1E3A79] h-12 w-full mx-4 mt-6 flex-row justify-center items-center rounded-lg"
-                onPress={() => this.handleRedirect()}
+                onPress={() => Restart()}
               >
                 <Text className="text-white text-base">Reload</Text>
               </TouchableOpacity>

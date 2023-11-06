@@ -189,6 +189,27 @@ const ErrandUserDetails = ({ navigation, route }: any) => {
                     }}
                   />
                 )}
+              {errand.user_id === userId &&
+                errand?.status === 'active' && (
+                  <MenuOption
+                    onSelect={() =>
+                      navigation.navigate(
+                        'CancelErrandModal',
+                        errand,
+                        userId,
+                        singleSubErrand,
+                      )
+                    }
+                    text="Cancel Errand"
+                    customStyles={{
+                      optionWrapper: {
+                        borderBottomWidth: 1,
+                        borderBottomColor: '#AAAAAA',
+                      },
+                      optionText: { textAlign: 'center', fontWeight: '600' },
+                    }}
+                  />
+                )}
             </MenuOptions>
           </Menu>
         </View>

@@ -97,8 +97,6 @@ const WalletScreen = ({ navigation }: any) => {
     (state: RootState) => state.walletActionReducer,
   )
 
-
-
   const renderBackdrop = useCallback(
     (props) => (
       <BottomSheetBackdrop
@@ -214,19 +212,25 @@ const WalletScreen = ({ navigation }: any) => {
             style={{ backgroundColor: backgroundTheme }}
             showsVerticalScrollIndicator={false}
           >
-             <View className={Platform.OS === 'android' ? "flex-row items-center justify-between mt-6" : "flex-row items-center justify-between"}>
+            <View
+              className={
+                Platform.OS === 'android'
+                  ? 'flex-row items-center justify-between mt-6'
+                  : 'flex-row items-center justify-between'
+              }
+            >
               <TouchableOpacity
                 onPress={() => navigation.navigate('Profile')}
                 style={{ marginLeft: 20 }}
                 className="flex-row items-center justify-between my-3"
               >
                 <ProfileInitials
-                  firstName={firstName.charAt(0).toUpperCase()}
-                  lastName={lastName.charAt(0).toUpperCase()}
-                  profile_pic={profilePic}
+                  firstName={currentUser?.first_name.charAt(0).toUpperCase()}
+                  lastName={currentUser?.last_name.charAt(0).toUpperCase()}
+                  profile_pic={currentUser?.profile_picture}
                   textClass="text-white text-base"
-                  width={35}
-                  height={35}
+                  width={30}
+                  height={30}
                 />
               </TouchableOpacity>
 
