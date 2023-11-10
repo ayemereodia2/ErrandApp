@@ -69,7 +69,7 @@ export default function SecurityQuestion() {
       const _rs = await _fetch({
         _url: 'security-question',
         method: 'POST',
-        body: JSON.stringify(newData),
+        body: newData,
       })
       const rs = await _rs.json()
 

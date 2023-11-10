@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux'
 import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { RootState, useAppDispatch } from '../../services/store'
+import { FontAwesome } from '@expo/vector-icons'
 
 const UpdateProfile = ({ image, data }: any) => {
   const {
@@ -41,31 +42,41 @@ const UpdateProfile = ({ image, data }: any) => {
   const [email, setEmail] = useState(data?.email)
   const [date, setDate] = useState(new Date())
   const [showPicker, setShowPicker] = useState(false)
-  const [dateOfBirth, setDateOfBirth] = useState(data?.dob)
+  const [dateOfBirth, setDateOfBirth] = useState(new Date(data?.dob))
   const [occupation, setOccupation] = useState(data?.occupation)
+
+  const [showDatePicker, setShowDatePicker] = useState(false)
+  const [myDate, setMytDate] = useState(new Date(data?.dob))
+
 
   const toggleDatepicker = () => {
     setShowPicker(!showPicker)
   }
 
-  const onChange = ({ type }: any, selectedDate: any) => {
-    if (type == 'set') {
-      const currentDate = selectedDate
-      setDate(currentDate)
+  // const onChange = ({ type }: any, selectedDate: any) => {
+  //   if (type == 'set') {
+  //     const currentDate = selectedDate
+  //     setDate(currentDate)
 
-      if (Platform.OS === 'android') {
-        toggleDatepicker()
-        setDateOfBirth(currentDate.toDateString())
-      }
-    } else {
-      toggleDatepicker()
-    }
-  }
+  //     if (Platform.OS === 'android') {
+  //       toggleDatepicker()
+  //       setDateOfBirth(currentDate.toDateString())
+  //     }
+  //   } else {
+  //     toggleDatepicker()
+  //   }
+  // }
 
-  const confirmIOSDate = () => {
-    setDateOfBirth(date.toDateString())
-    toggleDatepicker()
-  }
+  // const confirmIOSDate = () => {
+  //   setDateOfBirth(date.toDateString())
+  //   toggleDatepicker()
+  // }
+
+ const onDateChange = (event, selectedDate) => {
+  const currentDate = selectedDate || dateOfBirth;
+  setShowDatePicker(false);
+  setDateOfBirth(currentDate);
+};
 
   const updateUserProfile = async (userData: any) => {
     setLoading(true)
@@ -215,7 +226,7 @@ const UpdateProfile = ({ image, data }: any) => {
             />
           </View>
 
-          <View className="mt-8">
+          {/* <View className="mt-8">
             <Text
               className="font-medium text-lg text-[#1E3A79]"
               style={{ color: textTheme }}
@@ -261,7 +272,46 @@ const UpdateProfile = ({ image, data }: any) => {
                 />
               </Pressable>
             )}
+          </View> */}
+
+    <View className="h-24 mt-8">
+           
+              {/* <FontAwesome
+                className="mr-2"
+                name="calendar"
+                size={20}
+                color={textTheme}
+              /> */}
+               <Text
+              className="font-medium text-lg text-[#1E3A79]"
+              style={{ color: textTheme }}
+            >
+              Date Of Birth
+            </Text>
+           
+            <View className="mt-2">
+
+            <Pressable
+              onPress={() => setShowDatePicker(true)}
+              className="text-center flex-row items-center space-x-1 "
+            >
+              <View className='w-full bg-[#E6E6E6] rounded-md h-[60px] pl-3  py-4'>
+              <Text style={{color: textTheme}}> {dateOfBirth.toString().slice(0, 15)}</Text>
+              </View>
+              
+               </Pressable>
+              {showDatePicker && (
+                <DateTimePicker
+                  value={myDate}
+                  mode="date"
+                  display="default"
+                  onChange={onDateChange}
+                />
+              )}
+            </View>
           </View>
+
+
 
           <TouchableOpacity
             className=" mt-[52px] mb-[180px] rounded-lg"

@@ -7,6 +7,7 @@ import { RootState } from '../../services/store'
 
 const EscrowDetails = (escrows: EscrowBreakDown) => {
 
+  const regex = /(<([^>]+)>)/gi
 
   const date = format(new Date(escrows.created_at), 'd MMMM')
    const {
@@ -22,9 +23,9 @@ const EscrowDetails = (escrows: EscrowBreakDown) => {
             <Text className="text-base font-medium w-56" style={{color: textTheme}}>
               {escrows.description.length > 50 ? 
               
-              ( <Text>{escrows.description.slice(0, 50)}...</Text> )
+              ( <Text>{escrows.description.replace(regex, '').slice(0, 50)}...</Text> )
               :
-              ( <Text>{escrows.description}</Text> )
+              ( <Text>{escrows.description.replace(regex, '')}</Text> )
               }
             </Text>
           </View>

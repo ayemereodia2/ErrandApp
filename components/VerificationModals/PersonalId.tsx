@@ -2,6 +2,7 @@ import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
 import React, { useState } from 'react'
 import {
   ActivityIndicator,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -167,7 +168,9 @@ const PersonalId = ({closePersonalId}:any) => {
 
 
   return (
-    <View className="py-4 pb-10">
+    <SafeAreaView>
+     <ScrollView showsHorizontalScrollIndicator={false}>
+
      
 
       <Text className="text-lg text-center font-semibold">Personal Identification</Text>
@@ -244,7 +247,8 @@ const PersonalId = ({closePersonalId}:any) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+      </ScrollView>
+      </SafeAreaView>
   )
 }
 

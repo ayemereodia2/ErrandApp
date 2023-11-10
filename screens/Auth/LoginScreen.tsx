@@ -119,7 +119,7 @@ export default function LoginScreen() {
 
                 <Text
                     onPress={() => {
-                      navigation.navigate('RecoverPassword')
+                      navigation.navigate('PhonePassword')
                     }}
                     className="font-bold text-[#243763] ml-64 mb-2"
                   >
