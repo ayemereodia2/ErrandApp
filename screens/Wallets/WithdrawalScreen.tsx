@@ -96,12 +96,18 @@ const WithdrawalScreen = ({ toggleWithdrawaltModal }: WithdrawalProps) => {
   }, [])
 
   const togglePinModal = () => {
-    if (amount === '' || selectedAccount === '') return
-    openPinModal()
+    if (amount !== '' || selectedAccount !== ''){
+      openPinModal()
+    } else{
+      null
+    }
+    
   }
 
   const makeWithdrawalHandler = async () => {
-    if (amount === '' || selectedAccount === '') return
+    if (amount !== '' || selectedAccount !== ''){
+
+    
 
     setLoading(true)
     try {
@@ -141,15 +147,17 @@ const WithdrawalScreen = ({ toggleWithdrawaltModal }: WithdrawalProps) => {
     } finally {
       setLoading(false)
     }
+
+  }
   }
 
   return (
     <SafeAreaView
-      className="w-full h-full"
+      className="w-full h-screen"
       style={{ backgroundColor: backgroundTheme }}
     >
       <ScrollView className="mx-4 mt-2">
-        <Text style={{ color: textTheme }} className="text-base">
+        <Text style={{ color: textTheme }} className="text-base font-bold">
           Make Withdrawal
         </Text>
 
@@ -237,7 +245,7 @@ const WithdrawalScreen = ({ toggleWithdrawaltModal }: WithdrawalProps) => {
               })}
             </View>
             <TouchableOpacity
-              onPress={() => togglePinModal()}
+              onPress={togglePinModal}
               className="bg-[#1E3A79] w-[210px] h-14 items-center justify-center rounded-md mx-auto mt-4"
             >
               <Text className="text-white text-center font-medium">

@@ -29,8 +29,8 @@ const UserVerification = ({ data }: any) => {
   const bottomSheetRef2 = useRef<BottomSheetModal>(null)
   const bottomSheetRef3 = useRef<BottomSheetModal>(null)
 
-  const snapPoints = useMemo(() => ['60%'], [])
-  const snapPoints1 = useMemo(() => ['80%'], [])
+  const snapPoints = useMemo(() => ['76%'], [])
+  const snapPoints1 = useMemo(() => ['88%'], [])
   const snapPoints2 = useMemo(() => ['90%'], [])
   const snapPoints3 = useMemo(() => ['77%'], [])
 
@@ -92,7 +92,7 @@ const UserVerification = ({ data }: any) => {
 
   return (
     <BottomSheetModalProvider>
-      <SafeAreaView className="mt-6">
+      <SafeAreaView className="mt-6 h-screen">
         <ScrollView>
           <View className="flex-row justify-between items-center mx-4">
             <View className="w-10 h-10 border border-[#3F60AC] items-center justify-center rounded-md">

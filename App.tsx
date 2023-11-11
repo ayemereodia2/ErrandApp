@@ -53,7 +53,8 @@ export default function App({ navigation }: any) {
       .then((rs) => rs.json())
       .then((rs) => {
         const versionCode = Application.nativeBuildVersion
-        if (versionCode === '39') {
+
+        if (versionCode === '40') {
           navigateToScreen('UpdateApp')
         }
       })

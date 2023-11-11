@@ -129,7 +129,8 @@
     "toggle-switch-react-native": "^3.3.0",
     "updates": "^15.0.2",
     "validator": "^13.11.0",
-    "yup": "^1.2.0"
+    "yup": "^1.2.0",
+    "expo-dev-client": "~2.4.11"
   },
   "resolutions": {
     "react-native-web": "0.18.7",

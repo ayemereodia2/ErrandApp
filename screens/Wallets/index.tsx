@@ -355,11 +355,15 @@ const WalletScreen = ({ navigation }: any) => {
                   style={{ flex: 1, justifyContent: 'center' }}
                 >
                   <View
-                    className="w-full bg-[#FFF] border mt-3 border-[#DAE1F1] rounded-xl p-6 mx-auto z-1 "
+                    className="w-full  border mt-3 border-[#DAE1F1] rounded-xl mx-auto z-1 "
                     style={{
                       backgroundColor: theme ? backgroundTheme : 'white',
                     }}
                   >
+                     <ImageBackground source={require('../../assets/images/wallet3.png')}
+                className=' bg-[#FFF] p-6 rounded-xl'
+                 resizeMode='repeat'>
+
                     <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
                       <Text>
                         <FontAwesome name="bank" size={24} color="#C85604" />
@@ -400,12 +404,18 @@ const WalletScreen = ({ navigation }: any) => {
                         + <Text>Fund Wallet</Text>
                       </Text>
                     </TouchableOpacity>
+                    </ImageBackground>
                   </View>
                 </ImageBackground>
               </View>
             </View>
+
+
             <View className="px-4">
-              <View className=" bg-[#3F60AC] border mt-4 border-[#DAE1F1] rounded-xl p-6">
+              <View className="">
+                <ImageBackground source={ require('../../assets/images/wallet2.png')}
+                className='bg-[#3F60AC] border mt-4 border-[#DAE1F1]  py-12 px-8 rounded-xl'
+                 resizeMode='repeat'>
                 <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
                   <Text>
                     <FontAwesome name="bank" size={24} color="#C85604" />
@@ -421,26 +431,35 @@ const WalletScreen = ({ navigation }: any) => {
                     ? '0.00'
                     : (Number(data?.escrow) / 100).toLocaleString()}
                 </Text>
+                </ImageBackground>
               </View>
 
-              <View className="bg-[#FFB536] border mt-4 border-[#DAE1F1] rounded-xl p-6">
+
+              <View className=" ">
+                
+                <ImageBackground source={require('../../assets/images/wallet1.png')}
+                  className=' bg-black border mt-4 border-[#DAE1F1] rounded-xl  py-12 px-8'
+                   resizeMode='repeat'>
                 <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
                   <Text>
                     <FontAwesome name="bank" size={24} color="#C85604" />
                   </Text>
                 </View>
 
-                <Text className="mt-6 text-black text-base font-medium leading-[24px]">
+                <Text className="mt-6 text-white text-base font-medium leading-[24px]">
                   Incoming Funds
                 </Text>
-                <Text className="font-bold text-black text-[32px] mt-2">
+                <Text className="font-bold text-white text-[32px] mt-2">
                   ₦
                   {Number(data?.incoming) === 0
                     ? '0.00'
                     : (Number(data?.incoming) / 100).toLocaleString()}
                 </Text>
+                </ImageBackground>
               </View>
+                  
             </View>
+            
 
             <View className="mt-[64px] mb-8 flex-row justify-between items-center mx-4">
               <Text

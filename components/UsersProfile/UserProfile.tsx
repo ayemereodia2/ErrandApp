@@ -79,7 +79,7 @@ const UserProfile = () => {
           style={{ color: textTheme }}
           className=" ml-4 leading-6 font-light  pb-6"
         >
-          {data?.dob}
+          {data?.dob.slice(0, 10)}
         </Text>
       </View>
 

@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
 import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
+import Toast from 'react-native-toast-message'
 
 type SelectedCategories = {
   [categoryId: string]: boolean
@@ -96,21 +97,25 @@ const CategoryInterest = ({ navigation }: any) => {
       const _rs = await _fetch({
         method: 'PATCH',
         _url: `/user/category-interest`,
-        body: categoryInterestData, // Send selected category IDs as JSON data
+        body: categoryInterestData // Send selected category IDs as JSON data
       })
 
-      const rs = await _rs.json()
+     
 
-      console.log(">>>>>>res from patch", rs);
+      // console.log(">>>>>>res from patch", JSON.stringify(_rs));
       
 
-      if (rs.success === true) {
+      if (_rs.ok) {
         const responseData = await _rs.json()
         await _fetch({
           method: 'GET',
           _url: `/user/category-interest`,
         })
-        console.log(responseData)
+        console.log(responseData.message)
+        Toast.show({
+           type: 'success',
+              text1: 'Add to category was successful',
+            }),
         navigation.navigate('Settings')
       } else {
         // Handle error
@@ -160,7 +165,7 @@ const CategoryInterest = ({ navigation }: any) => {
           <View>
             {categories.map((category) => {
               return (
-                <View className="flex-row py-3 space-x-3">
+                <View className="flex-row py-3 space-x-3" key={category.id}>
                   <Checkbox
                     // style={styles.checkbox}
                     // value={false}

@@ -40,6 +40,9 @@ import TransactionScreen from '../screens/Wallets/TransactionScreen'
 import WalletAccount from '../screens/Wallets/WalletAccount'
 import { TabsNavigation } from './TabsNavigation'
 import ForgotPassword from '../screens/Auth/ForgotPassword'
+import PhonePassword from '../screens/Auth/PhonePassword'
+import PasswordOtp from '../screens/Auth/PasswordOtp'
+import PasswordQuestions from '../screens/Auth/PasswordQuestions'
 import UpdateAppScreen from '../screens/UpdateAppScreen'
 
 const Stack = createNativeStackNavigator()
@@ -89,6 +92,9 @@ export const TabStack = () => {
       <Stack.Screen name="SecurityQuestions" component={SecurityQuestion} />
       <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
       <Stack.Screen name="RecoverPassword" component={ForgotPassword} />
+      <Stack.Screen name="PhonePassword" component={PhonePassword} />
+      <Stack.Screen name="PasswordOtp" component={PasswordOtp} />
+      <Stack.Screen name="PasswordQuestions" component={PasswordQuestions} />
       <Stack.Screen name="RecoverAccount" component={AccountRecoveryScreen} />
       <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
       <Stack.Screen
@@ -308,6 +314,10 @@ export function GuestStack() {
           name="RecoverPassword"
           component={ForgotPassword}
         />
+         <Stack.Screen name="PhonePassword" component={PhonePassword} />
+         <Stack.Screen name="PasswordOtp" component={PasswordOtp} />
+         <Stack.Screen name="PasswordQuestions" component={PasswordQuestions} />
+
         <Stack.Screen
           name="EditProfile"
           component={EditProfileTitle}
@@ -487,7 +497,7 @@ export const MainStack = () => {
         options={{ headerShown: false }}
       />
 
-      {/* <Stack.Screen
+      <Stack.Screen
         options={{ headerShown: false }}
         name="ErrandDetails"
         component={ErrandDetails}
@@ -515,6 +525,9 @@ export const MainStack = () => {
       <Stack.Screen name="SecurityQuestions" component={SecurityQuestion} />
       <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
       <Stack.Screen name="RecoverPassword" component={ForgotPassword} />
+      <Stack.Screen name="PhonePassword" component={PhonePassword} />
+      <Stack.Screen name="PasswordOtp" component={PasswordOtp} />
+      <Stack.Screen name="PasswordQuestions" component={PasswordQuestions} />
       <Stack.Screen name="RecoverAccount" component={AccountRecoveryScreen} />
       <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
       <Stack.Screen
@@ -656,7 +669,7 @@ export const MainStack = () => {
         component={EscrowScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="Tabs" component={TabsNavigation} /> */}
+      <Stack.Screen name="Tabs" component={TabsNavigation} />
     </Stack.Navigator>
   )
 }

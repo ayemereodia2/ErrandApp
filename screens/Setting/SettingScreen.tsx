@@ -32,6 +32,7 @@ import { notificationPreferences } from '../../services/notification/preferences
 import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
 import { RootState, useAppDispatch } from '../../services/store'
 import { getUserId } from '../../utils/helper'
+import SettingsCategory from '../../components/SettingTestFolder/SettingsCategory'
 
 const SettingScreen = ({ navigation }: any) => {
   const [firstName, setFirstName] = useState('')
@@ -273,7 +274,7 @@ const SettingScreen = ({ navigation }: any) => {
 
               <SettingsTest openVerifyModal={openVerifyModal} />
 
-              {/* <SettingsCategory navigation={navigation} interests={interests} /> */}
+              <SettingsCategory navigation={navigation} interests={interests} />
 
               <View className="mt-8 ml-4">
                 <Text

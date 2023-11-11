@@ -320,6 +320,24 @@ const LandingTest = ({ navigation }: any) => {
                         </>
                       ))
                     : null}
+                     <View className="flex-row mt-3 " >
+                            <TouchableOpacity
+                              className="border-[#aaa] border px-4 py-1 rounded-xl mr-2 bg-white"
+                              style={{
+                                backgroundColor: theme ? '#1E3A79' : 'white',
+                              }}
+                              onPress={() => {
+                               
+                                navigation.navigate('CreateErrand')
+                              }}
+                              
+                            >
+                              <Text
+                                className="text-base"
+                                style={{ color: textTheme }}
+                              >More...</Text>
+                            </TouchableOpacity>
+                          </View>
                 </View>
               </View>
 
@@ -331,7 +349,7 @@ const LandingTest = ({ navigation }: any) => {
                   Urgent Errands
                 </Text>
 
-                <ScrollView horizontal showHorizontalIndicator={false}>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                   <LandingDetails
                     data={marketData}
                     isLoading={loadingMarket}
