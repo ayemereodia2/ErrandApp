@@ -1,11 +1,11 @@
-import { AntDesign } from '@expo/vector-icons'
-import React, { useEffect, useState } from 'react'
-import { Image } from 'react-native'
-import {Restart} from 'fiction-expo-restart';
+import { AntDesign } from '@expo/vector-icons';
+import { Restart } from 'fiction-expo-restart';
+import React, { useEffect, useState } from 'react';
+import { Image } from 'react-native';
 
 
-import { Asset } from 'expo-asset'
-import * as SplashScreen from 'expo-splash-screen'
+import { Asset } from 'expo-asset';
+import * as SplashScreen from 'expo-splash-screen';
 import {
   ActivityIndicator,
   ImageBackground,
@@ -13,10 +13,9 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
-  View,
-} from 'react-native'
-import Swiper from 'react-native-swiper'
-import { _fetch } from '../../services/axios/http'
+  View
+} from 'react-native';
+import Swiper from 'react-native-swiper';
 
 type Props = {
   navigation: any

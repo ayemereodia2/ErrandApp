@@ -22,6 +22,7 @@ import { useIsConnected } from 'react-native-offline'
 import { useSelector } from 'react-redux'
 
 import { ProfileInitials } from '../components/ProfileInitials'
+import { pushOut } from '../services/axios/http'
 import { RootState, useAppDispatch } from '../services/store'
 import { getUserId } from '../utils/helper'
 import {
@@ -134,7 +135,7 @@ export const TabsNavigation = ({ navigation }: any) => {
   const routeName = getFocusedRouteNameFromRoute(route)
 
   useEffect(() => {
-    // dispatch(market({}))
+    pushOut({ navigation })
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
   }, [isConnected])
 

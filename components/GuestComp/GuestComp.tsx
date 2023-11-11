@@ -107,7 +107,7 @@ export default function GuestComp({ errand, navigate }: Item) {
                 user_id: errand?.user_id,
               })
               dispatch(errandDetails({ errandId: errand?.id, navigation }))
-              dispatch(externalUserDetails({ user_id: errand?.user_id }))
+              // dispatch(externalUserDetails({ user_id: errand?.user_id }))
             }}
           >
             <View>
@@ -152,7 +152,7 @@ export default function GuestComp({ errand, navigate }: Item) {
             user_id: errand?.user_id,
           })
           dispatch(errandDetails({ errandId: errand?.id, navigation }))
-          dispatch(externalUserDetails({ user_id: errand?.user_id }))
+          // dispatch(externalUserDetails({ user_id: errand?.user_id }))
         }}
       >
         <Text className="text-[16px] font-medium py-4 pt-4 text-[#000000] w-[300px]">

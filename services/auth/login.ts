@@ -19,7 +19,7 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
 
     const _rs = await rs.json()
 
-    console.log(">>>>Login res", _rs);
+    // console.log(">>>>Login res", _rs);
   
     if (_rs.success === true) {
       await AsyncStorage.setItem('accessToken', _rs.data.access_token)

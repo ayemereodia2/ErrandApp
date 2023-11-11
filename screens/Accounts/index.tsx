@@ -1,5 +1,7 @@
 import { AntDesign, Feather, MaterialIcons } from '@expo/vector-icons'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { router } from 'expo-router';
+
 import {
   ActivityIndicator,
   Image,

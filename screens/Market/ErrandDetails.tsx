@@ -391,7 +391,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                       </View>
                     </View>
 
-                    <View>
+                    {/* <View>
                       <Text
                         style={{ color: textTheme }}
                         className="pr-6 mt-8 font-bold text-base text-[#555555]"
@@ -442,7 +442,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                                         size={16}
                                         color="#FBB955"
                                       />{' '}
-                                      ({/* {sender.errands_completed} */}1
+                                      ({sender.errands_completed}1
                                       Errands Completed)
                                     </Text>
                                   </Text>
@@ -469,7 +469,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                           </View>
                         )
                       })}
-                    </View>
+                    </View> */}
                   </View>
                 )}
               </View>

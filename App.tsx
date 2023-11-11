@@ -21,12 +21,13 @@ import { StatusBar, useColorScheme } from 'react-native'
 import ErrorBoundary from './components/ErrorBoundary'
 // import useColorScheme from './hooks/useColorScheme'
 import messaging from '@react-native-firebase/messaging'
+import * as Application from 'expo-application'
 import { Asset } from 'expo-asset'
 import * as Notifications from 'expo-notifications'
 import * as SplashScreen from 'expo-splash-screen'
 import { useOnlineManager } from './hooks/useOnlineManager'
 import MainNavigation from './navigation/MainNavigation'
-import { GuestStack, navigationRef } from './navigation/StackNavigation'
+import { GuestStack, navigateToScreen, navigationRef } from './navigation/StackNavigation'
 import { store } from './services/store'
 
 const queryClient = new QueryClient()
@@ -41,12 +42,26 @@ function cacheImages(images: any) {
   })
 }
 
-export default function App({navigation}: any) {
+export default function App({ navigation }: any) {
   const [appIsReady, setAppIsReady] = useState(false)
-  // const navigation = useNavigation()
 
   const [isGuest, setIsGuest] = useState<any>()
   const colorScheme = useColorScheme()
+
+  const getAppVersion = async () => {
+    await fetch(`https://staging.apis.swave.ng/mobileversion`)
+      .then((rs) => rs.json())
+      .then((rs) => {
+        const versionCode = Application.nativeBuildVersion
+        if (versionCode === '39') {
+          navigateToScreen('UpdateApp')
+        }
+      })
+
+    // const rs = await _v.json()
+
+    // console.log('>>>>>>>>v', await _v.json())
+  }
 
   useOnlineManager()
 
@@ -64,7 +79,7 @@ export default function App({navigation}: any) {
     if (requestUserPermission()) {
       messaging()
         .getToken()
-        .then((token) => console.log(">>>>>>>>tyokrn", token))
+        .then((token) => {})
     } else {
       console.log('failed token state')
     }
@@ -160,6 +175,7 @@ export default function App({navigation}: any) {
   }, [])
 
   useEffect(() => {
+    getAppVersion()
     // check if user is authenticated
     checkAuthenticationStatus()
     // checks network availability
@@ -203,7 +219,7 @@ export default function App({navigation}: any) {
   }, [])
 
   const checkAuthenticationStatus = async () => {
-    await AsyncStorage.clear()
+    // await AsyncStorage.clear()
 
     try {
       const isGuest = await AsyncStorage.getItem('isGuest')

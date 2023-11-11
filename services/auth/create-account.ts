@@ -29,15 +29,15 @@ export const createAccount = createAsyncThunk("/user/createAccount", async ({nav
         text1: rs.message,
       });
        dispatch(currentUserDetails({user_id: rs.data.id}))
-      navigation.navigate("SecurityQuestions")
+       navigation.navigate('Tabs')
+      
     }
     if (rs.success === false) {
         Toast.show({
           type: 'error',
           text1: rs.message,
         });
-      // navigation.navigate("SecurityQuestions")
-      
+    
         return rejectWithValue(rs.message)
       }
 

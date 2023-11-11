@@ -15,7 +15,12 @@ export const errandDetails = createAsyncThunk<SingleErrandDetail, DetailProps, {
                 method: "GET",
                 _url: `/errand/${errandId}`,
             })
+          
+          // const _rs = await fetch(`https://apis.swave.ng/v1/errand/${errandId}`)
           const rs = await _rs.json()
+
+          console.log(">>>>>rs guest", rs);
+          
 
             if (rs.success === true) {
                 return rs

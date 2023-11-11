@@ -40,12 +40,13 @@ import TransactionScreen from '../screens/Wallets/TransactionScreen'
 import WalletAccount from '../screens/Wallets/WalletAccount'
 import { TabsNavigation } from './TabsNavigation'
 import ForgotPassword from '../screens/Auth/ForgotPassword'
+import UpdateAppScreen from '../screens/UpdateAppScreen'
 
 const Stack = createNativeStackNavigator()
 
 export const navigationRef = createNavigationContainerRef()
 
-export function navigateToScreen(name: any) {
+export  function navigateToScreen(name: any) {
   if (navigationRef.isReady()) {
     navigationRef.navigate(name);
   }
@@ -480,9 +481,13 @@ export const MainStack = () => {
         options={{ headerShown: false }}
       />
 
-      {/* <Stack.Screen name="MyErrands" component={ErrandScreen} /> */}
-
       <Stack.Screen
+        name="UpdateApp"
+        component={UpdateAppScreen}
+        options={{ headerShown: false }}
+      />
+
+      {/* <Stack.Screen
         options={{ headerShown: false }}
         name="ErrandDetails"
         component={ErrandDetails}
@@ -537,12 +542,6 @@ export const MainStack = () => {
       />
 
       <Stack.Screen name="LandingForm" component={LandingForm} />
-
-      {/* <Stack.Screen
-        name="LandingForm"
-        component={LandingForm}
-        options={{ headerShown: false }}
-      /> */}
 
       <Stack.Screen
         name="FundWalletModal"
@@ -657,7 +656,7 @@ export const MainStack = () => {
         component={EscrowScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="Tabs" component={TabsNavigation} />
+      <Stack.Screen name="Tabs" component={TabsNavigation} /> */}
     </Stack.Navigator>
   )
 }

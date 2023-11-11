@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-import * as RootNavigation from '../../navigation/StackNavigation';
+import { navigationHook } from "../../utils/helper";
 
 interface FetchProps {
   method: string
@@ -26,29 +25,42 @@ const {fetch: originalFetch} = window;
 
 
 // an interceptor handler to check if token has expires
-window.fetch = async (...args) => {
-  let [resource, config] = args;
-  let response = await originalFetch(resource, config);
 
-  if (!response.ok && response.status === 404) {
-    // 404 error handling
-    return Promise.reject(response);
-  }
+export const pushOut = ({navigation}: any) => {
+  window.fetch = async (...args) => {
+    let [resource, config] = args;
+    let response = await originalFetch(resource, config);
 
-  if (response.status === 401) {
-      RootNavigation.navigateToScreen('Default')
-      clearStorage()
-  }
-  return response;
-};
+    if (!response.ok && response.status === 404) {
+      // 404 error handling
+      return Promise.reject(response);
+    }
+
+    // console.log(">>>>>401", respins);
+    
+
+    if (response.status === 401) {
+        // RootNavigation.navigateToScreen('Default')
+      navigation.navigate('Default')
+      console.log(">>>>>>>>hello")
+        // navigationHook()
+        clearStorage()
+    }
+    return response;
+  };
+}
+
 
 
 export async function _fetch({ _url, body, method }: FetchProps) {
   
-  const url = `${process.env.EXPO_PUBLIC_API_URL}${_url}` 
-  // const url = `https://apis.swave.ng/v1${_url}`
+  // const url = `${process.env.EXPO_PUBLIC_API_URL}${_url}` 
+  const url = `https://staging.apis.swave.ng/v1${_url}`
   
   const token = await AsyncStorage.getItem('accessToken');
+
+  console.log(">>>>>token", token);
+  
 
   let options
 

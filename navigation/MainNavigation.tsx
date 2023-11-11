@@ -37,8 +37,6 @@ const MainNavigation = () => {
       const isAuthenticated = await AsyncStorage.getItem('accessToken')
       const isGuest = await AsyncStorage.getItem('isGuest')
 
-      console.log('>>>>>>kkkk>', isAuthenticated)
-
       setIsGuest(isGuest)
 
       if (isAuthenticated) {
@@ -65,16 +63,6 @@ const MainNavigation = () => {
 
   return (
     <>
-      {/* {isGuest === null ? (
-        <GuestStack />
-      ) : !isAuthenticated ? (
-        <MainStack />
-      ) : isAuthenticated ? (
-        <TabStack />
-      ) : (
-        ''
-      )} */}
-
       {!isAuthenticated ? <MainStack /> : <TabStack />}
 
       {/* {!isAuthenticated ? <MainStack/> : ''} */}

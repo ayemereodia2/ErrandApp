@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "swave-android",
+  "private_key_id": "84adc37dc8e195407bc64e22217e95126bef42ba",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDhH6+DcRALmA4O\niLUjxZbxSXSBG8X+e0gplFHi9Q86lFWXSIPvmopWhYyu8o5BD9v0wIZr1VThQHAK\nB6D/H9H+UjT8Ka4nnDWEuRTDXXS7uto4hDoF4Ls6aDsWOEAVY4VQQrcxUcZ3OdKm\nHY+skRA38PPng0pZ9bWfMoUgRcxvoHgMn25WNrTOzpc+KqPDv4FQKUK6+T7pG1dW\njoe3STvTrNj+brIoUsjMrlzp9HwNm7lst4BgrmNKbwDelwRzefnE5fjvlG0z56YS\nwySTx47xR3lvcl7LqGYZ/1LUAgFNjuAxf6ScOwswO1oUzEEpJS3jyQ+He8LLkGd4\n9+/thv2pAgMBAAECggEAGx1bYOv9wD+8tbBujNPwJbiwsRo8wzVrECL+p+TXRDl4\ng6OmzHWjIt+r/ahWTOzRk82agyNrOUQvGm4nzIKzIrwZCKQmhzvP0GAQaaV4eWH8\nhaEbcfjK5DKIp1j4EvttI6kdcnHEgziyL/LQirrgJrS9U82i52nqSbXmhegSQwFp\nj3Q9Mo9QkxPPIZkYkL8/ogq2w98ep+XxB5yMVZ4Sqt5nFA51qq6obIcrPQsfVoqc\nsjJlze31zE5Q/OqP7kMRR5rJoj/RXIN56fj3YIuXcufQoIfVdN+ZORcJY4UiwBBW\nYLpDu2B3Rd1wUe52v2ZSt/eb4a4Bay+WA6SMF/LWmQKBgQDxuIoFdVMnzn/wOyHs\nUxH3oo7APfBsyGwVzQqSx2dzRPbcRwyRo8Ry7LoiwfKz2uOY3X6cCTn9NfQvR3iE\n1OZDJLFoB6z6jQp8w740d0p66m3pUxiYyr8xnaXxH6OxG6MHZ6lP8r3tG5TbuS6G\nKHCAxnG4Q12lLfw0Vh2DisgrnQKBgQDubCeM4l020TyABAQOq6Ds/a64kMoEDkbD\nZGUROnY23Bc8SK0iaRNmQ1aNNQRALI8Plm9tB+QaPvYt9u/mKHoTIbxNJ54qLB1x\nhQWj3SaAeoZ86olqhelppscVLhV+xthTJru87PC7WQJ2yg2hYteJWWTm+l8bED2/\nFoLNJV7afQKBgQDjjOSptMQeYiBAh3os3hq481fNE8IEtjxB3a9Jc9woQFDgFyZ2\n6CNkSQQE+m2+8J13Z3Pr8ieb/jGsXGzRJxbJOH6lvywRBbtMrnydKXt88Lmdf7NV\nCvAoBg+USUOw06KKswRJletDjcZ5ff+VHfai0610WD6M5BhbMIJCNeCwZQKBgQDS\nCffBtn2V2DirMl58qhhID6hHsk41ynnuklgzGESiSbwygHf+E4Fimrn6BhWrj1Ws\nzsN00vnRYVww3BU1trzsc9DWS6ubzWdW5XA1jpLnpokqLNhIPpaFW8aQ0xtep0BV\n6I6FflsJQP3ZtmDRpyjoOBebIEB+sA0ldWhf36czZQKBgEzHwlWgMNwbgp6Qi414\nYwoxIv3uSr9XPVrxI6uyHlTm3f/5a8SJSzaPNnLERs4nveRiLTJt7bAfrDSC+HRJ\nTHTO32BnzOLj65zRTk9j7/+7f0baCUoyBFuxjBURVva/d71/nq0rPnQVgRG/hlnK\nN1sXm6sQCLggKkjbThNI7w9T\n-----END PRIVATE KEY-----\n",
+  "client_email": "swave-android@swave-android.iam.gserviceaccount.com",
+  "client_id": "111884160628313981316",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/swave-android%40swave-android.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

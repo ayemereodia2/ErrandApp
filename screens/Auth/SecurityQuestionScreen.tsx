@@ -1,29 +1,28 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Picker } from '@react-native-picker/picker'
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   ActivityIndicator,
   Keyboard,
   SafeAreaView,
   Text,
+  TouchableWithoutFeedback,
   View,
-  TouchableWithoutFeedback
 } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import Toast from 'react-native-toast-message'
+import { useSelector } from 'react-redux'
 import Button from '../../components/Button'
 import InputField from '../../components/InputField'
 import { Logo } from '../../components/Logo'
-import { _fetch } from '../../services/axios/http'
+import { createAccount } from '../../services/auth/create-account'
+import { RootState, useAppDispatch } from '../../services/store'
 import { ISecurityQA } from '../../types'
 
 export default function SecurityQuestion() {
   const navigation = useNavigation()
+  const dispatch = useAppDispatch()
   const [question, setQuestion] = useState('')
-  const [loading, setLoading] = useState(false)
-
   const arr = [
     { text: "Mother's maiden name?", value: "mother's maiden name" },
     { text: 'Childhood hero?', value: 'childhood hero?' },
@@ -51,62 +50,21 @@ export default function SecurityQuestion() {
     // resolver: yupResolver(schema),
   })
 
+  const {loading} = useSelector((state: RootState) => state.createAccount )
+
   const submitQuestion = async (data: ISecurityQA) => {
-    setLoading(true)
-    const phone = (await AsyncStorage.getItem('phone')) || ''
     if (!question) {
       return
     }
-
-    const newData = {
+    const _questionData = {
       question,
       answer: data.answer,
     }
+    const userData = JSON.parse((await AsyncStorage.getItem('userData')) || '')
+    const newData = { ...userData, ..._questionData, dispatch, navigation }
 
-    console.log('phpne__', newData)
-
-    try {
-      const _rs = await _fetch({
-        _url: '/security-question',
-        method: 'POST',
-        body: newData,
-      })
-      const rs = await _rs.json()
-
-      if (rs.success === true) {
-        setLoading(false)
-        Toast.show({
-          type: 'success',
-          text1: rs.message,
-        })
-        navigation.navigate('Tabs')
-      }
-
-      if (rs.success === false) {
-        setLoading(false)
-        Toast.show({
-          type: 'error',
-          text1: rs.message,
-        })
-      }
-    } catch (e) {
-      setLoading(false)
-      Toast.show({
-        type: 'error',
-        text1: 'Sorry, something went wrong',
-      })
-      throw e
-    }
+    dispatch(createAccount(newData))
   }
-
-  const getPhone = async () => {
-    const token = (await AsyncStorage.getItem('token')) || ''
-    // setPhone_no(phone)
-  }
-
-  useEffect(() => {
-    getPhone()
-  }, [])
 
   return (
     <SafeAreaView>
@@ -119,51 +77,51 @@ export default function SecurityQuestion() {
             contentContainerStyle={{ flexGrow: 1 }}
             enableOnAndroid={true}
           > */}
-            <View className="text-[#333333] font-inter py-4 space-y-1">
-              <Text className="font-semibold text-lg text-center">Security Question</Text>
-              <Text className="text-sm text-center">
-                Enter your details for security questions
-              </Text>
+          <View className="text-[#333333] font-inter py-4 space-y-1">
+            <Text className="font-semibold text-lg text-center">
+              Security Question
+            </Text>
+            <Text className="text-sm text-center">
+              Enter your details for security questions
+            </Text>
 
-              <View className="pt-4 space-y-4">
-                <Text className='text-[#243763]'>Select Question</Text>
-                <Picker
-                  selectedValue={question}
-                  onValueChange={(itemValue, itemIndex) =>
-                    setQuestion(itemValue)
-                  }
-                  mode={'dialog'}
-                >
-                  {arr.map((question) => (
-                    <Picker.Item label={question.text} value={question.value} />
-                  ))}
-                </Picker>
+            <View className="pt-4 space-y-4">
+              <Text className="text-[#243763]">Select Question</Text>
+              <Picker
+                selectedValue={question}
+                onValueChange={(itemValue, itemIndex) => setQuestion(itemValue)}
+                mode={'dialog'}
+              >
+                {arr.map((question) => (
+                  <Picker.Item label={question.text} value={question.value} />
+                ))}
+              </Picker>
 
-                <InputField
-                  label="Answer"
-                  placeholder="Enter your answer"
-                  keyboardType="default"
-                  name="answer"
-                  control={control}
-                  required
-                  errors={errors.answer}
-                  message={errors?.answer?.message}
-                />
+              <InputField
+                label="Answer"
+                placeholder="Enter your answer"
+                keyboardType="default"
+                name="answer"
+                control={control}
+                required
+                errors={errors.answer}
+                message={errors?.answer?.message}
+              />
 
-                <Button
-                  style={{ marginTop: 20 }}
-                  className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-20"
-                  child={
-                    loading ? (
-                      <ActivityIndicator size="small" color="#00ff00" />
-                    ) : (
-                      'Submit Answer'
-                    )
-                  }
-                  onPress={handleSubmit(submitQuestion)}
-                />
-              </View>
+              <Button
+                style={{ marginTop: 20 }}
+                className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-20"
+                child={
+                  loading ? (
+                    <ActivityIndicator size="small" color="#00ff00" />
+                  ) : (
+                    'Submit Answer'
+                  )
+                }
+                onPress={handleSubmit(submitQuestion)}
+              />
             </View>
+          </View>
           {/* </KeyboardAwareScrollView> */}
         </View>
       </TouchableWithoutFeedback>

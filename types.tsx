@@ -46,6 +46,7 @@ export type ButtonProps = {
 export type RootStackParamList = {
   // Root: NavigatorScreenParams<RootTabParamList> | undefined
   Tabs: undefined
+  Default: undefined
   CreateErrand: undefined
   Home: undefined
   Login: undefined

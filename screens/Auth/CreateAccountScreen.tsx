@@ -9,7 +9,6 @@ import * as yup from 'yup'
 import Button from '../../components/Button'
 import InputField from '../../components/InputField'
 import { Logo } from '../../components/Logo'
-import { createAccount } from '../../services/auth/create-account'
 import { useAppDispatch } from '../../services/store'
 import { ICreateAccount } from '../../types'
 
@@ -19,10 +18,7 @@ export default function CreateAccountScreen() {
 
   const schema = yup.object({
     first_name: yup.string().required('First name is required').trim(),
-    email: yup
-      .string()
-      .email('Please enter a correct email address')
-      .trim(),
+    email: yup.string().email('Please enter a correct email address').trim(),
     // phone_number: yup
     //   .string()
     //   .min(11, 'Phone must be 11 digits')
@@ -57,13 +53,15 @@ export default function CreateAccountScreen() {
 
     const phone_number = (await AsyncStorage.getItem('phone')) || ''
     const newData = {
-      dispatch,
-      navigation,
+      // dispatch,
+      // navigation,
       phone_number,
       client: 'web',
       ...data,
     }
-    dispatch(createAccount(newData))
+
+    await AsyncStorage.setItem('userData', JSON.stringify(newData))
+    navigation.navigate('SecurityQuestions')
   }
 
   useLayoutEffect(() => {
@@ -84,7 +82,9 @@ export default function CreateAccountScreen() {
             <Logo />
 
             <View className="text-[#333333] font-inter pb-4 space-y-1">
-              <Text className="font-semibold text-xl text-center">Create an Account</Text>
+              <Text className="font-semibold text-xl text-center">
+                Create an Account
+              </Text>
               <Text className="text-sm text-center">
                 Let’s get started and create a Profile for you
               </Text>

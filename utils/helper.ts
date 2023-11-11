@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "expo-router";
 import moment from "moment";
 import validator from 'validator';
 import banks from "../assets/bank.json";
@@ -185,20 +186,24 @@ interface getUserIdProps {
   dispatch?: any
   setUserId?: any
   setTheme?: any
+  setToken?: any
  }
 
- export const getUserId = async ({setFirstName, setLastName, setProfilePic, setUserId, setTheme, dispatch}: getUserIdProps) => {
+ export const getUserId = async ({setFirstName, setLastName, setProfilePic, setUserId, setTheme, dispatch, setToken}: getUserIdProps) => {
     const userId = (await AsyncStorage.getItem('user_id')) || ''
     const first_name = (await AsyncStorage.getItem('first_name')) || ''
     const last_name = (await AsyncStorage.getItem('last_name')) || ''
    const profile_pic = (await AsyncStorage.getItem('profile_pic')) || ''
+   const token = (await AsyncStorage.getItem('accessToken')) || ''
+   
    const theme = await AsyncStorage.getItem('theme') || ''
-    if (setFirstName || setLastName || setProfilePic || setUserId) {
+    if (setFirstName || setLastName || setProfilePic || setUserId || token) {
       setFirstName(first_name)
       setLastName(last_name)
       setProfilePic(profile_pic)
       setUserId(userId)
       setTheme(theme)
+      setToken(token)
    }
    
    dispatch(userDetails({ user_id: userId }))
@@ -463,6 +468,7 @@ export const getChannels = (channelsArrary: PaymentChannels[]) => {
   return '';
 };
 
- 
-  
-
+export const navigationHook = () => {
+  const navigation = useNavigation()
+  return navigation.navigate('Tabs')
+}
