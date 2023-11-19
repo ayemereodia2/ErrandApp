@@ -99,7 +99,7 @@ export default function MainScreen() {
         disappearsOnIndex={-1}
         onPress={() => {
           bottomSheetRef1.current?.dismiss()
-          bidHistoryRef.current?.dismiss()
+          avatar.current?.dismiss()
         }}
 
         // onChange={handleSheetChanges}
@@ -108,17 +108,17 @@ export default function MainScreen() {
     [],
   )
 
-  const bidHistoryRef = useRef<BottomSheetModal>(null)
+  const avatar = useRef<BottomSheetModal>(null)
   const bottomSheetRef1 = useRef<BottomSheetModal>(null)
 
-  function toggleBidHistoryModal(open: boolean, user: any) {
+  function toggleAvatarModal(open: boolean, user: any) {
     if (open) {
       setUserData(user)
       setModalOpen(true)
-      bidHistoryRef.current?.present()
+      avatar.current?.present()
     } else {
       setUserData(null)
-      bidHistoryRef.current?.dismiss()
+      avatar.current?.dismiss()
     }
   }
 
@@ -425,7 +425,7 @@ export default function MainScreen() {
                             errand={item}
                             navigation={navigation}
                             key={index}
-                            toggleBidHistoryModal={toggleBidHistoryModal}
+                            toggleAvatarModal={toggleAvatarModal}
                           />
                         </>
                       )
@@ -459,7 +459,7 @@ export default function MainScreen() {
 
           <BottomSheetModal
             // backdropComponent={renderBackdrop}
-            ref={bidHistoryRef}
+            ref={avatar}
             index={0}
             snapPoints={['70%']}
             backdropComponent={renderBackdrop}

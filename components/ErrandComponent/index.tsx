@@ -11,13 +11,13 @@ import { getAddress, getCardTimeAgo, getTimeAgo } from '../../utils/helper'
 interface ErrandCardProp {
   errand: MarketData
   navigation: any
-  toggleBidHistoryModal: any
+  toggleAvatarModal: any
 }
 
 export default function ErrandComp({
   errand,
   navigation,
-  toggleBidHistoryModal,
+  toggleAvatarModal,
 }: ErrandCardProp) {
   const [address, setAddress] = useState('')
   const dispatch = useAppDispatch()
@@ -62,6 +62,16 @@ export default function ErrandComp({
 
   console.log(errand)
 
+  const isDateWithin3Months = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMilliseconds = now.getTime() - date.getTime();
+    const diffMonths = (now.getFullYear() - date.getFullYear()) * 12 + (now.getMonth() - date.getMonth());
+
+    return diffMonths < 3; // true if date is within 3 months
+  };
+
+
   // const bidHistoryRef = useRef<BottomSheetModal>(null)
 
   // function toggleBidHistoryModal(open: boolean) {
@@ -86,7 +96,15 @@ export default function ErrandComp({
   //   [],
   // )
 
+  if (!errand || !errand.updated_at || !isDateWithin3Months(errand.updated_at)) {
+    return null; // Don't render the card if date is above 3 months or data is missing
+  }
+
+
   return (
+<>
+    {/* {isDateWithin3Months(errand.updated_at) ?  */}
+    
     <View
       className="pt-1 mt-2 pb-1 bg-[#fff] rounded-xl py-1 px-6 border"
       style={{
@@ -110,10 +128,12 @@ export default function ErrandComp({
         borderColor: theme ? '' : 'lightgrey',
       }}
     > */}
+
+    
       <View className=" flex-row items-start mt-4">
         <View className="flex-row items-start justify-center gap-3">
           <TouchableOpacity
-            onPress={() => toggleBidHistoryModal(true, errand.user)}
+            onPress={() => toggleAvatarModal(true, errand.user)}
             className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center"
           >
             {errand?.user?.profile_picture ? (
@@ -183,6 +203,7 @@ export default function ErrandComp({
         </View>
         
       </View>
+  
 
       <TouchableOpacity
         onPress={() => {
@@ -251,9 +272,13 @@ export default function ErrandComp({
                 ? 'Bid'
                 : 'Bids'}
             </Text>
+            
           </View>
+          
         </View>
+        
       </TouchableOpacity>
+    
 
       {/* </TouchableOpacity> */}
 
@@ -268,6 +293,9 @@ export default function ErrandComp({
         </BottomSheetModal> */}
       {/* </BottomSheetModalProvider> */}
     </View>
+
+    {/* : null } */}
+    </>
   )
 }
 
