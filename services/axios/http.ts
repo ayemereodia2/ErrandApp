@@ -55,7 +55,7 @@ export const pushOut = ({navigation}: any) => {
 export async function _fetch({ _url, body, method }: FetchProps) {
   
   // const url = `${process.env.EXPO_PUBLIC_API_URL}${_url}` 
-  const url = `https://staging.apis.swave.ng/v1${_url}`
+  const url = `https://apis.swave.ng/v1${_url}`
   
   const token = await AsyncStorage.getItem('accessToken');  
 
