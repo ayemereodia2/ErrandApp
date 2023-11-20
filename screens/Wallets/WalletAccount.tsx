@@ -20,6 +20,7 @@ import AddAccount from '../../components/Transactions/AddAccount'
 import { _fetch } from '../../services/axios/http'
 import { RootState, useAppDispatch } from '../../services/store'
 import { getAccounts } from '../../services/wallet/getAccount'
+import { getBankName } from '../../utils/helper'
 
 const WalletAccount = ({ navigation }: any) => {
   const {
@@ -95,6 +96,8 @@ const WalletAccount = ({ navigation }: any) => {
     }
   }
 
+  console.log(data)
+
   return (
     <BottomSheetModalProvider>
       <SafeAreaView style={{backgroundColor: backgroundTheme}}>
@@ -137,11 +140,24 @@ const WalletAccount = ({ navigation }: any) => {
                           <FontAwesome name="bank" size={24} color="black" />
                         </Text>
                       </View>
+                      
 
                       <View>
                         <Text style={{color: textTheme}} className="font-medium text-base mt-1">
                           {acc.account_number}
                         </Text>
+
+                        <Text
+                        className="text-base font-medium"
+                        style={{ color: textTheme }}
+                       >
+                        {getBankName(acc.bank_code)}
+                        </Text>
+
+                        <Text style={{color: textTheme}} className="font-medium text-base mt-1">
+                          {acc.account_name}
+                        </Text>
+                        
 
                         <TouchableOpacity
                           onPress={() => removeBankAcc(acc.id)}

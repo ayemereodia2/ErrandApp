@@ -524,9 +524,31 @@ export default function ErrandDetails({ route, navigation }: any) {
               I can do this
             </Text>
           </TouchableOpacity>
-        ) : (
-          ''
-        )}
+        ) : 
+        errand.user_id !== userId && errand?.status === 'completed' ? (
+          <TouchableOpacity
+            className="w-full h-[65px] absolute bottom-0 flex-row justify-center items-center bg-[#767577]"
+           disabled={true}
+          >
+            <Text className="text-white text-lg font-medium">
+              This Errand has been completed
+            </Text>
+          </TouchableOpacity>
+        )
+          : 
+          errand.user_id !== userId && errand?.status === 'cancelled' ? (
+            <TouchableOpacity
+              className="w-full h-[65px] absolute bottom-0 flex-row justify-center items-center bg-red-500"
+             disabled={true}
+            >
+              <Text className="text-white text-lg font-medium">
+                This Errand has been completed
+              </Text>
+            </TouchableOpacity>
+          )
+          :
+        ' '
+        }
       </SafeAreaView>
     </BottomSheetModalProvider>
   )
