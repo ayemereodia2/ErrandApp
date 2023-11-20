@@ -10,34 +10,33 @@ export const createErrand = createAsyncThunk<CreateErrandResponse, CreateErrandR
       
       const errandId = await AsyncStorage.getItem('errandId')
       
-      console.log(">>>>rs create errabd-----", data);
 
 
       const _rs = await _fetch({
-            method: "POST",
-            _url: `/errand/${errandId}`,
-            body: data
+        method: "POST",
+        _url: `/errand/${errandId}`,
+        body: data
       })
-
-
-      
       const rs = await _rs.json()
 
-      if (rs.success === true) {
-        navigation.navigate("MyErrands")
-         Toast.show({
-          type: 'success',
-          text1: "Errand Created successfully",
-        })
-        // navigate.push('/errands')
-        return rs.data
-      }
-      if (rs.status === "9001") {
+       if (rs.success === false)  {
         Toast.show({
           type: 'error',
           text1: rs.message
         })
       }
+
+      if (rs.success === true) {
+      console.log("success");
+
+        navigation.navigate("MyErrands")
+         Toast.show({
+          type: 'success',
+          text1: "Errand Created successfully",
+        })
+        return rs.data
+      }
+     
       return rs.data
     } catch (e: any) {
       

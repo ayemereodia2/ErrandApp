@@ -7,7 +7,7 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -19,8 +19,8 @@ import { loginUser } from '../../services/auth/login'
 import { RootState, useAppDispatch } from '../../services/store'
 import { ILogin } from '../../types'
 
-export default function LoginScreen() {
-  const navigation = useNavigation()
+export default function LoginScreen({navigation}: any) {
+  // const navigation = useNavigation()
   const dispatch = useAppDispatch()
   const [showPassword, setShowPassword] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
@@ -36,16 +36,15 @@ export default function LoginScreen() {
       phone_number: `+234${data?.phone_number.substring(1)}`,
       password: data.password,
       navigation,
-      dispatch
+      dispatch,
     }
-    
+
     try {
-       dispatch(loginUser(loginData));
+      dispatch(loginUser(loginData))
     } catch (error) {
-      console.error('Authentication error:', error);
-      setErrorMessage('Incorrect phone number or password. Please try again.');
+      console.error('Authentication error:', error)
+      setErrorMessage('Incorrect phone number or password. Please try again.')
     }
- 
   }
 
   const {
@@ -118,14 +117,15 @@ export default function LoginScreen() {
                 </View>
 
                 <Text
-                    onPress={() => {
-                      navigation.navigate('PhonePassword')
-                    }}
-                    className="font-bold text-[#243763] ml-64 mb-2"
-                  >
-                    
-                    Forgot Password?
-                  </Text>
+                  onPress={() => {
+                    navigation.navigate('VerifyPhone', {
+                      comingFrom: 'forgotPassword',
+                    })
+                  }}
+                  className="font-bold text-[#243763] ml-64 mb-2"
+                >
+                  Forgot Password?
+                </Text>
 
                 <Button
                   className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
@@ -140,17 +140,19 @@ export default function LoginScreen() {
                   // className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
                 />
 
-
-              {errorMessage && (
-                <Text style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</Text>
-              )}
-
+                {errorMessage && (
+                  <Text style={{ color: 'red', textAlign: 'center' }}>
+                    {errorMessage}
+                  </Text>
+                )}
 
                 <Text className="text-black text-center pb-6 pt-3">
                   Don’t Have an Account?
                   <Text
                     onPress={() => {
-                      navigation.navigate('VerifyPhone')
+                      navigation.navigate('VerifyPhone', {
+                        comingFrom: 'createAccount',
+                      })
                     }}
                     className="font-bold text-[#243763]"
                   >

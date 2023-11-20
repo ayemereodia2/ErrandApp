@@ -44,7 +44,7 @@ const PostErrand = ({ navigation }: any) => {
     value: '',
   })
   const bottomSheetRef = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ['40%'], [])
+  const snapPoints = useMemo(() => ['60%'], [])
 
   function openPinModal() {
     bottomSheetRef.current?.present()
@@ -385,7 +385,7 @@ const PostErrand = ({ navigation }: any) => {
         </ScrollView>
 
         <View className="flex-row">
-          <View style={{ height: 60, backgroundColor:'#2856c1' }}>
+          <View style={{ height: 60, backgroundColor: '#2856c1' }}>
             {activeStep > 1 && (
               <TouchableOpacity
                 onPress={() => setActiveStep(activeStep - 1)}
@@ -406,10 +406,14 @@ const PostErrand = ({ navigation }: any) => {
                 ? locationHandler()
                 : activeStep <= 4
                 ? financeHandler()
-                : submitErrandhandler()
+                : openPinModal()
             }}
             style={{ backgroundColor: '#1E3A79', height: 60 }}
-            className={activeStep <= 1 ? "flex-row items-center justify-center  w-full" :'flex-row items-center justify-center  w-[80%]'}
+            className={
+              activeStep <= 1
+                ? 'flex-row items-center justify-center  w-full'
+                : 'flex-row items-center justify-center  w-[80%]'
+            }
           >
             {creatingErrand ? (
               <ActivityIndicator size="large" color="blue" />

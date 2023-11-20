@@ -1,11 +1,10 @@
-import { AntDesign } from '@expo/vector-icons';
-import { Restart } from 'fiction-expo-restart';
-import React, { useEffect, useState } from 'react';
-import { Image } from 'react-native';
+import { AntDesign } from '@expo/vector-icons'
+import { Restart } from 'fiction-expo-restart'
+import React, { useEffect, useState } from 'react'
+import { Image } from 'react-native'
 
-
-import { Asset } from 'expo-asset';
-import * as SplashScreen from 'expo-splash-screen';
+import { Asset } from 'expo-asset'
+import * as SplashScreen from 'expo-splash-screen'
 import {
   ActivityIndicator,
   ImageBackground,
@@ -13,9 +12,9 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
-  View
-} from 'react-native';
-import Swiper from 'react-native-swiper';
+  View,
+} from 'react-native'
+import Swiper from 'react-native-swiper'
 
 type Props = {
   navigation: any
@@ -68,7 +67,9 @@ const ImageViewer = ({ navigation }: Props) => {
         </TouchableOpacity>
         <TouchableOpacity
           className="bg-[#1E3A79] items-center justify-center flex-row py-2 px-4 rounded-lg w-[60%]"
-          onPress={() => navigation.navigate('VerifyPhone')}
+          onPress={() =>
+            navigation.navigate('VerifyPhone', { comingFrom: 'createAccount' })
+          }
         >
           <Text className="text-white text-lg font-medium text-center pr-2">
             Sign up
@@ -79,14 +80,10 @@ const ImageViewer = ({ navigation }: Props) => {
   )
 }
 
-const DefaultGuestScreen = ({ navigation }: any) => {
+const AdsScreen = ({ navigation }: any) => {
   const [adsImages, setAdsImages] = useState([])
   const [loading, setLoading] = useState(false)
   const [appIsReady, setAppIsReady] = useState(false)
-
-  
-
-
 
   async function loadResourcesAndDataAsync() {
     try {
@@ -109,19 +106,6 @@ const DefaultGuestScreen = ({ navigation }: any) => {
       SplashScreen.hideAsync()
     }
   }
-
-  // const getAdsImages = async () => {
-  //   setLoading(true)
-  //   const _rs = await _fetch({
-  //     _url: '/advert-image',
-  //     method: 'GET',
-  //   })
-  //   const rs = await _rs.json()
-  //   const images = rs?.data.map((data) => data.url)
-
-  //   setAdsImages(images)
-  //   setLoading(false)
-  // }
 
   useEffect(() => {
     Restart()
@@ -147,84 +131,7 @@ const DefaultGuestScreen = ({ navigation }: any) => {
   if (!appIsReady) {
     return null
   }
-
-  // const ads = [
-  //   'https://d2ti6ck6wvghce.cloudfront.net/swave-staging/advert/64add98dc88053e63511f154/advert_image_1.png',
-  //   'https://d2ti6ck6wvghce.cloudfront.net/swave-staging/advert/64add98dc88053e63511f154/advert_image_2.png',
-  //   'https://d2ti6ck6wvghce.cloudfront.net/swave-staging/advert/64add98dc88053e63511f154/advert_image_3.png',
-  //   'https://d2ti6ck6wvghce.cloudfront.net/swave-staging/advert/64add98dc88053e63511f154/advert_image_5.png',
-  //   'https://d2ti6ck6wvghce.cloudfront.net/swave-staging/advert/64add98dc88053e63511f154/advert_image_4.png',
-  // ]
-
-  // const ads = [
-  //  '../../assets/images/slide--1.jpeg','../../assets/images/slide--2.jpeg', '../../assets/images/slide--3.jpeg', '../../assets/images/slide--4.jpeg', '../../assets/images/slide--5.jpeg'
-  // ]
-
   return (
-    // <SafeAreaView
-    //   style={{
-    //     flex: 1,
-    //     justifyContent: 'center',
-    //     alignItems: 'center',
-    //     backgroundColor: '#0c1730',
-    //   }}
-    // >
-
-    //   <SliderBox
-    //     height={200}
-    //     width={100}
-    //     imageLoadingColor="white"
-    //     autoplay={true}
-    //     images={adsImages}
-    //     sliderBoxHeight={740}
-    //     autoplayInterval={14000}
-    //     circleLoop={true}
-    //   />
-
-    //   <View
-    //     className=" h-[50px] absolute top-32 left-8 flex-row justify-between items-center bg-[#1E3A79] w-[48%] px-3 rounded-lg"
-    //     style={{ display: loading ? 'none' : 'flex' }}
-    //   >
-    //     <TouchableOpacity
-    //       className="bg-[#1E3A79] items-center justify-center flex-row"
-    //       onPress={() => navigation.navigate('GuestScreen')}
-    //     >
-    //       <Text className="text-white text-lg font-medium text-center pr-2">
-    //         Visit the market
-    //       </Text>
-    //       <AntDesign name="arrowright" color="white" size={20} />
-    //     </TouchableOpacity>
-    //   </View>
-
-    //   {loading ? (
-    //     ''
-    //   ) : (
-    //     <View
-    //       className="w-full h-[60px] absolute bottom-0 flex-row justify-between items-center bg-[#1E3A79]"
-    //       style={{ display: loading ? 'none' : 'flex' }}
-    //     >
-    //       <TouchableOpacity
-    //         className="bg-[#1E3A79] w-[50%] h-[60px] items-center justify-center"
-    //         onPress={() => navigation.navigate('Login')}
-    //       >
-    //         <Text className="text-white text-lg font-medium text-center">
-    //           Login
-    //         </Text>
-    //       </TouchableOpacity>
-
-    //       <TouchableOpacity
-    //         className="bg-[#2856c1] w-[50%] h-[60px] items-center justify-center"
-    //         onPress={() => navigation.navigate('VerifyPhone')}
-    //       >
-    //         <Text className="text-white text-lg text-center font-medium">
-    //           Sign Up
-    //         </Text>
-    //       </TouchableOpacity>
-    //     </View>
-    //   )}
-
-    // </SafeAreaView>
-
     <>
       <StatusBar translucent backgroundColor="transparent" />
 
@@ -233,17 +140,12 @@ const DefaultGuestScreen = ({ navigation }: any) => {
         autoplay={true}
         autoplayTimeout={7}
         activeDotColor={'white'}
-       
       >
         <ImageBackground
           source={require('../../assets/images/slide--1.jpeg')}
           resizeMode="cover"
           style={{ flex: 1 }}
-          
         >
-         
-        
-
           <ImageViewer navigation={navigation} />
         </ImageBackground>
         <ImageBackground
@@ -251,9 +153,6 @@ const DefaultGuestScreen = ({ navigation }: any) => {
           resizeMode="cover"
           style={{ flex: 1 }}
         >
-          
-          
-
           <ImageViewer navigation={navigation} />
         </ImageBackground>
         <ImageBackground
@@ -315,4 +214,4 @@ const styles = {
   },
 }
 
-export default DefaultGuestScreen
+export default AdsScreen

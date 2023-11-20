@@ -30,11 +30,13 @@ const OtpInput = ({ ref, onChangeText }: OtpProp) => (
   </View>
 )
 
-export default function VerifyOtpScreen({ navigation }: any) {
+export default function VerifyOtpScreen({ navigation, route }: any) {
   // const navigation = useNavigation()
   const [otp, setOtp] = useState('')
   const [loading, setLoading] = useState(false)
   const [phone_no, setPhone_no] = useState('')
+
+  const { comingFrom } = route.params
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -43,11 +45,7 @@ export default function VerifyOtpScreen({ navigation }: any) {
   }, [])
 
   const verifyOtpHandler = async (code: string) => {
-
     const phone = (await AsyncStorage.getItem('phone')) || ''
-
-    console.log(">>>>>tp", code, phone);
-    
 
     try {
       setLoading(true)
@@ -60,7 +58,6 @@ export default function VerifyOtpScreen({ navigation }: any) {
         },
       })
       const rs = await _rs.json()
-      console.log(rs)
 
       if (rs.success === false) {
         setLoading(false)
@@ -69,11 +66,21 @@ export default function VerifyOtpScreen({ navigation }: any) {
           text1: 'OTP is incorrect',
         })
       } else {
-        navigation.navigate('CreateAccount')
-        Toast.show({
-          type: 'success',
-          text1: 'OTP is correct',
-        })
+        if (comingFrom === 'forgotPassword') {
+          await AsyncStorage.setItem('otp', code)
+          navigation.navigate('VerifyQuestion')
+          Toast.show({
+            type: 'success',
+            text1: 'OTP is correct',
+          })
+        }
+        if (comingFrom === 'createAccount') {
+          navigation.navigate('CreateAccount')
+          Toast.show({
+            type: 'success',
+            text1: 'OTP is correct',
+          })
+        }
       }
     } catch (e) {
       Toast.show({
@@ -82,11 +89,6 @@ export default function VerifyOtpScreen({ navigation }: any) {
       })
       setLoading(false)
     }
-  }
-
-  const getPhone = async () => {
-    const phone = (await AsyncStorage.getItem('phone')) || ''
-    setPhone_no(phone)
   }
 
   useEffect(() => {
@@ -108,22 +110,6 @@ export default function VerifyOtpScreen({ navigation }: any) {
           </Text>
 
           <View className="pt-2 flex-row justify-evenly items-center mb-10">
-            {/* <OTPInputView
-              style={{ width: '80%', height: 80 }}
-              pinCount={6}
-              code={otp}
-              editable={true}
-              onCodeChanged={(code) => setOtp(code)}
-              keyboardAppearance="dark"
-              keyboardType="number-pad"
-              autoFocusOnLoad
-              codeInputFieldStyle={styles.underlineStyleBase}
-              codeInputHighlightStyle={styles.underlineStyleHighLighted}
-              onCodeFilled={(code) => {
-                console.log(`Code is ${code}, you are good to go!`)
-                code?.length === 6 && verifyOtpHandler(code)
-              }}
-            /> */}
             <TextInput
               keyboardType="numeric"
               onChangeText={(text) => setOtp(text)}

@@ -5,11 +5,11 @@
 // import messaging from '@react-native-firebase/messaging'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
-import { Image, View } from 'react-native'
+import { Image, Platform, View } from 'react-native'
 // import 'react-native-gesture-handler'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as NetInfo from '@react-native-community/netinfo'
-import { NavigationContainer, useNavigation } from '@react-navigation/native'
+import { NavigationContainer } from '@react-navigation/native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { NetworkProvider } from 'react-native-offline'
 import { MenuProvider } from 'react-native-popup-menu'
@@ -21,13 +21,16 @@ import { StatusBar, useColorScheme } from 'react-native'
 import ErrorBoundary from './components/ErrorBoundary'
 // import useColorScheme from './hooks/useColorScheme'
 import messaging from '@react-native-firebase/messaging'
-import * as Application from 'expo-application'
 import { Asset } from 'expo-asset'
 import * as Notifications from 'expo-notifications'
 import * as SplashScreen from 'expo-splash-screen'
 import { useOnlineManager } from './hooks/useOnlineManager'
 import MainNavigation from './navigation/MainNavigation'
-import { GuestStack, navigateToScreen, navigationRef } from './navigation/StackNavigation'
+import {
+  GuestStack,
+  navigateToScreen,
+  navigationRef
+} from './navigation/StackNavigation'
 import { store } from './services/store'
 
 const queryClient = new QueryClient()
@@ -44,24 +47,24 @@ function cacheImages(images: any) {
 
 export default function App({ navigation }: any) {
   const [appIsReady, setAppIsReady] = useState(false)
+  const versionCode = '1.0.2'
+
 
   const [isGuest, setIsGuest] = useState<any>()
   const colorScheme = useColorScheme()
 
   const getAppVersion = async () => {
-    await fetch(`https://staging.apis.swave.ng/mobileversion`)
+    await fetch(`https://staging.apis.swave.ng/v1/mobileversion`)
       .then((rs) => rs.json())
       .then((rs) => {
-        const versionCode = Application.nativeBuildVersion
-
-        if (versionCode === '40') {
-          navigateToScreen('UpdateApp')
+        // const versionCode = Application.nativeApplicationVersion
+        
+        if (Platform.OS === 'android') {
+          if (versionCode !== rs.Android) {
+            navigateToScreen('UpdateApp')
+          }
         }
       })
-
-    // const rs = await _v.json()
-
-    // console.log('>>>>>>>>v', await _v.json())
   }
 
   useOnlineManager()

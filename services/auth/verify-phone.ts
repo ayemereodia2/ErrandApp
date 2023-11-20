@@ -3,7 +3,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import Toast from 'react-native-toast-message';
 import { _fetch } from '../axios/http';
-import { securityQuesitions } from './questions';
 
 
 type Props = {
@@ -12,34 +11,33 @@ type Props = {
   navigation?: any
   setVerifySuccess?: any
   from: string
+  intent: string
 }
 
-export const verifyPhone = createAsyncThunk("/user/verifyPhone", async ({ navigation, dispatch, phone_number, from}: Props, {rejectWithValue}) => {
+export const verifyPhone = createAsyncThunk("/user/verifyPhone", async ({ navigation, dispatch, intent, phone_number, from}: Props, {rejectWithValue}) => {
   try {
 
 
 
-    const _rs = await _fetch({ _url: '/user/verify-phone', method: 'POST', body: { phone_number } })
+    const _rs = await _fetch({ _url: '/user/verify-phone', method: 'POST', body: { phone_number, intent } })
     const rs = await _rs.json()
 
-    console.log(">>>>>dta", rs);
-    
-
-    if (from === 'passwordRecovery') {
-        if (rs.success === false) {
-            dispatch(
-                securityQuesitions({navigation, phone_number: `${phone_number.substring(1)}` }),
-            )
+    if (from === 'forgotPassword') {
+      if (rs.success === false) {
+          Toast.show({
+              type: 'error',
+              text1: 'Sorry, This phone number already exist in our database ---',
+            });
+           
         }
-        if (rs.success === true) {
-            // toast.error("Sorry, This phone number doesn't exist on our database");
-            return 
+      if (rs.success === true) {
+            navigation.navigate('VerifyOtp', {comingFrom:'forgotPassword'})
+            await AsyncStorage.setItem('phone', phone_number )
         }
     } else 
 
       if (from === "createAccount") {      
         if (rs.success === false) {
-            // toast.error("");
             Toast.show({
               type: 'error',
               text1: 'Sorry, This phone number already exist in our database',
@@ -48,7 +46,7 @@ export const verifyPhone = createAsyncThunk("/user/verifyPhone", async ({ naviga
         }
       if (rs.success === true) {
           await AsyncStorage.setItem('phone', phone_number )
-          navigation.navigate('VerifyOtp')
+          navigation.navigate('VerifyOtp', {comingFrom: 'createAccount'})
         }
     } 
   } catch (err) {

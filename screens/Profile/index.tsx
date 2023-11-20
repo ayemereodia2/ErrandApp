@@ -148,15 +148,6 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
     )
   }
 
-  // if (isError) {
-  //   return Toast.show({
-  //     type: 'error',
-  //     text1: 'Sorry, something went wrong',
-  //   })
-  // }
-
-  // console.log('data', data?.last_name)
-
   return (
     <SafeAreaView
       style={{ backgroundColor: backgroundTheme }}

@@ -3,21 +3,21 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 import FundWalletModal from '../components/Modals/Errands/FundWallet'
 import AboutSwave from '../screens/AboutSwave/AboutSwave'
-import AccountScreen from '../screens/Accounts'
+import AdsScreen from '../screens/AdsScreen'
 import AccountRecoveryScreen from '../screens/Auth/AccountRecovery'
 import CreateAccountScreen from '../screens/Auth/CreateAccountScreen'
+import ForgotPassword from '../screens/Auth/ForgotPassword'
 import LoginScreen from '../screens/Auth/LoginScreen'
-import RecoverPasswordScreen from '../screens/Auth/RecoverPassword'
 import SecurityQuestion from '../screens/Auth/SecurityQuestionScreen'
 import VerifyOtpScreen from '../screens/Auth/VerifyOtp'
 import VerifyPhone from '../screens/Auth/VerifyPhone'
+import VerifyQuestion from '../screens/Auth/VerifyQuestion'
 import ContactUs from '../screens/Contact/ContactUs'
 import PostErrand from '../screens/CreateErrand'
-import DefaultGuestScreen from '../screens/DefaultGuestScreen'
 import EditProfileTitle from '../screens/EditProfile/EditProfileTitle'
 import ErrorScreen from '../screens/Error'
-import GuestDetails from '../screens/Guest/GuestDetails'
-import GuestScreen from '../screens/Guest/GuestScreen'
+import GuestMarket from '../screens/Guest/GuestMarket'
+import GuestMarketDetails from '../screens/Guest/GuestMarketDetails'
 import LandingForm from '../screens/Landing/LandingForm'
 import LandingTest from '../screens/Landing/LandingTest'
 import ErrandDetails from '../screens/Market/ErrandDetails'
@@ -31,27 +31,24 @@ import MyErrandInfo from '../screens/MyErrands/MyErrandInfo'
 import NotificationScreen from '../screens/Notification/NotficationScreen'
 import OnboardingUi from '../screens/Onboarding/OnboardingUi'
 import PrivacyPolicy from '../screens/Privacy/PrivacyPolicy'
-import CategoryInterest from '../screens/Setting/AddCategory'
-import SettingScreen from '../screens/Setting/SettingScreen'
+import AccountScreen from '../screens/Profile'
+import CategoryInterest from '../screens/Settings/AddCategory'
+import SettingScreen from '../screens/Settings/SettingScreen'
 import TermsAndConditions from '../screens/Terms & Condition/TermsAndConditions'
+import UpdateAppScreen from '../screens/UpdateAppScreen'
 import WalletScreen from '../screens/Wallets'
 import EscrowScreen from '../screens/Wallets/EscrowScreen'
 import TransactionScreen from '../screens/Wallets/TransactionScreen'
 import WalletAccount from '../screens/Wallets/WalletAccount'
 import { TabsNavigation } from './TabsNavigation'
-import ForgotPassword from '../screens/Auth/ForgotPassword'
-import PhonePassword from '../screens/Auth/PhonePassword'
-import PasswordOtp from '../screens/Auth/PasswordOtp'
-import PasswordQuestions from '../screens/Auth/PasswordQuestions'
-import UpdateAppScreen from '../screens/UpdateAppScreen'
 
 const Stack = createNativeStackNavigator()
 
 export const navigationRef = createNavigationContainerRef()
 
-export  function navigateToScreen(name: any) {
+export function navigateToScreen(name: any) {
   if (navigationRef.isReady()) {
-    navigationRef.navigate(name);
+    navigationRef.navigate(name)
   }
 }
 
@@ -64,23 +61,29 @@ export const TabStack = () => {
 
       <Stack.Screen
         name="GuestScreen"
-        component={GuestScreen}
+        component={GuestMarket}
         options={{ headerShown: false }}
       />
 
       <Stack.Screen
         name="GuestDetails"
-        component={GuestDetails}
+        component={GuestMarketDetails}
         options={{ headerShown: false }}
       />
 
       <Stack.Screen
         name="Default"
-        component={DefaultGuestScreen}
+        component={AdsScreen}
         options={{ headerShown: false }}
       />
 
       {/* <Stack.Screen name="MyErrands" component={ErrandScreen} /> */}
+
+      <Stack.Screen
+        name="UpdateApp"
+        component={UpdateAppScreen}
+        options={{ headerShown: false }}
+      />
 
       <Stack.Screen
         options={{ headerShown: false }}
@@ -92,9 +95,7 @@ export const TabStack = () => {
       <Stack.Screen name="SecurityQuestions" component={SecurityQuestion} />
       <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
       <Stack.Screen name="RecoverPassword" component={ForgotPassword} />
-      <Stack.Screen name="PhonePassword" component={PhonePassword} />
-      <Stack.Screen name="PasswordOtp" component={PasswordOtp} />
-      <Stack.Screen name="PasswordQuestions" component={PasswordQuestions} />
+      <Stack.Screen name="VerifyQuestion" component={VerifyQuestion} />
       <Stack.Screen name="RecoverAccount" component={AccountRecoveryScreen} />
       <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
       <Stack.Screen
@@ -292,31 +293,33 @@ export function GuestStack() {
 
         <Stack.Screen
           name="Default"
-          component={DefaultGuestScreen}
+          component={AdsScreen}
           options={{ headerShown: false }}
         />
 
         <Stack.Screen
           name="GuestScreen"
-          component={GuestScreen}
+          component={GuestMarket}
           options={{ headerShown: false }}
         />
 
         <Stack.Screen
           name="GuestDetails"
-          component={GuestDetails}
+          component={GuestMarketDetails}
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="SecurityQuestions" component={SecurityQuestion} />
         <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
+        <Stack.Screen name="RecoverPassword" component={ForgotPassword} />
+
         <Stack.Screen
-          name="RecoverPassword"
-          component={ForgotPassword}
+          name="UpdateApp"
+          component={UpdateAppScreen}
+          options={{ headerShown: false }}
         />
-         <Stack.Screen name="PhonePassword" component={PhonePassword} />
-         <Stack.Screen name="PasswordOtp" component={PasswordOtp} />
-         <Stack.Screen name="PasswordQuestions" component={PasswordQuestions} />
+
+        <Stack.Screen name="VerifyQuestion" component={VerifyQuestion} />
 
         <Stack.Screen
           name="EditProfile"
@@ -475,19 +478,19 @@ export const MainStack = () => {
 
       <Stack.Screen
         name="Default"
-        component={DefaultGuestScreen}
+        component={AdsScreen}
         options={{ headerShown: false }}
       />
 
       <Stack.Screen
         name="GuestScreen"
-        component={GuestScreen}
+        component={GuestMarket}
         options={{ headerShown: false }}
       />
 
       <Stack.Screen
         name="GuestDetails"
-        component={GuestDetails}
+        component={GuestMarketDetails}
         options={{ headerShown: false }}
       />
 
@@ -525,9 +528,8 @@ export const MainStack = () => {
       <Stack.Screen name="SecurityQuestions" component={SecurityQuestion} />
       <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
       <Stack.Screen name="RecoverPassword" component={ForgotPassword} />
-      <Stack.Screen name="PhonePassword" component={PhonePassword} />
-      <Stack.Screen name="PasswordOtp" component={PasswordOtp} />
-      <Stack.Screen name="PasswordQuestions" component={PasswordQuestions} />
+
+      <Stack.Screen name="VerifyQuestion" component={VerifyQuestion} />
       <Stack.Screen name="RecoverAccount" component={AccountRecoveryScreen} />
       <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
       <Stack.Screen
@@ -691,7 +693,7 @@ export const MyErrandStack = () => {
 
       <Stack.Screen
         name="Default"
-        component={DefaultGuestScreen}
+        component={AdsScreen}
         options={{ headerShown: false }}
       />
       {/* <Stack.Screen
@@ -740,7 +742,7 @@ export const MarketStack = () => {
 
       <Stack.Screen
         name="Default"
-        component={DefaultGuestScreen}
+        component={AdsScreen}
         options={{ headerShown: false }}
       />
       {/* <Stack.Screen
@@ -777,7 +779,7 @@ export const LandingPageStack = () => {
 
       <Stack.Screen
         name="Default"
-        component={DefaultGuestScreen}
+        component={AdsScreen}
         options={{ headerShown: false }}
       />
 
@@ -831,7 +833,7 @@ export const WalletStack = () => {
       />
       <Stack.Screen
         name="Default"
-        component={DefaultGuestScreen}
+        component={AdsScreen}
         options={{ headerShown: false }}
       />
       {/* <Stack.Screen
@@ -892,7 +894,7 @@ export const SetttingsStack = () => {
 
       <Stack.Screen
         name="Default"
-        component={DefaultGuestScreen}
+        component={AdsScreen}
         options={{ headerShown: false }}
       />
       {/* <Stack.Screen

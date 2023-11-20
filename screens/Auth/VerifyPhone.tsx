@@ -1,5 +1,4 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useNavigation } from '@react-navigation/native'
 import React, { useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
@@ -35,16 +34,16 @@ interface IData {
   phone_number: string
 }
 
-export default function VerifyPhone({navigation}: any) {
+export default function VerifyPhone({ navigation, route }: any) {
   const [visible, setVisible] = useState<boolean>(false)
   const [phone, setPhone] = useState<string>('')
   const [otp, setOtp] = useState<string>('')
-  // const router = useRouter()
-  // const [loading, setLoading] = useState<boolean>(false)
   const [otpLoading, setOtpLoading] = useState<boolean>(false)
   const dispatch = useAppDispatch()
   const [error, setError] = useState('')
   const [showPhoneInput, setShowPhoneInput] = useState<boolean>(true)
+
+  const { comingFrom } = route.params
 
   const { loading } = useSelector((state: RootState) => state.verifyPhone)
 
@@ -79,7 +78,8 @@ export default function VerifyPhone({navigation}: any) {
       verifyPhone({
         navigation,
         phone_number: `+234${data.phone_number.substring(1)}`,
-        from: 'createAccount',
+        intent: comingFrom === 'forgotPassword' ? 'forgot_pass': 'create_account',
+        from: comingFrom,
       }),
     )
   }
@@ -97,10 +97,14 @@ export default function VerifyPhone({navigation}: any) {
           > */}
           <View className="text-[#333333] font-inter py-4 space-y-1">
             <Text className="font-semibold text-lg text-center">
-              Phone Verification
+              {comingFrom === 'forgotPassword'
+                ? 'Password Recovery'
+                : 'Phone Verification'}
             </Text>
             <Text className="text-sm text-center">
-              Enter your details to Verify your Phone
+              {comingFrom === 'forgotPassword'
+                ? 'Please supply the phone number used for registration'
+                : 'Enter your details to Verify your Phone'}
             </Text>
 
             <View className="pt-2 space-y-6">

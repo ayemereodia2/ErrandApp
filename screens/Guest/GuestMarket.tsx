@@ -32,7 +32,7 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
 import { getUserId } from '../../utils/helper'
 
-export default function GuestScreen({ navigation }: any) {
+export default function GuestMarket({ navigation }: any) {
   // const navigation = useNavigation()
   const dispatch = useAppDispatch()
   // const [loading, setLoading] = useState(false)
@@ -339,7 +339,7 @@ export default function GuestScreen({ navigation }: any) {
 
         <TouchableOpacity
           className="bg-[#2856c1] w-[50%] h-[60px] items-center justify-center"
-          onPress={() => navigation.navigate('VerifyPhone')}
+          onPress={() => navigation.navigate('VerifyPhone', {comingFrom: 'createAccount'})}
         >
           <Text className="text-white text-lg text-center font-medium">
             Sign Up

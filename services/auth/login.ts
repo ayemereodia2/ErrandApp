@@ -12,7 +12,7 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
   
   try {
     const rs = await _fetch({
-      method: "POST",
+    method: "POST",
       _url: `/user/sign-in`,
       body: rest
     })

@@ -6,7 +6,7 @@ import MainScreen from '../screens/Market/MainScreen'
 import ErrandScreen from '../screens/MyErrands'
 // import PostErrand from '../screens/CreateErrand'
 import PostErrand from '../screens/CreateErrand'
-import SettingScreen from '../screens/Setting/SettingScreen'
+import SettingScreen from '../screens/Settings/SettingScreen'
 import WalletScreen from '../screens/Wallets'
 
 const Tab = createBottomTabNavigator()
@@ -47,7 +47,7 @@ const BottomTab = () => {
           borderRadius: 15,
           height: 70,
           // width:100
-          paddingTop: Platform.OS === 'ios' ? 60 :20,
+          paddingTop: Platform.OS === 'ios' ? 60 : 20,
           ...styles.shadow,
         },
         headerShown: false,

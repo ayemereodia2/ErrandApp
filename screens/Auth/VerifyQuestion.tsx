@@ -15,25 +15,11 @@ import Button from '../../components/Button'
 import { Logo } from '../../components/Logo'
 import { _fetch } from '../../services/axios/http'
 
-export default function PasswordQuestions({ route }) {
-  const { phone } = route.params
-
+export default function PasswordQuestions({ route }: any) {
   const navigation = useNavigation()
   const [question, setQuestion] = useState('')
   const [answer, setAnswer] = useState('')
-
   const [loading, setLoading] = useState(false)
-
-  //   const arr = [
-  //     { text: "Mother's maiden name?", value: "mother's maiden name" },
-  //     { text: 'Childhood hero?', value: 'childhood hero?' },
-  //     { text: 'First pet?', value: 'First pet?' },
-  //     { text: 'First school name?', value: 'First school name?' },
-  //     { text: 'Favorite place', value: 'Favorite place?' },
-  //     { text: 'Favorite food', value: 'Favorite food?' },
-  //     { text: "Father's occupation", value: "Father's occupation" },
-  //     { text: "Grandfather's occupation", value: "Grandfather's occupation" },
-  //   ]
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -41,26 +27,17 @@ export default function PasswordQuestions({ route }) {
     })
   }, [])
 
-  //   const {
-  //     handleSubmit,
-  //     watch,
-  //     setValue,
-  //     control,
-  //     formState: { errors },
-  //   } = useForm<ISecurityQA>({
-  //     // resolver: yupResolver(schema),
-  //   })
-
   useEffect(() => {
     getSecurityQuestion()
   }, [])
 
   const getSecurityQuestion = async () => {
+    const _phone = (await AsyncStorage.getItem('phone')) || ''
     try {
       setLoading(true)
       const _rs = await _fetch({
         method: 'GET',
-        _url: `/security-question?phone=234${phone.slice(1, 11)}`,
+        _url: `/security-question?phone=${_phone.substring(1)}`,
       })
       const data = await _rs.json()
 
@@ -74,25 +51,26 @@ export default function PasswordQuestions({ route }) {
   }
 
   const submitQuestion = async () => {
+    const _phone = (await AsyncStorage.getItem('phone')) || ''
     try {
       setLoading(true)
       const newData = {
-        question: question,
+        phone_number: _phone,
         answer: answer,
       }
       await AsyncStorage.setItem('answer', answer)
 
       const _rs = await _fetch({
-        _url: '/security-question',
+        _url: '/security-question/verify',
         method: 'POST',
         body: newData,
       })
       const rs = await _rs.json()
 
-      if (rs.success === false) {
+      if (rs.success === true) {
         Toast.show({
           type: 'success',
-          text1: 'success',
+          text1: 'Security Question was answered correctly',
         })
         navigation.navigate('RecoverPassword')
       } else {
@@ -108,26 +86,12 @@ export default function PasswordQuestions({ route }) {
     }
   }
 
-  //   const getPhone = async () => {
-  //     const token = (await AsyncStorage.getItem('token')) || ''
-  //     // setPhone_no(phone)
-  //   }
-
-  //   useEffect(() => {
-  //     getPhone()
-  //   }, [])
-
   return (
     <SafeAreaView>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View className="px-4">
           <Logo />
 
-          {/* <KeyboardAwareScrollView
-            style={{ flex: 1 }}
-            contentContainerStyle={{ flexGrow: 1 }}
-            enableOnAndroid={true}
-          > */}
           <View className="text-[#333333] font-inter py-4 space-y-1">
             <Text className="font-semibold text-lg text-center">
               Password Recovery

@@ -152,7 +152,7 @@ const MyErrandCard = ({
               {result?.substring(0, 80).concat('', '....')}
             </Text>
           </View>
-
+ 
           <View className="flex-row justify-between items-center mt-4">
             <View
               className={`bg-yellow-200 rounded-md px-3 ${
@@ -184,11 +184,13 @@ const MyErrandCard = ({
               </Text>
             </View>
 
-            <View className="bg-[#3F60AC] rounded-md px-1">
-              <Text className="text-white p-1 text-center">
-                {errand?.total_bids}
-              </Text>
-            </View>
+            {errand?.status === 'open' && errand.user_id === user_id && (
+              <View className="bg-[#3F60AC] rounded-md px-1">
+                <Text className="text-white p-1 text-center">
+                  {errand?.total_bids}
+                </Text>
+              </View>
+            )}
           </View>
         </TouchableOpacity>
       </View>

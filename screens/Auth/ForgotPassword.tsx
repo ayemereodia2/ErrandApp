@@ -1,16 +1,22 @@
+import { yupResolver } from '@hookform/resolvers/yup'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
-import { SafeAreaView, Text, View } from 'react-native'
+import { useForm } from 'react-hook-form'
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native'
+import Toast from 'react-native-toast-message'
 import * as yup from 'yup'
 import Button from '../../components/Button'
+import InputField from '../../components/InputField'
 import { Logo } from '../../components/Logo'
-import { RootState, useAppDispatch } from '../../services/store'
-
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { ActivityIndicator, ScrollView, TextInput } from 'react-native'
-import Toast from 'react-native-toast-message'
-import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
+import { useAppDispatch } from '../../services/store'
 
 declare global {
   interface Window {
@@ -28,95 +34,84 @@ interface IData {
   phone_number: string
 }
 
+interface IForgetPassword {
+  password: string
+  confirmPassword: string
+}
+
 const ForgotPassword = () => {
   const navigation = useNavigation()
-
+  const [loading, setLoading] = useState(false)
   const [password, setPassword] = useState<string>('')
-  const [confirmPassword, setConfirmPassword] = useState<string>('')
+  const [showPassword, setShowPassword] = useState(true)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(true)
 
   const dispatch = useAppDispatch()
   const [error, setError] = useState('')
 
-  const { loading } = useSelector((state: RootState) => state.verifyPhone)
+  // const { loading } = useSelector((state: RootState) => state.verifyPhone)
 
-  const schema = yup.object().shape({
+  const schema = yup.object({
     password: yup
       .string()
       .min(8, 'Password must be more than 8 chars')
-      .required('Password is required'),
+      .required()
+      .trim(),
     confirmPassword: yup
       .string()
-      .required('Confirm Password is required')
-      .oneOf([yup.ref('password')], 'Passwords must match'),
+      .oneOf([yup.ref('password')], 'Password must match')
+      .trim()
+      .required(),
   })
 
-  const updatePassword = async (userData: any) => {
+  const {
+    handleSubmit,
+    watch,
+    setValue,
+    control,
+    formState: { errors },
+  } = useForm<IForgetPassword>({
+    resolver: yupResolver(schema),
+  })
+
+  const passwordhandler = async (data: IForgetPassword) => {
     try {
-      const _rs = await _fetch({
-        method: 'POST',
-        _url: `/user/password`,
-        body: userData,
-      })
-
-      // Check if the response status code indicates an error
-      // if (!_rs.ok) {
-      //   const errorResponse = await _rs.json()
-      //   throw new Error(`Server error: ${errorResponse.message}`)
-      // }
-      const responseData = await _rs.json()
-
-      console.log('>>>>>>response', responseData)
-
-      return responseData
-    } catch (error) {
-      throw error
-    }
-  }
-
-  const handleUpdatePassword = async () => {
-    try {
-      const validationResult = await schema.validate(
-        { password, confirmPassword },
-        { abortEarly: false },
-      )
+      setLoading(true)
       const phone = await AsyncStorage.getItem('phone')
       const otp = await AsyncStorage.getItem('otp')
       const answer = await AsyncStorage.getItem('answer')
 
-      if (validationResult) {
-        const updatedData = {
-          new_password: password,
-          phone,
-          answer: "ifeoma",
-          otp,
-        }
-
-        // const updatedData = {
-        //   phone: '+2349064487778',
-        //   answer: 'ifeoma',
-        //   otp: '651743',
-        //   new_password: '12345678',
-        // }
-
-        console.log('><<<', updatedData)
-
-        const responseData = await updatePassword(updatedData)
-
-        if (responseData.success === true) {
-          Toast.show({
-            type: 'success',
-            text1: 'Password has been updated successfully',
-          })
-          navigation.navigate('Login')
-        } else {
-          Toast.show({
-            type: 'error',
-            text1: 'Profile update failed:' + responseData.message,
-          })
-        }
+      const payload = {
+        new_password: data.password,
+        phone,
+        answer,
+        otp,
       }
+
+      await _fetch({
+        method: 'POST',
+        _url: `/user/password`,
+        body: payload,
+      })
+        .then((rs) => rs.json())
+        .then((rs) => {
+          if (rs.success === true) {
+            setLoading(false)
+            Toast.show({
+              type: 'success',
+              text1: 'Password has been updated successfully',
+            })
+            navigation.navigate('Login')
+          } else {
+            setLoading(false)
+            Toast.show({
+              type: 'error',
+              text1: rs.message,
+            })
+          }
+        })
     } catch (error) {
-      console.error('Error updating profile:', error)
+      setLoading(false)
 
       Toast.show({
         type: 'error',
@@ -124,27 +119,6 @@ const ForgotPassword = () => {
       })
     }
   }
-
-  // const {
-  //     control,
-  //     handleSubmit,
-  //     formState: { errors },
-  //   } = useForm<IData>({
-  //     resolver: yupResolver(schema),
-  //     defaultValues: {
-  //       phone_number: '',
-  //     },
-  //   })
-
-  //   const submitPhone = (data: IData) => {
-  //     dispatch(
-  //       verifyPhone({
-  //         navigation,
-  //         phone_number: `+234${data.phone_number.substring(1)}`,
-  //         from: 'createAccount',
-  //       }),
-  //     )
-  //   }
 
   return (
     <SafeAreaView className="mx-4 mt-6">
@@ -160,33 +134,32 @@ const ForgotPassword = () => {
           </Text>
 
           <View className="pt-2 space-y-4 ">
-            {/* <InputField
-                label="Phone Number"
-                placeholder="Enter your phone Number"
-                keyboardType="numeric"
-                name="phone_number"
-                control={control}
-                errors={errors.phone_number}
-                required
-                message={errors?.phone_number?.message}
-              /> */}
-
             <View className="mt-8">
-              <TextInput
-                className="w-full mt-2 b rounded-md h-[60px] pl-3 items-center mx-auto bg-[#E6E6E6] text-sm"
-                placeholder={' Enter your password'}
-                value={password}
-                onChangeText={(text) => setPassword(text)}
-                placeholderTextColor={'#B3B3B3'}
-              />
+              <View className="relative mb-6">
+                <InputField
+                  label="New Password"
+                  placeholder="Enter your password"
+                  keyboardType="default"
+                  name="password"
+                  control={control}
+                  required
+                  errors={errors.password}
+                  message={errors?.password?.message}
+                />
+              </View>
 
-              <TextInput
-                className="w-full mt-4 mb-5 b rounded-md h-[60px] pl-3 items-center mx-auto bg-[#E6E6E6] text-sm"
-                placeholder={'Confirm password'}
-                value={confirmPassword}
-                onChangeText={(text) => setConfirmPassword(text)}
-                placeholderTextColor={'#B3B3B3'}
-              />
+              <View className="relative mb-6">
+                <InputField
+                  label="Confirm New Password"
+                  placeholder="re-enter password"
+                  keyboardType="visible-password"
+                  name="confirmPassword"
+                  control={control}
+                  required
+                  errors={errors.confirmPassword}
+                  message={errors?.confirmPassword?.message}
+                />
+              </View>
             </View>
 
             <Button
@@ -199,7 +172,7 @@ const ForgotPassword = () => {
                   'Update Password'
                 )
               }
-              onPress={handleUpdatePassword}
+              onPress={handleSubmit(passwordhandler)}
             />
           </View>
         </View>

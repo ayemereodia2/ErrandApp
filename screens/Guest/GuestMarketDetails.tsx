@@ -32,7 +32,7 @@ import { ProfileInitials } from '../../components/ProfileInitials'
 import { RootState, useAppDispatch } from '../../services/store'
 import { formatDate, getAddress } from '../../utils/helper'
 
-export default function GuestDetails({ route, navigation }: any) {
+export default function GuestMarketDetails({ route, navigation }: any) {
   const dispatch = useAppDispatch()
   const [showBid, setShowBid] = useState(false)
   const bottomSheetRef = useRef<BottomSheetModal>(null)
@@ -389,7 +389,7 @@ export default function GuestDetails({ route, navigation }: any) {
 
             <TouchableOpacity
               className="bg-[#2856c1] w-[50%] h-[60px] items-center justify-center"
-              onPress={() => navigation.navigate('VerifyPhone')}
+              onPress={() => navigation.navigate('VerifyPhone', {comingFrom:'createAccount'})}
             >
               <Text className="text-white text-lg text-center font-medium">
                 Sign Up

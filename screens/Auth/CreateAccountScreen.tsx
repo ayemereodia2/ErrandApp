@@ -49,8 +49,6 @@ export default function CreateAccountScreen() {
   })
 
   const onSubmit = async (data: ICreateAccount) => {
-    console.log('>>>>data', data)
-
     const phone_number = (await AsyncStorage.getItem('phone')) || ''
     const newData = {
       // dispatch,
