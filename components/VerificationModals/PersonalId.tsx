@@ -1,8 +1,11 @@
-import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
+import { EvilIcons, Feather } from '@expo/vector-icons'
+import * as ImagePicker from 'expo-image-picker'
 import React, { useState } from 'react'
 import {
   ActivityIndicator,
+  Image,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,43 +13,35 @@ import {
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
-import * as ImagePicker from 'expo-image-picker'
-import { EvilIcons, Feather } from '@expo/vector-icons'
-import { Image } from 'react-native'
-import { RootState, useAppDispatch } from '../../services/store'
-import { postFiles } from '../../services/errands/postFiles'
-import { ScrollView } from 'react-native'
 import { _fetch } from '../../services/axios/http'
-
+import { postFiles } from '../../services/errands/postFiles'
+import { RootState, useAppDispatch } from '../../services/store'
 
 interface ImageViewerProp {
-    placeholderImageSource: any
-    selectedImage: string
-    index: number
-    removeImage: any
-  }
+  placeholderImageSource: any
+  selectedImage: string
+  index: number
+  removeImage: any
+}
 
-  export function ImageViewer({
-    selectedImage,
-    index,
-    removeImage,
-  }: ImageViewerProp) {
-    return (
-      <View>
-        <EvilIcons name="close-o" size={26} onPress={() => removeImage(index)} />
-        <Image
-          source={{ uri: selectedImage }}
-          className="w-[100px] h-[100px] mr-4 rounded-xl"
-        />
-      </View>
-    )
-  }
+export function ImageViewer({
+  selectedImage,
+  index,
+  removeImage,
+}: ImageViewerProp) {
+  return (
+    <View>
+      <EvilIcons name="close-o" size={26} onPress={() => removeImage(index)} />
+      <Image
+        source={{ uri: selectedImage }}
+        className="w-[100px] h-[100px] mr-4 rounded-xl"
+      />
+    </View>
+  )
+}
 
-
-
-const PersonalId = ({closePersonalId}:any) => {
-
-    const dispatch = useAppDispatch()
+const PersonalId = ({ closePersonalId }: any) => {
+  const dispatch = useAppDispatch()
 
   const [loading, setLoading] = useState(false)
 
@@ -56,6 +51,9 @@ const PersonalId = ({closePersonalId}:any) => {
   const { loading: uploadingImages } = useSelector(
     (state: RootState) => state.postFilesReducer,
   )
+
+  console.log('-----', uploadedFiles,);
+  
 
   const removeImage = (index: number) => {
     const allFiles = [...uploadedFiles]
@@ -94,9 +92,7 @@ const PersonalId = ({closePersonalId}:any) => {
     }
   }
 
-
   const updatePersonalId = async (PersonalData: any) => {
-    
     setLoading(true)
     try {
       const _rs = await _fetch({
@@ -112,7 +108,7 @@ const PersonalId = ({closePersonalId}:any) => {
       }
 
       setLoading(false)
-  
+
       const responseData = await _rs.json()
 
       return responseData
@@ -123,9 +119,7 @@ const PersonalId = ({closePersonalId}:any) => {
 
   const handleUpdateProfile = async () => {
     const updatedData = {
-     
       personal_id_document: uploadedFiles,
-     
     }
 
     try {
@@ -138,10 +132,9 @@ const PersonalId = ({closePersonalId}:any) => {
         // Show a success message to the user.
         Toast.show({
           type: 'success',
-          text1: 'Your file has been submitted successfully, you will be notified once your verification has been processed.',
+          text1:
+            'Your file has been submitted successfully, you will be notified once your verification has been processed.',
         })
-
-        
 
         console.log(updatedData)
         closePersonalId()
@@ -165,24 +158,25 @@ const PersonalId = ({closePersonalId}:any) => {
     }
   }
 
-
-
   return (
     <SafeAreaView>
-     <ScrollView showsHorizontalScrollIndicator={false}>
+      <ScrollView showsHorizontalScrollIndicator={false}>
+        <Text className="text-lg text-center font-semibold">
+          Personal Identification
+        </Text>
 
-     
+        <View className="px-4 mt-6">
+          <Text className="text-sm text-[#243763] font-semibold">
+            In other to validate your personal information, Please upload the
+            relevant documents. Valid documents include International passport,
+            National ID or Voters card. Images must be either PNG, JPG or JPEG
+            format
+          </Text>
+        </View>
 
-      <Text className="text-lg text-center font-semibold">Personal Identification</Text>
-
-      <View className="px-4 mt-6">
-        <Text className="text-sm text-[#243763] font-semibold">In other to validate your personal information, Please upload the relevant documents. Valid documents include International passport, National ID or Voters card. Images must be either PNG, JPG or JPEG format</Text>
-
-      </View>
-
-       {/* <View className="w-[398px] h-[38px] mx-auto mt-10 ml-4"></View> */}
-       <ScrollView>
-       <View className="w-full rounded-lg h-[150px] bg-[#FCFCFC] mx-auto mt-4 border-[0.5px] border-[#E6E6E6]">
+        {/* <View className="w-[398px] h-[38px] mx-auto mt-10 ml-4"></View> */}
+        <ScrollView className='px-4' >
+          <View className="w-full rounded-lg h-[150px] bg-[#FCFCFC] mx-auto mt-4 border-[0.5px] border-[#E6E6E6]">
             {uploadingImages ? (
               <View className="flex-row justify-center items-center mt-16 space-x-2">
                 <ActivityIndicator color="blue" size="small" />
@@ -213,42 +207,44 @@ const PersonalId = ({closePersonalId}:any) => {
               selected
             </Text>
           </View>
-          </ScrollView>
-          <ScrollView horizontal className="ml mt-4">
-            {uploadedFiles.map((img, index) => {
-              // console.log('>>>>>>img=----', img)
-              return (
-                <ImageViewer
-                  placeholderImageSource={''}
-                  selectedImage={img}
-                  index={index}
-                  removeImage={removeImage}
-                />
-              )
-            })}
-            </ScrollView>
-            
+        </ScrollView>
+        <ScrollView horizontal className="ml-4 mt-4">
+          {uploadedFiles.map((img, index) => {
+            // console.log('>>>>>>img=----', img)
+            return (
+              <ImageViewer
+                placeholderImageSource={''}
+                selectedImage={img}
+                index={index}
+                removeImage={removeImage}
+              />
+            )
+          })}
+        </ScrollView>
 
-      <View className="flex-row justify-around items-center mt-4">
-        <TouchableOpacity className="bg-white h-12 w-[40%] mt-6 flex-row justify-center items-center rounded-lg border border-red-600" onPress={closePersonalId}>
+        <View className="flex-row justify-around items-center mt-4">
+          <TouchableOpacity
+            className="bg-white h-12 w-[40%] mt-6 flex-row justify-center items-center rounded-lg border border-red-600"
+            onPress={closePersonalId}
+          >
+            <Text className="text-red-600">Close</Text>
+          </TouchableOpacity>
 
-            <Text className='text-red-600'>Close</Text>
-
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          className="bg-[#1E3A79] h-12 w-[40%] mt-6 flex-row justify-center items-center rounded-lg" onPress={()=> handleUpdateProfile()}>
-          <Text className="text-white text-base">
-            {loading ? (
-              <ActivityIndicator size="small" color="#000000" />
-            ) : (
-              'Submit'
-            )}
-          </Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            className="bg-[#1E3A79] h-12 w-[40%] mt-6 flex-row justify-center items-center rounded-lg"
+            onPress={() => handleUpdateProfile()}
+          >
+            <Text className="text-white text-base">
+              {loading ? (
+                <ActivityIndicator size="small" color="#000000" />
+              ) : (
+                'Submit'
+              )}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
-      </SafeAreaView>
+    </SafeAreaView>
   )
 }
 

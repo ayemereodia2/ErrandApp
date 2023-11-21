@@ -60,7 +60,7 @@ const initialState: UserDetailsResponse = {
     has_verified_address: false,
     has_verified_email: false,
     has_verified_phone: false,
-     has_insurance: false,
+    has_insurance: false,
     insurance_amount: 0,
     referral_info: "",
     profile_picture: "",

@@ -87,8 +87,7 @@ export default function GuestMarket({ navigation }: any) {
     }, 500)
   }, [])
 
-  console.log(">>>>>fiterOn", filterOn);
-  
+  console.log('>>>>>fiterOn', filterOn)
 
   const max = high * 100
   const min = low * 100
@@ -216,6 +215,7 @@ export default function GuestMarket({ navigation }: any) {
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
           > */}
+
           {loading && (
             <View style={styles.container} className="mt-10">
               <ActivityIndicator
@@ -241,6 +241,11 @@ export default function GuestMarket({ navigation }: any) {
                 setMinCheck={setMinCheck}
                 setSearchedErrand={setSearchedErrand}
                 setCheckFilterToggle={setCheckFilterToggle}
+                navigation={undefined}
+                openMoreModal={() => {}}
+                firstName={''}
+                lastName={''}
+                profilePic={''}
               />
             )}
 
@@ -290,32 +295,44 @@ export default function GuestMarket({ navigation }: any) {
                     </TouchableOpacity>
                   </View>
                 )}
-
-                <FlatList
-                  refreshControl={
-                    <RefreshControl
-                      refreshing={refreshing}
-                      onRefresh={onRefresh}
-                    />
-                  }
-                  onEndReached={loadMoreData}
-                  onEndReachedThreshold={0.5}
-                  ListFooterComponent={renderListFooter}
-                  data={searchedErrand}
-                  renderItem={({ item, index }) => {
-                    return (
-                      <>
-                        <GuestComp
-                          errand={item}
-                          navigate={navigation}
-                          key={index}
-                        />
-                      </>
-                    )
-                  }}
-                  keyExtractor={(item) => item.id}
-                  style={{ flexGrow: 0, height: 650 }}
-                />
+                {searchedErrand?.length === 0 ? (
+                  <View
+                    style={{
+                      height:640
+                      
+  
+                    }}
+                    className="flex-row justify-center items-center"
+                  >
+                    <Text>There are no errands at the moment</Text>
+                  </View>
+                ) : (
+                  <FlatList
+                    refreshControl={
+                      <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                      />
+                    }
+                    onEndReached={loadMoreData}
+                    onEndReachedThreshold={0.5}
+                    ListFooterComponent={renderListFooter}
+                    data={searchedErrand}
+                    renderItem={({ item, index }) => {
+                      return (
+                        <>
+                          <GuestComp
+                            errand={item}
+                            navigate={navigation}
+                            key={index}
+                          />
+                        </>
+                      )
+                    }}
+                    keyExtractor={(item) => item.id}
+                    style={{ flexGrow: 0, height: 650 }}
+                  />
+                )}
               </View>
             </View>
           </>
@@ -339,7 +356,9 @@ export default function GuestMarket({ navigation }: any) {
 
         <TouchableOpacity
           className="bg-[#2856c1] w-[50%] h-[60px] items-center justify-center"
-          onPress={() => navigation.navigate('VerifyPhone', {comingFrom: 'createAccount'})}
+          onPress={() =>
+            navigation.navigate('VerifyPhone', { comingFrom: 'createAccount' })
+          }
         >
           <Text className="text-white text-lg text-center font-medium">
             Sign Up

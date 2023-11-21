@@ -44,7 +44,7 @@ const LandingDetails = ({ data, isLoading, navigation }: any) => {
   //   queryFn: getMarket,
   // })
 
-  console.log('>>>>>>dataaaaaa uregnta', data)
+  console.log('>>>>>>dataaaaaa', data)
 
   if (isLoading) {
     return (
@@ -70,12 +70,12 @@ const LandingDetails = ({ data, isLoading, navigation }: any) => {
 
   return (
     <>
-      {data === null ? (
+      {data?.data === null ? (
         <>
-          <Text className="pt-2">There are no urgent errands yet</Text>
+          <Text className="pt-2">There are no urgent errands at the moment </Text>
         </>
       ) : (
-        data?.data.map((errand: any) => (
+        data?.data?.map((errand: any) => (
           <SafeAreaView className="mb-10 mr-4">
             <ScrollView horizontal>
               <TouchableOpacity

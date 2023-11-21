@@ -40,12 +40,12 @@ import Filter from '../../components/Filter/Filter'
 import PostErrandButton from '../../components/PostErrandBtn'
 import { ProfileInitials } from '../../components/ProfileInitials'
 import UserInfo from '../../components/UserInfo/UserInfo'
+import { _fetch } from '../../services/axios/http'
 import { errandMarketList, setLoading } from '../../services/errands/market'
 import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
 import { getUserId } from '../../utils/helper'
-import { _fetch } from '../../services/axios/http'
 
 export default function MainScreen() {
   const navigation = useNavigation()
@@ -99,7 +99,7 @@ export default function MainScreen() {
         disappearsOnIndex={-1}
         onPress={() => {
           bottomSheetRef1.current?.dismiss()
-          bidHistoryRef.current?.dismiss()
+          avatar.current?.dismiss()
         }}
 
         // onChange={handleSheetChanges}
@@ -108,17 +108,17 @@ export default function MainScreen() {
     [],
   )
 
-  const bidHistoryRef = useRef<BottomSheetModal>(null)
+  const avatar = useRef<BottomSheetModal>(null)
   const bottomSheetRef1 = useRef<BottomSheetModal>(null)
 
-  function toggleBidHistoryModal(open: boolean, user: any) {
+  function toggleAvatarModal(open: boolean, user: any) {
     if (open) {
       setUserData(user)
       setModalOpen(true)
-      bidHistoryRef.current?.present()
+      avatar.current?.present()
     } else {
       setUserData(null)
-      bidHistoryRef.current?.dismiss()
+      avatar.current?.dismiss()
     }
   }
 
@@ -143,7 +143,7 @@ export default function MainScreen() {
 
   const errandSearchHandler = () => {
     const value = searchValue.toLowerCase()
-    const searchResult = errands.filter((errand) =>
+    const searchResult = errands?.filter((errand) =>
       errand?.description?.toLowerCase().includes(value),
     )
     setSearchedErrand(searchResult)
@@ -153,7 +153,7 @@ export default function MainScreen() {
     (state: RootState) => state.categoriesListReducer,
   )
 
-  const category = categories.map((category) => {
+  const category = categories?.map((category) => {
     return {
       label: category.name,
       value: category.identifier,
@@ -199,7 +199,6 @@ export default function MainScreen() {
           max === 0 ? '' : `&maxPrice=${max}`
         }`,
         // _url: `/errand/market`,
-
       })
       const _rs = await rs.json()
       setSearchedErrand([..._rs.data])
@@ -229,7 +228,7 @@ export default function MainScreen() {
           borderColor: '#CED0CE',
         }}
       >
-        <ActivityIndicator animating size="large" color="blue"/>
+        <ActivityIndicator animating size="large" color="blue" />
       </View>
     )
   }
@@ -406,33 +405,38 @@ export default function MainScreen() {
                     </View>
                   )}
 
-                  <FlatList
-                    refreshControl={
-                      <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={onRefresh}
-                      />
-                    }
-                    onEndReached={loadMoreData}
-                    onEndReachedThreshold={0.5}
-                    ListFooterComponent={renderListFooter}
-                    
-                    data={searchedErrand}
-                    renderItem={({ item, index }) => {
-                      return (
-                        <>
-                          <ErrandComp
-                            errand={item}
-                            navigation={navigation}
-                            key={index}
-                            toggleBidHistoryModal={toggleBidHistoryModal}
-                          />
-                        </>
-                      )
-                    }}
-                    keyExtractor={(item) => item.id}
-                    style={{ flexGrow: 0, height: 650 }}
-                  />
+                  {searchedErrand?.length === 0 ? (
+                    <View className="flex-row justify-center items-center mt-14">
+                      <Text>There are no errands at the moment</Text>
+                    </View>
+                  ) : (
+                    <FlatList
+                      refreshControl={
+                        <RefreshControl
+                          refreshing={refreshing}
+                          onRefresh={onRefresh}
+                        />
+                      }
+                      onEndReached={loadMoreData}
+                      onEndReachedThreshold={0.5}
+                      ListFooterComponent={renderListFooter}
+                      data={searchedErrand}
+                      renderItem={({ item, index }) => {
+                        return (
+                          <>
+                            <ErrandComp
+                              errand={item}
+                              navigation={navigation}
+                              key={index}
+                              toggleAvatarModal={toggleAvatarModal}
+                            />
+                          </>
+                        )
+                      }}
+                      keyExtractor={(item) => item.id}
+                      style={{ flexGrow: 0, height: 650 }}
+                    />
+                  )}
 
                   {/* <ScrollView>
                     <View className="pt-2">
@@ -459,7 +463,7 @@ export default function MainScreen() {
 
           <BottomSheetModal
             // backdropComponent={renderBackdrop}
-            ref={bidHistoryRef}
+            ref={avatar}
             index={0}
             snapPoints={['70%']}
             backdropComponent={renderBackdrop}

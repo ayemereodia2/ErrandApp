@@ -406,7 +406,7 @@ const PostErrand = ({ navigation }: any) => {
                 ? locationHandler()
                 : activeStep <= 4
                 ? financeHandler()
-                : openPinModal()
+                : submitErrandhandler()
             }}
             style={{ backgroundColor: '#1E3A79', height: 60 }}
             className={

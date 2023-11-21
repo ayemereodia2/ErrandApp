@@ -1,21 +1,17 @@
-import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
+import { EvilIcons, Feather } from '@expo/vector-icons'
+import * as ImagePicker from 'expo-image-picker'
 import React, { useState } from 'react'
 import {
-  ActivityIndicator,
-  StyleSheet,
+  ActivityIndicator, Image, ScrollView, StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
-import * as ImagePicker from 'expo-image-picker'
-import { EvilIcons, Feather } from '@expo/vector-icons'
-import { Image } from 'react-native'
-import { RootState, useAppDispatch } from '../../services/store'
-import { postFiles } from '../../services/errands/postFiles'
-import { ScrollView } from 'react-native'
 import { _fetch } from '../../services/axios/http'
+import { postFiles } from '../../services/errands/postFiles'
+import { RootState, useAppDispatch } from '../../services/store'
 
 
 interface ImageViewerProp {

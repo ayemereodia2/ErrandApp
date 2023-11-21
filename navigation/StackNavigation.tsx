@@ -91,6 +91,8 @@ export const TabStack = () => {
         component={ErrandDetails}
       />
 
+      {/* <Stack.Screen name="Market" component={MainScreen} /> */}
+
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SecurityQuestions" component={SecurityQuestion} />
       <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
@@ -319,6 +321,8 @@ export function GuestStack() {
           options={{ headerShown: false }}
         />
 
+        {/* <Stack.Screen name="Market" component={MainScreen} /> */}
+
         <Stack.Screen name="VerifyQuestion" component={VerifyQuestion} />
 
         <Stack.Screen
@@ -505,6 +509,8 @@ export const MainStack = () => {
         name="ErrandDetails"
         component={ErrandDetails}
       />
+
+      {/* <Stack.Screen name="Market" component={MainScreen} /> */}
 
       <Stack.Screen
         name="AbandonErrandModal"
@@ -784,6 +790,7 @@ export const LandingPageStack = () => {
       />
 
       <Stack.Screen name="MyErrands" component={ErrandScreen} />
+      <Stack.Screen name="Market" component={MainScreen} />
 
       {/* <Stack.Screen
         options={{

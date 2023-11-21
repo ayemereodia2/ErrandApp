@@ -1,12 +1,12 @@
 import {
   Ionicons,
   MaterialCommunityIcons,
-  MaterialIcons
+  MaterialIcons,
 } from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
-  BottomSheetModalProvider
+  BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
 import React, { useCallback, useMemo, useRef } from 'react'
 import {
@@ -14,16 +14,18 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
-import EmailModal from '../VerificationModals/EmailModal'
-import GuarantorModal from '../VerificationModals/GuarantorModal'
-import OfficeAddressModal from '../VerificationModals/OfficeAddressModal'
-import PersonalId from '../VerificationModals/PersonalId'
 
-const UserVerification = ({ data }: any) => {
+const UserVerification = ({
+  data,
+  openPersonalId,
+  openGuarantorModal,
+  openOfficeModal,
+  openEmailModal,
+}: any) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null)
   const bottomSheetRef1 = useRef<BottomSheetModal>(null)
   const bottomSheetRef2 = useRef<BottomSheetModal>(null)
@@ -34,17 +36,13 @@ const UserVerification = ({ data }: any) => {
   const snapPoints2 = useMemo(() => ['90%'], [])
   const snapPoints3 = useMemo(() => ['77%'], [])
 
-  function openEmailModal() {
-    bottomSheetRef.current?.present()
-  }
-
   function closeEmailModal() {
     bottomSheetRef.current?.dismiss()
   }
 
-  function openPersonalId() {
-    bottomSheetRef1.current?.present()
-  }
+  // function openPersonalId() {
+  //   bottomSheetRef1.current?.present()
+  // }
 
   function closePersonalId() {
     bottomSheetRef1.current?.dismiss()
@@ -58,14 +56,10 @@ const UserVerification = ({ data }: any) => {
     bottomSheetRef2.current?.dismiss()
   }
 
-  function openGuarantorModal() {
-    bottomSheetRef3.current?.present()
-  }
-
   function closeGuarantorModal() {
     bottomSheetRef3.current?.dismiss()
-  } ''
-  
+  }
+
   const {
     data: currentUser,
     backgroundTheme,
@@ -76,14 +70,14 @@ const UserVerification = ({ data }: any) => {
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   const renderBackdrop = useCallback(
-    (props:any) => (
+    (props: any) => (
       <BottomSheetBackdrop
         pressBehavior={'collapse'}
         opacity={0.7}
         {...props}
         appearsOnIndex={0}
         disappearsOnIndex={-1}
-        
+
         // onChange={handleSheetChanges}
       />
     ),
@@ -91,8 +85,7 @@ const UserVerification = ({ data }: any) => {
   )
 
   return (
-    <BottomSheetModalProvider>
-      <SafeAreaView className="mt-6 h-screen">
+    <SafeAreaView className="mt-6 h-screen">
         <ScrollView>
           <View className="flex-row justify-between items-center mx-4">
             <View className="w-10 h-10 border border-[#3F60AC] items-center justify-center rounded-md">
@@ -104,9 +97,14 @@ const UserVerification = ({ data }: any) => {
                 />
               </Text>
             </View>
-            <Text  style={{ color: textTheme }} className="font-light leading-8 ">Basic Verification</Text>
+            <Text
+              style={{ color: textTheme }}
+              className="font-light leading-8 "
+            >
+              Basic Verification
+            </Text>
             <View className="w-[100px] h-[34px] bg-[#D8F8E9] justify-center items-center rounded-[20px] ">
-              <Text  className="text-[#115A38] font-md text-sm">Completed</Text>
+              <Text className="text-[#115A38] font-md text-sm">Completed</Text>
             </View>
           </View>
 
@@ -119,7 +117,7 @@ const UserVerification = ({ data }: any) => {
                 <Ionicons name="md-swap-vertical" size={24} color="#3F60AC" />
               </Text>
             </View>
-            <Text  style={{ color: textTheme }} className="font-light leading-8">
+            <Text style={{ color: textTheme }} className="font-light leading-8">
               Personal Identification
             </Text>
             <View
@@ -147,9 +145,9 @@ const UserVerification = ({ data }: any) => {
             </View>
           </TouchableOpacity>
 
-            <TouchableOpacity
+          <TouchableOpacity
             className="flex-row justify-between items-center mx-4 mt-6"
-            onPress={() => openOFficeModal()}
+            onPress={() => openOfficeModal()}
           >
             <View className="w-10 h-10 border border-[#3F60AC] items-center justify-center rounded-md">
               <Text>
@@ -160,7 +158,7 @@ const UserVerification = ({ data }: any) => {
                 />
               </Text>
             </View>
-            <Text  style={{ color: textTheme }} className="font-light leading-8">
+            <Text style={{ color: textTheme }} className="font-light leading-8">
               Personal ID confirmation
             </Text>
             <View
@@ -201,7 +199,9 @@ const UserVerification = ({ data }: any) => {
                 />
               </Text>
             </View>
-            <Text  style={{ color: textTheme }} className="font-light leading-8">Email Verification</Text>
+            <Text style={{ color: textTheme }} className="font-light leading-8">
+              Email Verification
+            </Text>
             <View
               className="w-[100px] h-[34px] justify-center items-center rounded-[20px] "
               style={{
@@ -220,8 +220,6 @@ const UserVerification = ({ data }: any) => {
               </Text>
             </View>
           </TouchableOpacity>
-
-        
 
           {/* <TouchableOpacity
             className="flex-row justify-between items-center mx-4 mt-6 mb-40"
@@ -263,49 +261,8 @@ const UserVerification = ({ data }: any) => {
               ) : null}
             </View>
           </TouchableOpacity> */}
-
-          <BottomSheetModal
-            ref={bottomSheetRef}
-            index={0}
-            snapPoints={snapPoints}
-            containerStyle={{ marginHorizontal: 10 }}
-            backdropComponent={renderBackdrop}
-          >
-            <EmailModal closeEmailModal={closeEmailModal} />
-          </BottomSheetModal>
-
-          <BottomSheetModal
-            ref={bottomSheetRef1}
-            index={0}
-            snapPoints={snapPoints1}
-            containerStyle={{ marginHorizontal: 10 }}
-            backdropComponent={renderBackdrop}
-          >
-            <PersonalId closePersonalId={closePersonalId} />
-          </BottomSheetModal>
-
-          <BottomSheetModal
-            ref={bottomSheetRef2}
-            index={0}
-            snapPoints={snapPoints2}
-            containerStyle={{ marginHorizontal: 10 }}
-            backdropComponent={renderBackdrop}
-          >
-            <OfficeAddressModal closeOfficeModal={closeOfficeModal} />
-          </BottomSheetModal>
-
-          <BottomSheetModal
-            ref={bottomSheetRef3}
-            index={0}
-            snapPoints={snapPoints3}
-            containerStyle={{ marginHorizontal: 10 }}
-            backdropComponent={renderBackdrop}
-          >
-            <GuarantorModal closeGuarantorModal={closeGuarantorModal} />
-          </BottomSheetModal>
         </ScrollView>
-      </SafeAreaView>
-    </BottomSheetModalProvider>
+    </SafeAreaView>
   )
 }
 

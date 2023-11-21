@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
@@ -10,6 +11,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -186,17 +188,20 @@ const LandingForm = ({ navigation, route }: any) => {
       style={{ backgroundColor: backgroundTheme, flex: 1 }}
       className=" pt-4 "
     >
+      
       <ScrollView
         keyboardShouldPersistTaps="always"
         style={{ backgroundColor: backgroundTheme }}
         className="px-4"
         contentContainerStyle={{ flexGrow: 1 }}
+        
       >
         {/* <KeyboardAvoidingView
           style={{ flex: 1 }}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}
         > */}
+        <TouchableOpacity onPress={()=> Keyboard.dismiss()}>
           <View className="mt-6 flex-row items-center justify-between mx-3">
             <Text
               style={{ color: textTheme }}
@@ -206,6 +211,7 @@ const LandingForm = ({ navigation, route }: any) => {
               <Text className="text-base font-normal">{category?.name}</Text>
             </Text>
           </View>
+          </TouchableOpacity>
 
           <View className="px-4 mt-5">
             <Text
@@ -228,6 +234,7 @@ const LandingForm = ({ navigation, route }: any) => {
               />
             </View>
           </View>
+          
 
           <View className="px-4 mt-5">
             <Text
@@ -296,6 +303,7 @@ const LandingForm = ({ navigation, route }: any) => {
               </Text>
             </TouchableOpacity>
           </View>
+          
 
           {clicked ? (
             <View
@@ -338,6 +346,7 @@ const LandingForm = ({ navigation, route }: any) => {
                 }}
               />
             </View>
+            
           ) : (
             ''
           )}

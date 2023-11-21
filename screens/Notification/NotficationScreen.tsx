@@ -90,7 +90,7 @@ const NotificationScreen = ({ navigation }: any) => {
               <Text className="text-center">Unread Notifications</Text>
               <Text className="bg-red-500 text-white ml-2 p-1 rounded-md">
                 {' '}
-                {data?.data === undefined ? 0 : data?.data.length}
+                {data?.data === undefined ? 0 : data?.data?.length}
               </Text>
             </View>
           </TouchableOpacity>

@@ -100,9 +100,6 @@ const Filter = ({
       const allErrands = [...errands]
       const sortByBids = (a: MarketData, b: MarketData) =>
         a.total_bids - b.total_bids
-
-      console.log('>>>>>>>>>ok', allErrands?.sort(sortByBids))
-
       setSearchedErrand(allErrands?.sort(sortByBids))
     }
 
@@ -149,24 +146,26 @@ const Filter = ({
         <View
           className={
             Platform.OS === 'android'
-              ? 'flex-row items-center justify-between mt-8'
+              ? `flex-row items-center justify-between mt-8 ${!firstName && 'ml-3'} px-2`
               : 'flex-row items-center justify-between'
           }
         >
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Profile')}
-            style={{ marginLeft: 20 }}
-            className="flex-row items-center justify-between my-3"
-          >
-            <ProfileInitials
-              firstName={firstName.charAt(0).toUpperCase()}
-              lastName={lastName.charAt(0).toUpperCase()}
-              profile_pic={profilePic}
-              textClass="text-white text-base"
-              width={35}
-              height={35}
-            />
-          </TouchableOpacity>
+          {!firstName ? "" :
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Profile')}
+              style={{ marginLeft: 20 }}
+              className="flex-row items-center justify-between my-3"
+            >
+              <ProfileInitials
+                firstName={firstName?.charAt(0).toUpperCase()}
+                lastName={lastName?.charAt(0).toUpperCase()}
+                profile_pic={profilePic}
+                textClass="text-white text-base"
+                width={35}
+                height={35}
+              />
+            </TouchableOpacity>
+          }
 
           <Text
             className="font-bold text-[20px] leading-7"

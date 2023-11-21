@@ -7,6 +7,7 @@ export const getAccounts = createAsyncThunk("get-accounts", async(_, {rejectWith
       const res = await rs.json()
       
       return res.data
+      
     } catch (err) {
         rejectWithValue(err)
     }

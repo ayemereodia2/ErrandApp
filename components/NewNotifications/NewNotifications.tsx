@@ -1,5 +1,4 @@
 import { AntDesign, FontAwesome5, Ionicons } from '@expo/vector-icons'
-import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { ScrollView, Text, View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
@@ -9,7 +8,7 @@ import { _fetch } from '../../services/axios/http'
 import { RootState } from '../../services/store'
 import { getTimeAgo } from '../../utils/helper'
 
-export default function NewNotifications({data, isLoading}) {
+export default function NewNotifications({ data, isLoading }) {
   const {
     data: currentUser,
     backgroundTheme,
@@ -42,13 +41,14 @@ export default function NewNotifications({data, isLoading}) {
     )
   }
 
+  // console.log('>>>>>>data', data.data)
 
   return (
     <>
-      {data?.data === undefined ? (
+      {data?.data === null ? (
         <>
           <Text className="text-sm pt-2 mb-4 " style={{ color: textTheme }}>
-            There are no new notifications
+            There are no new notifications at the moment
           </Text>
         </>
       ) : (

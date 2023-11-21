@@ -200,7 +200,7 @@ const OfficeAddressModal = ({ closeOfficeModal }: any) => {
           </Text>
         </View>
       </ScrollView>
-      <ScrollView horizontal className="ml mt-4">
+      <ScrollView horizontal className="ml-4 mt-4">
         {uploadedFiles.map((img, index) => {
           // console.log('>>>>>>img=----', img)
           return (

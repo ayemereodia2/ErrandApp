@@ -12,10 +12,10 @@ import {
   BackHandler,
   Platform,
   RefreshControl,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  ScrollView,
   View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -57,7 +57,7 @@ const LandingTest = ({ navigation }: any) => {
   }
 
   const renderBackdrop = useCallback(
-    (props) => (
+    (props: any) => (
       <BottomSheetBackdrop
         pressBehavior={'collapse'}
         opacity={0.7}
@@ -65,15 +65,13 @@ const LandingTest = ({ navigation }: any) => {
         appearsOnIndex={0}
         disappearsOnIndex={-1}
         onPress={() => {
-          // bottomSheetRef.current?.dismiss()
+          bottomSheetRef.current?.dismiss()
           bottomSheetRef1.current?.dismiss()
         }}
       />
     ),
     [],
   )
-
-  
 
   const [clicked, setClicked] = useState(false)
   const dispatch = useAppDispatch()
@@ -320,24 +318,21 @@ const LandingTest = ({ navigation }: any) => {
                         </>
                       ))
                     : null}
-                     <View className="flex-row mt-3 " >
-                            <TouchableOpacity
-                              className="border-[#aaa] border px-4 py-1 rounded-xl mr-2 bg-white"
-                              style={{
-                                backgroundColor: theme ? '#1E3A79' : 'white',
-                              }}
-                              onPress={() => {
-                               
-                                navigation.navigate('CreateErrand')
-                              }}
-                              
-                            >
-                              <Text
-                                className="text-base"
-                                style={{ color: textTheme }}
-                              >More...</Text>
-                            </TouchableOpacity>
-                          </View>
+                  <View className="flex-row mt-3 ">
+                    <TouchableOpacity
+                      className="border-[#aaa] border px-4 py-1 rounded-xl mr-2 bg-white"
+                      style={{
+                        backgroundColor: theme ? '#1E3A79' : 'white',
+                      }}
+                      onPress={() => {
+                        navigation.navigate('CreateErrand')
+                      }}
+                    >
+                      <Text className="text-base" style={{ color: textTheme }}>
+                        More...
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
 
