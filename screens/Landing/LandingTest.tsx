@@ -1,4 +1,4 @@
-import { Entypo, FontAwesome } from '@expo/vector-icons'
+import { Entypo, FontAwesome, FontAwesome5, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -10,6 +10,8 @@ import { useQuery } from '@tanstack/react-query'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   BackHandler,
+  FlatList,
+  Image,
   Platform,
   RefreshControl,
   ScrollView,
@@ -29,7 +31,11 @@ import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
-import { getTimeOfDay } from '../../utils/helper'
+import { getTimeOfDay, newCategories } from '../../utils/helper'
+import Icon from 'react-native-vector-icons';
+import { CategoriesList } from '../../types'
+import HomeCategory from '../../components/HomeCategory/HomeCategory'
+
 
 const LandingTest = ({ navigation }: any) => {
   const loaderGif = '../../assets/images/loading-SWAVE.gif'
@@ -39,6 +45,8 @@ const LandingTest = ({ navigation }: any) => {
   const snapPoints1 = useMemo(() => ['55%'], [])
   const [verifiedPin, setVerifiedPin] = useState(true)
   const [refreshing, setRefreshing] = React.useState(false)
+
+ 
 
   function openPinModal() {
     bottomSheetRef.current?.present()
@@ -135,7 +143,13 @@ const LandingTest = ({ navigation }: any) => {
     queryFn: getCategory,
     refetchOnMount: 'always',
   })
-  // console.log(data)
+  // console.log(data)(
+
+  if(data) {
+    console.log(data)
+  }
+
+ 
 
   const onRefresh = React.useCallback(() => {
     // dispatch(myErrandList({ setSearchedErrand }))
@@ -177,6 +191,8 @@ const LandingTest = ({ navigation }: any) => {
     checkPinIsVerified()
   }, [])
 
+
+
   // if (loading ) {
   //   return (
   //     <SafeAreaView
@@ -195,7 +211,7 @@ const LandingTest = ({ navigation }: any) => {
   return (
     <>
       <SafeAreaView
-        className="px-4 w-screen"
+        className="px-4 w-screen h-[100%] mt-2"
         style={{ backgroundColor: backgroundTheme, flex: 1 }}
       >
         <BottomSheetModalProvider>
@@ -293,13 +309,13 @@ const LandingTest = ({ navigation }: any) => {
                   What do you need help with?
                 </Text>
 
-                <View className="mt-4 w-[90vw] flex-row flex-wrap items-center mx-auto">
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-4  w-[90vw]">
                   {data
                     ? data?.data?.map((category: any) => (
                         <>
-                          <View className="flex-row mt-3 " key={category.id}>
+                          <View className="flex-row mt-3" key={category.id}>
                             <TouchableOpacity
-                              className="border-[#aaa] border px-4 py-1 rounded-xl mr-2 bg-white"
+                              className="border-[#aaa] border h-[220px] w-[250px] justify-center pl-5 rounded-xl mr-2 bg-white"
                               style={{
                                 backgroundColor: theme ? '#1E3A79' : 'white',
                               }}
@@ -309,8 +325,51 @@ const LandingTest = ({ navigation }: any) => {
                               }}
                               key={category.id}
                             >
+                           
+                           { category.name === 'Market / Groceries Shopping' ? (
+                            <Text className='text-center'><FontAwesome name="shopping-bag" size={40} color="black" /></Text>
+                           ) 
+                          :
+                          category.name === 'Laundry service' ? (
+                            <Text className='text-center'><MaterialIcons name="local-laundry-service" size={40} color="black" /></Text>
+                          )
+                          :
+                          category.name === 'Delivery' ? (
+                            <Text className='text-center'><MaterialCommunityIcons name="truck-delivery" size={40} color="black" /></Text>
+
+                          )
+                          :
+                          category.name === 'Cleaning/home service' ? (
+                            <Text className='text-center'><MaterialIcons name="clean-hands" size={40} color="black" /></Text>
+
+                          )
+                          :
+                          category.name === 'General Labour' ? (
+                            <Text className='text-center'><MaterialIcons name="work" size={40} color="black" /></Text>
+
+                          )
+                          :
+                          category.name === 'Photo / Video Production ' ? (
+                            <Text className='text-center'><FontAwesome name="video-camera" size={40} color="black" /></Text>
+
+                          )
+                          :
+                          category.name === 'Home Teacher' ? (
+                            <Text className='text-center'><FontAwesome5 name="chalkboard-teacher" size={40} color="black" /></Text>
+
+                          )
+                          :
+                          category.name === 'Any Errand' ? (
+                            <Text className='text-center'><MaterialCommunityIcons name="run-fast" size={40} color="black" /></Text>
+
+                          )
+                          :
+                          null
+                          }
+
+
                               <Text
-                                className="text-base"
+                                className="text-lg font-semibold text-center mt-5"
                                 style={{ color: textTheme }}
                               >{`${category.description}`}</Text>
                             </TouchableOpacity>
@@ -318,9 +377,10 @@ const LandingTest = ({ navigation }: any) => {
                         </>
                       ))
                     : null}
+
                   <View className="flex-row mt-3 ">
                     <TouchableOpacity
-                      className="border-[#aaa] border px-4 py-1 rounded-xl mr-2 bg-white"
+                      className="border-[#aaa] border h-[220px] w-[250px] rounded-xl mr-2 bg-white"
                       style={{
                         backgroundColor: theme ? '#1E3A79' : 'white',
                       }}
@@ -328,12 +388,14 @@ const LandingTest = ({ navigation }: any) => {
                         navigation.navigate('CreateErrand')
                       }}
                     >
-                      <Text className="text-base" style={{ color: textTheme }}>
+                      <Text className="text-base text-center justify-center pt-[40%]" style={{ color: textTheme }}>
                         More...
                       </Text>
                     </TouchableOpacity>
                   </View>
-                </View>
+
+        
+                </ScrollView>
               </View>
 
               <View className="mt-12">
