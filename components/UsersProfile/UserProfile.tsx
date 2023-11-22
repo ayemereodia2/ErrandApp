@@ -28,7 +28,7 @@ const UserProfile = () => {
           style={{ color: textTheme }}
           className=" font-light ml-4 pb-6 leading-6"
         >
-          {data?.bio}
+          {data.bio ? data?.bio : 'N/A'}
         </Text>
       </View>
 
@@ -45,7 +45,7 @@ const UserProfile = () => {
           style={{ color: textTheme }}
           className=" ml-4 leading-6  pb-6 font-light"
         >
-          {data?.email}
+          {data.email ? data?.email : 'N/A'}
         </Text>
       </View>
 
@@ -79,7 +79,7 @@ const UserProfile = () => {
           style={{ color: textTheme }}
           className=" ml-4 leading-6 font-light  pb-6"
         >
-          {data?.dob.slice(0, 10)}
+        {data.dob ?  data?.dob.slice(0, 10) : "N/A"}
         </Text>
       </View>
 

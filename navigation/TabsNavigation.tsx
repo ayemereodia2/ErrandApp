@@ -174,12 +174,13 @@ export const TabsNavigation = ({ navigation }: any) => {
                   name="home"
                   size={24}
                   color={theme ? 'white' : 'black'}
+                  style={{marginLeft: 6}}
                 />
                 <Text style={{color: textTheme}}>Home</Text>
                 </>
               ) : (
                 <>
-                <AntDesign name="home" size={24} color={textTheme} />
+                <AntDesign name="home" size={24} color={textTheme} style={{marginLeft: 6}}/>
                 <Text style={{color: textTheme}}>Home</Text>
                 </>
               )}
@@ -197,12 +198,12 @@ export const TabsNavigation = ({ navigation }: any) => {
             <View>
               {focused ? (
                 <>
-                <FontAwesome name="search" size={24} color={textTheme} />
+                <FontAwesome name="search" size={24} color={textTheme} style={{marginLeft: 6}}/>
                 <Text style={{color: textTheme}}>Market</Text>
                 </>
               ) : (
                 <>
-                 <Feather name="search" size={24} color={textTheme} />
+                 <Feather name="search" size={24} color={textTheme} style={{marginLeft: 6}}/>
                  <Text style={{color: textTheme}}>Market</Text>
                 </>
                
@@ -221,13 +222,13 @@ export const TabsNavigation = ({ navigation }: any) => {
             <View>
               {focused ? (
                 <>
-                <MaterialIcons name="run-circle" size={30} color={textTheme} />
+                <MaterialIcons name="run-circle" size={30} color={textTheme} style={{marginLeft: 8}}/>
                 <Text style={{color: textTheme}}>Errands</Text>
                 </>
                 
               ) : (
                 <>
-                <FontAwesome5 name="running" size={24} color={textTheme} />
+                <FontAwesome5 name="running" size={24} color={textTheme} style={{marginLeft: 8}}/>
                 <Text style={{color: textTheme}}>Errands</Text>
                 </>
                 
@@ -247,12 +248,12 @@ export const TabsNavigation = ({ navigation }: any) => {
             <View>
               {focused ? (
                 <>
-                <Entypo name="wallet" size={26} color={textTheme} />
+               <Entypo name="wallet" size={26} color={textTheme} style={{marginLeft: 6}}/> 
                 <Text style={{color: textTheme}}>Wallet</Text>
                 </>
               ) : (
                 <>
-                <SimpleLineIcons name="wallet" size={24} color={textTheme} />
+                <SimpleLineIcons name="wallet" size={24} color={textTheme} style={{marginLeft: 6}}/>
                 <Text style={{color: textTheme}}>Wallet</Text>
                 </>
               )}
@@ -270,13 +271,13 @@ export const TabsNavigation = ({ navigation }: any) => {
             <View>
               {focused ? (
                 <>
-                <Fontisto name="player-settings" size={26} color={textTheme} />
+                <Fontisto name="player-settings" size={26} color={textTheme} style={{marginLeft: 6}} />
                 <Text style={{color: textTheme}}>Settings</Text>
                 </>
                 
               ) : (
                 <>
-                <Ionicons name="settings-outline" size={26} color={textTheme} />
+                <Ionicons name="settings-outline" size={26} color={textTheme} style={{marginLeft: 7}}/>
                 <Text style={{color: textTheme}}>Settings</Text>
                 </>
                 
