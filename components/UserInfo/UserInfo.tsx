@@ -1,4 +1,4 @@
-import { Entypo, FontAwesome5 } from '@expo/vector-icons'
+import { Entypo, FontAwesome5, MaterialIcons } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import {
   SafeAreaView,
@@ -57,12 +57,26 @@ const UserInfo = ({ user, key }: any) => {
           />
         </View>
 
-        <Text
+        {/* <Text
           className="text-center font-extrabold text-3xl mt-2"
           style={{ color: textTheme }}
         >
-          {user.first_name} {user.last_name}
-        </Text>
+          {user.first_name} {user.last_name} <Text></Text>
+        </Text> */}
+         <View className="flex-row justify-center items-center mt-2">
+              <Text
+                style={{ color: textTheme }}
+                className="text-3xl font-extrabold"
+              >
+                {user?.first_name} {user?.last_name}{' '}
+              </Text>
+
+              {user?.verification === 100 ? (
+                <Text>
+                  <MaterialIcons name="verified" size={20} color="green" />
+                </Text>
+              ) : null}
+            </View>
         <Text
           className="text-center font-semibold"
           style={{ color: textTheme }}
