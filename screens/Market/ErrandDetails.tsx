@@ -263,17 +263,17 @@ export default function ErrandDetails({ route, navigation }: any) {
                           <View className="flex-row items-center">
                             {/* {showStars(data.rating)} */}
                             <Text style={{ color: textTheme }}>
-                              {user?.rating}{' '}
-                              <Entypo name="star" size={16} color="#FBB955" />{' '}
+                              {user?.rating}
+                              <Entypo name="star" size={16} color="#FBB955" />
                             </Text>
                             <Text
                               style={{ color: textTheme }}
                               className="text-[#6D6D6D] text-sm"
                             >
-                              ( {user?.errands_completed}{' '}
+                              ( {user?.errands_completed}
                               {user.errands_completed > 1
                                 ? 'errands'
-                                : 'errand'}{' '}
+                                : 'errand'}
                               Completed)
                             </Text>
                           </View>
@@ -345,7 +345,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                             name="calendar-outline"
                             size={18}
                             color={textTheme}
-                          />{' '}
+                          />
                           {formatDate(errand.expiry_date)}
                         </Text>
                       </View>
@@ -382,7 +382,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                                   name="check-circle"
                                   size={12}
                                   color={'#3F60AC'}
-                                />{' '}
+                                />
                                 Insurance
                               </Text>
                             </View>
@@ -524,31 +524,27 @@ export default function ErrandDetails({ route, navigation }: any) {
               I can do this
             </Text>
           </TouchableOpacity>
-        ) : 
-        errand.user_id !== userId && errand?.status === 'completed' ? (
+        ) : errand.user_id !== userId && errand?.status === 'completed' ? (
           <TouchableOpacity
             className="w-full h-[65px] absolute bottom-0 flex-row justify-center items-center bg-[#767577]"
-           disabled={true}
+            disabled={true}
           >
             <Text className="text-white text-lg font-medium">
               This Errand has been completed
             </Text>
           </TouchableOpacity>
-        )
-          : 
-          errand.user_id !== userId && errand?.status === 'cancelled' ? (
-            <TouchableOpacity
-              className="w-full h-[65px] absolute bottom-0 flex-row justify-center items-center bg-red-500"
-             disabled={true}
-            >
-              <Text className="text-white text-lg font-medium">
-                This Errand has been completed
-              </Text>
-            </TouchableOpacity>
-          )
-          :
-        ' '
-        }
+        ) : errand.user_id !== userId && errand?.status === 'cancelled' ? (
+          <TouchableOpacity
+            className="w-full h-[65px] absolute bottom-0 flex-row justify-center items-center bg-red-500"
+            disabled={true}
+          >
+            <Text className="text-white text-lg font-medium">
+              This Errand has been completed
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          ' '
+        )}
       </SafeAreaView>
     </BottomSheetModalProvider>
   )

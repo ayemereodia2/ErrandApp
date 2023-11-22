@@ -22,7 +22,7 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
     <>
       {/* Header */}
 
-      <ScrollView>
+      <ScrollView className='px-2 mb-4'>
         <View className="flex-row mt-[38px] items-center justify-center">
           <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
             <Text className="text-black mx-auto">5</Text>
@@ -54,7 +54,7 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
           </Text>
         </View>
 
-        <View className="mx-4 mt-2 flex-row items-center space-x-2">
+        <View className="mx-4 mt-2 flex-row items-center space-x-10">
           <Text
             style={{ color: textTheme }}
             className="font-md text-[14px] w-28"
@@ -63,19 +63,19 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
           </Text>
           <Text
             style={{ color: textTheme }}
-            className="font-light text-base text-[#333333] text-left w-[200px]"
+            className="font-light text-base text-[#333333] text-left w-[300px]"
           >
             {postErrandData.type}
           </Text>
         </View>
 
         <View className="mx-4 mt-4 flex-row items-center space-x-10">
-          <Text style={{ color: textTheme }} className="font-md text-base w-20">
+          <Text style={{ color: textTheme }} className="font-md text-base w-28">
             Activity
           </Text>
           <Text
             style={{ color: textTheme }}
-            className="font-light text-sm text-[#333333] w-[200px]"
+            className="font-light text-sm text-[#333333] w-[300px]"
           >
             {postErrandData.categoryName}
           </Text>
@@ -93,7 +93,7 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
         <View className="mx-4 mt-2 flex-row space-x-10 ">
           <Text
             style={{ color: textTheme }}
-            className="font-md text-[14px] w-20"
+            className="font-md text-[14px] w-28"
           >
             Description
           </Text>
@@ -105,10 +105,10 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
           </Text>
         </View>
 
-        <View className='flex-row space-x-14 pt-4'>
+        <View className='flex-row space-x-10 pt-4'>
           <Text
             style={{ color: textTheme }}
-            className="font-md text-[14px] pl-4 "
+            className="font-md text-[14px] pl-4 w-28"
           >
             Images
           </Text>
@@ -131,20 +131,20 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
           </View>
         </View>
 
-        <View className="mx-4 mt-6 flex-row space-x-[76px] ">
-          <Text style={{ color: textTheme }} className="font-md text-[14px]">
+        <View className="mx-4 mt-6 flex-row space-x-10  ">
+          <Text style={{ color: textTheme }} className="font-md text-[14px] w-28">
             Budget
           </Text>
           <Text
             style={{ color: textTheme }}
             className="font-light text-light text-[#333333]"
           >
-            {postErrandData.budget}
+            &#x20A6; {postErrandData.budget}
           </Text>
         </View>
 
-        <View className="mx-4 mt-6 flex-row space-x-16">
-          <Text style={{ color: textTheme }} className="font-md text-[14px]">
+        <View className="mx-4 mt-6 flex-row space-x-10">
+          <Text style={{ color: textTheme }} className="font-md text-[14px] w-28">
             Location
           </Text>
           <Text
@@ -155,8 +155,8 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
           </Text>
         </View>
 
-        <View className="mx-4 mt-6 flex-row space-x-14">
-          <Text style={{ color: textTheme }} className="font-md text-[14px]">
+        <View className="mx-4 mt-6 flex-row space-x-10">
+          <Text style={{ color: textTheme }} className="font-md text-[14px] w-28">
             Insurance
           </Text>
           <Text
@@ -170,7 +170,7 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
         <View className="mx-4 mt-6 flex-row space-x-10">
           <Text
             style={{ color: textTheme }}
-            className="font-md w-20 text-[14px]"
+            className="font-md w-28 text-[14px]"
           >
             Insurance Amount
           </Text>
@@ -182,7 +182,7 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
           </Text>
         </View>
 
-        <View className="mx-4 mt-6 flex-row space-x-2 ">
+        <View className="mx-4 mt-6 flex-row space-x-10 ">
           <Text
             style={{ color: textTheme }}
             className="font-md text-[14px] w-28"
@@ -197,7 +197,7 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
           </Text>
         </View>
 
-        <View className="mx-4 mt-6 flex-row space-x-2">
+        <View className="mx-4 mt-6 flex-row space-x-10">
           <Text
             style={{ color: textTheme }}
             className="font-md text-[14px] w-28"

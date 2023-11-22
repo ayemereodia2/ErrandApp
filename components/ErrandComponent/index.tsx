@@ -39,7 +39,7 @@ export default function ErrandComp({
   const truncatedAddress = truncateAddress(address, MAX_ADDRESS_LENGTH)
 
   const truncatedAddressText = truncateAddress(
-    errand?.dropoff_address?.address_text,
+    errand?.pickup_address?.address_text,
     MAX_ADDRESS_LENGTH,
   )
 
@@ -232,7 +232,7 @@ export default function ErrandComp({
           <Text>
             <EvilIcons name="location" size={16} color={'green'} />{' '}
           </Text>
-          {errand.dropoff_address?.address_text ? (
+          {errand.pickup_address?.address_text ? (
             <Text style={{ color: textTheme }}> {truncatedAddressText} </Text>
           ) : (
             <Text style={{ color: textTheme }}>No Location</Text>

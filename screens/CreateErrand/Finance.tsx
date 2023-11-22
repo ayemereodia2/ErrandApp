@@ -20,6 +20,7 @@ interface FinanceProp {
   postErrandData: PostErrandData
   toggleFundWalletModal: any
   navigation: any
+  financeError: string
 }
 
 const CreateErrandFinance = ({
@@ -28,6 +29,7 @@ const CreateErrandFinance = ({
   postErrandData,
   toggleFundWalletModal,
   navigation,
+  financeError,
 }: FinanceProp) => {
   const dispatch = useAppDispatch()
   const [currentWalletAmount, setCurrentWalletAmount] = useState(0)
@@ -51,7 +53,7 @@ const CreateErrandFinance = ({
 
   const insuranceRestrictions = [
     { label: 'Yes', value: 'Yes' },
-    { label: 'No', value: 'Ni' },
+    { label: 'No', value: 'No' },
   ]
 
   return (
@@ -85,6 +87,8 @@ const CreateErrandFinance = ({
           <Text style={{ color: textTheme }} className="text-[#243763]">
             What is your budget for this errand?
           </Text>
+
+          {financeError && <Text className="text-red-500">{financeError}</Text>}
         </View>
 
         <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2 mx-4">
@@ -143,13 +147,14 @@ const CreateErrandFinance = ({
           </Text>
         </View> */}
 
-        <View className="mt-10 ml-4 ">
+        <View className="mt-10 ml-4">
           <Text
             className="text-[#243763] font-semibold text-[20px]"
             style={{ color: textTheme }}
           >
             Insurance
           </Text>
+          {/* <Text className='text-red-500'>*{financeError}</Text> */}
         </View>
         <View className="px-4 mt-4">
           <Text
@@ -190,40 +195,36 @@ const CreateErrandFinance = ({
             labelField="label"
             valueField="value"
             placeholder={'No'}
-            value={postErrandData.res_by_qualification}
+            value={postErrandData.insurance}
             onChange={(item) => {
               handleInputChange(item.label, 'insurance')
             }}
           />
         </View>
 
-        <View className="mt-[41px] px-4">
-          <Text style={{ color: textTheme }} className="text-[#243763]">
-            How much insurance amount do you require from Bidders for this
-            errand?
-          </Text>
-        </View>
-        {/* <TextInput
-          className="md:w-[390px] mt-2 p-2 h-[50px] b rounded-md mx-[16px] bg-[#E6E6E6]"
-          placeholder="Enter your Insurance Amount"
-          placeholderTextColor={'#B3B3B3'}
-          onChangeText={(text) => handleInputChange(text, 'ins_amount')}
-          keyboardType="number-pad"
-          defaultValue={postErrandData.ins_amount?.toString()}
-        /> */}
-        <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2 mx-4">
-          <Text className="text-lg ">&#x20A6;</Text>
+        {postErrandData.insurance === 'Yes' ? (
+          <>
+            <View className="mt-[41px] px-4">
+              <Text style={{ color: textTheme }} className="text-[#243763]">
+                How much insurance amount do you require from Bidders for this
+                errand?
+              </Text>
+            </View>
+            <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2 mx-4">
+              <Text className="text-lg ">&#x20A6;</Text>
 
-          <TextInput
-            className="w-full"
-            placeholder="Enter your Insurance Amount"
-            onChangeText={(text) =>
-              handleInputChange(currencyMask(text), 'ins_amount')
-            }
-            keyboardType="number-pad"
-            defaultValue={postErrandData.budget.toString()}
-          />
-        </View>
+              <TextInput
+                className="w-full"
+                placeholder="Enter your Insurance Amount"
+                onChangeText={(text) => handleInputChange(text, 'ins_amount')}
+                keyboardType="number-pad"
+                defaultValue={postErrandData.budget.toString()}
+              />
+            </View>
+          </>
+        ) : (
+          ''
+        )}
       </ScrollView>
     </>
   )

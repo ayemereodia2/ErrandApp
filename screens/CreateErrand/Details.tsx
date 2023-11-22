@@ -30,7 +30,7 @@ interface DetailsProp {
   // files: any
   // setFiles: any
   postErrandData: PostErrandData
-  // detailError: any
+  detailError: any
   uploadedFiles: any[]
   setUploadedFiles: any
   setActiveStep: React.Dispatch<React.SetStateAction<number>>
@@ -67,6 +67,7 @@ const CreateErrandDetails = ({
   setUploadedFiles,
   setAudio,
   audio,
+  detailError,
 }: DetailsProp) => {
   const dispatch = useAppDispatch()
   const durationTypes = ['hours', 'days', 'weeks']
@@ -312,10 +313,11 @@ const CreateErrandDetails = ({
         </View>
 
         <View className="px-4">
-          <View className="mt-[56px]">
+          <View className="mt-[56px] flex-row space-x-2">
             <Text style={{ color: textTheme }}>
               Explain exactly what you need
             </Text>
+            <Text className="text-red-600">*{detailError.desc}</Text>
           </View>
           <TextInput
             className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3"
@@ -328,45 +330,34 @@ const CreateErrandDetails = ({
           />
 
           <View className="flex-row space-x-6">
-            <View className="w-full">
-              <View className="mt-[40px]">
-                <Text style={{ color: textTheme }}>
-                  When do you need this done ?
-                </Text>
+            {selectedTime === 'Specify' ? (
+              ''
+            ) : (
+              <View className="w-full">
+                <View className="mt-[40px]">
+                  <Text style={{ color: textTheme }}>
+                    When do you need this done ?
+                  </Text>
+                </View>
+                <Dropdown
+                  style={style.dropdown}
+                  placeholderStyle={style.placeholderStyle}
+                  selectedTextStyle={style.selectedTextStyle}
+                  inputSearchStyle={style.inputSearchStyle}
+                  iconStyle={style.iconStyle}
+                  data={data}
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder={'Today'}
+                  value={postErrandData.dur_period.toString()}
+                  onChange={(item) => {
+                    setSelectedTime(item.label)
+                    handleInputChange(item.label, 'dur_period')
+                  }}
+                />
               </View>
-              <Dropdown
-                style={style.dropdown}
-                placeholderStyle={style.placeholderStyle}
-                selectedTextStyle={style.selectedTextStyle}
-                inputSearchStyle={style.inputSearchStyle}
-                iconStyle={style.iconStyle}
-                data={data}
-                maxHeight={300}
-                labelField="label"
-                valueField="value"
-                placeholder={'Today'}
-                value={postErrandData.dur_period.toString()}
-                onChange={(item) => {
-                  setSelectedTime(item.label)
-                  handleInputChange(item.label, 'dur_period')
-                }}
-              />
-            </View>
-
-            {/* <View className="w-[160px]">
-              <View className="mt-[40px]">
-                <Text style={{ color: textTheme }}>Duration Type</Text>
-              </View>
-              <SelectDropdown
-                defaultButtonText="-Select-"
-                defaultValue={postErrandData.dur_value}
-                buttonStyle={style.dropdownInput}
-                data={durationTypes}
-                onSelect={(selectedItem, index) => {
-                  handleInputChange(selectedItem, 'dur_value')
-                }}
-              />
-            </View> */}
+            )}
           </View>
 
           {selectedTime === 'Specify' ? (
@@ -375,29 +366,21 @@ const CreateErrandDetails = ({
                 <Text style={{ color: textTheme }} className="pt-4">
                   Duration
                 </Text>
-                {/* <TextInput
-              onChangeText={(text) => handleInputChange(text, 'dur')}
-              className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3"
-              keyboardType={'numeric'}
-              placeholder="Enter a Number"
-              placeholderTextColor={'#888888'}
-              defaultValue={postErrandData.dur_period.toString()}
-            ></TextInput> */}
-                <View className="flex-row mt-4  space-x-5">
+                <View className="flex-row mt-4  space-x-3">
                   <TouchableOpacity
                     onPress={() => adjustDuration(durationNumber, 'substract')}
-                    className="text-white text-2xl"
+                    className="text-2xl px-2 border rounded-lg "
                   >
-                    <Text className="text-white text-2xl">-</Text>
+                    <Text className="text-black text-4xl">-</Text>
                   </TouchableOpacity>
-                  <View className="w-10 h-10 bg-white flex-row justify-center items-center rounded-lg">
+                  <View className=" bg-white flex-row justify-center items-center rounded-lg">
                     <Text className="text-lg">{durationNumber}</Text>
                   </View>
                   <TouchableOpacity
                     onPress={() => adjustDuration(durationNumber, 'add')}
-                    className="text-white text-2xl"
+                    className="text-white text-2xl border px-2 rounded-lg"
                   >
-                    <Text className="text-white text-2xl">+</Text>
+                    <Text className="text-black text-2xl">+</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -421,7 +404,7 @@ const CreateErrandDetails = ({
                     labelField="label"
                     valueField="value"
                     placeholder={'Day(s)'}
-                    value={postErrandData.errandType}
+                    value={postErrandData.dur_period}
                     onChange={(item) => {
                       handleInputChange(item.label, 'dur_period')
                     }}

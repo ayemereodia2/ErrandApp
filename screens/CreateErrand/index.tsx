@@ -130,6 +130,21 @@ const PostErrand = ({ navigation }: any) => {
   })
 
   const handleInputChange = (text: any, input: any) => {
+    if (input === 'budget') {
+      if (parseAmount(text) < 500) {
+        setFinanceError('Your errand budget has to be atleast ₦500')
+      } else {
+       setFinanceError('')
+
+      }
+    }
+
+    // if (input === 'ins_amount') {
+    //   if (parseAmount(text) < 500) {
+    //     setFinanceError('Sorry, insurance amount cannot be lesser than ₦500')
+    //   }
+    // }
+
     setPostErrandData((prevState) => ({ ...prevState, [input]: text }))
   }
 
@@ -143,6 +158,9 @@ const PostErrand = ({ navigation }: any) => {
 
   const categoryHandler = () => {
     console.log('>>>>>Ok')
+    if (!selectedItem) {
+      return
+    }
 
     setPostErrandData({
       ...postErrandData,
@@ -155,13 +173,13 @@ const PostErrand = ({ navigation }: any) => {
   }
 
   const detailHandler = () => {
-    // if (!postErrandData?.description) {
-    //   setDetailError({
-    //     desc: 'description is required',
-    //     value: detailError.value,
-    //   })
-    //   return
-    // }
+    if (!postErrandData?.description) {
+      setDetailError({
+        desc: 'description is required',
+        value: detailError.value,
+      })
+      return
+    }
     // if (!postErrandData?.dur_period || !postErrandData?.dur_value) {
     //   return setDetailError({
     //     desc: '',
@@ -195,9 +213,9 @@ const PostErrand = ({ navigation }: any) => {
 
   const financeHandler = () => {
     if (!postErrandData.budget) {
-      setFinanceError('Budget is required')
-      return
+      return setFinanceError('Budget is required')
     }
+    setFinanceError('')
     setPostErrandData({
       ...postErrandData,
     })
@@ -328,6 +346,7 @@ const PostErrand = ({ navigation }: any) => {
     if (activeStep === 2) {
       return (
         <Details
+          detailError={detailError}
           postErrandData={postErrandData}
           handleInputChange={handleInputChange}
           setActiveStep={setActiveStep}
@@ -357,6 +376,7 @@ const PostErrand = ({ navigation }: any) => {
           setActiveStep={setActiveStep}
           toggleFundWalletModal={toggleFundWalletModal}
           navigation={navigation}
+          financeError={financeError}
         />
       )
     } else {
@@ -396,6 +416,7 @@ const PostErrand = ({ navigation }: any) => {
             )}
           </View>
           <TouchableOpacity
+            disabled={!selectedItem}
             onPress={() => {
               console.log('man')
               activeStep <= 1

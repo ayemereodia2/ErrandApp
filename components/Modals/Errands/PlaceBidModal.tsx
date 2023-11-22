@@ -73,7 +73,7 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
 
   const handleCommentBlur = () => {
     setCommentFocused(false)
-}
+  }
 
   return (
     <ScrollView
@@ -81,10 +81,7 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
       contentContainerStyle={{ flexGrow: 1 }}
       keyboardShouldPersistTaps="handled"
     >
-      <View
-        className="py-4 pb-10"
-        style={{ backgroundColor: backgroundTheme }}
-      >
+      <View className="py-4 pb-10" style={{ backgroundColor: backgroundTheme }}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <KeyboardAvoidingView
             style={{ flex: 1 }}
@@ -125,15 +122,12 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
                 className="text-sm font-semibold text-[#243763]"
                 style={{ color: textTheme }}
               >
-                {' '}
-                Comment{' '}
+                Comment
               </Text>
 
               <View className="w-full border bg-white border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3">
                 <TextInput
-                  className={
-                    'w-full  text-sm py-3.5 mt-2 rounded-lg px-3'
-                  }
+                  className={'w-full  text-sm py-3.5 mt-2 rounded-lg px-3'}
                   placeholder="Describe the issue that you need help with."
                   onChangeText={(e) => setComment(e)}
                   value={comment}
