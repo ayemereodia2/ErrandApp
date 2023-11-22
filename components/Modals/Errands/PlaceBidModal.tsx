@@ -4,6 +4,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -22,9 +23,10 @@ interface PlaceBidModalProp {
   owner: UserDetail
   errand: MarketData
   navigation: any
+  onSubmit: any
 }
 
-const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
+const PlaceBidModal = ({ owner, errand, navigation, onSubmit }: PlaceBidModalProp) => {
   const {
     data: currentUser,
     backgroundTheme,
@@ -63,6 +65,7 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
     setError('')
     // console.log(">>>dtaa", data)
     dispatch(postBid(data))
+    onSubmit()
   }
 
   const [commentFocused, setCommentFocused] = useState(false)
@@ -76,18 +79,21 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
   }
 
   return (
+    <KeyboardAvoidingView
+    style={{ flex: 1 }}
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}
+  >
+
     <ScrollView
-      style={{ flex: 1, backgroundColor: backgroundTheme }}
+      style={{backgroundColor: backgroundTheme }}
       contentContainerStyle={{ flexGrow: 1 }}
       keyboardShouldPersistTaps="handled"
     >
       <View className="py-4 pb-10" style={{ backgroundColor: backgroundTheme }}>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <KeyboardAvoidingView
-            style={{ flex: 1 }}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}
-          >
+        <Pressable onPress={() => Keyboard.dismiss()}>
+          
+        
             <Text
               className="text-lg text-center font-semibold"
               style={{ color: textTheme }}
@@ -125,15 +131,15 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
                 Comment
               </Text>
 
-              <View className="w-full border bg-white border-[#E6E6E6] text-sm py-3.5 mt-2 rounded-lg px-3">
+              <View className="w-full border bg-white border-[#E6E6E6] text-sm py-2.5 mt-2 rounded-lg px-3">
                 <TextInput
-                  className={'w-full  text-sm py-3.5 mt-2 rounded-lg px-3'}
+                  className={'w-full  text-sm py-1.5 mt-2 rounded-lg px-3'}
                   placeholder="Describe the issue that you need help with."
                   onChangeText={(e) => setComment(e)}
                   value={comment}
                   multiline={true}
                   numberOfLines={10}
-                  style={{ height: 100, textAlignVertical: 'top' }}
+                  style={{ height: 80, textAlignVertical: 'top' }}
                   keyboardType="default"
                   // onFocus={handleCommentFocus}
                   // onBlur={handleCommentBlur}
@@ -143,7 +149,7 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
 
             <View className="flex-row justify-center items-center">
               <TouchableOpacity
-                className="bg-[#1E3A79] h-12 w-4/6 mt-6 flex-row justify-center items-center rounded-lg"
+                className="bg-[#1E3A79] h-12 w-4/6 mt-10 flex-row justify-center items-center rounded-lg"
                 onPress={() => {
                   handlePlaceBid()
                 }}
@@ -157,10 +163,11 @@ const PlaceBidModal = ({ owner, errand, navigation }: PlaceBidModalProp) => {
                 </Text>
               </TouchableOpacity>
             </View>
-          </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
+          
+      </Pressable>
       </View>
     </ScrollView>
+    </KeyboardAvoidingView>
   )
 }
 

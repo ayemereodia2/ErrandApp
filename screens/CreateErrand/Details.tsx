@@ -18,6 +18,7 @@ import { postAudioFiles } from '../../services/errands/postAudioFIle'
 import { postFiles } from '../../services/errands/postFiles'
 import { RootState, useAppDispatch } from '../../services/store'
 import { PostErrandData } from '../../types'
+import RecordedSound from '../../components/RecordedSound'
 const recordingGif = '../../assets/images/recoording.gif'
 const playSound = '../../assets/images/play-sound.gif'
 const playingSound = '../../assets/images/playing.gif'
@@ -572,6 +573,14 @@ const CreateErrandDetails = ({
               )}
             </View>
           )}
+
+          {/* <RecordedSound 
+          recordedAudio={RecordedURI}
+          play={PlayRecordedAudio}
+          stop={StopPlaying}
+          recorded={recorded}
+          
+          /> */}
 
           <View>
             <View className="mt-[40px]">

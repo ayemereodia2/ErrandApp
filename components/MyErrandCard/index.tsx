@@ -75,7 +75,7 @@ const MyErrandCard = ({
             {!errand?.user?.profile_picture ? (
               <View className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center">
                 <Text
-                  style={{ color: textTheme }}
+                  // style={{ color: textTheme }}
                   className="uppercase text-lg items-center text-white"
                 >
                   {errand?.user?.first_name.charAt(0).toUpperCase()}
@@ -102,7 +102,8 @@ const MyErrandCard = ({
                 {errand?.user?.first_name} {errand?.user?.last_name}
               </Text>
               <Text style={{ color: textTheme }} className="pt-1">
-                {errand?.category.name.substring(0, 16).concat('', '...')}
+                {/* {errand?.category.name.substring(0, 16).concat('', '...')} */}
+                {errand?.category.name.length > 16 ? errand?.category.name.substring(0, 16).concat('', '...') : errand?.category.name}
               </Text>
             </View>
           </TouchableOpacity>
@@ -149,7 +150,10 @@ const MyErrandCard = ({
         >
           <View className="mt-4 w-[300px]">
             <Text style={{ color: textTheme }} className="text-sm font-medium">
-              {result?.substring(0, 80).concat('', '....')}
+              {/* {result?.substring(0, 80).concat('', '....')} */}
+              {result?.length > 80 ? result?.substring(0, 80).concat('', '...') : result}
+
+
             </Text>
           </View>
  

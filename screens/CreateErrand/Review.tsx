@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
 import { PostErrandData } from '../../types'
 import { ImageViewer } from './Details'
+import RecordedSound from '../../components/RecordedSound'
 
 interface ReviewProp {
   setActiveStep: React.Dispatch<React.SetStateAction<number>>
@@ -130,6 +131,8 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
             )}
           </View>
         </View>
+
+        <RecordedSound />
 
         <View className="mx-4 mt-6 flex-row space-x-10  ">
           <Text style={{ color: textTheme }} className="font-md text-[14px] w-28">

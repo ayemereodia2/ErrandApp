@@ -108,7 +108,7 @@ export default function ErrandComp({
     <View
       className="pt-1 mt-2 pb-1 bg-[#fff] rounded-xl py-1 px-6 border"
       style={{
-        backgroundColor: theme ? '#152955' : 'white',
+        backgroundColor: theme ? '#152955' : errand.has_insurance ? '#3F60AC' : errand.status === "completed" ? 'lightgreen' : 'white',
         borderColor: theme ? '' : 'lightgrey',
       }}
     >
