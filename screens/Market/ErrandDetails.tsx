@@ -48,7 +48,7 @@ export default function ErrandDetails({ route, navigation }: any) {
   const dispatch = useAppDispatch()
   const [showBid, setShowBid] = useState(false)
   const bottomSheetRef = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ['60%'], [])
+  const snapPoints = useMemo(() => ['74%'], [])
   const [userId, setUserId] = useState('')
   const [showBidBtn, setShowBidBtn] = useState(true)
   const [address, setAddress] = useState('')
@@ -490,6 +490,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                 owner={owner}
                 errand={errand}
                 navigation={navigation}
+                onSubmit={closePlaceBid}
               />
             </BottomSheetModal>
           </ScrollView>

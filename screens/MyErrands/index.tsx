@@ -356,7 +356,7 @@ const ErrandScreen = ({ navigation }: any) => {
                         </Text>
                       )}
 
-                      <ScrollView className="mt-2">
+                      <ScrollView className="mt-2" showsVerticalScrollIndicator={false}>
                         <>
                           {searchedErrand?.map((errand, index) => {
                             return (
