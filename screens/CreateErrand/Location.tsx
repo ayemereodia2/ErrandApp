@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Keyboard, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import MapView, { Marker } from 'react-native-maps'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
 import { PostErrandData } from '../../types'
+import { Platform } from 'react-native'
 
 interface LocationProp {
   handleInputChange: any
@@ -87,6 +88,11 @@ const CreateErrandLocation = ({
   return (
     <>
       <ScrollView keyboardShouldPersistTaps="always">
+      <KeyboardAvoidingView
+  behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+
+>
+        <Pressable onPress={()=> Keyboard.dismiss()}>
         <View className="flex-row mt-[38px] items-center justify-center">
           <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
             <Text className="text-black mx-auto">3</Text>
@@ -148,8 +154,9 @@ const CreateErrandLocation = ({
           />
         </View>
 
-        <View style={styles.inputContainer} className="mt-20 px-4">
-          <Text style={{ color: textTheme }} className="text-[#243763]">
+
+        <View style={styles.inputContainer} className="mt-20  px-4">
+          <Text style={{ color: textTheme }} className="text-[#243763] ">
             {' '}
             Delivery/End Location
           </Text>
@@ -186,6 +193,8 @@ const CreateErrandLocation = ({
           />
 
         </MapView>
+        </Pressable>
+        </KeyboardAvoidingView>
       </ScrollView>
     </>
   )
