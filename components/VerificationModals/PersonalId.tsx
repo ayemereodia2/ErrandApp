@@ -119,7 +119,7 @@ const PersonalId = ({ closePersonalId }: any) => {
 
   const handleUpdateProfile = async () => {
     const updatedData = {
-      personal_id_document: uploadedFiles,
+      personal_id_document:  uploadedFiles,
     }
 
     try {
@@ -140,11 +140,11 @@ const PersonalId = ({ closePersonalId }: any) => {
         closePersonalId()
       } else {
         // Handle the case where the server responded with an error message
-        console.error('Profile update failed:', responseData.message)
+        console.error('file update failed:', responseData.message)
 
         Toast.show({
           type: 'error',
-          text1: 'Profile update failed:' + responseData.message,
+          text1: 'file update failed:' + responseData.message,
         })
       }
     } catch (error) {

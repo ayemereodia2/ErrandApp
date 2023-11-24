@@ -29,26 +29,32 @@ const AbandonErrandModal = ({ route }: any) => {
       title: 'Errand Action',
     })
   }, [])
+  
+console.log('test', errand.id)
 
   const abandonErrand = async () => {
     setLoading(true)
 
     const _rs = await _fetch({
       method: 'DELETE',
-      body: { reason: comment },
       _url: `/errand/${errand.id}/abandon`,
+      body: { reason: comment },
+      
     })
 
     const rs = await _rs.json()
+    console.log('omo', rs.status)
     if (rs.success === true) {
       setLoading(false)
 
       navigation.navigate('MyErrands')
       dispatch(errandDetails({ errandId: errand.id }))
       dispatch(myErrandList({}))
+     
+      console.log(">>>rs", errand.id, errand.status);
     } else {
       setLoading(false)
-      console.log(">>>rs", errand.id, errand.status);
+      // console.log(">>>rs", errand.id, errand.status);
       
       Toast.show({
         type: 'error',

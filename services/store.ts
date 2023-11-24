@@ -28,6 +28,7 @@ import { getAccountsReducer } from "./wallet/getAccount";
 import { walletActionReducer } from "./wallet/walletBalance";
 import darkModeReducer from './DarkMode/DarkMode';
 import modalSliceReducer from './Modal/ModalSlice';
+import audioReducer from './audio/audio';
 
 
 // "adaptiveIcon": {
@@ -50,6 +51,7 @@ export const store = configureStore({
     darkMode: darkModeReducer,
     modal: modalSliceReducer,
     startErrandReducer,
+    audio: audioReducer,
     contactUsReducer,
     timelineActionReducer,
     subErrandReducer,

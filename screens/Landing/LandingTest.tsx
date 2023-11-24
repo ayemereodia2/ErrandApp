@@ -277,20 +277,20 @@ const LandingTest = ({ navigation }: any) => {
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Market')}
                   className="bg-gray-200 px-4 py-1 rounded-xl border border-[#e9ebf2]"
-                  style={{ backgroundColor: landingPageTheme }}
+                  style={{ backgroundColor: '#3F60AC' }}
                 >
                   <Text
                     className="text-white text-base"
                     style={{ color: theme ? 'black' : 'white' }}
                   >
-                    Explore
+                    Find an errand
                   </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => navigation.navigate('MyErrands')}
                   className=" px-4 py-1 rounded-xl border border-[#e9ebf2] "
-                  style={{ backgroundColor: landingPageTheme }}
+                  style={{ backgroundColor: '#3F60AC' }}
                 >
                   <Text
                     className=" text-base"
@@ -315,7 +315,7 @@ const LandingTest = ({ navigation }: any) => {
                         <>
                           <View className="flex-row mt-3" key={category.id}>
                             <TouchableOpacity
-                              className="border-[#aaa] border h-[220px] w-[250px] justify-center pl-5 rounded-xl mr-2 bg-white"
+                              className="border-[#aaa] border h-[220px] w-[250px] justify-center  rounded-xl mr-2 bg-white"
                               style={{
                                 backgroundColor: theme ? '#1E3A79' : 'white',
                               }}
@@ -327,40 +327,40 @@ const LandingTest = ({ navigation }: any) => {
                             >
                            
                            { category.name === 'Market / Groceries Shopping' ? (
-                            <Text className='text-center'><FontAwesome name="shopping-bag" size={40} color="black" /></Text>
+                            <Text className='text-center'><FontAwesome name="shopping-bag" size={80} color="#3F60AC" /></Text>
                            ) 
                           :
                           category.name === 'Laundry service' ? (
-                            <Text className='text-center'><MaterialIcons name="local-laundry-service" size={40} color="black" /></Text>
+                            <Text className='text-center'><MaterialIcons name="local-laundry-service" size={80} color="#3F60AC" /></Text>
                           )
                           :
                           category.name === 'Delivery' ? (
-                            <Text className='text-center'><MaterialCommunityIcons name="truck-delivery" size={40} color="black" /></Text>
+                            <Text className='text-center'><MaterialCommunityIcons name="truck-delivery" size={80} color="#3F60AC" /></Text>
 
                           )
                           :
                           category.name === 'Cleaning/home service' ? (
-                            <Text className='text-center'><MaterialIcons name="clean-hands" size={40} color="black" /></Text>
+                            <Text className='text-center'><MaterialIcons name="clean-hands" size={80} color="#3F60AC" /></Text>
 
                           )
                           :
                           category.name === 'General Labour' ? (
-                            <Text className='text-center'><MaterialIcons name="work" size={40} color="black" /></Text>
+                            <Text className='text-center'><MaterialIcons name="work" size={80} color="#3F60AC" /></Text>
 
                           )
                           :
                           category.name === 'Photo / Video Production ' ? (
-                            <Text className='text-center'><FontAwesome name="video-camera" size={40} color="black" /></Text>
+                            <Text className='text-center'><FontAwesome name="video-camera" size={80} color="#3F60AC" /></Text>
 
                           )
                           :
                           category.name === 'Home Teacher' ? (
-                            <Text className='text-center'><FontAwesome5 name="chalkboard-teacher" size={40} color="black" /></Text>
+                            <Text className='text-center'><FontAwesome5 name="chalkboard-teacher" size={80} color="#3F60AC" /></Text>
 
                           )
                           :
                           category.name === 'Any Errand' ? (
-                            <Text className='text-center'><MaterialCommunityIcons name="run-fast" size={40} color="black" /></Text>
+                            <Text className='text-center'><MaterialCommunityIcons name="run-fast" size={80} color="#3F60AC" /></Text>
 
                           )
                           :
@@ -388,8 +388,8 @@ const LandingTest = ({ navigation }: any) => {
                         navigation.navigate('CreateErrand')
                       }}
                     >
-                      <Text className="text-base text-center justify-center pt-[40%]" style={{ color: textTheme }}>
-                        More...
+                      <Text className="text-base font-semibold text-center justify-center pt-[40%]" style={{ color: textTheme }}>
+                        I need something else...
                       </Text>
                     </TouchableOpacity>
                   </View>
