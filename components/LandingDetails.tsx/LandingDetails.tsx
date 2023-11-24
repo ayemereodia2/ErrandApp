@@ -72,7 +72,7 @@ const LandingDetails = ({ data, isLoading, navigation }: any) => {
     <>
       {data?.data === null ? (
         <>
-          <Text className="pt-2">There are no urgent errands at the moment </Text>
+          <Text className="pt-2" style={{color: textTheme}}>There are no urgent errands at the moment </Text>
         </>
       ) : (
         data?.data?.map((errand: any) => (

@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import { startErrand } from '../../../services/errands/beginErrand'
 import { RootState, useAppDispatch } from '../../../services/store'
 import { Bids, MarketData } from '../../../types'
+import { useNavigation } from '@react-navigation/native'
 
 interface BeginErrandModalProp {
   errand: MarketData
@@ -38,7 +39,7 @@ BeginErrandModalProp) => {
   const { loading } = useSelector(
     (state: RootState) => state.startErrandReducer,
   )
-
+const navigation = useNavigation()
   return (
     <View className="py-4 pb-10">
       <Text className="text-xl text-center font-semibold">Bid Accepted</Text>
@@ -79,8 +80,9 @@ BeginErrandModalProp) => {
           className="bg-white h-12 w-full mx-4 mt-6 flex-row justify-center items-center rounded-lg border-[#e90c0c] border-[0.5px]"
           onPress={() => {
             
-            toggleBeginErrandModal && toggleBeginErrandModal(false)
-            toggleRejectErrandModal && toggleRejectErrandModal(true)
+            // toggleBeginErrandModal && toggleBeginErrandModal(false)
+            // toggleRejectErrandModal && toggleRejectErrandModal(true)
+            navigation.navigate('RejectErrand', {errand, bid})
           }}
         >
           <Text className="text-base text-red-600">Reject Errand</Text>
