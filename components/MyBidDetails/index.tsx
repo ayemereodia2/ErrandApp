@@ -32,8 +32,6 @@ const ErrandBid = ({
   const negotiateRef = useRef<BottomSheetModal>(null)
   const bidHistoryRef = useRef<BottomSheetModal>(null)
 
-  console.log('>>>Okaaya', bid.state)
-
   const rejectRef = useRef<BottomSheetModal>(null)
 
   function toggleAcceptModal(open: boolean) {

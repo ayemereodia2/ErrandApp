@@ -44,8 +44,6 @@ const LandingDetails = ({ data, isLoading, navigation }: any) => {
   //   queryFn: getMarket,
   // })
 
-  console.log('>>>>>>dataaaaaa', data)
-
   if (isLoading) {
     return (
       <SafeAreaView

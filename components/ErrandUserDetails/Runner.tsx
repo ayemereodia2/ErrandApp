@@ -50,8 +50,6 @@ export const RunnerDetails = ({
     ? singleErrandRunner
     : multiUserRunner
 
-  console.log('>>>>user', user)
-
   useEffect(() => {
     getAddress({ errand, setAddress })
   }, [])

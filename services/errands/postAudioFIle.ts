@@ -36,15 +36,11 @@ export const postAudioFiles = createAsyncThunk<any, Props, { rejectValue: string
     
       const resJson = await res.json()
 
-      console.log(">>>>>>>res audio", resJson);
-      
     if (setAudio) {
       setAudio([...audios, ...resJson.data])
     }
     return resJson.data[0]
     } catch (e: any) {
-      console.log("e",e );
-      
     }
   
     

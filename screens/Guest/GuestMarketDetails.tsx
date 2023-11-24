@@ -67,7 +67,6 @@ export default function GuestMarketDetails({ route, navigation }: any) {
     (state: RootState) => state.errandDetailsReducer,
   )
 
-  console.log('>>>>>>errand', errand.user.profile_picture)
 
   const budgetInNaira = Number(errand?.budget / Number(100))
 

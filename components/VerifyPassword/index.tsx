@@ -49,8 +49,6 @@ export default function VerifyPassword({
 
     const rs = await _rs.json()
 
-    console.log('>>>>>rs', rs)
-
     if (rs.success === false) {
       Toast.show({
         text1: 'Incorrect password',

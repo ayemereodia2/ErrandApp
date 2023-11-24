@@ -55,6 +55,9 @@ const BidWrapper = ({
     }
   }
 
+  console.log(">>>>>>errramd", errand.status, userId, errand.user_id);
+  
+
   const acceptPoints = ['40%']
 
   function toggleAcceptModal(open: boolean) {
@@ -213,6 +216,8 @@ const BidWrapper = ({
         {userId === errand.user_id && errand.status === 'pending' && (
           <>
             {errand.bids.map((bid) => {
+              console.log(">>>bid state", bid.state);
+              
               if (bid.state === 'accepted') {
                 let hags = bid.haggles
                 let hag = hags[hags.length - 1]
@@ -229,6 +234,7 @@ const BidWrapper = ({
                     toggleUserInfoModal={toggleUserInfoModal}
                     // setSearchedErrand={setSearchedErrand}
                   />
+                  // <Text className='mt-20'>hello</Text>
                 )
               }
             })}

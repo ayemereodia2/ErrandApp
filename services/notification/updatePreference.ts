@@ -7,8 +7,6 @@ import { ActivityIndicator } from 'react-native-paper';
 export const updateNotificationPrefeference = createAsyncThunk<NotificationPreferenceResponse, NotificationPreferences, { rejectValue: string }>(
   "updatePreference",
   async ({ dispatch, Toast, ...data }: NotificationPreferences) => {
-    console.log(">>>>notify", data);
-    
   try {
     const _rs = await _fetch({
       method: "PUT",

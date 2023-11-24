@@ -20,12 +20,6 @@ export const errandMarketList = createAsyncThunk<any, MarketQueryParams, { rejec
   try {
     let url = `/errand/market?start=0&count=10${category ? `&category=${category}`: ""}${minPrice === 0 ? '' : `&minPrice=${minPrice}`}${maxPrice === 0 ? '' : `&maxPrice=${maxPrice}`}`;
 
-
-
-    console.log(">url", url)
-
-
-
     const rs = await _fetch({ method: 'GET', _url: url });
     const res = await rs.json()
 

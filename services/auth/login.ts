@@ -33,7 +33,6 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
       await AsyncStorage.setItem('isGuest', 'false')
      const pin = await AsyncStorage.setItem('pin', JSON.stringify(_rs.data.has_transaction_pin))
 
-      console.log(">>>>>pin", pin);
       
 
       dispatch(currentUserDetails({user_id: _rs.data.id}))
@@ -93,18 +92,15 @@ const loginSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.rejected, (state, action) => {
-      console.log(">>>>rejecgt", state)
       state.error = action.payload;
       state.loading = false;
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {
-      console.log(">>>>rejecgt", state)
 
       state.loading = false;
       state.error = "";
     });
     builder.addCase(loginUser.pending, (state, action) => {
-      console.log(">>>>rejecgt", state)
 
       state.loading = true;
       state.error = action.payload;

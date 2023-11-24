@@ -111,7 +111,6 @@ const CategoryInterest = ({ navigation }: any) => {
           method: 'GET',
           _url: `/user/category-interest`,
         })
-        console.log(responseData.message)
         Toast.show({
            type: 'success',
               text1: 'Add to category was successful',
@@ -119,10 +118,8 @@ const CategoryInterest = ({ navigation }: any) => {
         navigation.navigate('Settings')
       } else {
         // Handle error
-        console.error('Error sending data')
       }
     } catch (error) {
-      console.error('An error occurred:', error)
     }
   }
 

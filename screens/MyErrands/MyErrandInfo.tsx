@@ -106,7 +106,6 @@ const MyErrandInfo = ({ navigation, route }: any) => {
     setUserId(userId)
   }
 
-  console.log('>>>>>>errand dtails', errand.errand_type, errand?.status)
 
   useEffect(() => {
     navigation.setOptions({

@@ -129,7 +129,6 @@ const ChatInput = ({
     contentType: string,
     message: string[] | string,
   ) => {
-    console.log('>>>>>>>message--', message)
 
     if (!message) {
       return
@@ -172,7 +171,6 @@ const ChatInput = ({
     //       )
     // }
 
-    console.log('data', data)
 
     await dispatch(timelineAction(data))
     // dispatch(errandDetails({ errandId: errand.id }))
@@ -298,7 +296,6 @@ const ChatInput = ({
     if (user_id === sender.id) {
       sendMessage('request', 'image', images[0])
       dispatch(setUploadedFilesToNull([]))
-      console.log('Requesting update')
     } else {
       sendMessage('sender', 'image', images[0])
       dispatch(setUploadedFilesToNull([]))

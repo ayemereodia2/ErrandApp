@@ -60,8 +60,6 @@ export default function ErrandComp({
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-  console.log(errand)
-
   const isDateWithin3Months = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();

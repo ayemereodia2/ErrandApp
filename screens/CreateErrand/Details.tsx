@@ -99,7 +99,6 @@ const CreateErrandDetails = ({
   const [selectedTime, setSelectedTime] = useState('')
   const [durationNumber, setDurationNumber] = useState(1)
 
-  console.log('>>>>>>>>durartion from dropdown', postErrandData)
 
   const adjustDuration = (dur: number, sign: string) => {
     if (sign === 'substract') {
@@ -150,7 +149,6 @@ const CreateErrandDetails = ({
     })
 
     if (!results.canceled) {
-      console.log(results)
       setSelectedImage(results.assets)
 
       const formData = new FormData()
@@ -193,7 +191,6 @@ const CreateErrandDetails = ({
           await AudioRecorder.current.startAsync()
           SetIsRecording(true)
         } catch (error) {
-          console.log(error)
         }
       } else {
         // If user has not given the permission to record, then ask for permission
@@ -236,7 +233,6 @@ const CreateErrandDetails = ({
       SetIsRecording(false)
       setRecorded(true)
     } catch (error) {
-      console.log('>>>>>e', error)
     }
   }
 

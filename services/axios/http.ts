@@ -42,7 +42,6 @@ export const pushOut = ({navigation}: any) => {
     if (response.status === 401) {
         // RootNavigation.navigateToScreen('Default')
       navigation.navigate('Default')
-      console.log(">>>>>>>>hello")
         // navigationHook()
         clearStorage()
     }
@@ -60,7 +59,6 @@ export async function _fetch({ _url, body, method }: FetchProps) {
   const token = await AsyncStorage.getItem('accessToken');  
 
 
-  console.log(">>>>utl", url);
   
 
   let options

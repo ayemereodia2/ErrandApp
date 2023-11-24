@@ -143,10 +143,8 @@ const LandingTest = ({ navigation }: any) => {
     queryFn: getCategory,
     refetchOnMount: 'always',
   })
-  // console.log(data)(
 
   if(data) {
-    console.log(data)
   }
 
  

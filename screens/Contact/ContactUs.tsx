@@ -146,10 +146,8 @@ const ContactUs = ({ navigation }: any) => {
         // Navigate back to the Account screen
         navigation.goBack()
 
-        console.log(userMessage)
       } else {
         // Handle the case where the server responded with an error message
-        console.error('Contact us failed:', responseData.message)
 
         Toast.show({
           type: 'error',

@@ -48,7 +48,6 @@ const AbandonErrandModal = ({ route }: any) => {
       dispatch(myErrandList({}))
     } else {
       setLoading(false)
-      console.log(">>>rs", errand.id, errand.status);
       
       Toast.show({
         type: 'error',

@@ -34,7 +34,6 @@ const UserInfo = ({ user, key }: any) => {
     setProfile(true)
   }
 
-  console.log(user)
 
   // dispatch(externalUserDetails({ user_id: errand?.user_id }))
 

@@ -65,7 +65,6 @@ const GuarantorModal = ({closeGuarantorModal}:any) => {
     })
 
     if (!results.canceled) {
-      console.log(results)
       setSelectedImage(results.assets)
 
       const formData = new FormData()
@@ -138,11 +137,9 @@ const GuarantorModal = ({closeGuarantorModal}:any) => {
 
         
 
-        console.log(updatedData)
         closeGuarantorModal()
       } else {
         // Handle the case where the server responded with an error message
-        console.error('Profile update failed:', responseData.message)
 
         Toast.show({
           type: 'error',
@@ -151,7 +148,6 @@ const GuarantorModal = ({closeGuarantorModal}:any) => {
       }
     } catch (error) {
       // Handle errors here, such as network errors or server-side errors
-      console.error('Error updating profile:', error)
 
       Toast.show({
         type: 'error',

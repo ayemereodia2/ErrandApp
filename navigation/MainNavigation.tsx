@@ -14,7 +14,6 @@ const MainNavigation = () => {
   const navigation = useNavigation()
 
   const checkNetworkConnectivity = async () => {
-    console.log('>>>>>isConnect', isConnected)
 
     if (isConnected === null) {
       return
@@ -45,7 +44,6 @@ const MainNavigation = () => {
         setIsAuthenticated(false)
       }
     } catch (error) {
-      console.log(error)
     }
   }
 

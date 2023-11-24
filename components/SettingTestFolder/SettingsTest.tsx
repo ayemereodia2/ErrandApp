@@ -91,8 +91,6 @@ const SettingsTest = ({ openVerifyModal }: Props) => {
     }
   }
 
-  console.log(preferences?.account_update_notifications)
-
   useEffect(() => {
     getUserId({ dispatch })
   }, [])
