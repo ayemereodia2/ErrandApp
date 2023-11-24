@@ -445,7 +445,7 @@ const PostErrand = ({ navigation }: any) => {
                     ? locationHandler()
                     : activeStep <= 4
                     ? financeHandler()
-                    : openPinModal()
+                    : submitErrandhandler()
                 }}
               >
                 {activeStep >= 5
@@ -466,13 +466,13 @@ const PostErrand = ({ navigation }: any) => {
         }}
         backdropComponent={renderBackdrop}
       >
-        <PinModal
+        {/* <PinModal
           createErrand={true}
           submitErrandhandler={submitErrandhandler}
           closePinModal={closePinModal}
           verifyPin={true}
           makeWithdrawalHandler={() => {}}
-        />
+        /> */}
       </BottomSheetModal>
     </BottomSheetModalProvider>
   )

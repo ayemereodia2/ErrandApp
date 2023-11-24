@@ -48,6 +48,8 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
+        "NSMicrophoneUsageDescription": "Allow audio usage",
+        "NSAudioRecordUsageDescription": "Allow audio usage",
         "UIBackgroundModes": [
           "audio"
         ]

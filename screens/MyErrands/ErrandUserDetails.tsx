@@ -132,9 +132,9 @@ const ErrandUserDetails = ({ navigation, route }: any) => {
                   onSelect={() =>
                     navigation.navigate(
                       'AbandonErrandModal',
-                      errand,
+                    {  errand,
                       userId,
-                      singleSubErrand,
+                      singleSubErrand, }
                     )
                   }
                   text="Abandon Errand"

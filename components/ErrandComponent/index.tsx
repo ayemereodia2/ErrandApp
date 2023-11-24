@@ -60,14 +60,15 @@ export default function ErrandComp({
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-  const isDateWithin3Months = (dateString) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffMilliseconds = now.getTime() - date.getTime();
-    const diffMonths = (now.getFullYear() - date.getFullYear()) * 12 + (now.getMonth() - date.getMonth());
 
-    return diffMonths < 3; // true if date is within 3 months
-  };
+  // const isDateWithin3Months = (dateString) => {
+  //   const date = new Date(dateString);
+  //   const now = new Date();
+  //   const diffMilliseconds = now.getTime() - date.getTime();
+  //   const diffMonths = (now.getFullYear() - date.getFullYear()) * 12 + (now.getMonth() - date.getMonth());
+
+  //   return diffMonths < 3; // true if date is within 3 months
+  // };
 
 
   // const bidHistoryRef = useRef<BottomSheetModal>(null)
@@ -94,9 +95,9 @@ export default function ErrandComp({
   //   [],
   // )
 
-  if (!errand || !errand.updated_at || !isDateWithin3Months(errand.updated_at)) {
-    return null; // Don't render the card if date is above 3 months or data is missing
-  }
+  // if (!errand || !errand.updated_at || !isDateWithin3Months(errand.updated_at)) {
+  //   return null; // Don't render the card if date is above 3 months or data is missing
+  // }
 
 
   return (
@@ -106,7 +107,7 @@ export default function ErrandComp({
     <View
       className="pt-1 mt-2 pb-1 bg-[#fff] rounded-xl py-1 px-6 border"
       style={{
-        backgroundColor: theme ? '#152955' : errand.has_insurance ? '#3F60AC' : errand.status === "completed" ? 'lightgreen' : 'white',
+        backgroundColor: theme ? '#152955' : errand.has_insurance ? '#e2f6fb' : errand.status === "completed" ? '#d8f8e9' : 'white',
         borderColor: theme ? '' : 'lightgrey',
       }}
     >

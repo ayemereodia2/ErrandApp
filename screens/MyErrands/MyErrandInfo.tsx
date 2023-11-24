@@ -106,7 +106,6 @@ const MyErrandInfo = ({ navigation, route }: any) => {
     setUserId(userId)
   }
 
-
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -128,7 +127,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
           <TouchableOpacity>
             <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
               <MenuTrigger>
-                <View className=' w-6'>
+                <View className=" w-6">
                   <Entypo
                     name="dots-three-vertical"
                     color={textTheme}
@@ -295,8 +294,9 @@ const MyErrandInfo = ({ navigation, route }: any) => {
   return (
     <>
       {errand?.status === 'active' ||
-        errand?.status === 'completed' ||
-        errand?.status === 'cancelled' ||
+      errand?.status === 'completed' ||
+      errand?.status === 'abandoned' ||
+      errand?.status === 'cancelled' ||
       (errand?.user_id === userId &&
         singleSubErrand?.status === 'active' &&
         manageErrandClicked) ||
@@ -348,7 +348,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
             </View>
 
             {/* success Dialogue */}
-            
+
             <BottomSheetModal
               ref={successDialogueRef}
               index={0}

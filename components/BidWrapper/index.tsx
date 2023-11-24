@@ -55,7 +55,7 @@ const BidWrapper = ({
     }
   }
 
-  console.log(">>>>>>errramd", errand.status, userId, errand.user_id);
+  // console.log(">>>>>>errramd", errand.status, userId, errand.user_id);
   
 
   const acceptPoints = ['40%']
@@ -216,8 +216,6 @@ const BidWrapper = ({
         {userId === errand.user_id && errand.status === 'pending' && (
           <>
             {errand.bids.map((bid) => {
-              console.log(">>>bid state", bid.state);
-              
               if (bid.state === 'accepted') {
                 let hags = bid.haggles
                 let hag = hags[hags.length - 1]

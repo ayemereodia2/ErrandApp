@@ -161,18 +161,24 @@ const Timeline = ({
               </Text>
             )}
 
+            {errand.status === 'abandoned' && (
+              <Text className="font-medium text-sm px-4">
+                This Errand has been abandoned
+              </Text>
+            )}
+
             {errand.status === 'cancelled' ||
               (singleSubErrand?.status === 'cancelled' && (
                 <Text className="font-medium text-sm px-4">
                   This Errand has been cancelled
                 </Text>
               ))}
-            
+
             {errand.status === 'cancelled' && (
-                <Text className="font-medium text-sm px-4">
-                  This Errand has been cancelled
-                </Text>
-              )}
+              <Text className="font-medium text-sm px-4">
+                This Errand has been cancelled
+              </Text>
+            )}
           </View>
 
           <MessagesList
@@ -184,6 +190,7 @@ const Timeline = ({
 
           {errand.status === 'completed' ||
           errand.status === 'cancelled' ||
+          errand.status === 'abandoned' ||
           singleSubErrand?.status === 'completed' ||
           singleSubErrand?.status === 'cancelled' ? (
             <View
@@ -191,7 +198,7 @@ const Timeline = ({
                 errand.status === 'completed' ||
                 singleSubErrand?.status === 'completed'
                   ? 'bg-green-100  border-green-400 rounded-lg'
-                  : errand.status === 'cancelled' ||
+                  : errand.status === 'cancelled' || errand.status === 'abandoned' ||
                     singleSubErrand?.status === 'cancelled'
                   ? 'bg-red-100 border-red-500 rounded-lg'
                   : ''
