@@ -23,6 +23,8 @@ const recordingGif = '../../assets/images/recoording.gif'
 const playSound = '../../assets/images/play-sound.gif'
 const playingSound = '../../assets/images/playing.gif'
 const stopSound = '../../assets/images/stop-sound.gif'
+import { setRecordedAudioURI } from '../../services/audio/audio'
+import { useDispatch } from 'react-redux'
 
 interface DetailsProp {
   handleInputChange: any
@@ -99,6 +101,8 @@ const CreateErrandDetails = ({
   const [selectedTime, setSelectedTime] = useState('')
   const [durationNumber, setDurationNumber] = useState(1)
 
+  
+ 
   console.log('>>>>>>>>durartion from dropdown', postErrandData)
 
   const adjustDuration = (dur: number, sign: string) => {
@@ -227,7 +231,9 @@ const CreateErrandDetails = ({
       formData.append('type', 'errand')
 
       dispatch(postAudioFiles({ formData, setAudio, audios: audio }))
-
+      if (result) {
+        dispatch(setRecordedAudioURI(result)); // Dispatch action to store the recorded audio URI
+      }
       if (result) SetRecordedURI(result)
       // console.log('>>>>>>record result', result)
 
@@ -574,13 +580,8 @@ const CreateErrandDetails = ({
             </View>
           )}
 
-          {/* <RecordedSound 
-          recordedAudio={RecordedURI}
-          play={PlayRecordedAudio}
-          stop={StopPlaying}
-          recorded={recorded}
+       
           
-          /> */}
 
           <View>
             <View className="mt-[40px]">
