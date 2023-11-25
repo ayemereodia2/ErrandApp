@@ -279,6 +279,54 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                     }}
                   />
                 )}
+                {errand.status === 'pending' && (
+                  <MenuOption
+                    onSelect={() =>
+                      navigation.navigate('ErrandUserDetails', {
+                        errand,
+                        userId,
+                        singleSubErrand,
+                        manageErrandClicked,
+                        bids,
+                      })
+                    }
+                    text="Details"
+                    customStyles={{
+                      optionWrapper: {
+                        paddingVertical: 2,
+                      },
+                      optionText: {
+                        fontSize: 14,
+                        textAlign: 'center',
+                        fontWeight: '300',
+                      },
+                    }}
+                  />
+                )}
+                {errand.status === 'abandoned' && (
+                  <MenuOption
+                    onSelect={() =>
+                      navigation.navigate('ErrandUserDetails', {
+                        errand,
+                        userId,
+                        singleSubErrand,
+                        manageErrandClicked,
+                        bids,
+                      })
+                    }
+                    text="Details"
+                    customStyles={{
+                      optionWrapper: {
+                        paddingVertical: 2,
+                      },
+                      optionText: {
+                        fontSize: 14,
+                        textAlign: 'center',
+                        fontWeight: '300',
+                      },
+                    }}
+                  />
+                )}
               </MenuOptions>
             </Menu>
           </TouchableOpacity>

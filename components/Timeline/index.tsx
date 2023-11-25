@@ -23,6 +23,7 @@ import CompleteErrand from '../Modals/Errands/CompletedErrand'
 import ChatInput from './ChatInput'
 import MessagesList from './MessageList'
 
+
 interface Props {
   errand: MarketData
   user_id: string
@@ -225,6 +226,8 @@ const Timeline = ({
               </View>
             </View>
           ) : (
+            
+
             <ChatInput
               errand={errand}
               subErrand={singleSubErrand}
@@ -232,6 +235,7 @@ const Timeline = ({
               scrollViewRef={scrollViewRef}
               scrollToBottom={scrollToBottom}
             />
+
           )}
         </View>
 

@@ -41,6 +41,7 @@ const initialState: SingleErrandDetail = {
     loading: true,
 
   data: {
+    images:[],
          multi_data: {
           num_of_subErrands: 0,
           total_amount_spent: 0

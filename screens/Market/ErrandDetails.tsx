@@ -28,6 +28,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import {
   ActivityIndicator,
+  Image,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -362,7 +363,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                           className=" text-sm text-[#000] w-60 font-semibold"
                         >
                           {!address
-                            ? errand.dropoff_address?.address_text
+                            ? errand?.pickup_address?.address_text
                             : address}
                         </Text>
                       </View>
@@ -370,12 +371,12 @@ export default function ErrandDetails({ route, navigation }: any) {
                       <View className="space-x-6 mt-6 flex-row">
                         <Text
                           style={{ color: textTheme }}
-                          className=" text-[14px] text-[#999999] font-medium pb-2"
+                          className=" text-[14px] text-[#999999] font-medium pb-2 w-28"
                         >
                           Requirements
                         </Text>
                         <View className="flex-row space-x-3 w-60">
-                          {errand?.restriction && (
+                          {errand?.has_insurance ? (
                             <View className="w-20 h-[24px] bg-[#DAE1F1] justify-center  border-[#3F60AC] border rounded-2xl">
                               <Text className="text-center text-[#3F60AC] text-xs">
                                 <FontAwesome
@@ -386,9 +387,47 @@ export default function ErrandDetails({ route, navigation }: any) {
                                 Insurance
                               </Text>
                             </View>
+                          ) : (
+                            <Text>No Insurance </Text>
+                          )}
+                          {errand?.restriction ? (
+                            <View className="w-20 h-[24px] bg-[#DAE1F1] justify-center  border-[#3F60AC] border rounded-2xl">
+                              <Text className="text-center text-[#3F60AC] text-xs flex-row space-x-2">
+                                <FontAwesome
+                                  className="pr-2"
+                                  name="check-circle"
+                                  size={12}
+                                  color={'#3F60AC'}
+                                />
+                                <Text> Qualification</Text>
+                              </Text>
+                            </View>
+                          ) : (
+                            <Text>No Qualification</Text>
                           )}
                         </View>
                       </View>
+                    </View>
+
+                    <Text
+                      style={{ color: textTheme }}
+                      className="pr-6 mt-8 font-bold text-base text-[#555555]"
+                    >
+                      Other Resources
+                    </Text>
+
+                    <View className='flex-row space-x-4 mt-4'>
+                      {errand?.images?.map((image) => (
+                        <View className=''>
+                          <Image
+                            style={{
+                              width: 100,
+                              height: 100,
+                            }}
+                            source={{ uri: image }}
+                          />
+                        </View>
+                      ))}
                     </View>
 
                     {/* <View>
@@ -509,33 +548,25 @@ export default function ErrandDetails({ route, navigation }: any) {
               I can do this
             </Text>
           </TouchableOpacity>
-        ) : 
-        
-        errand.user_id !== userId && errand?.status === 'completed' ? (
+        ) : errand.user_id !== userId && errand?.status === 'completed' ? (
           <TouchableOpacity
-            className="w-full h-[65px] absolute bottom-0 flex-row justify-center items-center bg-[#767577]"
+            className="w-full h-[70px] absolute bottom-0 flex-row justify-center items-center bg-[#d8f8e9]"
+            disabled={true}
+          >
+            <Text className="text-black text-lg font-medium">
+              This Errand has been completed
+            </Text>
+          </TouchableOpacity>
+        ) : errand.user_id !== userId && errand?.status === 'cancelled' ? (
+          <TouchableOpacity
+            className="w-full h-[65px] absolute bottom-0 flex-row justify-center items-center bg-red-500"
             disabled={true}
           >
             <Text className="text-white text-lg font-medium">
               This Errand has been completed
             </Text>
           </TouchableOpacity>
-        )
-          : 
-          errand.user_id !== userId && errand?.status === 'cancelled' ? (
-            <TouchableOpacity
-              className="w-full h-[65px] absolute bottom-0 flex-row justify-center items-center bg-red-500"
-             disabled={true}
-            >
-              <Text className="text-white text-lg font-medium">
-                This Errand has been completed
-              </Text>
-            </TouchableOpacity>
-          )
-        :
-        null
-        }
-
+        ) : null}
       </SafeAreaView>
     </BottomSheetModalProvider>
   )

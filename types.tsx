@@ -353,6 +353,7 @@ export interface MarketData {
     type: string
     coordinates: number[]
   }
+  images?: string[]
   budget: number
   description: any
   type: string

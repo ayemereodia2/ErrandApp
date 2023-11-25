@@ -56,7 +56,6 @@ const BidWrapper = ({
   }
 
   // console.log(">>>>>>errramd", errand.status, userId, errand.user_id);
-  
 
   const acceptPoints = ['40%']
 
@@ -87,7 +86,6 @@ const BidWrapper = ({
           toggleBeginErrandModal(false)
           toggleRejectErrandModal(false)
           userInfoRef.current?.dismiss()
-          
         }}
         // onChange={handleSheetChanges}
       />
@@ -240,6 +238,22 @@ const BidWrapper = ({
         )}
 
         {userId !== errand.user_id && errand.status === 'open' && (
+          <>
+            <HaggleComponent
+              haggle={lastHaggle}
+              last={true}
+              bid={currentBid}
+              errand={errand}
+              user_id={userId}
+              toggleSuccessDialogue={toggleSuccessDialogue}
+              toggleNegotiateModal={toggleNegotiateModal}
+              setManageErrandClicked={setManageErrandClicked}
+              toggleUserInfoModal={toggleUserInfoModal}
+            />
+          </>
+        )}
+
+        {userId !== errand.user_id && errand.status === 'closed' && (
           <>
             <HaggleComponent
               haggle={lastHaggle}

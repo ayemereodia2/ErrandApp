@@ -209,7 +209,7 @@ const LandingTest = ({ navigation }: any) => {
   return (
     <>
       <SafeAreaView
-        className="px-4 w-screen h-[100%] mt-2"
+        className="px-4 w-screen h-[100%]"
         style={{ backgroundColor: backgroundTheme, flex: 1 }}
       >
         <BottomSheetModalProvider>
@@ -287,7 +287,7 @@ const LandingTest = ({ navigation }: any) => {
 
                 <TouchableOpacity
                   onPress={() => navigation.navigate('MyErrands')}
-                  className=" px-4 py-1 rounded-xl border border-[#e9ebf2] "
+                  className=" px-4 py-1 rounded-xl border border-[#e9ebf2]"
                   style={{ backgroundColor: '#3F60AC' }}
                 >
                   <Text
@@ -325,40 +325,40 @@ const LandingTest = ({ navigation }: any) => {
                             >
                            
                            { category.name === 'Market / Groceries Shopping' ? (
-                            <Text className='text-center'><FontAwesome name="shopping-bag" size={80} color="#3F60AC" /></Text>
+                            <Text className='text-center' style={{color: theme ? 'white' : '#3F60AC'}}><FontAwesome name="shopping-bag" size={80}/></Text>
                            ) 
                           :
                           category.name === 'Laundry service' ? (
-                            <Text className='text-center'><MaterialIcons name="local-laundry-service" size={80} color="#3F60AC" /></Text>
+                            <Text className='text-center' style={{color: theme ? 'white' : '#3F60AC'}}><MaterialIcons name="local-laundry-service" size={80} /></Text>
                           )
                           :
                           category.name === 'Delivery' ? (
-                            <Text className='text-center'><MaterialCommunityIcons name="truck-delivery" size={80} color="#3F60AC" /></Text>
+                            <Text className='text-center' style={{color: theme ? 'white' : '#3F60AC'}}><MaterialCommunityIcons name="truck-delivery" size={80}  /></Text>
 
                           )
                           :
                           category.name === 'Cleaning/home service' ? (
-                            <Text className='text-center'><MaterialIcons name="clean-hands" size={80} color="#3F60AC" /></Text>
+                            <Text className='text-center' style={{color: theme ? 'white' : '#3F60AC'}}><MaterialIcons name="clean-hands" size={80}/></Text>
 
                           )
                           :
                           category.name === 'General Labour' ? (
-                            <Text className='text-center'><MaterialIcons name="work" size={80} color="#3F60AC" /></Text>
+                            <Text className='text-center' style={{color: theme ? 'white' : '#3F60AC'}}><MaterialIcons name="work" size={80}/></Text>
 
                           )
                           :
                           category.name === 'Photo / Video Production ' ? (
-                            <Text className='text-center'><FontAwesome name="video-camera" size={80} color="#3F60AC" /></Text>
+                            <Text className='text-center' style={{color: theme ? 'white' : '#3F60AC'}}><FontAwesome name="video-camera" size={80}/></Text>
 
                           )
                           :
                           category.name === 'Home Teacher' ? (
-                            <Text className='text-center'><FontAwesome5 name="chalkboard-teacher" size={80} color="#3F60AC" /></Text>
+                            <Text className='text-center' style={{color: theme ? 'white' : '#3F60AC'}}><FontAwesome5 name="chalkboard-teacher" size={80} /></Text>
 
                           )
                           :
                           category.name === 'Any Errand' ? (
-                            <Text className='text-center'><MaterialCommunityIcons name="run-fast" size={80} color="#3F60AC" /></Text>
+                            <Text className='text-center' style={{color: theme ? 'white' : '#3F60AC'}}><MaterialCommunityIcons name="run-fast" size={80}/></Text>
 
                           )
                           :

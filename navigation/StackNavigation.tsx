@@ -41,6 +41,8 @@ import EscrowScreen from '../screens/Wallets/EscrowScreen'
 import TransactionScreen from '../screens/Wallets/TransactionScreen'
 import WalletAccount from '../screens/Wallets/WalletAccount'
 import { TabsNavigation } from './TabsNavigation'
+import RejectErrandModal from '../components/Modals/Errands/RejectErrandModal'
+import RejectErrandScreen from '../screens/MyErrands/RejectErrandScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -100,6 +102,8 @@ export const TabStack = () => {
       <Stack.Screen name="VerifyQuestion" component={VerifyQuestion} />
       <Stack.Screen name="RecoverAccount" component={AccountRecoveryScreen} />
       <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
+      <Stack.Screen name="RejectErrand" component={RejectErrandScreen} />
+
       <Stack.Screen
         name="MyErrandDetails"
         component={MyErrandInfo}
@@ -314,6 +318,8 @@ export function GuestStack() {
         <Stack.Screen name="SecurityQuestions" component={SecurityQuestion} />
         <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
         <Stack.Screen name="RecoverPassword" component={ForgotPassword} />
+        <Stack.Screen name="RejectErrand" component={RejectErrandScreen} />
+
 
         <Stack.Screen
           name="UpdateApp"
@@ -538,6 +544,8 @@ export const MainStack = () => {
       <Stack.Screen name="VerifyQuestion" component={VerifyQuestion} />
       <Stack.Screen name="RecoverAccount" component={AccountRecoveryScreen} />
       <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
+      <Stack.Screen name="RejectErrand" component={RejectErrandScreen} />
+
       <Stack.Screen
         name="MyErrandDetails"
         component={MyErrandInfo}
