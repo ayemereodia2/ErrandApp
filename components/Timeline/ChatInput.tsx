@@ -40,6 +40,8 @@ import { timelineAction } from '../../services/timeline/sendMessage'
 import { MarketData, SingleSubErrand, Timelines } from '../../types'
 import { currencyMask, parseAmount } from '../../utils/helper'
 import AdjustAmountModal from '../Modals/Bids/Proposal'
+import { KeyboardAvoidingView } from 'react-native'
+import { Platform } from 'react-native'
 
 export interface ChatInputProp {
   message?: string
@@ -312,6 +314,9 @@ const ChatInput = ({
         className="bg-[#CBD5EC] mx-auto h-60"
         //  style={{ backgroundColor: '#CBD5EC', height: 120 }}
       >
+       
+
+              
         <View className="flex-row justify-center items-center px-6 mt-2">
           <View className="flex-row justify-between items-center mt-2  bg-white w-full space-x-2 py-2 px-3 h-14">
             <View className="flex-row space-x-2 justify-center items-center">
@@ -390,6 +395,7 @@ const ChatInput = ({
                 &#8358;
               </Text>
             </View>
+            
             <TextInput
               multiline
               placeholder={'Type something...'}
@@ -560,6 +566,7 @@ const ChatInput = ({
             sendProposal={sendProposal}
           />
         </BottomSheetModal>
+        
       </ScrollView>
     </BottomSheetModalProvider>
   )
