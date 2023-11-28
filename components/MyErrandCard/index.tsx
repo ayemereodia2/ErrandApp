@@ -167,7 +167,7 @@ const MyErrandCard = ({
                   : errand.status === 'completed'
                   ? ' bg-blue-100'
                   : errand.status === 'cancelled'
-                  ? ' bg-red-100'
+                  ? ' bg-red-200'
                   : 'bg-[#FEE1CD]'
               }`}
             >
