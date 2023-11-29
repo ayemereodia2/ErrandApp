@@ -7,6 +7,9 @@ import { errandDetails } from '../../services/errands/errandDetails'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
 import { getAddress, getCardTimeAgo, getTimeAgo } from '../../utils/helper'
+import HTML from 'react-native-render-html';
+
+
 
 interface ErrandCardProp {
   errand: MarketData
@@ -33,8 +36,19 @@ export default function ErrandComp({
     return text
   }
 
-  const regex = /(<([^>]+)>)/gi
+  //  const regex = /(<([^>]+)>)/gi;
+
+  const regex = /(<(?:[^>'"]|(['"])(?:(?!\2).)*\2)*>)/gi;
+
+
+
+
+
+
+ 
+
   const result = errand.description.replace(regex, '')
+ 
 
   const truncatedAddress = truncateAddress(address, MAX_ADDRESS_LENGTH)
 

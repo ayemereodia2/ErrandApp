@@ -184,7 +184,7 @@ const ChatInput = ({
 
   const sendProposal = async () => {
     if (!amount) {
-      return
+      return ''
     }
     let url = `/errand/${errand.id}/adjust-budget`
     if (subErrand?.id) {
@@ -218,10 +218,11 @@ const ChatInput = ({
       } else {
         dispatch(errandDetails({ errandId: errand.id }))
       }
-    } catch (err) {
+    } 
+    catch (err) {
       Toast.show({
         type: 'success',
-        text1: err.response?.data.message,
+        // text1: err.response?.data.message,
       })
     }
   }

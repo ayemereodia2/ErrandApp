@@ -16,16 +16,19 @@ import { _fetch } from '../../services/axios/http'
 import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
 import { RootState, useAppDispatch } from '../../services/store'
 import { getUserId } from '../../utils/helper'
+import LoadingModal from '../MainLoader/LoadingModal'
 
 interface Props {
   openVerifyModal: () => void
+  loader: boolean
 }
 
-const SettingsTest = ({ openVerifyModal }: Props) => {
+const SettingsTest = ({ openVerifyModal, loader }: Props) => {
   const [IsLoading, setIsLoading] = useState(false)
   const [loading1, setLoading1] = useState(false)
   const [accountUpdate, setAccountUpdate] = useState(false)
   const [newsLetter, setNewsLetter] = useState(false)
+  const [smsLoading, setSmsLoading] = useState(false)
 
   const dispatch = useAppDispatch()
 
@@ -109,6 +112,135 @@ const SettingsTest = ({ openVerifyModal }: Props) => {
     ;<ActivityIndicator color="black" size="large" />
   }
 
+  const handleAccountChange = async (value: any) => {
+
+    setSmsLoading(true); // Set loading to true when the switch is changed
+
+      
+     await  dispatch(
+      updateNotificationPrefeference({
+        ...preferences,
+        dispatch,
+        Toast,
+        account_update_notifications: value,
+      }),
+    )
+    
+      setSmsLoading(false); // Set loading back to false after the action (success or failure)
+   
+  };
+
+  const handleNewsLetterChange = async (value: any) => {
+
+    setSmsLoading(true); // Set loading to true when the switch is changed
+
+    setNewsLetter(!newsLetter)
+
+     await   
+     dispatch(
+       updateNotificationPrefeference({
+         ...preferences,
+         dispatch,
+         Toast,
+         newsletter_notifications: value,
+       }),
+     )
+ 
+      setSmsLoading(false); // Set loading back to false after the action (success or failure)
+   
+  };
+
+  const handlePromotionsChange = async (value: any) => {
+
+    setSmsLoading(true); // Set loading to true when the switch is changed
+
+    
+
+     await   dispatch(
+      updateNotificationPrefeference({
+        ...preferences,
+        dispatch,
+        Toast,
+        promotions_notifications: value,
+      }),
+    )
+ 
+      setSmsLoading(false); // Set loading back to false after the action (success or failure)
+   
+  };
+
+  const handleNewChange = async (value: any) => {
+
+    setSmsLoading(true); // Set loading to true when the switch is changed
+
+     await    dispatch(
+      updateNotificationPrefeference({
+        ...preferences,
+        dispatch,
+        Toast,
+        cat_errand_notifications: value,
+      }),
+    )
+ 
+      setSmsLoading(false); // Set loading back to false after the action (success or failure)
+   
+  };
+
+  const handleAreaChange = async (value: any) => {
+
+    setSmsLoading(true); // Set loading to true when the switch is changed
+
+     await   dispatch(
+      updateNotificationPrefeference({
+        ...preferences,
+        dispatch,
+        Toast,
+        location_errand_notifications: value,
+      }),
+    )
+ 
+      setSmsLoading(false); // Set loading back to false after the action (success or failure)
+   
+  };
+
+  const handleErrandBidsChange = async (value: any) => {
+
+    setSmsLoading(true); // Set loading to true when the switch is changed
+
+     await    dispatch(
+      updateNotificationPrefeference({
+        ...preferences,
+        dispatch,
+        Toast,
+        bid_notifications: value,
+      }),
+    )
+ 
+      setSmsLoading(false); // Set loading back to false after the action (success or failure)
+   
+  };
+
+  const handleErrandStatusChange = async (value: any) => {
+
+    setSmsLoading(true); // Set loading to true when the switch is changed
+
+     await     dispatch(
+      updateNotificationPrefeference({
+        ...preferences,
+        dispatch,
+        Toast,
+        errand_status_notifications: value,
+      }),
+    )
+ 
+      setSmsLoading(false); // Set loading back to false after the action (success or failure)
+   
+  };
+
+ 
+
+ 
+
   return (
     <ScrollView>
       <View className="mt-6 ml-4 ">
@@ -122,6 +254,8 @@ const SettingsTest = ({ openVerifyModal }: Props) => {
           Notifications on all general activities on Swave
         </Text>
       </View>
+
+      <LoadingModal visible={smsLoading} />
 
       <View
         style={{ backgroundColor: theme ? '#152955' : 'white' }}
@@ -142,14 +276,15 @@ const SettingsTest = ({ openVerifyModal }: Props) => {
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 onValueChange={(value: boolean) => {
-                  dispatch(
-                    updateNotificationPrefeference({
-                      ...preferences,
-                      dispatch,
-                      Toast,
-                      account_update_notifications: value,
-                    }),
-                  )
+                  // dispatch(
+                  //   updateNotificationPrefeference({
+                  //     ...preferences,
+                  //     dispatch,
+                  //     Toast,
+                  //     account_update_notifications: value,
+                  //   }),
+                  // )
+                  handleAccountChange(value)
                 }}
                 value={preferences?.account_update_notifications}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
@@ -177,15 +312,16 @@ const SettingsTest = ({ openVerifyModal }: Props) => {
                 <Switch
                   trackColor={{ false: '#767577', true: 'green' }}
                   onValueChange={(value: boolean) => {
-                    setNewsLetter(!newsLetter)
-                    dispatch(
-                      updateNotificationPrefeference({
-                        ...preferences,
-                        dispatch,
-                        Toast,
-                        newsletter_notifications: value,
-                      }),
-                    )
+                    // setNewsLetter(!newsLetter)
+                    // dispatch(
+                    //   updateNotificationPrefeference({
+                    //     ...preferences,
+                    //     dispatch,
+                    //     Toast,
+                    //     newsletter_notifications: value,
+                    //   }),
+                    // )
+                    handleNewsLetterChange(value)
                   }}
                   value={preferences?.newsletter_notifications}
                   style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
@@ -213,16 +349,17 @@ const SettingsTest = ({ openVerifyModal }: Props) => {
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 onValueChange={(value: boolean) => {
-                  setLoading1(true)
-                  dispatch(
-                    updateNotificationPrefeference({
-                      ...preferences,
-                      dispatch,
-                      Toast,
-                      promotions_notifications: value,
-                    }),
-                  )
-                  setLoading1(false)
+                  
+                  // dispatch(
+                  //   updateNotificationPrefeference({
+                  //     ...preferences,
+                  //     dispatch,
+                  //     Toast,
+                  //     promotions_notifications: value,
+                  //   }),
+                  // )
+                  handlePromotionsChange(value)
+                 
                 }}
                 value={preferences?.promotions_notifications}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
@@ -263,9 +400,12 @@ const SettingsTest = ({ openVerifyModal }: Props) => {
            
           </View>
         </View> */}
+
+
+        
       </View>
 
-      <View className="mt-6 ml-4 ">
+       <View className="mt-6 ml-4 ">
         <Text
           style={{ color: textTheme }}
           className=" text-base font-bold leading-6"
@@ -295,7 +435,6 @@ const SettingsTest = ({ openVerifyModal }: Props) => {
             >
               Dark Mode
             </Text>
-            {/* <TouchableOpacity onPress={() => )}> */}
             <Switch
               trackColor={{ false: '#767577', true: 'green' }}
               value={data?.preferred_theme === 'light' ? true : false}
@@ -314,10 +453,9 @@ const SettingsTest = ({ openVerifyModal }: Props) => {
               }
               style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
             />
-            {/* </TouchableOpacity> */}
           </View>
         </View>
-      </View>
+      </View> 
 
       <View className="mt-6 ml-4 ">
         <Text
@@ -391,14 +529,15 @@ const SettingsTest = ({ openVerifyModal }: Props) => {
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 onValueChange={(value: boolean) => {
-                  dispatch(
-                    updateNotificationPrefeference({
-                      ...preferences,
-                      dispatch,
-                      Toast,
-                      cat_errand_notifications: value,
-                    }),
-                  )
+                  // dispatch(
+                  //   updateNotificationPrefeference({
+                  //     ...preferences,
+                  //     dispatch,
+                  //     Toast,
+                  //     cat_errand_notifications: value,
+                  //   }),
+                  // )
+                  handleNewChange(value)
                 }}
                 value={preferences?.cat_errand_notifications}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
@@ -422,14 +561,15 @@ const SettingsTest = ({ openVerifyModal }: Props) => {
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 onValueChange={(value: boolean) => {
-                  dispatch(
-                    updateNotificationPrefeference({
-                      ...preferences,
-                      dispatch,
-                      Toast,
-                      location_errand_notifications: value,
-                    }),
-                  )
+                  // dispatch(
+                  //   updateNotificationPrefeference({
+                  //     ...preferences,
+                  //     dispatch,
+                  //     Toast,
+                  //     location_errand_notifications: value,
+                  //   }),
+                  // )
+                  handleAreaChange(value)
                 }}
                 value={preferences?.location_errand_notifications}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
@@ -453,14 +593,15 @@ const SettingsTest = ({ openVerifyModal }: Props) => {
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 onValueChange={(value: boolean) => {
-                  dispatch(
-                    updateNotificationPrefeference({
-                      ...preferences,
-                      dispatch,
-                      Toast,
-                      bid_notifications: value,
-                    }),
-                  )
+                  // dispatch(
+                  //   updateNotificationPrefeference({
+                  //     ...preferences,
+                  //     dispatch,
+                  //     Toast,
+                  //     bid_notifications: value,
+                  //   }),
+                  // )
+                  handleErrandBidsChange(value)
                 }}
                 value={preferences?.bid_notifications}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
@@ -485,14 +626,15 @@ const SettingsTest = ({ openVerifyModal }: Props) => {
                 trackColor={{ false: '#767577', true: 'green' }}
                 value={preferences?.errand_status_notifications}
                 onValueChange={(value: boolean) => {
-                  dispatch(
-                    updateNotificationPrefeference({
-                      ...preferences,
-                      dispatch,
-                      Toast,
-                      errand_status_notifications: value,
-                    }),
-                  )
+                  // dispatch(
+                  //   updateNotificationPrefeference({
+                  //     ...preferences,
+                  //     dispatch,
+                  //     Toast,
+                  //     errand_status_notifications: value,
+                  //   }),
+                  // )
+                  handleErrandStatusChange(value)
                 }}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
