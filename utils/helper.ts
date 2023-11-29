@@ -3,6 +3,7 @@ import { useNavigation } from "expo-router";
 import moment from "moment";
 import validator from 'validator';
 import banks from "../assets/bank.json";
+import { navigateToScreen } from "../navigation/StackNavigation";
 import { currentUserDetails } from "../services/auth/currentUserInfo";
 import { userDetails } from "../services/auth/userInfo";
 import { MarketData, PaymentChannels } from "../types";
@@ -24,6 +25,17 @@ export function getTimeOfDay() {
     return "Evening";
   }
 }
+
+export const getAppVersion = async () => {
+  const versionCode = '1.0.4'
+    await fetch(`${process.env.EXPO_PUBLIC_API_URL}/mobileversion`)
+      .then((rs) => rs.json())
+      .then((rs) => {
+          if (versionCode !== rs.Android) {
+            navigateToScreen('UpdateApp')
+          }
+      })
+  }
 
 // export function formatDesc(html: string) {
 //     const parser = new DOMParser();

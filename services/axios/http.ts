@@ -58,9 +58,6 @@ export async function _fetch({ _url, body, method }: FetchProps) {
   
   const token = await AsyncStorage.getItem('accessToken');  
 
-
-  
-
   let options
 
   if (token === null && url.includes("/sign")) {

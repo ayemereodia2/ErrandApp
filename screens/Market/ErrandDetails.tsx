@@ -29,6 +29,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
   ActivityIndicator,
   Image,
+  Modal,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -53,6 +54,7 @@ export default function ErrandDetails({ route, navigation }: any) {
   const [userId, setUserId] = useState('')
   const [showBidBtn, setShowBidBtn] = useState(true)
   const [address, setAddress] = useState('')
+  const [selectedImage, setSelectedImage] = useState('')
 
   // const { snapToIndex, close } = useBottomSheet();
 
@@ -416,16 +418,21 @@ export default function ErrandDetails({ route, navigation }: any) {
                       Other Resources
                     </Text>
 
-                    <View className='flex-row space-x-4 mt-4'>
-                      {errand?.images?.map((image) => (
-                        <View className=''>
-                          <Image
-                            style={{
-                              width: 100,
-                              height: 100,
-                            }}
-                            source={{ uri: image }}
-                          />
+                    <View className="flex-row space-x-4 mt-4">
+                      {errand?.images?.map((image, index) => (
+                        <View className="">
+                          <TouchableOpacity
+                            key={index}
+                            onPress={() => setSelectedImage(image)}
+                          >
+                            <Image
+                              style={{
+                                width: 100,
+                                height: 100,
+                              }}
+                              source={{ uri: image }}
+                            />
+                          </TouchableOpacity>
                         </View>
                       ))}
                     </View>
@@ -509,6 +516,22 @@ export default function ErrandDetails({ route, navigation }: any) {
                         )
                       })}
                     </View> */}
+
+                    <Modal visible={selectedImage !== ''} transparent={true}>
+                      <View style={styles.modalContainer}>
+                        <Image
+                          source={{ uri: selectedImage }}
+                          style={styles.modalImage}
+                        />
+                        <TouchableOpacity
+                          onPress={() => setSelectedImage('')}
+                          style={styles.closeButton}
+                        >
+                          {/* You can use a close icon or text */}
+                          <Text style={styles.closeButtonText}>Close</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </Modal>
                   </View>
                 )}
               </View>
@@ -582,5 +605,37 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 200,
+  },
+
+
+
+   _container: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  thumbnail: {
+    width: 100,
+    height: 100,
+    margin: 5,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+  },
+  modalImage: {
+    width: '80%',
+    height: '80%',
+    resizeMode: 'contain',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 16,
   },
 })

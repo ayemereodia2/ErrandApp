@@ -1,4 +1,10 @@
-import { Entypo, FontAwesome, FontAwesome5, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
+import {
+  Entypo,
+  FontAwesome,
+  FontAwesome5,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -10,8 +16,6 @@ import { useQuery } from '@tanstack/react-query'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   BackHandler,
-  FlatList,
-  Image,
   Platform,
   RefreshControl,
   ScrollView,
@@ -31,11 +35,7 @@ import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
-import { getTimeOfDay, newCategories } from '../../utils/helper'
-import Icon from 'react-native-vector-icons';
-import { CategoriesList } from '../../types'
-import HomeCategory from '../../components/HomeCategory/HomeCategory'
-
+import { getTimeOfDay } from '../../utils/helper'
 
 const LandingTest = ({ navigation }: any) => {
   const loaderGif = '../../assets/images/loading-SWAVE.gif'
@@ -45,8 +45,6 @@ const LandingTest = ({ navigation }: any) => {
   const snapPoints1 = useMemo(() => ['55%'], [])
   const [verifiedPin, setVerifiedPin] = useState(true)
   const [refreshing, setRefreshing] = React.useState(false)
-
- 
 
   function openPinModal() {
     bottomSheetRef.current?.present()
@@ -144,10 +142,8 @@ const LandingTest = ({ navigation }: any) => {
     refetchOnMount: 'always',
   })
 
-  if(data) {
+  if (data) {
   }
-
- 
 
   const onRefresh = React.useCallback(() => {
     // dispatch(myErrandList({ setSearchedErrand }))
@@ -188,8 +184,6 @@ const LandingTest = ({ navigation }: any) => {
   useEffect(() => {
     checkPinIsVerified()
   }, [])
-
-
 
   // if (loading ) {
   //   return (
@@ -237,7 +231,7 @@ const LandingTest = ({ navigation }: any) => {
                   className="font-bold text-[20px] leading-7"
                   style={{ color: textTheme }}
                 >
-                  Good {getTimeOfDay()}, {currentUser?.first_name}
+                  Welcome, {currentUser?.first_name}
                 </Text>
 
                 <View className="items-center flex-row gap-4 mr-2">
@@ -279,7 +273,7 @@ const LandingTest = ({ navigation }: any) => {
                 >
                   <Text
                     className="text-white text-base"
-                    style={{ color: theme ? 'black' : 'white' }}
+                    style={{ color: theme ? 'white' : 'white' }}
                   >
                     Find an errand
                   </Text>
@@ -292,7 +286,7 @@ const LandingTest = ({ navigation }: any) => {
                 >
                   <Text
                     className=" text-base"
-                    style={{ color: theme ? 'black' : 'white' }}
+                    style={{ color: theme ? 'white' : 'white' }}
                   >
                     Manage your Errands
                   </Text>
@@ -307,13 +301,17 @@ const LandingTest = ({ navigation }: any) => {
                   What do you need help with?
                 </Text>
 
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mt-4  w-[90vw]">
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  className="mt-2  w-[90vw]"
+                >
                   {data
                     ? data?.data?.map((category: any) => (
                         <>
                           <View className="flex-row mt-3" key={category.id}>
                             <TouchableOpacity
-                              className="border-[#aaa] border h-[220px] w-[250px] justify-center  rounded-xl mr-2 bg-white"
+                              className="border-[#aaa] border h-[150px] w-[150px] justify-center  rounded-xl mr-2 bg-white"
                               style={{
                                 backgroundColor: theme ? '#1E3A79' : 'white',
                               }}
@@ -323,51 +321,80 @@ const LandingTest = ({ navigation }: any) => {
                               }}
                               key={category.id}
                             >
-                           
-                           { category.name === 'Market / Groceries Shopping' ? (
-                            <Text className='text-center' style={{color: theme ? 'white' : '#3F60AC'}}><FontAwesome name="shopping-bag" size={80}/></Text>
-                           ) 
-                          :
-                          category.name === 'Laundry service' ? (
-                            <Text className='text-center' style={{color: theme ? 'white' : '#3F60AC'}}><MaterialIcons name="local-laundry-service" size={80} /></Text>
-                          )
-                          :
-                          category.name === 'Delivery' ? (
-                            <Text className='text-center' style={{color: theme ? 'white' : '#3F60AC'}}><MaterialCommunityIcons name="truck-delivery" size={80}  /></Text>
-
-                          )
-                          :
-                          category.name === 'Cleaning/home service' ? (
-                            <Text className='text-center' style={{color: theme ? 'white' : '#3F60AC'}}><MaterialIcons name="clean-hands" size={80}/></Text>
-
-                          )
-                          :
-                          category.name === 'General Labour' ? (
-                            <Text className='text-center' style={{color: theme ? 'white' : '#3F60AC'}}><MaterialIcons name="work" size={80}/></Text>
-
-                          )
-                          :
-                          category.name === 'Photo / Video Production ' ? (
-                            <Text className='text-center' style={{color: theme ? 'white' : '#3F60AC'}}><FontAwesome name="video-camera" size={80}/></Text>
-
-                          )
-                          :
-                          category.name === 'Home Teacher' ? (
-                            <Text className='text-center' style={{color: theme ? 'white' : '#3F60AC'}}><FontAwesome5 name="chalkboard-teacher" size={80} /></Text>
-
-                          )
-                          :
-                          category.name === 'Any Errand' ? (
-                            <Text className='text-center' style={{color: theme ? 'white' : '#3F60AC'}}><MaterialCommunityIcons name="run-fast" size={80}/></Text>
-
-                          )
-                          :
-                          null
-                          }
-
+                              {category.name ===
+                              'Market / Groceries Shopping' ? (
+                                <Text
+                                  className="text-center"
+                                  style={{ color: theme ? 'white' : '#3F60AC' }}
+                                >
+                                  <FontAwesome name="shopping-bag" size={40} />
+                                </Text>
+                              ) : category.name === 'Laundry service' ? (
+                                <Text
+                                  className="text-center"
+                                  style={{ color: theme ? 'white' : '#3F60AC' }}
+                                >
+                                  <MaterialIcons
+                                    name="local-laundry-service"
+                                    size={40}
+                                  />
+                                </Text>
+                              ) : category.name === 'Delivery' ? (
+                                <Text
+                                  className="text-center"
+                                  style={{ color: theme ? 'white' : '#3F60AC' }}
+                                >
+                                  <MaterialCommunityIcons
+                                    name="truck-delivery"
+                                    size={40}
+                                  />
+                                </Text>
+                              ) : category.name === 'Cleaning/home service' ? (
+                                <Text
+                                  className="text-center"
+                                  style={{ color: theme ? 'white' : '#3F60AC' }}
+                                >
+                                  <MaterialIcons name="clean-hands" size={40} />
+                                </Text>
+                              ) : category.name === 'General Labour' ? (
+                                <Text
+                                  className="text-center"
+                                  style={{ color: theme ? 'white' : '#3F60AC' }}
+                                >
+                                  <MaterialIcons name="work" size={40} />
+                                </Text>
+                              ) : category.name ===
+                                'Photo / Video Production ' ? (
+                                <Text
+                                  className="text-center"
+                                  style={{ color: theme ? 'white' : '#3F60AC' }}
+                                >
+                                  <FontAwesome name="video-camera" size={40} />
+                                </Text>
+                              ) : category.name === 'Home Teacher' ? (
+                                <Text
+                                  className="text-center"
+                                  style={{ color: theme ? 'white' : '#3F60AC' }}
+                                >
+                                  <FontAwesome5
+                                    name="chalkboard-teacher"
+                                    size={40}
+                                  />
+                                </Text>
+                              ) : category.name === 'Any Errand' ? (
+                                <Text
+                                  className="text-center"
+                                  style={{ color: theme ? 'white' : '#3F60AC' }}
+                                >
+                                  <MaterialCommunityIcons
+                                    name="run-fast"
+                                    size={40}
+                                  />
+                                </Text>
+                              ) : null}
 
                               <Text
-                                className="text-lg font-semibold text-center mt-5"
+                                className="text-sm font-semibold text-center mt-5"
                                 style={{ color: textTheme }}
                               >{`${category.description}`}</Text>
                             </TouchableOpacity>
@@ -378,7 +405,7 @@ const LandingTest = ({ navigation }: any) => {
 
                   <View className="flex-row mt-3 ">
                     <TouchableOpacity
-                      className="border-[#aaa] border h-[220px] w-[250px] rounded-xl mr-2 bg-white"
+                      className="border-[#aaa] border h-[150px] w-[150px] rounded-xl mr-2 bg-white"
                       style={{
                         backgroundColor: theme ? '#1E3A79' : 'white',
                       }}
@@ -386,13 +413,14 @@ const LandingTest = ({ navigation }: any) => {
                         navigation.navigate('CreateErrand')
                       }}
                     >
-                      <Text className="text-base font-semibold text-center justify-center pt-[40%]" style={{ color: textTheme }}>
+                      <Text
+                        className="text-sm font-semibold text-center justify-center pt-[40%]"
+                        style={{ color: textTheme }}
+                      >
                         I need something else...
                       </Text>
                     </TouchableOpacity>
                   </View>
-
-        
                 </ScrollView>
               </View>
 

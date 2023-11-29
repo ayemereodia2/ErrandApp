@@ -23,13 +23,13 @@ export const postAudioFiles = createAsyncThunk<any, Props, { rejectValue: string
         body: formData,
       };
 
-      const res =  await fetch(`https://staging.apis.swave.ng/v1/file-upload`, requestOptions)
+      const res =  await fetch(`${process.env.EXPO_PUBLIC_API_URL}/file-upload`, requestOptions)
         
     //     .then((res) => res.json()).then((data) => {
     //   if (data.success === true) {
     //     data?.data.forEach((audio: string) => {
     //       setAudio(audio)
-    //     })
+    //     }
          
     //     }
     // })

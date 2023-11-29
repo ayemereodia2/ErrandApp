@@ -503,7 +503,7 @@ const CreateErrandDetails = ({
             })}
           </ScrollView>
 
-          <View className="mt-4">
+          {/* <View className="mt-4">
             <Text style={{ color: textTheme }} className="text-[#243763]">
               You can record a voice note to better describe this errand
             </Text>
@@ -538,7 +538,7 @@ const CreateErrandDetails = ({
                 ? 'Click to stop recording'
                 : 'Click on the Mic icon above to record your voice message'}
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           {recorded && (
             <View className="w-full rounded-lg h-[150px] bg-[#FCFCFC] mx-auto mt-4 border-[0.5px] border-[#E6E6E6] py-6 flex-row items-center justify-center">

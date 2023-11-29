@@ -1,6 +1,6 @@
 import { createNavigationContainerRef } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React from 'react'
+import React, { useEffect } from 'react'
 import FundWalletModal from '../components/Modals/Errands/FundWallet'
 import AboutSwave from '../screens/AboutSwave/AboutSwave'
 import AdsScreen from '../screens/AdsScreen'
@@ -28,6 +28,7 @@ import CompleteErrandModal from '../screens/Modal/CompleteErrandModal'
 import ErrandScreen from '../screens/MyErrands'
 import ErrandUserDetails from '../screens/MyErrands/ErrandUserDetails'
 import MyErrandInfo from '../screens/MyErrands/MyErrandInfo'
+import RejectErrandScreen from '../screens/MyErrands/RejectErrandScreen'
 import NotificationScreen from '../screens/Notification/NotficationScreen'
 import OnboardingUi from '../screens/Onboarding/OnboardingUi'
 import PrivacyPolicy from '../screens/Privacy/PrivacyPolicy'
@@ -40,9 +41,8 @@ import WalletScreen from '../screens/Wallets'
 import EscrowScreen from '../screens/Wallets/EscrowScreen'
 import TransactionScreen from '../screens/Wallets/TransactionScreen'
 import WalletAccount from '../screens/Wallets/WalletAccount'
+import { getAppVersion } from '../utils/helper'
 import { TabsNavigation } from './TabsNavigation'
-import RejectErrandModal from '../components/Modals/Errands/RejectErrandModal'
-import RejectErrandScreen from '../screens/MyErrands/RejectErrandScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -286,6 +286,12 @@ export const TabStack = () => {
 }
 
 export function GuestStack() {
+  useEffect(() => {
+    console.log(">>>>>gt here");
+    
+    getAppVersion()
+  }, [])
+
   return (
     <>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -319,7 +325,6 @@ export function GuestStack() {
         <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
         <Stack.Screen name="RecoverPassword" component={ForgotPassword} />
         <Stack.Screen name="RejectErrand" component={RejectErrandScreen} />
-
 
         <Stack.Screen
           name="UpdateApp"
