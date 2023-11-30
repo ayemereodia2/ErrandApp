@@ -157,7 +157,6 @@ const PostErrand = ({ navigation }: any) => {
   ]
 
   const categoryHandler = () => {
-    console.log('>>>>>Ok')
     if (!selectedItem) {
       return
     }
@@ -187,7 +186,6 @@ const PostErrand = ({ navigation }: any) => {
     //   })
     // }
 
-    console.log('>>>>>>postErrandData', postErrandData)
 
     setPostErrandData({
       ...postErrandData,
@@ -206,7 +204,6 @@ const PostErrand = ({ navigation }: any) => {
       currentLocation,
       deliveryAddress,
     })
-    console.log('>>>>>>postErrandData', postErrandData)
 
     setActiveStep(activeStep + 1)
   }
@@ -219,7 +216,6 @@ const PostErrand = ({ navigation }: any) => {
     setPostErrandData({
       ...postErrandData,
     })
-    console.log('>>>>>>postErrandData', postErrandData)
     setActiveStep(activeStep + 1)
   }
 
@@ -290,7 +286,6 @@ const PostErrand = ({ navigation }: any) => {
       dispatch,
     }
 
-    console.log('>>>>>data errand', data)
 
     dispatch(createErrand({ ...data }))
   }
@@ -418,7 +413,6 @@ const PostErrand = ({ navigation }: any) => {
           <TouchableOpacity
             disabled={!selectedItem}
             onPress={() => {
-              console.log('man')
               activeStep <= 1
                 ? categoryHandler()
                 : activeStep <= 2
@@ -442,7 +436,6 @@ const PostErrand = ({ navigation }: any) => {
               <Text
                 className="text-white text-center  rounded-lg text-lg"
                 onPress={() => {
-                  console.log('man')
 
                   activeStep <= 1
                     ? categoryHandler()
@@ -452,7 +445,7 @@ const PostErrand = ({ navigation }: any) => {
                     ? locationHandler()
                     : activeStep <= 4
                     ? financeHandler()
-                    : openPinModal()
+                    : submitErrandhandler()
                 }}
               >
                 {activeStep >= 5
@@ -473,13 +466,13 @@ const PostErrand = ({ navigation }: any) => {
         }}
         backdropComponent={renderBackdrop}
       >
-        <PinModal
+        {/* <PinModal
           createErrand={true}
           submitErrandhandler={submitErrandhandler}
           closePinModal={closePinModal}
           verifyPin={true}
           makeWithdrawalHandler={() => {}}
-        />
+        /> */}
       </BottomSheetModal>
     </BottomSheetModalProvider>
   )

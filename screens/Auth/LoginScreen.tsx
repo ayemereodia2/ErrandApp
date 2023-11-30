@@ -42,7 +42,6 @@ export default function LoginScreen({navigation}: any) {
     try {
       dispatch(loginUser(loginData))
     } catch (error) {
-      console.error('Authentication error:', error)
       setErrorMessage('Incorrect phone number or password. Please try again.')
     }
   }

@@ -17,6 +17,7 @@ import { updateNotificationPrefeference } from '../../services/notification/upda
 import { RootState, useAppDispatch } from '../../services/store'
 import { getUserId } from '../../utils/helper'
 import LoadingModal from '../MainLoader/LoadingModal'
+import { currentUserDetails } from '../../services/auth/currentUserInfo'
 
 interface Props {
   openVerifyModal: () => void
@@ -60,8 +61,11 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
     (state: RootState) => state.currentUserDetailsReducer,
   )
 
+
+
   const updateUserProfile = async (userData: any) => {
-    setIsLoading(true)
+    
+    setSmsLoading(true)
     try {
       const _rs = await _fetch({
         method: 'PUT',
@@ -69,21 +73,31 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
         body: userData,
       })
 
-      setIsLoading(false)
-
+      
+      setSmsLoading(false)
       // Check if the response status code indicates an error
       if (!_rs.ok) {
         const errorResponse = await _rs.json()
         throw new Error(`Server error: ${errorResponse.message}`)
       }
       const responseData = await _rs.json()
+      const user_id = (await AsyncStorage.getItem('user_id')) || ''
+      dispatch(currentUserDetails({ user_id }))
 
       getUserId({ dispatch })
+      
       return responseData
+
+      
+      
     } catch (error) {
       throw error
     }
+   
   }
+
+  
+
 
   const toggleTheme = async (theme: boolean) => {
     // const theme = await AsyncStorage.getItem('theme')
@@ -93,8 +107,6 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
       await AsyncStorage.setItem('theme', 'dark')
     }
   }
-
-  console.log(preferences?.account_update_notifications)
 
   useEffect(() => {
     getUserId({ dispatch })
@@ -441,14 +453,16 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
               // value={theme === 'light' ? true : false}
               onValueChange={
                 (value: boolean) =>
-                  updateUserProfile({
-                    first_name: data.first_name,
-                    last_name: data.last_name,
-                    bio: data.bio,
-                    email: data.email,
-                    dob: data.dob,
-                    preferred_theme: value === true ? 'light' : 'dark',
-                  })
+                
+                   updateUserProfile({
+                  //    first_name: data.first_name,
+                  // last_name: data.last_name,
+                  //  bio: data.bio,
+                  //  email: data.email,
+                  //  dob: data.dob,
+                   preferred_theme: value === true ? 'light' : 'dark',
+                   })
+                  
                 // toggleTheme(value)
               }
               style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
@@ -557,7 +571,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
             >
               Errands within your area
             </Text>
-            <TouchableWithoutFeedback>
+            
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 onValueChange={(value: boolean) => {
@@ -574,7 +588,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
                 value={preferences?.location_errand_notifications}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
               />
-            </TouchableWithoutFeedback>
+            
           </View>
           <Text style={{ color: textTheme }} className="text-sm font-light">
             Be in the know when we publish any information

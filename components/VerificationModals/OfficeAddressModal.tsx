@@ -64,7 +64,6 @@ const OfficeAddressModal = ({ closeOfficeModal }: any) => {
     })
 
     if (!results.canceled) {
-      console.log(results)
       setSelectedImage(results.assets)
 
       const formData = new FormData()
@@ -132,11 +131,9 @@ const OfficeAddressModal = ({ closeOfficeModal }: any) => {
             'Your file has been submitted successfully, you will be notified once your verification has been processed.',
         })
 
-        console.log(updatedData)
         closeOfficeModal()
       } else {
         // Handle the case where the server responded with an error message
-        console.error('Profile update failed:', responseData.message)
 
         Toast.show({
           type: 'error',
@@ -145,7 +142,6 @@ const OfficeAddressModal = ({ closeOfficeModal }: any) => {
       }
     } catch (error) {
       // Handle errors here, such as network errors or server-side errors
-      console.error('Error updating profile:', error)
 
       Toast.show({
         type: 'error',

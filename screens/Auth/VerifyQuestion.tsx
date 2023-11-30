@@ -42,9 +42,7 @@ export default function PasswordQuestions({ route }: any) {
       const data = await _rs.json()
 
       setQuestion(data?.data.question)
-      console.log(data?.data.question)
     } catch (error) {
-      console.error('Error fetching security question:', error)
     } finally {
       setLoading(false)
     }
@@ -80,7 +78,6 @@ export default function PasswordQuestions({ route }: any) {
         })
       }
     } catch (e) {
-      console.error('Error submitting security question:', e)
     } finally {
       setLoading(false)
     }

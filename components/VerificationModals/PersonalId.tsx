@@ -52,9 +52,6 @@ const PersonalId = ({ closePersonalId }: any) => {
     (state: RootState) => state.postFilesReducer,
   )
 
-  console.log('-----', uploadedFiles,);
-  
-
   const removeImage = (index: number) => {
     const allFiles = [...uploadedFiles]
     allFiles.splice(index, 1)
@@ -68,7 +65,6 @@ const PersonalId = ({ closePersonalId }: any) => {
     })
 
     if (!results.canceled) {
-      console.log(results)
       setSelectedImage(results.assets)
 
       const formData = new FormData()
@@ -136,11 +132,9 @@ const PersonalId = ({ closePersonalId }: any) => {
             'Your file has been submitted successfully, you will be notified once your verification has been processed.',
         })
 
-        console.log(updatedData)
         closePersonalId()
       } else {
         // Handle the case where the server responded with an error message
-        console.error('file update failed:', responseData.message)
 
         Toast.show({
           type: 'error',
@@ -149,7 +143,6 @@ const PersonalId = ({ closePersonalId }: any) => {
       }
     } catch (error) {
       // Handle errors here, such as network errors or server-side errors
-      console.error('Error updating profile:', error)
 
       Toast.show({
         type: 'error',

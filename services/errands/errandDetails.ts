@@ -19,9 +19,6 @@ export const errandDetails = createAsyncThunk<SingleErrandDetail, DetailProps, {
           // const _rs = await fetch(`https://apis.swave.ng/v1/errand/${errandId}`)
           const rs = await _rs.json()
 
-          console.log(">>>>>rs guest", rs);
-          
-
             if (rs.success === true) {
                 return rs
             }
@@ -44,6 +41,7 @@ const initialState: SingleErrandDetail = {
     loading: true,
 
   data: {
+    images:[],
          multi_data: {
           num_of_subErrands: 0,
           total_amount_spent: 0

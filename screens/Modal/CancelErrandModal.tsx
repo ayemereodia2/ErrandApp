@@ -23,7 +23,6 @@ const CancelErrandModal = ({ route }: any) => {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  console.log('>>>>errand', singleSubErrand, userId)
 
   const cancelErrand = async () => {
     setLoading(true)

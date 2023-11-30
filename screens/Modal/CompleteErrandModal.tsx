@@ -9,8 +9,6 @@ const CompleteErrandModal = ({route}: any) => {
   const dispatch = useAppDispatch()
   const { errand, userId, singleSubErrand } = route.params
 
-  console.log(">>>>errand", singleSubErrand, userId);
-  
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,

@@ -45,8 +45,6 @@ const SettingsCategory = ({ navigation, interests }: any) => {
 
   // console.log(data)
 
-  console.log('>>>>interests', interests)
-
   if (loading) {
     return (
       <TouchableOpacity

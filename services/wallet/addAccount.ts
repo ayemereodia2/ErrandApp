@@ -12,7 +12,6 @@ interface Props {
 }
 
 export const addAccount = createAsyncThunk("add-Account", async ({ accName, accNum, bankCode, setLoading, toggleAddAccountModal }: Props, { rejectWithValue }) => {
-  console.log(">>>>>>>accNum", accName, accNum, bankCode);
   
     try {
        const rs = await _fetch({ method:'POST',  _url:'/user/bank-account', body: {
@@ -23,7 +22,6 @@ export const addAccount = createAsyncThunk("add-Account", async ({ accName, accN
        })
       const _rs = await rs.json()
 
-      console.log(">>>>>_rs", _rs);
       
       Toast.show({ type: 'success', text1: "Bank Account added successfully" })
       toggleAddAccountModal && toggleAddAccountModal(false)

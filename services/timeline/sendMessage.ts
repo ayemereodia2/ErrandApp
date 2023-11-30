@@ -15,8 +15,6 @@ export const timelineAction = createAsyncThunk<ErrandMarketResponse, TimelinePay
     })
       
       const rs = await _rs.json()
-      console.log(">>>>>>>>_rs", rs);
-
 
     dispatch(errandDetails({ errandId: errand_id }))
     // dispatch(myErrandList({}))

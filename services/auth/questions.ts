@@ -20,7 +20,6 @@ export const securityQuesitions = createAsyncThunk<SecurityQuestionResponse, Get
       return rs.data.data
     }
   } catch (e: any) {
-    console.log('eeee', e.response.data.message)
     if (e.response.status === 400) {
       // toast.error("Sorry, we are unable to get your security question at this time, please try again later. If this persist please contact our customer care center");
       // navigate("/auth/password-recovery-otp")

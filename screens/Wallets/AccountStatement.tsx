@@ -41,7 +41,6 @@ const AccountStatement = () => {
       return true
     } else {
       // Handle permission denial
-      console.error('Permission not granted')
       return false
     }
   }
@@ -76,7 +75,6 @@ const AccountStatement = () => {
         }
       }
     } catch (error) {
-      console.error(error)
     }
   }
 
@@ -91,11 +89,9 @@ const AccountStatement = () => {
       FileSystem.documentDirectory + 'sample.pdf',
     )
       .then(({ uri }) => {
-        console.log('Finished downloading to ', uri)
         // this.share(uri)
       })
       .catch((error) => {
-        console.error(error)
       })
   }
 

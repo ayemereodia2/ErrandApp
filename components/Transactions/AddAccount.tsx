@@ -48,7 +48,6 @@ const AddAccount = ({ toggleAddAccountModal }: AddAccountProp) => {
     setBankList(allBanks)
   }
 
-  console.log("bankcode", selectedBank)
 
   const getAccountName = async () => {
     const res = await fetch(
@@ -66,7 +65,6 @@ const AddAccount = ({ toggleAddAccountModal }: AddAccountProp) => {
 
     const accUser = await res.json()
 
-    console.log('>>>>>>>>>>bank', accUser)
 
     setAccUser(accUser.data)
     // setCanProceed(false)

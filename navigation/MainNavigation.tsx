@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useIsConnected } from 'react-native-offline'
 import Toast from 'react-native-toast-message'
 import ErrorBoundary from '../components/ErrorBoundary'
+import { getAppVersion } from '../utils/helper'
 import { MainStack, TabStack } from './StackNavigation'
 
 const MainNavigation = () => {
@@ -14,7 +15,6 @@ const MainNavigation = () => {
   const navigation = useNavigation()
 
   const checkNetworkConnectivity = async () => {
-    console.log('>>>>>isConnect', isConnected)
 
     if (isConnected === null) {
       return
@@ -45,12 +45,12 @@ const MainNavigation = () => {
         setIsAuthenticated(false)
       }
     } catch (error) {
-      console.log(error)
     }
   }
 
   useEffect(() => {
     // Call the authentication status check function
+    getAppVersion()
     checkAuthenticationStatus()
     checkNetworkConnectivity()
   }, [isAuthenticated, isGuest, isConnected])

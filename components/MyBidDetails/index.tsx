@@ -32,8 +32,6 @@ const ErrandBid = ({
   const negotiateRef = useRef<BottomSheetModal>(null)
   const bidHistoryRef = useRef<BottomSheetModal>(null)
 
-  console.log('>>>Okaaya', bid.state)
-
   const rejectRef = useRef<BottomSheetModal>(null)
 
   function toggleAcceptModal(open: boolean) {
@@ -113,9 +111,12 @@ const ErrandBid = ({
   return (
     <>
       <View className=" bg-white py-4 px-6 border-b-[0.2px] border-[#CCCCCC] hover:bg-[#CC9BFD] mt-4">
-        <TouchableOpacity onPress={() => {
-          toggleUserInfoModal(true, bid.runner)
-        }} className="flex-row items-center justify-between">
+        <TouchableOpacity
+          onPress={() => {
+            toggleUserInfoModal(true, bid.runner)
+          }}
+          className="flex-row items-center justify-between"
+        >
           <View className="flex-row items-center space-x-3">
             {errand.errand_type === 1 ? (
               <Image
@@ -297,6 +298,22 @@ const ErrandBid = ({
             >
               <Text className="font-md text-white text-sm">View Timeline</Text>
             </TouchableOpacity>
+          </View>
+        )}
+
+        {user_id === errand.user_id && bid.state == 'accepted' && (
+          <View className="mt-3">
+            <Text className=" bg-[#c8e2e8] inline-block text-xs  p-2  rounded-2xl">
+              You have accepted this bid. Waiting for the runner to begin the
+              errand
+            </Text>
+
+            {/* <button
+              onClick={cancelAcceptedBid}
+              className="text-xs border-1 border-[#C82332] rounded-2xl flex space-x-1 justify-center items-center p-2 w-20 mx-auto bg-white"
+            >
+              <p className="text-red-500">Cancel</p>
+            </button> */}
           </View>
         )}
 

@@ -133,7 +133,6 @@ const UpdateProfile = ({ image, data }: any) => {
       }
     } catch (error) {
       // Handle errors here, such as network errors or server-side errors
-      console.error('Error updating profile:', error)
 
       Toast.show({
         type: 'error',

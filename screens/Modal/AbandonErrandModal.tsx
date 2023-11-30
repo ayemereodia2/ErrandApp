@@ -54,7 +54,6 @@ console.log('test', errand.id)
       console.log(">>>rs", errand.id, errand.status);
     } else {
       setLoading(false)
-      // console.log(">>>rs", errand.id, errand.status);
       
       Toast.show({
         type: 'error',

@@ -37,6 +37,7 @@ export const Logo = () => {
               height: 100,
               resizeMode: 'contain',
             }}
+            
             source={require('../../assets/images/SWAVE-logo.png')}
           />
        

@@ -96,7 +96,6 @@ const WalletAccount = ({ navigation }: any) => {
     }
   }
 
-  console.log(data)
 
   return (
     <BottomSheetModalProvider>

@@ -55,6 +55,8 @@ const BidWrapper = ({
     }
   }
 
+  // console.log(">>>>>>errramd", errand.status, userId, errand.user_id);
+
   const acceptPoints = ['40%']
 
   function toggleAcceptModal(open: boolean) {
@@ -84,7 +86,6 @@ const BidWrapper = ({
           toggleBeginErrandModal(false)
           toggleRejectErrandModal(false)
           userInfoRef.current?.dismiss()
-          
         }}
         // onChange={handleSheetChanges}
       />
@@ -229,6 +230,7 @@ const BidWrapper = ({
                     toggleUserInfoModal={toggleUserInfoModal}
                     // setSearchedErrand={setSearchedErrand}
                   />
+                  // <Text className='mt-20'>hello</Text>
                 )
               }
             })}
@@ -236,6 +238,22 @@ const BidWrapper = ({
         )}
 
         {userId !== errand.user_id && errand.status === 'open' && (
+          <>
+            <HaggleComponent
+              haggle={lastHaggle}
+              last={true}
+              bid={currentBid}
+              errand={errand}
+              user_id={userId}
+              toggleSuccessDialogue={toggleSuccessDialogue}
+              toggleNegotiateModal={toggleNegotiateModal}
+              setManageErrandClicked={setManageErrandClicked}
+              toggleUserInfoModal={toggleUserInfoModal}
+            />
+          </>
+        )}
+
+        {userId !== errand.user_id && errand.status === 'closed' && (
           <>
             <HaggleComponent
               haggle={lastHaggle}

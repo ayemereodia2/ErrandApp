@@ -27,7 +27,6 @@ export const createErrand = createAsyncThunk<CreateErrandResponse, CreateErrandR
       }
 
       if (rs.success === true) {
-      console.log("success");
 
         navigation.navigate("MyErrands")
          Toast.show({

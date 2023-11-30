@@ -1,4 +1,4 @@
-import { Entypo, FontAwesome } from '@expo/vector-icons'
+import { AntDesign, Entypo, FontAwesome } from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -10,10 +10,12 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   Image,
+  Modal,
   Platform,
   SafeAreaView,
   ScrollView,
   StatusBar,
+  StyleSheet,
   Switch,
   Text,
   TouchableOpacity,
@@ -24,6 +26,7 @@ import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
 import Container from '../../components/Container'
 import { ProfileInitials } from '../../components/ProfileInitials'
+import SettingsCategory from '../../components/SettingTestFolder/SettingsCategory'
 import SettingsTest from '../../components/SettingTestFolder/SettingsTest'
 import PinModal from '../../components/VerificationModals/PinModal'
 import VerifyPassword from '../../components/VerifyPassword'
@@ -32,7 +35,6 @@ import { notificationPreferences } from '../../services/notification/preferences
 import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
 import { RootState, useAppDispatch } from '../../services/store'
 import { getUserId } from '../../utils/helper'
-import SettingsCategory from '../../components/SettingTestFolder/SettingsCategory'
 import LoadingModal from '../../components/MainLoader/LoadingModal'
 
 const SettingScreen = ({ navigation }: any) => {
@@ -43,6 +45,7 @@ const SettingScreen = ({ navigation }: any) => {
   const bottomSheetRef1 = useRef<BottomSheetModal>(null)
   const bottomSheetRef2 = useRef<BottomSheetModal>(null)
   const bottomSheetRef3 = useRef<BottomSheetModal>(null)
+  const [deleteModal, setDeleteModal] = useState(false)
 
   const renderBackdrop = useCallback(
     (props: any) => (
@@ -401,9 +404,9 @@ const SettingScreen = ({ navigation }: any) => {
 
               <View
                 style={{ backgroundColor: theme ? '#152955' : 'white' }}
-                className=" h-[190px] bg-[#ECF0F8] px-4 mt-5 rounded-md pb-4"
+                className=" h-[100px] bg-[#ECF0F8] px-4 mt-5 rounded-md pb-4"
               >
-                <View className=" h-[63px]  mt-5 border-b border-b-[#AAAAAA]">
+                <View className=" h-[63px]  mt-5">
                   <View className="flex-row items-center justify-between">
                     <Text
                       style={{ color: textTheme }}
@@ -449,53 +452,40 @@ const SettingScreen = ({ navigation }: any) => {
                     </View>
                   </View>
                 </View>
+              </View>
 
-                <View className=" h-[63px] mt-5 border-b border-b-[#AAAAAA]">
-                  <View className="flex-row items-center justify-between">
-                    <Text
-                      style={{ color: textTheme }}
-                      className="font-medium text-[18px]"
-                    >
-                      Send SMS notifications
-                    </Text>
-                  </View>
+              <View className="mt-10 ml-4">
+                <Text
+                  style={{ color: textTheme }}
+                  className="pb-2 text-base font-bold leading-6"
+                >
+                  ACCOUNT
+                </Text>
+              </View>
+
+              <View
+                style={{ backgroundColor: theme ? '#152955' : 'white' }}
+                className=" h-[100px] bg-[#ECF0F8] px-4 mt-5 rounded-md pb-4 mb-20"
+              >
+                <View className=" h-[63px]  mt-5 ">
                   <View className=" mt-2 py-1 flex-row items-center justify-between rounded-lg">
-                    
-                      <Switch
-                        trackColor={{ false: '#767577', true: 'green' }}
-                        value={preferences?.sms_notifications}
-                        onValueChange={(value: boolean) => {
-                          // dispatch(
-                          //   updateNotificationPrefeference({
-                          //     ...preferences,
-                          //     dispatch,
-                          //     Toast,
-                          //     sms_notifications: value,
-                          //   }),
-                          // )
-                         handleSmsChange(value)
-                        }}
-                        style={{
-                          transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }],
-                        }}
+                    <Text className="">Delete My Account</Text>
+                    <View>
+                      <AntDesign
+                        onPress={() => setDeleteModal(true)}
+                        name="delete"
+                        color="red"
+                        size={24}
                       />
-            
-                   
-                    <View
-                      className={
-                        preferences.sms_notifications
-                          ? 'text-sm bg-green-300 rounded-lg p-1 mb-1'
-                          : ' bg-red-300 rounded-lg p-1 mb-1'
-                      }
-                    >
-                      <Text className="text-xs">
-                        {preferences.sms_notifications ? 'Enabled' : 'Disabled'}{' '}
-                      </Text>
                     </View>
                   </View>
                 </View>
               </View>
             </View>
+
+            <Modal visible={deleteModal} transparent={true}>
+              <View style={styles.modalContainer}></View>
+            </Modal>
           </ScrollView>
         </SafeAreaView>
 
@@ -550,3 +540,12 @@ const SettingScreen = ({ navigation }: any) => {
 }
 
 export default SettingScreen
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+  },
+})

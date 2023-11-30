@@ -66,11 +66,9 @@ const EmailModal = ({closeEmailModal}:any) => {
 
         
 
-        console.log(updatedData)
         closeEmailModal()
       } else {
         // Handle the case where the server responded with an error message
-        console.error('Profile update failed:', responseData.message)
 
         Toast.show({
           type: 'error',
@@ -79,7 +77,6 @@ const EmailModal = ({closeEmailModal}:any) => {
       }
     } catch (error) {
       // Handle errors here, such as network errors or server-side errors
-      console.error('Error updating profile:', error)
 
       Toast.show({
         type: 'error',

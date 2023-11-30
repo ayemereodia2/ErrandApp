@@ -80,7 +80,6 @@ const CreateErrandLocation = ({
   }
 
   const onPress = (data: any, details: any) => {
-    console.log('>>>>>data', data)
     setRegion(details.geometry.location)
     setMarker(details.geometry.location)
   }

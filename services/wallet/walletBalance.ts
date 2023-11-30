@@ -13,8 +13,6 @@ export const walletAction = createAsyncThunk<WalletResponse, WalletPayload, { re
 
     const rs = await _rs.json()
 
-    console.log(">>>>>>repssssssss", rs);
-    
     // if (rs.success === true) {   
     //   if (request === "transact") {
     //     toast({
@@ -70,7 +68,6 @@ const walletActionSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(walletAction.fulfilled, (state, {payload}) => {
-      console.log(">>>>>>>a", payload)
       state.success = payload.success
       state.loading = false;
       state.error = "";

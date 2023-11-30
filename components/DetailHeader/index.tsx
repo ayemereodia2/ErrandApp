@@ -13,18 +13,19 @@ export const DetailHeader = ({
   manageErrandClicked,
   singleSubErrand,
 }: infoProp) => {
+  
   if (
     // for the sender
     (user_id === errand?.user_id && errand?.status === 'open') ||
     (user_id === errand?.user_id && errand?.status === 'pending') ||
     (user_id === errand?.user_id && errand?.status === 'cancelled')
   ) {
-    return manageErrandClicked ?  'Errands TimeLine' : 'Bids on your Errand'
+    return manageErrandClicked ? 'Errands TimeLine' : 'Bids on your Errand'
   }
   if (
     // for the runner
     (user_id !== errand?.user_id && errand?.status === 'open') ||
-    (user_id !== errand?.user_id && errand?.status === 'pending')
+    (user_id !== errand?.user_id && errand?.status === 'pending') 
   ) {
     return 'Your Bid on this Errand'
   }
@@ -33,6 +34,9 @@ export const DetailHeader = ({
   }
 
   if (errand?.status === 'active') {
+    return 'Errand TimeLine'
+  }
+  if (errand?.status === 'abandoned') {
     return 'Errand TimeLine'
   }
   if (errand?.status === 'completed') {

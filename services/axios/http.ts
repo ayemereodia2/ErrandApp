@@ -42,7 +42,6 @@ export const pushOut = ({navigation}: any) => {
     if (response.status === 401) {
         // RootNavigation.navigateToScreen('Default')
       navigation.navigate('Default')
-      console.log(">>>>>>>>hello")
         // navigationHook()
         clearStorage()
     }
@@ -58,10 +57,6 @@ export async function _fetch({ _url, body, method }: FetchProps) {
   const url = `https://staging.apis.swave.ng/v1${_url}`
   
   const token = await AsyncStorage.getItem('accessToken');  
-
-
-  console.log(">>>>utl", url);
-  
 
   let options
 

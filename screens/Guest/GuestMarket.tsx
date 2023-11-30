@@ -87,7 +87,6 @@ export default function GuestMarket({ navigation }: any) {
     }, 500)
   }, [])
 
-  console.log('>>>>>fiterOn', filterOn)
 
   const max = high * 100
   const min = low * 100

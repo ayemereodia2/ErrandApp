@@ -100,7 +100,6 @@ const AdsScreen = ({ navigation }: any) => {
       await Promise.all([...imageAssets])
     } catch (e) {
       // You might want to provide this error information to an error reporting service
-      console.warn(e)
     } finally {
       setAppIsReady(true)
       SplashScreen.hideAsync()

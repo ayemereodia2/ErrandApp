@@ -22,8 +22,7 @@ export const HaggleComponent = ({
   haggle,
   setSubErrand,
   setManageErrandClicked,
-  toggleUserInfoModal
-  
+  toggleUserInfoModal,
 }: BidsProps) => {
   const negotiateRef = useRef<BottomSheetModal>(null)
 
@@ -68,6 +67,8 @@ export const HaggleComponent = ({
     [],
   )
 
+  const negotiatorIsSender = bid?.haggles.slice(-1)[0]?.source === 'sender'
+
   // useEffect(() => {
   //   const keyboardWillShowListener = Keyboard.addListener(
   //     Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
@@ -99,10 +100,23 @@ export const HaggleComponent = ({
 
   return (
     <>
-      <View className=" bg-white py-4 px-6 border-b-[0.3px] border-[#CCCCCC] hover:bg-[#CC9BFD] mt-4">
-        <TouchableOpacity onPress={() => {
-          toggleUserInfoModal(true, bid.runner)
-        }} className="flex-row items-center justify-between">
+      <View
+        className={`bg-white py-4 px-6 border-b-[0.3px] rounded-lg border-[#CCCCCC] hover:bg-[#CC9BFD] mt-4 cursor-pointer ${
+          bid.state === 'rejected'
+            ? 'bg-[#f3e2e2]'
+            : bid.state === 'cancelled'
+            ? 'bg-[#f3e2e2]'
+            : bid.state === 'completed'
+            ? 'bg-green-50'
+            : ''
+        }`}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            toggleUserInfoModal(true, bid.runner)
+          }}
+          className="flex-row items-center justify-between"
+        >
           <View className="flex-row items-center space-x-3">
             {errand.errand_type === 1 ? (
               <Image
@@ -110,7 +124,7 @@ export const HaggleComponent = ({
                 className="w-8 h-8 rounded-full"
               />
             ) : (
-            <Image
+              <Image
                 source={{ uri: bid?.runner.profile_picture }}
                 className="w-8 h-8 rounded-full"
               />
@@ -167,77 +181,97 @@ export const HaggleComponent = ({
             </Text>
           </View>
         ) : (
-          <View className="flex-row ml-1 mt-6 items-center justify-between">
-            {bid.state === 'active' ? (
-              <TouchableOpacity
-                onPress={() => {
-                  setManageErrandClicked(true)
-                  dispatch(
-                    getSubErrand({
-                      errand_id: errand.id,
-                      runner_id: bid.runner.id,
-                      setSubErrand,
-                    }),
-                  )
-                }}
-                className="bg-black  p-1 px-3 rounded-2xl"
-              >
-                <Text className="font-md text-white text-sm">
-                  View Timeline
-                </Text>
-              </TouchableOpacity>
-            ) : (
-              <>
-                {errand.status === 'open' && bid.state !== 'accepted' && (
-                  <View className="flex-row space-x-2 w-3/5">
-                    <ActionButton
-                      onPress={() =>
-                        dispatch(
-                          bidAction({
-                            method: 'PUT',
-                            errand_id: errand.id,
-                            description:
-                              'This user has accepted the latest bid',
-                            source: 'runner',
-                            amount: Number(haggle?.amount),
-                            bid_id: bid.id,
-                            dispatch,
-                            toggleSuccessDialogue,
-                            Toast,
-                          }),
-                        )
-                      }
-                      name="checkmark"
-                      iconColor="#33A532"
-                      className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#33A532]"
-                    />
-
-                    <ActionButton
-                      name="x"
-                      iconColor="#FF0000"
-                      className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-red-600"
-                    />
-
-                    <ActionButton
-                      onPress={() => toggleNegotiateModal(true)}
-                      name="commenting"
-                      iconColor="#317ACF"
-                      className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#317ACF]"
-                    />
-                  </View>
-                )}
-              </>
-            )}
-
-            <TouchableOpacity onPress={handleReplies} className="">
-              <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
-                <Text className="text-xs text-center text-[#243763]">
-                  Bid History
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+          ''
         )}
+
+        <View className="flex-row ml-1 mt-6 items-center justify-between">
+          {bid.state === 'active' || errand?.status === 'completed' && (
+            <TouchableOpacity
+              onPress={() => {
+                setManageErrandClicked(true)
+                dispatch(
+                  getSubErrand({
+                    errand_id: errand.id,
+                    runner_id: bid.runner.id,
+                    setSubErrand,
+                  }),
+                )
+              }}
+              className="bg-black  p-1 px-3 rounded-2xl"
+            >
+              <Text className="font-md text-white text-sm">View Timeline</Text>
+            </TouchableOpacity>
+          )}
+
+          {bid?.state === 'cancelled' || bid.state === 'rejected' ? (
+            ''
+          ) : (
+            <>
+              {errand.status === 'open' && (
+                <View className="flex-row space-x-2 w-3/5">
+                  {negotiatorIsSender && (
+                    <>
+                      <ActionButton
+                        onPress={() =>
+                          dispatch(
+                            bidAction({
+                              method: 'PUT',
+                              errand_id: errand.id,
+                              description:
+                                'This user has accepted the latest bid',
+                              source: 'runner',
+                              amount: Number(haggle?.amount),
+                              bid_id: bid.id,
+                              dispatch,
+                              toggleSuccessDialogue,
+                              Toast,
+                            }),
+                          )
+                        }
+                        name="checkmark"
+                        iconColor="#33A532"
+                        className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#33A532]"
+                      />
+
+                      <ActionButton
+                        name="x"
+                        iconColor="#FF0000"
+                        className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-red-600"
+                      />
+                    </>
+                  )}
+
+                  <ActionButton
+                    onPress={() => toggleNegotiateModal(true)}
+                    name="commenting"
+                    iconColor="#317ACF"
+                    className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#317ACF]"
+                  />
+                </View>
+              )}
+            </>
+          )}
+
+          {bid.state === 'rejected' && (
+            <View className="justify-start p-1 px-2 rounded-lg space-x-3 flex bg-red-100">
+              <Text>This bid was rejected! try placing another bid</Text>
+            </View>
+          )}
+
+          {user_id !== errand.user_id && bid.state == 'cancelled' && (
+            <View className="justify-start p-1 px-2 rounded-lg space-x-3 flex bg-red-100">
+              <Text>This errand has been cancelled</Text>
+            </View>
+          )}
+
+          <TouchableOpacity onPress={handleReplies} className="">
+            <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
+              <Text className="text-xs text-center text-[#243763]">
+                Bid History
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
         <BottomSheetModal
           backdropComponent={renderBackdrop}

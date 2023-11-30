@@ -3,11 +3,7 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from '@expo/vector-icons'
-import {
-  BottomSheetBackdrop,
-  BottomSheetModal,
-  BottomSheetModalProvider,
-} from '@gorhom/bottom-sheet'
+import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet'
 import React, { useCallback, useMemo, useRef } from 'react'
 import {
   SafeAreaView,
@@ -84,144 +80,137 @@ const UserVerification = ({
     [],
   )
 
+  // console.log('........data.has_verified_location', data.has_verified_location)
+
   return (
     <SafeAreaView className="mt-6 h-screen">
-        <ScrollView>
-          <View className="flex-row justify-between items-center mx-4">
-            <View className="w-10 h-10 border border-[#3F60AC] items-center justify-center rounded-md">
-              <Text>
-                <MaterialIcons
-                  name="person-add-alt"
-                  size={24}
-                  color="#3F60AC"
-                />
-              </Text>
-            </View>
-            <Text
-              style={{ color: textTheme }}
-              className="font-light leading-8 "
-            >
-              Basic Verification
+      <ScrollView>
+        <View className="flex-row justify-between items-center mx-4">
+          <View className="w-10 h-10 border border-[#3F60AC] items-center justify-center rounded-md">
+            <Text>
+              <MaterialIcons name="person-add-alt" size={24} color="#3F60AC" />
             </Text>
-            <View className="w-[100px] h-[34px] bg-[#D8F8E9] justify-center items-center rounded-[20px] ">
-              <Text className="text-[#115A38] font-md text-sm">Completed</Text>
-            </View>
           </View>
+          <Text style={{ color: textTheme }} className="font-light leading-8 ">
+            Basic Verification
+          </Text>
+          <View className="w-[100px] h-[34px] bg-[#D8F8E9] justify-center items-center rounded-[20px] ">
+            <Text className="text-[#115A38] font-md text-sm">Completed</Text>
+          </View>
+        </View>
 
-          <TouchableOpacity
-            className="flex-row justify-between items-center mx-4 mt-6"
-            onPress={() => openPersonalId()}
-          >
-            <View className="w-10 h-10 border border-[#3F60AC] items-center justify-center rounded-md">
-              <Text>
-                <Ionicons name="md-swap-vertical" size={24} color="#3F60AC" />
-              </Text>
-            </View>
-            <Text style={{ color: textTheme }} className="font-light leading-8">
-              Personal Identification
+        <TouchableOpacity
+          className="flex-row justify-between items-center mx-4 mt-6"
+          onPress={() => openPersonalId()}
+        >
+          <View className="w-10 h-10 border border-[#3F60AC] items-center justify-center rounded-md">
+            <Text>
+              <Ionicons name="md-swap-vertical" size={24} color="#3F60AC" />
             </Text>
-            <View
-              className="w-[100px] h-[34px] justify-center items-center rounded-[20px]"
+          </View>
+          <Text style={{ color: textTheme }} className="font-light leading-8">
+            Personal Identification
+          </Text>
+          <View
+            className="w-[100px] h-[34px] justify-center items-center rounded-[20px]"
+            style={{
+              backgroundColor:
+                data.has_verified_personal_id === 0 ||
+                data.has_verified_personal_id === 1 ||
+                data.has_verified_personal_id === 2
+                  ? '#FEE1CD'
+                  : '#D8F8E9',
+            }}
+          >
+            {data.has_verified_personal_id === 0 ? (
+              <Text className="text-[#642B02] font-md text-sm">Incomplete</Text>
+            ) : data.has_verified_personal_id === 1 ? (
+              <Text className="text-[#642B02] font-md text-sm">Pending</Text>
+            ) : data.has_verified_personal_id === 2 ? (
+              <Text className="text-[#642B02] font-md text-sm">Rejected</Text>
+            ) : data.has_verified_personal_id === 3 ? (
+              <Text className="text-[#115A38] font-md text-sm">Completed</Text>
+            ) : null}
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          className="flex-row justify-between items-center mx-4 mt-6"
+          onPress={() => openOfficeModal()}
+        >
+          <View className="w-10 h-10 border border-[#3F60AC] items-center justify-center rounded-md">
+            <Text>
+              <MaterialCommunityIcons
+                name="office-building-outline"
+                size={24}
+                color="#3F60AC"
+              />
+            </Text>
+          </View>
+          <Text style={{ color: textTheme }} className="font-light leading-8">
+            Personal ID confirmation
+          </Text>
+          <View
+            className={
+              'w-[100px] h-[34px] justify-center items-center rounded-[20px]'
+            }
+            style={{
+              backgroundColor:
+                data.has_verified_location === 0 ||
+                data.has_verified_location === 1 ||
+                data.has_verified_location === 2
+                  ? '#FEE1CD'
+                  : '#D8F8E9',
+            }}
+          >
+            {data.has_verified_location === 0 ? (
+              <Text className="text-[#642B02] font-md text-sm">Incomplete</Text>
+            ) : data.has_verified_location === 1 ? (
+              <Text className="text-[#642B02] font-md text-sm">Pending</Text>
+            ) : data.has_verified_location === 2 ? (
+              <Text className="text-[#642B02] font-md text-sm">Rejected</Text>
+            ) : data.has_verified_location === 3 ? (
+              <Text className="text-[#115A38] font-md text-sm">Completed</Text>
+            ) : (
+              ''
+            )}
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          className="flex-row justify-between items-center mx-4 mt-6"
+          onPress={() => openEmailModal()}
+        >
+          <View className="w-10 h-10 border border-[#3F60AC] items-center justify-center rounded-md">
+            <Text>
+              <MaterialCommunityIcons
+                name="email-outline"
+                size={24}
+                color="#3F60AC"
+              />
+            </Text>
+          </View>
+          <Text style={{ color: textTheme }} className="font-light leading-8">
+            Email Verification
+          </Text>
+          <View
+            className="w-[100px] h-[34px] justify-center items-center rounded-[20px] "
+            style={{
+              backgroundColor: data.has_verified_email ? '#D8F8E9' : '#FEE1CD',
+            }}
+          >
+            <Text
+              className="font-md text-sm"
               style={{
-                backgroundColor:
-                  data.has_verified_personal_id === 0 || 1 || 2
-                    ? '#FEE1CD'
-                    : '#D8F8E9',
+                color: data.has_verified_email ? '#115A38' : '#642B02',
               }}
             >
-              {data.has_verified_personal_id === 0 ? (
-                <Text className="text-[#642B02] font-md text-sm">
-                  Incomplete
-                </Text>
-              ) : data.has_verified_personal_id === 1 ? (
-                <Text className="text-[#642B02] font-md text-sm">Pending</Text>
-              ) : data.has_verified_personal_id === 2 ? (
-                <Text className="text-[#642B02] font-md text-sm">Rejected</Text>
-              ) : data.has_verified_personal_id === 3 ? (
-                <Text className="text-[#115A38] font-md text-sm">
-                  Completed
-                </Text>
-              ) : null}
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            className="flex-row justify-between items-center mx-4 mt-6"
-            onPress={() => openOfficeModal()}
-          >
-            <View className="w-10 h-10 border border-[#3F60AC] items-center justify-center rounded-md">
-              <Text>
-                <MaterialCommunityIcons
-                  name="office-building-outline"
-                  size={24}
-                  color="#3F60AC"
-                />
-              </Text>
-            </View>
-            <Text style={{ color: textTheme }} className="font-light leading-8">
-              Personal ID confirmation
+              {data.has_verified_email ? 'Completed' : 'Incomplete'}
             </Text>
-            <View
-              className="w-[100px] h-[34px] justify-center items-center rounded-[20px]"
-              style={{
-                backgroundColor:
-                  data.has_verified_location === 0 || 1 || 2
-                    ? '#FEE1CD'
-                    : '#D8F8E9',
-              }}
-            >
-              {data.has_verified_location === 0 ? (
-                <Text className="text-[#642B02] font-md text-sm">
-                  Incomplete
-                </Text>
-              ) : data.has_verified_location === 1 ? (
-                <Text className="text-[#642B02] font-md text-sm">Pending</Text>
-              ) : data.has_verified_location === 2 ? (
-                <Text className="text-[#642B02] font-md text-sm">Rejected</Text>
-              ) : data.has_verified_loaction === 3 ? (
-                <Text className="text-[#115A38] font-md text-sm">
-                  Completed
-                </Text>
-              ) : null}
-            </View>
-          </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
 
-          <TouchableOpacity
-            className="flex-row justify-between items-center mx-4 mt-6"
-            onPress={() => openEmailModal()}
-          >
-            <View className="w-10 h-10 border border-[#3F60AC] items-center justify-center rounded-md">
-              <Text>
-                <MaterialCommunityIcons
-                  name="email-outline"
-                  size={24}
-                  color="#3F60AC"
-                />
-              </Text>
-            </View>
-            <Text style={{ color: textTheme }} className="font-light leading-8">
-              Email Verification
-            </Text>
-            <View
-              className="w-[100px] h-[34px] justify-center items-center rounded-[20px] "
-              style={{
-                backgroundColor: data.has_verified_email
-                  ? '#D8F8E9'
-                  : '#FEE1CD',
-              }}
-            >
-              <Text
-                className="font-md text-sm"
-                style={{
-                  color: data.has_verified_email ? '#115A38' : '#642B02',
-                }}
-              >
-                {data.has_verified_email ? 'Completed' : 'Incomplete'}
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          {/* <TouchableOpacity
+        {/* <TouchableOpacity
             className="flex-row justify-between items-center mx-4 mt-6 mb-40"
             onPress={() => openGuarantorModal()}
           >
@@ -261,7 +250,7 @@ const UserVerification = ({
               ) : null}
             </View>
           </TouchableOpacity> */}
-        </ScrollView>
+      </ScrollView>
     </SafeAreaView>
   )
 }

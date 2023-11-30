@@ -101,9 +101,6 @@ const CreateErrandDetails = ({
   const [selectedTime, setSelectedTime] = useState('')
   const [durationNumber, setDurationNumber] = useState(1)
 
-  
- 
-  console.log('>>>>>>>>durartion from dropdown', postErrandData)
 
   const adjustDuration = (dur: number, sign: string) => {
     if (sign === 'substract') {
@@ -154,7 +151,6 @@ const CreateErrandDetails = ({
     })
 
     if (!results.canceled) {
-      console.log(results)
       setSelectedImage(results.assets)
 
       const formData = new FormData()
@@ -197,7 +193,6 @@ const CreateErrandDetails = ({
           await AudioRecorder.current.startAsync()
           SetIsRecording(true)
         } catch (error) {
-          console.log(error)
         }
       } else {
         // If user has not given the permission to record, then ask for permission
@@ -242,7 +237,6 @@ const CreateErrandDetails = ({
       SetIsRecording(false)
       setRecorded(true)
     } catch (error) {
-      console.log('>>>>>e', error)
     }
   }
 
@@ -509,7 +503,7 @@ const CreateErrandDetails = ({
             })}
           </ScrollView>
 
-          <View className="mt-4">
+          {/* <View className="mt-4">
             <Text style={{ color: textTheme }} className="text-[#243763]">
               You can record a voice note to better describe this errand
             </Text>
@@ -544,7 +538,7 @@ const CreateErrandDetails = ({
                 ? 'Click to stop recording'
                 : 'Click on the Mic icon above to record your voice message'}
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           {recorded && (
             <View className="w-full rounded-lg h-[150px] bg-[#FCFCFC] mx-auto mt-4 border-[0.5px] border-[#E6E6E6] py-6 flex-row items-center justify-center">

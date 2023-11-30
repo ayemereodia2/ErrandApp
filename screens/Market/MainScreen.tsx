@@ -260,9 +260,7 @@ export default function MainScreen() {
     <>
       <Container>
         <BottomSheetModalProvider>
-          <SafeAreaView
-          // style={{ backgroundColor: modalOpen ? 'black' : 'none' }}
-          >
+          <SafeAreaView style={{ marginBottom: 200 }}>
             <StatusBar
               backgroundColor={backgroundTheme}
               barStyle={theme ? 'light-content' : 'dark-content'}
@@ -405,39 +403,41 @@ export default function MainScreen() {
                     </View>
                   )}
 
-                  {searchedErrand?.length === 0 ? (
-                    <View className="flex-row justify-center items-center mt-14">
-                      <Text>There are no errands at the moment</Text>
-                    </View>
-                  ) : (
-                    <FlatList
-                      refreshControl={
-                        <RefreshControl
-                          refreshing={refreshing}
-                          onRefresh={onRefresh}
-                        />
-                      }
-                      onEndReached={loadMoreData}
-                      onEndReachedThreshold={0.5}
-                      ListFooterComponent={renderListFooter}
-                      data={searchedErrand}
-                      renderItem={({ item, index }) => {
-                        return (
-                          <>
-                            <ErrandComp
-                              errand={item}
-                              navigation={navigation}
-                              key={index}
-                              toggleAvatarModal={toggleAvatarModal}
-                            />
-                          </>
-                        )
-                      }}
-                      keyExtractor={(item) => item.id}
-                      style={{ flexGrow: 0, height: 650 }}
-                    />
-                  )}
-
+                    {searchedErrand?.length === 0 ? (
+                      <View className="flex-row justify-center items-center mt-14">
+                        <Text>There are no errands at the moment</Text>
+                      </View>
+                    ) : (
+                      <FlatList
+                        refreshControl={
+                          <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                          />
+                        }
+                        onEndReached={loadMoreData}
+                        onEndReachedThreshold={0.5}
+                        ListFooterComponent={renderListFooter}
+                        data={searchedErrand}
+                        renderItem={({ item, index }) => {
+                          return (
+                            <View>
+                              <ErrandComp
+                                errand={item}
+                                navigation={navigation}
+                                key={index}
+                                toggleAvatarModal={toggleAvatarModal}
+                              />
+                            </View>
+                          )
+                        }}
+                        contentContainerStyle={{
+                          paddingBottom: 150,
+                        }}
+                        keyExtractor={(item) => item.id}
+                        style={{ flexGrow: 0, height: 650 }}
+                      />
+                    )}
                   {/* <ScrollView>
                     <View className="pt-2">
                       {searchedErrand?.map(
