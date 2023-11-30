@@ -16,6 +16,7 @@ import { useQuery } from '@tanstack/react-query'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   BackHandler,
+  FlatList,
   Platform,
   RefreshControl,
   ScrollView,
@@ -33,9 +34,8 @@ import PostErrandButton from '../../components/PostErrandBtn'
 import PinModal from '../../components/VerificationModals/PinModal'
 import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
-import { getDraftErrand } from '../../services/errands/getDraftErrand'
+import getDraftErrand from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
-import { getTimeOfDay } from '../../utils/helper'
 
 const LandingTest = ({ navigation }: any) => {
   const loaderGif = '../../assets/images/loading-SWAVE.gif'
@@ -45,6 +45,8 @@ const LandingTest = ({ navigation }: any) => {
   const snapPoints1 = useMemo(() => ['55%'], [])
   const [verifiedPin, setVerifiedPin] = useState(true)
   const [refreshing, setRefreshing] = React.useState(false)
+  const flatListRef = useRef<any>(0)
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   function openPinModal() {
     bottomSheetRef.current?.present()
@@ -155,6 +157,114 @@ const LandingTest = ({ navigation }: any) => {
       setRefreshing(false)
     }, 500)
   }, [])
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     // Increment index for auto-scrolling
+  //     setCurrentIndex((prevIndex) => (prevIndex + 1) % data?.length)
+  //     // Use scrollToIndex to animate scrolling
+  //     // flatListRef.current?.scrollToIndex({
+  //     //   index: currentIndex,
+  //     //   animated: true,
+  //     // })
+  //     if (flatListRef.current) {
+  //       flatListRef.current.scrollToIndex({
+  //         index: (currentIndex + 1) % data.data.length,
+  //       })
+  //     }
+  //   }, 3000) // Change the interval time as needed
+
+  //   return () => clearInterval(interval)
+  // }, [currentIndex])
+
+  const renderItem = ({ item }: any) => (
+    <TouchableOpacity
+      style={[styles.carouselItem, { backgroundColor: item.backgroundColor }]}
+      onPress={() => navigation.navigate('LandingForm', { category: item })}
+    >
+      <Text style={styles.carouselIcon}>{getCategoryIcon(item.name)}</Text>
+      <Text style={[styles.carouselText, { color: item.textColor }]}>
+        {item.description}
+      </Text>
+    </TouchableOpacity>
+  )
+
+  const getCategoryIcon = (categoryName: string) => {
+    switch (categoryName) {
+      case 'Market / Groceries Shopping':
+        return (
+          <Text
+            className="text-center"
+            style={{ color: theme ? 'white' : '#3F60AC' }}
+          >
+            <FontAwesome name="shopping-bag" size={40} />
+          </Text>
+        )
+      case 'Laundry service':
+        return (
+          <Text
+            className="text-center"
+            style={{ color: theme ? 'white' : '#3F60AC' }}
+          >
+            <MaterialIcons name="local-laundry-service" size={40} />
+          </Text>
+        )
+      case 'Delivery':
+        return (
+          <Text
+            className="text-center"
+            style={{ color: theme ? 'white' : '#3F60AC' }}
+          >
+            <MaterialCommunityIcons name="truck-delivery" size={40} />
+          </Text>
+        )
+      case 'Cleaning/home service':
+        return (
+          <Text
+            className="text-center"
+            style={{ color: theme ? 'white' : '#3F60AC' }}
+          >
+            <MaterialIcons name="clean-hands" size={40} />
+          </Text>
+        )
+      case 'General Labour':
+        return (
+          <Text
+            className="text-center"
+            style={{ color: theme ? 'white' : '#3F60AC' }}
+          >
+            <MaterialIcons name="work" size={40} />
+          </Text>
+        )
+      case 'Photo / Video Production ':
+        return (
+          <Text
+            className="text-center"
+            style={{ color: theme ? 'white' : '#3F60AC' }}
+          >
+            <FontAwesome name="video-camera" size={40} />
+          </Text>
+        )
+      case 'Home Teacher':
+        return (
+          <Text
+            className="text-center"
+            style={{ color: theme ? 'white' : '#3F60AC' }}
+          >
+            <FontAwesome5 name="chalkboard-teacher" size={40} />
+          </Text>
+        )
+      case 'Any Errand':
+        return (
+          <Text
+            className="text-center"
+            style={{ color: theme ? 'white' : '#3F60AC' }}
+          >
+            <MaterialCommunityIcons name="run-fast" size={40} />
+          </Text>
+        )
+    }
+  }
 
   useFocusEffect(() => {
     const onBackPress = () => {
@@ -422,6 +532,23 @@ const LandingTest = ({ navigation }: any) => {
                     </TouchableOpacity>
                   </View>
                 </ScrollView>
+
+                <FlatList
+                  ref={flatListRef}
+                  horizontal
+                  data={data}
+                  renderItem={renderItem}
+                  keyExtractor={(item: any) => item.id.toString()}
+                  showsHorizontalScrollIndicator={false}
+                  pagingEnabled
+                  snapToInterval={150} // Adjust as needed
+                  decelerationRate="fast"
+                  onScroll={(event) => {
+                    const contentOffset = event.nativeEvent.contentOffset.x
+                    const currentIndex = Math.floor(contentOffset / 150)
+                    setCurrentIndex(currentIndex)
+                  }}
+                />
               </View>
 
               <View className="mt-12">
@@ -509,6 +636,22 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 200,
+  },
+  carouselItem: {
+    height: 150,
+    width: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginHorizontal: 5,
+  },
+  carouselIcon: {
+    fontSize: 40,
+    marginBottom: 5,
+  },
+  carouselText: {
+    fontSize: 12,
+    textAlign: 'center',
   },
 })
 
