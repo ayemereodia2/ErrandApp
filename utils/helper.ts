@@ -405,6 +405,190 @@ interface getUserIdProps {
       iconType: "MaterialCommunityIcons",
     },
    ]
+
+   export const newCategories = [
+    {
+      id: '64ac0a0a3534efb7dcd9d506',
+      icon: "shopping-bag",
+      name: 'Market / Groceries Shopping',
+      identifier: 'Market / Groceries Shopping',
+      type: "service",
+      iconType: "FontAwesome"
+    },
+    {
+      id: '64ac0b3e3534efb7dcd9d50b',
+      icon: 'local-laundry-service',
+      name: 'Laundry service',
+      identifier: 'Laundry service',
+      type: "service",
+      iconType: 'MaterialIcons'
+    },
+    {
+      id: '64ac0bb33534efb7dcd9d50f',
+      icon: 'truck-delivery',
+      name: 'Delivery',
+      identifier: 'Delivery',
+      type: "service",
+      iconType: 'MaterialCommunityIcons'
+    },
+    {
+      id: '64ac10203534efb7dcd9d517',
+      icon: 'clean-hands',
+      name: 'Cleaning/home service',
+      identifier: 'Cleaning/home service',
+      type: "service",
+      iconType: 'MaterialIcons'
+
+    },
+    {
+      id: '64ac10323534efb7dcd9d518',
+      icon: 'run-fast',
+      name: 'Any Errand',
+      identifier: 'Any Errand',
+      type: "service",
+      iconType: 'MaterialCommunityIcons'
+
+    },
+    {
+      id: '64ac10953534efb7dcd9d519',
+      icon: 'work',
+      name: 'General Labour',
+      identifier: 'General Labour',
+      type: "task",
+      iconType: 'MaterialIcons'
+      
+    },
+    {
+      id: '64ac10f43534efb7dcd9d51b',
+      icon: 'chalkboard-teacher',
+      name: 'Home Teacher',
+      identifier: 'Home Teacher',
+      type: "task",
+      iconType:'FontAwesome5'
+    },
+    {
+      id: '64ac115f3534efb7dcd9d51c',
+      icon: 'video-camera',
+      name: 'Photo / Video Production ',
+      identifier: 'Photo / Video Production ',
+      type: "task",
+      iconType: "FontAwesome"
+      
+    },
+    {
+      id: '64ac11ef3534efb7dcd9d51d',
+      icon: 'car-repair',
+      name: 'Repairers (Mechanic, Plumber, Carpenter)',
+      identifier: 'Repairers (Mechanic, Plumber, Carpenter)',
+      type: "task",
+      iconType: 'MaterialIcons'
+    },
+    {
+      id: '64ac11f23534efb7dcd9d51e',
+      icon: 'users',
+      name: 'Professional Services',
+      identifier: 'Professional Services',
+      type: "task",
+      iconType: "FontAwesome"
+    },
+    {
+      id: '64ac12313534efb7dcd9d51f',
+      icon: 'construct',
+      name: 'Builder / Construction Worker',
+      identifier: 'Builder / Construction Worker',
+      type: "service",
+      iconType: "Ionicons"
+    },
+    {
+      id: '64ac12453534efb7dcd9d520',
+      icon: 'bus',
+      name: 'Travel Agency ',
+      identifier: 'Travel Agency ',
+      type: "service",
+      iconType: "FontAwesome"
+    },
+    {
+      id: '64ac125f3534efb7dcd9d521',
+      icon: 'event-available',
+      name: 'Event / Surprise Planner',
+      identifier: 'Event / Surprise Planner',
+      type: "service",
+      iconType: "MaterialIcons"
+    },
+    {
+      id: '64ac12803534efb7dcd9d522',
+      icon: 'car-side',
+      name: 'Car Ride / Car Hire',
+      identifier: 'Car Ride & Car Hire',
+            type: "service",
+      iconType: "FontAwesome5"
+    },
+    {
+      id: '64ac12b03534efb7dcd9d523',
+      icon: 'baby-carriage',
+      name: 'Baby Sitting / House Nannies',
+      identifier: 'Baby Sitting / House Nannies',
+            type: "service",
+       iconType: "FontAwesome5"
+    },
+    {
+      id: '64ac14733534efb7dcd9d525',
+      icon: 'laptop-house',
+      name: ' House Mover / Removalist',
+      identifier: ' House Mover / Removalist',
+      type: "task",
+      iconType: "FontAwesome5"
+    },
+    {
+      id: '64ac14a43534efb7dcd9d526',
+      icon: 'birthday-cake',
+      name: 'Catering / Chef Service',
+      identifier: 'Catering / Chef Service',
+      type: "task",
+      iconType: "FontAwesome"
+      
+    },
+    {
+      id: '64ac14d53534efb7dcd9d527',
+      icon: 'bar-chart',
+      name: 'Sales Persons',
+      identifier: 'Sales Persons',
+      type: "task",
+      iconType: "FontAwesome"
+    },
+    {
+      id: '64ac15323534efb7dcd9d528',
+      icon: 'hair-dryer',
+      name: 'Barber / Hair Stylist',
+      identifier: 'Barber / Hair Stylist',
+      type: "task",
+      iconType: "MaterialCommunityIcons"
+    },
+    {
+      id: '64ac15603534efb7dcd9d529',
+      icon: 'slideshare',
+      name: 'Fashion Designer ',
+      identifier: 'Fashion Designer ',
+      type: "task",
+      iconType: "Entypo",
+    },
+    {
+      id: '64ac15ab3534efb7dcd9d52a',
+      icon: 'web-check',
+      name: 'Web / Graphic Designer',
+      identifier: 'Web / Graphic Designer',
+      type: "task",
+      iconType: "MaterialCommunityIcons",
+    },
+    {
+      id: '64ac187b3534efb7dcd9d534',
+      icon: 'brush-variant',
+      name: 'Hair dressing',
+      identifier: 'Hair dressing',
+      type: "task",
+      iconType: "MaterialCommunityIcons",
+    },
+   ]
   
 
 

@@ -20,7 +20,8 @@ export const currentUserDetails = createAsyncThunk<UserDetailsResponse, UserProp
         if (rs.success === true) {
         return rs
         }
-        } catch (e: any) {
+        }
+         catch (e: any) {
             if (e.response.status === 400) {
             return rejectWithValue(e.response.data.message)
             }

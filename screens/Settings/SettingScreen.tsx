@@ -35,6 +35,7 @@ import { notificationPreferences } from '../../services/notification/preferences
 import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
 import { RootState, useAppDispatch } from '../../services/store'
 import { getUserId } from '../../utils/helper'
+import LoadingModal from '../../components/MainLoader/LoadingModal'
 
 const SettingScreen = ({ navigation }: any) => {
   const [firstName, setFirstName] = useState('')
@@ -78,6 +79,45 @@ const SettingScreen = ({ navigation }: any) => {
   })
 
   const [loading, setLoading] = useState(false)
+
+  const [smsLoading, setSmsLoading] = useState(false)
+
+
+  const handleSmsChange = async (value: any) => {
+
+    setSmsLoading(true); // Set loading to true when the switch is changed
+
+      
+     await dispatch(
+        updateNotificationPrefeference({
+          ...preferences,
+          dispatch,
+          Toast,
+          sms_notifications: value,
+        }),
+      );
+    
+      setSmsLoading(false); // Set loading back to false after the action (success or failure)
+   
+  };
+
+  const handleEmailChange = async (value: any) => {
+
+    setSmsLoading(true); // Set loading to true when the switch is changed
+
+      
+     await  dispatch(
+      updateNotificationPrefeference({
+        ...preferences,
+        dispatch,
+        Toast,
+        email_notifications: value,
+      }),
+    )
+    
+      setSmsLoading(false); // Set loading back to false after the action (success or failure)
+   
+  };
 
   const {
     data: currentUser,
@@ -204,6 +244,8 @@ const SettingScreen = ({ navigation }: any) => {
                 />
               </TouchableOpacity>
 
+              <LoadingModal visible={smsLoading} />
+
               <Text
                 className="font-bold text-[20px] leading-7"
                 style={{ color: textTheme }}
@@ -275,7 +317,7 @@ const SettingScreen = ({ navigation }: any) => {
                 </View>
               </View>
 
-              <SettingsTest openVerifyModal={openVerifyModal} />
+              <SettingsTest openVerifyModal={openVerifyModal}  loader={smsLoading}/>
 
               <SettingsCategory navigation={navigation} interests={interests} />
 
@@ -374,26 +416,27 @@ const SettingScreen = ({ navigation }: any) => {
                     </Text>
                   </View>
                   <View className=" mt-2 py-1 flex-row items-center justify-between rounded-lg">
-                    <TouchableOpacity>
+                    
                       <Switch
                         trackColor={{ false: '#767577', true: 'green' }}
                         value={preferences?.email_notifications}
                         onValueChange={(value: boolean) => {
                           setLoading(true)
-                          dispatch(
-                            updateNotificationPrefeference({
-                              ...preferences,
-                              dispatch,
-                              Toast,
-                              email_notifications: value,
-                            }),
-                          )
+                          // dispatch(
+                          //   updateNotificationPrefeference({
+                          //     ...preferences,
+                          //     dispatch,
+                          //     Toast,
+                          //     email_notifications: value,
+                          //   }),
+                          // )
+                          handleEmailChange(value)
                         }}
                         style={{
                           transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }],
                         }}
                       />
-                    </TouchableOpacity>
+                    
                     <View
                       className={
                         preferences.email_notifications

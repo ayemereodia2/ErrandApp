@@ -31,7 +31,7 @@ export default function CategoryBox({
   onPress,
   identifier,
   setOpenLists,
-  index,
+  index,  
   iconType,
 }: categoryProps) {
   const {
