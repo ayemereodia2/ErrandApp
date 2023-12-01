@@ -29,6 +29,7 @@ import MainNavigation from './navigation/MainNavigation'
 import { GuestStack, navigationRef } from './navigation/StackNavigation'
 import { store } from './services/store'
 import { getAppVersion } from './utils/helper'
+import { _fetch } from './services/axios/http'
 
 const queryClient = new QueryClient()
 
@@ -72,12 +73,12 @@ export default function App({ navigation }: any) {
         .getToken()
         .then(async (token) => {
           console.log('>>>>>,>token', token)
-          // const rs = await _fetch({
-          //   method: 'PUT',
-          //   _url: `/user/mobile/token`,
-          //   body: { mobile_token: token },
-          // })
-          // const _rs = await rs.json()
+          const rs = await _fetch({
+            method: 'PUT',
+            _url: `/user/mobile/token`,
+            body: { mobile_token: token },
+          })
+          const _rs = await rs.json()
 
           // console.log('>>>>>>>>>-', _rs)
         })

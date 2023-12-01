@@ -19,7 +19,7 @@ export const updateNotificationPrefeference = createAsyncThunk<NotificationPrefe
        type: 'success',
         text1: 'Update Successful',
     })
-    return rs.data
+     return rs  //rs.data
   } catch (e: any) {
      if (e.response.status === 400) {
      } 

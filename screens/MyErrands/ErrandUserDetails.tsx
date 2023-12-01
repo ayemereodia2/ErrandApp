@@ -33,8 +33,8 @@ const renderScene = ({ route }: any) => {
           bids={route?.bids}
         />
       )
-    default:
-      return null
+    // default:
+    //   return null
   }
 }
 

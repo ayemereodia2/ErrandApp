@@ -34,7 +34,7 @@ import PostErrandButton from '../../components/PostErrandBtn'
 import PinModal from '../../components/VerificationModals/PinModal'
 import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
-import getDraftErrand from '../../services/errands/getDraftErrand'
+import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
 
 const LandingTest = ({ navigation }: any) => {
@@ -290,6 +290,27 @@ const LandingTest = ({ navigation }: any) => {
       openPinModal()
     }
   }
+
+  // const getStuff = async () => {
+  //   try {
+  //     const _rs = await _fetch({
+  //       method: 'GET',
+  //       _url: `/user/test/notification`,
+  //     })
+  //     console.log('>>>>>rs', _rs)
+
+  //     const rs = await _rs.json()
+  //   } catch (e) {
+  //     console.log('>>>>>e', e.response)
+  //   }
+
+  //   // if (rs.success === true) {
+  //   //   setDeleteModal(false)
+  //   //   setDeletingProfile(false)
+  //   //   navigation.navigate('Default')
+  //   //   clearStorage()
+  //   // }
+  // }
 
   useEffect(() => {
     checkPinIsVerified()
@@ -558,6 +579,10 @@ const LandingTest = ({ navigation }: any) => {
                 >
                   Urgent Errands
                 </Text>
+
+                {/* <TouchableOpacity onPress={() => getStuff()}>
+                  <Text>Get Stuff</Text>
+                </TouchableOpacity> */}
 
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                   <LandingDetails

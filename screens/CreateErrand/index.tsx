@@ -171,7 +171,7 @@ const PostErrand = ({ navigation }: any) => {
     setActiveStep(activeStep + 1)
   }
 
-  const detailHandler = () => {
+  const  detailHandler = () => {
     if (!postErrandData?.description) {
       setDetailError({
         desc: 'description is required',
