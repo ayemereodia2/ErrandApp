@@ -1,8 +1,9 @@
 import { AntDesign } from '@expo/vector-icons'
 import { Restart } from 'fiction-expo-restart'
 import React, { useEffect, useState } from 'react'
-import { Image } from 'react-native'
+import { BackHandler, Image } from 'react-native'
 
+import { useFocusEffect } from '@react-navigation/native'
 import { Asset } from 'expo-asset'
 import * as SplashScreen from 'expo-splash-screen'
 import {
@@ -15,6 +16,8 @@ import {
   View,
 } from 'react-native'
 import Swiper from 'react-native-swiper'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../services/store'
 
 type Props = {
   navigation: any
@@ -105,6 +108,28 @@ const AdsScreen = ({ navigation }: any) => {
       SplashScreen.hideAsync()
     }
   }
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  useFocusEffect(() => {
+    const onBackPress = () => {
+      if (currentUser) {
+        return true // Prevent navigation back to the login screen
+      }
+      return false // Allow navigation back to the login screen
+    }
+
+    BackHandler.addEventListener('hardwareBackPress', onBackPress)
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', onBackPress)
+    }
+  })
 
   useEffect(() => {
     Restart()

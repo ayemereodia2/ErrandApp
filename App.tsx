@@ -27,7 +27,6 @@ import * as SplashScreen from 'expo-splash-screen'
 import { useOnlineManager } from './hooks/useOnlineManager'
 import MainNavigation from './navigation/MainNavigation'
 import { GuestStack, navigationRef } from './navigation/StackNavigation'
-import { _fetch } from './services/axios/http'
 import { store } from './services/store'
 import { getAppVersion } from './utils/helper'
 
@@ -58,35 +57,29 @@ export default function App({ navigation }: any) {
     }
 
     const requestUserPermission = async () => {
-      const checked = await checkLoggedIn()
-      console.log('>>>>checked')
+      const authStatus = await messaging().requestPermission()
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL
 
-      if (checked) {
-        const authStatus = await messaging().requestPermission()
-        const enabled =
-          authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-          authStatus === messaging.AuthorizationStatus.PROVISIONAL
-
-        if (enabled) {
-          console.log('Authorization status:', authStatus)
-        }
-      } else {
-        return false
+      if (enabled) {
+        console.log('Authorization status:', authStatus)
       }
     }
+
     if (requestUserPermission()) {
       messaging()
         .getToken()
         .then(async (token) => {
-          console.log('>>>>token', token)
-          const rs = await _fetch({
-            method: 'PUT',
-            _url: `/user/mobile/token`,
-            body: { mobile_token: token },
-          })
-          const _rs = await rs.json()
+          console.log('>>>>>,>token', token)
+          // const rs = await _fetch({
+          //   method: 'PUT',
+          //   _url: `/user/mobile/token`,
+          //   body: { mobile_token: token },
+          // })
+          // const _rs = await rs.json()
 
-          console.log('>>>>>>>>>', _rs)
+          // console.log('>>>>>>>>>-', _rs)
         })
     } else {
       console.log('failed token state')
@@ -116,8 +109,8 @@ export default function App({ navigation }: any) {
 
     // Handle push notifications when the app is in the foreground
     const handlePushNotification = async (remoteMessage: any) => {
-      console.log(">>>>>>ermeote message", remoteMessage);
-      
+      console.log('>>>>>>=ermeote message', remoteMessage)
+
       const notification = {
         title: remoteMessage.notification.title,
         body: remoteMessage.notification.body,

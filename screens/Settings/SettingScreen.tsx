@@ -4,8 +4,10 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useQuery } from '@tanstack/react-query'
 import * as Clipboard from 'expo-clipboard'
+import { Restart } from 'fiction-expo-restart'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
@@ -45,6 +47,7 @@ const SettingScreen = ({ navigation }: any) => {
   const bottomSheetRef2 = useRef<BottomSheetModal>(null)
   const bottomSheetRef3 = useRef<BottomSheetModal>(null)
   const [deleteModal, setDeleteModal] = useState(false)
+  const [deletingProfile, setDeletingProfile] = useState(false)
 
   const renderBackdrop = useCallback(
     (props: any) => (
@@ -102,6 +105,36 @@ const SettingScreen = ({ navigation }: any) => {
       _url: `/user/profile`,
     })
     return await _rs.json()
+  }
+
+  const clearStorage = async () => {
+    await AsyncStorage.multiRemove([
+      'accessToken',
+      'refreshToken',
+      'user_id',
+      'last_name',
+      'first_name',
+      'profile_pic',
+    ])
+
+    Restart()
+  }
+
+  const deleteProfile = async () => {
+    setDeletingProfile(true)
+    const _rs = await _fetch({
+      method: 'DELETE',
+      _url: `/user/deleteprofile/${currentUser.id}`,
+    })
+    const rs = await _rs.json()
+    console.log(">>>>>rs", rs);
+    
+    if (rs.success === true) {
+      setDeleteModal(false)
+      setDeletingProfile(false)
+      navigation.navigate('Default')
+      clearStorage()
+    }
   }
 
   function closePinModal() {
@@ -396,13 +429,13 @@ const SettingScreen = ({ navigation }: any) => {
                     </TouchableOpacity>
                     <View
                       className={
-                        preferences.email_notifications
+                        preferences?.email_notifications
                           ? 'text-sm bg-green-300 rounded-lg p-1 mb-1'
                           : ' bg-red-300 rounded-lg p-1 mb-1'
                       }
                     >
                       <Text className="text-xs">
-                        {preferences.email_notifications
+                        {preferences?.email_notifications
                           ? 'Enabled'
                           : 'Disabled'}{' '}
                       </Text>
@@ -426,7 +459,9 @@ const SettingScreen = ({ navigation }: any) => {
               >
                 <View className=" h-[63px]  mt-5 ">
                   <View className=" mt-2 py-1 flex-row items-center justify-between rounded-lg">
-                    <Text className="">Delete My Account</Text>
+                    <Text style={{ color: textTheme }} className="">
+                      Delete My Account
+                    </Text>
                     <View>
                       <AntDesign
                         onPress={() => setDeleteModal(true)}
@@ -441,7 +476,51 @@ const SettingScreen = ({ navigation }: any) => {
             </View>
 
             <Modal visible={deleteModal} transparent={true}>
-              <View style={styles.modalContainer}></View>
+              <View style={styles.modalContainer}>
+                <Text className="px-8 text-base text-center text-white">
+                  We are sorry to see you leave. Are you sure you want to delete
+                  your account?
+                </Text>
+
+                <View className="flex-row space-x-4 mt-6">
+                  <TouchableOpacity
+                    className="bg-[#1E3A79] h-12 px-3 flex-row justify-center items-center rounded-lg"
+                    onPress={() => {
+                      setDeleteModal(false)
+                    }}
+                  >
+                    <Text className="text-white text-base">
+                      {loading ? (
+                        <ActivityIndicator size="small" color="#000000" />
+                      ) : (
+                        'No, I change my mind'
+                      )}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="bg-red-500 h-12 px-3 flex-row justify-center items-center rounded-lg"
+                    onPress={() => {
+                      deleteProfile()
+                    }}
+                  >
+                    <Text className="text-white text-base">
+                      {deletingProfile ? (
+                        <ActivityIndicator size="small" color="#000000" />
+                      ) : (
+                        'Yes, please'
+                      )}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity
+                  onPress={() => setDeleteModal(false)}
+                  style={styles.closeButton}
+                >
+                  {/* You can use a close icon or text */}
+                  <Text style={styles.closeButtonText}>Close</Text>
+                </TouchableOpacity>
+              </View>
             </Modal>
           </ScrollView>
         </SafeAreaView>
@@ -504,5 +583,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.9)',
+  },
+
+  closeButton: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 16,
   },
 })

@@ -61,6 +61,7 @@
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon-bg.png",
         "backgroundColor": "#a9c1f8"
@@ -71,10 +72,11 @@
         }
       },
       "package": "com.orj5.Swave",
-      "googleServicesFile": "./google-services.json",
       "versionCode": 11
     }, 
-   
+     "plugins": [
+      "@react-native-firebase/app"
+    ],
     "web": {
       "favicon": "./assets/images/favicon.png"
     },

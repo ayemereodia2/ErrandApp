@@ -286,11 +286,6 @@ export const TabStack = () => {
 }
 
 export function GuestStack() {
-  useEffect(() => {
-    console.log(">>>>>gt here");
-    
-    getAppVersion()
-  }, [])
 
   return (
     <>
@@ -912,11 +907,11 @@ export const SetttingsStack = () => {
         }}
       />
 
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Default"
         component={AdsScreen}
         options={{ headerShown: false }}
-      />
+      /> */}
       {/* <Stack.Screen
         name="CategoryInterest"
         component={CategoryInterest}
