@@ -36,6 +36,7 @@ import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
+import { sendMessage } from '../../utils/categories'
 
 const LandingTest = ({ navigation }: any) => {
   const loaderGif = '../../assets/images/loading-SWAVE.gif'
@@ -314,6 +315,8 @@ const LandingTest = ({ navigation }: any) => {
 
   useEffect(() => {
     checkPinIsVerified()
+
+    // sendMessage('hello world--')
   }, [])
 
   // if (loading ) {

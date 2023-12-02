@@ -10,6 +10,7 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
+    "postinstall": "patch-package",
     "test": "jest --watchAll"
   },
   "jest": {
@@ -61,7 +62,7 @@
     "expo-image-picker": "~14.3.2",
     "expo-linear-gradient": "~12.3.0",
     "expo-linking": "~5.0.2",
-    "expo-location": "~16.1.0",
+    "expo-location": "^16.3.0",
     "expo-media-library": "~15.4.1",
     "expo-notifications": "~0.20.1",
     "expo-permissions": "~14.2.1",
@@ -80,6 +81,7 @@
     "moment": "^2.29.4",
     "native-base": "^3.4.25",
     "nativewind": "^2.0.11",
+    "patch-package": "^8.0.0",
     "react": "18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.4",

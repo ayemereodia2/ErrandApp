@@ -37,7 +37,10 @@ export const categories: categoriesProp[] = [
   desc: "Laundry descrption",
   // icon:  <MaterialCommunityIcons name="car-lifted-pickup" size={24} color="black"/>
   },
-  
-
-
 ]
+
+
+// export const sendMessage = (message:string) => {
+//   console.log(">>>>>>>>message", message)
+// }
+

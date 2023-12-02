@@ -1,6 +1,5 @@
 import React from 'react'
 import { Image, ScrollView, Text, View } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import MapView, { Marker } from 'react-native-maps'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
@@ -11,13 +10,12 @@ const MessagesList = ({
   scrollViewRef,
   scrollToBottom,
 }: ChatInputProp) => {
-  const { data: currentUser,  backgroundTheme,
+  const {
+    data: currentUser,
+    backgroundTheme,
     textTheme,
-    landingPageTheme, } = useSelector(
-    (state: RootState) => state.currentUserDetailsReducer,
-  )
-
-
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
@@ -66,47 +64,33 @@ const MessagesList = ({
                   </figure>
                 )
               case 'location':
-                // const { isLoaded } = useLoadScript({
-                //   googleMapsApiKey: process.env
-                //     .NEXT_PUBLIC_GOOGLE_KEYS as string,
-                //   libraries: ['places', 'drawing'],
-                //   region: 'NG',
-                // })
                 const userLocation = JSON.parse(update.message)
-                return (
-                  // <Map
-                  //   width={250}
-                  //   height={250}
-                  //   pickupLocation={null}
-                  //   deliveryLocation={userLocation}
-                  //   scriptLoaded={isLoaded}
-                  // />
+                // console.log('>>>>>>>userLocation', update.message)
 
+                return (
                   <MapView
                     style={{
                       height: 200,
                       width: 230,
                     }}
-                    showsUserLocation={true}
-                    followsUserLocation={true}
                     initialRegion={{
-                      latitude: !!userLocation
-                        ? userLocation?.coords?.latitude
-                        : 24.8607,
-                      longitude: !!userLocation
-                        ? userLocation?.coords?.longitude
-                        : 67.0011,
+                      latitude: !!userLocation ? userLocation?.lat : 24.8607,
+                      longitude: !!userLocation ? userLocation?.lng : 67.0011,
                       latitudeDelta: 0.0922,
                       longitudeDelta: 0.0421,
                     }}
                   >
                     {userLocation && (
                       <Marker
-                        coordinate={!!userLocation ? userLocation?.coords : {}}
+                        coordinate={{
+                          latitude: userLocation?.lat,
+                          longitude: userLocation?.lng,
+                        }}
                       />
                     )}
                   </MapView>
                 )
+
               // case 'renegotiation-proposal':
               //   const confirmModal = useDisclosure()
               //   return (
@@ -233,7 +217,10 @@ const MessagesList = ({
                       />
                     ) : (
                       <View className="bg-[#616161] rounded-full w-10 h-10 flex-row justify-center items-center">
-                        <Text style={{ color: textTheme }} className="text-white">
+                        <Text
+                          style={{ color: textTheme }}
+                          className="text-white"
+                        >
                           {getUser().first_name.charAt(0).toUpperCase()}
                           {getUser().last_name.charAt(0).toUpperCase()}
                         </Text>
@@ -241,7 +228,10 @@ const MessagesList = ({
                     )}
 
                     <View>
-                      <Text style={{ color: textTheme }} className="text-black capitalize">
+                      <Text
+                        style={{ color: textTheme }}
+                        className="text-black capitalize"
+                      >
                         {getUser().first_name}
                       </Text>
                       <Text className="text-[#969494]">

@@ -226,19 +226,26 @@ const ChatInput = ({
   }
 
   const getUserLocation = async () => {
+    console.log(">>>>>>okay");
+    
     let { status } = await Location.requestForegroundPermissionsAsync()
     if (status !== 'granted') {
       Toast.show({
         type: 'error',
         text1: 'Permission to access location was denied',
       })
-
       return
     }
 
-    let location = await Location.getCurrentPositionAsync({})
-    setLocation(location)
-    setUserLocation(location)
+    console.log(">>>>>>okay", status);
+
+
+    let location = await Location.getCurrentPositionAsync({ accuracy: Platform.OS === 'android' ? Location.Accuracy.Low : Location.Accuracy.Lowest, });
+    
+    console.log(">>>>>>>location", location);
+    
+    // setLocation(location)
+    // setUserLocation(location)
   }
 
   const handleChatSend = () => {
