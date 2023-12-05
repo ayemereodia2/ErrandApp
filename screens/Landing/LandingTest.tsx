@@ -292,26 +292,31 @@ const LandingTest = ({ navigation }: any) => {
     }
   }
 
-  // const getStuff = async () => {
-  //   try {
-  //     const _rs = await _fetch({
-  //       method: 'GET',
-  //       _url: `/user/test/notification`,
-  //     })
-  //     console.log('>>>>>rs', _rs)
+  const getStuff = async () => {
+    try {
+      const _rs = await _fetch({
+        method: 'GET',
+        _url: `/user/test/notification`,
+      })
 
-  //     const rs = await _rs.json()
-  //   } catch (e) {
-  //     console.log('>>>>>e', e.response)
-  //   }
+      console.log('>>>>>rs-----', _rs)
 
-  //   // if (rs.success === true) {
-  //   //   setDeleteModal(false)
-  //   //   setDeletingProfile(false)
-  //   //   navigation.navigate('Default')
-  //   //   clearStorage()
-  //   // }
-  // }
+
+      const rs = await _rs.json()
+
+      console.log('>>>>>rs', rs)
+
+    } catch (e: any) {
+      console.log('>>>>>e', e.response)
+    }
+
+    // if (rs.success === true) {
+    //   setDeleteModal(false)
+    //   setDeletingProfile(false)
+    //   navigation.navigate('Default')
+    //   clearStorage()
+    // }
+  }
 
   useEffect(() => {
     checkPinIsVerified()
@@ -583,9 +588,9 @@ const LandingTest = ({ navigation }: any) => {
                   Urgent Errands
                 </Text>
 
-                {/* <TouchableOpacity onPress={() => getStuff()}>
+                <TouchableOpacity onPress={() => getStuff()}>
                   <Text>Get Stuff</Text>
-                </TouchableOpacity> */}
+                </TouchableOpacity>
 
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                   <LandingDetails

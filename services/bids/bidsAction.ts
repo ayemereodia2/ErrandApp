@@ -18,6 +18,9 @@ export const bidAction = createAsyncThunk<ErrandMarketResponse, BidActionPayload
 
     const rs = await _rs.json()
 
+    console.log(">>>>>rs", rs);
+    
+
     if (rs.success === true) {
       dispatch(myErrandList({}))
       dispatch(errandDetails({ errandId: errand_id }))

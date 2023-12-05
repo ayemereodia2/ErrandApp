@@ -15,6 +15,9 @@ export const startErrand = createAsyncThunk<CreateErrandResponse, StartErrandPro
       })
 
       const rs = await _rs.json()
+
+      console.log(rs);
+      
       if (rs.success === true) {
         dispatch(errandDetails({ errandId: data.errand_id }))
         toggleBeginErrandModal && toggleBeginErrandModal(false)

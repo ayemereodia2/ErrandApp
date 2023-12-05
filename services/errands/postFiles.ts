@@ -12,25 +12,37 @@ interface Props {
 export const postFiles = createAsyncThunk<any, Props, { rejectValue: string }>(
   "/file-upload",
   async ({ formData, setUploadedFiles, uploadedFiles }, { rejectWithValue }) => {
-     const token = await AsyncStorage.getItem('accessToken');
-      const headers = new Headers();
-      headers.append("Authorization", `Bearer ${token}`)
+    try {
+      const token = await AsyncStorage.getItem('accessToken');
+      // const headers = new Headers();
+      // headers.append("Authorization", `Bearer ${token}`)
+      // headers.append('Content-Type', 'multipart/form-data')
       
       const requestOptions = {
         method: 'POST',
-        headers: headers,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          "Authorization": `Bearer ${token}`
+        },
         body: formData,
       };
     
+    const res = await fetch(`https://staging.apis.swave.ng/v1/file-upload`, requestOptions)
+    
+      const resJson = await res.json()
+      
+      console.log(">>>>-----", resJson)
     
 
-    const res =  await fetch(`${process.env.EXPO_PUBLIC_API_URL}/file-upload`, requestOptions)
-    const resJson = await res.json()
     if (setUploadedFiles) {
-      
       setUploadedFiles([...uploadedFiles, ...resJson.data])
     }
     return resJson.data[0]
+    }
+    catch (e) {
+      console.log(">>>>eerror", e)
+    }
+     
 })
 
 const initialState: FilesResponse = {

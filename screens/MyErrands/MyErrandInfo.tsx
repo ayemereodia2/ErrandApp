@@ -1,7 +1,7 @@
-import { AntDesign, Entypo } from '@expo/vector-icons'
+import { AntDesign, Entypo, Ionicons } from '@expo/vector-icons'
 import {
   BottomSheetModal,
-  BottomSheetModalProvider,
+  BottomSheetModalProvider
 } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useRef, useState } from 'react'
@@ -9,13 +9,13 @@ import {
   ScrollView,
   TouchableOpacity,
   useWindowDimensions,
-  View,
+  View
 } from 'react-native'
 import {
   Menu,
   MenuOption,
   MenuOptions,
-  MenuTrigger,
+  MenuTrigger
 } from 'react-native-popup-menu'
 import { useSelector } from 'react-redux'
 import BidWrapper from '../../components/BidWrapper'
@@ -23,6 +23,7 @@ import { DetailHeader } from '../../components/DetailHeader'
 import { SuccessDialogue } from '../../components/Modals/Success/SuccessDialogue'
 import Timeline from '../../components/Timeline'
 import { currentUserDetails } from '../../services/auth/currentUserInfo'
+import { errandDetails } from '../../services/errands/errandDetails'
 import { RootState, useAppDispatch } from '../../services/store'
 import { SingleSubErrand } from '../../types'
 
@@ -123,15 +124,20 @@ const MyErrandInfo = ({ navigation, route }: any) => {
         </TouchableOpacity>
       ),
       headerRight: () => (
-        <View className="pr-3">
+        <View className="pr-3" style={{ shadowColor: 'none', flexDirection: 'row'}}>
+          <TouchableOpacity onPress={() => {
+            dispatch(errandDetails({ errandId: errand.id }))
+          }} style={{marginTop:3, marginRight:10}}>
+            <Ionicons name='reload-outline' size={20} />
+          </TouchableOpacity>
           <TouchableOpacity>
-            <Menu style={{ shadowColor: 'none', shadowOpacity: 0 }}>
+            <Menu style={{ shadowColor: 'none', shadowOpacity: 0, marginTop:3 }}>
               <MenuTrigger>
-                <View className=" w-6">
+                <View className="">
                   <Entypo
                     name="dots-three-vertical"
                     color={textTheme}
-                    size={24}
+                    size={20}
                   />
                 </View>
               </MenuTrigger>

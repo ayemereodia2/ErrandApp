@@ -27,9 +27,9 @@ import * as SplashScreen from 'expo-splash-screen'
 import { useOnlineManager } from './hooks/useOnlineManager'
 import MainNavigation from './navigation/MainNavigation'
 import { GuestStack, navigationRef } from './navigation/StackNavigation'
+import { _fetch } from './services/axios/http'
 import { store } from './services/store'
 import { getAppVersion } from './utils/helper'
-import { _fetch } from './services/axios/http'
 
 const queryClient = new QueryClient()
 
@@ -97,10 +97,12 @@ export default function App({ navigation }: any) {
 
     // Handle user clicking on a notification and open the screen
     const handleNotificationClick = async (response: any) => {
+      console.log(">>>>>>reponse nootification", response?.notification?.request?.content?.data);
+      
       const screen = response?.notification?.request?.content?.data?.screen
       if (screen !== null) {
         navigation.navigate(screen)
-      }
+      }   
     }
 
     // Listen for user clicking on a notification

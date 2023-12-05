@@ -8,6 +8,7 @@ import * as ImagePicker from 'expo-image-picker'
 import * as Location from 'expo-location'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import {
+  ActivityIndicator,
   Image,
   Pressable,
   ScrollView,
@@ -19,6 +20,7 @@ import {
 } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import Modal from 'react-native-modal'
+
 import {
   Menu,
   MenuOption,
@@ -40,8 +42,6 @@ import { timelineAction } from '../../services/timeline/sendMessage'
 import { MarketData, SingleSubErrand, Timelines } from '../../types'
 import { currencyMask, parseAmount } from '../../utils/helper'
 import AdjustAmountModal from '../Modals/Bids/Proposal'
-import { KeyboardAvoidingView } from 'react-native'
-import { Platform } from 'react-native'
 
 export interface ChatInputProp {
   message?: string
@@ -131,7 +131,6 @@ const ChatInput = ({
     contentType: string,
     message: string[] | string,
   ) => {
-
     if (!message) {
       return
     }
@@ -172,7 +171,6 @@ const ChatInput = ({
     //         }),
     //       )
     // }
-
 
     await dispatch(timelineAction(data))
     // dispatch(errandDetails({ errandId: errand.id }))
@@ -216,8 +214,7 @@ const ChatInput = ({
       } else {
         dispatch(errandDetails({ errandId: errand.id }))
       }
-    } 
-    catch (err) {
+    } catch (err) {
       Toast.show({
         type: 'success',
         // text1: err.response?.data.message,
@@ -226,8 +223,8 @@ const ChatInput = ({
   }
 
   const getUserLocation = async () => {
-    console.log(">>>>>>okay");
-    
+    console.log('>>>>>>okay')
+
     let { status } = await Location.requestForegroundPermissionsAsync()
     if (status !== 'granted') {
       Toast.show({
@@ -237,13 +234,10 @@ const ChatInput = ({
       return
     }
 
-    console.log(">>>>>>okay", status);
+    let location = await Location.getCurrentPositionAsync({})
 
+    // console.log(">>>>>>>location"), location;
 
-    let location = await Location.getCurrentPositionAsync({ accuracy: Platform.OS === 'android' ? Location.Accuracy.Low : Location.Accuracy.Lowest, });
-    
-    console.log(">>>>>>>location", location);
-    
     // setLocation(location)
     // setUserLocation(location)
   }
@@ -273,34 +267,51 @@ const ChatInput = ({
     toggleModal()
   }
 
+  const blobToBase64 = (blob: any) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(blob)
+    return new Promise((resolve) => {
+      reader.onloadend = () => {
+        resolve(reader.result)
+      }
+    })
+  }
+
   const handleFilePicker = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    let results = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       quality: 1,
     })
 
-    if (!result.canceled) {
-      const image = result.assets[0].uri
+    if (!results.canceled) {
+      // console.log(">>>>>>>result", result);
+
+      const image = results.assets[0].uri
       setSelectedImage(image)
       toggleImageModal()
 
       const formData = new FormData()
 
-      let localUri = image
+      // for (let i = 0; i < results.assets.length; i++) {
+      let localUri = results.assets[0].uri
       let filename = localUri.split('/').pop() || ''
+
       let match = /\.(\w+)$/.exec(filename)
       let type = match ? `image/${match[1]}` : `image`
 
       const fileObj = { uri: localUri, name: filename, type }
 
-      formData.append('type', 'timeline')
       formData.append('files', fileObj)
+      // }
+      formData.append('type', 'errand')
 
       dispatch(postFiles({ formData, setUploadedFiles, uploadedFiles }))
     } else {
       alert('You did not select any image.')
     }
   }
+
+  console.log('>>>>>> uploaded files', images)
 
   const handleFileUpload = () => {
     if (user_id === sender.id) {
@@ -319,9 +330,6 @@ const ChatInput = ({
         className="bg-[#CBD5EC] mx-auto h-60"
         //  style={{ backgroundColor: '#CBD5EC', height: 120 }}
       >
-       
-
-              
         <View className="flex-row justify-center items-center px-6 mt-2">
           <View className="flex-row justify-between items-center mt-2  bg-white w-full space-x-2 py-2 px-3 h-14">
             <View className="flex-row space-x-2 justify-center items-center">
@@ -338,16 +346,22 @@ const ChatInput = ({
                   shadowColor: 'none',
                   shadowOpacity: 0,
                   borderRadius: 30,
+                  
                 }}
               >
                 <MenuTrigger onPress={() => getUserLocation()}>
-                  <MaterialIcons name="add" size={24} />
+                  <MaterialIcons name="add" size={20} />
                 </MenuTrigger>
                 <MenuOptions
+                  
                   customStyles={{
                     optionWrapper: {
-                      marginTop: 6,
+                      paddingBottom: 30,
                     },
+                    optionsContainer: {
+                      marginBottom:20
+                    },
+                  
                     optionText: { textAlign: 'center', fontWeight: '600' },
                   }}
                 >
@@ -395,12 +409,12 @@ const ChatInput = ({
 
               <Text
                 onPress={() => toggleAmountAdjustment(true)}
-                className="text-xl"
+                className="text-base"
               >
                 &#8358;
               </Text>
             </View>
-            
+
             <TextInput
               multiline
               placeholder={'Type something...'}
@@ -484,11 +498,13 @@ const ChatInput = ({
           isVisible={imageSelected}
         >
           <View
-            style={{ backgroundColor: 'white', height: 300, borderRadius: 10 }}
+            style={{ backgroundColor: 'white', height: 300, borderRadius: 10, marginTop: 20 }}
           >
-            {selectedImage ? (
+            {uploadingImages && <ActivityIndicator size={20} color="blue"  />}
+
+            {images.length > 0 ? (
               <Image
-                source={{ uri: selectedImage }}
+                source={{ uri: images[0] }}
                 className="mx-auto w-[80%] h-[220px] mt-5"
               />
             ) : (
@@ -571,7 +587,6 @@ const ChatInput = ({
             sendProposal={sendProposal}
           />
         </BottomSheetModal>
-        
       </ScrollView>
     </BottomSheetModalProvider>
   )
