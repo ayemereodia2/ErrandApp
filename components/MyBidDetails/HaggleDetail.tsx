@@ -85,9 +85,9 @@ export const HaggleComponent = ({
   //   }
   // }, [])
 
-  const { data: sender } = useSelector(
-    (state: RootState) => state.externalUserDetailsReducer,
-  )
+  // const { data: sender } = useSelector(
+  //   (state: RootState) => state.externalUserDetailsReducer,
+  // )
 
   useEffect(() => {
     dispatch(externalUserDetails({ user_id: bid?.runner.id }))
@@ -203,7 +203,7 @@ export const HaggleComponent = ({
             </TouchableOpacity>
           )}
 
-          {bid?.state === 'cancelled' || bid.state === 'rejected' ? (
+          {bid?.state === 'cancelled' || bid?.state === 'rejected' ? (
             ''
           ) : (
             <>
@@ -260,7 +260,7 @@ export const HaggleComponent = ({
 
           {user_id !== errand.user_id && bid.state == 'cancelled' && (
             <View className="justify-start p-1 px-2 rounded-lg space-x-3 flex bg-red-100">
-              <Text>This errand has been cancelled</Text>
+              <Text>This bid has been cancelled</Text>
             </View>
           )}
 

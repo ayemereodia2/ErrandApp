@@ -42,7 +42,7 @@ const AcceptBid = ({
 
       <Text className="text-sm font-light text-[#4D4D4D] text-center px-8 mt-4">
         Are you sure you want to accept{' '}
-        <Text className="font-semibold">Enoobong George’s</Text> bid on your
+        <Text className="font-semibold">This</Text> bid on your
         errand?
       </Text>
 
