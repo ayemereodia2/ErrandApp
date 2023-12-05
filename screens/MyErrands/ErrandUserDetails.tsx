@@ -84,6 +84,7 @@ const ErrandUserDetails = ({ navigation, route }: any) => {
                 },
               }}
             >
+              
               {errand.user_id === userId && errand?.status === 'active' && (
                 <MenuOption
                   onSelect={() => {

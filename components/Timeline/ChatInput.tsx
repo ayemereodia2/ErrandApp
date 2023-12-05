@@ -225,6 +225,27 @@ const ChatInput = ({
     }
   }
 
+  const handleRefresh = async () => {
+    try {
+      // Perform actions to refresh data (fetch new data, update state, etc.)
+      // For example:
+      await dispatch(errandDetails({ errandId: errand.id }));
+      // You can include other actions to refresh additional data if needed
+
+      // Show a message or perform any post-refresh actions
+      Toast.show({
+        type: 'success',
+        text1: 'Data refreshed successfully',
+      });
+    } catch (error) {
+      // Handle any errors that occur during the refresh
+      Toast.show({
+        type: 'error',
+        text1: 'Failed to refresh data',
+      });
+    }
+  };
+
   const getUserLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync()
     if (status !== 'granted') {
@@ -308,12 +329,19 @@ const ChatInput = ({
 
   return (
     <BottomSheetModalProvider>
+       {/* Button to trigger data refresh */}
+  <TouchableOpacity
+          onPress={handleRefresh}
+          className="bg-[#3F60AC] flex-row justify-center items-center w-20 rounded-lg h-10 "
+        >
+          <Text style={{ color: 'white' }}>Refresh</Text>
+        </TouchableOpacity>
       <ScrollView
         className="bg-[#CBD5EC] mx-auto h-60"
         //  style={{ backgroundColor: '#CBD5EC', height: 120 }}
       >
        
-
+ 
               
         <View className="flex-row justify-center items-center px-6 mt-2">
           <View className="flex-row justify-between items-center mt-2  bg-white w-full space-x-2 py-2 px-3 h-14">
