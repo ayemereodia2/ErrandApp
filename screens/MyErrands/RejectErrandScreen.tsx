@@ -46,7 +46,7 @@ console.log(errand)
     setLoading(true)
 
      const _rs = await _fetch({
-      method: 'PUT',
+      method: 'DELETE',
       _url: `/errand/${errand.id}/bid/${bid.id}/respond`,
       
       // _url: `/errand/656108e5a795601d7362e5c9/cancel`,

@@ -197,7 +197,7 @@ const ErrandBid = ({
               </View> */}
 
               <Text className="flex-row space-x-2 items-center rounded-xl">
-                Bid History
+                Bid History 
               </Text>
             </TouchableOpacity>
 

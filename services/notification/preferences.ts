@@ -13,6 +13,7 @@ export const notificationPreferences = createAsyncThunk<NotificationPreferenceRe
 
     const rs = await _rs.json()
 
+    console.log(">>>>>>>rs", rs)
     return rs
   } catch (e: any) {
      if (e.response.status === 400) {
