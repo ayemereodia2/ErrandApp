@@ -113,7 +113,7 @@ const ErrandBid = ({
       <View className=" bg-white py-4 px-6 border-b-[0.2px] border-[#CCCCCC] hover:bg-[#CC9BFD] mt-4">
         <TouchableOpacity
           onPress={() => {
-            toggleUserInfoModal(true, bid.runner)
+            toggleUserInfoModal(true, bid?.runner)
           }}
           className="flex-row items-center justify-between"
         >
@@ -137,7 +137,7 @@ const ErrandBid = ({
           </View>
 
           <Text className="text-[#808080] text-sm">
-            {getCardTimeAgo(haggle.created_at)}{' '}
+            {getCardTimeAgo(haggle?.created_at)}{' '}
           </Text>
         </TouchableOpacity>
 
@@ -182,7 +182,7 @@ const ErrandBid = ({
           <View className="flex-row justify-between items-center mt-2">
             <View className="bg-[#ADF0D1] rounded-2xl py-1 px-3 mt-2 ">
               <Text className="text-[#115A38] capitalize text-sm font-md">
-                {bid.state}
+                {bid?.state}
               </Text>
             </View>
 
@@ -223,7 +223,7 @@ const ErrandBid = ({
           <View className="flex-row justify-between items-center mt-2">
             <View className="bg-red-50 rounded-2xl py-1 px-3 mt-2 ">
               <Text className="text-red-700 capitalize text-sm font-md">
-                {bid.state}
+                {bid?.state}
               </Text>
             </View>
 
@@ -264,7 +264,7 @@ const ErrandBid = ({
           <View className="flex-row justify-between items-center mt-2">
             <View className="bg-blue-50 rounded-2xl py-1 px-3 mt-2 ">
               <Text className="text-blue-800 capitalize text-sm font-md">
-                {bid.state}
+                {bid?.state}
               </Text>
             </View>
 

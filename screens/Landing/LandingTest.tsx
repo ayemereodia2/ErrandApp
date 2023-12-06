@@ -420,7 +420,7 @@ const LandingTest = ({ navigation }: any) => {
 
                 <TouchableOpacity
                   onPress={() => navigation.navigate('MyErrands')}
-                  className=" px-4 py-1 rounded-xl border border-[#e9ebf2]"
+                  className=" px-4 py-1 rounded-xl border border-[#e9ebf2] "
                   style={{ backgroundColor: '#3F60AC' }}
                 >
                   <Text
@@ -450,7 +450,7 @@ const LandingTest = ({ navigation }: any) => {
                         <>
                           <View className="flex-row mt-3" key={category.id}>
                             <TouchableOpacity
-                              className="border-[#aaa] border h-[150px] w-[150px] justify-center  rounded-xl mr-2 bg-white"
+                              className="border-[#aaa] border h-[220px] w-[250px] justify-center  rounded-xl mr-2 bg-white"
                               style={{
                                 backgroundColor: theme ? '#1E3A79' : 'white',
                               }}

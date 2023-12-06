@@ -271,6 +271,8 @@ export const HaggleComponent = ({
               </Text>
             </View>
           </TouchableOpacity>
+
+        
         </View>
 
         <BottomSheetModal
@@ -304,6 +306,21 @@ export const HaggleComponent = ({
             user_id={user_id}
           />
         </BottomSheetModal>
+
+        {negotiatorIsRunner &&
+        user_id !== errand.user_id &&
+        bid.state !== 'active' &&
+        bid.state !== 'completed' &&
+        bid.state !== 'cancelled' ? (
+          <View className="bg-[#c8e2e8] flex-row justify-center items-center rounded-lg mt-2 w-48 px-1 ">
+           
+            <TouchableOpacity>
+              <Text>Repost this errand.</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          ''
+        )}
       </View>
     </>
   )

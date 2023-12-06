@@ -101,6 +101,9 @@ const CreateErrandDetails = ({
   const [selectedTime, setSelectedTime] = useState('')
   const [durationNumber, setDurationNumber] = useState(1)
 
+  
+ 
+  console.log('>>>>>>>>durartion from dropdown', postErrandData)
 
   const adjustDuration = (dur: number, sign: string) => {
     if (sign === 'substract') {

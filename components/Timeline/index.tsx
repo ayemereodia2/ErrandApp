@@ -11,6 +11,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -163,9 +164,12 @@ const Timeline = ({
             )}
 
             {errand.status === 'abandoned' && (
-              <Text className="font-medium text-sm px-4">
-                This Errand has been abandoned
-              </Text>
+              // <Text className="font-medium text-sm px-4">
+              //   This Errand has been abandoned
+              // </Text>
+              <TouchableOpacity className="font-medium text-sm px-4">
+                <Text>Repost this errand</Text>
+              </TouchableOpacity>
             )}
 
             {errand.status === 'cancelled' ||
@@ -222,8 +226,21 @@ const Timeline = ({
                   singleSubErrand?.status === 'cancelled'
                     ? singleSubErrand.status
                     : errand.status}
+                   
+                   
                 </Text>
               </View>
+              {/* { errand.status === 'cancelled' ||
+                        singleSubErrand?.status === 'cancelled'
+                        ?
+                        (
+                          <TouchableOpacity className='flex-row justify-center items-center px-6 mt-6'>
+                            <Text>Repost this errand.</Text>
+                          </TouchableOpacity>
+                        )
+                        :
+                        ''
+                      } */}
             </View>
           ) : (
             
