@@ -446,7 +446,9 @@ export default function MainScreen() {
                             <>
                               <ErrandComp
                                 errand={errand}
-                                navigation={navigation}
+                                navigation={navig
+                                
+                                ation}
                                 key={index}
                                 toggleBidHistoryModal={toggleBidHistoryModal}
                               />

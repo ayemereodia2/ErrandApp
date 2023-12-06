@@ -18,11 +18,12 @@ export const externalUserDetails = createAsyncThunk<UserDetailsResponse, UserPro
         })
       
       const rs = await _rs.json()
+      
         if (rs.success === true) {
         return rs
         }
         } catch (e: any) {
-            if (e.response.status === 400) {
+      if (e.response.status === 400) {
             return rejectWithValue(e.response.data.message)
             }
             return rejectWithValue(e.response.data.message)

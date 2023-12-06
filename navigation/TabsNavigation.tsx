@@ -225,13 +225,11 @@ export const TabsNavigation = ({ navigation }: any) => {
                 <MaterialIcons name="run-circle" size={30} color={textTheme} style={{marginLeft: 8}}/>
                 <Text style={{color: textTheme}}>Errands</Text>
                 </>
-                
               ) : (
                 <>
                 <FontAwesome5 name="running" size={24} color={textTheme} style={{marginLeft: 8}}/>
                 <Text style={{color: textTheme}}>Errands</Text>
                 </>
-                
               )}
             </View>
           ),

@@ -341,7 +341,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
     })
     getUserId()
     dispatch(currentUserDetails({ user_id: userId }))
-  }, [user, errand, manageErrandClicked, singleSubErrand])
+  }, [user, errand, manageErrandClicked, singleSubErrand, errand.status])
 
   // console.log(">>>>errand status", errand.status);
 
