@@ -20,7 +20,6 @@ export const SenderDetails = ({
   userId,
   singleSubErrand,
   manageErrandClicked,
-  bids,
 }: SenderProp) => {
   const dispatch = useAppDispatch()
   const navigation = useNavigation()
@@ -164,7 +163,6 @@ export const SenderDetails = ({
                   errand,
                   userId,
                   singleSubErrand,
-                  bids,
                 })
               }}
               className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
@@ -191,7 +189,6 @@ export const SenderDetails = ({
                     errand,
                     userId,
                     singleSubErrand,
-                    bids,
                   })
                 }}
                 className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
@@ -228,7 +225,6 @@ export const SenderDetails = ({
                   errand,
                   userId,
                   singleSubErrand,
-                  bids,
                 })
               }}
               className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
@@ -265,7 +261,6 @@ export const SenderDetails = ({
                   errand,
                   userId,
                   singleSubErrand,
-                  bids,
                 })
               }}
               className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
@@ -290,7 +285,6 @@ export const SenderDetails = ({
                   errand,
                   userId,
                   singleSubErrand,
-                  bids,
                 })
               }}
               className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
@@ -317,7 +311,6 @@ export const SenderDetails = ({
                     errand,
                     userId,
                     singleSubErrand,
-                    bids,
                   })
                 }}
                 className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "

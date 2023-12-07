@@ -175,7 +175,6 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                         userId,
                         singleSubErrand,
                         manageErrandClicked,
-                        bids,
                       })
                     }
                     text="Details"
@@ -197,7 +196,6 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                         userId,
                         singleSubErrand,
                         manageErrandClicked,
-                        bids,
                       })
                     }
                     text="Details"
@@ -221,7 +219,6 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                         userId,
                         singleSubErrand,
                         manageErrandClicked,
-                        bids,
                       })
                     }
                     text="Details"
@@ -245,7 +242,6 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                         userId,
                         singleSubErrand,
                         manageErrandClicked,
-                        bids,
                       })
                     }
                     text="Details"
@@ -269,7 +265,6 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                         userId,
                         singleSubErrand,
                         manageErrandClicked,
-                        bids,
                       })
                     }
                     text="Details"

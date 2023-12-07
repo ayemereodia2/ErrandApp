@@ -36,7 +36,6 @@ const CancelErrandModal = ({ route }: any) => {
     const rs = await _rs.json()
     if (rs.success === true) {
       setLoading(false)
-
       navigation.navigate('MyErrands')
       dispatch(errandDetails({ errandId: errand.id }))
       dispatch(myErrandList({}))

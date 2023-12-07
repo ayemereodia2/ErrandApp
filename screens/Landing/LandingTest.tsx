@@ -16,6 +16,7 @@ import { useQuery } from '@tanstack/react-query'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   BackHandler,
+  Dimensions,
   FlatList,
   Platform,
   RefreshControl,
@@ -36,7 +37,6 @@ import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
-import { sendMessage } from '../../utils/categories'
 
 const LandingTest = ({ navigation }: any) => {
   const loaderGif = '../../assets/images/loading-SWAVE.gif'
@@ -48,6 +48,7 @@ const LandingTest = ({ navigation }: any) => {
   const [refreshing, setRefreshing] = React.useState(false)
   const flatListRef = useRef<any>(0)
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [scrollWidth, setScrollWidth] = useState(0)
 
   function openPinModal() {
     bottomSheetRef.current?.present()
@@ -145,6 +146,33 @@ const LandingTest = ({ navigation }: any) => {
     refetchOnMount: 'always',
   })
 
+  useEffect(() => {
+    if (data?.data?.length > 0) {
+      const scrollInterval = setInterval(() => {
+        // Calculate the next index in a circular manner
+        const nextIndex = (currentIndex + 1) % data?.data?.length
+
+        // Scroll to the next item
+        flatListRef.current?.scrollToIndex({
+          index: nextIndex,
+          animated: true,
+        })
+
+        // Update the currentIndex for the next iteration
+        setCurrentIndex(nextIndex)
+      }, 2000) // Change the interval time as needed (e.g., 5000 milliseconds for 5 seconds)
+
+      return () => clearInterval(scrollInterval)
+    }
+  }, [currentIndex, data])
+
+  const handleScroll = (event: any) => {
+    const { contentOffset, layoutMeasurement, contentSize } = event.nativeEvent
+    const scrollFraction =
+      contentOffset.x / (contentSize.width - layoutMeasurement.width)
+    setScrollWidth(scrollFraction * Dimensions.get('window').width)
+  }
+
   if (data) {
   }
 
@@ -179,14 +207,31 @@ const LandingTest = ({ navigation }: any) => {
   // }, [currentIndex])
 
   const renderItem = ({ item }: any) => (
+    // <TouchableOpacity
+    //   // Your existing TouchableOpacity properties
+    //   onPress={() => {
+    //     dispatch(getDraftErrand())
+    //     navigation.navigate('LandingForm', { category: item })
+    //   }}
+    // >
     <TouchableOpacity
-      style={[styles.carouselItem, { backgroundColor: item.backgroundColor }]}
-      onPress={() => navigation.navigate('LandingForm', { category: item })}
+      className="border-[#aaa] border h-[150px] w-[150px] justify-center  rounded-xl mr-2 bg-white"
+      style={{
+        backgroundColor: theme ? '#1E3A79' : 'white',
+      }}
+      onPress={() => {
+        dispatch(getDraftErrand())
+        navigation.navigate('LandingForm', { category: item })
+      }}
+      key={item.id}
     >
-      <Text style={styles.carouselIcon}>{getCategoryIcon(item.name)}</Text>
-      <Text style={[styles.carouselText, { color: item.textColor }]}>
-        {item.description}
-      </Text>
+      {/* Your existing content inside TouchableOpacity */}
+      {getCategoryIcon(item.name)}
+
+      <Text
+        className="text-sm font-semibold text-center mt-5"
+        style={{ color: textTheme }}
+      >{`${item.description}`}</Text>
     </TouchableOpacity>
   )
 
@@ -301,21 +346,12 @@ const LandingTest = ({ navigation }: any) => {
 
       console.log('>>>>>rs-----', _rs)
 
-
       const rs = await _rs.json()
 
       console.log('>>>>>rs', rs)
-
-    } catch (e: any) {
+    } catch (e) {
       console.log('>>>>>e', e.response)
     }
-
-    // if (rs.success === true) {
-    //   setDeleteModal(false)
-    //   setDeletingProfile(false)
-    //   navigation.navigate('Default')
-    //   clearStorage()
-    // }
   }
 
   useEffect(() => {
@@ -323,21 +359,6 @@ const LandingTest = ({ navigation }: any) => {
 
     // sendMessage('hello world--')
   }, [])
-
-  // if (loading ) {
-  //   return (
-  //     <SafeAreaView
-  //       style={{
-  //         flex: 1,
-  //         justifyContent: 'center',
-  //         alignItems: 'center',
-  //         backgroundColor: backgroundTheme,
-  //       }}
-  //     >
-  //       <ActivityIndicator color={theme ? 'blue' : 'white'} size="large" />
-  //     </SafeAreaView>
-  //   )
-  // }
 
   return (
     <>
@@ -435,12 +456,12 @@ const LandingTest = ({ navigation }: any) => {
               <View className="mt-10">
                 <Text
                   className=" text-[25px] leading-7 font-bold"
-                  style={{ color: textTheme }}
+                  style={{ color: textTheme, marginBottom: 20 }}
                 >
                   What do you need help with?
                 </Text>
 
-                <ScrollView
+                {/* <ScrollView
                   horizontal
                   showsHorizontalScrollIndicator={false}
                   className="mt-2  w-[90vw]"
@@ -560,22 +581,35 @@ const LandingTest = ({ navigation }: any) => {
                       </Text>
                     </TouchableOpacity>
                   </View>
-                </ScrollView>
+                </ScrollView> */}
 
                 <FlatList
                   ref={flatListRef}
                   horizontal
-                  data={data}
-                  renderItem={renderItem}
-                  keyExtractor={(item: any) => item.id.toString()}
                   showsHorizontalScrollIndicator={false}
-                  pagingEnabled
-                  snapToInterval={150} // Adjust as needed
+                  style={{ marginBottom: 10 }}
+                  data={data?.data}
+                  keyExtractor={(item) => item.id.toString()}
+                  renderItem={renderItem}
+                  extraData={currentIndex}
+                  onEndReached={() => {
+                    // Handle the end of the list if needed
+                  }}
+                  snapToAlignment="start"
                   decelerationRate="fast"
-                  onScroll={(event) => {
-                    const contentOffset = event.nativeEvent.contentOffset.x
-                    const currentIndex = Math.floor(contentOffset / 150)
-                    setCurrentIndex(currentIndex)
+                  pagingEnabled
+                  onScroll={handleScroll}
+                />
+                <View
+                  style={{
+                    marginTop: 10,
+                    height: 2,
+                    // width: '100%',
+                    backgroundColor: 'blue', // Set the color of your scroll indicator
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    width: scrollWidth,
                   }}
                 />
               </View>
@@ -588,9 +622,9 @@ const LandingTest = ({ navigation }: any) => {
                   Urgent Errands
                 </Text>
 
-                <TouchableOpacity onPress={() => getStuff()}>
+                {/* <TouchableOpacity onPress={() => getStuff()}>
                   <Text>Get Stuff</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                   <LandingDetails

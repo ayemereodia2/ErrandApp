@@ -39,7 +39,7 @@ const MyErrandCard = ({
   const regex = /(<([^>]+)>)/gi
   const result = errand.description.replace(regex, '')
 
-  console.log('>>>>>>errand id', errand?.runner_id, user_id)
+  // console.log('>>>>>>errand id', errand?.runner_id, user_id)
 
   return (
     <TouchableOpacity

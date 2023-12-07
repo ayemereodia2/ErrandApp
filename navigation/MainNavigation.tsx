@@ -43,7 +43,7 @@ const MainNavigation = () => {
       messaging()
         .getToken()
         .then(async (token) => {
-          console.log('>>>>>,>token', token)
+          // console.log('>>>>>,>token', token)
           const rs = await _fetch({
             method: 'PUT',
             _url: `/user/mobile/token`,
@@ -68,11 +68,28 @@ const MainNavigation = () => {
 
     // Handle user clicking on a notification and open the screen
     const handleNotificationClick = async (response: any) => {
-      console.log('>>>>>>reponse nootification', response)
+      const data = response?.notification?.request?.content?.data
+      console.log('>>>>>>reponse nootification', data.screen)
 
-      const screen = response?.notification?.request?.content?.data?.screen
-      if (screen !== null) {
-        navigation.navigate(screen)
+      if (data.screen === 'MyErrandDetails') {
+        dispatch(
+          errandDetails({
+            errandId: data.item_id,
+            navigation,
+          }),
+        )
+        navigation.navigate('MyErrandDetails')
+        dispatch(myErrandList({}))
+        dispatch(userDetails({ user_id: data.user_id }))
+      }
+
+      if (data.screen === 'Market') {
+        navigation.navigate('Market')
+        dispatch(errandMarketList({}))
+      }
+
+       if (data.screen === 'Profile') {
+        navigation.navigate('Profile')
       }
     }
 
@@ -84,6 +101,27 @@ const MainNavigation = () => {
     // Handle push notifications when the app is in the foreground
     const handlePushNotification = async (remoteMessage: any) => {
       console.log('>>>>>>=ermeote message', remoteMessage)
+
+      if (remoteMessage.data.screen === 'MyErrandDetails') {
+        dispatch(
+          errandDetails({
+            errandId: remoteMessage.data.item_id,
+            navigation,
+          }),
+        )
+        navigation.navigate('MyErrandDetails')
+        dispatch(myErrandList({}))
+        dispatch(userDetails({ user_id: remoteMessage.data.user_id }))
+      }
+
+      if (remoteMessage.data.screen === 'Market') {
+        navigation.navigate('Market')
+        dispatch(errandMarketList({}))
+      }
+
+      if (remoteMessage.data.screen === 'Profile') {
+        navigation.navigate('Profile')
+      }
 
       const notification = {
         title: remoteMessage.notification.title,
@@ -105,17 +143,25 @@ const MainNavigation = () => {
         remoteMessage.data.screen,
         navigation,
       )
-      const ok = true
-      if (ok) {
-        navigation.navigate('MyErrandDetails')
+      if (remoteMessage.data.screen === 'MyErrandDetails') {
         dispatch(
           errandDetails({
             errandId: remoteMessage.data.item_id,
             navigation,
           }),
         )
+        navigation.navigate('MyErrandDetails')
         dispatch(myErrandList({}))
         dispatch(userDetails({ user_id: remoteMessage.data.user_id }))
+      }
+
+      if (remoteMessage.data.screen === 'Market') {
+        navigation.navigate('Market')
+        dispatch(errandMarketList({}))
+      }
+
+      if (remoteMessage.data.screen === 'Profile') {
+        navigation.navigate('Profile')
       }
     })
 
@@ -124,19 +170,18 @@ const MainNavigation = () => {
       .getInitialNotification()
       .then((remoteMessage: any) => {
         if (remoteMessage) {
-          const ok = true
           console.log(
             'Notification caused app to open from quit state:',
             remoteMessage.data,
           )
           if (remoteMessage.data.screen === 'MyErrandDetails') {
-            navigation.navigate('MyErrandDetails')
             dispatch(
               errandDetails({
                 errandId: remoteMessage.data.item_id,
                 navigation,
               }),
             )
+            navigation.navigate('MyErrandDetails')
             dispatch(myErrandList({}))
             dispatch(userDetails({ user_id: remoteMessage.data.user_id }))
           }
@@ -144,6 +189,9 @@ const MainNavigation = () => {
           if (remoteMessage.data.screen === 'Market') {
             navigation.navigate('Market')
             dispatch(errandMarketList({}))
+          }
+          if (remoteMessage.data.screen === 'Profile') {
+            navigation.navigate('Profile')
           }
         }
       })
@@ -157,26 +205,21 @@ const MainNavigation = () => {
         data: remoteMessage.data, // optional data payload
       }
 
-      // Schedule the notification with a null trigger to show immediately
-      await Notifications.scheduleNotificationAsync({
-        content: notification,
-        trigger: null,
-      })
-
-      const ok = true
-
       if (remoteMessage.data.screen === 'MyErrandDetails') {
-        navigation.navigate('MyErrandDetails')
         dispatch(
           errandDetails({ errandId: remoteMessage.data.item_id, navigation }),
         )
         dispatch(myErrandList({}))
         dispatch(userDetails({ user_id: remoteMessage.data.user_id }))
+        navigation.navigate('MyErrandDetails')
       }
 
       if (remoteMessage.data.screen === 'Market') {
         navigation.navigate('Market')
         dispatch(errandMarketList({}))
+      }
+      if (remoteMessage.data.screen === 'Profile') {
+        navigation.navigate('Profile')
       }
     })
 

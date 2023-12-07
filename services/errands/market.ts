@@ -28,8 +28,6 @@ export const errandMarketList = createAsyncThunk<any, MarketQueryParams, { rejec
           setSearchedErrand(marketErrand)
      }
     
-    
-
     if (res.success) {
       return res.data
     }

@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { CreateErrandRequest, CreateErrandResponse, DraftErrandResponse } from '../../types';
 import { _fetch } from '../axios/http';
+import { errandMarketList } from './market';
 
 export const createErrand = createAsyncThunk<CreateErrandResponse, CreateErrandRequest, { rejectValue: string }>(
   "/errand/createErrand",
@@ -9,9 +10,7 @@ export const createErrand = createAsyncThunk<CreateErrandResponse, CreateErrandR
     try {
       
       const errandId = await AsyncStorage.getItem('errandId')
-      
-
-
+    
       const _rs = await _fetch({
         method: "POST",
         _url: `/errand/${errandId}`,
@@ -27,7 +26,7 @@ export const createErrand = createAsyncThunk<CreateErrandResponse, CreateErrandR
       }
 
       if (rs.success === true) {
-
+        dispatch(errandMarketList({}))
         navigation.navigate("MyErrands")
          Toast.show({
           type: 'success',
