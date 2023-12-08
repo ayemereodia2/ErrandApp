@@ -17,6 +17,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   BackHandler,
   FlatList,
+  Image,
   Platform,
   RefreshControl,
   ScrollView,
@@ -359,6 +360,7 @@ const LandingTest = ({ navigation }: any) => {
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
             >
+              <View className='bg-[#09497D]'>
               <View
                 className={
                   Platform.OS === 'android'
@@ -366,12 +368,17 @@ const LandingTest = ({ navigation }: any) => {
                     : 'flex-row items-center justify-between'
                 }
               >
-                <Text
+                 <Image 
+              source={require('../../assets/images/swave-log-web.png')}
+              
+              alt={'logo'}
+              />
+                {/* <Text
                   className="font-bold text-[20px] leading-7"
                   style={{ color: textTheme }}
                 >
                   Welcome, {currentUser?.first_name}
-                </Text>
+                </Text> */}
 
                 <View className="items-center flex-row gap-4 mr-2">
                   <Text style={{ color: textTheme }}>
@@ -402,6 +409,36 @@ const LandingTest = ({ navigation }: any) => {
                     </Text>
                   </TouchableOpacity>
                 </View>
+              </View>
+
+              <View>
+                <View className='flex-row'>
+                  {currentUser?.profile_picture ? 
+                  <Image 
+                  source={{uri: currentUser?.profile_picture}}
+                  
+                  alt={'logo'}
+                  />
+                  :
+                  <Image 
+                  source={require('../../assets/images/profile.png')}
+                  className='h-[60px] w-[60px]'
+                  alt={'logo'}
+                  />
+                  }
+                  <Text className='text-white font-bold text-[20px] leading-7'>Welcome</Text>
+                
+                </View>
+              <Text
+                  className="font-bold text-[20px] leading-7"
+                  style={{ color: textTheme }}
+                >
+                  Welcome, {currentUser?.first_name}
+                </Text>
+
+                </View>
+
+
               </View>
 
               <View className="flex-row items-center gap-4 mt-1">
