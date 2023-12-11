@@ -27,13 +27,10 @@ export const postFiles = createAsyncThunk<any, Props, { rejectValue: string }>(
         body: formData,
       };
     
-    const res = await fetch(`https://staging.apis.swave.ng/v1/file-upload`, requestOptions)
+    const res = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/file-upload`, requestOptions)
     
-      const resJson = await res.json()
-      
-      console.log(">>>>-----", resJson)
+    const resJson = await res.json()
     
-
     if (setUploadedFiles) {
       setUploadedFiles([...uploadedFiles, ...resJson.data])
     }

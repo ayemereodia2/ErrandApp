@@ -15,7 +15,7 @@
       "image": "./assets/images/app-1.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff",
-      "plugins": [
+      "plugins": [ 
          "@react-native-firebase/app",
           [
           "expo-build-properties",

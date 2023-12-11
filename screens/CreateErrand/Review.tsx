@@ -5,8 +5,8 @@ import { RootState } from '../../services/store'
 import { PostErrandData } from '../../types'
 import { ImageViewer } from './Details'
 import RecordedSound from '../../components/RecordedSound'
-import { selectRecordedAudioURI } from '../../services/audio/audio'
-import { Audio } from 'expo-av'
+// import { selectRecordedAudioURI } from '../../services/audio/audio'
+// import { Audio } from 'expo-av'
 import { TouchableOpacity } from 'react-native'
 import { Image } from 'react-native'
 
@@ -29,40 +29,40 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-  const recordedAudioURI = useSelector(selectRecordedAudioURI);
-  const AudioPlayer = useRef(new Audio.Sound())
-  const [isPlaying, SetIsPlaying] = useState(false)
+  // const recordedAudioURI = useSelector(selectRecordedAudioURI);
+  // const AudioPlayer = useRef(new Audio.Sound())
+  // const [isPlaying, SetIsPlaying] = useState(false)
 
-  const PlayRecordedAudio = async () => {
-    try {
-      // Load the Recorded URI
-      await AudioPlayer.current.loadAsync({ uri: recordedAudioURI }, {}, true)
+  // const PlayRecordedAudio = async () => {
+  //   try {
+  //     // Load the Recorded URI
+  //     await AudioPlayer.current.loadAsync({ uri: recordedAudioURI }, {}, true)
 
-      // Get Player Status
-      const playerStatus = await AudioPlayer.current.getStatusAsync()
+  //     // Get Player Status
+  //     const playerStatus = await AudioPlayer.current.getStatusAsync()
 
-      // Play if song is loaded successfully
-      if (playerStatus.isLoaded) {
-        if (playerStatus.isPlaying === false) {
-          AudioPlayer.current.playAsync()
-          SetIsPlaying(true)
-        }
-      }
-    } catch (error) {}
-  }
+  //     // Play if song is loaded successfully
+  //     if (playerStatus.isLoaded) {
+  //       if (playerStatus.isPlaying === false) {
+  //         AudioPlayer.current.playAsync()
+  //         SetIsPlaying(true)
+  //       }
+  //     }
+  //   } catch (error) {}
+  // }
 
-  const StopPlaying = async () => {
-    try {
-      //Get Player Status
-      const playerStatus = await AudioPlayer.current.getStatusAsync()
+  // const StopPlaying = async () => {
+  //   try {
+  //     //Get Player Status
+  //     const playerStatus = await AudioPlayer.current.getStatusAsync()
 
-      // If song is playing then stop it
-      if (playerStatus.isLoaded === true)
-        await AudioPlayer.current.unloadAsync()
+  //     // If song is playing then stop it
+  //     if (playerStatus.isLoaded === true)
+  //       await AudioPlayer.current.unloadAsync()
 
-      SetIsPlaying(false)
-    } catch (error) {}
-  }
+  //     SetIsPlaying(false)
+  //   } catch (error) {}
+  // }
 
 
 
@@ -182,7 +182,7 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
           </View>
         </View>
 
-        {recordedAudioURI ? (
+        {/* {recordedAudioURI ? (
             <View className="w-full rounded-lg h-[150px] bg-[#FCFCFC] mx-auto mt-4 border-[0.5px] border-[#E6E6E6] py-6 flex-row items-center justify-center">
               {isPlaying ? (
                 <TouchableOpacity
@@ -215,7 +215,7 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
                 />
               )}
             </View>
-          ) : <Text style={{color: textTheme}} className='ml-4 mt-3'>No recorded audio</Text> }
+          ) : <Text style={{color: textTheme}} className='ml-4 mt-3'>No recorded audio</Text> } */}
 
         <View className="mx-4 mt-6 flex-row space-x-10  ">
           <Text style={{ color: textTheme }} className="font-md text-[14px] w-28">

@@ -99,6 +99,7 @@ const PostErrand = ({ navigation }: any) => {
   const [files, setFiles] = useState<any>()
 
   const [financeError, setFinanceError] = useState('')
+  const [locationError, setLocationError] = useState('')
 
   const { loading: creatingErrand } = useSelector(
     (state: RootState) => state.createErrandReducer,
@@ -199,6 +200,12 @@ const PostErrand = ({ navigation }: any) => {
   }
 
   const locationHandler = () => {
+    console.log(">>>>>location", currentLocation, deliveryAddress);
+    
+    if (!currentLocation) {
+       return setLocationError("Please enter location to continue")
+    }
+    setLocationError("")
     setPostErrandData({
       ...postErrandData,
       currentLocation,
@@ -218,6 +225,9 @@ const PostErrand = ({ navigation }: any) => {
     })
     setActiveStep(activeStep + 1)
   }
+
+  console.log(">>>>>>postErrrandData", postErrandData);
+  
 
   const submitErrandhandler = () => {
     // const errandId = localStorage.getItem('errandId') || ''
@@ -360,6 +370,9 @@ const PostErrand = ({ navigation }: any) => {
           setActiveStep={setActiveStep}
           setDeliveryAddress={setDeliveryAddress}
           setCurrentLocation={setCurrentLocation}
+          locationError={locationError}
+          currentLocation={currentLocation}
+          deliveryAddres={deliveryAddress}
         />
       )
     }

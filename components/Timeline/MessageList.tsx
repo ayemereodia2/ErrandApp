@@ -53,16 +53,16 @@ const MessagesList = ({
                     )}
                   </View>
                 )
-              case 'audio':
-                return (
-                  <figure>
-                    <audio
-                      src={update.message}
-                      controls
-                      controlsList="play timeline"
-                    ></audio>
-                  </figure>
-                )
+              // case 'audio':
+              //   return (
+              //     <figure>
+              //       <audio
+              //         src={update.message}
+              //         controls
+              //         controlsList="play timeline"
+              //       ></audio>
+              //     </figure>
+              //   )
               case 'location':
                 const userLocation = JSON.parse(update.message)
                 // console.log('>>>>>>>userLocation', update.message)

@@ -1,4 +1,4 @@
-import { EvilIcons, Feather, FontAwesome } from '@expo/vector-icons'
+import { EvilIcons, Feather } from '@expo/vector-icons'
 import { Audio } from 'expo-av'
 import * as ImagePicker from 'expo-image-picker'
 import React, { useEffect, useRef, useState } from 'react'
@@ -10,21 +10,19 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native'
 import { Dropdown } from 'react-native-element-dropdown'
 import { useSelector } from 'react-redux'
+import { setRecordedAudioURI } from '../../services/audio/audio'
 import { postAudioFiles } from '../../services/errands/postAudioFIle'
 import { postFiles } from '../../services/errands/postFiles'
 import { RootState, useAppDispatch } from '../../services/store'
 import { PostErrandData } from '../../types'
-import RecordedSound from '../../components/RecordedSound'
 const recordingGif = '../../assets/images/recoording.gif'
 const playSound = '../../assets/images/play-sound.gif'
 const playingSound = '../../assets/images/playing.gif'
 const stopSound = '../../assets/images/stop-sound.gif'
-import { setRecordedAudioURI } from '../../services/audio/audio'
-import { useDispatch } from 'react-redux'
 
 interface DetailsProp {
   handleInputChange: any
@@ -150,6 +148,7 @@ const CreateErrandDetails = ({
       allowsMultipleSelection: true,
     })
 
+  
     if (!results.canceled) {
       setSelectedImage(results.assets)
 
@@ -174,111 +173,111 @@ const CreateErrandDetails = ({
     }
   }
 
-  const StartRecording = async () => {
-    try {
-      setRecorded(false)
-      await Audio.requestPermissionsAsync()
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: true,
-        playsInSilentModeIOS: true,
-      })
-      // Check if user has given the permission to record
-      if (AudioPermission === true) {
-        try {
-          // Prepare the Audio Recorder
-          await AudioRecorder.current.prepareToRecordAsync(
-            Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY,
-          )
-          // Start recording
-          await AudioRecorder.current.startAsync()
-          SetIsRecording(true)
-        } catch (error) {
-        }
-      } else {
-        // If user has not given the permission to record, then ask for permission
-        GetPermission()
-      }
-    } catch (error) {}
-  }
+  // const StartRecording = async () => {
+  //   try {
+  //     setRecorded(false)
+  //     await Audio.requestPermissionsAsync()
+  //     await Audio.setAudioModeAsync({
+  //       allowsRecordingIOS: true,
+  //       playsInSilentModeIOS: true,
+  //     })
+  //     // Check if user has given the permission to record
+  //     if (AudioPermission === true) {
+  //       try {
+  //         // Prepare the Audio Recorder
+  //         await AudioRecorder.current.prepareToRecordAsync(
+  //           Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY,
+  //         )
+  //         // Start recording
+  //         await AudioRecorder.current.startAsync()
+  //         SetIsRecording(true)
+  //       } catch (error) {
+  //       }
+  //     } else {
+  //       // If user has not given the permission to record, then ask for permission
+  //       GetPermission()
+  //     }
+  //   } catch (error) {}
+  // }
 
-  const StopRecording = async () => {
-    try {
-      // Stop recording
-      await AudioRecorder.current.stopAndUnloadAsync()
+  // const StopRecording = async () => {
+  //   try {
+  //     // Stop recording
+  //     await AudioRecorder.current.stopAndUnloadAsync()
 
-      // Get the recorded URI here
-      const result = AudioRecorder.current.getURI() || ''
+  //     // Get the recorded URI here
+  //     const result = AudioRecorder.current.getURI() || ''
 
-      const filename = result.split('/').pop() || ''
+  //     const filename = result.split('/').pop() || ''
 
-      const formData = new FormData()
+  //     const formData = new FormData()
 
-      let match = /\.(\w+)$/.exec(filename)
-      let type = match ? `audio/${match[1]}` : `audio`
+  //     let match = /\.(\w+)$/.exec(filename)
+  //     let type = match ? `audio/${match[1]}` : `audio`
 
-      const file = {
-        uri: result,
-        type,
-        name: filename,
-      }
+  //     const file = {
+  //       uri: result,
+  //       type,
+  //       name: filename,
+  //     }
 
-      formData.append('files', file)
-      formData.append('type', 'errand')
+  //     formData.append('files', file)
+  //     formData.append('type', 'errand')
 
-      dispatch(postAudioFiles({ formData, setAudio, audios: audio }))
-      if (result) {
-        dispatch(setRecordedAudioURI(result)); // Dispatch action to store the recorded audio URI
-      }
-      if (result) SetRecordedURI(result)
-      // console.log('>>>>>>record result', result)
+  //     dispatch(postAudioFiles({ formData, setAudio, audios: audio }))
+  //     if (result) {
+  //       dispatch(setRecordedAudioURI(result)); // Dispatch action to store the recorded audio URI
+  //     }
+  //     if (result) SetRecordedURI(result)
+  //     // console.log('>>>>>>record result', result)
 
-      // Reset the Audio Recorder
-      AudioRecorder.current = new Audio.Recording()
-      SetIsRecording(false)
-      setRecorded(true)
-    } catch (error) {
-    }
-  }
+  //     // Reset the Audio Recorder
+  //     AudioRecorder.current = new Audio.Recording()
+  //     SetIsRecording(false)
+  //     setRecorded(true)
+  //   } catch (error) {
+  //   }
+  // }
 
-  const PlayRecordedAudio = async () => {
-    try {
-      // Load the Recorded URI
-      await AudioPlayer.current.loadAsync({ uri: RecordedURI }, {}, true)
+  // const PlayRecordedAudio = async () => {
+  //   try {
+  //     // Load the Recorded URI
+  //     await AudioPlayer.current.loadAsync({ uri: RecordedURI }, {}, true)
 
-      // Get Player Status
-      const playerStatus = await AudioPlayer.current.getStatusAsync()
+  //     // Get Player Status
+  //     const playerStatus = await AudioPlayer.current.getStatusAsync()
 
-      // Play if song is loaded successfully
-      if (playerStatus.isLoaded) {
-        if (playerStatus.isPlaying === false) {
-          AudioPlayer.current.playAsync()
-          SetIsPLaying(true)
-        }
-      }
-    } catch (error) {}
-  }
+  //     // Play if song is loaded successfully
+  //     if (playerStatus.isLoaded) {
+  //       if (playerStatus.isPlaying === false) {
+  //         AudioPlayer.current.playAsync()
+  //         SetIsPLaying(true)
+  //       }
+  //     }
+  //   } catch (error) {}
+  // }
 
-  const StopPlaying = async () => {
-    try {
-      //Get Player Status
-      const playerStatus = await AudioPlayer.current.getStatusAsync()
+  // const StopPlaying = async () => {
+  //   try {
+  //     //Get Player Status
+  //     const playerStatus = await AudioPlayer.current.getStatusAsync()
 
-      // If song is playing then stop it
-      if (playerStatus.isLoaded === true)
-        await AudioPlayer.current.unloadAsync()
+  //     // If song is playing then stop it
+  //     if (playerStatus.isLoaded === true)
+  //       await AudioPlayer.current.unloadAsync()
 
-      SetIsPLaying(false)
-    } catch (error) {}
-  }
+  //     SetIsPLaying(false)
+  //   } catch (error) {}
+  // }
 
-  const GetPermission = async () => {
-    const getAudioPerm = await Audio.requestPermissionsAsync()
-    SetAudioPermission(getAudioPerm.granted)
-  }
+  // const GetPermission = async () => {
+  //   const getAudioPerm = await Audio.requestPermissionsAsync()
+  //   SetAudioPermission(getAudioPerm.granted)
+  // }
 
-  useEffect(() => {
-    GetPermission()
-  }, [])
+  // useEffect(() => {
+  //   GetPermission()
+  // }, [])
 
   return (
     <>
@@ -540,7 +539,7 @@ const CreateErrandDetails = ({
             </Text>
           </TouchableOpacity> */}
 
-          {recorded && (
+          {/* {recorded && (
             <View className="w-full rounded-lg h-[150px] bg-[#FCFCFC] mx-auto mt-4 border-[0.5px] border-[#E6E6E6] py-6 flex-row items-center justify-center">
               {IsPLaying ? (
                 <TouchableOpacity
@@ -572,10 +571,7 @@ const CreateErrandDetails = ({
                 />
               )}
             </View>
-          )}
-
-       
-          
+          )} */}
 
           <View>
             <View className="mt-[40px]">
