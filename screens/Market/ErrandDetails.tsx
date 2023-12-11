@@ -25,7 +25,7 @@ import {
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
+import he from 'he'
 import {
   ActivityIndicator,
   Image,
@@ -67,7 +67,6 @@ export default function ErrandDetails({ route, navigation }: any) {
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-  const regex = /(<([^>]+)>)/gi
 
   function openPlaceBid() {
     bottomSheetRef.current?.present()
@@ -141,6 +140,11 @@ export default function ErrandDetails({ route, navigation }: any) {
       title: 'Errand Details',
     })
   }, [navigation])
+
+  const regex = /(<([^>]+)>)/gi
+  const result = he.decode(errand.description.replace(regex, ''))
+
+  console.log('>>>>result', result)
 
   // useEffect(() => {
   //   navigation
@@ -295,7 +299,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                         style={{ color: textTheme }}
                         className="text-sm pt-1 text-[#383737] font-light"
                       >
-                        {errand.description.replace(regex, '')}
+                        {result}
                       </Text>
                     </View>
 
@@ -607,9 +611,7 @@ const styles = StyleSheet.create({
     height: 200,
   },
 
-
-
-   _container: {
+  _container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
   },

@@ -1,4 +1,5 @@
 import { Entypo, EvilIcons, FontAwesome5 } from '@expo/vector-icons'
+import he from 'he'
 import React, { useEffect, useState } from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -6,10 +7,7 @@ import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { errandDetails } from '../../services/errands/errandDetails'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
-import { getAddress, getCardTimeAgo, getTimeAgo } from '../../utils/helper'
-import HTML from 'react-native-render-html';
-
-
+import { getAddress, getCardTimeAgo } from '../../utils/helper'
 
 interface ErrandCardProp {
   errand: MarketData
@@ -36,19 +34,11 @@ export default function ErrandComp({
     return text
   }
 
-  //  const regex = /(<([^>]+)>)/gi;
+  const regex = /(<([^>]+)>)/gi
+  const result = he.decode(errand.description.replace(regex, ''))
 
-  const regex = /(<(?:[^>'"]|(['"])(?:(?!\2).)*\2)*>)/gi;
+  // const result = errand.description.replace(/[\u2018\u2019]/g, "'");
 
-
-
-
-
-
- 
-
-  const result = errand.description.replace(regex, '')
- 
 
   const truncatedAddress = truncateAddress(address, MAX_ADDRESS_LENGTH)
 
@@ -74,7 +64,6 @@ export default function ErrandComp({
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-
   // const isDateWithin3Months = (dateString) => {
   //   const date = new Date(dateString);
   //   const now = new Date();
@@ -83,7 +72,6 @@ export default function ErrandComp({
 
   //   return diffMonths < 3; // true if date is within 3 months
   // };
-
 
   // const bidHistoryRef = useRef<BottomSheetModal>(null)
 
@@ -113,20 +101,25 @@ export default function ErrandComp({
   //   return null; // Don't render the card if date is above 3 months or data is missing
   // }
 
-
   return (
-<>
-    {/* {isDateWithin3Months(errand.updated_at) ?  */}
-    
-    <View
-      className="pt-1 mt-2 pb-1 bg-[#fff] rounded-xl py-1 px-6 border"
-      style={{
-        backgroundColor: theme ? '#152955' : errand.has_insurance ? '#e2f6fb' : errand.status === "completed" ? '#d8f8e9' : 'white',
-        borderColor: theme ? '' : 'lightgrey',
-      }}
-    >
-      {/* <BottomSheetModalProvider> */}
-      {/* <TouchableOpacity
+    <>
+      {/* {isDateWithin3Months(errand.updated_at) ?  */}
+
+      <View
+        className="pt-1 mt-2 pb-1 bg-[#fff] rounded-xl py-1 px-6 border"
+        style={{
+          backgroundColor: theme
+            ? '#152955'
+            : errand.has_insurance
+            ? '#e2f6fb'
+            : errand.status === 'completed'
+            ? '#d8f8e9'
+            : 'white',
+          borderColor: theme ? '' : 'lightgrey',
+        }}
+      >
+        {/* <BottomSheetModalProvider> */}
+        {/* <TouchableOpacity
       onPress={() => {
         navigation.navigate('ErrandDetails', {
           errand_id: errand?.id,
@@ -142,118 +135,122 @@ export default function ErrandComp({
       }}
     > */}
 
-    
-      <View className=" flex-row items-start mt-4">
-        <View className="flex-row items-start justify-center gap-3">
-          <TouchableOpacity
-            onPress={() => toggleAvatarModal(true, errand.user)}
-            className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center"
-          >
-            {errand?.user?.profile_picture ? (
-              <Image
-                style={{
-                  width: 40,
-                  height: 40,
-                  resizeMode: 'contain',
-                  borderRadius: 20,
-                }}
-                alt="okay"
-                source={{ uri: errand?.user?.profile_picture }}
-                // source={require(errand.user.profile_picture)}
-              />
-            ) : (
-              <Text className="uppercase text-lg items-center text-white">
-                {errand?.user?.first_name.charAt(0).toUpperCase()}
-                {errand?.user?.last_name.charAt(0).toUpperCase()}
-              </Text>
-            )}
-          </TouchableOpacity>
+        <View className=" flex-row items-start mt-4">
+          <View className="flex-row items-start justify-center gap-3">
+            <TouchableOpacity
+              onPress={() => toggleAvatarModal(true, errand.user)}
+              className="w-10 h-10 bg-[#616161] rounded-full flex-row justify-center items-center"
+            >
+              {errand?.user?.profile_picture ? (
+                <Image
+                  style={{
+                    width: 40,
+                    height: 40,
+                    resizeMode: 'contain',
+                    borderRadius: 20,
+                  }}
+                  alt="okay"
+                  source={{ uri: errand?.user?.profile_picture }}
+                  // source={require(errand.user.profile_picture)}
+                />
+              ) : (
+                <Text className="uppercase text-lg items-center text-white">
+                  {errand?.user?.first_name.charAt(0).toUpperCase()}
+                  {errand?.user?.last_name.charAt(0).toUpperCase()}
+                </Text>
+              )}
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('ErrandDetails', {
-                errand_id: errand?.id,
-                user_id: errand?.user_id,
-              })
-              dispatch(errandDetails({ errandId: errand?.id, navigation }))
-              dispatch(externalUserDetails({ user_id: errand?.user_id }))
-            }}
-          >
-            <View>
-              <Text className="font-semibold " style={{ color: textTheme }}>
-                {errand?.user?.first_name} {errand?.user?.last_name}
-              </Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('ErrandDetails', {
+                  errand_id: errand?.id,
+                  user_id: errand?.user_id,
+                })
+                dispatch(errandDetails({ errandId: errand?.id, navigation }))
+                dispatch(externalUserDetails({ user_id: errand?.user_id }))
+              }}
+            >
+              <View>
+                <Text className="font-semibold " style={{ color: textTheme }}>
+                  {errand?.user?.first_name} {errand?.user?.last_name}
+                </Text>
 
-              <View className="flex-row justify-between -mt-4">
-                <View className="w-60">
-                  <Text className="text-[#000000] text-sm font-bold"></Text>
-                  <View className="text-sm font-semibold flex-row items-center space-x-1">
-                    <View>
-                      <Text className="text-[14px] text-[#777777] font-medium">
-                        <Entypo name="star" size={16} color="#FBB955" />
-                        {errand?.user?.rating}
+                <View className="flex-row justify-between -mt-4">
+                  <View className="w-60">
+                    <Text className="text-[#000000] text-sm font-bold"></Text>
+                    <View className="text-sm font-semibold flex-row items-center space-x-1">
+                      <View>
+                        <Text className="text-[14px] text-[#777777] font-medium">
+                          <Entypo name="star" size={16} color="#FBB955" />
+                          {errand?.user?.rating}
+                        </Text>
+                      </View>
+
+                      <Text className="text-[#ccc] font-light text-2xl ">
+                        |
                       </Text>
-                    </View>
-
-                    <Text className="text-[#ccc] font-light text-2xl ">|</Text>
-                    <View>
-                      <Text
-                        className="text-[14px] text-[#777777] font-medium"
-                        style={{ color: textTheme }}
-                      >
-                        <FontAwesome5 name="running" size={14} color="black" />{' '}
-                        {errand?.user?.errands_completed}
-                      </Text>
+                      <View>
+                        <Text
+                          className="text-[14px] text-[#777777] font-medium"
+                          style={{ color: textTheme }}
+                        >
+                          <FontAwesome5
+                            name="running"
+                            size={14}
+                            color="black"
+                          />{' '}
+                          {errand?.user?.errands_completed}
+                        </Text>
+                      </View>
                     </View>
                   </View>
+                  <Text className="mr-6" style={{ color: textTheme }}>
+                    {' '}
+                    {getCardTimeAgo(errand?.updated_at)}
+                  </Text>
                 </View>
-                <Text className='mr-6' style={{color: textTheme}}> {getCardTimeAgo(errand?.updated_at)}</Text>
               </View>
-             
-            </View>
-          </TouchableOpacity>
-          
+            </TouchableOpacity>
+          </View>
         </View>
-        
-      </View>
-  
 
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('ErrandDetails', {
-            errand_id: errand?.id,
-            user_id: errand?.user_id,
-          })
-          dispatch(errandDetails({ errandId: errand?.id, navigation }))
-          dispatch(externalUserDetails({ user_id: errand?.user_id }))
-        }}
-      >
-        <Text
-          style={{ color: textTheme }}
-          className="text-[16px] font-medium py-4 pt-4 text-[#000000] w-[300px]"
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('ErrandDetails', {
+              errand_id: errand?.id,
+              user_id: errand?.user_id,
+            })
+            dispatch(errandDetails({ errandId: errand?.id, navigation }))
+            dispatch(externalUserDetails({ user_id: errand?.user_id }))
+          }}
         >
-          {result?.length >= 60
-            ? result?.substring(0, 120).concat('', '...')
-            : result}
-        </Text>
-
-        <Text
-          style={{ color: theme ? '#a09e9e' : '#666666' }}
-          className="text-sm text-[#a09e9e] font-light"
-        >
-          {' '}
-          <Text>
-            <EvilIcons name="location" size={16} color={'green'} />{' '}
+          <Text
+            style={{ color: textTheme }}
+            className="text-[16px] font-medium py-4 pt-4 text-[#000000] w-[300px]"
+          >
+            {result?.length >= 60
+              ? result?.substring(0, 120).concat('', '...')
+              : result}
           </Text>
-          {errand.pickup_address?.address_text ? (
-            <Text style={{ color: textTheme }}> {truncatedAddressText} </Text>
-          ) : (
-            <Text style={{ color: textTheme }}>No Location</Text>
-          )}
-        </Text>
 
-        <View className="flex-row items-center">
-          {/* <View className=" rounded-3xl mt-2">
+          <Text
+            style={{ color: theme ? '#a09e9e' : '#666666' }}
+            className="text-sm text-[#a09e9e] font-light"
+          >
+            {' '}
+            <Text>
+              <EvilIcons name="location" size={16} color={'green'} />{' '}
+            </Text>
+            {errand.pickup_address?.address_text ? (
+              <Text style={{ color: textTheme }}> {truncatedAddressText} </Text>
+            ) : (
+              <Text style={{ color: textTheme }}>No Location</Text>
+            )}
+          </Text>
+
+          <View className="flex-row items-center">
+            {/* <View className=" rounded-3xl mt-2">
             <Text
               className="font-medium text-sm inline-block"
               style={{ color: textTheme }}
@@ -262,40 +259,36 @@ export default function ErrandComp({
               {errand?.category.name} ?.substring(0, 20)
             </Text>
           </View> */}
-        </View>
-
-        {/* <View className="h-[0.3px] bg-[#AAAAAA] mt-3 items-center"></View> */}
-
-        <View className="flex-row justify-between items-center">
-          <Text
-            style={{ color: theme ? 'white' : '#1E3A79' }}
-            className="text-[20px] font-bold text-[#1E3A79] "
-          >
-            &#x20A6; {budgetInNaira.toLocaleString()}
-          </Text>
-          {/* <ProfileInitials firstName="Kzu" lastName="Soo" /> */}
-
-          <View className=" rounded-2xl py-2 px-2  items-center mt-2">
-            <Text className="text-orange-500 text-center text-[17px] mb-1 font-semibold">
-              {' '}
-              {errand?.total_bids === 0 ? '' : errand?.total_bids}{' '}
-              {errand?.total_bids === 0
-                ? ''
-                : errand?.total_bids <= 1
-                ? 'Bid'
-                : 'Bids'}
-            </Text>
-            
           </View>
-          
-        </View>
-        
-      </TouchableOpacity>
-    
 
-      {/* </TouchableOpacity> */}
+          {/* <View className="h-[0.3px] bg-[#AAAAAA] mt-3 items-center"></View> */}
 
-      {/* <BottomSheetModal
+          <View className="flex-row justify-between items-center">
+            <Text
+              style={{ color: theme ? 'white' : '#1E3A79' }}
+              className="text-[20px] font-bold text-[#1E3A79] "
+            >
+              &#x20A6; {budgetInNaira.toLocaleString()}
+            </Text>
+            {/* <ProfileInitials firstName="Kzu" lastName="Soo" /> */}
+
+            <View className=" rounded-2xl py-2 px-2  items-center mt-2">
+              <Text className="text-orange-500 text-center text-[17px] mb-1 font-semibold">
+                {' '}
+                {errand?.total_bids === 0 ? '' : errand?.total_bids}{' '}
+                {errand?.total_bids === 0
+                  ? ''
+                  : errand?.total_bids <= 1
+                  ? 'Bid'
+                  : 'Bids'}
+              </Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+
+        {/* </TouchableOpacity> */}
+
+        {/* <BottomSheetModal
           // backdropComponent={renderBackdrop}
           ref={bidHistoryRef}
           index={0}
@@ -304,10 +297,10 @@ export default function ErrandComp({
          <BidHistory />
          
         </BottomSheetModal> */}
-      {/* </BottomSheetModalProvider> */}
-    </View>
+        {/* </BottomSheetModalProvider> */}
+      </View>
 
-    {/* : null } */}
+      {/* : null } */}
     </>
   )
 }

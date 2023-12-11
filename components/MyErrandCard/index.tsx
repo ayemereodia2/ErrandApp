@@ -1,3 +1,4 @@
+import he from 'he'
 import React from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -37,7 +38,7 @@ const MyErrandCard = ({
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   const regex = /(<([^>]+)>)/gi
-  const result = errand.description.replace(regex, '')
+  const result = he.decode(errand.description.replace(regex, ''))
 
   // console.log('>>>>>>errand id', errand?.runner_id, user_id)
 
@@ -149,7 +150,7 @@ const MyErrandCard = ({
                 // runner_id:
                 //   errand.user_id === user_id ? errand?.runner_id : user_id,
 
-                 // this isnt the right id to send for getting suberrand. check above commented code to fix the issue when it comes up.
+                // this isnt the right id to send for getting suberrand. check above commented code to fix the issue when it comes up.
                 runner_id: user_id,
                 setSubErrand,
               }),
