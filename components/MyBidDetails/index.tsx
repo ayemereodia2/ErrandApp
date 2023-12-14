@@ -32,6 +32,8 @@ const ErrandBid = ({
   const negotiateRef = useRef<BottomSheetModal>(null)
   const bidHistoryRef = useRef<BottomSheetModal>(null)
 
+  // console.log('>>>>>>errand', bid)
+
   const rejectRef = useRef<BottomSheetModal>(null)
 
   function toggleAcceptModal(open: boolean) {
@@ -100,7 +102,7 @@ const ErrandBid = ({
 
   const negotiatorIsSender = bid?.haggles.slice(-1)[0].source === 'sender'
 
-  // console.log('>>>>>>>negotiator', errand.bids)
+  // console.log('>>>>>>>negotiator', bid)
 
   useEffect(() => {
     dispatch(externalUserDetails({ user_id: bid?.runner.id }))
@@ -144,6 +146,25 @@ const ErrandBid = ({
         {/*Second one */}
         <View className="mt-4">
           <Text className="text-sm font-medium">{haggle?.description}</Text>
+        </View>
+
+        <View>
+          {errand?.images?.map((image, index) => (
+            <View className="mt-4">
+              <TouchableOpacity
+                key={index}
+              >
+                <Image
+                  style={{
+                    width: 100,
+                    height: 100,
+                     borderRadius: 10 
+                  }}
+                  source={{ uri: image }}
+                />
+              </TouchableOpacity>
+            </View>
+          ))}
         </View>
 
         <View className="flex-row justify-between items-center">
@@ -236,8 +257,6 @@ const ErrandBid = ({
               onPress={() => toggleBidHistoryModal(true)}
               className="flex-row space-x-2 items-center border-[0.3px] rounded-2xl py-1 px-3 mt-2"
             >
-            
-
               <Text className="flex-row space-x-2 items-center rounded-xl">
                 Bid History
               </Text>

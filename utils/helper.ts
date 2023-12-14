@@ -26,16 +26,7 @@ export function getTimeOfDay() {
   }
 }
 
-export const getAppVersion = async () => {
-  const versionCode = '1.0.5'
-    await fetch(`${process.env.EXPO_PUBLIC_API_URL}/mobileversion`)
-      .then((rs) => rs.json())
-      .then((rs) => {
-          if (versionCode !== rs.Android) {
-            navigateToScreen('UpdateApp')
-          }
-      })
-  }
+
 
 // export function formatDesc(html: string) {
 //     const parser = new DOMParser();
@@ -49,6 +40,16 @@ export const getAppVersion = async () => {
 
 //     return desc
 // }
+
+export function formatMoney2(value: string|number) {
+    const naira = new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN'
+    })
+    const nValue = Number(value)
+    
+    return naira.format(nValue)
+}
 
 export function transformDateTime(TzDate: Date) {
     const year = TzDate.getFullYear();

@@ -2,11 +2,10 @@ import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
-import { useSelector } from 'react-redux'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { bidAction } from '../../services/bids/bidsAction'
 import { getSubErrand } from '../../services/errands/subErrand'
-import { RootState, useAppDispatch } from '../../services/store'
+import { useAppDispatch } from '../../services/store'
 import { BidsProps } from '../../types'
 import { getTimeAgo } from '../../utils/helper'
 import ActionButton from '../ActionButtons'
@@ -144,6 +143,8 @@ export const HaggleComponent = ({
           <Text className="text-sm font-medium">{haggle?.description}</Text>
         </View>
 
+        {/* <Text>hello</Text> */}
+
         {/* Third one */}
 
         <View className="flex-row items-center justify-between pt-3">
@@ -185,23 +186,26 @@ export const HaggleComponent = ({
         )}
 
         <View className="flex-row ml-1 mt-6 items-center justify-between">
-          {bid.state === 'active' || errand?.status === 'completed' && (
-            <TouchableOpacity
-              onPress={() => {
-                setManageErrandClicked(true)
-                dispatch(
-                  getSubErrand({
-                    errand_id: errand.id,
-                    runner_id: bid.runner.id,
-                    setSubErrand,
-                  }),
-                )
-              }}
-              className="bg-black  p-1 px-3 rounded-2xl"
-            >
-              <Text className="font-md text-white text-sm">View Timeline</Text>
-            </TouchableOpacity>
-          )}
+          {bid.state === 'active' ||
+            (errand?.status === 'completed' && (
+              <TouchableOpacity
+                onPress={() => {
+                  setManageErrandClicked(true)
+                  dispatch(
+                    getSubErrand({
+                      errand_id: errand.id,
+                      runner_id: bid.runner.id,
+                      setSubErrand,
+                    }),
+                  )
+                }}
+                className="bg-black  p-1 px-3 rounded-2xl"
+              >
+                <Text className="font-md text-white text-sm">
+                  View Timeline
+                </Text>
+              </TouchableOpacity>
+            ))}
 
           {bid?.state === 'cancelled' || bid?.state === 'rejected' ? (
             ''

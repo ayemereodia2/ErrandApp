@@ -1,18 +1,9 @@
+import { EvilIcons } from '@expo/vector-icons'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import React, { useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
-
-// const data = [
-//   { label: 'Laundry', value: '1' },
-//   { label: 'Baby Sitting', value: '2' },
-//   { label: 'Chat', value: '3' },
-//   { label: 'Personal Errands', value: '4' },
-//   { label: 'Baking & Catering', value: '5' },
-//   { label: 'Shopping', value: '6' },
-//   { label: 'House Cleaning', value: '7' },
-// ]
 
 const SettingsCategory = ({ navigation, interests }: any) => {
   const [loading, setLoading] = useState(false)
@@ -25,25 +16,6 @@ const SettingsCategory = ({ navigation, interests }: any) => {
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
-
-  // const getInterests = async () => {
-  //   const _rs = await _fetch({
-  //     method: 'GET',
-  //     _url: `/user/category-interest`,
-  //   })
-
-  //   const rs = await _rs.json()
-
-  //   console.log(">>>>>>>res", rs);
-
-  //   setInterests(rs.data)
-  // }
-
-  // useEffect(() => {
-  //   getInterests()
-  // }, [])
-
-  // console.log(data)
 
   if (loading) {
     return (
@@ -87,10 +59,10 @@ const SettingsCategory = ({ navigation, interests }: any) => {
           <Text>No Category Interest Added</Text>
         ) : (
           interests
-            .splice(0, 6)
-            .filter((item) => typeof item === 'string')
+            // .splice(0, 6)
+            // .filter((item) => typeof item === 'string')
             .map((categoryName: string, index: number) => (
-              <View className="flex-row mt-3 " key={index}>
+              <View className="flex-row mt-3 relative" key={index}>
                 <TouchableOpacity
                   className="border-[#aaa] border px-4 py-1 rounded-xl bg-white"
                   style={{
@@ -102,6 +74,13 @@ const SettingsCategory = ({ navigation, interests }: any) => {
                     {categoryName}
                   </Text>
                 </TouchableOpacity>
+
+                <EvilIcons
+                  className="absolute -left-44"
+                  name="trash"
+                  color="red"
+                  size={20}
+                />
               </View>
             ))
         )}

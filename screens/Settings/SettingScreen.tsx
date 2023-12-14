@@ -27,6 +27,7 @@ import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
 import Container from '../../components/Container'
+import LoadingModal from '../../components/MainLoader/LoadingModal'
 import { ProfileInitials } from '../../components/ProfileInitials'
 import SettingsCategory from '../../components/SettingTestFolder/SettingsCategory'
 import SettingsTest from '../../components/SettingTestFolder/SettingsTest'
@@ -37,7 +38,6 @@ import { notificationPreferences } from '../../services/notification/preferences
 import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
 import { RootState, useAppDispatch } from '../../services/store'
 import { getUserId } from '../../utils/helper'
-import LoadingModal from '../../components/MainLoader/LoadingModal'
 
 const SettingScreen = ({ navigation }: any) => {
   const [firstName, setFirstName] = useState('')
@@ -85,31 +85,24 @@ const SettingScreen = ({ navigation }: any) => {
 
   const [smsLoading, setSmsLoading] = useState(false)
 
-
   const handleSmsChange = async (value: any) => {
+    setSmsLoading(true) // Set loading to true when the switch is changed
 
-    setSmsLoading(true); // Set loading to true when the switch is changed
+    await dispatch(
+      updateNotificationPrefeference({
+        ...preferences,
+        dispatch,
+        Toast,
+        sms_notifications: value,
+      }),
+    )
 
-      
-     await dispatch(
-        updateNotificationPrefeference({
-          ...preferences,
-          dispatch,
-          Toast,
-          sms_notifications: value,
-        }),
-      );
-    
-      setSmsLoading(false); // Set loading back to false after the action (success or failure)
-   
-  };
+    setSmsLoading(false) // Set loading back to false after the action (success or failure)
+  }
 
   const handleEmailChange = async (value: any) => {
-
-    setSmsLoading(true); // Set loading to true when the switch is changed
-
-      
-     await  dispatch(
+    setSmsLoading(true) // Set loading to true when the switch is changed
+    await dispatch(
       updateNotificationPrefeference({
         ...preferences,
         dispatch,
@@ -117,10 +110,9 @@ const SettingScreen = ({ navigation }: any) => {
         email_notifications: value,
       }),
     )
-    
-      setSmsLoading(false); // Set loading back to false after the action (success or failure)
-   
-  };
+
+    setSmsLoading(false) // Set loading back to false after the action (success or failure)
+  }
 
   const {
     data: currentUser,
@@ -167,8 +159,8 @@ const SettingScreen = ({ navigation }: any) => {
       _url: `/user/deleteprofile/${currentUser.id}`,
     })
     const rs = await _rs.json()
-    console.log(">>>>>rs", rs);
-    
+    console.log('>>>>>rs', rs)
+
     if (rs.success === true) {
       setDeleteModal(false)
       setDeletingProfile(false)
@@ -204,23 +196,23 @@ const SettingScreen = ({ navigation }: any) => {
   })
 
   const getInterests = async () => {
-    const _rs = await _fetch({
+    await _fetch({
       method: 'GET',
       _url: `/user/category-interest`,
     })
-    const rs = await _rs.json()
-    setInterests(rs.data)
+      .then((rs) => rs.json())
+      .then((rs) => setInterests(rs.data))
   }
 
   useEffect(() => {
-    getInterests()
     dispatch(notificationPreferences())
   }, [])
 
   useEffect(() => {
+    getInterests()
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
-  }, [])
-
+  }, [userId])
+ 
   if (isLoading) {
     return (
       <SafeAreaView
@@ -340,17 +332,13 @@ const SettingScreen = ({ navigation }: any) => {
                       </Text>
                     </View>
                   </View>
-                  {/* <Text className="mt-1 text-[#808080]">
-                  <MaterialIcons
-                    name="keyboard-arrow-right"
-                    size={24}
-                    color="#808080"
-                  />
-                </Text> */}
                 </View>
               </View>
 
-              <SettingsTest openVerifyModal={openVerifyModal}  loader={smsLoading}/>
+              <SettingsTest
+                openVerifyModal={openVerifyModal}
+                loader={smsLoading}
+              />
 
               <SettingsCategory navigation={navigation} interests={interests} />
 
@@ -396,24 +384,6 @@ const SettingScreen = ({ navigation }: any) => {
                   </View>
                 </View>
 
-                {/* <View className=" h-[44px] mt-5 border-b border-b-[#AAAAAA]">
-                <View className="flex-row items-center justify-between">
-                  <Text
-                    style={{ color: textTheme }}
-                    className="font-medium text-base"
-                  >
-                    Download Invitation
-                  </Text>
-                  <Text>
-                    <Ionicons
-                      name="md-download-sharp"
-                      size={24}
-                      color={textTheme}
-                    />
-                  </Text>
-                </View>
-              </View> */}
-
                 <View className=" mt-5 border-b border-b-[#AAAAAA] bg-[#3F60AC] rounded-lg">
                   <Text className="text-[#FAFAFA] text-base font-light  px-5 py-4">
                     Invite new members by sharing the invitation code{' '}
@@ -449,27 +419,26 @@ const SettingScreen = ({ navigation }: any) => {
                     </Text>
                   </View>
                   <View className=" mt-2 py-1 flex-row items-center justify-between rounded-lg">
-                    
-                      <Switch
-                        trackColor={{ false: '#767577', true: 'green' }}
-                        value={preferences?.email_notifications}
-                        onValueChange={(value: boolean) => {
-                          setLoading(true)
-                          // dispatch(
-                          //   updateNotificationPrefeference({
-                          //     ...preferences,
-                          //     dispatch,
-                          //     Toast,
-                          //     email_notifications: value,
-                          //   }),
-                          // )
-                          handleEmailChange(value)
-                        }}
-                        style={{
-                          transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }],
-                        }}
-                      />
-                    
+                    <Switch
+                      trackColor={{ false: '#767577', true: 'green' }}
+                      value={preferences?.email_notifications}
+                      onValueChange={(value: boolean) => {
+                        setLoading(true)
+                        // dispatch(
+                        //   updateNotificationPrefeference({
+                        //     ...preferences,
+                        //     dispatch,
+                        //     Toast,
+                        //     email_notifications: value,
+                        //   }),
+                        // )
+                        handleEmailChange(value)
+                      }}
+                      style={{
+                        transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }],
+                      }}
+                    />
+
                     <View
                       className={
                         preferences?.email_notifications

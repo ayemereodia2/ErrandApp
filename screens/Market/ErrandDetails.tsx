@@ -67,7 +67,6 @@ export default function ErrandDetails({ route, navigation }: any) {
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-
   function openPlaceBid() {
     bottomSheetRef.current?.present()
   }
@@ -433,6 +432,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                               style={{
                                 width: 100,
                                 height: 100,
+                                borderRadius: 10,
                               }}
                               source={{ uri: image }}
                             />

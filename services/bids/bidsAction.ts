@@ -7,13 +7,13 @@ import { myErrandList } from '../errands/myErrands';
     
 export const bidAction = createAsyncThunk<ErrandMarketResponse, BidActionPayload, { rejectValue: string }>(
   "bid/actions",
-  async ({amount, response, description, runner_id,type, bid_id, method, errand_id,  dispatch, source, Toast, toggleNegotiateModal, toggleSuccessDialogue, toggleAcceptModal, toggleRejectModal }: BidActionPayload, { rejectWithValue }) => {
+  async ({amount, response, description, runner_id,type, bid_id, method, errand_id,  dispatch, source, Toast, toggleNegotiateModal, toggleSuccessDialogue, toggleAcceptModal, toggleRejectModal, image_url}: BidActionPayload, { rejectWithValue }) => {
     
   try {
     const _rs = await _fetch({
       method,
       _url: response ? `/errand/${errand_id}/bid/${bid_id}/${type}`: `/errand/${errand_id}/bid/${bid_id}`,
-      body: {runner_id, response, amount, description, source}
+      body: {runner_id, response, amount, description, source, image_url}
     })
 
     const rs = await _rs.json()

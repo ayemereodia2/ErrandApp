@@ -8,14 +8,28 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import { SelectList } from 'react-native-dropdown-select-list'
+import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
 import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
-import Toast from 'react-native-toast-message'
 
 type SelectedCategories = {
   [categoryId: string]: boolean
+}
+
+type LocationProp = {
+  city: string
+  country: string
+  lga: string
+  id: string
+  state: string
+}
+
+type SelectProp = {
+  key: string
+  value: string
 }
 
 const CategoryInterest = ({ navigation }: any) => {
@@ -24,6 +38,7 @@ const CategoryInterest = ({ navigation }: any) => {
     SelectedCategories
   >({})
   const [selectAll, setSelectAll] = useState(false)
+  const [locationData, setLocationData] = useState<SelectProp[]>([])
 
   const { data: categories } = useSelector(
     (state: RootState) => state.categoriesListReducer,
@@ -47,6 +62,7 @@ const CategoryInterest = ({ navigation }: any) => {
   }, [])
 
   useEffect(() => {
+    getLocations()
     dispatch(getCategoriesList())
   }, [])
 
@@ -82,80 +98,80 @@ const CategoryInterest = ({ navigation }: any) => {
   }
 
   const AddCategories = async () => {
-    // const categoryInterestData = {
-    //   category_interest: Object.keys(selectedCategories).filter((categoryId) => selectedCategories[categoryId])
-    // };
     const selectedCategoryNames = categories
       .filter((category) => selectedCategories[category.id])
       .map((category) => category.name)
+
+    console.log('>>>>selected', selectedCategoryNames)
 
     const categoryInterestData = {
       category_interest: selectedCategoryNames,
     }
 
     try {
-      const _rs = await _fetch({
+      await _fetch({
         method: 'PATCH',
         _url: `/user/category-interest`,
-        body: categoryInterestData // Send selected category IDs as JSON data
+        body: categoryInterestData, // Send selected category IDs as JSON data
       })
-
-     
-
-      // console.log(">>>>>>res from patch", JSON.stringify(_rs));
-      
-
-      if (_rs.ok) {
-        const responseData = await _rs.json()
-        await _fetch({
-          method: 'GET',
-          _url: `/user/category-interest`,
-        })
-        Toast.show({
-           type: 'success',
-              text1: 'Add to category was successful',
+        .then((rs) => rs.json())
+        .then(async (rs) => {
+          if (rs.success) {
+            await _fetch({
+              method: 'GET',
+              _url: `/user/category-interest`,
+            })
+            Toast.show({
+              type: 'success',
+              text1: 'Categories has been added successfully',
             }),
-        navigation.navigate('Settings')
-      } else {
-        // Handle error
-      }
-    } catch (error) {
-    }
+              navigation.navigate('Settings')
+          }
+        })
+    } catch (error) {}
   }
+
+  const getLocations = async () => {
+    const rs = await _fetch({
+      method: 'GET',
+      _url: `/location/all`,
+    })
+      .then((rs) => rs.json())
+      .then((data) =>
+        data?.data.map((d: LocationProp) => {
+          return {
+            key: d.id,
+            value: `${d.state + ', ' + d.lga}`,
+          }
+        }),
+      )
+
+    setLocationData(rs)
+  }
+
+  const [selected, setSelected] = React.useState('')
 
   return (
     <SafeAreaView className="mt-4">
       <ScrollView className="mt-4 px-4 mb-10">
+        <Text className="text-center text-base py-6">
+          What's your current location
+        </Text>
+
+        <SelectList
+          setSelected={(val) => setSelected(val)}
+          data={locationData}
+          save="value"
+          dropdownShown={false}
+        />
+
         <View>
-          <Text className="text-center text-base font-semibold">
+          <Text className="text-center text-base font-semibold pt-6">
             Choose Your Category Interest
-          </Text>
-        </View>
-
-        {/* <View className="mx-auto">
-        <View className="flex-row items-center border-b p-2 mt-3 border-[#ccc] rounded-lg space-x-2">
-          <TextInput
-            className="w-[300px] "
-            placeholder="Please enter location"
-          />
-          <FontAwesome name="search" size={16} color="#ccc" />
-        </View>
-      </View> */}
-
-        <View>
-          <Text className="text-center text-sm font-light pt-3">
-            Select the categories you are interested in
           </Text>
 
           <View className="flex-row py-3 space-x-3 justify-end">
-            <Checkbox
-              // style={styles.checkbox}
-              // value={true}
-              value={selectAll}
-              onValueChange={handleSelectAll}
-              // onValueChange={setChecked}
-              // color={isChecked ? '#4630EB' : undefined}
-            />
+            <Checkbox value={selectAll} onValueChange={handleSelectAll} />
             <Text>Select All</Text>
           </View>
 

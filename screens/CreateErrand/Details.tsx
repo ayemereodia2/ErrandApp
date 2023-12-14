@@ -1,7 +1,7 @@
 import { EvilIcons, Feather } from '@expo/vector-icons'
 import { Audio } from 'expo-av'
 import * as ImagePicker from 'expo-image-picker'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   ActivityIndicator,
   Image,
@@ -10,12 +10,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native'
 import { Dropdown } from 'react-native-element-dropdown'
 import { useSelector } from 'react-redux'
-import { setRecordedAudioURI } from '../../services/audio/audio'
-import { postAudioFiles } from '../../services/errands/postAudioFIle'
 import { postFiles } from '../../services/errands/postFiles'
 import { RootState, useAppDispatch } from '../../services/store'
 import { PostErrandData } from '../../types'
@@ -99,7 +97,6 @@ const CreateErrandDetails = ({
   const [selectedTime, setSelectedTime] = useState('')
   const [durationNumber, setDurationNumber] = useState(1)
 
-
   const adjustDuration = (dur: number, sign: string) => {
     if (sign === 'substract') {
       if (dur === 1) {
@@ -148,7 +145,6 @@ const CreateErrandDetails = ({
       allowsMultipleSelection: true,
     })
 
-  
     if (!results.canceled) {
       setSelectedImage(results.assets)
 

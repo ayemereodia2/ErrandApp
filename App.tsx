@@ -10,27 +10,22 @@ import { Image, View } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as NetInfo from '@react-native-community/netinfo'
 import { NavigationContainer } from '@react-navigation/native'
+import { Asset } from 'expo-asset'
+import * as SplashScreen from 'expo-splash-screen'
+import { StatusBar, useColorScheme } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import Modal from 'react-native-modal'
 import { NetworkProvider } from 'react-native-offline'
 import { MenuProvider } from 'react-native-popup-menu'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
-import { Provider, useDispatch } from 'react-redux'
-// import {  useSelector} from 'react-redux'
-import { StatusBar, useColorScheme } from 'react-native'
+import { Provider } from 'react-redux'
 import ErrorBoundary from './components/ErrorBoundary'
-// import useColorScheme from './hooks/useColorScheme'
-import { Asset } from 'expo-asset'
-import * as Notifications from 'expo-notifications'
-import * as SplashScreen from 'expo-splash-screen'
 import { useOnlineManager } from './hooks/useOnlineManager'
 import MainNavigation from './navigation/MainNavigation'
 import { GuestStack, navigationRef } from './navigation/StackNavigation'
-import { _fetch } from './services/axios/http'
-import { store, useAppDispatch } from './services/store'
-import { getAppVersion } from './utils/helper'
-import { errandDetails } from './services/errands/errandDetails'
-import { userDetails } from './services/auth/userInfo'
+import UpdateAppScreen from './screens/UpdateAppScreen'
+import { store } from './services/store'
 
 const queryClient = new QueryClient()
 
@@ -48,10 +43,24 @@ export default function App({ navigation }: any) {
   const [appIsReady, setAppIsReady] = useState(false)
   // const versionCode = '1.0.3'
 
+  const [showUpdateModal, setShowUpdateModal] = useState(false)
+
   const [isGuest, setIsGuest] = useState<any>()
   const colorScheme = useColorScheme()
 
   useOnlineManager()
+
+  const getAppVersion = async () => {
+    const versionCode = '1.0.6'
+    await fetch(`${process.env.EXPO_PUBLIC_API_URL}/mobileversion`)
+      .then((rs) => rs.json())
+      .then((rs) => {
+        //  console.log('>>>>>rs.andrpid', rs.Android)
+        if (versionCode !== rs.Android) {
+          setShowUpdateModal(true)
+        }
+      })
+  }
 
   useEffect(() => {
     getAppVersion()
@@ -142,6 +151,15 @@ export default function App({ navigation }: any) {
                 </Provider>
               </MenuProvider>
             </QueryClientProvider>
+
+            <Modal
+              onBackdropPress={() => {
+                setShowUpdateModal(!setShowUpdateModal)
+              }}
+              isVisible={showUpdateModal}
+            >
+              <UpdateAppScreen />
+            </Modal>
           </View>
         </ErrorBoundary>
       </NetworkProvider>

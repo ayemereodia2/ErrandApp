@@ -10,7 +10,6 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
 import { useQuery } from '@tanstack/react-query'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -18,6 +17,7 @@ import {
   BackHandler,
   Dimensions,
   FlatList,
+  Modal,
   Platform,
   RefreshControl,
   ScrollView,
@@ -26,37 +26,46 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import { SelectList } from 'react-native-dropdown-select-list'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
 import LandingDetails from '../../components/LandingDetails.tsx/LandingDetails'
 import NewNotifications from '../../components/NewNotifications/NewNotifications'
 import PostErrandButton from '../../components/PostErrandBtn'
-import PinModal from '../../components/VerificationModals/PinModal'
-import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
+
+type LocationProp = {
+  city: string
+  country: string
+  lga: string
+  id: string
+  state: string
+}
+
+type SelectProp = {
+  key: string
+  value: string
+}
 
 const LandingTest = ({ navigation }: any) => {
   const loaderGif = '../../assets/images/loading-SWAVE.gif'
   const bottomSheetRef = useRef<BottomSheetModal>(null)
   const bottomSheetRef1 = useRef<BottomSheetModal>(null)
-  const snapPoints = useMemo(() => ['50%'], [])
   const snapPoints1 = useMemo(() => ['55%'], [])
   const [verifiedPin, setVerifiedPin] = useState(true)
   const [refreshing, setRefreshing] = React.useState(false)
   const flatListRef = useRef<any>(0)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [scrollWidth, setScrollWidth] = useState(0)
-
-  function openPinModal() {
-    bottomSheetRef.current?.present()
-  }
-
-  function closePinModal() {
-    bottomSheetRef.current?.dismiss()
-  }
+  const [states, setStates] = useState([])
+  const [locations, setLocations] = useState<LocationProp[]>([])
+  const [lgas, setLgas] = useState([])
+  const [selected, setSelected] = React.useState('')
+  const [selectedlga, setSelectedLga] = useState('')
+  const [selectedId, setSelectedId] = useState('')
 
   function openMoreModal() {
     bottomSheetRef1.current?.present()
@@ -173,7 +182,24 @@ const LandingTest = ({ navigation }: any) => {
     setScrollWidth(scrollFraction * Dimensions.get('window').width)
   }
 
-  if (data) {
+  const getLocations = async () => {
+    const rs = await _fetch({
+      method: 'GET',
+      _url: `/location/all`,
+    })
+      .then((rs) => rs.json())
+      .then((data) => data.data)
+
+    setLocations(rs)
+    const states = rs.map((l: LocationProp) => l.state)
+    const allStates = [...new Set(states)].map((l) => {
+      return {
+        key: l,
+        value: l,
+      }
+    })
+    setStates(allStates)
+    // console.log(">>>>>>newLocations", newLocations);
   }
 
   const onRefresh = React.useCallback(() => {
@@ -187,33 +213,7 @@ const LandingTest = ({ navigation }: any) => {
     }, 500)
   }, [])
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     // Increment index for auto-scrolling
-  //     setCurrentIndex((prevIndex) => (prevIndex + 1) % data?.length)
-  //     // Use scrollToIndex to animate scrolling
-  //     // flatListRef.current?.scrollToIndex({
-  //     //   index: currentIndex,
-  //     //   animated: true,
-  //     // })
-  //     if (flatListRef.current) {
-  //       flatListRef.current.scrollToIndex({
-  //         index: (currentIndex + 1) % data.data.length,
-  //       })
-  //     }
-  //   }, 3000) // Change the interval time as needed
-
-  //   return () => clearInterval(interval)
-  // }, [currentIndex])
-
   const renderItem = ({ item }: any) => (
-    // <TouchableOpacity
-    //   // Your existing TouchableOpacity properties
-    //   onPress={() => {
-    //     dispatch(getDraftErrand())
-    //     navigation.navigate('LandingForm', { category: item })
-    //   }}
-    // >
     <TouchableOpacity
       className="border-[#aaa] border h-[150px] w-[150px] justify-center  rounded-xl mr-2 bg-white"
       style={{
@@ -327,38 +327,44 @@ const LandingTest = ({ navigation }: any) => {
     }
   })
 
-  const checkPinIsVerified = async () => {
-    const isPinVerified = await AsyncStorage.getItem('pin')
-    const user_id = (await AsyncStorage.getItem('user_id')) || ''
+  useEffect(() => {
+    getLocations()
+  }, [])
 
-    dispatch(currentUserDetails({ user_id }))
-    if (isPinVerified === 'false') {
-      openPinModal()
-    }
+  // console.log('>>>>>selectedLga', selectedlga)
+
+  const findLga = () => {
+    const lga = locations
+      .filter((l) => {
+        if (l.state === selected) return l
+      })
+      .map((l) => {
+        return {
+          key: l.id,
+          value: l.lga,
+        }
+      })
+    setLgas(lga)
   }
 
-  const getStuff = async () => {
-    try {
-      const _rs = await _fetch({
-        method: 'GET',
-        _url: `/user/test/notification`,
-      })
-
-      console.log('>>>>>rs-----', _rs)
-
-      const rs = await _rs.json()
-
-      console.log('>>>>>rs', rs)
-    } catch (e) {
-      console.log('>>>>>e', e.response)
-    }
+  const saveLocation = async () => {
+    const rs = await _fetch({
+      method: 'PATCH',
+      _url: `/user/ci-location`,
+      body: { ci_location: selectedId },
+    })
   }
 
   useEffect(() => {
-    checkPinIsVerified()
+    findLga()
+  }, [selected])
 
-    // sendMessage('hello world--')
-  }, [])
+  useEffect(() => {
+    const lga: SelectProp | any = lgas.find(
+      (l: SelectProp) => l.value === selectedlga,
+    )
+    setSelectedId(lga?.key)
+  }, [selectedlga])
 
   return (
     <>
@@ -461,128 +467,6 @@ const LandingTest = ({ navigation }: any) => {
                   What do you need help with?
                 </Text>
 
-                {/* <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  className="mt-2  w-[90vw]"
-                >
-                  {data
-                    ? data?.data?.map((category: any) => (
-                        <>
-                          <View className="flex-row mt-3" key={category.id}>
-                            <TouchableOpacity
-                              className="border-[#aaa] border h-[150px] w-[150px] justify-center  rounded-xl mr-2 bg-white"
-                              style={{
-                                backgroundColor: theme ? '#1E3A79' : 'white',
-                              }}
-                              onPress={() => {
-                                dispatch(getDraftErrand())
-                                navigation.navigate('LandingForm', { category })
-                              }}
-                              key={category.id}
-                            >
-                              {category.name ===
-                              'Market / Groceries Shopping' ? (
-                                <Text
-                                  className="text-center"
-                                  style={{ color: theme ? 'white' : '#3F60AC' }}
-                                >
-                                  <FontAwesome name="shopping-bag" size={40} />
-                                </Text>
-                              ) : category.name === 'Laundry service' ? (
-                                <Text
-                                  className="text-center"
-                                  style={{ color: theme ? 'white' : '#3F60AC' }}
-                                >
-                                  <MaterialIcons
-                                    name="local-laundry-service"
-                                    size={40}
-                                  />
-                                </Text>
-                              ) : category.name === 'Delivery' ? (
-                                <Text
-                                  className="text-center"
-                                  style={{ color: theme ? 'white' : '#3F60AC' }}
-                                >
-                                  <MaterialCommunityIcons
-                                    name="truck-delivery"
-                                    size={40}
-                                  />
-                                </Text>
-                              ) : category.name === 'Cleaning/home service' ? (
-                                <Text
-                                  className="text-center"
-                                  style={{ color: theme ? 'white' : '#3F60AC' }}
-                                >
-                                  <MaterialIcons name="clean-hands" size={40} />
-                                </Text>
-                              ) : category.name === 'General Labour' ? (
-                                <Text
-                                  className="text-center"
-                                  style={{ color: theme ? 'white' : '#3F60AC' }}
-                                >
-                                  <MaterialIcons name="work" size={40} />
-                                </Text>
-                              ) : category.name ===
-                                'Photo / Video Production ' ? (
-                                <Text
-                                  className="text-center"
-                                  style={{ color: theme ? 'white' : '#3F60AC' }}
-                                >
-                                  <FontAwesome name="video-camera" size={40} />
-                                </Text>
-                              ) : category.name === 'Home Teacher' ? (
-                                <Text
-                                  className="text-center"
-                                  style={{ color: theme ? 'white' : '#3F60AC' }}
-                                >
-                                  <FontAwesome5
-                                    name="chalkboard-teacher"
-                                    size={40}
-                                  />
-                                </Text>
-                              ) : category.name === 'Any Errand' ? (
-                                <Text
-                                  className="text-center"
-                                  style={{ color: theme ? 'white' : '#3F60AC' }}
-                                >
-                                  <MaterialCommunityIcons
-                                    name="run-fast"
-                                    size={40}
-                                  />
-                                </Text>
-                              ) : null}
-
-                              <Text
-                                className="text-sm font-semibold text-center mt-5"
-                                style={{ color: textTheme }}
-                              >{`${category.description}`}</Text>
-                            </TouchableOpacity>
-                          </View>
-                        </>
-                      ))
-                    : null}
-
-                  <View className="flex-row mt-3 ">
-                    <TouchableOpacity
-                      className="border-[#aaa] border h-[150px] w-[150px] rounded-xl mr-2 bg-white"
-                      style={{
-                        backgroundColor: theme ? '#1E3A79' : 'white',
-                      }}
-                      onPress={() => {
-                        navigation.navigate('CreateErrand')
-                      }}
-                    >
-                      <Text
-                        className="text-sm font-semibold text-center justify-center pt-[40%]"
-                        style={{ color: textTheme }}
-                      >
-                        I need something else...
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </ScrollView> */}
-
                 <FlatList
                   ref={flatListRef}
                   horizontal
@@ -622,10 +506,6 @@ const LandingTest = ({ navigation }: any) => {
                   Urgent Errands
                 </Text>
 
-                {/* <TouchableOpacity onPress={() => getStuff()}>
-                  <Text>Get Stuff</Text>
-                </TouchableOpacity> */}
-
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                   <LandingDetails
                     data={marketData}
@@ -635,7 +515,7 @@ const LandingTest = ({ navigation }: any) => {
                 </ScrollView>
               </View>
 
-              <View className="mt-6">
+              <View className="mt-6 mb-20">
                 <Text
                   className=" text-[25px] leading-7 font-bold"
                   style={{ color: textTheme }}
@@ -647,31 +527,57 @@ const LandingTest = ({ navigation }: any) => {
                 data={notifications}
                 isLoading={loadingNotification}
               />
+
+              {/* <Modal visible={true} transparent={true}>
+                <View style={styles.modalContainer}>
+                  <View className="bg-white text-black w-[350px] mx-10 rounded-lg px-4 py-10 ">
+                    <View>
+                      <Text className="text-center text-base pb-2">
+                        Select the city that you are currently in
+                      </Text>
+
+                      <SelectList
+                        setSelected={(val) => setSelected(val)}
+                        data={states}
+                        save="value"
+                        dropdownShown={false}
+                      />
+                    </View>
+
+                    {selected ? (
+                      <View className="mt-4">
+                        <Text className="text-center text-base py-2">
+                          Select the lga that you are currently in
+                        </Text>
+
+                        <SelectList
+                          setSelected={(val) => {
+                            setSelectedLga(val)
+                          }}
+                          data={lgas}
+                          save="value"
+                          dropdownShown={false}
+                        />
+                      </View>
+                    ) : (
+                      ''
+                    )}
+
+                    <View className="flex-row items-center justify-center space-x-3 mt-3">
+                      <TouchableOpacity className="bg-[#1E3A79] p-3 rounded-lg mt-2 w-1/2  ">
+                        <Text className="text-white text-center">Save</Text>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity className="border border-red-500 p-3 rounded-lg mt-2  w-1/2 ">
+                        <Text className="text-red-600 text-center">Close</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </Modal> */}
             </ScrollView>
 
             <BottomSheetModal
-              // android_keyboardInputMode="adjustResize"
-              ref={bottomSheetRef}
-              index={0}
-              snapPoints={snapPoints}
-              containerStyle={{
-                marginHorizontal: 10,
-              }}
-              backdropComponent={renderBackdrop}
-              // keyboardBehavior="extend"
-              // enablePanDownToClose
-              // keyboardBlurBehavior="restore"
-            >
-              <PinModal
-                createErrand={false}
-                submitErrandhandler={() => {}}
-                closePinModal={closePinModal}
-                makeWithdrawalHandler={() => {}}
-              />
-            </BottomSheetModal>
-
-            <BottomSheetModal
-              // android_keyboardInputMode="adjustResize"
               ref={bottomSheetRef1}
               index={0}
               snapPoints={snapPoints1}
@@ -679,9 +585,6 @@ const LandingTest = ({ navigation }: any) => {
                 marginHorizontal: 10,
               }}
               backdropComponent={renderBackdrop}
-              // keyboardBehavior="extend"
-              // enablePanDownToClose
-              // keyboardBlurBehavior="restore"
             >
               <Content navigation={navigation} />
             </BottomSheetModal>
@@ -719,6 +622,12 @@ const styles = StyleSheet.create({
   carouselText: {
     fontSize: 12,
     textAlign: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
   },
 })
 

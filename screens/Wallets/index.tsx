@@ -4,6 +4,7 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, {
   useCallback,
   useEffect,
@@ -36,6 +37,8 @@ import Container from '../../components/Container'
 import { ProfileInitials } from '../../components/ProfileInitials'
 import EscrowDetails from '../../components/Transactions/EscrowDetails'
 import TransactionDetails from '../../components/Transactions/TransactionDetails'
+import PinModal from '../../components/VerificationModals/PinModal'
+import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { RootState, useAppDispatch } from '../../services/store'
 import { walletAction } from '../../services/wallet/walletBalance'
@@ -58,7 +61,6 @@ const WalletScreen = ({ navigation }: any) => {
   const [lastName, setLastName] = useState('')
   const [profilePic, setProfilePic] = useState('')
   const [userId, setUserId] = useState('')
-  const bottomSheetRef1 = useRef<BottomSheetModal>(null)
 
   const walletBalanceSvg = '../../assets/images/walletbalance.svg'
 
@@ -67,6 +69,8 @@ const WalletScreen = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
   const [refreshing, setRefreshing] = React.useState(false)
   const bottomSheetRef = useRef<BottomSheetModal>(null)
+  const bottomSheetRef1 = useRef<BottomSheetModal>(null)
+
   const pinSheetRef = useRef<BottomSheetModal>(null)
 
   const statementRef = useRef<BottomSheetModal>(null)
@@ -143,6 +147,18 @@ const WalletScreen = ({ navigation }: any) => {
     }
   }
 
+  const checkPinIsVerified = async () => {
+    const isPinVerified = await AsyncStorage.getItem('pin')
+    const user_id = (await AsyncStorage.getItem('user_id')) || ''
+
+    dispatch(currentUserDetails({ user_id }))
+    if (isPinVerified === 'false') {
+      console.log(">>>>>helllo");
+      
+      openPinModal()
+    }
+  }
+
   function openMoreModal() {
     bottomSheetRef1.current?.present()
   }
@@ -172,6 +188,7 @@ const WalletScreen = ({ navigation }: any) => {
   }, [])
 
   useEffect(() => {
+    checkPinIsVerified()
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
   }, [])
 
@@ -360,106 +377,106 @@ const WalletScreen = ({ navigation }: any) => {
                       backgroundColor: theme ? backgroundTheme : 'white',
                     }}
                   >
-                     <ImageBackground source={require('../../assets/images/wallet3.png')}
-                className=' bg-[#FFF] p-6 rounded-xl'
-                 resizeMode='repeat'>
-
-                    <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
-                      <Text>
-                        <FontAwesome name="bank" size={24} color="#C85604" />
-                      </Text>
-                    </View>
-
-                    <Text
-                      className="mt-6 text-[#888] text-base font-medium leading-[24px]"
-                      style={{ color: 'black' }}
+                    <ImageBackground
+                      source={require('../../assets/images/wallet3.png')}
+                      className=" bg-[#FFF] p-6 rounded-xl"
+                      resizeMode="repeat"
                     >
-                      Account Balance
-                    </Text>
-                    <Text
-                      className="font-bold text-[32px] mt-2"
-                      style={{ color: theme ? 'black' : 'black' }}
-                    >
-                      {' '}
-                      ₦
-                      {Number(data?.balance) === 0
-                        ? '0.00'
-                        : (Number(data?.balance) / 100).toLocaleString()}
-                    </Text>
+                      <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
+                        <Text>
+                          <FontAwesome name="bank" size={24} color="#C85604" />
+                        </Text>
+                      </View>
 
-                    <TouchableOpacity
-                      onPress={() => {
-                        setCurrentWalletAmount(Number(data?.balance) / 100)
-                        navigation.navigate('FundWalletModal', {
-                          currentWalletAmount,
-                        })
-                      }}
-                      className="w-[200px] h-[44px] mt-5 items-center justify-center border border-[#314B87] rounded-lg"
-                    >
                       <Text
-                        className="text-center text-base"
+                        className="mt-6 text-[#888] text-base font-medium leading-[24px]"
                         style={{ color: 'black' }}
                       >
-                        {' '}
-                        + <Text>Fund Wallet</Text>
+                        Account Balance
                       </Text>
-                    </TouchableOpacity>
+                      <Text
+                        className="font-bold text-[32px] mt-2"
+                        style={{ color: theme ? 'black' : 'black' }}
+                      >
+                        {' '}
+                        ₦
+                        {Number(data?.balance) === 0
+                          ? '0.00'
+                          : (Number(data?.balance) / 100).toLocaleString()}
+                      </Text>
+
+                      <TouchableOpacity
+                        onPress={() => {
+                          setCurrentWalletAmount(Number(data?.balance) / 100)
+                          navigation.navigate('FundWalletModal', {
+                            currentWalletAmount,
+                          })
+                        }}
+                        className="w-[200px] h-[44px] mt-5 items-center justify-center border border-[#314B87] rounded-lg"
+                      >
+                        <Text
+                          className="text-center text-base"
+                          style={{ color: 'black' }}
+                        >
+                          {' '}
+                          + <Text>Fund Wallet</Text>
+                        </Text>
+                      </TouchableOpacity>
                     </ImageBackground>
                   </View>
                 </ImageBackground>
               </View>
             </View>
 
-
             <View className="px-4">
               <View className="">
-                <ImageBackground source={ require('../../assets/images/wallet2.png')}
-                className='bg-[#3F60AC] border mt-4 border-[#DAE1F1]  py-12 px-8 rounded-xl'
-                 resizeMode='repeat'>
-                <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
-                  <Text>
-                    <FontAwesome name="bank" size={24} color="#C85604" />
-                  </Text>
-                </View>
+                <ImageBackground
+                  source={require('../../assets/images/wallet2.png')}
+                  className="bg-[#3F60AC] border mt-4 border-[#DAE1F1]  py-12 px-8 rounded-xl"
+                  resizeMode="repeat"
+                >
+                  <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
+                    <Text>
+                      <FontAwesome name="bank" size={24} color="#C85604" />
+                    </Text>
+                  </View>
 
-                <Text className="mt-6 text-[#fff] text-base font-medium leading-[24px]">
-                  Escrow Account
-                </Text>
-                <Text className="font-bold text-[32px] text-white mt-2">
-                  ₦
-                  {Number(data?.escrow) === 0
-                    ? '0.00'
-                    : (Number(data?.escrow) / 100).toLocaleString()}
-                </Text>
+                  <Text className="mt-6 text-[#fff] text-base font-medium leading-[24px]">
+                    Escrow Account
+                  </Text>
+                  <Text className="font-bold text-[32px] text-white mt-2">
+                    ₦
+                    {Number(data?.escrow) === 0
+                      ? '0.00'
+                      : (Number(data?.escrow) / 100).toLocaleString()}
+                  </Text>
                 </ImageBackground>
               </View>
-
 
               <View className=" ">
-                
-                <ImageBackground source={require('../../assets/images/wallet1.png')}
-                  className=' bg-black border mt-4 border-[#DAE1F1] rounded-xl  py-12 px-8'
-                   resizeMode='repeat'>
-                <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
-                  <Text>
-                    <FontAwesome name="bank" size={24} color="#C85604" />
-                  </Text>
-                </View>
+                <ImageBackground
+                  source={require('../../assets/images/wallet1.png')}
+                  className=" bg-black border mt-4 border-[#DAE1F1] rounded-xl  py-12 px-8"
+                  resizeMode="repeat"
+                >
+                  <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
+                    <Text>
+                      <FontAwesome name="bank" size={24} color="#C85604" />
+                    </Text>
+                  </View>
 
-                <Text className="mt-6 text-white text-base font-medium leading-[24px]">
-                  Incoming Funds
-                </Text>
-                <Text className="font-bold text-white text-[32px] mt-2">
-                  ₦
-                  {Number(data?.incoming) === 0
-                    ? '0.00'
-                    : (Number(data?.incoming) / 100).toLocaleString()}
-                </Text>
+                  <Text className="mt-6 text-white text-base font-medium leading-[24px]">
+                    Incoming Funds
+                  </Text>
+                  <Text className="font-bold text-white text-[32px] mt-2">
+                    ₦
+                    {Number(data?.incoming) === 0
+                      ? '0.00'
+                      : (Number(data?.incoming) / 100).toLocaleString()}
+                  </Text>
                 </ImageBackground>
               </View>
-                  
             </View>
-            
 
             <View className="mt-[64px] mb-8 flex-row justify-between items-center mx-4">
               <Text
@@ -544,21 +561,22 @@ const WalletScreen = ({ navigation }: any) => {
           <Content navigation={navigation} />
         </BottomSheetModal>
 
-        {/* <BottomSheetModal
-            ref={pinSheetRef}
-            index={0}
-            snapPoints={['50%']}
-            containerStyle={{
-              marginHorizontal: 10,
-            }}
-            backdropComponent={renderBackdrop}
-          >
-            <PinModal
-              createErrand={false}
-              submitErrandhandler={() => {}}
-              closePinModal={closePinModal}
-            />
-          </BottomSheetModal> */}
+        <BottomSheetModal
+          ref={pinSheetRef}
+          index={0}
+          snapPoints={['60%']}
+          containerStyle={{
+            marginHorizontal: 10,
+          }}
+          backdropComponent={renderBackdrop}
+        >
+          <PinModal
+            createErrand={false}
+            submitErrandhandler={() => {}}
+            closePinModal={closePinModal}
+            makeWithdrawalHandler={() => {}}
+          />
+        </BottomSheetModal>
       </BottomSheetModalProvider>
     </Container>
   )

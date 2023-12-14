@@ -12,7 +12,7 @@ import { errandDetails } from '../services/errands/errandDetails'
 import { errandMarketList } from '../services/errands/market'
 import { myErrandList } from '../services/errands/myErrands'
 import { useAppDispatch } from '../services/store'
-import { getAppVersion } from '../utils/helper'
+// import { getAppVersion } from '../utils/helper'
 import { MainStack, TabStack } from './StackNavigation'
 
 const MainNavigation = () => {
@@ -267,7 +267,7 @@ const MainNavigation = () => {
 
   useEffect(() => {
     // Call the authentication status check function
-    getAppVersion()
+    // getAppVersion()
     checkAuthenticationStatus()
     checkNetworkConnectivity()
   }, [isAuthenticated, isGuest, isConnected])

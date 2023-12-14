@@ -41,7 +41,7 @@ import WalletScreen from '../screens/Wallets'
 import EscrowScreen from '../screens/Wallets/EscrowScreen'
 import TransactionScreen from '../screens/Wallets/TransactionScreen'
 import WalletAccount from '../screens/Wallets/WalletAccount'
-import { getAppVersion } from '../utils/helper'
+// import { getAppVersion } from '../utils/helper'
 import { TabsNavigation } from './TabsNavigation'
 import RejectErrandModal from '../components/Modals/Errands/RejectErrandModal'
 

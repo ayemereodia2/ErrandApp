@@ -451,6 +451,7 @@ export interface BidActionPayload {
   toggleSuccessDialogue?: (open: boolean) => void
   toggleAcceptModal?: (open: boolean) => void
   toggleRejectModal?: (open: boolean) => void
+  image_url?: string[]
 }
 
 export interface PostBidRequest {
