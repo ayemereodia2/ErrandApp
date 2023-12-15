@@ -11,8 +11,7 @@
     },
 
     "development": {
-      "developmentClient": true,
-      "distribution": "internal",
+     
        "env": {
         "EXPO_PUBLIC_API_URL": "https://staging.apis.swave.ng/v1",
         "EXPO_PUBLIC_GOOGLE_KEY":"AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo",

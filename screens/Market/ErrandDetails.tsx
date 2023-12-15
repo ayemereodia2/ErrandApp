@@ -341,7 +341,27 @@ export default function ErrandDetails({ route, navigation }: any) {
                           style={{ color: textTheme }}
                           className=" text-[14px] text-[#999999] w-28 font-medium"
                         >
-                          Duration
+                          Date Posted
+                        </Text>
+                        <Text
+                          style={{ color: textTheme }}
+                          className=" text-sm text-[#000] w-60 font-semibold"
+                        >
+                          <Ionicons
+                            name="calendar-outline"
+                            size={18}
+                            color={textTheme}
+                          />
+                          {formatDate(errand.created_at)}
+                        </Text>
+                        </View>
+                        
+                      <View className="space-x-2 flex-row mt-6">
+                        <Text
+                          style={{ color: textTheme }}
+                          className=" text-[14px] text-[#999999] w-28 font-medium"
+                        >
+                          Deadline
                         </Text>
                         <Text
                           style={{ color: textTheme }}

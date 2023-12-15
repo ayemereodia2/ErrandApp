@@ -19,11 +19,22 @@ export const bidAction = createAsyncThunk<ErrandMarketResponse, BidActionPayload
     const rs = await _rs.json()
 
     console.log(">>>>>rs", rs);
+
+    if (rs.success === false) {
+       Toast.show({
+          type: 'error',
+          text1: rs.message,
+        });
+      toggleNegotiateModal && toggleNegotiateModal(false) 
+      toggleSuccessDialogue && toggleSuccessDialogue(true)
+    }
     
 
     if (rs.success === true) {
       dispatch(myErrandList({}))
       dispatch(errandDetails({ errandId: errand_id }))
+       toggleNegotiateModal && toggleNegotiateModal(false) 
+      toggleSuccessDialogue && toggleSuccessDialogue(true)
 
       if (response === 'accept') {
         toggleAcceptModal && toggleAcceptModal(false)

@@ -1,14 +1,6 @@
-import { AntDesign } from '@expo/vector-icons'
 import Checkbox from 'expo-checkbox'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
-import { SelectList } from 'react-native-dropdown-select-list'
+import React, { useEffect, useState } from 'react'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
@@ -32,7 +24,7 @@ type SelectProp = {
   value: string
 }
 
-const CategoryInterest = ({ navigation }: any) => {
+const CategoryInterestModal = ({ setShowCategoryModal }: any) => {
   const dispatch = useAppDispatch()
   const [selectedCategories, setSelectedCategories] = useState<
     SelectedCategories
@@ -43,40 +35,11 @@ const CategoryInterest = ({ navigation }: any) => {
   const { data: categories } = useSelector(
     (state: RootState) => state.categoriesListReducer,
   )
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      title: 'Add Category Interest',
-      headerStyle: { backgroundColor: '#F8F9FC' },
-      headerLeft: () => (
-        <View className="flex-row items-center justify-between pr-4 ">
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Settings')}
-            className="flex-row items-center"
-          >
-            <AntDesign name="arrowleft" size={24} color="#243763" />
-          </TouchableOpacity>
-        </View>
-      ),
-    })
-  }, [])
 
   useEffect(() => {
     getLocations()
     dispatch(getCategoriesList())
   }, [])
-
-  useEffect(() => {
-    navigation
-      .getParent()
-      ?.setOptions({ tabBarStyle: { display: 'none' }, tabBarVisible: false })
-    return () =>
-      navigation
-        .getParent()
-        ?.setOptions({ tabBarStyle: undefined, tabBarVisible: undefined })
-  }, [navigation])
-
-  // console.log(categories)
 
   const handleCategorySelection = (category: any) => {
     setSelectedCategories((prevState) => ({
@@ -116,6 +79,8 @@ const CategoryInterest = ({ navigation }: any) => {
       })
         .then((rs) => rs.json())
         .then(async (rs) => {
+          // console.log(">>>>>>pk");
+
           if (rs.success) {
             await _fetch({
               method: 'GET',
@@ -124,8 +89,8 @@ const CategoryInterest = ({ navigation }: any) => {
             Toast.show({
               type: 'success',
               text1: 'Categories has been added successfully',
-            }),
-              navigation.navigate('Settings')
+            })
+            setShowCategoryModal(false)
           }
         })
     } catch (error) {}
@@ -152,47 +117,33 @@ const CategoryInterest = ({ navigation }: any) => {
   const [selected, setSelected] = React.useState('')
 
   return (
-    <SafeAreaView className="mt-4">
-      <ScrollView className="mt-4 px-4 mb-10">
-        {/* <Text className="text-center text-base py-6">
-          What's your current location
+    <View className="h-[400px]">
+        <Text className="text-center text-xl font-semibold">
+          What can you do ?
         </Text>
 
-        <SelectList
-          setSelected={(val) => setSelected(val)}
-          data={locationData}
-          save="value"
-          dropdownShown={false}
-        /> */}
-
-        <View>
-          <Text className="text-center text-base font-semibold pt-6">
-            Choose Your Category Interest
-          </Text>
-
-          <View className="flex-row py-3 space-x-3 justify-end">
-            <Checkbox value={selectAll} onValueChange={handleSelectAll} />
-            <Text>Select All</Text>
-          </View>
-
-          <View>
-            {categories.map((category) => {
-              return (
-                <View className="flex-row py-3 space-x-3" key={category.id}>
-                  <Checkbox
-                    // style={styles.checkbox}
-                    // value={false}
-                    value={selectedCategories[category.id]}
-                    onValueChange={() => handleCategorySelection(category)}
-                    // onValueChange={setChecked}
-                    // color={isChecked ? '#4630EB' : undefined}
-                  />
-                  <Text>{category.name}</Text>
-                </View>
-              )
-            })}
-          </View>
+        <View className="flex-row py-2 my-2 border-stone-200 space-x-3 justify-start border rounded-lg px-2 w-28">
+          <Checkbox value={selectAll} onValueChange={handleSelectAll} />
+          <Text>Select All</Text>
         </View>
+
+        <ScrollView>
+          {categories.map((category) => {
+            return (
+              <View className="flex-row py-3 space-x-3" key={category.id}>
+                <Checkbox
+                  // style={styles.checkbox}
+                  // value={false}
+                  value={selectedCategories[category.id]}
+                  onValueChange={() => handleCategorySelection(category)}
+                  // onValueChange={setChecked}
+                  // color={isChecked ? '#4630EB' : undefined}
+                />
+                <Text>{category.name}</Text>
+              </View>
+            )
+          })}
+        </ScrollView>
 
         <View className="flex-row justify-center items-center space-x-3">
           <TouchableOpacity onPress={AddCategories} className="mb-101">
@@ -203,17 +154,16 @@ const CategoryInterest = ({ navigation }: any) => {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Settings')}
+            onPress={() => setShowCategoryModal(false)}
             className="mb-101"
           >
             <View className="py-3 px-4 w-[149px] rounded-full border border-red-200 bg-white mt-4 items-center justify-center flex-row space-x-4">
-              <Text className="text-red-500 ">Cancel</Text>
+              <Text className="text-red-500 ">Close</Text>
             </View>
           </TouchableOpacity>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+    </View>
   )
 }
 
-export default CategoryInterest
+export default CategoryInterestModal

@@ -550,6 +550,8 @@ export interface UserDetail {
   preferred_theme: string
   referred_by: string
   errands_posted: number
+  category_interest: string[]
+  ci_location: string
 }
 
 export interface NotificationList extends CommonState {

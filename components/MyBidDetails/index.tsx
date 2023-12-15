@@ -148,7 +148,7 @@ const ErrandBid = ({
           <Text className="text-sm font-medium">{haggle?.description}</Text>
         </View>
 
-        <View>
+        {/* <View>
           {errand?.images?.map((image, index) => (
             <View className="mt-4">
               <TouchableOpacity
@@ -165,7 +165,7 @@ const ErrandBid = ({
               </TouchableOpacity>
             </View>
           ))}
-        </View>
+        </View> */}
 
         <View className="flex-row justify-between items-center">
           <View className="bg-[#FEE1CD] rounded-2xl py-1 px-3 mt-2 ">

@@ -22,6 +22,9 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
     // console.log(">>>>Login res", _rs);
   
     if (_rs.success === true) {
+      console.log(">>>>>rs", _rs);
+      
+
       await AsyncStorage.setItem('accessToken', _rs.data.access_token)
       await AsyncStorage.setItem('refreshToken', _rs.data.refresh_token)
       await AsyncStorage.setItem('user_id', _rs.data.id)
@@ -30,12 +33,14 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
       if (_rs.data.profile_picture) {
          await AsyncStorage.setItem('profile_pic', _rs.data.profile_picture)
       }
+
+      dispatch(currentUserDetails({user_id: _rs.data.id}))
+
       await AsyncStorage.setItem('isGuest', 'false')
      const pin = await AsyncStorage.setItem('pin', JSON.stringify(_rs.data.has_transaction_pin))
 
       
 
-      dispatch(currentUserDetails({user_id: _rs.data.id}))
 
        Toast.show({
         type: 'success',

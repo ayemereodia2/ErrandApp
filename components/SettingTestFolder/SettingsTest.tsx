@@ -7,17 +7,17 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View,
+  View
 } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
+import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
 import { RootState, useAppDispatch } from '../../services/store'
 import { getUserId } from '../../utils/helper'
 import LoadingModal from '../MainLoader/LoadingModal'
-import { currentUserDetails } from '../../services/auth/currentUserInfo'
 
 interface Props {
   openVerifyModal: () => void

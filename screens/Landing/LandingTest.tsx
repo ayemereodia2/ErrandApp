@@ -10,15 +10,18 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
 import { useQuery } from '@tanstack/react-query'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
+  ActivityIndicator,
   BackHandler,
   Dimensions,
   FlatList,
   Modal,
   Platform,
+  Pressable,
   RefreshControl,
   ScrollView,
   StyleSheet,
@@ -28,14 +31,17 @@ import {
 } from 'react-native'
 import { SelectList } from 'react-native-dropdown-select-list'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
 import LandingDetails from '../../components/LandingDetails.tsx/LandingDetails'
 import NewNotifications from '../../components/NewNotifications/NewNotifications'
 import PostErrandButton from '../../components/PostErrandBtn'
+import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
+import CategoryInterestModal from '../Modal/CategoryInterestModal'
 
 type LocationProp = {
   city: string
@@ -66,6 +72,9 @@ const LandingTest = ({ navigation }: any) => {
   const [selected, setSelected] = React.useState('')
   const [selectedlga, setSelectedLga] = useState('')
   const [selectedId, setSelectedId] = useState('')
+  const [showCategoryModal, setShowCategoryModal] = useState(false)
+  const [showLocationModal, setShowLocationModal] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   function openMoreModal() {
     bottomSheetRef1.current?.present()
@@ -100,7 +109,6 @@ const LandingTest = ({ navigation }: any) => {
     backgroundTheme,
     textTheme,
     landingPageTheme,
-    loading,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
@@ -328,6 +336,7 @@ const LandingTest = ({ navigation }: any) => {
   })
 
   useEffect(() => {
+    checkPinIsVerified()
     getLocations()
   }, [])
 
@@ -348,11 +357,24 @@ const LandingTest = ({ navigation }: any) => {
   }
 
   const saveLocation = async () => {
-    const rs = await _fetch({
+    setLoading(true)
+    await _fetch({
       method: 'PATCH',
       _url: `/user/ci-location`,
       body: { ci_location: selectedId },
     })
+      .then((rs) => rs.json())
+      .then((rs) => {
+        if (rs.success === true) {
+          setLoading(false)
+          Toast.show({
+            type: 'success',
+            text1: 'Categories has been added successfully',
+          }),
+            setShowCategoryModal(true)
+          setShowLocationModal(false)
+        }
+      })
   }
 
   useEffect(() => {
@@ -365,6 +387,19 @@ const LandingTest = ({ navigation }: any) => {
     )
     setSelectedId(lga?.key)
   }, [selectedlga])
+
+  // console.log('>>>>>currnetUse', currentUser)
+
+  const checkPinIsVerified = async () => {
+    const user_id = (await AsyncStorage.getItem('user_id')) || ''
+    dispatch(currentUserDetails({ user_id }))
+    if (
+      currentUser.ci_location === undefined ||
+      currentUser.ci_location === ''
+    ) {
+      setShowLocationModal(true)
+    }
+  }
 
   return (
     <>
@@ -528,7 +563,7 @@ const LandingTest = ({ navigation }: any) => {
                 isLoading={loadingNotification}
               />
 
-              {/* <Modal visible={true} transparent={true}>
+              <Modal visible={showLocationModal} transparent={true}>
                 <View style={styles.modalContainer}>
                   <View className="bg-white text-black w-[350px] mx-10 rounded-lg px-4 py-10 ">
                     <View>
@@ -536,12 +571,18 @@ const LandingTest = ({ navigation }: any) => {
                         Select the city that you are currently in
                       </Text>
 
-                      <SelectList
-                        setSelected={(val) => setSelected(val)}
-                        data={states}
-                        save="value"
-                        dropdownShown={false}
-                      />
+                      <Pressable
+                        onPress={() => {
+                          console.log('.....ttocjed')
+                        }}
+                      >
+                        <SelectList
+                          setSelected={(val) => setSelected(val)}
+                          data={states}
+                          save="value"
+                          dropdownShown={false}
+                        />
+                      </Pressable>
                     </View>
 
                     {selected ? (
@@ -564,17 +605,46 @@ const LandingTest = ({ navigation }: any) => {
                     )}
 
                     <View className="flex-row items-center justify-center space-x-3 mt-3">
-                      <TouchableOpacity className="bg-[#1E3A79] p-3 rounded-lg mt-2 w-1/2  ">
-                        <Text className="text-white text-center">Save</Text>
+                      <TouchableOpacity
+                        disabled={!selectedId}
+                        onPress={() => saveLocation()}
+                        className={`bg-[#1E3A79] p-3 rounded-lg mt-2 w-1/2 ${
+                          !selectedId ? 'bg-[#909398]' : 'bg-[#1E3A79]'
+                        }`}
+                      >
+                        <Text className="text-white text-center">
+                          {' '}
+                          {loading ? (
+                            <ActivityIndicator size="small" color="#000000" />
+                          ) : (
+                            'Save'
+                          )}
+                        </Text>
                       </TouchableOpacity>
 
-                      <TouchableOpacity className="border border-red-500 p-3 rounded-lg mt-2  w-1/2 ">
-                        <Text className="text-red-600 text-center">Close</Text>
+                      <TouchableOpacity
+                        onPress={() => {
+                          setShowLocationModal(false)
+                          setShowCategoryModal(true)
+                        }}
+                        className="border border-red-500 p-3 rounded-lg mt-2  w-1/2 "
+                      >
+                        <Text className="text-red-600 text-center">Skip</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
                 </View>
-              </Modal> */}
+              </Modal>
+
+              <Modal visible={showCategoryModal} transparent={true}>
+                <View style={styles.modalContainer}>
+                  <View className="bg-white text-black w-[350px] mx-10 rounded-lg px-4 py-10 ">
+                    <CategoryInterestModal
+                      setShowCategoryModal={setShowCategoryModal}
+                    />
+                  </View>
+                </View>
+              </Modal>
             </ScrollView>
 
             <BottomSheetModal

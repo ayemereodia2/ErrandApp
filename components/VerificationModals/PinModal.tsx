@@ -1,12 +1,11 @@
-import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import {
-  ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView,
+  ActivityIndicator,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
@@ -18,7 +17,7 @@ import Fonts from '../../utils/fonts'
 
 interface PinModalProps {
   createErrand?: boolean
-  closePinModal: () => void
+  closePinModal: (show:boolean) => void
   submitErrandhandler: () => void
   verifyPin?: boolean
   makeWithdrawalHandler: () => void
@@ -33,11 +32,7 @@ const PinModal = ({
   withdraw,
   makeWithdrawalHandler,
 }: PinModalProps) => {
-  const firstInput = useRef()
-  const secondInput = useRef()
-  const thirdInput = useRef()
-  const fourthInput = useRef()
-  const [otp, setOtp] = useState({ 1: '', 2: '', 3: '', 4: '' })
+  const [otp, setOtp] = useState('')
   const [loader, setLoader] = useState(false)
 
   const {
@@ -133,12 +128,14 @@ const PinModal = ({
     signinButtonText: {
       fontSize: 18,
       lineHeight: 18 * 1.4,
-      color: theme ? "black" : 'white'
+      color: theme ? 'black' : 'white',
     },
   })
 
-  const saveTransactionPin = async (pin: string) => {
-    if (pin.length < 4) {
+  const saveTransactionPin = async () => {
+    console.log(">>>top", otp);
+    
+    if (otp.length < 4) {
       Toast.show({
         text1: 'Please make sure your pin is 4 digits',
         type: 'error',
@@ -150,7 +147,7 @@ const PinModal = ({
     const _rs = await _fetch({
       _url: `/user/security/${verifyPin ? 'verify-pin' : 'pin'}`,
       method: 'POST',
-      body: { transaction_pin: pin },
+      body: { transaction_pin: otp },
     })
 
     const rs = await _rs.json()
@@ -170,7 +167,7 @@ const PinModal = ({
           text1: 'Pin was confirmed successfully',
         })
         setLoader(false)
-        closePinModal()
+        closePinModal(false)
         return
       }
       if (withdraw) {
@@ -180,9 +177,9 @@ const PinModal = ({
         })
         makeWithdrawalHandler()
         setLoader(false)
-        closePinModal()
+        closePinModal(false)
       }
-      closePinModal()
+      closePinModal(false)
       Toast.show({
         type: 'success',
         text1: 'Your Pin has been set successfully',
@@ -192,101 +189,45 @@ const PinModal = ({
   }
 
   return (
-    <ScrollView
-      style={{ flex: 1, backgroundColor: backgroundTheme }}
-      contentContainerStyle={{ flexGrow: 1 }}
-      keyboardShouldPersistTaps="handled"
-    >
-      <View className="mb-20">
-        <KeyboardAvoidingView
-          style={{ flex: 1 }}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}
-        >
-          <View style={{ backgroundColor: backgroundTheme, paddingBottom: 20 }}>
-            <Text
-              style={{ color: theme ? 'white' : 'black' }}
-              className="text-center mt-6 text-lg"
-            >
-              {createErrand ? 'Confirm Your Pin' : 'Set Your Pin'}
-            </Text>
-            <Text
-              style={{ color: theme ? 'white' : 'black' }}
-              className="text-center py-4 text-base font-light"
-            >
-              Please Enter the Pin
-            </Text>
+    // <ScrollView
+    //   style={{ flex: 1, backgroundColor: backgroundTheme }}
+    //   contentContainerStyle={{ flexGrow: 1 }}
+    //   keyboardShouldPersistTaps="handled"
+    // >
+    <View className="">
+      <Text
+        style={{ color: theme ? 'white' : 'black' }}
+        className="text-center mt-6 pb-2 text-lg font-semibold"
+      >
+        {createErrand ? 'Confirm Your Pin' : 'Set Your Pin'}
+      </Text>
 
-            <View style={styles.otpContainer}>
-              <View style={styles.otpBox}>
-                <TextInput
-                  style={styles.otpText}
-                  keyboardType="number-pad"
-                  maxLength={1}
-                  ref={firstInput}
-                  onChangeText={(text) => {
-                    setOtp({ ...otp, 1: text })
-                    text && secondInput.current.focus()
-                  }}
-                />
-              </View>
-              <View style={styles.otpBox}>
-                <TextInput
-                  style={styles.otpText}
-                  keyboardType="number-pad"
-                  maxLength={1}
-                  ref={secondInput}
-                  onChangeText={(text) => {
-                    setOtp({ ...otp, 2: text })
-                    text
-                      ? thirdInput.current.focus()
-                      : firstInput.current.focus()
-                  }}
-                />
-              </View>
-              <View style={styles.otpBox}>
-                <BottomSheetTextInput
-                  style={styles.otpText}
-                  keyboardType="number-pad"
-                  maxLength={1}
-                  ref={thirdInput}
-                  onChangeText={(text) => {
-                    setOtp({ ...otp, 3: text })
-                    text
-                      ? fourthInput.current.focus()
-                      : secondInput.current.focus()
-                  }}
-                />
-              </View>
-              <View style={styles.otpBox}>
-                <TextInput
-                  style={styles.otpText}
-                  keyboardType="number-pad"
-                  maxLength={1}
-                  ref={fourthInput}
-                  onChangeText={(text) => {
-                    setOtp({ ...otp, 4: text })
-                    !text && thirdInput.current.focus()
-                  }}
-                />
-              </View>
-            </View>
-            <TouchableOpacity
-              style={styles.signinButton}
-              onPress={() => saveTransactionPin(Object.values(otp).join(''))}
-            >
-              {loader ? (
-                <ActivityIndicator color="blue" size="small" />
-              ) : (
-                <Text style={styles.signinButtonText}>
-                  {createErrand ? 'Confirm' : 'Set Pin'}
-                </Text>
-              )}
-            </TouchableOpacity>
-          </View>
-        </KeyboardAvoidingView>
+      <View className="bg-white border text-xs rounded-lg  flex-row space-x-2 justify-center items-center h-14 mb-4">
+        <TextInput
+          className="w-full px-2 text-lg "
+          placeholder="Enter Your Pin"
+          onChangeText={(e) => setOtp(e)}
+          value={otp}
+          keyboardType="numeric"
+          secureTextEntry={true}
+          maxLength={4}
+        />
       </View>
-    </ScrollView>
+      <TouchableOpacity
+        style={styles.signinButton}
+        onPress={() => saveTransactionPin()}
+      >
+        {loader ? (
+          <ActivityIndicator color="blue" size="small" />
+        ) : (
+          <Text style={styles.signinButtonText}>
+            {createErrand ? 'Confirm' : 'Set Pin'}
+          </Text>
+        )}
+      </TouchableOpacity>
+    </View>
+
+    // </ScrollView>
   )
 }
 

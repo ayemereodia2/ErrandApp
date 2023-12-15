@@ -15,6 +15,7 @@ import React, {
 import {
   ActivityIndicator,
   ImageBackground,
+  Modal,
   Platform,
   RefreshControl,
   SafeAreaView,
@@ -38,7 +39,6 @@ import { ProfileInitials } from '../../components/ProfileInitials'
 import EscrowDetails from '../../components/Transactions/EscrowDetails'
 import TransactionDetails from '../../components/Transactions/TransactionDetails'
 import PinModal from '../../components/VerificationModals/PinModal'
-import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { RootState, useAppDispatch } from '../../services/store'
 import { walletAction } from '../../services/wallet/walletBalance'
@@ -56,6 +56,7 @@ const WalletScreen = ({ navigation }: any) => {
     textTheme,
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+  const [showPinModal, setShowPinModal] = useState(false)
 
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -151,11 +152,14 @@ const WalletScreen = ({ navigation }: any) => {
     const isPinVerified = await AsyncStorage.getItem('pin')
     const user_id = (await AsyncStorage.getItem('user_id')) || ''
 
-    dispatch(currentUserDetails({ user_id }))
-    if (isPinVerified === 'false') {
-      console.log(">>>>>helllo");
-      
-      openPinModal()
+    console.log('>>>>>helllo', currentUser)
+
+    // dispatch(currentUserDetails({ user_id }))
+    if (currentUser.has_transaction_pin === false) {
+      console.log('>>>>>helllo---', currentUser.has_transaction_pin)
+
+      // pinSheetRef.current?.present()
+      setShowPinModal(true)
     }
   }
 
@@ -188,6 +192,9 @@ const WalletScreen = ({ navigation }: any) => {
   }, [])
 
   useEffect(() => {
+    // pinSheetRef.current?.present()
+    console.log('--------------')
+
     checkPinIsVerified()
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
   }, [])
@@ -319,7 +326,7 @@ const WalletScreen = ({ navigation }: any) => {
                   }}
                 >
                   <MenuOption
-                    onSelect={() => toggleAccountStatementModal(true)}
+                    onSelect={() => openPinModal()}
                     text="Generate Account Statement"
                     customStyles={{
                       optionWrapper: {
@@ -526,6 +533,19 @@ const WalletScreen = ({ navigation }: any) => {
                 return <EscrowDetails {...escrows} />
               })}
             </View>
+
+            <Modal visible={showPinModal} transparent={true}>
+              <View style={styles.modalContainer}>
+                <View className="bg-white text-black w-[350px] mx-10 rounded-lg px-4  ">
+                  <PinModal
+                    createErrand={false}
+                    submitErrandhandler={() => {}}
+                    closePinModal={setShowPinModal}
+                    makeWithdrawalHandler={() => {}}
+                  />
+                </View>
+              </View>
+            </Modal>
           </ScrollView>
         </SafeAreaView>
 
@@ -561,7 +581,7 @@ const WalletScreen = ({ navigation }: any) => {
           <Content navigation={navigation} />
         </BottomSheetModal>
 
-        <BottomSheetModal
+        {/* <BottomSheetModal
           ref={pinSheetRef}
           index={0}
           snapPoints={['60%']}
@@ -576,7 +596,7 @@ const WalletScreen = ({ navigation }: any) => {
             closePinModal={closePinModal}
             makeWithdrawalHandler={() => {}}
           />
-        </BottomSheetModal>
+        </BottomSheetModal> */}
       </BottomSheetModalProvider>
     </Container>
   )
@@ -606,6 +626,12 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
   },
 })
 

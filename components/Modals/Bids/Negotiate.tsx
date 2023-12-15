@@ -289,7 +289,7 @@ const NegotiateBid = ({
               }}
             >
               {loading ? (
-                <Text>Loading</Text>
+                <ActivityIndicator size="small" color="white" />
               ) : (
                 <Text className="text-white text-base">Negotiate</Text>
               )}
