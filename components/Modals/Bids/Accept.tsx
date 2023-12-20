@@ -19,6 +19,7 @@ interface AcceptModalProp {
   toggleAcceptModal: (open: boolean) => void
   toggleSuccessDialogue: (open: boolean) => void
   haggle: Haggles
+  setShowFundWallet: (open: boolean) => void
 }
 
 const AcceptBid = ({
@@ -28,6 +29,7 @@ const AcceptBid = ({
   toggleAcceptModal,
   toggleSuccessDialogue,
   haggle,
+  setShowFundWallet
 }: AcceptModalProp) => {
   const dispatch = useAppDispatch()
   const [comment, setComment] = useState('')
@@ -42,8 +44,7 @@ const AcceptBid = ({
 
       <Text className="text-sm font-light text-[#4D4D4D] text-center px-8 mt-4">
         Are you sure you want to accept{' '}
-        <Text className="font-semibold">This</Text> bid on your
-        errand?
+        <Text className="font-semibold">This</Text> bid on your errand?
       </Text>
 
       <View className="space-y-4 items-center px-4 mt-4">
@@ -63,6 +64,7 @@ const AcceptBid = ({
                 toggleAcceptModal,
                 dispatch,
                 Toast,
+                setShowFundWallet
               }),
             )
           }}
@@ -95,6 +97,7 @@ const styles = StyleSheet.create({
     padding: 24,
     backgroundColor: 'grey',
   },
+
   textInput: {
     alignSelf: 'stretch',
     marginHorizontal: 12,

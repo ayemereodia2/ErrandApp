@@ -4,6 +4,7 @@ import { SafeAreaView, Text, View } from 'react-native'
 import { Transaction } from '../../types'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
+import { formatDate } from '../../utils/helper'
 
 const TransactionDetails = (transaction: Transaction) => {
 
@@ -39,7 +40,7 @@ const TransactionDetails = (transaction: Transaction) => {
           </Text>
         </View>
         <Text className="mt-2 text-base font-medium text-[#808080]" style={{color: textTheme}}>
-          {date}
+          {formatDate(transaction.created_at)}
         </Text>
       </View>
     // </SafeAreaView>

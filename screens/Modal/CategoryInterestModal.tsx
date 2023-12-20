@@ -1,6 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import Checkbox from 'expo-checkbox'
 import React, { useEffect, useState } from 'react'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
@@ -31,8 +32,9 @@ const CategoryInterestModal = ({ setShowCategoryModal }: any) => {
   >({})
   const [selectAll, setSelectAll] = useState(false)
   const [locationData, setLocationData] = useState<SelectProp[]>([])
+  const [loader, setLoader] = useState(false)
 
-  const { data: categories } = useSelector(
+  const { data: categories, loading } = useSelector(
     (state: RootState) => state.categoriesListReducer,
   )
 
@@ -61,6 +63,7 @@ const CategoryInterestModal = ({ setShowCategoryModal }: any) => {
   }
 
   const AddCategories = async () => {
+    setLoader(true)
     const selectedCategoryNames = categories
       .filter((category) => selectedCategories[category.id])
       .map((category) => category.name)
@@ -91,6 +94,8 @@ const CategoryInterestModal = ({ setShowCategoryModal }: any) => {
               text1: 'Categories has been added successfully',
             })
             setShowCategoryModal(false)
+            setLoader(false)
+            await AsyncStorage.setItem('ci_location', 'true')
           }
         })
     } catch (error) {}
@@ -117,52 +122,61 @@ const CategoryInterestModal = ({ setShowCategoryModal }: any) => {
   const [selected, setSelected] = React.useState('')
 
   return (
-    <View className="h-[400px]">
-        <Text className="text-center text-xl font-semibold">
-          What can you do ?
-        </Text>
+    <>
+      {loading ? (
+        <ActivityIndicator color={"blue"} size="small"/>
+      ) : (
+        <>
+          <View className="h-[400px]">
+            <Text className="text-center text-xl font-semibold">
+              What can you do ?
+            </Text>
 
-        <View className="flex-row py-2 my-2 border-stone-200 space-x-3 justify-start border rounded-lg px-2 w-28">
-          <Checkbox value={selectAll} onValueChange={handleSelectAll} />
-          <Text>Select All</Text>
-        </View>
-
-        <ScrollView>
-          {categories.map((category) => {
-            return (
-              <View className="flex-row py-3 space-x-3" key={category.id}>
-                <Checkbox
-                  // style={styles.checkbox}
-                  // value={false}
-                  value={selectedCategories[category.id]}
-                  onValueChange={() => handleCategorySelection(category)}
-                  // onValueChange={setChecked}
-                  // color={isChecked ? '#4630EB' : undefined}
-                />
-                <Text>{category.name}</Text>
-              </View>
-            )
-          })}
-        </ScrollView>
-
-        <View className="flex-row justify-center items-center space-x-3">
-          <TouchableOpacity onPress={AddCategories} className="mb-101">
-            <View className="py-3 px-4 w-[149px] rounded-full bg-[#3F60AC] mt-4 items-center justify-center flex-row space-x-4">
-              <Text className="text-white items-center justify-center">
-                Submit
-              </Text>
+            <View className="flex-row py-2 my-2 border-stone-200 space-x-3 justify-start border rounded-lg px-2 w-28">
+              <Checkbox value={selectAll} onValueChange={handleSelectAll} />
+              <Text>Select All</Text>
             </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setShowCategoryModal(false)}
-            className="mb-101"
-          >
-            <View className="py-3 px-4 w-[149px] rounded-full border border-red-200 bg-white mt-4 items-center justify-center flex-row space-x-4">
-              <Text className="text-red-500 ">Close</Text>
+
+            <ScrollView>
+              {categories.map((category) => {
+                return (
+                  <View className="flex-row py-3 space-x-3" key={category.id}>
+                    <Checkbox
+                      // style={styles.checkbox}
+                      // value={false}
+                      value={selectedCategories[category.id]}
+                      onValueChange={() => handleCategorySelection(category)}
+                      // onValueChange={setChecked}
+                      // color={isChecked ? '#4630EB' : undefined}
+                    />
+                    <Text>{category.name}</Text>
+                  </View>
+                )
+              })}
+            </ScrollView>
+
+            <View className="flex-row justify-center items-center space-x-3">
+              <TouchableOpacity onPress={AddCategories} className="mb-101">
+                  <View className="py-3 px-4 w-[149px] rounded-full bg-[#3F60AC] mt-4 items-center justify-center flex-row space-x-4">
+                    
+                  <Text className="text-white items-center justify-center">
+                   {loader ? <ActivityIndicator size={"small"} color="blue" /> : 'Submit'}  
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setShowCategoryModal(false)}
+                className="mb-101"
+              >
+                <View className="py-3 px-4 w-[149px] rounded-full border border-red-200 bg-white mt-4 items-center justify-center flex-row space-x-4">
+                  <Text className="text-red-500 ">Close</Text>
+                </View>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-        </View>
-    </View>
+          </View>
+        </>
+      )}
+    </>
   )
 }
 

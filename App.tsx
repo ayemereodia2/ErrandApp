@@ -19,6 +19,7 @@ import { NetworkProvider } from 'react-native-offline'
 import { MenuProvider } from 'react-native-popup-menu'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
+import { ToastProvider } from 'react-native-toast-notifications'
 import { Provider } from 'react-redux'
 import ErrorBoundary from './components/ErrorBoundary'
 import { useOnlineManager } from './hooks/useOnlineManager'
@@ -51,7 +52,7 @@ export default function App({ navigation }: any) {
   useOnlineManager()
 
   const getAppVersion = async () => {
-    const versionCode = '1.0.6'
+    const versionCode = '9'
     await fetch(`${process.env.EXPO_PUBLIC_API_URL}/mobileversion`)
       .then((rs) => rs.json())
       .then((rs) => {
@@ -124,33 +125,39 @@ export default function App({ navigation }: any) {
       <NetworkProvider>
         <ErrorBoundary>
           <View style={{ flex: 1 }}>
-            <QueryClientProvider client={queryClient}>
-              <MenuProvider>
-                <Provider store={store}>
-                  <SafeAreaProvider>
-                    <StatusBar
-                      barStyle="light-content"
-                      backgroundColor="lightblue"
-                    />
-                    {/* <Navigation /> */}
-                    <GestureHandlerRootView style={{ flex: 1 }}>
-                      {/* Conditionally render AuthStack or AppStack based on authentication status */}
+            <ToastProvider>
+              <QueryClientProvider client={queryClient}>
+                <MenuProvider>
+                  <Provider store={store}>
+                    <SafeAreaProvider>
+                      <StatusBar
+                        barStyle="light-content"
+                        backgroundColor="lightblue"
+                      />
+                      {/* <Navigation /> */}
+                      <GestureHandlerRootView style={{ flex: 1 }}>
+                        {/* Conditionally render AuthStack or AppStack based on authentication status */}
 
-                      {/* {isAuthenticated ? ( */}
-                      <NavigationContainer ref={navigationRef}>
-                        {isGuest === null ? <GuestStack /> : <MainNavigation />}
-                      </NavigationContainer>
-                      {/* ) : (
+                        {/* {isAuthenticated ? ( */}
+                        <NavigationContainer ref={navigationRef}>
+                          {isGuest === null ? (
+                            <GuestStack />
+                          ) : (
+                            <MainNavigation />
+                          )}
+                        </NavigationContainer>
+                        {/* ) : (
                     <NavigationContainer>
                       <GuestNavigator />
                     </NavigationContainer>
                   )} */}
-                    </GestureHandlerRootView>
-                  </SafeAreaProvider>
-                  <Toast />
-                </Provider>
-              </MenuProvider>
-            </QueryClientProvider>
+                      </GestureHandlerRootView>
+                    </SafeAreaProvider>
+                    <Toast />
+                  </Provider>
+                </MenuProvider>
+              </QueryClientProvider>
+            </ToastProvider>
 
             <Modal
               onBackdropPress={() => {

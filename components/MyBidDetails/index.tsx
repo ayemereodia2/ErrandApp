@@ -1,10 +1,18 @@
 import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
+import {
+  Image,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { useSelector } from 'react-redux'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { getSubErrand } from '../../services/errands/subErrand'
 import { RootState, useAppDispatch } from '../../services/store'
+import { walletAction } from '../../services/wallet/walletBalance'
 import { BidsProps } from '../../types'
 import { getCardTimeAgo } from '../../utils/helper'
 import ActionButton from '../ActionButtons'
@@ -31,8 +39,14 @@ const ErrandBid = ({
   const acceptPoints = ['46%']
   const negotiateRef = useRef<BottomSheetModal>(null)
   const bidHistoryRef = useRef<BottomSheetModal>(null)
+  const [showFundWallet, setShowFundWallet] = useState(false)
+  const [currentWalletAmount, setCurrentWalletAmount] = useState(0)
 
   // console.log('>>>>>>errand', bid)
+
+  const { data, loading } = useSelector(
+    (state: RootState) => state.walletActionReducer,
+  )
 
   const rejectRef = useRef<BottomSheetModal>(null)
 
@@ -106,7 +120,12 @@ const ErrandBid = ({
 
   useEffect(() => {
     dispatch(externalUserDetails({ user_id: bid?.runner.id }))
+    dispatch(walletAction({ request: 'wallet' }))
   }, [])
+
+  const { textTheme } = useSelector(
+    (state: RootState) => state.currentUserDetailsReducer,
+  )
 
   // const negotiatorIsSender = bid?.haggles.slice(-1)[0].source === 'sender'
 
@@ -351,6 +370,55 @@ const ErrandBid = ({
                   </TouchableOpacity>
                 </View>
               )}
+
+            <Modal visible={showFundWallet} transparent={true}>
+              <View style={styles.modalContainer}>
+                <View className="bg-white text-black w-[350px] mx-10 rounded-lg px-4 py-6 ">
+                  <Text className="text-center font-semibold text-lg">
+                    Fund Your Wallet to Accept this bid
+                  </Text>
+                  <Text
+                    style={{ color: textTheme }}
+                    className="text-sm pt-2 font-md"
+                  >
+                    
+                    <Text style={{ color: textTheme }} className="font-bold">
+                    Your Available Balance:
+                    </Text>{' '}
+                    ₦
+                    {Number(data?.balance) === 0
+                      ? '0.00'
+                      : (Number(data?.balance) / 100).toLocaleString()}
+                    
+                  </Text>
+                  <View className="flex-row items-center justify-center space-x-3 mt-3">
+                    <TouchableOpacity
+                      onPress={() => {
+                        setCurrentWalletAmount(Number(data?.balance) / 100)
+                        navigation.navigate('FundWalletModal', [
+                          currentWalletAmount,
+                        ])
+                      }}
+                      className={`bg-[#1E3A79] p-3 rounded-lg mt-2 w-1/2
+                      }`}
+                    >
+                      <Text className="text-white text-center">
+                        Fund Your Wallet
+                      </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      onPress={() => {
+                        setShowFundWallet(false)
+                      }}
+                      className="border border-red-500 p-3 rounded-lg mt-2  w-1/2 "
+                    >
+                      <Text className="text-red-600 text-center">Close</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </Modal>
           </>
         )}
 
@@ -412,11 +480,44 @@ const ErrandBid = ({
             errand={errand}
             user_id={user_id}
             haggle={haggle}
+            setShowFundWallet={setShowFundWallet}
           />
         </BottomSheetModal>
       </View>
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    backgroundColor: 'grey',
+  },
+
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+  },
+
+  textInput: {
+    alignSelf: 'stretch',
+    marginHorizontal: 12,
+    marginBottom: 12,
+    padding: 12,
+    borderRadius: 12,
+    backgroundColor: 'grey',
+    color: 'white',
+    textAlign: 'center',
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center',
+    zIndex: 100,
+    backgroundColor: 'white',
+  },
+})
 
 export default ErrandBid

@@ -18,6 +18,9 @@ export const createErrand = createAsyncThunk<CreateErrandResponse, CreateErrandR
       })
       const rs = await _rs.json()
 
+      console.log(">>>>>rs", rs);
+      
+
        if (rs.success === false)  {
         Toast.show({
           type: 'error',

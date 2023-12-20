@@ -14,7 +14,7 @@
     "postinstall": "patch-package",
     "test": "jest --watchAll",
     "build:dev": "eas build -p android --profile development",
-    "build-prod:android": "eas build -p android --profile production"
+    "build:prod": "eas build -p android --profile production"
   },
   "jest": {
     "preset": "jest-expo"
@@ -75,7 +75,7 @@
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "expo-system-ui": "~2.4.0",
-    "expo-updates": "~0.18.17",
+    "expo-updates": "~0.18.18",
     "expo-web-browser": "~12.3.2",
     "fiction-expo-restart": "^2.0.0",
     "firebase": "^9.17.1",
@@ -125,6 +125,7 @@
     "react-native-swiper": "^1.6.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-toast-message": "^2.1.6",
+    "react-native-toast-notifications": "^3.4.0",
     "react-native-vector-icons": "^10.0.0",
     "react-native-web": "~0.19.6",
     "react-native-webview": "13.2.2",

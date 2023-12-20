@@ -4,6 +4,7 @@ import { SafeAreaView, Text, View } from 'react-native'
 import { EscrowBreakDown } from '../../types'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
+import { formatDate } from '../../utils/helper'
 
 const EscrowDetails = (escrows: EscrowBreakDown) => {
 
@@ -38,7 +39,7 @@ const EscrowDetails = (escrows: EscrowBreakDown) => {
           </Text>
         </View>
         <Text className="mt-2 ml-2 text-base font-medium text-[#808080]" style={{color: textTheme}}>
-          {date}
+           {formatDate(escrows.created_at)}
         </Text>
       </View>
   )

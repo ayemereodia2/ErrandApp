@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons'
+import { Feather, Ionicons } from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker'
 import React, { useEffect, useState } from 'react'
 import {
@@ -276,6 +276,17 @@ const PlaceBidModal = ({
                           />
                         )
                       })}
+
+                      {uploadedFiles.length < 3 && (
+                        <Text
+                          className="pt-4"
+                          onPress={() => {
+                            pickImageAsync()
+                          }}
+                        >
+                          Add More <Ionicons name="add-circle" />
+                        </Text>
+                      )}
                     </ScrollView>
                   )}
                 </>

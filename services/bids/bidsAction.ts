@@ -1,13 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BidActionPayload, ErrandMarketResponse } from '../../types';
 import { _fetch } from '../axios/http';
-import { errandDetails } from '../errands/errandDetails';
-import { myErrandList } from '../errands/myErrands';
 
     
 export const bidAction = createAsyncThunk<ErrandMarketResponse, BidActionPayload, { rejectValue: string }>(
   "bid/actions",
-  async ({amount, response, description, runner_id,type, bid_id, method, errand_id,  dispatch, source, Toast, toggleNegotiateModal, toggleSuccessDialogue, toggleAcceptModal, toggleRejectModal, image_url}: BidActionPayload, { rejectWithValue }) => {
+  async ({amount, response, description, runner_id,type, bid_id, method, errand_id,  dispatch, source, Toast, toggleNegotiateModal, toggleSuccessDialogue, toggleAcceptModal, toggleRejectModal, setShowFundWallet, image_url}: BidActionPayload, { rejectWithValue }) => {
     
   try {
     const _rs = await _fetch({
@@ -18,56 +16,58 @@ export const bidAction = createAsyncThunk<ErrandMarketResponse, BidActionPayload
 
     const rs = await _rs.json()
 
-    console.log(">>>>>rs", rs);
-
     if (rs.success === false) {
        Toast.show({
           type: 'error',
-          text1: rs.message,
-        });
-      toggleNegotiateModal && toggleNegotiateModal(false) 
-      toggleSuccessDialogue && toggleSuccessDialogue(true)
+         text1: rs.message,
+       });
+      setShowFundWallet(true)
+      dispatch(setNegotiationLoaderToFalse(false))
+      toggleAcceptModal && toggleAcceptModal(false)
     }
     
 
-    if (rs.success === true) {
-      dispatch(myErrandList({}))
-      dispatch(errandDetails({ errandId: errand_id }))
-       toggleNegotiateModal && toggleNegotiateModal(false) 
-      toggleSuccessDialogue && toggleSuccessDialogue(true)
+    // if (rs.success === true) {
+    //   dispatch(myErrandList({}))
+    //   dispatch(errandDetails({ errandId: errand_id }))
+    //    toggleNegotiateModal && toggleNegotiateModal(false) 
+    //   toggleSuccessDialogue && toggleSuccessDialogue(true)
 
-      if (response === 'accept') {
-        toggleAcceptModal && toggleAcceptModal(false)
-        dispatch(errandDetails({ errandId: errand_id }))
-        dispatch(myErrandList({}))
-         Toast.show({
-          type: 'success',
-          text1: rs.message,
-        });
-      }
-      if (response === 'reject') {
-        toggleRejectModal && toggleRejectModal(false);
-        toggleSuccessDialogue && toggleSuccessDialogue(true)
-        dispatch(errandDetails({ errandId: errand_id }))
-        dispatch(myErrandList({}))
-         Toast.show({
-          type: 'success',
-          text1: rs.message,
-        });
-      }
+    //   if (response === 'accept') {
+    //     toggleAcceptModal && toggleAcceptModal(false)
+    //     dispatch(errandDetails({ errandId: errand_id }))
+    //     dispatch(myErrandList({}))
+    //      Toast.show({
+    //       type: 'success',
+    //       text1: rs.message,
+    //     });
+    //   }
+    //   if (response === 'reject') {
+    //     toggleRejectModal && toggleRejectModal(false);
+    //     toggleSuccessDialogue && toggleSuccessDialogue(true)
+    //     dispatch(errandDetails({ errandId: errand_id }))
+    //     dispatch(myErrandList({}))
+    //      Toast.show({
+    //       type: 'success',
+    //       text1: rs.message,
+    //     });
+    //   }
 
-      toggleNegotiateModal && toggleNegotiateModal(false) 
-      toggleSuccessDialogue && toggleSuccessDialogue(true)
-      dispatch(errandDetails({ errandId: errand_id }))
-      dispatch(myErrandList({}))
+    //   toggleNegotiateModal && toggleNegotiateModal(false) 
+    //   toggleSuccessDialogue && toggleSuccessDialogue(true)
+    //   dispatch(errandDetails({ errandId: errand_id }))
+    //   dispatch(myErrandList({}))
 
-       Toast.show({
-          type: 'success',
-          text1: "Your negotiation was successful",
-       });
+    //    Toast.show({
+    //       type: 'success',
+    //       text1: "Your negotiation was successful",
+    //    });
       
+    //     return rs.data
+    // }
+
         return rs.data
-    }
+
   } catch (e: any) {
     if (e.response.status === 400) {
       if (e.response.data.success === false) {

@@ -19,7 +19,6 @@ import {
   BackHandler,
   Dimensions,
   FlatList,
-  Modal,
   Platform,
   Pressable,
   RefreshControl,
@@ -30,6 +29,7 @@ import {
   View,
 } from 'react-native'
 import { SelectList } from 'react-native-dropdown-select-list'
+import Modal from 'react-native-modal'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
@@ -391,11 +391,15 @@ const LandingTest = ({ navigation }: any) => {
   // console.log('>>>>>currnetUse', currentUser)
 
   const checkPinIsVerified = async () => {
+    const isAuthenticated = await AsyncStorage.getItem('accessToken')
     const user_id = (await AsyncStorage.getItem('user_id')) || ''
+    const ci_location = await AsyncStorage.getItem('ci_location')
     dispatch(currentUserDetails({ user_id }))
     if (
-      currentUser.ci_location === undefined ||
-      currentUser.ci_location === ''
+      // currentUser.ci_location === undefined ||
+      // currentUser.ci_location === ''
+      ci_location !== 'true' &&
+      isAuthenticated
     ) {
       setShowLocationModal(true)
     }
@@ -563,80 +567,85 @@ const LandingTest = ({ navigation }: any) => {
                 isLoading={loadingNotification}
               />
 
-              <Modal visible={showLocationModal} transparent={true}>
-                <View style={styles.modalContainer}>
-                  <View className="bg-white text-black w-[350px] mx-10 rounded-lg px-4 py-10 ">
-                    <View>
-                      <Text className="text-center text-base pb-2">
-                        Select the city that you are currently in
+              <Modal
+                onBackdropPress={() => {
+                  setShowLocationModal(false)
+                }}
+                isVisible={showLocationModal}
+              >
+                {/* <View style={styles.modalContainer}> */}
+                <View className="bg-white text-black w-full rounded-lg px-4 py-10 ">
+                  <View>
+                    <Text className="text-center text-base pb-2">
+                      Select the city that you are currently in
+                    </Text>
+
+                    <Pressable
+                      onPress={() => {
+                        console.log('.....ttocjed')
+                      }}
+                    >
+                      <SelectList
+                        setSelected={(val) => setSelected(val)}
+                        data={states}
+                        save="value"
+                        dropdownShown={false}
+                      />
+                    </Pressable>
+                  </View>
+
+                  {selected ? (
+                    <View className="mt-4">
+                      <Text className="text-center text-base py-2">
+                        Select the lga that you are currently in
                       </Text>
 
-                      <Pressable
-                        onPress={() => {
-                          console.log('.....ttocjed')
+                      <SelectList
+                        setSelected={(val) => {
+                          setSelectedLga(val)
                         }}
-                      >
-                        <SelectList
-                          setSelected={(val) => setSelected(val)}
-                          data={states}
-                          save="value"
-                          dropdownShown={false}
-                        />
-                      </Pressable>
+                        data={lgas}
+                        save="value"
+                        dropdownShown={false}
+                      />
                     </View>
+                  ) : (
+                    ''
+                  )}
 
-                    {selected ? (
-                      <View className="mt-4">
-                        <Text className="text-center text-base py-2">
-                          Select the lga that you are currently in
-                        </Text>
+                  <View className="flex-row items-center justify-center space-x-3 mt-3">
+                    <TouchableOpacity
+                      disabled={!selectedId}
+                      onPress={() => saveLocation()}
+                      className={`bg-[#1E3A79] p-3 rounded-lg mt-2 w-1/2 ${
+                        !selectedId ? 'bg-[#909398]' : 'bg-[#1E3A79]'
+                      }`}
+                    >
+                      <Text className="text-white text-center">
+                        {' '}
+                        {loading ? (
+                          <ActivityIndicator size="small" color="#000000" />
+                        ) : (
+                          'Save'
+                        )}
+                      </Text>
+                    </TouchableOpacity>
 
-                        <SelectList
-                          setSelected={(val) => {
-                            setSelectedLga(val)
-                          }}
-                          data={lgas}
-                          save="value"
-                          dropdownShown={false}
-                        />
-                      </View>
-                    ) : (
-                      ''
-                    )}
-
-                    <View className="flex-row items-center justify-center space-x-3 mt-3">
-                      <TouchableOpacity
-                        disabled={!selectedId}
-                        onPress={() => saveLocation()}
-                        className={`bg-[#1E3A79] p-3 rounded-lg mt-2 w-1/2 ${
-                          !selectedId ? 'bg-[#909398]' : 'bg-[#1E3A79]'
-                        }`}
-                      >
-                        <Text className="text-white text-center">
-                          {' '}
-                          {loading ? (
-                            <ActivityIndicator size="small" color="#000000" />
-                          ) : (
-                            'Save'
-                          )}
-                        </Text>
-                      </TouchableOpacity>
-
-                      <TouchableOpacity
-                        onPress={() => {
-                          setShowLocationModal(false)
-                          setShowCategoryModal(true)
-                        }}
-                        className="border border-red-500 p-3 rounded-lg mt-2  w-1/2 "
-                      >
-                        <Text className="text-red-600 text-center">Skip</Text>
-                      </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setShowLocationModal(false)
+                        setShowCategoryModal(true)
+                      }}
+                      className="border border-red-500 p-3 rounded-lg mt-2  w-1/2 "
+                    >
+                      <Text className="text-red-600 text-center">Skip</Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
+                {/* </View> */}
               </Modal>
 
-              <Modal visible={showCategoryModal} transparent={true}>
+              <Modal isVisible={showCategoryModal}>
                 <View style={styles.modalContainer}>
                   <View className="bg-white text-black w-[350px] mx-10 rounded-lg px-4 py-10 ">
                     <CategoryInterestModal
@@ -697,7 +706,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
 })
 

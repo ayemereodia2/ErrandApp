@@ -32,6 +32,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import { useToast } from 'react-native-toast-notifications'
 import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
 import Container from '../../components/Container'
@@ -70,6 +71,9 @@ export default function MainScreen() {
   const [loadingMore, setLoadingMore] = useState(false)
   const [page, setPage] = useState(1)
   const [checkFilterToggle, setCheckFilterToggle] = useState(false)
+
+  const toast = useToast()
+
 
   // const handleViewChange = () => {
   //   setToggleView(!toggleView)
@@ -403,41 +407,41 @@ export default function MainScreen() {
                     </View>
                   )}
 
-                    {searchedErrand?.length === 0 ? (
-                      <View className="flex-row justify-center items-center mt-14">
-                        <Text>There are no errands at the moment</Text>
-                      </View>
-                    ) : (
-                      <FlatList
-                        refreshControl={
-                          <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={onRefresh}
-                          />
-                        }
-                        onEndReached={loadMoreData}
-                        onEndReachedThreshold={0.5}
-                        ListFooterComponent={renderListFooter}
-                        data={searchedErrand}
-                        renderItem={({ item, index }) => {
-                          return (
-                            <View>
-                              <ErrandComp
-                                errand={item}
-                                navigation={navigation}
-                                key={index}
-                                toggleAvatarModal={toggleAvatarModal}
-                              />
-                            </View>
-                          )
-                        }}
-                        contentContainerStyle={{
-                          paddingBottom: 150,
-                        }}
-                        keyExtractor={(item) => item.id}
-                        style={{ flexGrow: 0, height: 650 }}
-                      />
-                    )}
+                  {searchedErrand?.length === 0 ? (
+                    <View className="flex-row justify-center items-center mt-14">
+                      <Text>There are no errands at the moment</Text>
+                    </View>
+                  ) : (
+                    <FlatList
+                      refreshControl={
+                        <RefreshControl
+                          refreshing={refreshing}
+                          onRefresh={onRefresh}
+                        />
+                      }
+                      onEndReached={loadMoreData}
+                      onEndReachedThreshold={0.5}
+                      ListFooterComponent={renderListFooter}
+                      data={searchedErrand}
+                      renderItem={({ item, index }) => {
+                        return (
+                          <View>
+                            <ErrandComp
+                              errand={item}
+                              navigation={navigation}
+                              key={index}
+                              toggleAvatarModal={toggleAvatarModal}
+                            />
+                          </View>
+                        )
+                      }}
+                      contentContainerStyle={{
+                        paddingBottom: 150,
+                      }}
+                      keyExtractor={(item) => item.id}
+                      style={{ flexGrow: 0, height: 650 }}
+                    />
+                  )}
                   {/* <ScrollView>
                     <View className="pt-2">
                       {searchedErrand?.map(

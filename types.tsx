@@ -452,6 +452,7 @@ export interface BidActionPayload {
   toggleAcceptModal?: (open: boolean) => void
   toggleRejectModal?: (open: boolean) => void
   image_url?: string[]
+  setShowFundWallet?: (open: boolean) => void
 }
 
 export interface PostBidRequest {
