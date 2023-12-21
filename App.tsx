@@ -31,6 +31,7 @@ import { _fetch } from './services/axios/http'
 import { store } from './services/store'
 import { getAppVersion } from './utils/helper'
 
+
 const queryClient = new QueryClient()
 
 function cacheImages(images: any) {
@@ -43,8 +44,18 @@ function cacheImages(images: any) {
   })
 }
 
+
+ 
+
 export default function App({ navigation }: any) {
+
   const [appIsReady, setAppIsReady] = useState(false)
+
+  
+ 
+
+  
+
   // const versionCode = '1.0.3'
 
   const [isGuest, setIsGuest] = useState<any>()
@@ -52,33 +63,29 @@ export default function App({ navigation }: any) {
 
   useOnlineManager()
 
+  
+
   // useEffect(() => {
   //   const checkLoggedIn = async () => {
   //     return await AsyncStorage.getItem('accessToken')
   //   }
 
   //   const requestUserPermission = async () => {
-  //     const checked = await checkLoggedIn()
-  //     console.log('>>>>checked')
+  //     const authStatus = await messaging().requestPermission()
+  //     const enabled =
+  //       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+  //       authStatus === messaging.AuthorizationStatus.PROVISIONAL
 
-  //     if (checked) {
-  //       const authStatus = await messaging().requestPermission()
-  //       const enabled =
-  //         authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-  //         authStatus === messaging.AuthorizationStatus.PROVISIONAL
-
-  //       if (enabled) {
-  //         console.log('Authorization status:', authStatus)
-  //       }
-  //     } else {
-  //       return false
+  //     if (enabled) {
+  //       console.log('Authorization status:', authStatus)
   //     }
   //   }
+
   //   if (requestUserPermission()) {
   //     messaging()
   //       .getToken()
   //       .then(async (token) => {
-  //         console.log('>>>>token', token)
+  //         console.log('>>>>>,>token', token)
   //         const rs = await _fetch({
   //           method: 'PUT',
   //           _url: `/user/mobile/token`,
@@ -86,7 +93,7 @@ export default function App({ navigation }: any) {
   //         })
   //         const _rs = await rs.json()
 
-  //         console.log('>>>>>>>>>', _rs.success)
+  //         // console.log('>>>>>>>>>-', _rs)
   //       })
   //   } else {
   //     console.log('failed token state')
@@ -103,10 +110,12 @@ export default function App({ navigation }: any) {
 
   //   // Handle user clicking on a notification and open the screen
   //   const handleNotificationClick = async (response: any) => {
+  //     console.log(">>>>>>reponse nootification", response?.notification?.request?.content?.data);
+      
   //     const screen = response?.notification?.request?.content?.data?.screen
   //     if (screen !== null) {
   //       navigation.navigate(screen)
-  //     }
+  //     }   
   //   }
 
   //   // Listen for user clicking on a notification
@@ -116,6 +125,8 @@ export default function App({ navigation }: any) {
 
   //   // Handle push notifications when the app is in the foreground
   //   const handlePushNotification = async (remoteMessage: any) => {
+  //     console.log('>>>>>>=ermeote message', remoteMessage)
+
   //     const notification = {
   //       title: remoteMessage.notification.title,
   //       body: remoteMessage.notification.body,

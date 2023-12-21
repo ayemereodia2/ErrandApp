@@ -1,8 +1,9 @@
-import { AntDesign } from '@expo/vector-icons'
+import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
+  Image,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -23,6 +24,7 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { walletAction } from '../../services/wallet/walletBalance'
 import { CreateErrandRequest, PostErrandData } from '../../types'
 import { currencyMask, parseAmount } from '../../utils/helper'
+import Checkbox from 'expo-checkbox'
 
 interface LatLng {
   lat: number
@@ -126,22 +128,22 @@ const LandingForm = ({ navigation, route }: any) => {
     // getTransactions()644
   }, [])
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      headerLeft: () => (
-        <TouchableOpacity
-          className="flex-row items-center justify-between mx-0 py-3 mr-6"
-          onPress={() => navigation.goBack()}
-        >
-          <AntDesign name="arrowleft" size={24} color={textTheme} />
-        </TouchableOpacity>
-      ),
-      headerStyle: { backgroundColor: backgroundTheme },
-      headerTitleStyle: { color: textTheme },
-      title: 'Quick Errand',
-    })
-  }, [navigation])
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerShown: true,
+  //     headerLeft: () => (
+  //       <TouchableOpacity
+  //         className="flex-row items-center justify-between mx-0 py-3 mr-6"
+  //         onPress={() => navigation.goBack()}
+  //       >
+  //         <AntDesign name="arrowleft" size={24} color={textTheme} />
+  //       </TouchableOpacity>
+  //     ),
+  //     headerStyle: { backgroundColor: backgroundTheme },
+  //     headerTitleStyle: { color: textTheme },
+  //     title: 'Quick Errand',
+  //   })
+  // }, [navigation])
 
   const handleClicked = () => {
     setClicked(!clicked)
@@ -184,18 +186,89 @@ const LandingForm = ({ navigation, route }: any) => {
   }, [data?.balance])
 
   return (
-    <SafeAreaView
-      style={{ backgroundColor: backgroundTheme, flex: 1 }}
-      className=" pt-4 "
-    >
-      
-      <ScrollView
+    <>
+
+<ScrollView
         keyboardShouldPersistTaps="always"
         style={{ backgroundColor: backgroundTheme }}
-        className="px-4"
+        // className="px-4"
         contentContainerStyle={{ flexGrow: 1 }}
         
       >
+
+<View>
+<View className='bg-purple-200 h-[160px] w-screen shadow-md' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+  <View className='bg-[#09497D] h-[150px] pt-[70px] px-6 pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+              <View
+                className={
+                  Platform.OS === 'android'
+                    ? 'flex-row items-center justify-between mt-6'
+                    : 'flex-row items-center justify-between'
+                }
+              >
+          <View className='flex-row items-center mt-2'> 
+      <TouchableOpacity
+          className=" items-center justify-between mr-8 py-3 "
+          onPress={() => navigation.goBack()}
+        >
+      <Ionicons name="chevron-back-outline" size={24} color="white" />
+         </TouchableOpacity>
+
+         <Text className='text-white text-xl font-medium' style={{fontFamily: 'Chillax'}}>Create Errand</Text>
+               
+         </View>
+         
+            {/* <Text
+                  className="font-bold text-[20px] leading-7"
+                  style={{ color: textTheme }}
+                >
+                  Welcome, {currentUser?.first_name}
+                </Text> */}
+
+                <View className="items-center flex-row gap-2">
+                 
+                  <TouchableOpacity
+                    // onPress={
+                    //   // navigation.navigate('Contact')
+                    //   openMoreModal
+                    // }
+                  >
+                    <Text style={{ color: textTheme }}>
+                     
+                    <Ionicons
+                    name="settings-outline"
+                    size={22}
+                    color={'white'}
+                    style={{ marginLeft: 7 }}
+                  />
+                    </Text>
+                  </TouchableOpacity>
+
+                  <Text style={{ color: textTheme }} className='mr-4'>
+                    <FontAwesome
+                      name="bell-o"
+                      size={22}
+                      color={'white'}
+                      onPress={() => {
+                        navigation.navigate('Notification')
+                      }}
+                    />
+                  </Text>
+                </View>
+              </View>
+
+             
+             
+
+                </View>
+
+                </View>
+             </View>
+            
+      
+
+
+
         {/* <KeyboardAvoidingView
           style={{ flex: 1 }}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -204,27 +277,32 @@ const LandingForm = ({ navigation, route }: any) => {
         <TouchableOpacity onPress={()=> Keyboard.dismiss()}>
           <View className="mt-6 flex-row items-center justify-between mx-3">
             <Text
-              style={{ color: textTheme }}
-              className="font-bold text-[18px] leading-5"
+              style={{ color: textTheme, fontFamily: 'Axiforma' }}
+              className="font-normal text-[#393F42] text-[18px] leading-5"
             >
               What do you need help with?{' '}
-              <Text className="text-base font-normal">{category?.name}</Text>
+             
             </Text>
+          </View>
+
+          <View className='mx-4 flex-row justify-between pl-3 pt-3 pb-3 pr-5 border border-[#96A0A5] mt-2'>
+          <Text className="text-base font-normal text-[#6D6D6D]" style={{fontFamily: 'Axiforma'}}>{category?.name}</Text>
+          <Text><AntDesign name="lock" size={24} color="black" /></Text>
           </View>
           </TouchableOpacity>
 
           <View className="px-4 mt-5">
             <Text
-              style={{ color: textTheme }}
-              className="text-sm font-semibold text-[#243763]"
+              style={{ color: textTheme, fontFamily: 'Axiforma' }}
+              className="text-base font-normal text-[#393F42]"
             >
               Description
             </Text>
 
-            <View className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm mt-2 rounded-lg px-1">
+            <View className="w-full border bg-[#F5F5F5] border-[#96A0A5] text-sm mt-2 rounded-lg px-1">
               <TextInput
                 className={'w-full text-sm py-2 mt-2 rounded-lg px-3'}
-                placeholder="How do we help you.."
+                placeholder="Give the full details of what you need help with"
                 onChangeText={(e) => setDescription(e)}
                 value={description}
                 multiline={true}
@@ -238,14 +316,15 @@ const LandingForm = ({ navigation, route }: any) => {
 
           <View className="px-4 mt-5">
             <Text
-              style={{ color: textTheme }}
-              className="text-sm font-semibold text-[#243763]"
+              style={{ color: textTheme, fontFamily: 'Axiforma'  }}
+              className="text-base font-normal text-[#393F42]"
             >
               Amount
             </Text>
 
             <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
-              <Text className="text-lg ">&#x20A6;</Text>
+              {/* <Text className="text-lg ">&#x20A6;</Text> */}
+              <Text className="text-base text-[#6D6D6D] font-normal ">NGN</Text>
 
               <TextInput
                 className="w-full"
@@ -265,7 +344,7 @@ const LandingForm = ({ navigation, route }: any) => {
               }}
               className="flex-row items-center"
             >
-              <Text style={{ color: textTheme }} className="ml-2 pt-2 pr-2">
+              <Text style={{ color: textTheme, fontFamily: 'Axiforma' }} className="ml-2 pt-2 pr-2 text-[#6D6D6D]">
                 Fund Wallet
               </Text>
               <Text
@@ -286,14 +365,21 @@ const LandingForm = ({ navigation, route }: any) => {
           </View>
 
           <View className="flex-row mt-6 mx-4 items-center ">
+
+            <Checkbox 
+            value={clicked}
+            onValueChange={handleClicked} 
+            className='mr-2'
+            />
+
             <Text
               style={{ color: textTheme }}
-              className="text-sm font-semibold text-[#243763]"
+              className="text-base font-normal text-[#0C426F]"
             >
               Address
             </Text>
 
-            <TouchableOpacity onPress={handleClicked}>
+            {/* <TouchableOpacity onPress={handleClicked}>
               <Text
                 style={{ color: textTheme }}
                 className="text-[28px] text-center"
@@ -301,7 +387,7 @@ const LandingForm = ({ navigation, route }: any) => {
                 {' '}
                 {clicked ? '-' : '+'}{' '}
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           
 
@@ -310,6 +396,7 @@ const LandingForm = ({ navigation, route }: any) => {
               style={{ marginBottom: 80, display: clicked ? 'flex' : 'none' }}
               className="mt-2 px-4"
             >
+              <Text className='text-base text-[#393F42]' style={{fontFamily: 'Axiforma'}}>Pick Up Location</Text>
               <GooglePlacesAutocomplete
                 placeholder="Enter Pickup Address"
                 onPress={(data, details) =>
@@ -328,6 +415,7 @@ const LandingForm = ({ navigation, route }: any) => {
                 }}
               />
 
+              <Text className='text-base text-[#393F42] mt-3' style={{fontFamily: 'Axiforma'}}>Delivery/ End Location</Text>
               <GooglePlacesAutocomplete
                 placeholder="Enter Delivery Address"
                 onPress={(data, details) =>
@@ -356,18 +444,19 @@ const LandingForm = ({ navigation, route }: any) => {
       <View className="absolute bottom-0 flex-row justify-center w-full">
         <TouchableOpacity
           onPress={() => submitErrandhandler()}
-          className="bg-[#1E3A79] h-16 w-full  mt-6 flex-row justify-center items-center "
+          className="bg-[#1E3A79] h-[66px] w-full mt-6 flex-row justify-center items-center "
         >
           {creatingErrand ? (
             <ActivityIndicator size="small" color="blue" />
           ) : (
-            <Text className="text-white text-base text-center">
+            <Text className="text-[#EEF2F3] text-base text-center" style={{fontFamily: 'Axiforma'}}>
               Post Errand
             </Text>
           )}
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    
+    </>
   )
 }
 

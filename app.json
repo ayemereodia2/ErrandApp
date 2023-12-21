@@ -26,6 +26,12 @@
           }
         ],
         [
+          "expo-font",
+          {
+            "fonts": ["path/to/file.ttf"]
+          }
+        ],
+        [
           "expo-image-picker",
           {
             "photosPermission": "The app accesses your photos to let you share them with your friends."
@@ -45,15 +51,12 @@
     "assetBundlePatterns": [
       "assets/images/*"
     ],
+    "notification": {
+      "icon": "./assets/images/icon-bg.png",
+      "color":"#a9c1f8"
+    },
     "ios": {
       "supportsTablet": true,
-      "infoPlist": {
-        "NSMicrophoneUsageDescription": "Allow audio usage",
-        "NSAudioRecordUsageDescription": "Allow audio usage",
-        "UIBackgroundModes": [
-          "audio"
-        ]
-      },
       "config": {
         "googleMapsApiKey": "AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo"
       },

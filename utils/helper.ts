@@ -27,7 +27,7 @@ export function getTimeOfDay() {
 }
 
 export const getAppVersion = async () => {
-  const versionCode = '1.0.4'
+  const versionCode = '1.0.5'
     await fetch(`${process.env.EXPO_PUBLIC_API_URL}/mobileversion`)
       .then((rs) => rs.json())
       .then((rs) => {

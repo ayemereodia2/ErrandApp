@@ -12,6 +12,7 @@ import Toast from 'react-native-toast-message'
 import Button from '../../components/Button'
 import { Logo } from '../../components/Logo'
 import { _fetch } from '../../services/axios/http'
+import AuthLogo from '../../components/AuthLogo'
 
 type OtpProp = {
   ref: any
@@ -98,7 +99,9 @@ export default function VerifyOtpScreen({ navigation, route }: any) {
   return (
     <SafeAreaView>
       <View className="px-4">
-        <Logo />
+        {/* <Logo /> */}
+
+        <AuthLogo />
 
         <View className="text-[#333333] font-inter py-2 space-y-1">
           <Text className="font-semibold text-lg text-center">

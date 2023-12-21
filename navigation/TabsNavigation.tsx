@@ -6,6 +6,7 @@ import {
   FontAwesome5,
   Fontisto,
   Ionicons,
+  MaterialCommunityIcons,
   MaterialIcons,
   SimpleLineIcons,
 } from '@expo/vector-icons'
@@ -32,6 +33,7 @@ import {
   SetttingsStack,
   WalletStack,
 } from './StackNavigation'
+import PostErrand from '../screens/CreateErrand'
 
 const Header = (props: any) => {
   return (
@@ -46,6 +48,7 @@ const Header = (props: any) => {
 interface OptionsProps {
   headerShown: boolean
   title: string
+  unmountOnBlur: boolean
   tabBarIcon: any
 }
 
@@ -70,7 +73,12 @@ export const TabsNavigation = ({ navigation }: any) => {
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-  const optionsHandler = ({ headerShown, title, tabBarIcon }: OptionsProps) => {
+  const optionsHandler = ({
+    headerShown,
+    title,
+    tabBarIcon,
+    unmountOnBlur,
+  }: OptionsProps) => {
     const bottomSheetRef1 = useRef<BottomSheetModal>(null)
 
     function openMoreModal() {
@@ -79,6 +87,7 @@ export const TabsNavigation = ({ navigation }: any) => {
 
     return {
       headerShown,
+      unmountOnBlur,
       title,
       tabBarIcon,
       headerStyle: { backgroundColor: backgroundTheme, color: textTheme },
@@ -152,11 +161,13 @@ export const TabsNavigation = ({ navigation }: any) => {
           backgroundColor: theme ? '#0c1730' : 'white',
           borderTopRightRadius: 10,
           borderTopLeftRadius: 10,
+          borderBottomStartRadius: 20,
           // borderRadius: 15,
-          height: 80,
+          height: 92,
           // width:100
           paddingTop: 0,
           ...styles.shadow,
+        
         },
         headerShown: false,
         tabBarHideOnKeyboard: true,
@@ -166,22 +177,28 @@ export const TabsNavigation = ({ navigation }: any) => {
         options={optionsHandler({
           title: 'Landing Page',
           headerShown: false,
+          unmountOnBlur: true,
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
                 <>
-                <Entypo
-                  name="home"
-                  size={24}
-                  color={theme ? 'white' : 'black'}
-                  style={{marginLeft: 6}}
-                />
-                <Text style={{color: textTheme}}>Home</Text>
+                  <Entypo
+                    name="home"
+                    size={24}
+                    color={theme ? 'white' : '#09497D'}
+                    style={{ marginLeft: 6 }}
+                  />
+                  <Text className='mt-2'  style={{ color: textTheme }}>Home</Text>
                 </>
               ) : (
                 <>
-                <AntDesign name="home" size={24} color={textTheme} style={{marginLeft: 6}}/>
-                <Text style={{color: textTheme}}>Home</Text>
+                  <AntDesign
+                    name="home"
+                    size={24}
+                    color={textTheme}
+                    style={{ marginLeft: 6 }}
+                  />
+                  <Text className='mt-2' style={{ color: textTheme }}>Home</Text>
                 </>
               )}
             </View>
@@ -193,20 +210,27 @@ export const TabsNavigation = ({ navigation }: any) => {
       <Tab.Screen
         options={optionsHandler({
           title: 'Errand Market',
+          unmountOnBlur: true,
           headerShown: false,
           tabBarIcon: ({ focused }: any) => (
-            <View>
+            <View style={{}}>
               {focused ? (
                 <>
-                <FontAwesome name="search" size={24} color={textTheme} style={{marginLeft: 6}}/>
-                <Text style={{color: textTheme}}>Market</Text>
+                  <Fontisto name="shopping-bag" size={24} 
+                   color={'#09497D'}
+                   style={{ textAlign: 'center'}}
+                   />
+                  <Text style={{ color: textTheme }}>Market Place</Text>
                 </>
               ) : (
                 <>
-                 <Feather name="search" size={24} color={textTheme} style={{marginLeft: 6}}/>
-                 <Text style={{color: textTheme}}>Market</Text>
+                 
+                   <Feather name="shopping-bag" size={24} 
+                   color={textTheme}
+                   style={{ textAlign: 'center'}}
+                   />
+                  <Text style={{ color: textTheme }}>Market Place</Text>
                 </>
-               
               )}
             </View>
           ),
@@ -214,24 +238,57 @@ export const TabsNavigation = ({ navigation }: any) => {
         name="MarketTab"
         component={MarketStack}
       />
+       {/* <Tab.Screen
+        options={optionsHandler({
+          title: '',
+          unmountOnBlur: true,
+          headerShown: false,
+          tabBarIcon: ({ focused }: any) => (
+            <View style={{position: 'relative', bottom: 20,  borderBottomLeftRadius: 100, borderBottomRightRadius: 100, backgroundColor: 'black', width: 60, height: 40}}>
+            
+            </View>
+          ),
+        })}
+        name="curve"
+        component={PostErrand}
+      /> */}
       <Tab.Screen
         options={optionsHandler({
           title: 'My Errands',
+          unmountOnBlur: true,
+
           headerShown: false,
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
                 <>
-                <MaterialIcons name="run-circle" size={30} color={textTheme} style={{marginLeft: 8}}/>
-                <Text style={{color: textTheme}}>Errands</Text>
+                  {/* <MaterialIcons
+                    name="run-circle"
+                    size={30}
+                    color={textTheme}
+                    style={{ marginLeft: 8 }}
+                  /> */}
+                  <MaterialCommunityIcons name="clock-time-five" size={24} color="#09497D" style={{textAlign: 'center'}} />
+                  {/* <Feather name="clock" size={24} 
+                  color={textTheme}
+                  style={{textAlign: 'center'}}
+                   /> */}
+                  <Text className='mt-2'  style={{ color: textTheme }}>My Errands</Text>
                 </>
-                
               ) : (
                 <>
-                <FontAwesome5 name="running" size={24} color={textTheme} style={{marginLeft: 8}}/>
-                <Text style={{color: textTheme}}>Errands</Text>
+                  {/* <FontAwesome5
+                    name="running"
+                    size={24}
+                    color={textTheme}
+                    style={{ marginLeft: 8 }}
+                  /> */}
+                  <Feather name="clock" size={24} 
+                  color={textTheme}
+                  style={{textAlign: 'center'}}
+                   />
+                  <Text className='mt-2'  style={{ color: textTheme, textAlign: 'center' }}> My Errands</Text>
                 </>
-                
               )}
             </View>
           ),
@@ -243,18 +300,30 @@ export const TabsNavigation = ({ navigation }: any) => {
       <Tab.Screen
         options={optionsHandler({
           title: 'Wallet',
+          unmountOnBlur: true,
+
           headerShown: false,
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
                 <>
-               <Entypo name="wallet" size={26} color={textTheme} style={{marginLeft: 6}}/> 
-                <Text style={{color: textTheme}}>Wallet</Text>
+                  <Entypo
+                    name="wallet"
+                    size={26}
+                    color={'#09497D'}
+                    style={{ marginLeft: 6 }}
+                  />
+                  <Text style={{ color: textTheme }}>Wallet</Text>
                 </>
               ) : (
                 <>
-                <SimpleLineIcons name="wallet" size={24} color={textTheme} style={{marginLeft: 6}}/>
-                <Text style={{color: textTheme}}>Wallet</Text>
+                  <SimpleLineIcons
+                    name="wallet"
+                    size={24}
+                    color={textTheme}
+                    style={{ marginLeft: 6 }}
+                  />
+                  <Text style={{ color: textTheme }}>Wallet</Text>
                 </>
               )}
             </View>
@@ -263,31 +332,41 @@ export const TabsNavigation = ({ navigation }: any) => {
         name="WalletTab"
         component={WalletStack}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         options={optionsHandler({
           title: 'Settings',
+          unmountOnBlur: true,
+
           headerShown: false,
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
                 <>
-                <Fontisto name="player-settings" size={26} color={textTheme} style={{marginLeft: 6}} />
-                <Text style={{color: textTheme}}>Settings</Text>
+                  <Fontisto
+                    name="player-settings"
+                    size={26}
+                    color={textTheme}
+                    style={{ marginLeft: 6 }}
+                  />
+                  <Text style={{ color: textTheme }}>Settings</Text>
                 </>
-                
               ) : (
                 <>
-                <Ionicons name="settings-outline" size={26} color={textTheme} style={{marginLeft: 7}}/>
-                <Text style={{color: textTheme}}>Settings</Text>
+                  <Ionicons
+                    name="settings-outline"
+                    size={26}
+                    color={textTheme}
+                    style={{ marginLeft: 7 }}
+                  />
+                  <Text style={{ color: textTheme }}>Settings</Text>
                 </>
-                
               )}
             </View>
           ),
         })}
         name="SettingsTab"
         component={SetttingsStack}
-      />
+      /> */}
     </Tab.Navigator>
   )
 }

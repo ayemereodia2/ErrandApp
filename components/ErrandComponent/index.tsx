@@ -41,10 +41,6 @@ export default function ErrandComp({
   const regex = /(<(?:[^>'"]|(['"])(?:(?!\2).)*\2)*>)/gi;
 
 
-
-
-
-
  
 
   const result = errand.description.replace(regex, '')

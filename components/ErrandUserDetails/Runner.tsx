@@ -18,7 +18,7 @@ interface SenderProp {
   userId: string
   singleSubErrand: SingleSubErrand
   manageErrandClicked: boolean
-  bids: Bids[]
+  // bids: Bids[]
 }
 
 export const RunnerDetails = ({
@@ -26,7 +26,6 @@ export const RunnerDetails = ({
   userId,
   singleSubErrand,
   manageErrandClicked,
-  bids,
 }: SenderProp) => {
   const dispatch = useAppDispatch()
   const navigation = useNavigation()
@@ -34,15 +33,11 @@ export const RunnerDetails = ({
   const [address, setAddress] = useState('')
   const regex = /(<([^>]+)>)/gi
 
-
-  // console.log('>>>>bids', singleSubErrand)
-  // const user = bids?.find((bid) => bid.)
-
-  const singleErrandRunner = bids.find(
+  const singleErrandRunner = errand.bids.find(
     (bid) => bid?.runner.id === errand.runner_id,
   )
 
-  const multiUserRunner = bids?.find(
+  const multiUserRunner = errand.bids?.find(
     (bid) => bid?.runner.id === singleSubErrand?.runner_id,
   )
 

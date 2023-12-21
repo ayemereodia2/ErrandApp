@@ -347,13 +347,6 @@ const ChatInput = ({
 
   return (
     <BottomSheetModalProvider>
-       {/* Button to trigger data refresh */}
-  {/* <TouchableOpacity
-          onPress={handleRefresh}
-          className="bg-[#3F60AC] flex-row justify-center items-center w-20 rounded-lg h-10 "
-        >
-          <Text style={{ color: 'white' }}>Refresh</Text>
-        </TouchableOpacity> */}
       <ScrollView
         className="bg-[#CBD5EC] mx-auto h-60"
         //  style={{ backgroundColor: '#CBD5EC', height: 120 }}

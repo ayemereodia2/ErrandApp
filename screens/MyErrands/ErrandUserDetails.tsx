@@ -229,7 +229,6 @@ const ErrandUserDetails = ({ navigation, route }: any) => {
       userId,
       singleSubErrand,
       manageErrandClicked,
-      bids,
     },
     {
       key: 'second',
@@ -238,7 +237,6 @@ const ErrandUserDetails = ({ navigation, route }: any) => {
       userId,
       singleSubErrand,
       manageErrandClicked,
-      bids,
     },
   ])
 

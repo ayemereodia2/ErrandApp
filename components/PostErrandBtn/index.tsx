@@ -1,7 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
 
@@ -18,23 +18,27 @@ const PostErrandButton = ({ className }: BtnProp) => {
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   return (
+    <View className='ml-[180px] w-[60px] h-[60px] relative z-10 bottom-20 ' style={{borderEndEndRadius: 20}}>
     <TouchableOpacity
       style={{
         backgroundColor: theme ? '#d2d8e4' : '#1E3A79',
       }}
       onPress={() => navigation.navigate('CreateErrand')}
-      className={`absolute bg-[#1E3A79] rounded-full h-16 w-16 flex-row justify-center items-center shadow-xl ${
+      className={` bg-[#1E3A79] rounded-full h-[55.04px] w-[55.04px] flex-row justify-center items-center shadow-xl ${
         theme ? 'shadow-[#283552]' : 'shadow-[#a2a3aa]'
-      }  ${className}`}
+      }`}
     >
+      <Text>
       <MaterialIcons
         name="add"
-        size={40}
+        size={24}
         color={theme ? 'black' : 'white'}
         // style={{ top: -40 }}
         className="shadow-lg"
       />
-    </TouchableOpacity>
+      </Text>
+</TouchableOpacity>  
+ </View>
   )
 }
 

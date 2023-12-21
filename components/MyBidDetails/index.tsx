@@ -147,30 +147,6 @@ const ErrandBid = ({
         </View>
 
         <View className="flex-row justify-between items-center">
-          {/* {bid.state === 'accepted' && (
-            <View className="bg-[#ADF0D1] rounded-2xl py-1 px-3 mt-2 ">
-              <Text className="text-[#115A38] capitalize text-base font-md">
-                {bid.state}
-              </Text>
-            </View>
-          )} */}
-
-          {/* {bid.state === 'cancelled' && (
-            <View className="bg-[#ADF0D1] rounded-2xl py-1 px-3 mt-2 ">
-              <Text className="text-[#115A38] capitalize text-base font-md">
-                {bid.state}
-              </Text>
-            </View>
-          )} */}
-
-          {/* {bid.state === 'completed' && (
-            <View className="bg-[#ADF0D1] rounded-2xl py-1 px-3 mt-2 ">
-              <Text className="text-[#115A38] capitalize text-sm font-md">
-                {bid.state}
-              </Text>
-            </View>
-          )} */}
-
           <View className="bg-[#FEE1CD] rounded-2xl py-1 px-3 mt-2 ">
             <Text className="text-[#642B02] text-base font-bold">
               &#x20A6;{(haggle?.amount / 100).toLocaleString()}
@@ -190,14 +166,8 @@ const ErrandBid = ({
               onPress={() => toggleBidHistoryModal(true)}
               className="flex-row space-x-2 items-center border-[0.3px] rounded-2xl py-1 px-3 mt-2"
             >
-              {/* <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
-                <Text className="text-xs text-center text-[#243763]">
-                  Bid History
-                </Text>
-              </View> */}
-
               <Text className="flex-row space-x-2 items-center rounded-xl">
-                Bid History 
+                Bid History
               </Text>
             </TouchableOpacity>
 
@@ -231,12 +201,6 @@ const ErrandBid = ({
               onPress={() => toggleBidHistoryModal(true)}
               className="flex-row space-x-2 items-center border-[0.3px] rounded-2xl py-1 px-3 mt-2"
             >
-              {/* <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
-                <Text className="text-xs text-center text-[#243763]">
-                  Bid History
-                </Text>
-              </View> */}
-
               <Text className="flex-row space-x-2 items-center rounded-xl">
                 Bid History
               </Text>
@@ -272,11 +236,7 @@ const ErrandBid = ({
               onPress={() => toggleBidHistoryModal(true)}
               className="flex-row space-x-2 items-center border-[0.3px] rounded-2xl py-1 px-3 mt-2"
             >
-              {/* <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
-                <Text className="text-xs text-center text-[#243763]">
-                  Bid History
-                </Text>
-              </View> */}
+            
 
               <Text className="flex-row space-x-2 items-center rounded-xl">
                 Bid History

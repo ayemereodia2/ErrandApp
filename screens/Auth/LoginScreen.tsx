@@ -18,6 +18,8 @@ import { Logo } from '../../components/Logo'
 import { loginUser } from '../../services/auth/login'
 import { RootState, useAppDispatch } from '../../services/store'
 import { ILogin } from '../../types'
+import AuthLogo from '../../components/AuthLogo'
+import Checkbox from 'expo-checkbox'
 
 export default function LoginScreen({navigation}: any) {
   // const navigation = useNavigation()
@@ -68,14 +70,15 @@ export default function LoginScreen({navigation}: any) {
           enableOnAndroid={true}
         >
           <View className="px-4">
-            <Logo />
+            {/* <Logo /> */}
+            <AuthLogo />
 
-            <View className="text-[#333333] font-inter mt-4 pb-4 space-y-1">
-              <Text className="font-semibold text-xl text-center">
-                Welcome Back, Please Login
+            <View className=" font-inter mt-4 pb-4 space-y-1">
+              <Text className="font-semibold text-[24px] text-[#393F42]" style={{fontFamily: 'Chillax'}}>
+                Get Right Back In
               </Text>
-              <Text className="text-sm text-center">
-                Enter your Swave credentials and Login
+              <Text className="text-sm " style={{fontFamily: 'Axiforma'}}>
+              Input your password continue enjoying our services.
               </Text>
 
               <View className="pt-2 space-y-2">
@@ -90,7 +93,7 @@ export default function LoginScreen({navigation}: any) {
                   message={'phone is required'}
                 />
 
-                <View className="relative mb-6">
+                <View className="relative mb-5">
                   <InputField
                     label="Password"
                     placeholder="Enter your password"
@@ -115,19 +118,30 @@ export default function LoginScreen({navigation}: any) {
                   </TouchableOpacity>
                 </View>
 
+              <View className='flex-row justify-between items-center mb-7'> 
+
+                <View className='flex-row items-center'>
+                <Checkbox />
+
+                <Text className='ml-2 text-[12px]' style={{fontFamily: 'Axiforma'}}>Keep me logged in</Text>
+                </View>
+
+              <View>
                 <Text
                   onPress={() => {
                     navigation.navigate('VerifyPhone', {
                       comingFrom: 'forgotPassword',
                     })
                   }}
-                  className="font-bold text-[#243763] ml-64 mb-2"
+                  className="font-bold text-[#243763] mb-2"
                 >
                   Forgot Password?
                 </Text>
+                </View>
+                </View>
 
                 <Button
-                  className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
+                  className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mb-5"
                   child={
                     loading ? (
                       <ActivityIndicator size="small" color="white" />
@@ -146,7 +160,7 @@ export default function LoginScreen({navigation}: any) {
                 )}
 
                 <Text className="text-black text-center pb-6 pt-3">
-                  Don’t Have an Account?
+                  Don’t Have an account yet?
                   <Text
                     onPress={() => {
                       navigation.navigate('VerifyPhone', {

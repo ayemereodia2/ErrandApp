@@ -20,6 +20,9 @@ export const getSubErrand = createAsyncThunk<SingleSubErrandResponse, Props, { r
     })
       
       const rs = await _rs.json();
+
+      console.log(">>>>>>rs", rs);
+      
       return rs
 
   

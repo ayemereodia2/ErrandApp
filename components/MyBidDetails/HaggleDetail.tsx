@@ -314,9 +314,7 @@ export const HaggleComponent = ({
         bid.state !== 'cancelled' ? (
           <View className="bg-[#c8e2e8] flex-row justify-center items-center rounded-lg mt-2 w-48 px-1 ">
            
-            <TouchableOpacity>
-              <Text>Repost this errand.</Text>
-            </TouchableOpacity>
+           
           </View>
         ) : (
           ''

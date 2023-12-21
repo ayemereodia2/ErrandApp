@@ -41,6 +41,8 @@ export default function NewNotifications({ data, isLoading }) {
     )
   }
 
+  
+
   // console.log('>>>>>>data', data.data)
 
   return (
