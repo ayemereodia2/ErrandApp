@@ -30,6 +30,7 @@ import { GuestStack, navigationRef } from './navigation/StackNavigation'
 import { _fetch } from './services/axios/http'
 import { store } from './services/store'
 import { getAppVersion } from './utils/helper'
+import { useFonts } from 'expo-font'
 
 
 const queryClient = new QueryClient()
@@ -53,7 +54,15 @@ export default function App({ navigation }: any) {
 
   
  
+  const [loaded] = useFonts({
+    Roboto: require('./assets/fonts/Roboto-Regular.ttf'),
+    Poppins: require('./assets/fonts/Poppins-Regular.ttf'),
+    Axiforma: require('./assets/fonts/Axiforma-Regular.ttf'),
+    Chillax: require('./assets/fonts/Chillax-Regular.otf'),
 
+  });
+
+ 
   
 
   // const versionCode = '1.0.3'
@@ -251,6 +260,9 @@ export default function App({ navigation }: any) {
   if (!appIsReady) {
     return null
   } else {
+    
+    
+  
     return (
       <NetworkProvider>
         <ErrorBoundary>

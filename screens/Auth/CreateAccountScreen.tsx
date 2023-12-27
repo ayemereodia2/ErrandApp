@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import React, { useLayoutEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { SafeAreaView, ScrollView, Text, View } from 'react-native'
+import { Image, SafeAreaView, ScrollView, Text, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as yup from 'yup'
 import Button from '../../components/Button'
@@ -11,6 +11,7 @@ import InputField from '../../components/InputField'
 import { Logo } from '../../components/Logo'
 import { useAppDispatch } from '../../services/store'
 import { ICreateAccount } from '../../types'
+import Checkbox from 'expo-checkbox'
 
 export default function CreateAccountScreen() {
   const navigation = useNavigation()
@@ -77,20 +78,24 @@ export default function CreateAccountScreen() {
           enableOnAndroid={true}
         >
           <View className="px-4">
-            <Logo />
+            {/* <Logo /> */}
+            <Image source={require('../../assets/images/authSwave.png')} className='mt-[29px] mx-2 mb-7'/>
 
-            <View className="text-[#333333] font-inter pb-4 space-y-1">
-              <Text className="font-semibold text-xl text-center">
-                Create an Account
-              </Text>
-              <Text className="text-sm text-center">
-                Let’s get started and create a Profile for you
+            <View className="text-[#333333] font-inter ">
+
+            <View className='border-b border-[#EEF0F1]'>
+            <Text className='text-[#09497D] pb-2 mb-7' style={{fontFamily: 'Axiforma'}}>Step 3 of 4</Text>
+            </View>
+
+            <Text className='font-semibold text-[24px] text-[#393F42] mb-2' >Profile</Text>
+              <Text className="text-sm text-[#717E83]">
+              Create your account profile by filling your details below.
               </Text>
 
-              <View className="pt-2 space-y-4">
+              <View className="pt-2">
                 <InputField
                   label="First Name"
-                  placeholder="Enter your Name"
+                  // placeholder="Enter your Name"
                   keyboardType="default"
                   name="first_name"
                   control={control}
@@ -101,7 +106,7 @@ export default function CreateAccountScreen() {
 
                 <InputField
                   label="Last Name"
-                  placeholder="Enter your Name"
+                  // placeholder="Enter your Name"
                   keyboardType="default"
                   name="last_name"
                   control={control}
@@ -111,8 +116,8 @@ export default function CreateAccountScreen() {
                 />
 
                 <InputField
-                  label="Email"
-                  placeholder="Enter your email"
+                  label="Email Address"
+                  placeholder="Enter your email addrss"
                   keyboardType="default"
                   optional="optional"
                   name="email"
@@ -123,7 +128,7 @@ export default function CreateAccountScreen() {
 
                 <InputField
                   label="Password"
-                  placeholder="Enter your Name"
+                  placeholder="***********"
                   keyboardType="visible-password"
                   name="password"
                   control={control}
@@ -134,7 +139,7 @@ export default function CreateAccountScreen() {
 
                 <InputField
                   label="Confirm Password"
-                  placeholder="re-enter password"
+                  placeholder="***********"
                   keyboardType="visible-password"
                   name="confirmPassword"
                   control={control}
@@ -146,7 +151,7 @@ export default function CreateAccountScreen() {
                 <InputField
                   label="Referral Code"
                   optional="optional"
-                  placeholder="Enter referral code"
+                  placeholder="Enter Invite Code"
                   control={control}
                   keyboardType="default"
                   name="referralCode"
@@ -154,13 +159,18 @@ export default function CreateAccountScreen() {
                   message={errors.referralCode?.message}
                 />
 
+                <View className='flex-row items-center mt-7 mx-3'>
+                  <Checkbox className=''/>
+                  <Text className='ml-2 '>I Accept Privacy Policies, <Text className='text-[#09497D] font-medium '>Terms & Conditions</Text>  </Text>
+                </View>
+
                 <Button
                   style={{}}
-                  className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
-                  child="Create Account"
+                  className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-6 mb-6"
+                  child="Proceed"
                   onPress={handleSubmit(onSubmit)}
                 />
-                <Text className="text-black text-center pb-6">
+                {/* <Text className="text-black text-center pb-6">
                   Already Have an Account?{' '}
                   <Text
                     onPress={() => {
@@ -170,7 +180,7 @@ export default function CreateAccountScreen() {
                   >
                     Login
                   </Text>
-                </Text>
+                </Text> */}
               </View>
             </View>
           </View>

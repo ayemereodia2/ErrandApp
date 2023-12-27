@@ -940,7 +940,7 @@ const LandingTest = ({ navigation }: any) => {
                    <TouchableOpacity
                       className="border-[#aaa] h-[77px] w-[77px] justify-center  rounded-xl mr-2 bg-white"
                       style={{
-                        backgroundColor: theme ? '#1E3A79' : 'white',
+                        // backgroundColor: theme ? '#1E3A79' : 'white',
                       }}
                       onPress={() => {
                         navigation.navigate('CreateErrand')
@@ -948,13 +948,13 @@ const LandingTest = ({ navigation }: any) => {
                     >
                       <Text
                         className="text-center"
-                        style={{ color: theme ? 'white' : '#3F60AC' }}>
-                        <MaterialCommunityIcons name="dots-horizontal-circle" size={35} />
+                        style={{ color: '#3F60AC' }}>
+                        <MaterialCommunityIcons name="dots-horizontal-circle" color={'#09497D'} size={35} />
                       </Text>
                     </TouchableOpacity>
                     <Text
                                   className="text-center mt-2 font-medium text-sm"
-                                  style={{ color: theme ? 'white' : '#061737', fontFamily: 'Axiforma' }}
+                                  style={{ color: '#061737', fontFamily: 'Axiforma' }}
                                 >
                                   More
                                 </Text>
@@ -1003,7 +1003,7 @@ const LandingTest = ({ navigation }: any) => {
 
               <View className="mt-10 mb-14">
                 <Text
-                  className=" text-[20px] font-medium text-[#061737] mb-5 leading-normal"
+                  className=" text-[20px] font-medium text-[#061737] mb-5 leading-normal ml-4"
                   style={{ color: textTheme, fontFamily: 'Chillax' }}
                 >
                   Urgent Errands
@@ -1024,7 +1024,7 @@ const LandingTest = ({ navigation }: any) => {
                 /> }
                 
                onSwiped={onSwiped}
-               stackSize={3}
+               stackSize={1}
                stackScale={12}
                stackSeparation={10}
                cardHorizontalMargin={10}

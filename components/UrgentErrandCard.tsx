@@ -21,6 +21,7 @@ import { RootState, useAppDispatch } from '../services/store'
 import { getCardTimeAgo } from '../utils/helper'
 import { useFonts } from 'expo-font'
 
+
 const UrgentErrandCard = ({ card, isLoading, navigation }: any) => {
   const dispatch = useAppDispatch()
 
@@ -68,13 +69,20 @@ const UrgentErrandCard = ({ card, isLoading, navigation }: any) => {
       ) : (
         // data?.data?.map((errand: any) => (
           <SafeAreaView className="mb-10 ">
-            <ScrollView horizontal>
+            <ScrollView horizontal className=''>
+
+            <View className='relative'>
+              <View >
+
               <View
                
-                className="pt-[17px] mt-2 pb-[17px] justify-around bg-[#09497D] rounded-[16px] px-[16px] border border-[#09496c] w-[372px] mx-auto"
+                className=" pt-[17px] mt-2 pb-[17px] justify-around  bg-[#09497D] rounded-[16px] px-[16px] border border-white w-[372px] mx-auto" 
+
                 style={{
                   // backgroundColor: theme ? '#152955' : 'white',
-                  borderColor: theme ? '#e9ebbf2' : 'lightgrey',
+                 
+
+                  
                 }}
                 key={card.errand_id}
               >
@@ -214,9 +222,19 @@ const UrgentErrandCard = ({ card, isLoading, navigation }: any) => {
                   
                 </View>
 
-
+                
 
               </View>
+
+
+              <View className='bg-orange-500 absolute bottom-[-63.5px] w-[92.5%] ml-[13px] rounded-b-[16px] mt-7 h-[70px] z-20'>
+
+              </View>
+             
+              </View>
+              </View>
+
+             
             </ScrollView>
           </SafeAreaView>
         // ))

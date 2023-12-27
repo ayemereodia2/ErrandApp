@@ -20,12 +20,16 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { ILogin } from '../../types'
 import AuthLogo from '../../components/AuthLogo'
 import Checkbox from 'expo-checkbox'
+import CountryPicker from 'react-native-country-picker-modal'
+import { AntDesign } from '@expo/vector-icons'
 
 export default function LoginScreen({navigation}: any) {
   // const navigation = useNavigation()
   const dispatch = useAppDispatch()
   const [showPassword, setShowPassword] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
+  const [countryCode, setCountryCode] = useState("NG")
+  const [callingCode, setCallingCode] = useState("234")
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -62,7 +66,7 @@ export default function LoginScreen({navigation}: any) {
   const { loading } = useSelector((state: RootState) => state.login)
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className='bg-[#FEFEFE]'>
       <ScrollView showsVerticalScrollIndicator={false}>
         <KeyboardAwareScrollView
           style={{ flex: 1, marginTop: 52 }}
@@ -73,17 +77,49 @@ export default function LoginScreen({navigation}: any) {
             {/* <Logo /> */}
             <AuthLogo />
 
-            <View className=" font-inter mt-4 pb-4 space-y-1">
+            <View className=" font-inter mt-4 pb-4 ">
               <Text className="font-semibold text-[24px] text-[#393F42]" style={{fontFamily: 'Chillax'}}>
                 Get Right Back In
               </Text>
-              <Text className="text-sm " style={{fontFamily: 'Axiforma'}}>
+              <Text className="text-sm mt-3" style={{fontFamily: 'Axiforma'}}>
               Input your password continue enjoying our services.
               </Text>
 
-              <View className="pt-2 space-y-2">
+              <View className="mt-7">
+
+              <Text className=''>Phone Number</Text>
+
+                <View className='flex-row items-center w-full'>
+
+
+                  <View className=' flex-row items-center mr-3 mt-1 px-[22px] py-1 w-[81px] border rounded-lg border-[#09497D]'>
+
+                  <CountryPicker
+                  withFilter
+                  countryCode={countryCode}
+                  withFlag
+                  withAlphaFilter={false}
+                  withCurrencyButton={false}
+                  withCallingCode
+                  onSelect={country => {
+                    console.log('country', country);
+                    const {cca2, callingCode} = country;
+                    setCountryCode(cca2)
+                    setCallingCode(callingCode[0]);
+                  }}
+                  containerButtonStyle={{
+                    alignItems: 'center',
+                    
+                    marginRight: 15
+                  }}
+                  />
+
+                  <Text className='mt-1'><AntDesign name="down" size={16} color="#130F26" /></Text>
+            </View>
+                
+                  <View className='w-[70vw]'>
                 <InputField
-                  label="Phone Number"
+                  // label="Phone Number"
                   placeholder="Enter your Phone Number"
                   keyboardType="numeric"
                   name="phone_number"
@@ -91,9 +127,13 @@ export default function LoginScreen({navigation}: any) {
                   control={control}
                   errors={errors.phone_number}
                   message={'phone is required'}
+                  
                 />
+                </View>
+              </View>
 
-                <View className="relative mb-5">
+                  {/* <Text>Password</Text> */}
+                <View className="relative mt-5 mb-5">
                   <InputField
                     label="Password"
                     placeholder="Enter your password"
@@ -108,7 +148,7 @@ export default function LoginScreen({navigation}: any) {
 
                   <TouchableOpacity
                     onPress={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 bottom-5"
+                    className="absolute right-4 bottom-7"
                   >
                     <Icon
                       name={showPassword ? 'eye-slash' : 'eye'}
@@ -141,7 +181,7 @@ export default function LoginScreen({navigation}: any) {
                 </View>
 
                 <Button
-                  className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mb-5"
+                  className="w-full text-white bg-[#243763] mt-8 flex-row justify-center items-start py-4 rounded-lg mb-5"
                   child={
                     loading ? (
                       <ActivityIndicator size="small" color="white" />

@@ -14,6 +14,7 @@ import Toast from 'react-native-toast-message'
 import Button from '../../components/Button'
 import { Logo } from '../../components/Logo'
 import { _fetch } from '../../services/axios/http'
+import AuthLogo from '../../components/AuthLogo'
 
 export default function PasswordQuestions({ route }: any) {
   const navigation = useNavigation()
@@ -87,20 +88,22 @@ export default function PasswordQuestions({ route }: any) {
     <SafeAreaView>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View className="px-4">
-          <Logo />
+          {/* <Logo /> */}
 
-          <View className="text-[#333333] font-inter py-4 space-y-1">
-            <Text className="font-semibold text-lg text-center">
-              Password Recovery
+          <AuthLogo />
+
+          <View className="text-[#333333] font-inter mt-14">
+          <Text className="font-semibold text-[24px] text-[#393F42]">
+            Security Question
             </Text>
 
-            <Text className="text-base text-center">
+            <Text className="text-sm text-[#5A6063] mt-2" style={{fontFamily: 'Axiforma'}}>
               Please supply the answer to the security question which you
               created during your registration
             </Text>
 
-            <View className="pt-4 space-y-4 mt-4">
-              <Text className="text-[#243763] mt-4 text-center text-base mb-2">
+            <View className="pt-4 space-y-4 mt-3">
+              <Text className="text-[#243763] mt-3 text-center text-base mb-2">
                 {question ? question : 'No Security Question'}
               </Text>
 
@@ -113,13 +116,13 @@ export default function PasswordQuestions({ route }: any) {
               />
 
               <Button
-                style={{ marginTop: 20 }}
-                className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-20"
+                style={{ marginTop: 30 }}
+                className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg "
                 child={
                   loading ? (
                     <ActivityIndicator size="small" color="#00ff00" />
                   ) : (
-                    'Submit Answer'
+                    'Proceed'
                   )
                 }
                 onPress={submitQuestion}

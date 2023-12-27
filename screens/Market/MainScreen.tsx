@@ -8,6 +8,7 @@ import {
   EvilIcons,
   FontAwesome,
   Ionicons,
+  MaterialCommunityIcons,
 } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 // import { ScrollView } from 'native-base'
@@ -46,6 +47,7 @@ import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
 import { getUserId } from '../../utils/helper'
+import NewErrandComp from '../../components/ErrandComponent/NewErrandComp'
 
 export default function MainScreen() {
   const navigation = useNavigation()
@@ -360,9 +362,10 @@ export default function MainScreen() {
                 <View className="mx-4">
                   {!loading && (
                     <View
-                      className="mt-2 border-[0.3px] border-[#808080] h-12 rounded-lg flex-row items-center justify-between px-3 bg-white"
+                      className="mt-2 mb-7 border border-[#F2F2F2] pt-[10px] pb-[9px] pl-[29px] pr-[23.5px] rounded-[15px] flex-row items-center justify-between bg-white"
                       style={{ backgroundColor: theme ? '#1E3A79' : 'white' }}
                     >
+                      <View className='flex-row items-center gap-1'>
                       <EvilIcons
                         name="search"
                         size={22}
@@ -372,7 +375,7 @@ export default function MainScreen() {
                       <TextInput
                         style={{ color: theme ? 'white' : '#808080' }}
                         className=" w-7/12 pl-1"
-                        placeholder="Search for Errands"
+                        placeholder="Search for errands"
                         placeholderTextColor={theme ? 'white' : 'black'}
                         value={searchValue}
                         onChangeText={(text) => setSearchValue(text)}
@@ -388,15 +391,21 @@ export default function MainScreen() {
                       ) : (
                         ''
                       )}
+                      </View>
 
                       <Pressable onPress={handleFilter}>
-                        <View className="bg-[#3F60AC] mr-1 b rounded-md w-[38px]">
+                        <View className=" mr-1 b rounded-md w-[38px]">
                           <Text className="p-2 text-center">
-                            <Ionicons
+                            {/* <Ionicons
                               name="md-filter-outline"
                               size={18}
                               color="white"
-                            />
+                            /> */}
+
+                            <MaterialCommunityIcons 
+                            name="tune-variant" 
+                            size={18} 
+                            color="black" />
                           </Text>
                         </View>
                       </Pressable>
@@ -422,12 +431,19 @@ export default function MainScreen() {
                         renderItem={({ item, index }) => {
                           return (
                             <View>
-                              <ErrandComp
+                              {/* <ErrandComp
                                 errand={item}
                                 navigation={navigation}
                                 key={index}
                                 toggleAvatarModal={toggleAvatarModal}
-                              />
+                              /> */}
+                              <NewErrandComp
+                             
+                              errand={item}
+                              navigation={navigation}
+                              key={index}
+                              toggleAvatarModal={toggleAvatarModal}
+                            />
                             </View>
                           )
                         }}

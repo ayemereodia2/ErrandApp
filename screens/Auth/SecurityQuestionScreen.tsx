@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   Keyboard,
   SafeAreaView,
+  ScrollView,
   Text,
   TouchableWithoutFeedback,
   View,
@@ -18,6 +19,8 @@ import { Logo } from '../../components/Logo'
 import { createAccount } from '../../services/auth/create-account'
 import { RootState, useAppDispatch } from '../../services/store'
 import { ISecurityQA } from '../../types'
+import AuthLogo from '../../components/AuthLogo'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function SecurityQuestion() {
   const navigation = useNavigation()
@@ -68,25 +71,34 @@ export default function SecurityQuestion() {
 
   return (
     <SafeAreaView>
+      <ScrollView>
+
+      <KeyboardAwareScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          enableOnAndroid={true}
+        >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View className="px-4">
-          <Logo />
+          {/* <Logo /> */}
+
+          <AuthLogo />
 
           {/* <KeyboardAwareScrollView
             style={{ flex: 1 }}
             contentContainerStyle={{ flexGrow: 1 }}
             enableOnAndroid={true}
           > */}
-          <View className="text-[#333333] font-inter py-4 space-y-1">
-            <Text className="font-semibold text-lg text-center">
+          <View className="text-[#333333] font-inter py-4 ">
+            <Text className='font-semibold text-[24px] text-[#393F42] mb-2' >
               Security Question
             </Text>
-            <Text className="text-sm text-center">
-              Enter your details for security questions
+            <Text className="text-sm mb-7">
+            Kindly select and answer
             </Text>
 
-            <View className="pt-4 space-y-4">
-              <Text className="text-[#243763]">Select Question</Text>
+            <View className=" ">
+              <Text className="text-[#243763]">Security Question</Text>
               <Picker
                 selectedValue={question}
                 onValueChange={(itemValue, itemIndex) => setQuestion(itemValue)}
@@ -109,22 +121,24 @@ export default function SecurityQuestion() {
               />
 
               <Button
-                style={{ marginTop: 20 }}
-                className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-20"
+                style={{ marginBottom: 40 }}
+                className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-5"
                 child={
                   loading ? (
                     <ActivityIndicator size="small" color="#00ff00" />
                   ) : (
-                    'Submit Answer'
+                    'Create Account'
                   )
                 }
                 onPress={handleSubmit(submitQuestion)}
               />
             </View>
           </View>
-          {/* </KeyboardAwareScrollView> */}
+          
         </View>
       </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView> 
+      </ScrollView>
     </SafeAreaView>
   )
 }

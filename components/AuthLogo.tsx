@@ -6,7 +6,7 @@ const AuthLogo = () => {
   return (
     <SafeAreaView>
 
-    <View >
+    <View className='mt-2'>
      <Image 
      source={require('../assets/images/authSwave.png')}
      className='mb-16 w-[94px] h-[24px] ml-4'

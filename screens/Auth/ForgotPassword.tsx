@@ -17,6 +17,9 @@ import InputField from '../../components/InputField'
 import { Logo } from '../../components/Logo'
 import { _fetch } from '../../services/axios/http'
 import { useAppDispatch } from '../../services/store'
+import AuthLogo from '../../components/AuthLogo'
+import { TouchableOpacity } from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 declare global {
   interface Window {
@@ -44,6 +47,7 @@ const ForgotPassword = () => {
   const [loading, setLoading] = useState(false)
   const [password, setPassword] = useState<string>('')
   const [showPassword, setShowPassword] = useState(true)
+  const [showPassword2, setShowPassword2] = useState(true)
   const [showConfirmPassword, setShowConfirmPassword] = useState(true)
 
   const dispatch = useAppDispatch()
@@ -123,19 +127,21 @@ const ForgotPassword = () => {
   return (
     <SafeAreaView className="mx-4 mt-6">
       <ScrollView>
-        <Logo />
+        {/* <Logo /> */}
+        <AuthLogo />
 
-        <View className="text-[#333333] font-inter py-4 space-y-1">
-          <Text className="font-semibold text-xl text-center">
-            Password Recovery
+        <View className="text-[#333333] font-inter">
+
+          <Text className="font-semibold text-[24px] mt-10">
+           Reset Password
           </Text>
-          <Text className="text-[14px] text-center">
-            Enter your new password
+          <Text className="text-sm text-[#5A6063] mt-2" style={{fontFamily: 'Axiforma'}}>
+          Enter a new password
           </Text>
 
-          <View className="pt-2 space-y-4 ">
-            <View className="mt-8">
-              <View className="relative mb-6">
+          <View className="pt-2  ">
+            <View className="mt-2">
+              <View className="relative">
                 <InputField
                   label="New Password"
                   placeholder="Enter your password"
@@ -146,11 +152,21 @@ const ForgotPassword = () => {
                   errors={errors.password}
                   message={errors?.password?.message}
                 />
+                 <TouchableOpacity
+                    onPress={() => setShowPassword(!showPassword)}
+                    className="absolute right-8 bottom-5"
+                  >
+                    <Icon
+                      name={showPassword ? 'eye-slash' : 'eye'}
+                      size={24}
+                      color="gray"
+                    />
+                  </TouchableOpacity>
               </View>
 
               <View className="relative mb-6">
                 <InputField
-                  label="Confirm New Password"
+                  label="Confirm Password"
                   placeholder="re-enter password"
                   keyboardType="visible-password"
                   name="confirmPassword"
@@ -159,17 +175,28 @@ const ForgotPassword = () => {
                   errors={errors.confirmPassword}
                   message={errors?.confirmPassword?.message}
                 />
+
+          <TouchableOpacity
+                    onPress={() => setShowPassword2(!showPassword2)}
+                    className="absolute right-8 bottom-5"
+                  >
+                    <Icon
+                      name={showPassword ? 'eye-slash' : 'eye'}
+                      size={24}
+                      color="gray"
+                    />
+                  </TouchableOpacity>
               </View>
             </View>
 
             <Button
               style={{ marginTop: 36 }}
-              className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-20 "
+              className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg "
               child={
                 loading ? (
                   <ActivityIndicator size="small" color="#00ff00" />
                 ) : (
-                  'Update Password'
+                  'Reset Password'
                 )
               }
               onPress={handleSubmit(passwordhandler)}

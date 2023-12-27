@@ -8,6 +8,8 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
 import { getAddress, getCardTimeAgo, getTimeAgo } from '../../utils/helper'
 import HTML from 'react-native-render-html';
+import { StyleSheet } from 'react-native'
+import { ImageBackground } from 'react-native'
 
 
 
@@ -121,6 +123,14 @@ export default function ErrandComp({
         borderColor: theme ? '' : 'lightgrey',
       }}
     >
+
+    
+
+      
+  
+
+      
+   
       {/* <BottomSheetModalProvider> */}
       {/* <TouchableOpacity
       onPress={() => {
@@ -301,12 +311,28 @@ export default function ErrandComp({
          
         </BottomSheetModal> */}
       {/* </BottomSheetModalProvider> */}
-    </View>
+   
 
     {/* : null } */}
+    </View>
     </>
   )
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white', // Set a default background color if the image fails to load
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover', // Optional: 'contain', 'stretch' based on your preference
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+  },
+});
 
 // export function ListErrandComp({
 //   errand,

@@ -1,7 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
+  Keyboard,
+  Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -13,10 +15,23 @@ import Button from '../../components/Button'
 import { Logo } from '../../components/Logo'
 import { _fetch } from '../../services/axios/http'
 import AuthLogo from '../../components/AuthLogo'
+import OtpInputs from '../../components/OtpInputs'
+import { template } from '@babel/core'
+import { TouchableOpacity } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 type OtpProp = {
   ref: any
   onChangeText: any
+}
+
+type OtpInputProps = {
+  length: number,
+  value: Array<string>,
+  disabled: boolean,
+  onChange(value: Array<string>): void
+  navigation: any,
+   route: any
 }
 
 const OtpInput = ({ ref, onChangeText }: OtpProp) => (
@@ -31,11 +46,12 @@ const OtpInput = ({ ref, onChangeText }: OtpProp) => (
   </View>
 )
 
-export default function VerifyOtpScreen({ navigation, route }: any) {
+export default function VerifyOtpScreen({length, value, disabled, onChange, navigation, route }: OtpInputProps) {
   // const navigation = useNavigation()
   const [otp, setOtp] = useState('')
   const [loading, setLoading] = useState(false)
   const [phone_no, setPhone_no] = useState('')
+  const inputRefs = useRef<Array<TextInput>>([])
 
   const { comingFrom } = route.params
 
@@ -92,51 +108,152 @@ export default function VerifyOtpScreen({ navigation, route }: any) {
     }
   }
 
+  
+
   useEffect(() => {
     // getPhone()
   }, [])
 
   return (
-    <SafeAreaView>
-      <View className="px-4">
+    <SafeAreaView >
+
+    <KeyboardAwareScrollView
+          // style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          enableOnAndroid={true}
+        >
+
+      <View className="px-4" >
         {/* <Logo /> */}
 
         <AuthLogo />
 
-        <View className="text-[#333333] font-inter py-2 space-y-1">
-          <Text className="font-semibold text-lg text-center">
-            OTP verification
-          </Text>
-          <Text className="text-sm text-center mb-4">
-            Enter the OTP number just sent to you at{' '}
-            <Text className="text-[#243763]">{phone_no}</Text>
-          </Text>
+        <View className="text-[#333333] font-inter mt-10  ">
 
-          <View className="pt-2 flex-row justify-evenly items-center mb-10">
-            <TextInput
+        {comingFrom === 'forgotPassword' 
+            ?
+            ''
+            :
+            (
+              <View className='border-b border-[#EEF0F1]'>
+            <Text className='text-[#09497D] pb-2 mb-7' style={{fontFamily: 'Axiforma'}}>Step 2 of 4</Text>
+            </View>
+            )
+          }
+          
+          { comingFrom === 'forgotPassword' ? (
+             <Text className="font-semibold text-[24px] text-[#393F42]" onPress={()=> Keyboard.dismiss()}>
+             Forgot Password
+             </Text>
+          ) :
+          (
+            <Text className="font-semibold text-[24px] text-[#393F42]" onPress={()=> Keyboard.dismiss()}>
+           Verification
+            </Text>
+          )}
+        
+          <Text className="text-sm text-[#5A6063] mt-2" style={{fontFamily: 'Axiforma'}}>
+          Kindly enter the 6-digits verification code sent to{' '}
+          </Text>
+          <Text className="text-[#243763]">{phone_no}</Text>
+
+          <Text className='text-[#393F42] text-sm mt-7 font-medium'>Code</Text>
+
+          <View className="pt-2 flex-row justify-between mx-1 mb-3">
+            {/* <TextInput
               keyboardType="numeric"
               onChangeText={(text) => setOtp(text)}
               value={otp}
               placeholder="Enter Otp"
               className="border border-[#ccc] p-3 rounded-lg w-full text-base"
-            />
+            /> */}
+
+            <OtpInputs onChangeText={setOtp} />
+
+           
+            
           </View>
+
+          <Text className='text-[#09497D] text-sm text-center' style={{fontFamily: 'Axiforma'}}>0:00</Text>
 
           <Button
             onPress={() => verifyOtpHandler(otp)}
             style={{}}
-            className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg"
+            className="w-full mt-[30px] text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg"
             child={
               loading ? (
                 <ActivityIndicator size="small" color="#00ff00" />
               ) : (
-                'Verify OTP'
+                'Proceed'
               )
             }
           />
         </View>
-        {/* </KeyboardAwareScrollView> */}
+
+
+          { comingFrom === 'forgotPassword' ? (
+            <Text className="text-[#8E9DA4] text-center mt-3 pb-6 pt-3" style={{fontFamily: 'Axiforma'}}>
+                Didn’t get code?
+                  <Text
+                    onPress={() => {
+                      navigation.navigate('VerifyPhone', {
+                        comingFrom: 'createAccount',
+                      })
+                    }}
+                    className="font-bold text-[#09497D]" style={{fontFamily: 'Axiforma'}}
+                  >
+                    {' '}
+                    Resend code
+                  </Text>
+                </Text>
+          ) :
+          (
+            <View className='flex-row items-center justify-between'>
+            <Text className="text-[#8E9DA4] mt-3 pb-6 pt-3" style={{fontFamily: 'Axiforma'}}>
+                Didn’t get OTP? 
+                  <Text
+                    onPress={() => {
+                      navigation.navigate('VerifyPhone', {
+                        comingFrom: 'createAccount',
+                      })
+                    }}
+                    className="font-bold text-[#09497D]" style={{fontFamily: 'Axiforma'}}
+                  >
+                    {'  '}
+                    Resend code
+                  </Text>
+                </Text>
+
+                      <TouchableOpacity  onPress={() => {
+                      navigation.navigate('VerifyPhone', {
+                        comingFrom: 'createAccount',
+                      })
+                    }}>
+                    <Text className='font-bold text-[#09497D]'>Change Phone number</Text>
+                    </TouchableOpacity>
+                </View>
+          )
+          }
+
+          { comingFrom === 'forgotPassword' ? '' : (
+              <Text className="text-[#8E9DA4] text-center pb-6">
+              Have an Account?{' '}
+              <Text
+                onPress={() => {
+                  navigation.navigate('Login')
+                }}
+                className="font-bold text-[#243763]"
+              >
+                Login
+              </Text> 
+              </Text>
+          )}
+
+         
+        
+       
       </View>
+      </KeyboardAwareScrollView> 
     </SafeAreaView>
   )
 }
@@ -159,6 +276,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     color: '#243763',
     fontSize: 20,
+  },
+  input: {
+fontSize: 24,
+color: 'black',
+textAlign: 'center',
+width: 45,
+height: 55,
+backgroundColor: 'white',
+borderRadius: 14
   },
 
   underlineStyleHighLighted: {
