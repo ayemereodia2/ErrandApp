@@ -3,6 +3,7 @@ import React, { useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   ActivityIndicator,
+  Image,
   SafeAreaView,
   ScrollView,
   Text,
@@ -65,8 +66,14 @@ export default function LoginScreen({navigation}: any) {
 
   const { loading } = useSelector((state: RootState) => state.login)
 
+  const [checked, setChecked] = useState(false)
+
+  const handleChecked = () => {
+    setChecked(!checked)
+  }
+
   return (
-    <SafeAreaView className='bg-[#FEFEFE]'>
+    <SafeAreaView className='bg-[#FEFEFE] h-full'>
       <ScrollView showsVerticalScrollIndicator={false}>
         <KeyboardAwareScrollView
           style={{ flex: 1, marginTop: 52 }}
@@ -77,22 +84,22 @@ export default function LoginScreen({navigation}: any) {
             {/* <Logo /> */}
             <AuthLogo />
 
-            <View className=" font-inter mt-4 pb-4 ">
+            <View className=" font-inter pb-4 ">
               <Text className="font-semibold text-[24px] text-[#393F42]" style={{fontFamily: 'Chillax'}}>
                 Get Right Back In
               </Text>
-              <Text className="text-sm mt-3" style={{fontFamily: 'Axiforma'}}>
+              <Text className="text-sm mt-3 text-[#717E83]" style={{fontFamily: 'Axiforma'}}>
               Input your password continue enjoying our services.
               </Text>
 
-              <View className="mt-7">
+              <View className="mt-8">
 
-              <Text className=''>Phone Number</Text>
+              <Text className='text-[#5E6366]'>Phone Number</Text>
 
                 <View className='flex-row items-center w-full'>
 
 
-                  <View className=' flex-row items-center mr-3 mt-1 px-[22px] py-1 w-[81px] border rounded-lg border-[#09497D]'>
+                  <View className=' flex-row items-center mr-3 mt-1 px-[22px] py-[7px] w-[81px] border rounded-lg border-[#96A0A5]'>
 
                   <CountryPicker
                   withFilter
@@ -120,7 +127,7 @@ export default function LoginScreen({navigation}: any) {
                   <View className='w-[70vw]'>
                 <InputField
                   // label="Phone Number"
-                  placeholder="Enter your Phone Number"
+                  placeholder="8023456789"
                   keyboardType="numeric"
                   name="phone_number"
                   required={true}
@@ -132,11 +139,11 @@ export default function LoginScreen({navigation}: any) {
                 </View>
               </View>
 
-                  {/* <Text>Password</Text> */}
+                  
                 <View className="relative mt-5 mb-5">
                   <InputField
                     label="Password"
-                    placeholder="Enter your password"
+                    placeholder="********"
                     keyboardType="default"
                     name="password"
                     required={true}
@@ -161,9 +168,12 @@ export default function LoginScreen({navigation}: any) {
               <View className='flex-row justify-between items-center mb-7'> 
 
                 <View className='flex-row items-center'>
-                <Checkbox />
+                <Checkbox 
+                value={checked}
+                onValueChange={handleChecked}
+                />
 
-                <Text className='ml-2 text-[12px]' style={{fontFamily: 'Axiforma'}}>Keep me logged in</Text>
+                <Text className='ml-3 text-[12px] text-[#717E83]' style={{fontFamily: 'Axiforma'}}>Keep me logged in</Text>
                 </View>
 
               <View>
@@ -179,6 +189,26 @@ export default function LoginScreen({navigation}: any) {
                 </Text>
                 </View>
                 </View>
+
+                <View className='flex-row items-center justify-between mt-6 mb-5'>
+                  <View className='bg-[#5F5F5F] border-[0.4px] w-[127px] h-[1px]'></View>
+
+                  <View>
+                    <Text className='text-[#5F5F5F] text-[12px]' style={{fontFamily: 'Axiforma'}}>or continue with</Text>
+                  </View>
+
+                  <View className='bg-[#5F5F5F] border-[0.4px] w-[127px] h-[1px]'></View>
+                </View>
+
+                <TouchableOpacity className='flex-row items-center justify-center py-4 mb-10 bg-[#FFF] border border-[#888] rounded-lg'>
+
+                  <Image source={require('../../assets/images/googleLogo.png')} 
+                  className='mr-[6px] w-5 h-5'
+                  />
+
+                  <Text className='font-bold text-[#09497D]' style={{fontFamily: 'Axiforma', fontWeight: 'bold'}}>Log In</Text>
+                </TouchableOpacity>
+
 
                 <Button
                   className="w-full text-white bg-[#243763] mt-8 flex-row justify-center items-start py-4 rounded-lg mb-5"
@@ -199,7 +229,7 @@ export default function LoginScreen({navigation}: any) {
                   </Text>
                 )}
 
-                <Text className="text-black text-center pb-6 pt-3">
+                <Text className="text-[#8E9DA4] text-center pb-6 pt-3">
                   Don’t Have an account yet?
                   <Text
                     onPress={() => {
@@ -207,7 +237,8 @@ export default function LoginScreen({navigation}: any) {
                         comingFrom: 'createAccount',
                       })
                     }}
-                    className="font-bold text-[#243763]"
+                    className="font-bold text-[#243763] text-sm"
+                    style={{fontFamily: 'Axiforma'}}
                   >
                     {' '}
                     Create Account

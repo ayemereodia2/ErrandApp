@@ -32,7 +32,8 @@ const OtpInput = ({ onChangeText }) => {
             height: 50, // Adjust height as needed
             borderWidth: 1,
             textAlign: 'center',
-            margin: 7,
+           
+            marginRight: 14,
             borderRadius: 8,
             borderColor: '#96A0A5',
             padding: 12

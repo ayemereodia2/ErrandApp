@@ -10,7 +10,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <TouchableOpacity style={style} onPress={onPress} className={className}>
-      <Text className="text-white font-semibold">{child}</Text>
+      <Text className="text-[#EEF2F3] font-semibold text-basse" style={{fontFamily: 'Axiforma'}}>{child}</Text>
     </TouchableOpacity>
   )
 }

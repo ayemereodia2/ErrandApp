@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
+  Image,
   Keyboard,
   Pressable,
   SafeAreaView,
@@ -19,6 +20,7 @@ import OtpInputs from '../../components/OtpInputs'
 import { template } from '@babel/core'
 import { TouchableOpacity } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { AntDesign } from '@expo/vector-icons'
 
 type OtpProp = {
   ref: any
@@ -115,7 +117,7 @@ export default function VerifyOtpScreen({length, value, disabled, onChange, navi
   }, [])
 
   return (
-    <SafeAreaView >
+    <SafeAreaView className='mt-20'>
 
     <KeyboardAwareScrollView
           // style={{ flex: 1 }}
@@ -126,7 +128,20 @@ export default function VerifyOtpScreen({length, value, disabled, onChange, navi
       <View className="px-4" >
         {/* <Logo /> */}
 
-        <AuthLogo />
+        {comingFrom === 'forgotPassword' 
+            ?
+            <TouchableOpacity className=' mb-[50px]' onPress={() => navigation.goBack()}>
+              <Text> <AntDesign name="arrowleft" size={24} color="#888" /> </Text>
+            </TouchableOpacity>
+            :
+            (
+              <AuthLogo />
+            )
+          }
+
+        <View>
+          <Image source={require('../../assets/images/verifyOtp.png')}  className='mx-auto shadow-sm'/>
+        </View>
 
         <View className="text-[#333333] font-inter mt-10  ">
 
@@ -142,22 +157,22 @@ export default function VerifyOtpScreen({length, value, disabled, onChange, navi
           }
           
           { comingFrom === 'forgotPassword' ? (
-             <Text className="font-semibold text-[24px] text-[#393F42]" onPress={()=> Keyboard.dismiss()}>
+              <Text className="font-semibold text-[24px] mt-[45px] text-[#393F42]" style={{fontFamily: 'Chillax'}} onPress={() => Keyboard.dismiss()}>
              Forgot Password
              </Text>
           ) :
           (
-            <Text className="font-semibold text-[24px] text-[#393F42]" onPress={()=> Keyboard.dismiss()}>
+            <Text className="font-semibold text-[24px] text-[#393F42]"  style={{fontFamily: 'Chillax'}} onPress={()=> Keyboard.dismiss()}>
            Verification
             </Text>
           )}
         
           <Text className="text-sm text-[#5A6063] mt-2" style={{fontFamily: 'Axiforma'}}>
-          Kindly enter the 6-digits verification code sent to{' '}
+          Kindly enter the 6-digits verification code sent to
           </Text>
           <Text className="text-[#243763]">{phone_no}</Text>
 
-          <Text className='text-[#393F42] text-sm mt-7 font-medium'>Code</Text>
+          <Text className='text-[#393F42] text-sm mt-7 font-medium ml-1'>Code</Text>
 
           <View className="pt-2 flex-row justify-between mx-1 mb-3">
             {/* <TextInput
@@ -174,12 +189,12 @@ export default function VerifyOtpScreen({length, value, disabled, onChange, navi
             
           </View>
 
-          <Text className='text-[#09497D] text-sm text-center' style={{fontFamily: 'Axiforma'}}>0:00</Text>
+          <Text className='text-[#09497D] text-sm text-center mb-[50px]' style={{fontFamily: 'Axiforma'}}>0:00</Text>
 
           <Button
             onPress={() => verifyOtpHandler(otp)}
             style={{}}
-            className="w-full mt-[30px] text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg"
+            className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg"
             child={
               loading ? (
                 <ActivityIndicator size="small" color="#00ff00" />
@@ -229,7 +244,7 @@ export default function VerifyOtpScreen({length, value, disabled, onChange, navi
                         comingFrom: 'createAccount',
                       })
                     }}>
-                    <Text className='font-bold text-[#09497D]'>Change Phone number</Text>
+                    <Text className='font-bold text-[#09497D] text-sm' style={{fontFamily: 'Axiforma'}}>Change Phone number</Text>
                     </TouchableOpacity>
                 </View>
           )
@@ -243,8 +258,9 @@ export default function VerifyOtpScreen({length, value, disabled, onChange, navi
                   navigation.navigate('Login')
                 }}
                 className="font-bold text-[#243763]"
+                style={{fontFamily: 'Axiforma'}}
               >
-                Login
+                Log In
               </Text> 
               </Text>
           )}

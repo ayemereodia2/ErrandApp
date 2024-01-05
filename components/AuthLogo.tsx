@@ -4,20 +4,20 @@ import { Image } from 'react-native'
 
 const AuthLogo = () => {
   return (
-    <SafeAreaView>
+   
 
-    <View className='mt-2'>
+    <View className=''>
      <Image 
      source={require('../assets/images/authSwave.png')}
-     className='mb-16 w-[94px] h-[24px] ml-4'
+     className='mb-[50px] w-[94px] h-[24px]'
      />
 
-<Image 
+    {/* <Image 
      source={require('../assets/images/AuthLogo.png')}
      className='w-[200px] h-[200px] mx-auto'
-     />
+     /> */}
     </View>
-    </SafeAreaView>
+   
   )
 }
 

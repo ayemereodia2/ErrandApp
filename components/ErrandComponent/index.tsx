@@ -116,14 +116,19 @@ export default function ErrandComp({
 <>
     {/* {isDateWithin3Months(errand.updated_at) ?  */}
     
-    <View
+    {/* <View
       className="pt-1 mt-2 pb-1 bg-[#fff] rounded-xl py-1 px-6 border"
       style={{
         backgroundColor: theme ? '#152955' : errand.has_insurance ? '#e2f6fb' : errand.status === "completed" ? '#d8f8e9' : 'white',
         borderColor: theme ? '' : 'lightgrey',
       }}
-    >
+    > */}
 
+<View className='bg-[#09497D] mt-[9px] pt-[9px] border border-[#C6C3D8] px-[0.2px]  shadow-sm rounded-[10px] '>
+  <View className='rounded-b-[14px]'>
+<ImageBackground source={require('../../assets/images/errandCard2.jpg')}
+                className=' bg-[#FFF] rounded-2xl  pt-4 pl-4 shadow-lg'
+                 resizeMode='cover'>
     
 
       
@@ -158,8 +163,8 @@ export default function ErrandComp({
             {errand?.user?.profile_picture ? (
               <Image
                 style={{
-                  width: 40,
-                  height: 40,
+                  width: 50,
+                  height: 50,
                   resizeMode: 'contain',
                   borderRadius: 20,
                 }}
@@ -186,7 +191,7 @@ export default function ErrandComp({
             }}
           >
             <View>
-              <Text className="font-semibold " style={{ color: textTheme }}>
+              <Text className="font-semibold text-sm text-[#292D32] leading-6" style={{ color: textTheme}}>
                 {errand?.user?.first_name} {errand?.user?.last_name}
               </Text>
 
@@ -195,25 +200,25 @@ export default function ErrandComp({
                   <Text className="text-[#000000] text-sm font-bold"></Text>
                   <View className="text-sm font-semibold flex-row items-center space-x-1">
                     <View>
-                      <Text className="text-[14px] text-[#777777] font-medium">
-                        <Entypo name="star" size={16} color="#FBB955" />
-                        {errand?.user?.rating}
+                      <Text className="text-[15px] text-[#2C2C2C] font-medium" style={{fontFamily: 'Axiforma'}}>  
+                        <Entypo name="star" size={16} color="#FBB955" /> {''}
+                        {errand?.user?.rating}  
                       </Text>
                     </View>
 
                     <Text className="text-[#ccc] font-light text-2xl ">|</Text>
                     <View>
                       <Text
-                        className="text-[14px] text-[#777777] font-medium"
-                        style={{ color: textTheme }}
+                        className="text-[15px] text-[#2C2C2C] font-medium"
+                        style={{ color: textTheme, fontFamily: 'Axiforma' }}
                       >
-                        <FontAwesome5 name="running" size={14} color="black" />{' '}
+                        <FontAwesome5 name="running" size={14} color="#FBB955" />{' '}
                         {errand?.user?.errands_completed}
                       </Text>
                     </View>
                   </View>
                 </View>
-                <Text className='mr-6' style={{color: textTheme}}> {getCardTimeAgo(errand?.updated_at)}</Text>
+                <Text className='ml-5 text-[#444] text-sm' style={{color: textTheme, fontFamily: 'Axiforma'}}> {getCardTimeAgo(errand?.updated_at)}</Text>
               </View>
              
             </View>
@@ -235,8 +240,8 @@ export default function ErrandComp({
         }}
       >
         <Text
-          style={{ color: textTheme }}
-          className="text-[16px] font-medium py-4 pt-4 text-[#000000] w-[300px]"
+          style={{ color: textTheme, fontFamily: 'Axiforma' }}
+          className="text-[14px] leading-6 font-medium py-4 pt-4 text-[#000000] w-[300px]"
         >
           {result?.length >= 60
             ? result?.substring(0, 120).concat('', '...')
@@ -248,13 +253,13 @@ export default function ErrandComp({
           className="text-sm text-[#a09e9e] font-light"
         >
           {' '}
-          <Text>
-            <EvilIcons name="location" size={16} color={'green'} />{' '}
+          <Text className='font-bold'>
+            <EvilIcons name="location" size={20} color={'#FBB955'} />{' '}
           </Text>
           {errand.pickup_address?.address_text ? (
-            <Text style={{ color: textTheme }}> {truncatedAddressText} </Text>
+            <Text className='text-[#484C52] text-sm' style={{ color: textTheme, fontFamily: 'Axiforma' }}> {truncatedAddressText} </Text>
           ) : (
-            <Text style={{ color: textTheme }}>No Location</Text>
+            <Text className='text-[#484C52] text-sm'  style={{ color: textTheme, fontFamily: 'Axiforma'  }}>No Location</Text>
           )}
         </Text>
 
@@ -272,17 +277,12 @@ export default function ErrandComp({
 
         {/* <View className="h-[0.3px] bg-[#AAAAAA] mt-3 items-center"></View> */}
 
-        <View className="flex-row justify-between items-center">
-          <Text
-            style={{ color: theme ? 'white' : '#1E3A79' }}
-            className="text-[20px] font-bold text-[#1E3A79] "
-          >
-            &#x20A6; {budgetInNaira.toLocaleString()}
-          </Text>
-          {/* <ProfileInitials firstName="Kzu" lastName="Soo" /> */}
+        <View className='bg-[#BBB] w-[95vw] h-[1px] mt-[10px]'></View>
 
-          <View className=" rounded-2xl py-2 px-2  items-center mt-2">
-            <Text className="text-orange-500 text-center text-[17px] mb-1 font-semibold">
+        <View className="flex-row justify-between items-center">
+
+        <View className=" rounded-2xl py-2 pl-1  items-center mt-2">
+            <Text className="text-[#444] text-center text-[17px] mb-1 font-semibold">
               {' '}
               {errand?.total_bids === 0 ? '' : errand?.total_bids}{' '}
               {errand?.total_bids === 0
@@ -293,6 +293,15 @@ export default function ErrandComp({
             </Text>
             
           </View>
+         
+          {/* <ProfileInitials firstName="Kzu" lastName="Soo" /> */}
+
+          <Text
+            style={{ color: theme ? 'white' : '#1E3A79' }}
+            className="text-[18px] font-bold text-[#09497D] mr-4"
+          >
+            &#x20A6; {budgetInNaira.toLocaleString()}
+          </Text>
           
         </View>
         
@@ -314,6 +323,9 @@ export default function ErrandComp({
    
 
     {/* : null } */}
+    {/* </View> */}
+    </ImageBackground>
+    </View>
     </View>
     </>
   )

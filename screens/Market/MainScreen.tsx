@@ -48,6 +48,7 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
 import { getUserId } from '../../utils/helper'
 import NewErrandComp from '../../components/ErrandComponent/NewErrandComp'
+import { Image } from 'react-native'
 
 export default function MainScreen() {
   const navigation = useNavigation()
@@ -260,17 +261,64 @@ export default function MainScreen() {
 
   return (
     <>
-      <Container>
-        <BottomSheetModalProvider>
-          <SafeAreaView style={{ marginBottom: 200 }}>
-            <StatusBar
-              backgroundColor={backgroundTheme}
-              barStyle={theme ? 'light-content' : 'dark-content'}
-            />
-
-            {filterOn ? (
+     {filterOn ? (
               ''
             ) : (
+              // <View
+              //   className={
+              //     Platform.OS === 'android'
+              //       ? 'flex-row items-center justify-between mt-6'
+              //       : 'flex-row items-center justify-between'
+              //   }
+              // >
+              //   <TouchableOpacity
+              //     onPress={() => navigation.navigate('Profile')}
+              //     style={{ marginLeft: 20 }}
+              //     className="flex-row items-center justify-between my-3 pt-2"
+              //   >
+              //     <ProfileInitials
+              //       firstName={currentUser?.first_name.charAt(0).toUpperCase()}
+              //       lastName={currentUser?.last_name.charAt(0).toUpperCase()}
+              //       profile_pic={currentUser?.profile_picture}
+              //       textClass="text-white text-base"
+              //       width={30}
+              //       height={30}
+              //     />
+              //   </TouchableOpacity>
+
+              //   <Text
+              //     className="font-bold text-[20px] leading-7"
+              //     style={{ color: textTheme }}
+              //   >
+              //     Errand Market
+              //   </Text>
+
+              //   <View className="items-center flex-row gap-4 mr-2">
+              //     <Text style={{ color: textTheme }}>
+              //       <FontAwesome
+              //         name="bell-o"
+              //         size={24}
+              //         onPress={() => {
+              //           navigation.navigate('Notification')
+              //         }}
+              //       />
+              //     </Text>
+              //     <TouchableOpacity
+              //       onPress={
+              //         // navigation.navigate('Contact')
+              //         openMoreModal
+              //       }
+              //     >
+              //       <Text style={{ color: textTheme }}>
+              //         <Entypo name="dots-three-vertical" size={24} />
+              //       </Text>
+              //     </TouchableOpacity>
+              //   </View>
+              // </View>
+
+      <View className=''>   
+      <View className='bg-purple-200 h-[155px] w-screen shadow-md mb-3' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+        <View className='bg-[#09497D] h-[150px] pt-[80px] px-6 pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
               <View
                 className={
                   Platform.OS === 'android'
@@ -278,51 +326,73 @@ export default function MainScreen() {
                     : 'flex-row items-center justify-between'
                 }
               >
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('Profile')}
-                  style={{ marginLeft: 20 }}
-                  className="flex-row items-center justify-between my-3 pt-2"
-                >
-                  <ProfileInitials
-                    firstName={currentUser?.first_name.charAt(0).toUpperCase()}
-                    lastName={currentUser?.last_name.charAt(0).toUpperCase()}
-                    profile_pic={currentUser?.profile_picture}
-                    textClass="text-white text-base"
-                    width={30}
-                    height={30}
+          <View className='flex-row items-center'> 
+          <Image 
+              source={require('../../assets/images/swave-log-web.png')}
+              
+              alt={'logo'}
+              />
+
+       
+               
+         </View>
+         
+
+                <View className="items-center flex-row gap-3">
+                 
+                  <TouchableOpacity
+                    // onPress={
+                    //   // navigation.navigate('Contact')
+                    //   openMoreModal
+                    // }
+                  >
+                    <Text style={{ color: textTheme }}>
+                     
+                    <Ionicons
+                    name="settings-outline"
+                    size={22}
+                    color={'white'}
+                    style={{ marginLeft: 7 }}
                   />
-                </TouchableOpacity>
+                    </Text>
+                  </TouchableOpacity>
 
-                <Text
-                  className="font-bold text-[20px] leading-7"
-                  style={{ color: textTheme }}
-                >
-                  Errand Market
-                </Text>
-
-                <View className="items-center flex-row gap-4 mr-2">
-                  <Text style={{ color: textTheme }}>
+                  <Text style={{ color: textTheme }} className='mr-4'>
                     <FontAwesome
                       name="bell-o"
-                      size={24}
+                      size={22}
+                      color={'white'}
                       onPress={() => {
                         navigation.navigate('Notification')
                       }}
                     />
                   </Text>
-                  <TouchableOpacity
-                    onPress={
-                      // navigation.navigate('Contact')
-                      openMoreModal
-                    }
-                  >
-                    <Text style={{ color: textTheme }}>
-                      <Entypo name="dots-three-vertical" size={24} />
-                    </Text>
-                  </TouchableOpacity>
                 </View>
               </View>
+
+             
+             
+
+                </View>
+
+                </View>
+                </View> 
+                   
+             
             )}
+      <Container>
+        
+        <BottomSheetModalProvider>
+
+       
+
+          <SafeAreaView style={{ backgroundColor: '#FEFEFE'  }}>
+            <StatusBar
+              backgroundColor={backgroundTheme}
+              barStyle={theme ? 'light-content' : 'dark-content'}
+            />
+
+         
 
             <>
               {/* {loading && <MainLoader />} */}
@@ -362,7 +432,7 @@ export default function MainScreen() {
                 <View className="mx-4">
                   {!loading && (
                     <View
-                      className="mt-2 mb-7 border border-[#F2F2F2] pt-[10px] pb-[9px] pl-[29px] pr-[23.5px] rounded-[15px] flex-row items-center justify-between bg-white"
+                      className="mt-2 mb-6 border border-[#F2F2F2] pt-[10px] pb-[9px] pl-[29px] pr-[23.5px] rounded-[15px] flex-row items-center justify-between bg-white"
                       style={{ backgroundColor: theme ? '#1E3A79' : 'white' }}
                     >
                       <View className='flex-row items-center gap-1'>
@@ -392,6 +462,7 @@ export default function MainScreen() {
                         ''
                       )}
                       </View>
+                      
 
                       <Pressable onPress={handleFilter}>
                         <View className=" mr-1 b rounded-md w-[38px]">
@@ -412,6 +483,26 @@ export default function MainScreen() {
                     </View>
                   )}
 
+                      <View className='flex-row items-center mb-4 w-full ml-4'>
+                      <TouchableOpacity className='px-5 py-2 rounded-[20px] border border-[#888] bg-[#09497D] mr-3'>
+                            <Text className='text-white' style={{fontFamily: 'Chillax'}}>All</Text>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity className='px-5 py-2 rounded-[20px] border border-[#888] mr-3'>
+                            <Text className='text-[#09497D] text-center' style={{fontFamily: 'Chillax'}}>Newest</Text>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity className='px-5 py-2 rounded-[20px] border border-[#888] mr-3'>
+                            <Text className='text-[#09497D] text-center' style={{fontFamily: 'Chillax'}}>Popular</Text>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity className='px-5 py-2 rounded-[20px] border border-[#888] mr-3'>
+                            <Text className='text-[#09497D] text-center' style={{fontFamily: 'Chillax'}}>Urgent</Text>
+                      </TouchableOpacity>
+
+                      </View>
+                      
+
                     {searchedErrand?.length === 0 ? (
                       <View className="flex-row justify-center items-center mt-14">
                         <Text>There are no errands at the moment</Text>
@@ -431,19 +522,20 @@ export default function MainScreen() {
                         renderItem={({ item, index }) => {
                           return (
                             <View>
-                              {/* <ErrandComp
+                              <ErrandComp
                                 errand={item}
                                 navigation={navigation}
                                 key={index}
                                 toggleAvatarModal={toggleAvatarModal}
-                              /> */}
-                              <NewErrandComp
+                              />
+
+                              {/* <NewErrandComp
                              
                               errand={item}
                               navigation={navigation}
                               key={index}
                               toggleAvatarModal={toggleAvatarModal}
-                            />
+                            /> */}
                             </View>
                           )
                         }}

@@ -3,8 +3,10 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
+  Image,
   Keyboard,
   SafeAreaView,
+  ScrollView,
   Text,
   TextInput,
   TouchableWithoutFeedback,
@@ -15,6 +17,9 @@ import Button from '../../components/Button'
 import { Logo } from '../../components/Logo'
 import { _fetch } from '../../services/axios/http'
 import AuthLogo from '../../components/AuthLogo'
+import { TouchableOpacity } from 'react-native'
+import { AntDesign } from '@expo/vector-icons'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function PasswordQuestions({ route }: any) {
   const navigation = useNavigation()
@@ -85,14 +90,28 @@ export default function PasswordQuestions({ route }: any) {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className='mt-[70px]'>
+
+      <KeyboardAwareScrollView
+                // style={{ flex: 1 }}
+                contentContainerStyle={{ flexGrow: 1 }}
+                enableOnAndroid={true}
+              >
+      <ScrollView>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View className="px-4">
           {/* <Logo /> */}
 
-          <AuthLogo />
+            <TouchableOpacity className=' mb-[50px]' onPress={() => navigation.goBack()}>
+              <Text> <AntDesign name="arrowleft" size={24} color="#888" /> </Text>
+            </TouchableOpacity>
+           
 
-          <View className="text-[#333333] font-inter mt-14">
+          <View>
+            <Image source={require('../../assets/images/securityQuestion.png')} className='mx-auto shadow-sm'/>
+          </View>
+
+          <View className="text-[#333333] font-inter mt-[90px]">
           <Text className="font-semibold text-[24px] text-[#393F42]">
             Security Question
             </Text>
@@ -102,17 +121,27 @@ export default function PasswordQuestions({ route }: any) {
               created during your registration
             </Text>
 
-            <View className="pt-4 space-y-4 mt-3">
-              <Text className="text-[#243763] mt-3 text-center text-base mb-2">
-                {question ? question : 'No Security Question'}
-              </Text>
+            <View className='mt-5'>
+              <Text className='text-sm text-[#393F42]' style={{fontFamily: 'Axiforma'}}>Security Question</Text>
+            </View>
+
+            <View className='flex-row items-center justify-between mt-3 border rounded-[8px] border-[#96A0A5] py-[16px] px-[13px]'>
+              <Text className='text-[#444]' style={{fontFamily: 'Axiforma'}}>{question ? question : 'No Security Question'}</Text>
+              <Text> <AntDesign name="lock" size={16} color="black" /> </Text>
+            </View>
+
+
+            <View className='mt-5 mb-3'>
+              <Text className='text-sm text-[#393F42]' style={{fontFamily: 'Axiforma'}}>Answer</Text>
+            </View>
+
 
               <TextInput
                 keyboardType="default"
                 onChangeText={(text) => setAnswer(text)}
                 value={answer}
                 placeholder="Enter Your Answer"
-                className="border border-[#ccc] p-4 pt-1 rounded-lg w-full text-base"
+                className="border border-[#ccc] p-4 px-2 rounded-lg w-full text-base"
               />
 
               <Button
@@ -127,11 +156,13 @@ export default function PasswordQuestions({ route }: any) {
                 }
                 onPress={submitQuestion}
               />
-            </View>
+            
           </View>
           {/* </KeyboardAwareScrollView> */}
         </View>
       </TouchableWithoutFeedback>
+      </ScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   )
 }

@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   ActivityIndicator,
+  Image,
   SafeAreaView,
   ScrollView,
   Text,
@@ -20,6 +21,8 @@ import { useAppDispatch } from '../../services/store'
 import AuthLogo from '../../components/AuthLogo'
 import { TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import { AntDesign } from '@expo/vector-icons'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 declare global {
   interface Window {
@@ -125,12 +128,27 @@ const ForgotPassword = () => {
   }
 
   return (
-    <SafeAreaView className="mx-4 mt-6">
+    <SafeAreaView className="mx-4 mt-[70px]">
+      <KeyboardAwareScrollView
+          // style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          enableOnAndroid={true}
+        >
+
+        
       <ScrollView>
         {/* <Logo /> */}
-        <AuthLogo />
 
+        <TouchableOpacity className=' mb-[50px]' onPress={() => navigation.goBack()}>
+              <Text> <AntDesign name="arrowleft" size={24} color="#888" /> </Text>
+            </TouchableOpacity>
         <View className="text-[#333333] font-inter">
+
+       
+            <View className='mx-auto mb-7 shadow-sm'>
+            <Image source={require('../../assets/images/resetPassword.png')} />
+            </View>
+           
 
           <Text className="font-semibold text-[24px] mt-10">
            Reset Password
@@ -141,10 +159,13 @@ const ForgotPassword = () => {
 
           <View className="pt-2  ">
             <View className="mt-2">
+
+              <Text className='mt-4 text-[#393F42] text-sm' style={{fontFamily: 'Axiforma'}}>New Password</Text>
+
               <View className="relative">
                 <InputField
-                  label="New Password"
-                  placeholder="Enter your password"
+                  // label="New Password"
+                  placeholder=" ***************** "
                   keyboardType="default"
                   name="password"
                   control={control}
@@ -154,7 +175,7 @@ const ForgotPassword = () => {
                 />
                  <TouchableOpacity
                     onPress={() => setShowPassword(!showPassword)}
-                    className="absolute right-8 bottom-5"
+                    className="absolute right-5 bottom-7"
                   >
                     <Icon
                       name={showPassword ? 'eye-slash' : 'eye'}
@@ -164,10 +185,11 @@ const ForgotPassword = () => {
                   </TouchableOpacity>
               </View>
 
+              <Text className='mt-3 text-[#393F42] text-sm' style={{fontFamily: 'Axiforma'}}>Confirm Password</Text>
               <View className="relative mb-6">
                 <InputField
-                  label="Confirm Password"
-                  placeholder="re-enter password"
+                  // label="Confirm Password"
+                  placeholder=" ***************** "
                   keyboardType="visible-password"
                   name="confirmPassword"
                   control={control}
@@ -178,7 +200,7 @@ const ForgotPassword = () => {
 
           <TouchableOpacity
                     onPress={() => setShowPassword2(!showPassword2)}
-                    className="absolute right-8 bottom-5"
+                    className="absolute right-5 bottom-7"
                   >
                     <Icon
                       name={showPassword ? 'eye-slash' : 'eye'}
@@ -190,7 +212,7 @@ const ForgotPassword = () => {
             </View>
 
             <Button
-              style={{ marginTop: 36 }}
+              style={{ marginTop: 26 }}
               className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg "
               child={
                 loading ? (
@@ -204,6 +226,8 @@ const ForgotPassword = () => {
           </View>
         </View>
       </ScrollView>
+
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   )
 }

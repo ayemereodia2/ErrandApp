@@ -21,6 +21,7 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { ISecurityQA } from '../../types'
 import AuthLogo from '../../components/AuthLogo'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { Image } from 'react-native'
 
 export default function SecurityQuestion() {
   const navigation = useNavigation()
@@ -83,6 +84,11 @@ export default function SecurityQuestion() {
           {/* <Logo /> */}
 
           <AuthLogo />
+
+          <View>
+            <Image source={require('../../assets/images/securityQuestion.png')} className='mx-auto shadow-sm'/>
+          </View>
+
 
           {/* <KeyboardAwareScrollView
             style={{ flex: 1 }}

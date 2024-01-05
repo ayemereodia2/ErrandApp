@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
-import { Keyboard, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Keyboard, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import MapView, { Marker } from 'react-native-maps'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
 import { PostErrandData } from '../../types'
 import { Platform } from 'react-native'
+import { FontAwesome, Ionicons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
+import Checkbox from 'expo-checkbox'
 
 interface LocationProp {
   handleInputChange: any
@@ -49,6 +52,8 @@ const CreateErrandLocation = ({
     setDeliveryAddressLatLng,
   ] = useState<LatLng | null>(null)
 
+  const navigation = useNavigation()
+
   const [mapRegion, setMapRegion] = useState({
     latitude: 0,
     longitude: 0,
@@ -84,8 +89,20 @@ const CreateErrandLocation = ({
     setMarker(details.geometry.location)
   }
 
+  const [clicked, setClicked] = useState(false)
+
+  
+
+  const handleClicked = () => {
+    setClicked(!clicked)
+  }
+
   return (
     <>
+
+
+
+
       <ScrollView keyboardShouldPersistTaps="always">
       <KeyboardAvoidingView
   behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -104,32 +121,19 @@ const CreateErrandLocation = ({
           </Text>
         </View>
 
-        <View className="mx-auto items-center justify-center w-[309px] h-[48px] mt-5">
-          <Text
-            style={{ color: textTheme }}
-            className="text-[#777777] text-center"
-          >
-            In this section, you can set the location that you want the errand
-            to take place in.
-          </Text>
-        </View>
+       
 
-        <View className=" ml-4 mt-40 w-[340px]">
-          <Text style={{ color: textTheme }} className="text-[#243763]">
-            <Text
-              style={{ color: textTheme }}
-              className="font-semibold text-sm"
-            >
-              Request Location{' '}
-            </Text>
-            (Provide this if you have a separate Pickup Location or Delivery
-            Location)
+        <View className=" ml-4 mt-8 w-[340px]">
+          <Text style={{ color: '#6D6D6D', fontFamily: 'Axiforma' }} className="text-[#243763]">
+           
+             Kindly provide the location you want the errand to take place
+            
           </Text>
         </View>
 
         <View className="mt-4 px-4">
-          <Text style={{ color: textTheme }} className="text-[#243763]">
-            Pick Up Location
+          <Text style={{ color: '#393F42', fontFamily: 'Axiforma' }} className="text-[#243763] text-base">
+          Pick up/ Start Location
           </Text>
 
           <GooglePlacesAutocomplete
@@ -155,7 +159,7 @@ const CreateErrandLocation = ({
 
 
         <View style={styles.inputContainer} className="mt-20  px-4">
-          <Text style={{ color: textTheme }} className="text-[#243763] ">
+          <Text style={{ color: '#393F42', fontFamily: 'Axiforma' }} className="text-[#243763] text-base">
             {' '}
             Delivery/End Location
           </Text>
@@ -178,7 +182,34 @@ const CreateErrandLocation = ({
           />
         </View>
 
-        <MapView
+        <View className="flex-row items-center mt-10 ml-4">
+
+        <Checkbox 
+            value={clicked}
+            onValueChange={handleClicked} 
+            className='mr-2'
+            />
+
+          <Text
+            className="text-[16px]"
+            style={{ color: '#0C426F', fontFamily: 'Axiforma' }}
+          >
+            Indicate if it’s remote
+          </Text>
+          {/* <Text className='text-red-500'>*{financeError}</Text> */}
+        </View>
+
+        <View className="px-4 mt-4" style={{display: clicked ? 'flex' : 'none'}}>
+          <Text
+            style={{ color: '#393F42', fontFamily: 'Axiforma' }}
+            className=" overflow-auto font-normal leading-[24px] text-base"
+          >
+          Work remotely
+          </Text>
+        </View>
+
+
+        {/* <MapView
           style={styles.map}
           initialRegion={{
             latitude: regionCoords.lat,
@@ -191,7 +222,7 @@ const CreateErrandLocation = ({
             coordinate={{ latitude: marker.lat, longitude: marker.lng }}
           />
 
-        </MapView>
+        </MapView> */}
         </Pressable>
         </KeyboardAvoidingView>
       </ScrollView>

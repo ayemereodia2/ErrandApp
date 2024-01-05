@@ -21,6 +21,7 @@ import AuthLogo from '../../components/AuthLogo'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import CountryPicker from 'react-native-country-picker-modal'
 import { AntDesign } from '@expo/vector-icons'
+import { Image } from 'react-native'
 
 // import {toast }from 'react-hot-toast'
 
@@ -93,7 +94,7 @@ export default function VerifyPhone({ navigation, route }: any) {
   }
 
   return (
-    <SafeAreaView className="mt-24">
+    <SafeAreaView className="mt-20 ml-1 ">
       
       <KeyboardAwareScrollView
           // style={{ flex: 1 }}
@@ -103,7 +104,18 @@ export default function VerifyPhone({ navigation, route }: any) {
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View className="px-4">
           {/* <Logo /> */}
-          <AuthLogo />
+
+          {comingFrom === 'forgotPassword' 
+            ?
+            <TouchableOpacity className=' mb-[76px]' onPress={() => navigation.goBack()}>
+              <Text> <AntDesign name="arrowleft" size={24} color="#888" /> </Text>
+            </TouchableOpacity>
+            :
+            (
+              <AuthLogo />
+            )
+          }
+          
 
           {/* <KeyboardAwareScrollView
             style={{ flex: 1 }}
@@ -111,6 +123,19 @@ export default function VerifyPhone({ navigation, route }: any) {
             enableOnAndroid={true}
           > */}
           <View className="text-[#333333] font-inter py-4 space-y-1">
+
+          {comingFrom === 'forgotPassword' 
+            ?
+            <View className='mx-auto mb-7 shadow-sm'>
+            <Image source={require('../../assets/images/forgotPassword.png')} />
+            </View>
+            :
+            (
+              <View className=' mx-auto mb-7 '>
+            <Image source={require('../../assets/images/createAccount.png')} />
+            </View>
+            )
+          }
 
             {comingFrom === 'forgotPassword' 
             ?
@@ -129,7 +154,7 @@ export default function VerifyPhone({ navigation, route }: any) {
               {comingFrom === 'forgotPassword'
                 ? 
                 (
-                  <Text className="font-semibold text-[24px] text-[#393F42]">
+                  <Text className="font-semibold text-[24px] mt-[45px] text-[#393F42]" style={{fontFamily: 'Chillax'}}>
                 Forgot Password
                 </Text>
                 )
@@ -144,7 +169,7 @@ export default function VerifyPhone({ navigation, route }: any) {
               {comingFrom === 'forgotPassword'
 
                 ? 
-                (  <Text className="text-sm text-[#5A6063]" style={{fontFamily: 'Axiforma'}}>
+                (  <Text className="text-sm mt-1 text-[#5A6063]" style={{fontFamily: 'Axiforma'}}>
                   Please enter your registered phone number
                   </Text>
                 )
@@ -167,50 +192,51 @@ export default function VerifyPhone({ navigation, route }: any) {
                 message={errors?.phone_number?.message}
               /> */}
 
-                  <Text className='mt-3'>Phone Number</Text>
+                  <Text className='mt-[26px] text-[#5E6366] text-sm' style={{fontFamily: 'Axiforma'}}>Phone Number</Text>
 
                   <View className='flex-row items-center w-full'>
 
 
-                    <View className=' flex-row items-center mr-3 mt-1 px-[22px] py-1 w-[81px] border rounded-lg border-[#09497D]'>
+                      <View className=' flex-row items-center mr-3 mt-1 px-[22px] py-[7px] w-[81px] border rounded-lg border-[#96A0A5]'>
 
-                    <CountryPicker
-                    withFilter
-                    countryCode={countryCode}
-                    withFlag
-                    withAlphaFilter={false}
-                    withCurrencyButton={false}
-                    withCallingCode
-                    onSelect={country => {
-                      console.log('country', country);
-                      const {cca2, callingCode} = country;
-                      setCountryCode(cca2)
-                      setCallingCode(callingCode[0]);
-                    }}
-                    containerButtonStyle={{
-                      alignItems: 'center',
-                      
-                      marginRight: 15
-                    }}
-                    />
+                      <CountryPicker
+                      withFilter
+                      countryCode={countryCode}
+                      withFlag
+                      withAlphaFilter={false}
+                      withCurrencyButton={false}
+                      withCallingCode
+                      onSelect={country => {
+                        console.log('country', country);
+                        const {cca2, callingCode} = country;
+                        setCountryCode(cca2)
+                        setCallingCode(callingCode[0]);
+                      }}
+                      containerButtonStyle={{
+                        alignItems: 'center',
+                        
+                        marginRight: 15
+                      }}
+                      />
 
-                    <Text className='mt-1'><AntDesign name="down" size={16} color="#130F26" /></Text>
-                  </View>
+                      <Text className='mt-1'><AntDesign name="down" size={16} color="#130F26" /></Text>
+                      </View>
 
-                    <View className='w-[70vw]'>
-                  <InputField
-                    // label="Phone Number"
-                    placeholder="Enter your Phone Number"
-                    keyboardType="numeric"
-                    name="phone_number"
-                    required={true}
-                    control={control}
-                    errors={errors.phone_number}
-                    message={'phone is required'}
-                    
-                  />
-                  </View>
-                  </View>
+                      <View className='w-[70vw]'>
+                      <InputField
+                      // label="Phone Number"
+                      placeholder="8023456789"
+                      keyboardType="numeric"
+                      name="phone_number"
+                      required={true}
+                      control={control}
+                      errors={errors.phone_number}
+                      message={'phone is required'}
+
+                      />
+                      </View>
+                      </View>
+
 
               <TouchableOpacity
                 style={{ marginTop: 65 }}
@@ -227,25 +253,26 @@ export default function VerifyPhone({ navigation, route }: any) {
                 </TouchableOpacity>
             </View>
 
-            <View className='flex-row justify-center items-center'>
-            <Text className="text-[#8E9DA4] text-center mt-5" style={{fontFamily: 'Axiforma'}}>
-                  Have an account?
+            <View className='flex-row justify-center items-center mb-8'>
 
-                  <TouchableOpacity onPress={() => {
+            <Text className="text-[#8E9DA4] mt-5" style={{fontFamily: 'Axiforma'}}>
+                  Have an account?
+                 
+                </Text>
+
+                <TouchableOpacity onPress={() => {
                       navigation.navigate('Login', {
                         comingFrom: 'createAccount',
                       })
-                    }} className='ml-2'>
+                    }} className='ml-1'>
                   <Text
                     
                     className="font-bold text-[#09497D] mt-5" style={{fontFamily: 'Axiforma'}}
                   >
-                    {' '}
+                    
                     Log In
                   </Text>
                   </TouchableOpacity>
-                 
-                </Text>
             </View>
            
           </View>

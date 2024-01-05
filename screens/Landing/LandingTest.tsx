@@ -61,6 +61,12 @@ const LandingTest = ({ navigation }: any) => {
   const [scrollWidth, setScrollWidth] = useState(0)
   const [index, setIndex] = React.useState(0)
   const [market, setMarket] = useState([])
+  const [checked, setChecked] = useState(false)
+
+  const handleChecked = () => {
+    setChecked(true)
+  }
+
 
   function openPinModal() {
     bottomSheetRef.current?.present()
@@ -436,7 +442,8 @@ const LandingTest = ({ navigation }: any) => {
     Roboto: require('../../assets/fonts/Roboto-Regular.ttf'),
     Poppins: require('../../assets/fonts/Poppins-Regular.ttf'),
     Axiforma: require('../../assets/fonts/Axiforma-Regular.ttf'),
-    Chillax: require('../../assets/fonts/Chillax-Regular.otf'),
+    // Chillax: require('../../assets/fonts/Chillax-Regular.otf'),
+    Chillax: require('../../assets/fonts/Chillax-Medium.ttf')
 
   });
 
@@ -444,6 +451,7 @@ const LandingTest = ({ navigation }: any) => {
     return null
   }
 
+ 
   
 
  
@@ -749,7 +757,9 @@ const LandingTest = ({ navigation }: any) => {
                               className="border-[#aaa] h-[77px] w-[77px] justify-center  rounded-[20px] mr-2 bg-white"
                               style={{
                                 // backgroundColor: theme ? '#1E3A79' : 'white',
-                                backgroundColor: category.name === 'Laundry service' ? '#09497D' : 'white'
+                                // backgroundColor: category.name === 'Laundry service' ? '#09497D' : 'white'
+                                backgroundColor:  'white'
+
                               }}
                               onPress={() => {
                                 dispatch(getDraftErrand())

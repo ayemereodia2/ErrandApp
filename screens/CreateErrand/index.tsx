@@ -1,4 +1,4 @@
-import { Entypo, Ionicons } from '@expo/vector-icons'
+import { Entypo, FontAwesome, Ionicons } from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -33,6 +33,7 @@ import Details from './Details'
 import Finance from './Finance'
 import Location from './Location'
 import Review from './Review'
+import { Platform } from 'react-native'
 
 const PostErrand = ({ navigation }: any) => {
   const [activeStep, setActiveStep] = useState(1)
@@ -309,23 +310,23 @@ const PostErrand = ({ navigation }: any) => {
   //       ?.setOptions({ tabBarStyle: undefined, tabBarVisible: undefined })
   // }, [navigation])
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      title: 'Create Errand',
-      headerTitleStyle: { color: textTheme },
-      headerStyle: { backgroundColor: backgroundTheme },
-      headerLeft: () => <></>,
-      headerRight: () => (
-        <TouchableOpacity
-          onPress={() => navigation.navigate('MarketTab')}
-          className="pr-3"
-        >
-          <Ionicons color={textTheme} name="close" size={24} />
-        </TouchableOpacity>
-      ),
-    })
-  }, [])
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerShown: true,
+  //     title: 'Create Errand',
+  //     headerTitleStyle: { color: textTheme },
+  //     headerStyle: { backgroundColor: backgroundTheme },
+  //     headerLeft: () => <></>,
+  //     headerRight: () => (
+  //       <TouchableOpacity
+  //         onPress={() => navigation.navigate('MarketTab')}
+  //         className="pr-3"
+  //       >
+  //         <Ionicons color={textTheme} name="close" size={24} />
+  //       </TouchableOpacity>
+  //     ),
+  //   })
+  // }, [])
 
   const showComponent = () => {
     if (activeStep === 1) {
@@ -383,6 +384,75 @@ const PostErrand = ({ navigation }: any) => {
 
   return (
     <BottomSheetModalProvider>
+      <View>
+<View className='bg-purple-200 h-[160px] w-screen shadow-md' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+  <View className='bg-[#09497D] h-[150px] pt-[70px] px-6 pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+              <View
+                className={
+                  Platform.OS === 'android'
+                    ? 'flex-row items-center justify-between mt-6'
+                    : 'flex-row items-center justify-between'
+                }
+              >
+          <View className='flex-row items-center mt-2'> 
+      <TouchableOpacity
+          className=" items-center justify-between mr-8 py-3 "
+          onPress={() => navigation.goBack()}
+        >
+      <Ionicons name="chevron-back-outline" size={24} color="white" />
+         </TouchableOpacity>
+
+         <Text className='text-white text-xl font-medium' style={{fontFamily: 'Chillax'}}>Create Errand</Text>
+               
+         </View>
+         
+            {/* <Text
+                  className="font-bold text-[20px] leading-7"
+                  style={{ color: textTheme }}
+                >
+                  Welcome, {currentUser?.first_name}
+                </Text> */}
+
+                <View className="items-center flex-row gap-2">
+                 
+                  <TouchableOpacity
+                    // onPress={
+                    //   // navigation.navigate('Contact')
+                    //   openMoreModal
+                    // }
+                  >
+                    <Text style={{ color: textTheme }}>
+                     
+                    <Ionicons
+                    name="settings-outline"
+                    size={22}
+                    color={'white'}
+                    style={{ marginLeft: 7 }}
+                  />
+                    </Text>
+                  </TouchableOpacity>
+
+                  <Text style={{ color: textTheme }} className='mr-4'>
+                    <FontAwesome
+                      name="bell-o"
+                      size={22}
+                      color={'white'}
+                      onPress={() => {
+                        navigation.navigate('Notification')
+                      }}
+                    />
+                  </Text>
+                </View>
+              </View>
+
+             
+             
+
+                </View>
+
+                </View>
+             </View>
+
       <View style={{ flex: 1 }}>
         <ScrollView
           keyboardShouldPersistTaps="always"
