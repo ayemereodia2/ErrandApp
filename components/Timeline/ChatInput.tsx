@@ -41,7 +41,6 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { timelineAction } from '../../services/timeline/sendMessage'
 import { MarketData, SingleSubErrand, Timelines } from '../../types'
 import { currencyMask, parseAmount } from '../../utils/helper'
-import AdjustAmountModal from '../Modals/Bids/Proposal'
 
 export interface ChatInputProp {
   message?: string
@@ -52,6 +51,8 @@ export interface ChatInputProp {
   scrollViewRef: React.MutableRefObject<any>
   scrollToBottom: () => void
   subErrand?: SingleSubErrand
+  singleSubErrand?: SingleSubErrand
+  setSubErrand?: React.Dispatch<React.SetStateAction<SingleSubErrand>>
 }
 
 const ChatInput = ({
@@ -59,6 +60,8 @@ const ChatInput = ({
   user_id,
   scrollToBottom,
   subErrand,
+  singleSubErrand,
+  setSubErrand,
 }: ChatInputProp) => {
   const [message, setMessage] = useState('')
   const [chatBubble, setChatBubble] = useState('')
@@ -174,6 +177,15 @@ const ChatInput = ({
 
     await dispatch(timelineAction(data))
     // dispatch(errandDetails({ errandId: errand.id }))
+    if (errand.errand_type === 1) {
+      dispatch(
+        getSubErrand({
+          errand_id: errand.id,
+          runner_id: errand.user_id === user_id ? errand.runner_id : user_id,
+          setSubErrand,
+        }),
+      )
+    }
     setChatBubble('')
     scrollToBottom()
   }
@@ -226,22 +238,22 @@ const ChatInput = ({
     try {
       // Perform actions to refresh data (fetch new data, update state, etc.)
       // For example:
-      await dispatch(errandDetails({ errandId: errand.id }));
+      await dispatch(errandDetails({ errandId: errand.id }))
       // You can include other actions to refresh additional data if needed
 
       // Show a message or perform any post-refresh actions
       Toast.show({
         type: 'success',
         text1: 'Data refreshed successfully',
-      });
+      })
     } catch (error) {
       // Handle any errors that occur during the refresh
       Toast.show({
         type: 'error',
         text1: 'Failed to refresh data',
-      });
+      })
     }
-  };
+  }
 
   const getUserLocation = async () => {
     console.log('>>>>>>okay')
@@ -332,8 +344,6 @@ const ChatInput = ({
     }
   }
 
-  console.log('>>>>>> uploaded files', images)
-
   const handleFileUpload = () => {
     if (user_id === sender.id) {
       sendMessage('request', 'image', images[0])
@@ -367,22 +377,20 @@ const ChatInput = ({
                   shadowColor: 'none',
                   shadowOpacity: 0,
                   borderRadius: 30,
-                  
                 }}
               >
                 <MenuTrigger onPress={() => getUserLocation()}>
                   <MaterialIcons name="add" size={20} />
                 </MenuTrigger>
                 <MenuOptions
-                  
                   customStyles={{
                     optionWrapper: {
                       paddingBottom: 30,
                     },
                     optionsContainer: {
-                      marginBottom:20
+                      marginBottom: 20,
                     },
-                  
+
                     optionText: { textAlign: 'center', fontWeight: '600' },
                   }}
                 >
@@ -429,7 +437,10 @@ const ChatInput = ({
               {/* <MaterialIcons name="attach-file" size={24} /> */}
 
               <Text
-                onPress={() => toggleAmountAdjustment(true)}
+                onPress={() => {
+                  // toggleAmountAdjustment(true)
+                  toggleNewPriceModal()
+                }}
                 className="text-base"
               >
                 &#8358;
@@ -519,9 +530,14 @@ const ChatInput = ({
           isVisible={imageSelected}
         >
           <View
-            style={{ backgroundColor: 'white', height: 300, borderRadius: 10, marginTop: 20 }}
+            style={{
+              backgroundColor: 'white',
+              height: 300,
+              borderRadius: 10,
+              marginTop: 20,
+            }}
           >
-            {uploadingImages && <ActivityIndicator size={20} color="blue"  />}
+            {uploadingImages && <ActivityIndicator size={20} color="blue" />}
 
             {images.length > 0 ? (
               <Image
@@ -590,7 +606,7 @@ const ChatInput = ({
           </View>
         </Modal>
 
-        <BottomSheetModal
+        {/* <BottomSheetModal
           ref={adjustAmountRef}
           index={0}
           snapPoints={snapPoints}
@@ -607,7 +623,7 @@ const ChatInput = ({
             setAmount={setAmount}
             sendProposal={sendProposal}
           />
-        </BottomSheetModal>
+        </BottomSheetModal> */}
       </ScrollView>
     </BottomSheetModalProvider>
   )

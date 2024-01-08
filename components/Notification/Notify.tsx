@@ -17,6 +17,9 @@ const Notify = ({ data }: Notify) => {
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
+    console.log(">>>>Data", data);
+    
+
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   return (
@@ -92,7 +95,7 @@ const Notify = ({ data }: Notify) => {
 
               <View>
                 <Text className="mx-10 text-base" style={{ color: textTheme }}>
-                  {notification.message}
+                  {notification.description}
                 </Text>
               </View>
             </View>

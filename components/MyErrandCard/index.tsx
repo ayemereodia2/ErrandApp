@@ -2,6 +2,7 @@ import he from 'he'
 import React from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { useSelector } from 'react-redux'
+import { userDetails } from '../../services/auth/userInfo'
 import { errandDetails } from '../../services/errands/errandDetails'
 import { getSubErrand } from '../../services/errands/subErrand'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -40,24 +41,26 @@ const MyErrandCard = ({
   const regex = /(<([^>]+)>)/gi
   const result = he.decode(errand.description.replace(regex, ''))
 
-  // console.log('>>>>>>errand id', errand?.runner_id, user_id)
 
   return (
     <TouchableOpacity
-      // onPress={() => {
-      //   navigation.navigate('MyErrandDetails', {
-      //     bids: errand.bids,
-      //   })
-      //   dispatch(errandDetails({ errandId: errand.id, navigation }))
-      //   dispatch(userDetails({ user_id: errand.user_id }))
-      //   dispatch(
-      //     getSubErrand({
-      //       errand_id: errand.id,
-      //       runner_id: errand.user_id === user_id ? errand.runner_id : user_id,
-      //       setSubErrand,
-      //     }),
-      //   )
-      // }}
+      onPress={() => {
+        navigation.navigate('MyErrandDetails', {
+          bids: errand.bids,
+        })
+        dispatch(errandDetails({ errandId: errand.id, navigation }))
+        dispatch(userDetails({ user_id: errand.user_id }))
+        if (errand.errand_type === 1) {
+          dispatch(
+            getSubErrand({
+              errand_id: errand.id,
+              runner_id:
+                errand.user_id === user_id ? errand.runner_id : user_id,
+              setSubErrand,
+            }),
+          )
+        }
+      }}
       key={index}
       className="mx-4 shadow-sm rounded-sm pt-2"
     >
@@ -118,17 +121,17 @@ const MyErrandCard = ({
                 bids: errand.bids,
               })
               dispatch(errandDetails({ errandId: errand.id, navigation }))
-              // dispatch(userDetails({ user_id: errand.user_id }))
-              dispatch(
-                getSubErrand({
-                  errand_id: errand.id,
-                  // runner_id: errand.user_id === user_id ? errand?.runner_id : user_id,
-
-                  // this isnt the right id to send for getting suberrand. check above commented code to fix the issue when it comes up.
-                  runner_id: user_id,
-                  setSubErrand,
-                }),
-              )
+              dispatch(userDetails({ user_id: errand.user_id }))
+              if (errand.errand_type === 1) {
+                dispatch(
+                  getSubErrand({
+                    errand_id: errand.id,
+                    runner_id:
+                      errand.user_id === user_id ? errand.runner_id : user_id,
+                    setSubErrand,
+                  }),
+                )
+              }
             }}
             style={{ color: textTheme }}
             className="text-[#808080] text-sm w-[100px]"
@@ -137,24 +140,27 @@ const MyErrandCard = ({
           </Text>
         </View>
 
+        {/* all the dispatch funcs below are to get sender 
+        and runner's bids and negotiation when an errand 
+        card is clicked */}
+
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('MyErrandDetails', {
               bids: errand.bids,
             })
-            dispatch(errandDetails({ errandId: errand?.id, navigation }))
-            // dispatch(userDetails({ user_id: errand.user_id }))
-            dispatch(
-              getSubErrand({
-                errand_id: errand.id,
-                // runner_id:
-                //   errand.user_id === user_id ? errand?.runner_id : user_id,
-
-                // this isnt the right id to send for getting suberrand. check above commented code to fix the issue when it comes up.
-                runner_id: user_id,
-                setSubErrand,
-              }),
-            )
+            dispatch(errandDetails({ errandId: errand.id, navigation }))
+            dispatch(userDetails({ user_id: errand.user_id }))
+            if (errand.errand_type === 1) {
+              dispatch(
+                getSubErrand({
+                  errand_id: errand.id,
+                  runner_id:
+                    errand.user_id === user_id ? errand.runner_id : user_id,
+                  setSubErrand,
+                }),
+              )
+            }
           }}
         >
           <View className="mt-4 w-[300px]">

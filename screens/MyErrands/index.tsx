@@ -3,7 +3,7 @@ import { AntDesign, Entypo, EvilIcons, FontAwesome } from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
-  BottomSheetModalProvider
+  BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
@@ -18,7 +18,7 @@ import {
   TextInput,
   TouchableOpacity,
   useWindowDimensions,
-  View
+  View,
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
@@ -223,7 +223,7 @@ const ErrandScreen = ({ navigation }: any) => {
         <BottomSheetModalProvider>
           <View className="">
             <ScrollView
-              className=''
+              className=""
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
@@ -357,7 +357,10 @@ const ErrandScreen = ({ navigation }: any) => {
                         </Text>
                       )}
 
-                      <ScrollView className="mt-2 mb-28" showsVerticalScrollIndicator={false}>
+                      <ScrollView
+                        className="mt-2 mb-28"
+                        showsVerticalScrollIndicator={false}
+                      >
                         <>
                           {searchedErrand?.map((errand, index) => {
                             return (

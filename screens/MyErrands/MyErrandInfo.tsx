@@ -1,7 +1,7 @@
 import { AntDesign, Entypo, Ionicons } from '@expo/vector-icons'
 import {
   BottomSheetModal,
-  BottomSheetModalProvider
+  BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useRef, useState } from 'react'
@@ -9,21 +9,23 @@ import {
   ScrollView,
   TouchableOpacity,
   useWindowDimensions,
-  View
+  View,
 } from 'react-native'
 import {
   Menu,
   MenuOption,
   MenuOptions,
-  MenuTrigger
+  MenuTrigger,
 } from 'react-native-popup-menu'
 import { useSelector } from 'react-redux'
 import BidWrapper from '../../components/BidWrapper'
 import { DetailHeader } from '../../components/DetailHeader'
 import { SuccessDialogue } from '../../components/Modals/Success/SuccessDialogue'
 import Timeline from '../../components/Timeline'
+import TimelineInfo from '../../components/TimelineTexts/TimelineTexts'
 import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { errandDetails } from '../../services/errands/errandDetails'
+import { getSubErrand } from '../../services/errands/subErrand'
 import { RootState, useAppDispatch } from '../../services/store'
 import { SingleSubErrand } from '../../types'
 
@@ -117,6 +119,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
         user_id: userId,
         singleSubErrand: subErrand,
         manageErrandClicked: false,
+        loader: loadingErrand,
       }),
       headerLeft: () => (
         <TouchableOpacity className="pr-8" onPress={() => navigation.goBack()}>
@@ -124,14 +127,30 @@ const MyErrandInfo = ({ navigation, route }: any) => {
         </TouchableOpacity>
       ),
       headerRight: () => (
-        <View className="pr-3" style={{ shadowColor: 'none', flexDirection: 'row'}}>
-          <TouchableOpacity onPress={() => {
-            dispatch(errandDetails({ errandId: errand.id }))
-          }} style={{marginTop:3, marginRight:10}}>
-            <Ionicons name='reload-outline' size={20} />
+        <View
+          className="pr-3"
+          style={{ shadowColor: 'none', flexDirection: 'row' }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              dispatch(errandDetails({ errandId: errand.id }))
+              errand.errand_type === 1 &&
+                dispatch(
+                  getSubErrand({
+                    setSubErrand,
+                    errand_id: errand.id,
+                    runner_id: singleSubErrand?.runner_id,
+                  }),
+                )
+            }}
+            style={{ marginTop: 3, marginRight: 10 }}
+          >
+            <Ionicons name="reload-outline" size={20} color={textTheme} />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Menu style={{ shadowColor: 'none', shadowOpacity: 0, marginTop:3 }}>
+            <Menu
+              style={{ shadowColor: 'none', shadowOpacity: 0, marginTop: 3 }}
+            >
               <MenuTrigger>
                 <View className="">
                   <Entypo
@@ -338,10 +357,17 @@ const MyErrandInfo = ({ navigation, route }: any) => {
     dispatch(currentUserDetails({ user_id: userId }))
   }, [user, errand, manageErrandClicked, singleSubErrand, errand.status])
 
-  // console.log(">>>>errand status", errand.status);
-
   return (
     <>
+      <TimelineInfo
+        user_id={userId}
+        errand={errand}
+        setManageErrandClicked={setManageErrandClicked}
+        singleSubErrand={singleSubErrand}
+        loadingErrand={loadingErrand}
+        manageErrandClicked={manageErrandClicked}
+      />
+
       {errand?.status === 'active' ||
       errand?.status === 'completed' ||
       errand?.status === 'abandoned' ||
@@ -356,6 +382,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
             errand={errand}
             user_id={userId}
             singleSubErrand={singleSubErrand}
+            setSubErrand={setSubErrand}
             loadingErrand={loadingErrand}
             setManageErrandClicked={setManageErrandClicked}
             toggleCompleteDialogue={toggleCompleteDialogue}
@@ -373,6 +400,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
           singleSubErrand={singleSubErrand}
           loadingErrand={loadingErrand}
           setManageErrandClicked={setManageErrandClicked}
+          setSubErrand={setSubErrand}
         />
       ) : (
         <BottomSheetModalProvider>

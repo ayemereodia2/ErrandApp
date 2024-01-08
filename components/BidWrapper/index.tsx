@@ -1,6 +1,12 @@
 import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet'
 import React, { useCallback, useRef, useState } from 'react'
-import { ActivityIndicator, SafeAreaView, ScrollView, Text } from 'react-native'
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native'
 import { useSelector } from 'react-redux'
 import { HaggleComponent } from '../../components/MyBidDetails/HaggleDetail'
 import { RootState } from '../../services/store'
@@ -8,6 +14,7 @@ import { Bids, Haggles, MarketData, SingleSubErrand } from '../../types'
 import BeginErrandModal from '../Modals/Errands/BeginErrand'
 import RejectErrandModal from '../Modals/Errands/RejectErrandModal'
 import ErrandBid from '../MyBidDetails'
+import { LastHaggleComponent } from '../MyBidDetails/LastHaggle'
 import UserInfo from '../UserInfo/UserInfo'
 
 interface BidWrapperProp {
@@ -125,24 +132,16 @@ const BidWrapper = ({
   let otherHaggles: Haggles[] = []
 
   errand?.bids.map((bid, index) => {
-    try {
-      if (bid.runner.id === userId) {
-        otherHaggles = bid.haggles
+    if (bid.runner.id === userId) {
+      otherHaggles = [...bid.haggles]
 
-        lastHaggle = otherHaggles.slice(-1)[0]
-        currentBid = bid
+      lastHaggle = otherHaggles.slice(-1)[0]
+      currentBid = bid
 
-        if (otherHaggles.length < 2) {
-          otherHaggles = []
-        } else {
-          otherHaggles?.pop()
-        }
-
-        if (otherHaggles.length > 0) {
-          otherHaggles.reverse()
-        }
+      if (otherHaggles.length > 0) {
+        otherHaggles = otherHaggles.reverse()
       }
-    } catch (e) {}
+    }
   })
 
   if (loadingErrand) {
@@ -236,6 +235,25 @@ const BidWrapper = ({
             })}
           </>
         )}
+        
+        {userId !== errand.user_id && errand.status === 'open' && (
+          <View className="mt-4">
+            {otherHaggles?.map((haggle) => {
+              return (
+                <LastHaggleComponent
+                  bid={currentBid}
+                  haggle={haggle}
+                  errand={errand}
+                  user_id={userId}
+                  lastHaggle={lastHaggle}
+                  toggleSuccessDialogue={toggleSuccessDialogue}
+                  setManageErrandClicked={() => {}}
+                  toggleUserInfoModal={() => {}}
+                />
+              )
+            })}
+          </View>
+        )}
 
         {userId !== errand.user_id && errand.status === 'open' && (
           <>
@@ -288,23 +306,6 @@ const BidWrapper = ({
             />
           </>
         )}
-
-        {/* {userId !== errand.user_id && errand.status === 'open' && (
-            <>
-              {otherHaggles?.map((haggle) => {
-                return (
-                  <LastHaggle
-                    bid={currentBid}
-                    haggle={haggle}
-                    errand={errand}
-                    user_id={userId}
-                    lastHaggle={lastHaggle}
-                    toggleSuccessDialogue={toggleSuccessDialogue}
-                  />
-                )
-              })}
-            </>
-          )} */}
 
         <BottomSheetModal
           // backdropComponent={renderBackdrop}

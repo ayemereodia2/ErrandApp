@@ -55,7 +55,7 @@ export default function NewNotifications({ data, isLoading }) {
         data?.data?.map((notification: any) => (
           <ScrollView>
             <View
-              className="py-2 mb-3 mt-4 border border-gray-400 rounded-md"
+              className="py-2 mb-3 mt-2 border border-gray-400 rounded-md"
               style={{ backgroundColor: theme ? '#152955' : 'white' }}
               key={notification.id}
             >
@@ -118,7 +118,7 @@ export default function NewNotifications({ data, isLoading }) {
 
               <View>
                 <Text className="mx-10 text-base" style={{ color: textTheme }}>
-                  {notification.message}
+                  {notification.description}
                 </Text>
               </View>
             </View>

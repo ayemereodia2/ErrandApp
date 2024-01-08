@@ -165,7 +165,7 @@ const NegotiateBid = ({
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}
         >
-          <Text className="text-xl text-center font-semibold">
+          <Text  style={{ color: textTheme }} className="text-xl text-center font-semibold">
             Negotiate Bid
           </Text>
 
@@ -177,7 +177,7 @@ const NegotiateBid = ({
               Amount
             </Text>
 
-            <View className="bg-white text-xs rounded-lg  flex-row space-x-2 justify-center items-center h-14">
+            <View className="bg-white text-xs rounded-lg  flex-row space-x-2 justify-center items-center">
               <Text className="text-lg pl-1 ">&#x20A6;</Text>
               <TextInput
                 className="w-full"
@@ -191,13 +191,13 @@ const NegotiateBid = ({
 
             {errand.user_id !== user_id ? (
               <View className="flex-row justify-between pt-2">
-                <Text>
+                <Text  style={{ color: textTheme }}>
                   Amount you will get:{' '}
                   <Text className="font-bold">
                     {formatMoney2(willGet).toString().slice(0, -3)}
                   </Text>
                 </Text>
-                <Text>
+                <Text  style={{ color: textTheme }}>
                   Service charge :{' '}
                   <Text className="font-bold">
                     {formatMoney2(commission).toString().slice(0, -3)}

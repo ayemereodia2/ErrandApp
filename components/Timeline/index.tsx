@@ -1,4 +1,3 @@
-import { AntDesign } from '@expo/vector-icons'
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -10,7 +9,6 @@ import {
   Platform,
   SafeAreaView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -18,11 +16,9 @@ import { externalUserDetails } from '../../services/auth/externalUserInfo'
 import { userDetails } from '../../services/auth/userInfo'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData, SingleSubErrand } from '../../types'
-import { formatDate } from '../../utils/helper'
 import CompleteErrand from '../Modals/Errands/CompletedErrand'
 import ChatInput from './ChatInput'
 import MessagesList from './MessageList'
-
 
 interface Props {
   errand: MarketData
@@ -33,6 +29,8 @@ interface Props {
   setManageErrandClicked?: any
   toggleCompleteDialogue?: any
   toggleSuccessDialogue?: any
+  setSubErrand: React.Dispatch<React.SetStateAction<SingleSubErrand>>
+
 }
 
 const Timeline = ({
@@ -44,6 +42,7 @@ const Timeline = ({
   setManageErrandClicked,
   toggleSuccessDialogue,
   toggleCompleteDialogue,
+  setSubErrand
 }: Props) => {
   // const { username, bio, picture, isBlocked, isMuted } = route.params;
   const [reply, setReply] = useState('')
@@ -64,22 +63,26 @@ const Timeline = ({
       ? singleSubErrand.timeline
       : errand.timeline
 
-  useEffect(() => {
-    if (singleSubErrand?.runner_id) {
-      dispatch(userDetails({ user_id: errand.user_id }))
+  console.log('>>>>>sub', timeline.updates)
 
-      dispatch(
-        externalUserDetails({
-          user_id: singleSubErrand?.runner_id,
-        }),
-      )
-    }
+  useEffect(() => {
+    // if (singleSubErrand !== undefined) {
+    //   dispatch(userDetails({ user_id: errand.user_id }))
+
+    //   dispatch(
+    //     externalUserDetails({
+    //       user_id: singleSubErrand?.runner_id,
+    //     }),
+    //   )
+    // }
     if (errand.runner_id) {
       dispatch(
         externalUserDetails({
-          user_id: errand.runner_id,
+          user_id: errand.user_id,
         }),
       )
+
+      dispatch(userDetails({ user_id: errand.runner_id }))
     }
   }, [])
 
@@ -125,7 +128,7 @@ const Timeline = ({
 
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
         <View>
-          <View className="h-[56px] bg-[#FEE1CD] mx-4 items-center justify-center border border-[#C85604] mt-4 rounded-lg">
+          {/* <View className="h-[56px] bg-[#FEE1CD] mx-4 items-center justify-center border border-[#C85604] mt-4 rounded-lg">
             {errand.status === 'active' && (
               <Text className="font-medium text-sm px-4">
                 This Errand is expected to be Completed on{' '}
@@ -180,13 +183,15 @@ const Timeline = ({
                 This Errand has been cancelled
               </Text>
             )}
-          </View>
+          </View> */}
 
           <MessagesList
             timeline={timeline}
             errand={errand}
             scrollViewRef={scrollViewRef}
             scrollToBottom={scrollToBottom}
+            singleSubErrand={singleSubErrand}
+            setSubErrand={setSubErrand}
           />
 
           {errand.status === 'completed' ||
@@ -195,17 +200,10 @@ const Timeline = ({
           singleSubErrand?.status === 'completed' ||
           singleSubErrand?.status === 'cancelled' ? (
             <View
-              className={`h-44 flex ${
-                errand.status === 'completed' ||
-                singleSubErrand?.status === 'completed'
-                  ? 'bg-green-100  border-green-400 rounded-lg'
-                  : errand.status === 'cancelled' || errand.status === 'abandoned' ||
-                    singleSubErrand?.status === 'cancelled'
-                  ? 'bg-red-100 border-red-500 rounded-lg'
-                  : ''
-              }`}
+              style={{ backgroundColor: backgroundTheme }}
+              className={`h-44 flex`}
             >
-              <View className="flex-row justify-center items-center px-6 mt-6">
+              {/* <View className="flex-row justify-center items-center px-6 mt-6">
                 <Text
                   className={`${
                     errand.status === 'completed' ||
@@ -223,11 +221,9 @@ const Timeline = ({
                     ? singleSubErrand.status
                     : errand.status}
                 </Text>
-              </View>
+              </View> */}
             </View>
           ) : (
-            
-
             <ChatInput
               errand={errand}
               subErrand={singleSubErrand}
@@ -235,7 +231,6 @@ const Timeline = ({
               scrollViewRef={scrollViewRef}
               scrollToBottom={scrollToBottom}
             />
-
           )}
         </View>
 

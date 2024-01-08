@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
@@ -57,6 +57,7 @@ const RejectBid = ({
                 toggleSuccessDialogue,
                 toggleRejectModal,
                 dispatch,
+                source: errand.user_id === user_id ? 'sender' : 'runner',
                 Toast,
               }),
             )

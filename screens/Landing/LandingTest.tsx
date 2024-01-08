@@ -142,7 +142,7 @@ const LandingTest = ({ navigation }: any) => {
   const getNotifications = async () => {
     const _rs = await _fetch({
       method: 'GET',
-      _url: `/user/app-notification?count=5`,
+      _url: `/internal/notification/find/${currentUser.id}`,
     })
     return await _rs.json()
   }
@@ -554,7 +554,7 @@ const LandingTest = ({ navigation }: any) => {
                 </ScrollView>
               </View>
 
-              <View className="mt-6 mb-20">
+              <View className="mt-6 mb-6">
                 <Text
                   className=" text-[25px] leading-7 font-bold"
                   style={{ color: textTheme }}
@@ -582,7 +582,7 @@ const LandingTest = ({ navigation }: any) => {
 
                     <Pressable
                       onPress={() => {
-                        console.log('.....ttocjed')
+                        // console.log('.....ttocjed')
                       }}
                     >
                       <SelectList

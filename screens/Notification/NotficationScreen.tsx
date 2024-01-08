@@ -22,7 +22,7 @@ const NotificationScreen = ({ navigation }: any) => {
   const getNotifications = async () => {
     const _rs = await _fetch({
       method: 'GET',
-      _url: `/user/app-notification`,
+      _url: `/internal/notification/find/${currentUser.id}`,
     })
     return await _rs.json()
   }

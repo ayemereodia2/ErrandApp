@@ -1,14 +1,31 @@
-import React from 'react'
-import { Image, ScrollView, Text, View } from 'react-native'
+import { AxiosError } from 'axios'
+import React, { useState } from 'react'
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
+import Modal from 'react-native-modal'
+import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../services/store'
+import { _fetch } from '../../services/axios/http'
+import { errandDetails } from '../../services/errands/errandDetails'
+import { getSubErrand } from '../../services/errands/subErrand'
+import { RootState, useAppDispatch } from '../../services/store'
+import { UpdateStatus } from '../../types'
 import { ChatInputProp } from './ChatInput'
 
 const MessagesList = ({
   timeline,
   scrollViewRef,
   scrollToBottom,
+  errand,
+  singleSubErrand,
+  setSubErrand,
 }: ChatInputProp) => {
   const {
     data: currentUser,
@@ -16,21 +33,69 @@ const MessagesList = ({
     textTheme,
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+  const [acceptProposal, setAcceptProposal] = useState(false)
+
+  const dispatch = useAppDispatch()
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-  const { data: runner } = useSelector(
+  const { data: sender } = useSelector(
     (state: RootState) => state.externalUserDetailsReducer,
   )
-  const { data: sender } = useSelector(
+  const { data: runner } = useSelector(
     (state: RootState) => state.userDetailsReducer,
   )
+
+  const respondToProposal = async (answer: string) => {
+    let url = `/errand/${errand.id}/adjust-budget`
+    if (singleSubErrand?.id) {
+      url = `/sub-errand/${singleSubErrand?.id}/adjust-budget`
+    }
+    try {
+      // await htt.patch(url, {
+      //   answer: answer,
+      // })
+      await _fetch({
+        method: 'PATCH',
+        _url: url,
+        body: { answer },
+      })
+
+      Toast.show({
+        type: 'success',
+        text1: 'Renegotiation  sent successfully',
+      })
+
+      setAcceptProposal(false)
+
+      if (singleSubErrand?.id) {
+        dispatch(
+          getSubErrand({
+            setSubErrand,
+            errand_id: errand.id,
+            runner_id: singleSubErrand.runner_id,
+          }),
+        )
+      } else {
+        dispatch(errandDetails({ errandId: errand.id }))
+      }
+    } catch (err) {
+      setAcceptProposal(false)
+
+      if (err instanceof AxiosError) {
+        Toast.show({
+          type: 'error',
+          text1: err.response?.data.message,
+        })
+      }
+    }
+  }
 
   return (
     <ScrollView
       ref={scrollViewRef}
       className="px-2 pb-16"
-      style={{ backgroundColor: backgroundTheme, height: '74%' }}
+      style={{ backgroundColor: backgroundTheme, height: '82%' }}
       onContentSizeChange={scrollToBottom}
     >
       <>
@@ -91,73 +156,70 @@ const MessagesList = ({
                   </MapView>
                 )
 
-              // case 'renegotiation-proposal':
-              //   const confirmModal = useDisclosure()
-              //   return (
-              //     <div>
-              //       <p>{update.message} </p>
-              //       {update.status === UpdateStatus.Negotiated ? (
-              //         <p className={'text-xs text-blue-300'}>
-              //           this proposal was negotiated
-              //         </p>
-              //       ) : null}
-              //       {update.status === UpdateStatus.Rejected ? (
-              //         <p className={'text-xs text-red-300'}>
-              //           this proposal was rejected
-              //         </p>
-              //       ) : null}
-              //       {update.status === UpdateStatus.Pending &&
-              //       update.user_id !== currentUser.id ? (
-              //         <div className={'flex justify-between'}>
-              //           <button
-              //             onClick={confirmModal.onOpen}
-              //             className={'text-green-500'}
-              //           >
-              //             accept
-              //           </button>
-              //           <button
-              //             onClick={() => respondToProposal('reject')}
-              //             className={'text-red-400'}
-              //           >
-              //             reject
-              //           </button>
-              //         </div>
-              //       ) : null}
+              case 'renegotiation-proposal':
+                // const confirmModal = useDisclosure()
+                return (
+                  <View>
+                    <Text>{update.message} </Text>
+                    {update.status === UpdateStatus.Negotiated ? (
+                      <Text className={'text-xs text-blue-300'}>
+                        this proposal was negotiated
+                      </Text>
+                    ) : null}
+                    {update.status === UpdateStatus.Rejected ? (
+                      <Text className={'text-xs text-red-300'}>
+                        this proposal was rejected
+                      </Text>
+                    ) : null}
+                    {update.status === UpdateStatus.Pending &&
+                    update.user_id !== currentUser.id ? (
+                      <View className={'flex-row justify-between'}>
+                        <TouchableOpacity
+                          onPress={() => setAcceptProposal(true)}
+                        >
+                          <Text className={'text-green-600'}>accept</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => respondToProposal('reject')}
+                        >
+                          <Text className={'text-red-600'}> reject</Text>
+                        </TouchableOpacity>
+                      </View>
+                    ) : null}
 
-              //       {/* <Modal
-              //         size={'sm'}
-              //         isCentered
-              //         isOpen={confirmModal.isOpen}
-              //         onClose={confirmModal.onClose}
-              //       >
-              //         <ModalContent>
-              //           <ModalBody>
-              //             <div
-              //               className={'grid place-content-center px-5 py-3'}
-              //             >
-              //               <p className={'mb-2 font-Neue_Montreal'}>
-              //                 Are you sure you want to update Errand Cost?
-              //               </p>
-              //             </div>
-              //           </ModalBody>
-              //           <ModalFooter>
-              //             <button
-              //               className="text-sm text-[#C82332] border-2 border-[#C82332] rounded-3xl flex justify-center font-NeueMontreal items-center p-1 px-4 bg-white"
-              //               onClick={confirmModal.onClose}
-              //             >
-              //               Cancel
-              //             </button>
-              //             <button
-              //               className="text-sm text-[#21B06E] border-2 border-[#21B06E] ml-2 rounded-3xl flex justify-center font-NeueMontreal items-center p-1 px-4 bg-white"
-              //               onClick={() => respondToProposal('accept')}
-              //             >
-              //               Post update
-              //             </button>
-              //           </ModalFooter>
-              //         </ModalContent>
-              //       </Modal> */}
-              //     </div>
-              //   )
+                    <Modal
+                      backdropOpacity={0.1}
+                      onBackdropPress={() => {
+                        setAcceptProposal(false)
+                      }}
+                      isVisible={acceptProposal}
+                    >
+                      {/* <View style={styles.modalContainer}> */}
+                      <View className="bg-white text-black w-full rounded-lg px-4 py-10 ">
+                        <View className={'grid place-content-center px-5 py-3'}>
+                          <Text className={'mb-2 text-black text-center'}>
+                            Are you sure you want to update Errand Cost?
+                          </Text>
+                        </View>
+                        <View className="flex-row items-center justify-center">
+                          <TouchableOpacity
+                            className="text-sm text-[#C82332] border-2 border-[#C82332] rounded-3xl flex justify-center font-NeueMontreal items-center p-1 px-4 bg-white"
+                            onPress={() => setAcceptProposal(false)}
+                          >
+                            <Text>Cancel</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            className="text-sm text-[#21B06E] border-2 border-[#21B06E] ml-2 rounded-3xl flex justify-center font-NeueMontreal items-center p-1 px-4 bg-white"
+                            onPress={() => respondToProposal('accept')}
+                          >
+                            <Text>Post update</Text>
+                          </TouchableOpacity>
+                        </View>
+                        {/* </View> */}
+                      </View>
+                    </Modal>
+                  </View>
+                )
               default:
                 return <Text>{update.message}</Text>
             }
@@ -166,7 +228,7 @@ const MessagesList = ({
           const getChatBubblePosition = () => {
             if (!update.user_id) return 'justify-center'
 
-            return update.user_id === currentUser.id
+            return update.user_id !== currentUser.id
               ? 'justify-end'
               : 'justify-start'
           }
@@ -176,7 +238,7 @@ const MessagesList = ({
           }
 
           const getUser = () => {
-            if (update.source === 'sender') {
+            if (update.source === 'runner') {
               return sender
             }
             return runner
@@ -196,6 +258,16 @@ const MessagesList = ({
               minute: '2-digit',
               hour12: true,
             })
+          }
+
+          if (!update.user_id) {
+            return (
+              <View className={'flex-row justify-center text-xs mb-3 mx-3'}>
+                <Text className={'px-2 py-1 bg-[#fff6f0] rounded-lg'}>
+                  {update.message}
+                </Text>
+              </View>
+            )
           }
 
           return (
@@ -218,7 +290,7 @@ const MessagesList = ({
                     ) : (
                       <View className="bg-[#616161] rounded-full w-10 h-10 flex-row justify-center items-center">
                         <Text
-                          style={{ color: textTheme }}
+                          // style={{ color: textTheme }}p
                           className="text-white"
                         >
                           {getUser().first_name.charAt(0).toUpperCase()}
@@ -230,7 +302,7 @@ const MessagesList = ({
                     <View>
                       <Text
                         style={{ color: textTheme }}
-                        className="text-black capitalize"
+                        className="text-white capitalize"
                       >
                         {getUser().first_name}
                       </Text>
@@ -260,5 +332,14 @@ const MessagesList = ({
     </ScrollView>
   )
 }
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+  },
+})
 
 export default MessagesList

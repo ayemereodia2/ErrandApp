@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   Linking,
+  Platform,
   SafeAreaView,
   Text,
   TouchableOpacity,
@@ -39,7 +40,7 @@ const UpdateAppScreen = () => {
           <TouchableOpacity
             onPress={() =>
               Linking.openURL(
-                'https://play.google.com/store/apps/details?id=com.orj5.Swave',
+                Platform.OS === "android" ? 'https://play.google.com/store/apps/details?id=com.orj5.Swave' : "https://apps.apple.com/ng/app/swave-ng/id6473091070",
               )
             }
             className="bg-[#1E3A79] w-44 mx-auto mt-8 rounded-xl"

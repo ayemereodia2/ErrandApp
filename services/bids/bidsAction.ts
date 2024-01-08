@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BidActionPayload, ErrandMarketResponse } from '../../types';
 import { _fetch } from '../axios/http';
+import { errandDetails } from '../errands/errandDetails';
+import { myErrandList } from '../errands/myErrands';
 
     
 export const bidAction = createAsyncThunk<ErrandMarketResponse, BidActionPayload, { rejectValue: string }>(
@@ -27,44 +29,44 @@ export const bidAction = createAsyncThunk<ErrandMarketResponse, BidActionPayload
     }
     
 
-    // if (rs.success === true) {
-    //   dispatch(myErrandList({}))
-    //   dispatch(errandDetails({ errandId: errand_id }))
-    //    toggleNegotiateModal && toggleNegotiateModal(false) 
-    //   toggleSuccessDialogue && toggleSuccessDialogue(true)
+    if (rs.success === true) {
+      dispatch(myErrandList({}))
+      dispatch(errandDetails({ errandId: errand_id }))
+       toggleNegotiateModal && toggleNegotiateModal(false) 
+      toggleSuccessDialogue && toggleSuccessDialogue(true)
 
-    //   if (response === 'accept') {
-    //     toggleAcceptModal && toggleAcceptModal(false)
-    //     dispatch(errandDetails({ errandId: errand_id }))
-    //     dispatch(myErrandList({}))
-    //      Toast.show({
-    //       type: 'success',
-    //       text1: rs.message,
-    //     });
-    //   }
-    //   if (response === 'reject') {
-    //     toggleRejectModal && toggleRejectModal(false);
-    //     toggleSuccessDialogue && toggleSuccessDialogue(true)
-    //     dispatch(errandDetails({ errandId: errand_id }))
-    //     dispatch(myErrandList({}))
-    //      Toast.show({
-    //       type: 'success',
-    //       text1: rs.message,
-    //     });
-    //   }
+      if (response === 'accept') {
+        toggleAcceptModal && toggleAcceptModal(false)
+        dispatch(errandDetails({ errandId: errand_id }))
+        dispatch(myErrandList({}))
+         Toast.show({
+          type: 'success',
+          text1: rs.message,
+        });
+      }
+      if (response === 'reject') {
+        toggleRejectModal && toggleRejectModal(false);
+        toggleSuccessDialogue && toggleSuccessDialogue(true)
+        dispatch(errandDetails({ errandId: errand_id }))
+        dispatch(myErrandList({}))
+         Toast.show({
+          type: 'success',
+          text1: rs.message,
+        });
+      }
 
-    //   toggleNegotiateModal && toggleNegotiateModal(false) 
-    //   toggleSuccessDialogue && toggleSuccessDialogue(true)
-    //   dispatch(errandDetails({ errandId: errand_id }))
-    //   dispatch(myErrandList({}))
+      toggleNegotiateModal && toggleNegotiateModal(false) 
+      toggleSuccessDialogue && toggleSuccessDialogue(true)
+      dispatch(errandDetails({ errandId: errand_id }))
+      dispatch(myErrandList({}))
 
-    //    Toast.show({
-    //       type: 'success',
-    //       text1: "Your negotiation was successful",
-    //    });
+       Toast.show({
+          type: 'success',
+          text1: "Your negotiation was successful",
+       });
       
-    //     return rs.data
-    // }
+        return rs.data
+    }
 
         return rs.data
 

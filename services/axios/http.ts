@@ -57,7 +57,7 @@ export async function _fetch({ _url, body, method }: FetchProps) {
   
   const token = await AsyncStorage.getItem('accessToken');  
 
-  console.log(">>>otkn", url);
+  console.log(">>>otkn", token);
   
 
   let options

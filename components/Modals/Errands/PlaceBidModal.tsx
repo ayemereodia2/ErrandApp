@@ -197,13 +197,13 @@ const PlaceBidModal = ({
             </View>
 
             <View className="flex-row justify-between pt-2 px-4">
-              <Text>
+              <Text style={{ color: textTheme }}>
                 Amount you will get:{' '}
                 <Text className="font-bold">
                   {formatMoney2(willGet).toString().slice(0, -3)}
                 </Text>
               </Text>
-              <Text>
+              <Text style={{ color: textTheme }}>
                 Service charge :{' '}
                 <Text className="font-bold">
                   {formatMoney2(commission).toString().slice(0, -3)}
@@ -239,7 +239,7 @@ const PlaceBidModal = ({
               {uploadingImages ? (
                 <View className="flex-row justify-center items-center mt-16 space-x-2">
                   <ActivityIndicator color="blue" size="small" />
-                  <Text>Uploading Images..</Text>
+                  <Text style={{ color: textTheme }}>Uploading Images..</Text>
                 </View>
               ) : (
                 <>
@@ -280,6 +280,7 @@ const PlaceBidModal = ({
                       {uploadedFiles.length < 3 && (
                         <Text
                           className="pt-4"
+                          style={{ color: textTheme }}
                           onPress={() => {
                             pickImageAsync()
                           }}

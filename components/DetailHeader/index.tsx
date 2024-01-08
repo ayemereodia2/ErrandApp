@@ -1,3 +1,4 @@
+import { ActivityIndicator } from 'react-native'
 import { MarketData, SingleSubErrand } from '../../types'
 
 interface infoProp {
@@ -5,6 +6,7 @@ interface infoProp {
   user_id: string
   manageErrandClicked: boolean
   singleSubErrand: SingleSubErrand
+  loader: boolean | undefined
 }
 
 export const DetailHeader = ({
@@ -12,8 +14,12 @@ export const DetailHeader = ({
   user_id,
   manageErrandClicked,
   singleSubErrand,
+  loader,
 }: infoProp) => {
-  
+  // if (loader) {
+  //   return <ActivityIndicator color="blue" size="small" />
+  // }
+
   if (
     // for the sender
     (user_id === errand?.user_id && errand?.status === 'open') ||
@@ -25,7 +31,7 @@ export const DetailHeader = ({
   if (
     // for the runner
     (user_id !== errand?.user_id && errand?.status === 'open') ||
-    (user_id !== errand?.user_id && errand?.status === 'pending') 
+    (user_id !== errand?.user_id && errand?.status === 'pending')
   ) {
     return 'Your Bid on this Errand'
   }

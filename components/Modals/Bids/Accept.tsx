@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
@@ -64,7 +64,8 @@ const AcceptBid = ({
                 toggleAcceptModal,
                 dispatch,
                 Toast,
-                setShowFundWallet
+                setShowFundWallet,
+                source: errand.user_id === user_id ? 'sender' : 'runner',
               }),
             )
           }}

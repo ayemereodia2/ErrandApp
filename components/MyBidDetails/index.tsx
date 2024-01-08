@@ -34,6 +34,7 @@ const ErrandBid = ({
   singleSubErrand,
   setManageErrandClicked,
   toggleUserInfoModal,
+  otherHaggles,
 }: BidsProps) => {
   const acceptBidRef = useRef<BottomSheetModal>(null)
   const acceptPoints = ['46%']
@@ -94,29 +95,13 @@ const ErrandBid = ({
     [],
   )
 
-  // useEffect(() => {
-  //   const keyboardWillShowListener = Keyboard.addListener(
-  //     Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
-  //     handleKeyboardWillShow,
-  //   )
-  //   const keyboardWillHideListener = Keyboard.addListener(
-  //     Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
-  //     handleKeyboardWillHide,
-  //   )
-
-  //   return () => {
-  //     keyboardWillShowListener.remove()
-  //     keyboardWillHideListener.remove()
-  //   }
-  // }, [])
+  // console.log('>>>>>errandtype', mana)
 
   const { data: sender } = useSelector(
     (state: RootState) => state.externalUserDetailsReducer,
   )
 
-  const negotiatorIsSender = bid?.haggles.slice(-1)[0].source === 'sender'
-
-  // console.log('>>>>>>>negotiator', bid)
+  const lastNegotiatorIsSender = bid?.haggles.slice(-1)[0].source === 'sender'
 
   useEffect(() => {
     dispatch(externalUserDetails({ user_id: bid?.runner.id }))
@@ -192,6 +177,20 @@ const ErrandBid = ({
               &#x20A6;{(haggle?.amount / 100).toLocaleString()}
             </Text>
           </View>
+
+          <TouchableOpacity
+            onPress={() => {
+              dispatch(externalUserDetails({ user_id: errand.user_id }))
+              toggleBidHistoryModal(true)
+            }}
+            className=""
+          >
+            <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
+              <Text className="text-xs text-center text-[#243763]">
+                Bid History
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
 
         {bid.state === 'completed' && (
@@ -202,30 +201,27 @@ const ErrandBid = ({
               </Text>
             </View>
 
-            <TouchableOpacity
-              onPress={() => toggleBidHistoryModal(true)}
-              className="flex-row space-x-2 items-center border-[0.3px] rounded-2xl py-1 px-3 mt-2"
-            >
-              <Text className="flex-row space-x-2 items-center rounded-xl">
-                Bid History
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                setManageErrandClicked(true)
-                dispatch(
-                  getSubErrand({
-                    errand_id: errand.id,
-                    runner_id: bid.runner.id,
-                    setSubErrand,
-                  }),
-                )
-              }}
-              className="bg-black  p-1 px-3 rounded-2xl mt-2"
-            >
-              <Text className="font-md text-white text-sm">View Timeline</Text>
-            </TouchableOpacity>
+            {errand.errand_type === 1 ? (
+              <TouchableOpacity
+                onPress={() => {
+                  setManageErrandClicked(true)
+                  dispatch(
+                    getSubErrand({
+                      errand_id: errand.id,
+                      runner_id: bid.runner.id,
+                      setSubErrand,
+                    }),
+                  )
+                }}
+                className="bg-black  p-1 px-3 rounded-2xl mt-2"
+              >
+                <Text className="font-md text-white text-sm">
+                  View Timeline
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              ''
+            )}
           </View>
         )}
 
@@ -237,30 +233,36 @@ const ErrandBid = ({
               </Text>
             </View>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => toggleBidHistoryModal(true)}
               className="flex-row space-x-2 items-center border-[0.3px] rounded-2xl py-1 px-3 mt-2"
             >
               <Text className="flex-row space-x-2 items-center rounded-xl">
                 Bid History
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
-            <TouchableOpacity
-              onPress={() => {
-                setManageErrandClicked(true)
-                dispatch(
-                  getSubErrand({
-                    errand_id: errand.id,
-                    runner_id: bid.runner.id,
-                    setSubErrand,
-                  }),
-                )
-              }}
-              className="bg-black  p-1 px-3 rounded-2xl mt-2"
-            >
-              <Text className="font-md text-white text-sm">View Timeline</Text>
-            </TouchableOpacity>
+            {errand.errand_type === 1 ? (
+              <TouchableOpacity
+                onPress={() => {
+                  setManageErrandClicked(true)
+                  dispatch(
+                    getSubErrand({
+                      errand_id: errand.id,
+                      runner_id: bid.runner.id,
+                      setSubErrand,
+                    }),
+                  )
+                }}
+                className="bg-black  p-1 px-3 rounded-2xl mt-2"
+              >
+                <Text className="font-md text-white text-sm">
+                  View Timeline
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              ''
+            )}
           </View>
         )}
 
@@ -272,14 +274,14 @@ const ErrandBid = ({
               </Text>
             </View>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => toggleBidHistoryModal(true)}
               className="flex-row space-x-2 items-center border-[0.3px] rounded-2xl py-1 px-3 mt-2"
             >
               <Text className="flex-row space-x-2 items-center rounded-xl">
                 Bid History
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <TouchableOpacity
               onPress={() => {
@@ -315,15 +317,25 @@ const ErrandBid = ({
           </View>
         )}
 
-        {negotiatorIsSender &&
+         {user_id === errand.user_id &&
+            bid.state == "open" &&
+            lastNegotiatorIsSender && (
+              <View className="flex justify-start items-center w-full space-x-3 mt-2">
+                <Text className=" bg-[#c8e2e8] inline-block text-xs  p-2 px-4  rounded-2xl">
+                  {`You have negotiated this bid, waiting for ${bid?.runner?.first_name} to respond`}
+                </Text>
+              </View>
+            )}
+
+        {lastNegotiatorIsSender &&
         user_id === errand.user_id &&
         bid.state !== 'active' &&
         bid.state !== 'completed' &&
         bid.state !== 'cancelled' ? (
           <View className="bg-[#c8e2e8] flex-row justify-center items-center rounded-lg mt-2 w-48 px-1 ">
-            <Text className=" text-xs  p-1 rounded-lg font-light">
+            {/* <Text className=" text-xs  p-1 rounded-lg font-light">
               waiting for runner's response
-            </Text>
+            </Text> */}
           </View>
         ) : (
           <>
@@ -358,8 +370,11 @@ const ErrandBid = ({
                     />
                   </View>
 
-                  <TouchableOpacity
-                    onPress={() => toggleBidHistoryModal(true)}
+                  {/* <TouchableOpacity
+                    onPress={() => {
+                      dispatch(externalUserDetails({ user_id: errand.user_id }))
+                      toggleBidHistoryModal(true)
+                    }}
                     className=""
                   >
                     <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
@@ -367,7 +382,7 @@ const ErrandBid = ({
                         Bid History
                       </Text>
                     </View>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
               )}
 
@@ -381,15 +396,13 @@ const ErrandBid = ({
                     style={{ color: textTheme }}
                     className="text-sm pt-2 font-md"
                   >
-                    
                     <Text style={{ color: textTheme }} className="font-bold">
-                    Your Available Balance:
+                      Your Available Balance:
                     </Text>{' '}
                     ₦
                     {Number(data?.balance) === 0
                       ? '0.00'
                       : (Number(data?.balance) / 100).toLocaleString()}
-                    
                   </Text>
                   <View className="flex-row items-center justify-center space-x-3 mt-3">
                     <TouchableOpacity
@@ -446,9 +459,15 @@ const ErrandBid = ({
           backdropComponent={renderBackdrop}
           ref={bidHistoryRef}
           index={0}
-          snapPoints={['60%']}
+          snapPoints={['80%']}
         >
-          <BidHistory />
+          <BidHistory
+            bid={bid}
+            errand={errand}
+            user_id={user_id}
+            haggle={haggle}
+            otherHaggles={otherHaggles}
+          />
         </BottomSheetModal>
 
         <BottomSheetModal

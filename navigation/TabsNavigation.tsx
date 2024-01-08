@@ -173,7 +173,7 @@ export const TabsNavigation = ({ navigation }: any) => {
         options={optionsHandler({
           title: 'Landing Page',
           headerShown: false,
-          unmountOnBlur: true,
+          unmountOnBlur: false,
           tabBarIcon: ({ focused }: any) => (
             <View>
               {focused ? (
@@ -206,7 +206,7 @@ export const TabsNavigation = ({ navigation }: any) => {
       <Tab.Screen
         options={optionsHandler({
           title: 'Errand Market',
-          unmountOnBlur: true,
+          unmountOnBlur: false,
           headerShown: false,
           tabBarIcon: ({ focused }: any) => (
             <View>
@@ -240,7 +240,7 @@ export const TabsNavigation = ({ navigation }: any) => {
       <Tab.Screen
         options={optionsHandler({
           title: 'My Errands',
-          unmountOnBlur: true,
+          unmountOnBlur: false,
 
           headerShown: false,
           tabBarIcon: ({ focused }: any) => (
