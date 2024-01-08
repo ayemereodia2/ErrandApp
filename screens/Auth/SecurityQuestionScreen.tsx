@@ -22,6 +22,9 @@ import { ISecurityQA } from '../../types'
 import AuthLogo from '../../components/AuthLogo'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Image } from 'react-native'
+import SelectDropdown from 'react-native-select-dropdown';
+import { AntDesign } from '@expo/vector-icons'
+
 
 export default function SecurityQuestion() {
   const navigation = useNavigation()
@@ -56,22 +59,38 @@ export default function SecurityQuestion() {
 
   const {loading} = useSelector((state: RootState) => state.createAccount )
 
-  const submitQuestion = async (data: ISecurityQA) => {
-    if (!question) {
-      return
+  // const submitQuestion = async (data: ISecurityQA) => {
+  //   if (!question) {
+  //     return
+  //   }
+  //   const _questionData = {
+  //     question,
+  //     answer: data.answer,
+  //   }
+  //   const userData = JSON.parse((await AsyncStorage.getItem('userData')) || '')
+  //   const newData = { ...userData, ..._questionData, dispatch, navigation }
+
+  //   dispatch(createAccount(newData))
+  // }
+
+  const submitQuestion = async (selectedAnswer) => {
+    if (!question || !selectedAnswer) {
+      return;
     }
+  
     const _questionData = {
       question,
-      answer: data.answer,
-    }
-    const userData = JSON.parse((await AsyncStorage.getItem('userData')) || '')
-    const newData = { ...userData, ..._questionData, dispatch, navigation }
+      answer: selectedAnswer,
+    };
+  
+     const userData = JSON.parse((await AsyncStorage.getItem('userData')) || '')
+     const newData = { ...userData, ..._questionData, dispatch, navigation }
 
-    dispatch(createAccount(newData))
-  }
+     dispatch(createAccount(newData))
+   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className='mt-20'>
       <ScrollView>
 
       <KeyboardAwareScrollView
@@ -85,7 +104,7 @@ export default function SecurityQuestion() {
 
           <AuthLogo />
 
-          <View>
+          <View className='mt-[50px]'>
             <Image source={require('../../assets/images/securityQuestion.png')} className='mx-auto shadow-sm'/>
           </View>
 
@@ -95,17 +114,20 @@ export default function SecurityQuestion() {
             contentContainerStyle={{ flexGrow: 1 }}
             enableOnAndroid={true}
           > */}
+
+          <Text className='text-sm text-[#09497D] mt-[50px]' style={{fontFamily: 'Axiforma'}}>Step 4 of 4</Text>
+
           <View className="text-[#333333] font-inter py-4 ">
-            <Text className='font-semibold text-[24px] text-[#393F42] mb-2' >
+            <Text className='font-semibold text-[24px] text-[#393F42] mb-2' style={{fontFamily: 'Chillax'}}>
               Security Question
             </Text>
-            <Text className="text-sm mb-7">
+            <Text className="text-sm mb-7 text-[#5A6063]" style={{fontFamily: 'Axiforma'}}>
             Kindly select and answer
             </Text>
 
             <View className=" ">
-              <Text className="text-[#243763]">Security Question</Text>
-              <Picker
+              <Text className="text-[#393F42] text-sm" style={{fontFamily: 'Axiforma'}}>Security Question</Text>
+              {/* <Picker
                 selectedValue={question}
                 onValueChange={(itemValue, itemIndex) => setQuestion(itemValue)}
                 mode={'dialog'}
@@ -113,10 +135,24 @@ export default function SecurityQuestion() {
                 {arr.map((question) => (
                   <Picker.Item label={question.text} value={question.value} />
                 ))}
-              </Picker>
+              </Picker> */}
 
+              <View className='flex-row items-center border-[#96A0A5] rounded-lg justify-between pr-7 mt-5 mb-5 border w-full'>
+              <SelectDropdown
+                data={arr}
+                onSelect={(selectedItem) => submitQuestion(selectedItem.value)}
+                buttonTextAfterSelection={(selectedItem) => selectedItem.text}
+                rowTextForSelection={(item) => item.text}
+               
+              />
+
+              <Text className='text-[#555555]'> <AntDesign name="down" size={14} /> </Text>
+              </View>
+
+              <View>
+                <Text className='text-[#393F42] text-sm'>Answer</Text>
               <InputField
-                label="Answer"
+                // label="Answer"
                 placeholder="Enter your answer"
                 keyboardType="default"
                 name="answer"
@@ -125,10 +161,11 @@ export default function SecurityQuestion() {
                 errors={errors.answer}
                 message={errors?.answer?.message}
               />
+              </View>
 
               <Button
                 style={{ marginBottom: 40 }}
-                className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-5"
+                className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-7"
                 child={
                   loading ? (
                     <ActivityIndicator size="small" color="#00ff00" />

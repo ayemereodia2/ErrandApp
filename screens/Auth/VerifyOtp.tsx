@@ -151,18 +151,22 @@ export default function VerifyOtpScreen({length, value, disabled, onChange, navi
             :
             (
               <View className='border-b border-[#EEF0F1]'>
-            <Text className='text-[#09497D] pb-2 mb-7' style={{fontFamily: 'Axiforma'}}>Step 2 of 4</Text>
+            <Text className='text-[#09497D] pb-2' style={{fontFamily: 'Axiforma'}}>Step 2 of 4</Text>
             </View>
             )
           }
           
           { comingFrom === 'forgotPassword' ? (
-              <Text className="font-semibold text-[24px] mt-[45px] text-[#393F42]" style={{fontFamily: 'Chillax'}} onPress={() => Keyboard.dismiss()}>
+              // <Text className="font-semibold text-[24px] mt-[45px] text-[#393F42]" style={{fontFamily: 'Chillax'}} onPress={() => Keyboard.dismiss()}>
+              <Text className='mt-[45px]' style={{  fontWeight: 'bold', fontSize: 24, color: '#393F42' }} onPress={() => Keyboard.dismiss()}>
+
              Forgot Password
              </Text>
           ) :
           (
-            <Text className="font-semibold text-[24px] text-[#393F42]"  style={{fontFamily: 'Chillax'}} onPress={()=> Keyboard.dismiss()}>
+            // <Text className="font-semibold text-[24px] text-[#393F42]"  style={{fontFamily: 'Chillax'}} onPress={()=> Keyboard.dismiss()}>
+            <Text className='mt-[40px]' style={{  fontWeight: 'bold', fontSize: 24, color: '#393F42' }} onPress={() => Keyboard.dismiss()}>
+
            Verification
             </Text>
           )}

@@ -71,8 +71,8 @@ const UrgentErrandCard = ({ card, isLoading, navigation }: any) => {
           <SafeAreaView className="mb-10 ">
             <ScrollView horizontal className=''>
 
-            <View className='relative'>
-              <View >
+            {/* <View className='relative'> */}
+              <View > 
 
               <View
                
@@ -227,12 +227,12 @@ const UrgentErrandCard = ({ card, isLoading, navigation }: any) => {
               </View>
 
 
-              <View className='bg-orange-500 absolute bottom-[-63.5px] w-[92.5%] ml-[13px] rounded-b-[16px] mt-7 h-[70px] z-20'>
+              {/* <View className='bg-orange-500 absolute bottom-[-63.5px] w-[92.5%] ml-[13px] rounded-b-[16px] mt-7 h-[70px] z-20'>
 
-              </View>
+              </View> */}
              
               </View>
-              </View>
+              {/* </View> */}
 
              
             </ScrollView>

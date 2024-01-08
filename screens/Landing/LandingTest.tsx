@@ -612,12 +612,17 @@ const LandingTest = ({ navigation }: any) => {
               </View>
 
               <View className="mt-10">
-                <Text
+                {/* <Text
                   className=" text-[20px] font-medium text-[#061737] mb-5 leading-normal"
                   // style={{ color: textTheme, marginBottom: 20 }}
                   style={{fontFamily: 'Chillax'}}
+                > */}
+                <Text
+                  className=" text-[20px] font-medium text-[#061737] mb-5 leading-normal"
+                  // style={{ color: textTheme, marginBottom: 20 }}
+                  
                 >
-                  {/* What do you need help with? */}  Errand Categories
+                    Errand Categories
                 </Text>
 
                 {/* <ScrollView
@@ -1012,9 +1017,13 @@ const LandingTest = ({ navigation }: any) => {
               </View>
 
               <View className="mt-10 mb-14">
-                <Text
+                {/* <Text
                   className=" text-[20px] font-medium text-[#061737] mb-5 leading-normal ml-4"
                   style={{ color: textTheme, fontFamily: 'Chillax' }}
+                > */}
+                 <Text
+                  className=" text-[20px] font-medium text-[#061737] mb-5 leading-normal ml-4"
+                  style={{ color: textTheme }}
                 >
                   Urgent Errands
                 </Text>
@@ -1022,7 +1031,7 @@ const LandingTest = ({ navigation }: any) => {
                 {/* <TouchableOpacity onPress={() => getStuff()}>
                   <Text>Get Stuff</Text>
             </TouchableOpacity> */}
-            <View className=' mb-28'>
+            <View className=' mb-28'> 
                 <Swiper
                 cards={marketData ? marketData?.data : []}
                 cardIndex={index}
@@ -1034,7 +1043,7 @@ const LandingTest = ({ navigation }: any) => {
                 /> }
                 
                onSwiped={onSwiped}
-               stackSize={1}
+               stackSize={2}
                stackScale={12}
                stackSeparation={10}
                cardHorizontalMargin={10}
@@ -1061,9 +1070,13 @@ const LandingTest = ({ navigation }: any) => {
               </View>
 
               <View className="mt-48 mb-14">
-                <Text
+                {/* <Text
                   className=" text-[20px] font-medium text-[#061737] mb-5 leading-normal"
                   style={{ color: textTheme, fontFamily: 'Chillax' }}
+                > */}
+                  <Text
+                  className=" text-[20px] font-medium text-[#061737] mb-5 leading-normal"
+                  style={{ color: textTheme }}
                 >
                   You may have missed
                 </Text>

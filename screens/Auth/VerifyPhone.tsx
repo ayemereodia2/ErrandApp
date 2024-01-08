@@ -154,13 +154,19 @@ export default function VerifyPhone({ navigation, route }: any) {
               {comingFrom === 'forgotPassword'
                 ? 
                 (
-                  <Text className="font-semibold text-[24px] mt-[45px] text-[#393F42]" style={{fontFamily: 'Chillax'}}>
+                  // <Text className="font-semibold text-[24px] mt-[45px] text-[#393F42]" style={{fontFamily: 'Chillax'}}>
+                  <Text className='mt-[45px]' style={{  fontWeight: 'bold', fontSize: 24, color: '#393F42' }}>
+
                 Forgot Password
                 </Text>
                 )
                 : 
                 (
-                  <Text className='font-semibold text-[24px] mb-3 text-[#393F42]'>Create Account</Text>
+                  // <Text className='font-semibold text-[24px] mb-3 text-[#393F42]' style={{fontFamily: 'Chillax'}}>
+                  <Text className='mt-[45px] mb-3' style={{  fontWeight: 'bold', fontSize: 24, color: '#393F42' }}> 
+
+                    Create Account
+                    </Text>
                 
                 )
               }
@@ -175,7 +181,7 @@ export default function VerifyPhone({ navigation, route }: any) {
                 )
                 : 
                 (
-                <Text className='text-[14px]' style={{fontFamily: 'Axiforma'}}>
+                <Text className='text-[14px] text-[#5A6063]' style={{fontFamily: 'Axiforma'}}>
                 Set up your account now to access financing.
                 </Text>) }
             
@@ -237,10 +243,40 @@ export default function VerifyPhone({ navigation, route }: any) {
                       </View>
                       </View>
 
+                      {
+                        comingFrom === 'forgotPassword' ?
+                        ''
+                        :
+                        (
+                          <>
+                          <View className='flex-row items-center justify-between mt-6 mb-5'>
+                          <View className='bg-[#5F5F5F] border-[0.4px] w-[127px] h-[1px]'></View>
+        
+                          <View>
+                            <Text className='text-[#5F5F5F] text-[12px]' style={{fontFamily: 'Axiforma'}}>or Sign Up with</Text>
+                          </View>
+        
+                          <View className='bg-[#5F5F5F] border-[0.4px] w-[127px] h-[1px]'></View>
+                        </View>
+        
+                        <TouchableOpacity className='flex-row items-center justify-center py-4 mb-10 bg-[#FFF] border border-[#888] rounded-lg'>
+        
+                          <Image source={require('../../assets/images/googleLogo.png')} 
+                          className='mr-[6px] w-5 h-5'  
+                          />
+        
+                          <Text className='font-bold text-[#09497D]' style={{fontFamily: 'Axiforma', fontWeight: 'bold'}}>Sign Up</Text>
+                        </TouchableOpacity>
+                        </>
+                        
+        
+                        )
+                      }
+
 
               <TouchableOpacity
-                style={{ marginTop: 65 }}
-                className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-[65px]"
+                style={{  }}
+                className="w-full text-white mt-5 bg-[#243763] flex-row justify-center items-start py-4 rounded-lg"
                 
                 onPress={handleSubmit(submitPhone)}>
                   {

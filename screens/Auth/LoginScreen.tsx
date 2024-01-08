@@ -85,7 +85,9 @@ export default function LoginScreen({navigation}: any) {
             <AuthLogo />
 
             <View className=" font-inter pb-4 ">
-              <Text className="font-semibold text-[24px] text-[#393F42]" style={{fontFamily: 'Chillax'}}>
+              {/* <Text className="font-semibold text-[24px] text-[#393F42]" style={{fontFamily: 'Chillax'}}> */}
+              <Text style={{  fontWeight: 'bold', fontSize: 24, color: '#393F42' }}>
+
                 Get Right Back In
               </Text>
               <Text className="text-sm mt-3 text-[#717E83]" style={{fontFamily: 'Axiforma'}}>
@@ -94,7 +96,7 @@ export default function LoginScreen({navigation}: any) {
 
               <View className="mt-8">
 
-              <Text className='text-[#5E6366]'>Phone Number</Text>
+              <Text className='text-[#5E6366]' style={{fontFamily: 'Axiforma'}}>Phone Number</Text>
 
                 <View className='flex-row items-center w-full'>
 
@@ -141,8 +143,9 @@ export default function LoginScreen({navigation}: any) {
 
                   
                 <View className="relative mt-5 mb-5">
+                  <Text className='text-[#5E6366]' style={{fontFamily: 'Axiforma'}}>Password</Text>
                   <InputField
-                    label="Password"
+                    // label="Password"
                     placeholder="********"
                     keyboardType="default"
                     name="password"
