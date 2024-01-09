@@ -1,5 +1,12 @@
 import { useState } from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import {
+  Image,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native'
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../../services/store'
 import { BidsProps } from '../../types'
@@ -14,17 +21,14 @@ export const LastHaggleComponent = ({
   haggle,
   lastHaggle,
 }: BidsProps) => {
-  // Handles show reply
 
-  // console.log('>>>>>bid', bid.haggles)
+  console.log(">>>>>>bid.runneeer", bid.runner);
+
+  const [selectedImage, setSelectedImage] = useState('')
 
   const dispatch = useAppDispatch()
 
   const [isHidden, setIsHidden] = useState(true)
-
-  const handleReplies = () => {
-    setIsHidden(!isHidden)
-  }
 
   const [isBlue, setIsBlue] = useState(true)
 
@@ -33,24 +37,6 @@ export const LastHaggleComponent = ({
   const toggleColor = () => {
     setIsBlue((prevIsBlue) => !prevIsBlue)
   }
-
-  const handleBidNavigation = () => {
-    navigation.navigate('Bids')
-  }
-
-  const handleErrandDetailsNavigation = () => {
-    navigation.navigate('ErrandsAndBids')
-  }
-
-  const handleBoth1 = () => {
-    handleErrandDetailsNavigation()
-  }
-
-  const handleBoth2 = () => {
-    handleBidNavigation()
-  }
-
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false)
 
   const { textTheme } = useSelector(
     (state: RootState) => state.currentUserDetailsReducer,
@@ -89,6 +75,8 @@ export const LastHaggleComponent = ({
     return sender
   }
 
+  
+
   const negotiatorIsSender = bid?.haggles.slice(-1)[0]?.source === 'sender'
 
   return (
@@ -96,8 +84,6 @@ export const LastHaggleComponent = ({
       {errand.errand_type === 1 && bid.state === 'accepted' ? (
         ''
       ) : (
-        <>
-          {haggle.id !== lastHaggle.id && (
             <>
               <View
                 className={`py-4  px-4 flex-row ${getChatBubblePosition()}`}
@@ -173,10 +159,30 @@ export const LastHaggleComponent = ({
                       {getFormattedTime(haggle.created_at)}
                     </Text>
                   </View>
+
                   <View className="bg-[#FEE1CD] rounded-2xl py-1 px-3 text-center mt-2 ">
                     <Text className="text-[#642B02] text-base font-bold inline-block">
                       &#x20A6;{(haggle?.amount / 100).toLocaleString()}
                     </Text>
+                  </View>
+                  <View className="flex-row space-x-4 mt-4">
+                    {haggle?.image_url?.map((image, index) => (
+                      <View className="">
+                        <TouchableOpacity
+                          key={index}
+                          onPress={() => setSelectedImage(image)}
+                        >
+                          <Image
+                            style={{
+                              width: 100,
+                              height: 100,
+                              borderRadius: 10,
+                            }}
+                            source={{ uri: image }}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    ))}
                   </View>
                   {bid.state === 'rejected' && (
                     <View className="ml-14 text-center mt-2 inline-block bg-red-200 text-xs  px-4 py-1 rounded-2xl ">
@@ -196,11 +202,26 @@ export const LastHaggleComponent = ({
                   )}
                 </View>
               </View>
+
+              <Modal visible={selectedImage !== ''} transparent={true}>
+                <View style={styles.modalContainer}>
+                  <Image
+                    source={{ uri: selectedImage }}
+                    style={styles.modalImage}
+                  />
+                  <TouchableOpacity
+                    onPress={() => setSelectedImage('')}
+                    style={styles.closeButton}
+                  >
+                    {/* You can use a close icon or text */}
+                    <Text style={styles.closeButtonText}>Close</Text>
+                  </TouchableOpacity>
+                </View>
+              </Modal>
             </>
           )}
         </>
-      )}
-    </>
+     
   )
 }
 
@@ -223,5 +244,30 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     alignItems: 'center',
+  },
+  thumbnail: {
+    width: 100,
+    height: 100,
+    margin: 5,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+  },
+  modalImage: {
+    width: '80%',
+    height: '80%',
+    resizeMode: 'contain',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 16,
   },
 })

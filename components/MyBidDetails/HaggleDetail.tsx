@@ -172,7 +172,7 @@ export const HaggleComponent = ({
               {getFormattedTime(haggle.created_at)}
             </Text>
           </View>
-          <View className="bg-[#FEE1CD] rounded-2xl py-1 px-3 text-center mt-2 ">
+          <View className="bg-[#FEE1CD] rounded-2xl py-1 px-3 text-center mt-2  inline-block">
             <Text className="text-[#642B02] text-base font-bold inline-block">
               &#x20A6;{(haggle?.amount / 100).toLocaleString()}
             </Text>
@@ -250,6 +250,7 @@ export const HaggleComponent = ({
                               bidAction({
                                 method: 'PUT',
                                 errand_id: errand.id,
+                                image_url: [],
                                 description:
                                   'This user has accepted the latest bid',
                                 source: 'runner',

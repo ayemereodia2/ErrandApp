@@ -19,7 +19,9 @@ export const errandDetails = createAsyncThunk<SingleErrandDetail, DetailProps, {
           // const _rs = await fetch(`https://apis.swave.ng/v1/errand/${errandId}`)
           const rs = await _rs.json()
 
-            if (rs.success === true) {
+          if (rs.success === true) {
+              console.log(">>>>>hello---1", rs);
+              
                 return rs
             }
           if (rs.success === false) {

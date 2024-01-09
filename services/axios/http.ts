@@ -1,5 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { navigationHook } from "../../utils/helper";
 
 interface FetchProps {
   method: string
@@ -54,10 +53,12 @@ export const pushOut = ({navigation}: any) => {
 export async function _fetch({ _url, body, method }: FetchProps) {
   
   const url = `${process.env.EXPO_PUBLIC_API_URL}${_url}` 
+  console.log(">>>>>url",url);
+  
   
   const token = await AsyncStorage.getItem('accessToken');  
 
-  console.log(">>>otkn", token);
+  // console.log(">>>otkn", token);
   
 
   let options

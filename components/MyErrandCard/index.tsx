@@ -41,7 +41,6 @@ const MyErrandCard = ({
   const regex = /(<([^>]+)>)/gi
   const result = he.decode(errand.description.replace(regex, ''))
 
-
   return (
     <TouchableOpacity
       onPress={() => {
@@ -50,16 +49,16 @@ const MyErrandCard = ({
         })
         dispatch(errandDetails({ errandId: errand.id, navigation }))
         dispatch(userDetails({ user_id: errand.user_id }))
-        if (errand.errand_type === 1) {
-          dispatch(
-            getSubErrand({
-              errand_id: errand.id,
-              runner_id:
-                errand.user_id === user_id ? errand.runner_id : user_id,
-              setSubErrand,
-            }),
-          )
-        }
+        // if (errand.errand_type === 1) {
+        //   dispatch(
+        //     getSubErrand({
+        //       errand_id: errand.id,
+        //       runner_id:
+        //         errand.user_id === user_id ? errand.runner_id : user_id,
+        //       setSubErrand,
+        //     }),
+        //   )
+        // }
       }}
       key={index}
       className="mx-4 shadow-sm rounded-sm pt-2"
@@ -120,18 +119,18 @@ const MyErrandCard = ({
               navigation.navigate('MyErrandDetails', {
                 bids: errand.bids,
               })
-              dispatch(errandDetails({ errandId: errand.id, navigation }))
-              dispatch(userDetails({ user_id: errand.user_id }))
-              if (errand.errand_type === 1) {
+
+              // if (errand.errand_type === 1) {
                 dispatch(
                   getSubErrand({
                     errand_id: errand.id,
                     runner_id:
                       errand.user_id === user_id ? errand.runner_id : user_id,
-                    setSubErrand,
                   }),
                 )
-              }
+              
+              dispatch(errandDetails({ errandId: errand.id, navigation }))
+              dispatch(userDetails({ user_id: errand.user_id }))
             }}
             style={{ color: textTheme }}
             className="text-[#808080] text-sm w-[100px]"
@@ -149,18 +148,17 @@ const MyErrandCard = ({
             navigation.navigate('MyErrandDetails', {
               bids: errand.bids,
             })
-            dispatch(errandDetails({ errandId: errand.id, navigation }))
-            dispatch(userDetails({ user_id: errand.user_id }))
-            if (errand.errand_type === 1) {
+            // if (errand.errand_type === 1) {
               dispatch(
                 getSubErrand({
                   errand_id: errand.id,
                   runner_id:
                     errand.user_id === user_id ? errand.runner_id : user_id,
-                  setSubErrand,
                 }),
               )
-            }
+            
+            dispatch(errandDetails({ errandId: errand.id, navigation }))
+            dispatch(userDetails({ user_id: errand.user_id }))
           }}
         >
           <View className="mt-4 w-[300px]">

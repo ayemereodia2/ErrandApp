@@ -5,12 +5,11 @@ import { _fetch } from '../axios/http';
 interface Props {
   errand_id?: string
   runner_id?: string
-  setSubErrand?: any
 }
 
 export const getSubErrand = createAsyncThunk<SingleSubErrandResponse, Props, { rejectValue: string }>(
   "/suberrand/get",
-  async ({errand_id, runner_id, setSubErrand}: Props, { rejectWithValue }) => {
+  async ({errand_id, runner_id}: Props, { rejectWithValue }) => {
     try {
     // console.log(">>>>>subErrand", errand_id, runner_id, `/errand/${errand_id}/sub-errand/${runner_id}`);
     

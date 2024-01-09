@@ -25,7 +25,7 @@ interface BidWrapperProp {
   toggleSuccessDialogue?: any
   singleSubErrand: SingleSubErrand
   setManageErrandClicked: React.Dispatch<React.SetStateAction<boolean>>
-  setSubErrand: React.Dispatch<React.SetStateAction<SingleSubErrand>>
+  // setSubErrand: React.Dispatch<React.SetStateAction<SingleSubErrand>>
   loadingErrand: boolean
 }
 const BidWrapper = ({
@@ -35,9 +35,17 @@ const BidWrapper = ({
   navigation,
   toggleSuccessDialogue,
   setManageErrandClicked,
-  setSubErrand,
+  // setSubErrand,
   loadingErrand,
 }: BidWrapperProp) => {
+
+
+  // console.log(">>>>errand---2", errand);
+
+  console.log(">>>>>user errand", userId, errand.id);
+
+
+  
   const acceptBidRef = useRef<BottomSheetModal>(null)
   const beginErrandRef = useRef<BottomSheetModal>(null)
   const RejectErrandRef = useRef<BottomSheetModal>(null)
@@ -100,6 +108,7 @@ const BidWrapper = ({
     [],
   )
 
+
   let lastHaggle: Haggles = {
     id: '',
     source: '',
@@ -135,6 +144,9 @@ const BidWrapper = ({
     if (bid.runner.id === userId) {
       otherHaggles = [...bid.haggles]
 
+      
+      
+
       lastHaggle = otherHaggles.slice(-1)[0]
       currentBid = bid
 
@@ -158,6 +170,9 @@ const BidWrapper = ({
       </SafeAreaView>
     )
   }
+
+  // console.log(">>>>>>hllo", currentBid, otherHaggles );
+  
 
   return (
     // <BottomSheetModalProvider>
@@ -202,7 +217,7 @@ const BidWrapper = ({
                   toggleNegotiateModal={toggleNegotiateModal}
                   toggleSuccessDialogue={toggleSuccessDialogue}
                   setManageErrandClicked={setManageErrandClicked}
-                  setSubErrand={setSubErrand}
+                  // setSubErrand={setSubErrand}
                   toggleUserInfoModal={toggleUserInfoModal}
                 />
               )

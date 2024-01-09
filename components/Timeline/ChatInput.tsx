@@ -52,7 +52,6 @@ export interface ChatInputProp {
   scrollToBottom: () => void
   subErrand?: SingleSubErrand
   singleSubErrand?: SingleSubErrand
-  setSubErrand?: React.Dispatch<React.SetStateAction<SingleSubErrand>>
 }
 
 const ChatInput = ({
@@ -61,7 +60,6 @@ const ChatInput = ({
   scrollToBottom,
   subErrand,
   singleSubErrand,
-  setSubErrand,
 }: ChatInputProp) => {
   const [message, setMessage] = useState('')
   const [chatBubble, setChatBubble] = useState('')
@@ -182,7 +180,6 @@ const ChatInput = ({
         getSubErrand({
           errand_id: errand.id,
           runner_id: errand.user_id === user_id ? errand.runner_id : user_id,
-          setSubErrand,
         }),
       )
     }

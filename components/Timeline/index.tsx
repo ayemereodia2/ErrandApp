@@ -29,8 +29,7 @@ interface Props {
   setManageErrandClicked?: any
   toggleCompleteDialogue?: any
   toggleSuccessDialogue?: any
-  setSubErrand: React.Dispatch<React.SetStateAction<SingleSubErrand>>
-
+  // setSubErrand: React.Dispatch<React.SetStateAction<SingleSubErrand>>
 }
 
 const Timeline = ({
@@ -42,7 +41,6 @@ const Timeline = ({
   setManageErrandClicked,
   toggleSuccessDialogue,
   toggleCompleteDialogue,
-  setSubErrand
 }: Props) => {
   // const { username, bio, picture, isBlocked, isMuted } = route.params;
   const [reply, setReply] = useState('')
@@ -54,16 +52,13 @@ const Timeline = ({
     }
   }
 
-  const closeReply = () => {
-    setReply('')
-  }
   const dispatch = useAppDispatch()
   const timeline =
     manageErrandClicked || errand.errand_type === 1
       ? singleSubErrand.timeline
       : errand.timeline
 
-  console.log('>>>>>sub', timeline.updates)
+  // console.log('>>>>>sub', timeline.updates)
 
   useEffect(() => {
     // if (singleSubErrand !== undefined) {
@@ -191,7 +186,6 @@ const Timeline = ({
             scrollViewRef={scrollViewRef}
             scrollToBottom={scrollToBottom}
             singleSubErrand={singleSubErrand}
-            setSubErrand={setSubErrand}
           />
 
           {errand.status === 'completed' ||

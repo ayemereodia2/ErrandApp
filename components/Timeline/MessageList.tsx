@@ -25,7 +25,6 @@ const MessagesList = ({
   scrollToBottom,
   errand,
   singleSubErrand,
-  setSubErrand,
 }: ChatInputProp) => {
   const {
     data: currentUser,
@@ -71,7 +70,6 @@ const MessagesList = ({
       if (singleSubErrand?.id) {
         dispatch(
           getSubErrand({
-            setSubErrand,
             errand_id: errand.id,
             runner_id: singleSubErrand.runner_id,
           }),

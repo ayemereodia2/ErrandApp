@@ -30,7 +30,6 @@ const ErrandBid = ({
   bid,
   user_id,
   haggle,
-  setSubErrand,
   singleSubErrand,
   setManageErrandClicked,
   toggleUserInfoModal,
@@ -42,6 +41,7 @@ const ErrandBid = ({
   const bidHistoryRef = useRef<BottomSheetModal>(null)
   const [showFundWallet, setShowFundWallet] = useState(false)
   const [currentWalletAmount, setCurrentWalletAmount] = useState(0)
+  const [selectedImage, setSelectedImage] = useState('')
 
   // console.log('>>>>>>errand', bid)
 
@@ -193,6 +193,26 @@ const ErrandBid = ({
           </TouchableOpacity>
         </View>
 
+        <View className="flex-row space-x-4 mt-4">
+          {haggle?.image_url?.map((image, index) => (
+            <View className="">
+              <TouchableOpacity
+                key={index}
+                onPress={() => setSelectedImage(image)}
+              >
+                <Image
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: 10,
+                  }}
+                  source={{ uri: image }}
+                />
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
+
         {bid.state === 'completed' && (
           <View className="flex-row justify-between items-center mt-2">
             <View className="bg-[#ADF0D1] rounded-2xl py-1 px-3 mt-2 ">
@@ -209,7 +229,6 @@ const ErrandBid = ({
                     getSubErrand({
                       errand_id: errand.id,
                       runner_id: bid.runner.id,
-                      setSubErrand,
                     }),
                   )
                 }}
@@ -250,7 +269,6 @@ const ErrandBid = ({
                     getSubErrand({
                       errand_id: errand.id,
                       runner_id: bid.runner.id,
-                      setSubErrand,
                     }),
                   )
                 }}
@@ -290,7 +308,6 @@ const ErrandBid = ({
                   getSubErrand({
                     errand_id: errand.id,
                     runner_id: bid.runner.id,
-                    setSubErrand,
                   }),
                 )
               }}
@@ -317,15 +334,15 @@ const ErrandBid = ({
           </View>
         )}
 
-         {user_id === errand.user_id &&
-            bid.state == "open" &&
-            lastNegotiatorIsSender && (
-              <View className="flex justify-start items-center w-full space-x-3 mt-2">
-                <Text className=" bg-[#c8e2e8] inline-block text-xs  p-2 px-4  rounded-2xl">
-                  {`You have negotiated this bid, waiting for ${bid?.runner?.first_name} to respond`}
-                </Text>
-              </View>
-            )}
+        {user_id === errand.user_id &&
+          bid.state == 'open' &&
+          lastNegotiatorIsSender && (
+            <View className="flex justify-start items-center w-full space-x-3 mt-2">
+              <Text className=" bg-[#c8e2e8] inline-block text-xs  p-2 px-4  rounded-2xl">
+                {`You have negotiated this bid, waiting for ${bid?.runner?.first_name} to respond`}
+              </Text>
+            </View>
+          )}
 
         {lastNegotiatorIsSender &&
         user_id === errand.user_id &&
@@ -432,6 +449,22 @@ const ErrandBid = ({
                 </View>
               </View>
             </Modal>
+
+            <Modal visible={selectedImage !== ''} transparent={true}>
+              <View style={styles.modalContainer}>
+                <Image
+                  source={{ uri: selectedImage }}
+                  style={styles.modalImage}
+                />
+                <TouchableOpacity
+                  onPress={() => setSelectedImage('')}
+                  style={styles.closeButton}
+                >
+                  {/* You can use a close icon or text */}
+                  <Text style={styles.closeButtonText}>Close</Text>
+                </TouchableOpacity>
+              </View>
+            </Modal>
           </>
         )}
 
@@ -536,6 +569,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 100,
     backgroundColor: 'white',
+  },
+
+  thumbnail: {
+    width: 100,
+    height: 100,
+    margin: 5,
+  },
+  modalImage: {
+    width: '80%',
+    height: '80%',
+    resizeMode: 'contain',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 16,
   },
 })
 

@@ -131,9 +131,6 @@ const TimelineInfo = ({
                 {errand.status === 'active'  &&
                   `Hey ${user}, This errand is active, you can follow the execution of this errand here`}
 
-                {errand.status === 'in-progress' &&
-                  `Hey ${user}, This errand is active, you can follow the execution of this errand here`}
-
                 {user_id !== errand.user_id &&
                   singleSubErrand?.status === 'active' &&
                   `Hey ${user}, This errand is active, you can follow the execution of this errand here`}

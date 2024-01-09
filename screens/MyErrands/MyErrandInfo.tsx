@@ -45,24 +45,24 @@ const MyErrandInfo = ({ navigation, route }: any) => {
     (state: RootState) => state.subErrandReducer,
   )
 
-  const [subErrand, setSubErrand] = useState<SingleSubErrand>({
-    id: '',
-    original_errand_id: '',
-    sender_id: '',
-    runner_id: '',
-    amount: 0,
-    timeline: {
-      id: '',
-      errand_id: '',
-      updates: [],
-      created_at: '',
-      updated_at: '',
-    },
-    status: '',
-    cancellation_reason: '',
-    created_at: '',
-    updated_at: '',
-  })
+  // const [subErrand, setSubErrand] = useState<SingleSubErrand>({
+  //   id: '',
+  //   original_errand_id: '',
+  //   sender_id: '',
+  //   runner_id: '',
+  //   amount: 0,
+  //   timeline: {
+  //     id: '',
+  //     errand_id: '',
+  //     updates: [],
+  //     created_at: '',
+  //     updated_at: '',
+  //   },
+  //   status: '',
+  //   cancellation_reason: '',
+  //   created_at: '',
+  //   updated_at: '',
+  // })
 
   const {
     data: currentUser,
@@ -84,6 +84,12 @@ const MyErrandInfo = ({ navigation, route }: any) => {
   const { data: errand, loading: loadingErrand } = useSelector(
     (state: RootState) => state.errandDetailsReducer,
   )
+
+
+  console.log(">>>errandd", errand.status);
+  
+  
+  
 
   const snapPoints = ['55%']
   const successPoints = ['30%']
@@ -117,7 +123,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
       title: DetailHeader({
         errand,
         user_id: userId,
-        singleSubErrand: subErrand,
+        singleSubErrand: singleSubErrand,
         manageErrandClicked: false,
         loader: loadingErrand,
       }),
@@ -137,7 +143,6 @@ const MyErrandInfo = ({ navigation, route }: any) => {
               errand.errand_type === 1 &&
                 dispatch(
                   getSubErrand({
-                    setSubErrand,
                     errand_id: errand.id,
                     runner_id: singleSubErrand?.runner_id,
                   }),
@@ -357,6 +362,9 @@ const MyErrandInfo = ({ navigation, route }: any) => {
     dispatch(currentUserDetails({ user_id: userId }))
   }, [user, errand, manageErrandClicked, singleSubErrand, errand.status])
 
+  // console.log(">>>>>>errand ----1", errand.status, errand.user_id === userId);
+
+
   return (
     <>
       <TimelineInfo
@@ -382,7 +390,6 @@ const MyErrandInfo = ({ navigation, route }: any) => {
             errand={errand}
             user_id={userId}
             singleSubErrand={singleSubErrand}
-            setSubErrand={setSubErrand}
             loadingErrand={loadingErrand}
             setManageErrandClicked={setManageErrandClicked}
             toggleCompleteDialogue={toggleCompleteDialogue}
@@ -400,7 +407,6 @@ const MyErrandInfo = ({ navigation, route }: any) => {
           singleSubErrand={singleSubErrand}
           loadingErrand={loadingErrand}
           setManageErrandClicked={setManageErrandClicked}
-          setSubErrand={setSubErrand}
         />
       ) : (
         <BottomSheetModalProvider>
@@ -416,9 +422,9 @@ const MyErrandInfo = ({ navigation, route }: any) => {
                 navigation={navigation}
                 toggleNegotiateModal={toggleNegotiateModal}
                 toggleSuccessDialogue={toggleSuccessDialogue}
-                singleSubErrand={subErrand}
+                singleSubErrand={singleSubErrand}
                 setManageErrandClicked={setManageErrandClicked}
-                setSubErrand={setSubErrand}
+                // setSubErrand={setSubErrand}
                 loadingErrand={loadingErrand}
               />
               {/* )} */}
@@ -440,6 +446,7 @@ const MyErrandInfo = ({ navigation, route }: any) => {
             {/* completed Errand */}
           </ScrollView>
         </BottomSheetModalProvider>
+        
       )}
     </>
   )

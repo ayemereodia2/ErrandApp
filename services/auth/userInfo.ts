@@ -21,7 +21,9 @@ export const userDetails = createAsyncThunk<UserDetailsResponse, UserProps, { re
 
       // console.log(">>>rs", rs);
       
-        if (rs.success === true) {
+      if (rs.success === true) {
+        console.log(">>>>>hello---2", rs);
+
         return rs
         }
         } catch (e: any) {

@@ -433,6 +433,7 @@ export interface Haggles {
   amount: number
   description: string
   runner_id?: string
+  image_url?: string[]
 }
 
 export interface BidActionPayload {
@@ -705,7 +706,7 @@ export interface BidsProps {
   setcurBid?: React.Dispatch<React.SetStateAction<Bids>>
   singleSubErrand?: SubErrand
   setManageErrandClicked: React.Dispatch<React.SetStateAction<boolean>>
-  setSubErrand?: React.Dispatch<React.SetStateAction<SingleSubErrand>>
+  // setSubErrand?: React.Dispatch<React.SetStateAction<SingleSubErrand>>
   toggleUserInfoModal: (open: boolean, user: any) => void
 }
 
