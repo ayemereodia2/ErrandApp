@@ -21,7 +21,7 @@ import BidHistory from '../Modals/Bids/BidHistory'
 import NegotiateBid from '../Modals/Bids/Negotiate'
 import RejectBid from '../Modals/Bids/Reject'
 
-const ErrandBid = ({
+const SenderBidCard = ({
   navigation,
   // toggleNegotiateModal,
   toggleSuccessDialogue,
@@ -124,7 +124,7 @@ const ErrandBid = ({
           className="flex-row items-center justify-between"
         >
           <View className="flex-row items-center space-x-3">
-            {errand.errand_type === 1 ? (
+            {bid?.runner.profile_picture ? (
               <Image
                 source={{ uri: bid?.runner.profile_picture }}
                 className="w-8 h-8 rounded-full"
@@ -228,7 +228,7 @@ const ErrandBid = ({
                   dispatch(
                     getSubErrand({
                       errand_id: errand.id,
-                      runner_id: bid.runner.id,
+                      runner_id: singleSubErrand?.runner_id
                     }),
                   )
                 }}
@@ -592,4 +592,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ErrandBid
+export default SenderBidCard

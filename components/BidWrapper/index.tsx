@@ -13,7 +13,7 @@ import { RootState } from '../../services/store'
 import { Bids, Haggles, MarketData, SingleSubErrand } from '../../types'
 import BeginErrandModal from '../Modals/Errands/BeginErrand'
 import RejectErrandModal from '../Modals/Errands/RejectErrandModal'
-import ErrandBid from '../MyBidDetails'
+import SenderBidCard from '../MyBidDetails'
 import { LastHaggleComponent } from '../MyBidDetails/LastHaggle'
 import UserInfo from '../UserInfo/UserInfo'
 
@@ -144,9 +144,6 @@ const BidWrapper = ({
     if (bid.runner.id === userId) {
       otherHaggles = [...bid.haggles]
 
-      
-      
-
       lastHaggle = otherHaggles.slice(-1)[0]
       currentBid = bid
 
@@ -171,7 +168,7 @@ const BidWrapper = ({
     )
   }
 
-  // console.log(">>>>>>hllo", currentBid, otherHaggles );
+  console.log(">>>>>>hllo", otherHaggles );
   
 
   return (
@@ -207,7 +204,7 @@ const BidWrapper = ({
               })
 
               return (
-                <ErrandBid
+                <SenderBidCard
                   bid={bid}
                   user_id={userId}
                   haggle={hag}
@@ -234,7 +231,7 @@ const BidWrapper = ({
                 let runner = bid.runner
 
                 return (
-                  <ErrandBid
+                  <SenderBidCard
                     errand={errand}
                     bid={bid}
                     user_id={userId}
@@ -253,7 +250,7 @@ const BidWrapper = ({
         
         {userId !== errand.user_id && errand.status === 'open' && (
           <View className="mt-4">
-            {otherHaggles?.map((haggle) => {
+            {otherHaggles.slice(1)?.map((haggle) => {
               return (
                 <LastHaggleComponent
                   bid={currentBid}

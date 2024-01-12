@@ -12,16 +12,27 @@ export interface MarketQueryParams {
   setSearchedErrand?: any
   start?: number
   count?: number
+  location?: string
 }
+
+// http://localhost:8080/v1/custom/errands?minPrice=900000&maxPrice=3224142&category=laundry-service&location=lekki
 
 export const errandMarketList = createAsyncThunk<any, MarketQueryParams, { rejectValue: string }>(
   "errandMarketList/get",
-  async ({setSearchedErrand, minPrice, maxPrice, category, ...marketQueryParams}, { rejectWithValue }) => {
+  async ({setSearchedErrand, minPrice, maxPrice, category, location, ...marketQueryParams}, { rejectWithValue }) => {
   try {
-    let url = `/errand/market?start=0&count=10${category ? `&category=${category}`: ""}${minPrice === 0 ? '' : `&minPrice=${minPrice}`}${maxPrice === 0 ? '' : `&maxPrice=${maxPrice}`}`;
+    // let url = `/errand/market?start=0&count=10${category ? `&category=${category}`: ""}${minPrice === 0 ? '' : `&minPrice=${minPrice}`}${maxPrice === 0 ? '' : `&maxPrice=${maxPrice}`}`;
+
+    // let url = `/custom/errands`
+
+    let url = `/custom/errands?${minPrice === undefined ? '' : `minPrice=${minPrice}`}${maxPrice === undefined ? '' : `&maxPrice=${maxPrice}`}${category === undefined ? '' : `&category=${category}`}${location === undefined ? '' : `&location=${location}`}`
+
+    
 
     const rs = await _fetch({ method: 'GET', _url: url });
     const res = await rs.json()
+
+
 
      if (setSearchedErrand) {
           const marketErrand = res.data ?? []

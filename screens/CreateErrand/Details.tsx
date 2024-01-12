@@ -10,7 +10,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native'
 import { Dropdown } from 'react-native-element-dropdown'
 import { useSelector } from 'react-redux'
@@ -569,20 +569,13 @@ const CreateErrandDetails = ({
             </View>
           )} */}
 
-          <View>
+          {/* <View>
             <View className="mt-[40px]">
               <Text style={{ color: textTheme }}>
                 Restrict Errand by Qualification
               </Text>
             </View>
-            {/* <SelectDropdown
-              defaultValue={postErrandData.res_by_qualification}
-              data={['Yes', 'No']}
-              buttonStyle={style.restrictInput}
-              onSelect={(selectedItem, index) => {
-                handleInputChange(selectedItem, 'res_by_qualification')
-              }}
-            /> */}
+           
             <Dropdown
               style={style.dropdown}
               placeholderStyle={style.placeholderStyle}
@@ -599,21 +592,14 @@ const CreateErrandDetails = ({
                 handleInputChange(item.label, 'res_by_qualification')
               }}
             />
-          </View>
-          <View>
+          </View> */}
+          {/* <View>
             <View className="mt-[40px]">
               <Text style={{ color: textTheme }}>
                 Restrict Errand by Verification
               </Text>
             </View>
-            {/* <SelectDropdown
-              defaultValue={postErrandData.res_by_verification}
-              data={['Yes', 'No']}
-              buttonStyle={style.restrictInput}
-              onSelect={(selectedItem, index) => {
-                handleInputChange(selectedItem, 'res_by_verification')
-              }}
-            /> */}
+          
             <Dropdown
               style={style.dropdown}
               placeholderStyle={style.placeholderStyle}
@@ -630,22 +616,9 @@ const CreateErrandDetails = ({
                 handleInputChange(item.label, 'res_by_verification')
               }}
             />
-          </View>
+          </View> */}
 
-          {/* <View className="mt-[41px] ml-[16px]">
-            <Text>Restrict Errand by Insurance</Text>
-          </View>
-          <DropdownComponent />
-
-          <View className="mt-[41px] ml-[16px]">
-            <Text>Restrict Errand by Qualification</Text>
-          </View>
-          <DropdownComponent /> */}
-
-          {/* <View className="mt-[41px] ml-[16px]">
-            <Text>Restrict Errand by Verification</Text>
-          </View>
-          <DropdownComponent /> */}
+         
         </View>
       </ScrollView>
     </>

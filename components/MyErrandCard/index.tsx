@@ -121,6 +121,7 @@ const MyErrandCard = ({
               })
 
               // if (errand.errand_type === 1) {
+              if (errand.user_id !== user_id) {
                 dispatch(
                   getSubErrand({
                     errand_id: errand.id,
@@ -128,7 +129,8 @@ const MyErrandCard = ({
                       errand.user_id === user_id ? errand.runner_id : user_id,
                   }),
                 )
-              
+              }
+
               dispatch(errandDetails({ errandId: errand.id, navigation }))
               dispatch(userDetails({ user_id: errand.user_id }))
             }}
@@ -149,6 +151,7 @@ const MyErrandCard = ({
               bids: errand.bids,
             })
             // if (errand.errand_type === 1) {
+            if (errand.user_id !== user_id) {
               dispatch(
                 getSubErrand({
                   errand_id: errand.id,
@@ -156,7 +159,8 @@ const MyErrandCard = ({
                     errand.user_id === user_id ? errand.runner_id : user_id,
                 }),
               )
-            
+            }
+
             dispatch(errandDetails({ errandId: errand.id, navigation }))
             dispatch(userDetails({ user_id: errand.user_id }))
           }}

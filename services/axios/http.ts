@@ -53,13 +53,11 @@ export const pushOut = ({navigation}: any) => {
 export async function _fetch({ _url, body, method }: FetchProps) {
   
   const url = `${process.env.EXPO_PUBLIC_API_URL}${_url}` 
-  console.log(">>>>>url",url);
+
+  console.log(">>>>>>urrl", url);
   
   
   const token = await AsyncStorage.getItem('accessToken');  
-
-  // console.log(">>>otkn", token);
-  
 
   let options
 

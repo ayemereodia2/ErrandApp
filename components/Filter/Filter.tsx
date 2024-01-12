@@ -29,6 +29,8 @@ interface FilterProp {
   filterOn: boolean
   low: number
   high: number
+  location: string
+  setLocation: React.Dispatch<React.SetStateAction<string>>
   setLow: React.Dispatch<React.SetStateAction<number>>
   setHigh: React.Dispatch<React.SetStateAction<number>>
   filterMarketList: () => void
@@ -61,6 +63,8 @@ const Filter = ({
   firstName,
   lastName,
   profilePic,
+  setLocation,
+  location,
 }: FilterProp) => {
   const dispatch = useAppDispatch()
   const [searchedItem, setSearchedItem] = useState('')
@@ -141,16 +145,20 @@ const Filter = ({
   }, [selectedSortAction, searchedItem])
 
   return (
-    <SafeAreaView className="mb-20">
+    <SafeAreaView className="mb-4">
       <ScrollView style={{ backgroundColor: backgroundTheme }} className="">
         <View
           className={
             Platform.OS === 'android'
-              ? `flex-row items-center justify-between mt-8 ${!firstName && 'ml-3'} px-2`
+              ? `flex-row items-center justify-between mt-8 ${
+                  !firstName && 'ml-3'
+                } px-2`
               : 'flex-row items-center justify-between'
           }
         >
-          {!firstName ? "" :
+          {!firstName ? (
+            ''
+          ) : (
             <TouchableOpacity
               onPress={() => navigation.navigate('Profile')}
               style={{ marginLeft: 20 }}
@@ -165,7 +173,7 @@ const Filter = ({
                 height={35}
               />
             </TouchableOpacity>
-          }
+          )}
 
           <Text
             className="font-bold text-[20px] leading-7"
@@ -266,39 +274,6 @@ const Filter = ({
             </TouchableOpacity> */}
           </View>
 
-          <View className="flex-row items-center justify-between">
-            <TouchableOpacity
-              className="bg-[#1E3A79] w-[40%] py-[10px] rounded-md mx-auto mt-[40px] justify-center items-center mb-[10px]"
-              onPress={() => {
-                onClose(), filterMarketList()
-              }}
-            >
-              <Text className="text-white text-center">Filter</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                // onClose()
-                // dispatch(errandMarketList({}))
-                setLow(0)
-                setHigh(0)
-                setSelectedSortAction('')
-                setSearchedItem('')
-                setValue('')
-                setCheckFilterToggle(false)
-              }}
-              className="border  w-[40%] py-[8px] rounded-md mx-auto mt-[40px] justify-center items-center mb-[10px]"
-              style={{ borderColor: textTheme }}
-            >
-              <Text
-                className="font-mdtext-base text-center"
-                style={{ color: textTheme }}
-              >
-                Clear
-              </Text>
-            </TouchableOpacity>
-          </View>
-
           {toggleState === 'filter' ? (
             <View className="mt-14 mx-6">
               <Text
@@ -316,7 +291,7 @@ const Filter = ({
                     placeholder="Type to get top Categories"
                     onChangeText={(text) => setSearchedItem(text)}
                     value={searchedItem}
-                    style={{color: theme ? 'white' : 'black'}}
+                    style={{ color: theme ? 'white' : 'black' }}
                   />
                   <FontAwesome name="search" size={16} color="#ccc" />
                 </View>
@@ -356,6 +331,27 @@ const Filter = ({
                   </View>
                 )
               })}
+
+              <Text
+                className="font-medium text-base leading-6 mt-10"
+                style={{ color: textTheme }}
+              >
+                Location
+              </Text>
+
+              <View className="mx-auto">
+                <View className="flex-row items-center border-b p-2 mt-1 border-[#ccc] rounded-lg space-x-2">
+                  <TextInput
+                    className="w-[300px] "
+                    placeholderTextColor={theme ? '#cccccc' : 'black'}
+                    placeholder="Enter Location"
+                    onChangeText={(text) => setLocation(text)}
+                    value={location}
+                    style={{ color: theme ? 'white' : 'black' }}
+                  />
+                  {/* <FontAwesome name="search" size={16} color="#ccc" /> */}
+                </View>
+              </View>
 
               <RangeSlider
                 setMinCheck={setMinCheck}
@@ -472,6 +468,40 @@ const Filter = ({
               </TouchableOpacity>
             </View>
           )}
+
+          <View className="flex-row items-center justify-between">
+            <TouchableOpacity
+              className="bg-[#1E3A79] w-[40%] py-[10px] rounded-md mx-auto mt-[40px] justify-center items-center mb-[10px]"
+              onPress={() => {
+                onClose(), filterMarketList()
+              }}
+            >
+              <Text className="text-white text-center">Filter</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                // onClose()
+                // dispatch(errandMarketList({}))
+                setLow(0)
+                setHigh(0)
+                setSelectedSortAction('')
+                setSearchedItem('')
+                setValue('')
+                setCheckFilterToggle(false)
+                setLocation('')
+              }}
+              className="border  w-[40%] py-[8px] rounded-md mx-auto mt-[40px] justify-center items-center mb-[10px]"
+              style={{ borderColor: textTheme }}
+            >
+              <Text
+                className="font-mdtext-base text-center"
+                style={{ color: textTheme }}
+              >
+                Clear
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

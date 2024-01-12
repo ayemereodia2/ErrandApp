@@ -42,7 +42,6 @@ const Timeline = ({
   toggleSuccessDialogue,
   toggleCompleteDialogue,
 }: Props) => {
-  // const { username, bio, picture, isBlocked, isMuted } = route.params;
   const [reply, setReply] = useState('')
   const completeDialogueRef = useRef<BottomSheetModal>(null)
   const scrollViewRef = useRef<any>()
@@ -58,28 +57,26 @@ const Timeline = ({
       ? singleSubErrand.timeline
       : errand.timeline
 
-  // console.log('>>>>>sub', timeline.updates)
-
   useEffect(() => {
-    // if (singleSubErrand !== undefined) {
-    //   dispatch(userDetails({ user_id: errand.user_id }))
+    // for sender's profile data on timeline, for multi and single errand
+    dispatch(userDetails({ user_id: errand.user_id }))
 
-    //   dispatch(
-    //     externalUserDetails({
-    //       user_id: singleSubErrand?.runner_id,
-    //     }),
-    //   )
-    // }
-    if (errand.runner_id) {
+    if (errand.errand_type === 1) {
+      // to get runner's profile data for a multi-errand
       dispatch(
         externalUserDetails({
-          user_id: errand.user_id,
+          user_id: singleSubErrand.runner_id,
         }),
       )
-
-      dispatch(userDetails({ user_id: errand.runner_id }))
+    } else {
+      //to get runner's profile data for a single-errand
+      dispatch(
+        externalUserDetails({
+          user_id: errand.runner_id,
+        }),
+      )
     }
-  }, [])
+  }, [singleSubErrand.runner_id, errand.user_id, errand.user_id])
 
   const keyboardVerticalOffset = Platform.OS === 'ios' ? -60 : 80
 

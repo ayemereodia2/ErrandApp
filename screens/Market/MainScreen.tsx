@@ -65,7 +65,7 @@ export default function MainScreen() {
   // const [toggleView, setToggleView] = useState(true)
   const [searchedErrand, setSearchedErrand] = useState<MarketData[]>([])
   const [searchValue, setSearchValue] = useState('')
-
+  const [location, setLocation] = useState('')
   const [userData, setUserData] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [loadingMore, setLoadingMore] = useState(false)
@@ -186,6 +186,7 @@ export default function MainScreen() {
         category: value,
         minPrice: minCheck ? min : 0,
         maxPrice: minCheck ? max : 0,
+        location
       }),
     )
   }
@@ -264,7 +265,7 @@ export default function MainScreen() {
     <>
       <Container>
         <BottomSheetModalProvider>
-          <SafeAreaView style={{ marginBottom: 200 }}>
+          <SafeAreaView style={{ marginBottom: 40 }}>
             <StatusBar
               backgroundColor={backgroundTheme}
               barStyle={theme ? 'light-content' : 'dark-content'}
@@ -350,6 +351,8 @@ export default function MainScreen() {
                     firstName={firstName}
                     lastName={lastName}
                     profilePic={profilePic}
+                    location={location}
+                    setLocation={setLocation}
                   />
                 </ScrollView>
               )}

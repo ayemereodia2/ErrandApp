@@ -38,10 +38,10 @@ const MessagesList = ({
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-  const { data: sender } = useSelector(
+  const { data: runner } = useSelector(
     (state: RootState) => state.externalUserDetailsReducer,
   )
-  const { data: runner } = useSelector(
+  const { data: sender } = useSelector(
     (state: RootState) => state.userDetailsReducer,
   )
 
@@ -236,7 +236,7 @@ const MessagesList = ({
           }
 
           const getUser = () => {
-            if (update.source === 'runner') {
+            if (update.source === 'sender') {
               return sender
             }
             return runner

@@ -121,9 +121,12 @@ const CreateErrandFinance = ({
           }}
           className="flex-row items-center"
         >
-          <Text className="ml-4 pt-2 pr-2" style={{ color: textTheme }}>
-            Fund Wallet
-          </Text>
+          <View className='border border-amber-50 shadow-lg bg-slate-300 ml-4 rounded-md mt-2 mr-2 '>
+            <Text className="ml-4  pr-2" style={{ color: textTheme }}>
+              Fund Wallet
+            </Text>
+          </View>
+
           <Text style={{ color: textTheme }} className="text-sm pt-2 font-md">
             ({' '}
             <Text style={{ color: textTheme }} className="font-bold">

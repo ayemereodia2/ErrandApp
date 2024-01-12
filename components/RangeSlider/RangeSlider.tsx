@@ -88,7 +88,7 @@ const RangeSlider = ({ low, setHigh, setLow, high, setMinCheck }: Prop) => {
         </KeyboardAvoidingView>
       </ScrollView>
 
-      <View className="mt-12 mx-auto w-[300px]">
+      <View className="mt-6 mx-auto w-[300px]">
         {/* <Slider
           low={low}
           high={high}
@@ -104,7 +104,7 @@ const RangeSlider = ({ low, setHigh, setLow, high, setMinCheck }: Prop) => {
           onValueChanged={handleValueChange}
         /> */}
 
-        <View className="flex-row justify-around items-center mt-5">
+        <View className="flex-row justify-around items-center">
           <View className="bg-[#1E3A79] w-[120px] h-12 px-4 py-2 rounded-3xl mr-5 items-center justify-center">
             <Text className="text-center text-white text-base font-bold leading-6 ">
               &#x20A6; {low}
