@@ -33,10 +33,10 @@ const OtpInput = ({ onChangeText }) => {
             borderWidth: 1,
             textAlign: 'center',
            
-            marginRight: 14,
+            marginRight: 12.5,
             borderRadius: 8,
             borderColor: '#96A0A5',
-            padding: 12
+            padding: 10
           }}
           keyboardType="number-pad"
           maxLength={1}

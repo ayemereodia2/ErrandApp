@@ -1,4 +1,4 @@
-import { Entypo, FontAwesome, MaterialIcons } from '@expo/vector-icons'
+import { Entypo, FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -43,6 +43,7 @@ import { Transaction } from '../../types'
 import { getUserId } from '../../utils/helper'
 import AccountStatement from './AccountStatement'
 import WithdrawalScreen from './WithdrawalScreen'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 const balanceLayer = '../../assets/images/balance-bg.png'
 
@@ -92,6 +93,7 @@ const WalletScreen = ({ navigation }: any) => {
   const [transactions, setTransactions] = useState<Array<Transaction>>([])
   const [loading, setLoading] = useState(true)
   const [currentWalletAmount, setCurrentWalletAmount] = useState(0)
+  const [showBalance, setShowBalance] = useState(true)
 
   const { data, loading: detailsLoading } = useSelector(
     (state: RootState) => state.walletActionReducer,
@@ -193,26 +195,155 @@ const WalletScreen = ({ navigation }: any) => {
   }
 
   return (
-    <Container>
+    <>
+    
+    
       <BottomSheetModalProvider>
-        <SafeAreaView
-          className=" bg-[#e4eaf7]"
-          style={{ backgroundColor: backgroundTheme }}
-        >
+
+      <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            className="bg-[#e4eaf7] h-full mb-20"
+            style={{ backgroundColor: backgroundTheme }}
+            showsVerticalScrollIndicator={false}
+          >
+
+
+      <View className='relatvie mb-48'>
+
+        <View className='w-screen h-[196px] bg-[#09497D] px-4' style={{borderBottomRightRadius: 20, borderBottomLeftRadius: 20}}>
+
+          <View className='flex-row items-center justify-between ml-1 mt-14'>
+            <Text className='text-white text-[20px]' style={{fontFamily: 'Chillax'}}>Wallet</Text>
+
+            <View className='flex-row items-center'>
+            <TouchableOpacity
+              onPress={
+                // navigation.navigate('Contact')
+                openMoreModal
+              }
+            >
+              <Text className='mr-2' style={{ color: textTheme }}>
+              
+              <Ionicons
+              name="settings-outline"
+              size={26}
+              color={'white'}
+              style={{ marginRight: 7 }}
+            />
+              </Text>
+              </TouchableOpacity>
+
+              <Text style={{ color: textTheme }} className='mr-1'>
+              <FontAwesome
+                name="bell-o"
+                size={24}
+                color={'white'}
+                onPress={() => {
+                  navigation.navigate('Notification')
+                }}
+              />
+            </Text>
+
+            </View>
+          </View>
+
+        </View>
+
+        <View className="pt-4 absolute w-screen top-[98px]">
+        <View className="px-4">
+          <ImageBackground
+            source={{ uri: balanceLayer }}
+            resizeMode="cover"
+            style={{ flex: 1, justifyContent: 'center' }}
+          >
+            <View
+              className="w-full  border mt-3 border-[#DAE1F1] rounded-xl mx-auto z-1 "
+              style={{
+                backgroundColor: theme ? backgroundTheme : 'white',
+              }}
+            >
+              <ImageBackground source={require('../../assets/images/wallet3.png')}
+          className=' bg-[#FFF] p-6 rounded-xl'
+          resizeMode='repeat'>
+
+              <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
+                <Text>
+                  <FontAwesome name="bank" size={24} color="#C85604" />
+                </Text>
+              </View>
+
+              <Text
+                className="mt-6 text-[#888] text-base font-medium leading-[24px]"
+                style={{ color: 'black' }}
+              >
+                Account Balance
+              </Text>
+
+              <View className='flex-row items-center justify-between'>
+              {showBalance ?
+               <Text
+               className="font-bold text-[32px] mt-2"
+               style={{ color: theme ? 'black' : 'black' }}
+             >
+               {' '}
+               ₦
+               {Number(data?.balance) === 0
+                 ? '0.00'
+                 : (Number(data?.balance) / 100).toLocaleString()}
+             </Text>
+             :
+             <Text className="font-bold text-[32px] mt-2">*********</Text>
+          }
+           
+
+              <TouchableOpacity
+                    onPress={() => setShowBalance(!showBalance)}
+                    className=""
+                  >
+                    <Icon
+                      name={showBalance ? 'eye-slash' : 'eye'}
+                      size={24}
+                      color="gray"
+                    />
+                  </TouchableOpacity>
+              </View>
+
+              <TouchableOpacity
+                onPress={() => {
+                  setCurrentWalletAmount(Number(data?.balance) / 100)
+                  navigation.navigate('FundWalletModal', {
+                    currentWalletAmount,
+                  })
+                }}
+                className="w-[200px] h-[44px] mt-5 items-center justify-center border border-[#314B87] rounded-lg"
+              >
+                <Text
+                  className="text-center text-base"
+                  style={{ color: 'black' }}
+                >
+                  {' '}
+                  + <Text>Fund Wallet</Text>
+                </Text>
+              </TouchableOpacity>
+              </ImageBackground>
+            </View>
+          </ImageBackground>
+        </View>
+        </View>
+
+        </View>
+
+
+      
           <StatusBar
             backgroundColor={backgroundTheme}
             barStyle={theme ? 'light-content' : 'dark-content'}
           />
 
-          <ScrollView
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-            className="bg-[#e4eaf7]"
-            style={{ backgroundColor: backgroundTheme }}
-            showsVerticalScrollIndicator={false}
-          >
-            <View
+         
+            {/* <View
               className={
                 Platform.OS === 'android'
                   ? 'flex-row items-center justify-between mt-6'
@@ -345,70 +476,11 @@ const WalletScreen = ({ navigation }: any) => {
                   />
                 </MenuOptions>
               </Menu>
-            </View>
+            </View> */}
 
-            <View className="pt-4 ">
-              <View className="px-4">
-                <ImageBackground
-                  source={{ uri: balanceLayer }}
-                  resizeMode="cover"
-                  style={{ flex: 1, justifyContent: 'center' }}
-                >
-                  <View
-                    className="w-full  border mt-3 border-[#DAE1F1] rounded-xl mx-auto z-1 "
-                    style={{
-                      backgroundColor: theme ? backgroundTheme : 'white',
-                    }}
-                  >
-                     <ImageBackground source={require('../../assets/images/wallet3.png')}
-                className=' bg-[#FFF] p-6 rounded-xl'
-                 resizeMode='repeat'>
+          
 
-                    <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
-                      <Text>
-                        <FontAwesome name="bank" size={24} color="#C85604" />
-                      </Text>
-                    </View>
-
-                    <Text
-                      className="mt-6 text-[#888] text-base font-medium leading-[24px]"
-                      style={{ color: 'black' }}
-                    >
-                      Account Balance
-                    </Text>
-                    <Text
-                      className="font-bold text-[32px] mt-2"
-                      style={{ color: theme ? 'black' : 'black' }}
-                    >
-                      {' '}
-                      ₦
-                      {Number(data?.balance) === 0
-                        ? '0.00'
-                        : (Number(data?.balance) / 100).toLocaleString()}
-                    </Text>
-
-                    <TouchableOpacity
-                      onPress={() => {
-                        setCurrentWalletAmount(Number(data?.balance) / 100)
-                        navigation.navigate('FundWalletModal', {
-                          currentWalletAmount,
-                        })
-                      }}
-                      className="w-[200px] h-[44px] mt-5 items-center justify-center border border-[#314B87] rounded-lg"
-                    >
-                      <Text
-                        className="text-center text-base"
-                        style={{ color: 'black' }}
-                      >
-                        {' '}
-                        + <Text>Fund Wallet</Text>
-                      </Text>
-                    </TouchableOpacity>
-                    </ImageBackground>
-                  </View>
-                </ImageBackground>
-              </View>
-            </View>
+            
 
 
             <View className="px-4">
@@ -509,8 +581,8 @@ const WalletScreen = ({ navigation }: any) => {
                 return <EscrowDetails {...escrows} />
               })}
             </View>
-          </ScrollView>
-        </SafeAreaView>
+          
+       
 
         <BottomSheetModal
           ref={bottomSheetRef}
@@ -559,8 +631,10 @@ const WalletScreen = ({ navigation }: any) => {
               closePinModal={closePinModal}
             />
           </BottomSheetModal> */}
+          </ScrollView>
       </BottomSheetModalProvider>
-    </Container>
+    
+    </>
   )
 }
 

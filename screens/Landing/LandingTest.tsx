@@ -45,6 +45,7 @@ import { categories } from '../../utils/categories'
 import { useFonts } from 'expo-font'
 import  test  from '../../data'
 import UrgentErrandCard from '../../components/UrgentErrandCard'
+import { StatusBar } from 'react-native'
 
 
 
@@ -53,7 +54,7 @@ const LandingTest = ({ navigation }: any) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null)
   const bottomSheetRef1 = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ['50%'], [])
-  const snapPoints1 = useMemo(() => ['65%'], [])
+  const snapPoints1 = useMemo(() => ['67%'], [])
   const [verifiedPin, setVerifiedPin] = useState(true)
   const [refreshing, setRefreshing] = React.useState(false)
   const flatListRef = useRef<any>(0)
@@ -461,18 +462,18 @@ const LandingTest = ({ navigation }: any) => {
   }
 
 
+
   return (
     <>
+      <StatusBar
+         barStyle="light-content"
+         backgroundColor="lightblue"
+         />
+
 <View className='bg-[#FEFEFE]'>
-<View className='bg-purple-200 h-[236px] w-screen shadow-md' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
-  <SafeAreaView className='bg-[#09497D] h-[228px] pt-[26px] pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
-              <View
-                className={
-                  Platform.OS === 'android'
-                    ? 'flex-row items-center justify-between mt-6'
-                    : 'flex-row items-center justify-between'
-                }
-              >
+<View className='bg-purple-200 h-[230px] w-screen shadow-md' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+  <SafeAreaView className='bg-[#09497D] h-[222px] pt-[26px] pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+            
                  <Image 
               source={require('../../assets/images/swave-log-web.png')}
               
@@ -515,22 +516,27 @@ const LandingTest = ({ navigation }: any) => {
                     />
                   </Text>
                 </View>
-              </View>
+             
 
               <View>
                 <View className='flex-row items-center mt-[43px] '>
                   {currentUser?.profile_picture ? 
+                  <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
                   <Image 
                   source={{uri: currentUser?.profile_picture}}
                   
                   alt={'logo'}
                   />
+                  </TouchableOpacity>
                   :
+                  
+                  <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
                   <Image 
                   source={require('../../assets/images/profile.png')}
                   className='h-[60px] w-[60px] rounded-[60px]'
                   alt={'logo'}
                   />
+                  </TouchableOpacity>
 
                   // <View className='bg-gray-200 rounded-full p-4'> 
                   //   <Text className=' text-[26px]'>{currentUser?.first_name.charAt(0).toUpperCase()}{currentUser?.last_name.charAt(0).toUpperCase()}</Text>
@@ -583,7 +589,7 @@ const LandingTest = ({ navigation }: any) => {
               <View className="flex-row items-center justify-center mt-7">
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Market')}
-                  className="bg-gray-200 pt-[6px] pl-[24px] pb-[6px] pr-[25px] rounded-[20px] border mr-6 shadow-md border-[#09497D80]"
+                  className="bg-gray-200 pt-[6px] pl-[18px] md:pl-[24px] pb-[6px] pr-[20px] md:pr-[25px] rounded-[20px] border mr-3 md:mr-6 shadow-md border-[#09497D80]"
                   // style={{ backgroundColor: '#3F60AC' }}
                   style={{ backgroundColor: '#fff' }}
                 >
@@ -598,7 +604,7 @@ const LandingTest = ({ navigation }: any) => {
 
                 <TouchableOpacity
                   onPress={() => navigation.navigate('MyErrands')}
-                  className=" pt-[6px] pl-[24px] pb-[6px] pr-[25px] rounded-[20px] border  shadow-md border-[#09497D80] "
+                  className=" pt-[6px]  pl-[24px] pb-[6px] pr-[25px] rounded-[20px] border  shadow-md border-[#09497D80] "
                   style={{ backgroundColor: '#fff' }}
                 >
                   <Text
@@ -759,7 +765,7 @@ const LandingTest = ({ navigation }: any) => {
 
                       <View className='ml-2 mt-2 shadow-lg'>
                       <TouchableOpacity
-                              className="border-[#aaa] h-[77px] w-[77px] justify-center  rounded-[20px] mr-2 bg-white"
+                              className="border-[#aaa]  h-[77px]  w-[77px] justify-center rounded-[20px]  mr-2 bg-white"
                               style={{
                                 // backgroundColor: theme ? '#1E3A79' : 'white',
                                 // backgroundColor: category.name === 'Laundry service' ? '#09497D' : 'white'

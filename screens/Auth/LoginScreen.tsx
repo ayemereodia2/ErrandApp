@@ -126,7 +126,7 @@ export default function LoginScreen({navigation}: any) {
                   <Text className='mt-1'><AntDesign name="down" size={16} color="#130F26" /></Text>
             </View>
                 
-                  <View className='w-[70vw]'>
+                  <View className='w-[67vw]'>
                 <InputField
                   // label="Phone Number"
                   placeholder="8023456789"

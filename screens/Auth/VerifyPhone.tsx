@@ -203,7 +203,7 @@ export default function VerifyPhone({ navigation, route }: any) {
                   <View className='flex-row items-center w-full'>
 
 
-                      <View className=' flex-row items-center mr-3 mt-1 px-[22px] py-[7px] w-[81px] border rounded-lg border-[#96A0A5]'>
+                      <View className=' flex-row items-center mr-2 mt-1 px-[22px] py-[7px] w-[81px] border rounded-lg border-[#96A0A5]'>
 
                       <CountryPicker
                       withFilter
@@ -228,7 +228,7 @@ export default function VerifyPhone({ navigation, route }: any) {
                       <Text className='mt-1'><AntDesign name="down" size={16} color="#130F26" /></Text>
                       </View>
 
-                      <View className='w-[70vw]'>
+                      <View className='w-[66.5vw]'>
                       <InputField
                       // label="Phone Number"
                       placeholder="8023456789"

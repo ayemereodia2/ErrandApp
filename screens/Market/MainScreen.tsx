@@ -261,6 +261,11 @@ export default function MainScreen() {
 
   return (
     <>
+      <StatusBar
+         barStyle="light-content"
+         backgroundColor="lightblue"
+         />
+
      {filterOn ? (
               ''
             ) : (
@@ -317,15 +322,9 @@ export default function MainScreen() {
               // </View>
 
       <View className=''>   
-      <View className='bg-purple-200 h-[155px] w-screen shadow-md mb-3' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
-        <View className='bg-[#09497D] h-[150px] pt-[80px] px-6 pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
-              <View
-                className={
-                  Platform.OS === 'android'
-                    ? 'flex-row items-center justify-between mt-6'
-                    : 'flex-row items-center justify-between'
-                }
-              >
+      <View className='bg-purple-200 h-[150px] w-screen shadow-md mb-3' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+        <View className='bg-[#09497D] h-[145px] pt-[80px] px-6 pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+              
           <View className='flex-row items-center'> 
           <Image 
               source={require('../../assets/images/swave-log-web.png')}
@@ -341,10 +340,10 @@ export default function MainScreen() {
                 <View className="items-center flex-row gap-3">
                  
                   <TouchableOpacity
-                    // onPress={
-                    //   // navigation.navigate('Contact')
-                    //   openMoreModal
-                    // }
+                    onPress={
+                      // navigation.navigate('Contact')
+                      openMoreModal
+                    }
                   >
                     <Text style={{ color: textTheme }}>
                      
@@ -368,7 +367,7 @@ export default function MainScreen() {
                     />
                   </Text>
                 </View>
-              </View>
+             
 
              
              
@@ -387,11 +386,7 @@ export default function MainScreen() {
        
 
           <SafeAreaView style={{ backgroundColor: '#FEFEFE'  }}>
-            <StatusBar
-              backgroundColor={backgroundTheme}
-              barStyle={theme ? 'light-content' : 'dark-content'}
-            />
-
+           
          
 
             <>
@@ -483,20 +478,20 @@ export default function MainScreen() {
                     </View>
                   )}
 
-                      <View className='flex-row items-center mb-4 w-full ml-4'>
-                      <TouchableOpacity className='px-5 py-2 rounded-[20px] border border-[#888] bg-[#09497D] mr-3'>
+                      <View className='flex-row items-center mb-4 mx-4'>
+                      <TouchableOpacity className='px-3 md:px-5 py-2 rounded-[20px] border border-[#888] bg-[#09497D] mr-4'>
                             <Text className='text-white' style={{fontFamily: 'Chillax'}}>All</Text>
                       </TouchableOpacity>
 
-                      <TouchableOpacity className='px-5 py-2 rounded-[20px] border border-[#888] mr-3'>
+                      <TouchableOpacity className='px-3 md:px-5 py-2 rounded-[20px] border border-[#888] mr-3'>
                             <Text className='text-[#09497D] text-center' style={{fontFamily: 'Chillax'}}>Newest</Text>
                       </TouchableOpacity>
 
-                      <TouchableOpacity className='px-5 py-2 rounded-[20px] border border-[#888] mr-3'>
+                      <TouchableOpacity className='px-3 md:px-5 py-2 rounded-[20px] border border-[#888] mr-3'>
                             <Text className='text-[#09497D] text-center' style={{fontFamily: 'Chillax'}}>Popular</Text>
                       </TouchableOpacity>
 
-                      <TouchableOpacity className='px-5 py-2 rounded-[20px] border border-[#888] mr-3'>
+                      <TouchableOpacity className='px-3 md:px-5 py-2 rounded-[20px] border border-[#888] mr-3'>
                             <Text className='text-[#09497D] text-center' style={{fontFamily: 'Chillax'}}>Urgent</Text>
                       </TouchableOpacity>
 
@@ -585,7 +580,7 @@ export default function MainScreen() {
             // backdropComponent={renderBackdrop}
             ref={bottomSheetRef1}
             index={0}
-            snapPoints={['55%']}
+            snapPoints={['67%']}
             backdropComponent={renderBackdrop}
           >
             <Content navigation={navigation} />

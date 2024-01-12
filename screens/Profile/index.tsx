@@ -1,4 +1,4 @@
-import { AntDesign, Feather, MaterialIcons } from '@expo/vector-icons'
+import { AntDesign, Feather, FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons'
 import React, {
   useCallback,
   useEffect,
@@ -11,6 +11,7 @@ import React, {
 import {
   ActivityIndicator,
   Image,
+  Platform,
   SafeAreaView,
   ScrollView,
   Text,
@@ -125,32 +126,32 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
     setProfile(false)
   }
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      headerTitleStyle: { color: textTheme },
-      title: 'My Profile',
-      headerStyle: { backgroundColor: backgroundTheme },
-      headerLeft: () => (
-        <TouchableOpacity
-          className="flex-row items-center justify-between mx-0 py-3 mr-6"
-          onPress={() => navigation.goBack()}
-        >
-          <AntDesign name="arrowleft" size={24} color={textTheme} />
-        </TouchableOpacity>
-      ),
-      headerRight: () => (
-        <View className="flex-row items-center justify-between mx-3 py-3 space-x-3 ">
-          <Feather
-            onPress={() => navigation.navigate('Contact')}
-            color={textTheme}
-            size={24}
-            name="help-circle"
-          />
-        </View>
-      ),
-    })
-  }, [])
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerShown: true,
+  //     headerTitleStyle: { color: textTheme },
+  //     title: 'My Profile',
+  //     headerStyle: { backgroundColor: backgroundTheme },
+  //     headerLeft: () => (
+  //       <TouchableOpacity
+  //         className="flex-row items-center justify-between mx-0 py-3 mr-6"
+  //         onPress={() => navigation.goBack()}
+  //       >
+  //         <AntDesign name="arrowleft" size={24} color={textTheme} />
+  //       </TouchableOpacity>
+  //     ),
+  //     headerRight: () => (
+  //       <View className="flex-row items-center justify-between mx-3 py-3 space-x-3 ">
+  //         <Feather
+  //           onPress={() => navigation.navigate('Contact')}
+  //           color={textTheme}
+  //           size={24}
+  //           name="help-circle"
+  //         />
+  //       </View>
+  //     ),
+  //   })
+  // }, [])
 
   const handleVerification = () => {
     setProfile(true)
@@ -224,6 +225,76 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
   }
 
   return (
+    <>
+    <View>
+    <View className='bg-purple-200 h-[160px] w-screen shadow-md' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+      <View className='bg-[#09497D] h-[150px] pt-[70px] px-6 pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+                  <View
+                    className={
+                      Platform.OS === 'android'
+                        ? 'flex-row items-center justify-between mt-6'
+                        : 'flex-row items-center justify-between'
+                    }
+                  >
+              <View className='flex-row items-center mt-2'> 
+          <TouchableOpacity
+              className=" items-center justify-between mr-8 py-3 "
+              onPress={() => navigation.goBack()}
+            >
+          <Ionicons name="chevron-back-outline" size={24} color="white" />
+             </TouchableOpacity>
+    
+             <Text className='text-white text-xl font-medium' style={{fontFamily: 'Chillax'}}>Profile</Text>
+                   
+             </View>
+             
+                {/* <Text
+                      className="font-bold text-[20px] leading-7"
+                      style={{ color: textTheme }}
+                    >
+                      Welcome, {currentUser?.first_name}
+                    </Text> */}
+    
+                    <View className="items-center flex-row gap-2">
+                     
+                      <TouchableOpacity
+                        // onPress={
+                        //   // navigation.navigate('Contact')
+                        //   openMoreModal
+                        // }
+                      >
+                        <Text style={{ color: textTheme }}>
+                         
+                        <Ionicons
+                        name="settings-outline"
+                        size={22}
+                        color={'white'}
+                        style={{ marginLeft: 7 }}
+                      />
+                        </Text>
+                      </TouchableOpacity>
+    
+                      <Text style={{ color: textTheme }} className='mr-4'>
+                        <FontAwesome
+                          name="bell-o"
+                          size={22}
+                          color={'white'}
+                          onPress={() => {
+                            navigation.navigate('Notification')
+                          }}
+                        />
+                      </Text>
+                    </View>
+                  </View>
+    
+                 
+                 
+    
+                    </View>
+    
+                    </View>
+                 </View>
+
     <SafeAreaView
       style={{ backgroundColor: backgroundTheme }}
       className="h-screen"
@@ -254,7 +325,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
           <View>
             <View className="flex-row justify-center items-center mt-5">
               <Text
-                style={{ color: textTheme }}
+                style={{ color: '#09497D' }}
                 className="text-[18px] font-bold leading-6"
               >
                 {data?.first_name} {data?.last_name}{' '}
@@ -268,10 +339,17 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
             </View>
 
             <Text
-              style={{ color: textTheme }}
+              style={{ color: '#6D6D6D' , fontFamily: 'Axiforma'}}
               className="text-center mt-3 text-base font-medium"
             >
               {data?.occupation ? data?.occupation : 'Swave User'}
+            </Text>
+
+            <Text
+              style={{ color: '#6D6D6D', fontFamily: 'Axiforma' }}
+              className="text-center mt-3 text-base font-medium"
+            >
+              {data?.phone_number}
             </Text>
 
             <View className="flex-row mt-5 mx-auto">
@@ -448,6 +526,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
         </BottomSheetModal>
       </BottomSheetModalProvider>
     </SafeAreaView>
+    </>
   )
 }
 

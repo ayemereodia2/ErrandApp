@@ -54,6 +54,10 @@ export default function VerifyOtpScreen({length, value, disabled, onChange, navi
   const [loading, setLoading] = useState(false)
   const [phone_no, setPhone_no] = useState('')
   const inputRefs = useRef<Array<TextInput>>([])
+  const [timer, setTimer] = useState(60); // Timer state in seconds
+
+  
+
 
   const { comingFrom } = route.params
 
@@ -62,6 +66,31 @@ export default function VerifyOtpScreen({length, value, disabled, onChange, navi
       headerShown: false,
     })
   }, [])
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer === 0) {
+          clearInterval(interval);
+          return 60; // Reset timer to 1 minute (60 seconds)
+        } else {
+          return prevTimer - 1; // Decrement timer by 1 second
+        }
+      });
+    }, 1000);
+
+    return () => clearInterval(interval); // Clean up interval on unmount
+  }, []);
+
+  const formatTimer = () => {
+    const minutes = Math.floor(timer / 60);
+    const seconds = timer % 60;
+    const formattedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+    return `0:${formattedSeconds}`;
+  };
+
+
 
   const verifyOtpHandler = async (code: string) => {
     const phone = (await AsyncStorage.getItem('phone')) || ''
@@ -193,7 +222,9 @@ export default function VerifyOtpScreen({length, value, disabled, onChange, navi
             
           </View>
 
-          <Text className='text-[#09497D] text-sm text-center mb-[50px]' style={{fontFamily: 'Axiforma'}}>0:00</Text>
+          <Text className='text-[#09497D] text-sm text-center mb-[50px]' style={{fontFamily: 'Axiforma'}}>
+          {formatTimer()}
+             </Text>
 
           <Button
             onPress={() => verifyOtpHandler(otp)}

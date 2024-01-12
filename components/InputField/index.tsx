@@ -49,7 +49,7 @@ export default function InputField({
 
           
           <TextInput
-            className="w-full border border-[#96A0A5] text-sm mb-3 py-3.5 h-[54px] rounded-lg px-3 "
+            className="w-full border border-[#96A0A5] text-sm mb-3 py-3.5 h-[53px] rounded-lg px-3 "
             placeholder={placeholder}
             placeholderTextColor={'#AABDC5'}
             onBlur={onBlur}

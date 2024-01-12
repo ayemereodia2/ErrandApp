@@ -45,7 +45,7 @@ import PlaceBidModal from '../../components/Modals/Errands/PlaceBidModal'
 import { ProfileInitials } from '../../components/ProfileInitials'
 import { userDetails } from '../../services/auth/userInfo'
 import { RootState, useAppDispatch } from '../../services/store'
-import { formatDate, getAddress } from '../../utils/helper'
+import { formatDate, getAddress, getCardTimeAgo } from '../../utils/helper'
 import Checkbox from 'expo-checkbox'
 import { Platform } from 'react-native'
 
@@ -199,8 +199,8 @@ export default function ErrandDetails({ route, navigation }: any) {
     <BottomSheetModalProvider>
 
 <View>
-<View className='bg-purple-200 h-[155px] w-screen shadow-md' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
-  <View className='bg-[#09497D] h-[150px] pt-[70px] px-6 pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+<View className='bg-purple-200 h-[150px] w-screen shadow-md' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+  <View className='bg-[#09497D] h-[145px] pt-[70px] px-6 pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
               <View
                 className={
                   Platform.OS === 'android'
@@ -268,9 +268,9 @@ export default function ErrandDetails({ route, navigation }: any) {
 
         
         <StatusBar
-          backgroundColor={backgroundTheme}
-          barStyle={theme ? 'light-content' : 'dark-content'}
-        />
+         barStyle="light-content"
+         backgroundColor="lightblue"
+         />
 
         
 
@@ -353,7 +353,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                              
                               <Entypo name="star" size={16} color="#FBB955" />
 
-                              {user?.rating} {' '}
+                              {user?.rating}  | <Text> {getCardTimeAgo(user?.updated_at)} </Text>
                             </Text>
                             {/* <Text
                               style={{ color: textTheme }}
@@ -370,6 +370,8 @@ export default function ErrandDetails({ route, navigation }: any) {
                       </View>
                     </View>
 
+                    
+
                     <View className="mt-2 ">
                       {/* <Text
                         style={{ color: textTheme }}
@@ -384,6 +386,13 @@ export default function ErrandDetails({ route, navigation }: any) {
                         {errand.description.replace(regex, '')}
                       </Text>
                     </View>
+
+                    <View className="pt-6 mx-1">
+                          <Text className="text-[#0C426E] text-[24px] font-bold leading-6" style={{fontFamily: 'Axiforma'}}>
+                            &#x20A6; {budgetInNaira.toLocaleString()}
+                          </Text>
+                    </View>
+                    
 
                     {/* <View className="pt-6 ">
                       <Text
@@ -402,7 +411,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                       </View>
                     </View> */}
 
-                    <View className='w-[350px] h-[241px] px-5 pt-5 pb-4 rounded-[15px] bg-white mt-5 mx-auto shadow-lg'> 
+                    <View className='w-[95%] h-[241px] px-5 pt-5 pb-4 rounded-[15px] bg-white mt-5  shadow-lg'> 
 
                       <View className='mb-5 border-b border-[#DBD6D6]'> 
                         <Text className='mb-2 text-[20px] text-[#09497D] font-medium' style={{fontFamily: 'Chillax'}}>Details</Text>
@@ -431,16 +440,29 @@ export default function ErrandDetails({ route, navigation }: any) {
                     </View>
 
 
-                    <View className='w-[350px] h-[241px] px-5 pt-5 pb-4 rounded-[15px] bg-white mt-5 mx-auto hidden'> 
+                    <View className='w-[350px] h-[120px] px-5 pt-5 pb-4 rounded-[15px] bg-white mt-5 '> 
 
                       <View className='mb-5 border-b border-[#DBD6D6]'> 
                         <Text className='mb-2 text-[20px] text-[#09497D] font-medium' style={{fontFamily: 'Chillax'}}>Requirements</Text>
                       </View>
 
-                      <View className='flex-row justify-between items-center mb-5'>
-                        <Text className='text-base text-[#888]' style={{fontFamily: 'Axiforma'}}>ID Card</Text>
-                         <Text className='text-base text-[#09497D]' style={{fontFamily: 'Axiforma'}}> <AntDesign name="arrowup" size={18} color="#888888" />  {errand.total_bids} {errand.total_bids > 1 ? 'Bids' : 'Bid'}</Text>
-                      </View>
+
+                    <View className='flex-row items-center mr-1 '>
+                        <View className='flex-row items-center border-[0.5px]  border-[#888] bg-[#E2EAF0] rounded-lg mr-2 mb-5 pt-[6px] pb-[7px] pl-[10px] pr-[4px]'>
+                          <Text className='text-xs text-[#09497D] mr-[6px]' style={{fontFamily: 'Axiforma'}}><AntDesign name="checkcircleo" size={12} /></Text>
+                          <Text className='text-xs text-[#09497D]' style={{fontFamily: 'Axiforma'}}> Insurance </Text>
+                        </View>
+
+                        <View className='flex-row items-center border-[0.5px] border-[#888] bg-[#E2EAF0] rounded-lg mr-2 mb-5 pt-[6px] pb-[7px] pl-[6px] pr-[4px]'>
+                          <Text className='text-xs text-[#09497D] mr-[6px]' style={{fontFamily: 'Axiforma'}}><AntDesign name="checkcircleo" size={12} /></Text>
+                          <Text className='text-xs text-[#09497D]' style={{fontFamily: 'Axiforma'}}> Qualification</Text>
+                        </View>
+
+                        <View className='flex-row items-center border-[0.5px] border-[#888] bg-[#E2EAF0] rounded-lg mr-3 mb-5 pt-[6px] pb-[7px] pl-[6px] pr-[4px]'>
+                          <Text className='text-xs text-[#09497D] mr-[6px]' style={{fontFamily: 'Axiforma'}}><AntDesign name="checkcircleo" size={12} /></Text>
+                          <Text className='text-xs text-[#09497D]' style={{fontFamily: 'Axiforma'}}> Verification </Text>
+                        </View>
+                    </View>
 
                       
                     </View>
@@ -575,11 +597,11 @@ export default function ErrandDetails({ route, navigation }: any) {
                     </View>
 
 
-                    <View className="pt-6 ">
+                    {/* <View className="pt-6 ">
                           <Text className="text-[#0C426E] text-[24px] font-bold leading-6" style={{fontFamily: 'Axiforma'}}>
                             &#x20A6; {budgetInNaira.toLocaleString()}
                           </Text>
-                    </View>
+                    </View> */}
                     
 
                     {/* <View>
