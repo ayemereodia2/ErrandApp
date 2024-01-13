@@ -1,5 +1,4 @@
 import {
-  Entypo,
   Feather,
   FontAwesome,
   FontAwesome5,
@@ -16,11 +15,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
 import { useQuery } from '@tanstack/react-query'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import Swiper from 'react-native-deck-swiper';
 import {
   BackHandler,
-  Dimensions,
-  FlatList,
   Image,
   Platform,
   RefreshControl,
@@ -30,24 +26,20 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import Swiper from 'react-native-deck-swiper'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
 
+import { useFonts } from 'expo-font'
 import NewNotifications from '../../components/NewNotifications/NewNotifications'
 import PostErrandButton from '../../components/PostErrandBtn'
+import UrgentErrandCard from '../../components/UrgentErrandCard'
 import PinModal from '../../components/VerificationModals/PinModal'
 import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
-import { categories } from '../../utils/categories'
-import { useFonts } from 'expo-font'
-import  test  from '../../data'
-import UrgentErrandCard from '../../components/UrgentErrandCard'
-import { StatusBar } from 'react-native'
-
-
 
 const LandingTest = ({ navigation }: any) => {
   const loaderGif = '../../assets/images/loading-SWAVE.gif'
@@ -67,7 +59,6 @@ const LandingTest = ({ navigation }: any) => {
   const handleChecked = () => {
     setChecked(true)
   }
-
 
   function openPinModal() {
     bottomSheetRef.current?.present()
@@ -125,19 +116,17 @@ const LandingTest = ({ navigation }: any) => {
   }
 
   // const getMarket = async () => {
-    
+
   //     const _rs = await _fetch({
   //       method: 'GET',
   //       _url: `/errand/market?urgent=1`,
   //       // _url: `/errand/market`,
   //     });
-  
-      
+
   //       const marketData = await _rs.json();
   //      return setMarket(marketData)
   //      console.log(market)
-    
-    
+
   // };
 
   // const getMarket = async () => {
@@ -146,15 +135,15 @@ const LandingTest = ({ navigation }: any) => {
   //       method: 'GET',
   //       _url: `/errand/market`,
   //     });
-  
+
   //     if (_rs.ok) {
   //       const data = await _rs.json();
   //       setMarket(data); // Update the market state
-  
+
   //       // State updates are asynchronous, so you won't see the updated state immediately after calling setMarket
   //       // Logging here might not reflect the updated state
   //       // Instead, you can access the updated state in other function calls or useEffect hooks
-  
+
   //       return data; // Return the fetched data if needed for further processing
   //     } else {
   //       throw new Error('Failed to fetch data');
@@ -164,7 +153,7 @@ const LandingTest = ({ navigation }: any) => {
   //     return []; // Return an empty array in case of an error
   //   }
   // };
-  
+
   // // Calling getMarket somewhere in your code:
   // getMarket()
   //   .then(data => {
@@ -175,10 +164,6 @@ const LandingTest = ({ navigation }: any) => {
   //     // Handle any errors that occurred during fetching
   //     console.error('Error:', error);
   //   });
-  
-  
- 
-  
 
   const {
     isLoading: loadingMarket,
@@ -444,130 +429,112 @@ const LandingTest = ({ navigation }: any) => {
     Poppins: require('../../assets/fonts/Poppins-Regular.ttf'),
     Axiforma: require('../../assets/fonts/Axiforma-Regular.ttf'),
     // Chillax: require('../../assets/fonts/Chillax-Regular.otf'),
-    Chillax: require('../../assets/fonts/Chillax-Medium.ttf')
-
-  });
+    Chillax: require('../../assets/fonts/Chillax-Medium.ttf'),
+  })
 
   if (!loaded) {
     return null
   }
 
- 
-  
-
- 
-
   const onSwiped = () => {
-    setIndex(index + 1);
+    setIndex(index + 1)
   }
-
-
 
   return (
     <>
-      <StatusBar
-         barStyle="light-content"
-         backgroundColor="lightblue"
-         />
-
-<View className='bg-[#FEFEFE]'>
-<View className='bg-purple-200 h-[230px] w-screen shadow-md' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
-  <SafeAreaView className='bg-[#09497D] h-[222px] pt-[26px] pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
-            
-                 <Image 
-              source={require('../../assets/images/swave-log-web.png')}
-              
-              alt={'logo'}
+      <View className="">
+        <View
+          className="bg-purple-200 h-[208px] w-screen shadow-md"
+          style={{ borderBottomLeftRadius: 70, borderBottomRightRadius: 70 }}
+        >
+          <SafeAreaView
+            className="bg-[#09497D] h-[200px] pt-[26px] px-6"
+            style={{ borderBottomLeftRadius: 70, borderBottomRightRadius: 70 }}
+          >
+            <View className="flex-row justify-between items-center">
+              <Image
+                source={require('../../assets/images/swave-log-web.png')}
+                alt={'logo'}
               />
-                {/* <Text
-                  className="font-bold text-[20px] leading-7"
-                  style={{ color: textTheme }}
+
+              <View className="items-center flex-row gap-4">
+                <TouchableOpacity
+                  onPress={
+                    // navigation.navigate('Contact')
+                    openMoreModal
+                  }
                 >
-                  Welcome, {currentUser?.first_name}
-                </Text> */}
-
-                <View className="items-center flex-row gap-4">
-                 
-                  <TouchableOpacity
-                    onPress={
-                      // navigation.navigate('Contact')
-                      openMoreModal
-                    }
-                  >
-                    <Text style={{ color: textTheme }}>
-                     
+                  <Text style={{ color: textTheme }}>
                     <Ionicons
-                    name="settings-outline"
-                    size={26}
-                    color={'white'}
-                    style={{ marginLeft: 7 }}
-                  />
-                    </Text>
-                  </TouchableOpacity>
-
-                  <Text style={{ color: textTheme }} className='mr-4'>
-                    <FontAwesome
-                      name="bell-o"
-                      size={24}
+                      name="settings-outline"
+                      size={22}
                       color={'white'}
-                      onPress={() => {
-                        navigation.navigate('Notification')
-                      }}
+                      style={{ marginLeft: 7 }}
                     />
                   </Text>
-                </View>
-             
+                </TouchableOpacity>
 
-              <View>
-                <View className='flex-row items-center mt-[43px] '>
-                  {currentUser?.profile_picture ? 
-                  <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-                  <Image 
-                  source={{uri: currentUser?.profile_picture}}
-                  
-                  alt={'logo'}
+                <Text style={{ color: textTheme }} className="">
+                  <FontAwesome
+                    name="bell-o"
+                    size={22}
+                    color={'white'}
+                    onPress={() => {
+                      navigation.navigate('Notification')
+                    }}
                   />
-                  </TouchableOpacity>
-                  :
-                  
-                  <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-                  <Image 
-                  source={require('../../assets/images/profile.png')}
-                  className='h-[60px] w-[60px] rounded-[60px]'
-                  alt={'logo'}
-                  />
-                  </TouchableOpacity>
+                </Text>
+              </View>
+            </View>
 
-                  // <View className='bg-gray-200 rounded-full p-4'> 
-                  //   <Text className=' text-[26px]'>{currentUser?.first_name.charAt(0).toUpperCase()}{currentUser?.last_name.charAt(0).toUpperCase()}</Text>
-                  // </View>
-                  }
+            <View>
+              <View className="flex-row items-center mt-[43px] ">
+                {currentUser?.profile_picture ? (
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('Profile')}
+                  >
+                    <Image
+                      source={require('../../assets/images/profile.png')}
+                      className="h-[60px] w-[60px] rounded-[60px]"
+                      alt={'logo'}
+                    />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('Profile')}
+                  >
+                    <Image
+                      source={require('../../assets/images/profile.png')}
+                      className="h-[60px] w-[60px] rounded-[60px]"
+                      alt={'logo'}
+                    />
+                  </TouchableOpacity>
+                )}
 
-                  <View className='ml-2'>
-                  <Text style={{fontFamily: 'Chillax'}} className='text-white font-semibold text-[24px] leading-[38.4px]'>Welcome!</Text>
+                <View className="ml-2">
+                  <Text
+                    style={{ fontFamily: 'Chillax' }}
+                    className="text-white font-semibold text-[24px] leading-[38.4px]"
+                  >
+                    Welcome!
+                  </Text>
 
                   <Text
-                  className="font-normal text-[16px]  leading-[25px] text-white"
-                  // style={{ color: textTheme }} 
-                  style={{fontFamily: 'Axiforma'}}
-                >
-                {currentUser?.first_name} {currentUser?.last_name} 👋
-                </Text>
-
-                  </View>
-                
+                    className="font-normal text-[16px]  leading-[25px] text-white"
+                    // style={{ color: textTheme }}
+                    style={{ fontFamily: 'Axiforma' }}
+                  >
+                    {currentUser?.first_name} {currentUser?.last_name} 👋
+                  </Text>
                 </View>
-             
-
-                </View>
-
-                </SafeAreaView>
-             </View>
-             </View>
-             
+              </View>
+            </View>
+          </SafeAreaView>
+        </View>
+      </View>
 
       <View
-        className="px-4 w-screen bg-[#FEFEFE] flex-1 h-[100%]"
+        className="w-screen flex-1 h-[100%]"
         // style={{ backgroundColor: backgroundTheme, flex: 1 }}
       >
         <BottomSheetModalProvider>
@@ -584,35 +551,32 @@ const LandingTest = ({ navigation }: any) => {
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
             >
-              
-
-              <View className="flex-row items-center justify-center mt-7">
+              <View className="flex-row items-center justify-center mt-7 space-x-4">
                 <TouchableOpacity
                   onPress={() => navigation.navigate('Market')}
-                  className="bg-gray-200 pt-[6px] pl-[18px] md:pl-[24px] pb-[6px] pr-[20px] md:pr-[25px] rounded-[20px] border mr-3 md:mr-6 shadow-md border-[#09497D80]"
-                  // style={{ backgroundColor: '#3F60AC' }}
+                  className="border-[0.6px] p-1.5 rounded-3xl px-5 shadow-xl shadow-[#575656] border-[#09497D80]"
                   style={{ backgroundColor: '#fff' }}
                 >
                   <Text
                     className=" text-sm text-[#09497D] text-center items-center"
                     // style={{ color: theme ? 'white' : 'white' }}
-                    style={{fontFamily: 'Axiforma'}}
+                    style={{ fontFamily: 'Axiforma' }}
                   >
-                    Find errands   <Feather name="arrow-up-right" size={16} />
+                    Find errands <Feather name="arrow-up-right" size={16} />
                   </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => navigation.navigate('MyErrands')}
-                  className=" pt-[6px]  pl-[24px] pb-[6px] pr-[25px] rounded-[20px] border  shadow-md border-[#09497D80] "
+                  className="border-[0.6px] p-1.5 rounded-3xl px-5 shadow-xl shadow-[#575656] border-[#09497D80]"
                   style={{ backgroundColor: '#fff' }}
                 >
                   <Text
                     className=" text-sm text-[#09497D]"
                     // style={{ color: theme ? 'white' : 'white' }}
-                    style={{fontFamily: 'Axiforma'}}
+                    style={{ fontFamily: 'Axiforma' }}
                   >
-                    Manage errands  <Feather name="arrow-up-right" size={16} />
+                    Manage errands <Feather name="arrow-up-right" size={16} />
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -623,13 +587,12 @@ const LandingTest = ({ navigation }: any) => {
                   // style={{ color: textTheme, marginBottom: 20 }}
                   style={{fontFamily: 'Chillax'}}
                 > */}
-                <Text
+                {/* <Text
                   className=" text-[20px] font-medium text-[#061737] mb-5 leading-normal"
                   // style={{ color: textTheme, marginBottom: 20 }}
-                  
                 >
-                    Errand Categories
-                </Text>
+                  Errand Categories
+                </Text> */}
 
                 {/* <ScrollView
                   horizontal
@@ -753,241 +716,195 @@ const LandingTest = ({ navigation }: any) => {
                   </View>
                 </ScrollView> */}
 
-
                 {/* new design */}
 
-                  <View className='flex-row items-center flex-wrap'>
-                   {data ? data.data
-                   .filter(category => category.name !== 'Any Errand')
-                   .map((category: any) => (
-                    <>
-                    <View>
+                <View className="flex-row items-center flex-wrap px-6">
+                  {data
+                    ? data.data
+                        .filter((category) => category.name !== 'Any Errand')
+                        .map((category: any) => (
+                          <>
+                            <View key={category.id} className="w-1/4 mb-4 ">
+                              <View className="">
+                                <TouchableOpacity
+                                  className="border-[#aaa] h-[75px] shadow-2xl shadow-[#505050]  w-[77px] justify-center rounded-[20px]  bg-white"
+                                  style={{
+                                    backgroundColor: 'white',
+                                  }}
+                                  onPress={() => {
+                                    dispatch(getDraftErrand())
+                                    navigation.navigate('LandingForm', {
+                                      category,
+                                    })
+                                  }}
+                                  key={category.id}
+                                >
+                                  {category.name ===
+                                  'Market / Groceries Shopping' ? (
+                                    <Image
+                                      source={require('../../assets/images/shopping2.png')}
+                                      alt="cart"
+                                      className="w-[43px] h-[43px] mx-auto"
+                                    />
+                                  ) : category.name === 'Laundry service' ? (
+                                    <Image
+                                      source={require('../../assets/images/detergent.png')}
+                                      alt="cart"
+                                      className="w-[43px] h-[43px] mx-auto"
+                                    />
+                                  ) : category.name === 'Delivery' ? (
+                                    <Image
+                                      source={require('../../assets/images/delivery2.png')}
+                                      alt="cart"
+                                      className="w-[43px] h-[43px] mx-auto"
+                                    />
+                                  ) : category.name ===
+                                    'Cleaning/home service' ? (
+                                    <Image
+                                      source={require('../../assets/images/cleaning2.png')}
+                                      alt="cart"
+                                      className="w-[43px] h-[43px] mx-auto"
+                                    />
+                                  ) : category.name === 'General Labour' ? (
+                                    <Image
+                                      source={require('../../assets/images/labour.jpg')}
+                                      alt="cart"
+                                      className="w-[43px] h-[43px] mx-auto ml-4"
+                                    />
+                                  ) : category.name ===
+                                    'Photo / Video Production ' ? (
+                                    <Image
+                                      source={require('../../assets/images/photo2.png')}
+                                      alt="cart"
+                                      className="w-[43px] h-[43px] mx-auto"
+                                    />
+                                  ) : category.name === 'Home Teacher' ? (
+                                    <Image
+                                      source={require('../../assets/images/tutor2.png')}
+                                      alt="cart"
+                                      className="w-[43px] h-[43px] mx-auto"
+                                    />
+                                  ) : category.name === 'Any Errand' ? (
+                                    <Text
+                                      className="text-center"
+                                      style={{
+                                        color: theme ? 'white' : '#3F60AC',
+                                      }}
+                                    >
+                                      <MaterialCommunityIcons
+                                        name="run-fast"
+                                        size={40}
+                                      />
+                                    </Text>
+                                  ) : null}
+                                </TouchableOpacity>
 
-                      <View className='ml-2 mt-2 shadow-lg'>
-                      <TouchableOpacity
-                              className="border-[#aaa]  h-[77px]  w-[77px] justify-center rounded-[20px]  mr-2 bg-white"
-                              style={{
-                                // backgroundColor: theme ? '#1E3A79' : 'white',
-                                // backgroundColor: category.name === 'Laundry service' ? '#09497D' : 'white'
-                                backgroundColor:  'white'
+                                {category.name ===
+                                'Market / Groceries Shopping' ? (
+                                  <Text
+                                    className="text-center mt-2 mb-2 font-medium text-sm"
+                                    style={{
+                                      color: theme ? 'white' : '#787C82',
+                                      fontFamily: 'Axiforma',
+                                    }}
+                                  >
+                                    Shopping
+                                  </Text>
+                                ) : category.name === 'Laundry service' ? (
+                                  <Text
+                                    className="text-center mt-2 mb-2 font-medium text-sm"
+                                    style={{
+                                      color: theme ? 'white' : '#787C82',
+                                      fontFamily: 'Axiforma',
+                                    }}
+                                  >
+                                    Laundry
+                                  </Text>
+                                ) : category.name === 'Delivery' ? (
+                                  <Text
+                                    className="text-center mt-2 mb-2 font-medium text-sm"
+                                    style={{
+                                      color: theme ? 'white' : '#787C82',
+                                      fontFamily: 'Axiforma',
+                                    }}
+                                  >
+                                    Delivery
+                                  </Text>
+                                ) : category.name ===
+                                  'Cleaning/home service' ? (
+                                  <Text
+                                    className="text-center mt-2 mb-2 font-medium text-sm"
+                                    style={{
+                                      color: theme ? 'white' : '#787C82',
+                                      fontFamily: 'Axiforma',
+                                    }}
+                                  >
+                                    Cleaning
+                                  </Text>
+                                ) : category.name === 'General Labour' ? (
+                                  <Text
+                                    className="text-center mt-2 mb-2 font-medium text-sm"
+                                    style={{
+                                      color: theme ? 'white' : '#787C82',
+                                      fontFamily: 'Axiforma',
+                                    }}
+                                  >
+                                    Labour
+                                  </Text>
+                                ) : category.name ===
+                                  'Photo / Video Production ' ? (
+                                  <Text
+                                    className="text-center mt-2 mb-2 font-medium text-sm"
+                                    style={{
+                                      color: theme ? 'white' : '#787C82',
+                                      fontFamily: 'Axiforma',
+                                    }}
+                                  >
+                                    Photo
+                                  </Text>
+                                ) : category.name === 'Home Teacher' ? (
+                                  <Text
+                                    className="text-center mt-2 mb-2 font-medium text-sm"
+                                    style={{
+                                      color: theme ? 'white' : '#787C82',
+                                      fontFamily: 'Axiforma',
+                                    }}
+                                  >
+                                    Tutoring
+                                  </Text>
+                                ) : null}
+                              </View>
+                            </View>
+                          </>
+                        ))
+                    : null}
 
-                              }}
-                              onPress={() => {
-                                dispatch(getDraftErrand())
-                                navigation.navigate('LandingForm', { category })
-                              }}
-                              key={category.id}
-                            >
-                              {category.name ===
-                              'Market / Groceries Shopping' ? (
-                                // <Text
-                                //   className="text-center"
-                                //   style={{ color: theme ? 'white' : '#3F60AC' }}
-                                // >
-                                //   <FontAwesome name="shopping-bag" size={35} />
-                                // </Text>
-                                <Image
-                                source={require('../../assets/images/shopping2.png')}
-                                alt='cart'
-                                className='w-[43px] h-[43px] mx-auto'
-                                
-                                />
-                              ) : category.name === 'Laundry service' ? (
-                                // <Text
-                                //   className="text-center"
-                                //   style={{ color: theme ? 'white' : '#3F60AC' }}
-                                // >
-                                //   <MaterialIcons
-                                //     name="local-laundry-service"
-                                //     size={40}
-                                //   />
-                                // </Text>
-                                <Image
-                                source={require('../../assets/images/detergent.png')}
-                                alt='cart'
-                                className='w-[43px] h-[43px] mx-auto'
-                                
-                                />
-                                
-                              ) : category.name === 'Delivery' ? (
-                                // <Text
-                                //   className="text-center"
-                                //   style={{ color: theme ? 'white' : '#3F60AC' }}
-                                // >
-                                //   <MaterialCommunityIcons
-                                //     name="truck-delivery"
-                                //     size={40}
-                                //   />
-                                // </Text>
-                                <Image
-                                source={require('../../assets/images/delivery2.png')}
-                                alt='cart'
-                                className='w-[43px] h-[43px] mx-auto'
-                                
-                                />
-                                
-                              ) : category.name === 'Cleaning/home service' ? (
-                                // <Text
-                                //   className="text-center"
-                                //   style={{ color: theme ? 'white' : '#3F60AC' }}
-                                // >
-                                //   <MaterialIcons name="clean-hands" size={40} />
-                                // </Text>
-                                <Image
-                                source={require('../../assets/images/cleaning2.png')}
-                                alt='cart'
-                                className='w-[43px] h-[43px] mx-auto'
-                                
-                                />
-                              ) : category.name === 'General Labour' ? (
-                                // <Text
-                                //   className="text-center"
-                                //   style={{ color: theme ? 'white' : '#3F60AC' }}
-                                // >
-                                //   <MaterialIcons name="work" size={40} />
-                                // </Text>
-                                <Image
-                                source={require('../../assets/images/labour.jpg')}
-                                alt='cart'
-                                className='w-[43px] h-[43px] mx-auto ml-4'
-                                
-                                />
-                              ) : category.name ===
-                                'Photo / Video Production ' ? (
-                                // <Text
-                                //   className="text-center"
-                                //   style={{ color: theme ? 'white' : '#3F60AC' }}
-                                // >
-                                //   <FontAwesome name="video-camera" size={40} />
-                                // </Text>
-                                <Image
-                                source={require('../../assets/images/photo2.png')}
-                                alt='cart'
-                                className='w-[43px] h-[43px] mx-auto'
-                                
-                                />
-                              ) : category.name === 'Home Teacher' ? (
-                                // <Text
-                                //   className="text-center"
-                                //   style={{ color: theme ? 'white' : '#3F60AC' }}
-                                // >
-                                //   <FontAwesome5
-                                //     name="chalkboard-teacher"
-                                //     size={40}
-                                //   />
-                                // </Text>
-                                <Image
-                                source={require('../../assets/images/tutor2.png')}
-                                alt='cart'
-                                className='w-[43px] h-[43px] mx-auto'
-                                
-                                />
-                              ) : category.name === 'Any Errand' ? (
-                                <Text
-                                  className="text-center"
-                                  style={{ color: theme ? 'white' : '#3F60AC' }}
-                                >
-                                  <MaterialCommunityIcons
-                                    name="run-fast"
-                                    size={40}
-                                  />
-                                </Text>
-                              ) : null}
-                            </TouchableOpacity>
-
-                        {category.name ===
-                              'Market / Groceries Shopping' ? (
-                                <Text
-                                  className="text-center mt-2 mb-2 font-medium text-sm"
-                                  style={{ color: theme ? 'white' : '#061737', fontFamily: 'Axiforma' }}
-                                >
-                                  Shopping
-                                </Text>
-                              ) : category.name === 'Laundry service' ? (
-                                <Text
-                                  className="text-center mt-2 mb-2 font-medium text-sm"
-                                  style={{ color: theme ? 'white' : '#061737', fontFamily: 'Axiforma' }}
-                                >
-                                  Laundry
-                                </Text>
-                              ) : category.name === 'Delivery' ? (
-                                <Text
-                                  className="text-center mt-2 mb-2 font-medium text-sm"
-                                  style={{ color: theme ? 'white' : '#061737', fontFamily: 'Axiforma' }}
-                                >
-                                 Delivery
-                                </Text>
-                              ) : category.name === 'Cleaning/home service' ? (
-                                <Text
-                                  className="text-center mt-2 mb-2 font-medium text-sm"
-                                  style={{ color: theme ? 'white' : '#061737', fontFamily: 'Axiforma' }}
-                                >
-                                 Cleaning
-                                </Text>
-                              ) : category.name === 'General Labour' ? (
-                                <Text
-                                  className="text-center mt-2 mb-2 font-medium text-sm"
-                                  style={{ color: theme ? 'white' : '#061737' }}
-                                >
-                                  Manual Labour
-                                </Text>
-                              ) : category.name ===
-                                'Photo / Video Production ' ? (
-                                <Text
-                                  className="text-center mt-2 mb-2 font-medium text-sm"
-                                  style={{ color: theme ? 'white' : '#061737', fontFamily: 'Axiforma' }}
-                                >
-                                  Photo/ Video
-                                </Text>
-                              ) : category.name === 'Home Teacher' ? (
-                                <Text
-                                  className="text-center mt-2 mb-2 font-medium text-sm"
-                                  style={{ color: theme ? 'white' : '#061737', fontFamily: 'Axiforma' }}
-                                >
-                                  Tutoring
-                                </Text>
-                             
-                              ) : null}
-                      </View>
-
-                    
-
-                    </View>
-                    </>
-                   ) )
-                   : null}
-                   
-                   <View className='ml-2 mt-2 shadow-md'>
-                   <TouchableOpacity
-                      className="border-[#aaa] h-[77px] w-[77px] justify-center  rounded-xl mr-2 bg-white"
-                      style={{
-                        // backgroundColor: theme ? '#1E3A79' : 'white',
-                      }}
+                  <View className="w-1/4 mb-4">
+                    <TouchableOpacity
+                      className="border-[#aaa] h-[75px] shadow-2xl shadow-[#505050]  w-[77px] justify-center rounded-[20px]  bg-white"
                       onPress={() => {
                         navigation.navigate('CreateErrand')
                       }}
                     >
                       <Text
                         className="text-center"
-                        style={{ color: '#3F60AC' }}>
-                        <MaterialCommunityIcons name="dots-horizontal-circle" color={'#09497D'} size={35} />
+                        style={{ color: '#3F60AC' }}
+                      >
+                        <MaterialCommunityIcons
+                          name="dots-horizontal-circle"
+                          color={'#787C82'}
+                          size={35}
+                        />
                       </Text>
                     </TouchableOpacity>
                     <Text
-                                  className="text-center mt-2 font-medium text-sm"
-                                  style={{ color: '#061737', fontFamily: 'Axiforma' }}
-                                >
-                                  More
-                                </Text>
-                   </View>
-
-                   </View>
-
-           
- 
-
-
-
+                      className="text-center mt-2 font-medium text-sm"
+                      style={{ color: '#061737', fontFamily: 'Axiforma' }}
+                    >
+                      More
+                    </Text>
+                  </View>
+                </View>
 
                 {/* <FlatList
                   ref={flatListRef}
@@ -1019,52 +936,39 @@ const LandingTest = ({ navigation }: any) => {
                   }}
                 />
               </View> */}
-
               </View>
 
-              <View className="mt-10 mb-14">
-                {/* <Text
+              <View className="mt-10 mb-14 mx-5">
+                <Text
                   className=" text-[20px] font-medium text-[#061737] mb-5 leading-normal ml-4"
-                  style={{ color: textTheme, fontFamily: 'Chillax' }}
-                > */}
-                 <Text
-                  className=" text-[20px] font-medium text-[#061737] mb-5 leading-normal ml-4"
-                  style={{ color: textTheme }}
+                  style={{ fontFamily: 'Chillax' }}
                 >
                   Urgent Errands
                 </Text>
 
-                {/* <TouchableOpacity onPress={() => getStuff()}>
-                  <Text>Get Stuff</Text>
-            </TouchableOpacity> */}
-            <View className=' mb-28'> 
-                <Swiper
-                cards={marketData ? marketData?.data : []}
-                cardIndex={index}
-                renderCard={(card) =>
-                <UrgentErrandCard card={card} 
-                isLoading={loadingMarket}
-                navigation={navigation} 
-                
-                /> }
-                
-               onSwiped={onSwiped}
-               stackSize={2}
-               stackScale={12}
-               stackSeparation={10}
-               cardHorizontalMargin={10}
-               cardVerticalMargin={8}
-               disableTopSwipe
-               disableBottomSwipe
-                
-                infinite={true}
-                backgroundColor="transparent"
-                
-               
-                />  
-
-               </View>
-                  
+                <View className=" mb-28">
+                  <Swiper
+                    cards={marketData ? marketData?.data : []}
+                    cardIndex={index}
+                    renderCard={(card) => (
+                      <UrgentErrandCard
+                        card={card}
+                        isLoading={loadingMarket}
+                        navigation={navigation}
+                      />
+                    )}
+                    onSwiped={onSwiped}
+                    stackSize={2}
+                    stackScale={12}
+                    stackSeparation={10}
+                    cardHorizontalMargin={0}
+                    cardVerticalMargin={0}
+                    disableTopSwipe
+                    disableBottomSwipe
+                    infinite={true}
+                    backgroundColor="transparent"
+                  />
+                </View>
 
                 {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                   <LandingDetails
@@ -1075,20 +979,26 @@ const LandingTest = ({ navigation }: any) => {
                 </ScrollView> */}
               </View>
 
-              <View className="mt-48 mb-14">
+              <View className="mt-48 mb-14 px-6 flex-row justify-between  ">
                 {/* <Text
                   className=" text-[20px] font-medium text-[#061737] mb-5 leading-normal"
                   style={{ color: textTheme, fontFamily: 'Chillax' }}
                 > */}
-                  <Text
+                <Text
                   className=" text-[20px] font-medium text-[#061737] mb-5 leading-normal"
-                  style={{ color: textTheme }}
+                  style={{ fontFamily: 'Chillax' }}
                 >
                   You may have missed
                 </Text>
+
+                <Text
+                  className=" text-[20px] font-medium text-[#09497D] mb-5 leading-normal underline"
+                  style={{ fontFamily: 'Chillax' }}
+                >
+                  See all
+                </Text>
               </View>
 
-              
               <NewNotifications
                 data={notifications}
                 isLoading={loadingNotification}

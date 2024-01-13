@@ -267,7 +267,7 @@ const MainNavigation = () => {
 
   useEffect(() => {
     // Call the authentication status check function
-    getAppVersion()
+    // getAppVersion()
     checkAuthenticationStatus()
     checkNetworkConnectivity()
   }, [isAuthenticated, isGuest, isConnected])

@@ -266,14 +266,6 @@ export default function ErrandDetails({ route, navigation }: any) {
         className="bg-[#F8F9FC]"
       >
 
-        
-        <StatusBar
-         barStyle="light-content"
-         backgroundColor="lightblue"
-         />
-
-        
-
         <View
           style={{
             flexDirection: 'column-reverse',

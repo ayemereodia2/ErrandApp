@@ -16,7 +16,6 @@ import {
   Platform,
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Switch,
   Text,
@@ -27,6 +26,7 @@ import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
 import Container from '../../components/Container'
+import LoadingModal from '../../components/MainLoader/LoadingModal'
 import { ProfileInitials } from '../../components/ProfileInitials'
 import SettingsCategory from '../../components/SettingTestFolder/SettingsCategory'
 import SettingsTest from '../../components/SettingTestFolder/SettingsTest'
@@ -37,7 +37,6 @@ import { notificationPreferences } from '../../services/notification/preferences
 import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
 import { RootState, useAppDispatch } from '../../services/store'
 import { getUserId } from '../../utils/helper'
-import LoadingModal from '../../components/MainLoader/LoadingModal'
 
 const SettingScreen = ({ navigation }: any) => {
   const [firstName, setFirstName] = useState('')
@@ -85,31 +84,25 @@ const SettingScreen = ({ navigation }: any) => {
 
   const [smsLoading, setSmsLoading] = useState(false)
 
-
   const handleSmsChange = async (value: any) => {
+    setSmsLoading(true) // Set loading to true when the switch is changed
 
-    setSmsLoading(true); // Set loading to true when the switch is changed
+    await dispatch(
+      updateNotificationPrefeference({
+        ...preferences,
+        dispatch,
+        Toast,
+        sms_notifications: value,
+      }),
+    )
 
-      
-     await dispatch(
-        updateNotificationPrefeference({
-          ...preferences,
-          dispatch,
-          Toast,
-          sms_notifications: value,
-        }),
-      );
-    
-      setSmsLoading(false); // Set loading back to false after the action (success or failure)
-   
-  };
+    setSmsLoading(false) // Set loading back to false after the action (success or failure)
+  }
 
   const handleEmailChange = async (value: any) => {
+    setSmsLoading(true) // Set loading to true when the switch is changed
 
-    setSmsLoading(true); // Set loading to true when the switch is changed
-
-      
-     await  dispatch(
+    await dispatch(
       updateNotificationPrefeference({
         ...preferences,
         dispatch,
@@ -117,10 +110,9 @@ const SettingScreen = ({ navigation }: any) => {
         email_notifications: value,
       }),
     )
-    
-      setSmsLoading(false); // Set loading back to false after the action (success or failure)
-   
-  };
+
+    setSmsLoading(false) // Set loading back to false after the action (success or failure)
+  }
 
   const {
     data: currentUser,
@@ -167,8 +159,8 @@ const SettingScreen = ({ navigation }: any) => {
       _url: `/user/deleteprofile/${currentUser.id}`,
     })
     const rs = await _rs.json()
-    console.log(">>>>>rs", rs);
-    
+    console.log('>>>>>rs', rs)
+
     if (rs.success === true) {
       setDeleteModal(false)
       setDeletingProfile(false)
@@ -250,11 +242,6 @@ const SettingScreen = ({ navigation }: any) => {
             style={{ backgroundColor: backgroundTheme }}
             className="bg-[#F8F9FC]"
           >
-            <StatusBar
-              backgroundColor={backgroundTheme}
-              barStyle={theme ? 'light-content' : 'dark-content'}
-            />
-
             <View
               className={
                 Platform.OS === 'android'
@@ -350,7 +337,10 @@ const SettingScreen = ({ navigation }: any) => {
                 </View>
               </View>
 
-              <SettingsTest openVerifyModal={openVerifyModal}  loader={smsLoading}/>
+              <SettingsTest
+                openVerifyModal={openVerifyModal}
+                loader={smsLoading}
+              />
 
               <SettingsCategory navigation={navigation} interests={interests} />
 
@@ -449,27 +439,26 @@ const SettingScreen = ({ navigation }: any) => {
                     </Text>
                   </View>
                   <View className=" mt-2 py-1 flex-row items-center justify-between rounded-lg">
-                    
-                      <Switch
-                        trackColor={{ false: '#767577', true: 'green' }}
-                        value={preferences?.email_notifications}
-                        onValueChange={(value: boolean) => {
-                          setLoading(true)
-                          // dispatch(
-                          //   updateNotificationPrefeference({
-                          //     ...preferences,
-                          //     dispatch,
-                          //     Toast,
-                          //     email_notifications: value,
-                          //   }),
-                          // )
-                          handleEmailChange(value)
-                        }}
-                        style={{
-                          transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }],
-                        }}
-                      />
-                    
+                    <Switch
+                      trackColor={{ false: '#767577', true: 'green' }}
+                      value={preferences?.email_notifications}
+                      onValueChange={(value: boolean) => {
+                        setLoading(true)
+                        // dispatch(
+                        //   updateNotificationPrefeference({
+                        //     ...preferences,
+                        //     dispatch,
+                        //     Toast,
+                        //     email_notifications: value,
+                        //   }),
+                        // )
+                        handleEmailChange(value)
+                      }}
+                      style={{
+                        transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }],
+                      }}
+                    />
+
                     <View
                       className={
                         preferences?.email_notifications

@@ -261,10 +261,6 @@ export default function MainScreen() {
 
   return (
     <>
-      <StatusBar
-         barStyle="light-content"
-         backgroundColor="lightblue"
-         />
 
      {filterOn ? (
               ''

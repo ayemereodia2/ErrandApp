@@ -20,18 +20,13 @@ import { Provider } from 'react-redux'
 import { StatusBar, useColorScheme } from 'react-native'
 import ErrorBoundary from './components/ErrorBoundary'
 // import useColorScheme from './hooks/useColorScheme'
-import messaging from '@react-native-firebase/messaging'
 import { Asset } from 'expo-asset'
-import * as Notifications from 'expo-notifications'
+import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { useOnlineManager } from './hooks/useOnlineManager'
 import MainNavigation from './navigation/MainNavigation'
 import { GuestStack, navigationRef } from './navigation/StackNavigation'
-import { _fetch } from './services/axios/http'
 import { store } from './services/store'
-import { getAppVersion } from './utils/helper'
-import { useFonts } from 'expo-font'
-
 
 const queryClient = new QueryClient()
 
@@ -45,25 +40,15 @@ function cacheImages(images: any) {
   })
 }
 
-
- 
-
 export default function App({ navigation }: any) {
-
   const [appIsReady, setAppIsReady] = useState(false)
 
-  
- 
   const [loaded] = useFonts({
     Roboto: require('./assets/fonts/Roboto-Regular.ttf'),
     Poppins: require('./assets/fonts/Poppins-Regular.ttf'),
     Axiforma: require('./assets/fonts/Axiforma-Regular.ttf'),
     Chillax: require('./assets/fonts/Chillax-Regular.otf'),
-
-  });
-
- 
-  
+  })
 
   // const versionCode = '1.0.3'
 
@@ -71,8 +56,6 @@ export default function App({ navigation }: any) {
   const colorScheme = useColorScheme()
 
   useOnlineManager()
-
-  
 
   // useEffect(() => {
   //   const checkLoggedIn = async () => {
@@ -120,11 +103,11 @@ export default function App({ navigation }: any) {
   //   // Handle user clicking on a notification and open the screen
   //   const handleNotificationClick = async (response: any) => {
   //     console.log(">>>>>>reponse nootification", response?.notification?.request?.content?.data);
-      
+
   //     const screen = response?.notification?.request?.content?.data?.screen
   //     if (screen !== null) {
   //       navigation.navigate(screen)
-  //     }   
+  //     }
   //   }
 
   //   // Listen for user clicking on a notification
@@ -203,7 +186,7 @@ export default function App({ navigation }: any) {
   // }, [])
 
   useEffect(() => {
-    getAppVersion()
+    // getAppVersion()
     // check if user is authenticated
     checkAuthenticationStatus()
     // checks network availability
@@ -260,20 +243,17 @@ export default function App({ navigation }: any) {
   if (!appIsReady) {
     return null
   } else {
-    
-    
-  
     return (
       <NetworkProvider>
         <ErrorBoundary>
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, backgroundColor: '#09497D' }}>
             <QueryClientProvider client={queryClient}>
               <MenuProvider>
                 <Provider store={store}>
                   <SafeAreaProvider>
                     <StatusBar
                       barStyle="light-content"
-                      backgroundColor="lightblue"
+                      backgroundColor="#09497D"
                     />
                     {/* <Navigation /> */}
                     <GestureHandlerRootView style={{ flex: 1 }}>

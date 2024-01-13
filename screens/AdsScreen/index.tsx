@@ -157,7 +157,7 @@ const AdsScreen = ({ navigation }: any) => {
   }
   return (
     <>
-      <StatusBar translucent backgroundColor="transparent" />
+      {/* <StatusBar translucent backgroundColor="transparent" /> */}
 
       <Swiper
         loop={true}
