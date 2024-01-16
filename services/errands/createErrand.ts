@@ -20,7 +20,6 @@ export const createErrand = createAsyncThunk<CreateErrandResponse, CreateErrandR
 
       console.log(">>>>>rs", rs);
       
-
        if (rs.success === false)  {
         Toast.show({
           type: 'error',

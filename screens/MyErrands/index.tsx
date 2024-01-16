@@ -99,6 +99,8 @@ const ErrandScreen = ({ navigation }: any) => {
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
+  const { data: errand } = useSelector((state: RootState) => state.errandDetailsReducer)
+
   const [userData, setUserData] = useState(null)
   const userInfoRef = useRef<BottomSheetModal>(null)
 
@@ -193,7 +195,7 @@ const ErrandScreen = ({ navigation }: any) => {
   useEffect(() => {
     dispatch(myErrandList({ setSearchedErrand }))
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
-  }, [])
+  }, [errand?.status])
 
   useEffect(() => {
     errandSearchHandler()

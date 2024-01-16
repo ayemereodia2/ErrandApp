@@ -74,7 +74,6 @@ export default function MainScreen() {
 
   const toast = useToast()
 
-
   // const handleViewChange = () => {
   //   setToggleView(!toggleView)
   // }
@@ -135,6 +134,7 @@ export default function MainScreen() {
   }
 
   const handleFilter = () => {
+    setCheckFilterToggle(true)
     setFilterOn(!filterOn)
   }
   const { data: errands, loading } = useSelector(
@@ -186,16 +186,19 @@ export default function MainScreen() {
         category: value,
         minPrice: minCheck ? min : 0,
         maxPrice: minCheck ? max : 0,
-        location
+        location,
       }),
     )
   }
 
+  console.log(">>>>>>checkfilterTogglee", checkFilterToggle);
+  
+
   const loadMoreData = async () => {
+    if (checkFilterToggle && searchedErrand.length < 5) {
+      return null
+    }
     if (!loadingMore) {
-      if (checkFilterToggle && searchedErrand.length < 5) {
-        return null
-      }
       const rs = await _fetch({
         method: 'GET',
         _url: `/errand/market?start=${page + 0}&count=10${

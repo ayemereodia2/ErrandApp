@@ -12,7 +12,6 @@ import {
 import Toast from 'react-native-toast-message'
 import { _fetch } from '../../services/axios/http'
 import { errandDetails } from '../../services/errands/errandDetails'
-import { myErrandList } from '../../services/errands/myErrands'
 import { useAppDispatch } from '../../services/store'
 
 const CancelErrandModal = ({ route }: any) => {
@@ -23,22 +22,25 @@ const CancelErrandModal = ({ route }: any) => {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
 
-
   const cancelErrand = async () => {
-    setLoading(true)
-
     const _rs = await _fetch({
       method: 'DELETE',
-      body: { reason: comment },
       _url: `/errand/${errand.id}/cancel`,
+      body: { reason: comment },
     })
 
     const rs = await _rs.json()
+
+    console.log('>>>>cancel res', rs)
+
     if (rs.success === true) {
-      setLoading(false)
       navigation.navigate('MyErrands')
+
+      Toast.show({
+        type: 'success',
+        text1: rs.message,
+      })
       dispatch(errandDetails({ errandId: errand.id }))
-      dispatch(myErrandList({}))
     } else {
       setLoading(false)
 

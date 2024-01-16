@@ -320,7 +320,7 @@ const ContactUs = ({ navigation }: any) => {
               className="ml-11 text-sm font-normal text-[]"
               style={{ color: theme ? 'white' : '#3A3A3A' }}
             >
-              +234 (806) 259 2207 +234 (916) 488 7552
+              +234 704 402 6192    +234 704 402 6328 
             </Text>
 
             <Text
@@ -334,7 +334,7 @@ const ContactUs = ({ navigation }: any) => {
               className="ml-11 text-sm font-normal text-[#3A3A3A]"
               style={{ color: theme ? 'white' : '#3A3A3A' }}
             >
-              +234 (806) 259 2207 +234 (916) 488 7552
+              +234 704 402 6745     +234 704 402 6987
             </Text>
           </View>
 

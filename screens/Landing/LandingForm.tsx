@@ -4,14 +4,11 @@ import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
   Keyboard,
-  KeyboardAvoidingView,
-  Platform,
   SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -38,6 +35,7 @@ const LandingForm = ({ navigation, route }: any) => {
   const dispatch = useAppDispatch()
   const [currentLocation, setCurrentLocation] = useState<string>('')
   const [deliveryLocation, setDeliveryLocation] = useState<string>('')
+  const [error, setError] = useState('')
 
   const [
     currentLocationLatLng,
@@ -77,8 +75,16 @@ const LandingForm = ({ navigation, route }: any) => {
     insurance: '',
   })
 
+
+  console.log(">>>>>delivery", deliveryLocation, currentLocation);
+  
+
   const submitErrandhandler = async () => {
     const errandId = (await AsyncStorage.getItem('errandId')) || ''
+
+    if (!currentLocation ) {
+      return setError('Please enter a location')
+    }
 
     const {
       dur_period,
@@ -114,7 +120,7 @@ const LandingForm = ({ navigation, route }: any) => {
       has_insurance: false,
       insurance_amount: 0,
       pickup_text: currentLocation,
-      dropoff_text: '',
+      dropoff_text: deliveryLocation,
       dispatch,
     }
 
@@ -165,10 +171,13 @@ const LandingForm = ({ navigation, route }: any) => {
   ) => {
     const { lat, lng } = details.geometry.location
 
+    setError("")
+
     if (locationType === 'currentLocation') {
       setCurrentLocation(data.description)
       setCurrentLocationLatLng({ lat, lng })
     }
+
     setDeliveryLocation(data.description)
 
     setMapRegion({
@@ -188,20 +197,18 @@ const LandingForm = ({ navigation, route }: any) => {
       style={{ backgroundColor: backgroundTheme, flex: 1 }}
       className=" pt-4 "
     >
-      
       <ScrollView
         keyboardShouldPersistTaps="always"
         style={{ backgroundColor: backgroundTheme }}
         className="px-4"
         contentContainerStyle={{ flexGrow: 1 }}
-        
       >
         {/* <KeyboardAvoidingView
           style={{ flex: 1 }}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -100}
         > */}
-        <TouchableOpacity onPress={()=> Keyboard.dismiss()}>
+        <TouchableOpacity onPress={() => Keyboard.dismiss()}>
           <View className="mt-6 flex-row items-center justify-between mx-3">
             <Text
               style={{ color: textTheme }}
@@ -211,145 +218,141 @@ const LandingForm = ({ navigation, route }: any) => {
               <Text className="text-base font-normal">{category?.name}</Text>
             </Text>
           </View>
+        </TouchableOpacity>
+
+        <View className="px-4 mt-5">
+          <Text
+            style={{ color: textTheme }}
+            className="text-sm font-semibold text-[#243763]"
+          >
+            Description
+          </Text>
+
+          <View className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm mt-2 rounded-lg px-1">
+            <TextInput
+              className={'w-full text-sm py-2 mt-2 rounded-lg px-3'}
+              placeholder="How do we help you.."
+              onChangeText={(e) => setDescription(e)}
+              value={description}
+              multiline={true}
+              numberOfLines={10}
+              style={{ height: 100, textAlignVertical: 'top' }}
+              keyboardType="default"
+            />
+          </View>
+        </View>
+
+        <View className="px-4 mt-5">
+          <Text
+            style={{ color: textTheme }}
+            className="text-sm font-semibold text-[#243763]"
+          >
+            Amount
+          </Text>
+
+          <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
+            <Text className="text-lg ">&#x20A6;</Text>
+
+            <TextInput
+              className="w-full"
+              placeholder="Enter amount"
+              onChangeText={(e) => setAmount(currencyMask(e))}
+              value={amount}
+              keyboardType="decimal-pad"
+            />
+          </View>
+
+          <TouchableOpacity
+            onPress={() => {
+              setCurrentWalletAmount(Number(data?.balance) / 100)
+              navigation.navigate('FundWalletModal', {
+                currentWalletAmount,
+              })
+            }}
+            className="flex-row items-center"
+          >
+            <Text style={{ color: textTheme }} className="ml-2 pt-2 pr-2">
+              Fund Wallet
+            </Text>
+            <Text style={{ color: textTheme }} className="text-sm pt-2 font-md">
+              ({' '}
+              <Text style={{ color: textTheme }} className="font-bold">
+                Balance:
+              </Text>{' '}
+              ₦
+              {Number(data?.balance) === 0
+                ? '0.00'
+                : (Number(data?.balance) / 100).toLocaleString()}
+              )
+            </Text>
           </TouchableOpacity>
+        </View>
 
-          <View className="px-4 mt-5">
+        {error ? <Text className="pl-4 mt-6 text-red-500">{error}</Text> : ''}
+
+        <View className="flex-row mx-4 items-center ">
+          <Text
+            style={{ color: textTheme }}
+            className="text-sm font-semibold text-[#243763]"
+          >
+            Address
+          </Text>
+
+          <TouchableOpacity onPress={handleClicked}>
             <Text
               style={{ color: textTheme }}
-              className="text-sm font-semibold text-[#243763]"
+              className="text-[28px] text-center"
             >
-              Description
+              {' '}
+              {clicked ? '-' : '+'}{' '}
             </Text>
+          </TouchableOpacity>
+        </View>
 
-            <View className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm mt-2 rounded-lg px-1">
-              <TextInput
-                className={'w-full text-sm py-2 mt-2 rounded-lg px-3'}
-                placeholder="How do we help you.."
-                onChangeText={(e) => setDescription(e)}
-                value={description}
-                multiline={true}
-                numberOfLines={10}
-                style={{ height: 100, textAlignVertical: 'top' }}
-                keyboardType="default"
-              />
-            </View>
-          </View>
-          
-
-          <View className="px-4 mt-5">
-            <Text
-              style={{ color: textTheme }}
-              className="text-sm font-semibold text-[#243763]"
-            >
-              Amount
-            </Text>
-
-            <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
-              <Text className="text-lg ">&#x20A6;</Text>
-
-              <TextInput
-                className="w-full"
-                placeholder="Enter amount"
-                onChangeText={(e) => setAmount(currencyMask(e))}
-                value={amount}
-                keyboardType="decimal-pad"
-              />
-            </View>
-
-            <TouchableOpacity
-              onPress={() => {
-                setCurrentWalletAmount(Number(data?.balance) / 100)
-                navigation.navigate('FundWalletModal', {
-                  currentWalletAmount,
-                })
+        {clicked ? (
+          <View
+            style={{ marginBottom: 80, display: clicked ? 'flex' : 'none' }}
+            className="mt-2 px-4"
+          >
+            <GooglePlacesAutocomplete
+              placeholder="Enter Pickup Address"
+              onPress={(data, details) =>
+                handleLocationSelect(data, details, 'currentLocation')
+              }
+              fetchDetails={true}
+              query={{
+                key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
+                language: 'en',
               }}
-              className="flex-row items-center"
-            >
-              <Text style={{ color: textTheme }} className="ml-2 pt-2 pr-2">
-                Fund Wallet
-              </Text>
-              <Text
-                style={{ color: textTheme }}
-                className="text-sm pt-2 font-md"
-              >
-                ({' '}
-                <Text style={{ color: textTheme }} className="font-bold">
-                  Balance:
-                </Text>{' '}
-                ₦
-                {Number(data?.balance) === 0
-                  ? '0.00'
-                  : (Number(data?.balance) / 100).toLocaleString()}
-                )
-              </Text>
-            </TouchableOpacity>
+              styles={{
+                container: styles.googlePlacesContainer,
+                textInputContainer: styles.textInputContainer,
+                textInput: styles.textInput,
+                listView: styles.listView,
+              }}
+            />
+
+            <GooglePlacesAutocomplete
+              placeholder="Enter Delivery Address"
+              onPress={(data, details) =>
+                handleLocationSelect(data, details, 'deliveryAddress')
+              }
+              fetchDetails={true}
+              query={{
+                key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
+                language: 'en',
+              }}
+              styles={{
+                container: styles.googlePlacesContainer,
+                textInputContainer: styles.textInputContainer,
+                textInput: styles.textInput,
+                listView: styles.listView,
+              }}
+            />
           </View>
-
-          <View className="flex-row mt-6 mx-4 items-center ">
-            <Text
-              style={{ color: textTheme }}
-              className="text-sm font-semibold text-[#243763]"
-            >
-              Address
-            </Text>
-
-            <TouchableOpacity onPress={handleClicked}>
-              <Text
-                style={{ color: textTheme }}
-                className="text-[28px] text-center"
-              >
-                {' '}
-                {clicked ? '-' : '+'}{' '}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          
-
-          {clicked ? (
-            <View
-              style={{ marginBottom: 80, display: clicked ? 'flex' : 'none' }}
-              className="mt-2 px-4"
-            >
-              <GooglePlacesAutocomplete
-                placeholder="Enter Pickup Address"
-                onPress={(data, details) =>
-                  handleLocationSelect(data, details, 'currentLocation')
-                }
-                fetchDetails={true}
-                query={{
-                  key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
-                  language: 'en',
-                }}
-                styles={{
-                  container: styles.googlePlacesContainer,
-                  textInputContainer: styles.textInputContainer,
-                  textInput: styles.textInput,
-                  listView: styles.listView,
-                }}
-              />
-
-              <GooglePlacesAutocomplete
-                placeholder="Enter Delivery Address"
-                onPress={(data, details) =>
-                  handleLocationSelect(data, details, 'deliveryAddress')
-                }
-                fetchDetails={true}
-                query={{
-                  key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
-                  language: 'en',
-                }}
-                styles={{
-                  container: styles.googlePlacesContainer,
-                  textInputContainer: styles.textInputContainer,
-                  textInput: styles.textInput,
-                  listView: styles.listView,
-                }}
-              />
-            </View>
-            
-          ) : (
-            ''
-          )}
+        ) : (
+          ''
+        )}
         {/* </KeyboardAvoidingView> */}
       </ScrollView>
 

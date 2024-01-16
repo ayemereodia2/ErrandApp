@@ -3,12 +3,12 @@ import {
   FontAwesome,
   FontAwesome5,
   MaterialCommunityIcons,
-  MaterialIcons,
+  MaterialIcons
 } from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
-  BottomSheetModalProvider,
+  BottomSheetModalProvider
 } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
@@ -26,7 +26,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native'
 import { SelectList } from 'react-native-dropdown-select-list'
 import Modal from 'react-native-modal'
@@ -139,12 +139,20 @@ const LandingTest = ({ navigation }: any) => {
     return await _rs.json()
   }
 
+
+
   const getNotifications = async () => {
+    const user_id = await AsyncStorage.getItem('user_id')
+    
     const _rs = await _fetch({
       method: 'GET',
-      _url: `/internal/notification/find/${currentUser.id}`,
+      _url: `/internal/notification/find/${user_id}`
     })
-    return await _rs.json()
+
+  
+    const notification = await _rs.json()
+    
+    return notification
   }
 
   const {
@@ -337,6 +345,7 @@ const LandingTest = ({ navigation }: any) => {
 
   useEffect(() => {
     checkPinIsVerified()
+    getNotifications()
     getLocations()
   }, [])
 
