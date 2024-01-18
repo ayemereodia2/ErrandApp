@@ -104,7 +104,7 @@ const SettingsCategory = ({ navigation, interests }: any) => {
                     const newInterests = interests.filter(
                       (interest: string) => interest !== categoryName,
                     )
-                    console.log('>>>>>newInterests', newInterests)
+                    // console.log('>>>>>newInterests', newInterests)
                     deleteCategoryInterest(newInterests)
                   }}
                 />
