@@ -340,7 +340,7 @@ const ContactUs = ({ navigation }: any) => {
 
           {/* Body */}
 
-          <View
+          {/* <View
             className="mx-auto bg-[] w-[382px] h-[40px] mt-5 items-center justify-center"
             style={{ backgroundColor: theme ? '#243763' : '#FAFAFA' }}
           >
@@ -348,7 +348,7 @@ const ContactUs = ({ navigation }: any) => {
               <Feather name="mail" size={16} color="#317ACF" />{' '}
               <Text style={{ color: textTheme }}>Subscribe</Text>
             </Text>
-          </View>
+          </View> */}
 
           <View className=" items-center mt-5 mb-[200px]">
             <Text

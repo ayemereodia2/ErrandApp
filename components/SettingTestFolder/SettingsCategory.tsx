@@ -2,8 +2,11 @@ import { EvilIcons } from '@expo/vector-icons'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import React, { useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../services/store'
+import { _fetch } from '../../services/axios/http'
+import { getCategoryIntersts } from '../../services/settings/getCategoryInterests'
+import { RootState, useAppDispatch } from '../../services/store'
 
 const SettingsCategory = ({ navigation, interests }: any) => {
   const [loading, setLoading] = useState(false)
@@ -14,8 +17,26 @@ const SettingsCategory = ({ navigation, interests }: any) => {
     textTheme,
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+  const dispatch = useAppDispatch()
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
+
+  const deleteCategoryInterest = async (interests: string[]) => {
+    const _rs = await _fetch({
+      method: 'PATCH',
+      _url: `/user/update/category-interest`,
+      body: interests,
+    })
+    const rs = await _rs.json()
+
+    if (rs.success === true) {
+      dispatch(getCategoryIntersts())
+      Toast.show({
+        type: 'success',
+        text1: 'Category has been deleted successfully',
+      })
+    }
+  }
 
   if (loading) {
     return (
@@ -62,9 +83,9 @@ const SettingsCategory = ({ navigation, interests }: any) => {
             // .splice(0, 6)
             // .filter((item) => typeof item === 'string')
             .map((categoryName: string, index: number) => (
-              <View className="flex-row mt-3 relative" key={index}>
+              <View className="flex-row mt-3" key={index}>
                 <TouchableOpacity
-                  className="border-[#aaa] border px-4 py-1 rounded-xl bg-white"
+                  className="border-[#aaa] border px-4 py-1 rounded-xl bg-white relative"
                   style={{
                     backgroundColor: theme ? '#1E3A79' : 'white',
                   }}
@@ -74,12 +95,18 @@ const SettingsCategory = ({ navigation, interests }: any) => {
                     {categoryName}
                   </Text>
                 </TouchableOpacity>
-
                 <EvilIcons
-                  className="absolute -left-44"
+                  className="absolute -left-40 "
                   name="trash"
                   color="red"
                   size={20}
+                  onPress={() => {
+                    const newInterests = interests.filter(
+                      (interest: string) => interest !== categoryName,
+                    )
+                    console.log('>>>>>newInterests', newInterests)
+                    deleteCategoryInterest(newInterests)
+                  }}
                 />
               </View>
             ))

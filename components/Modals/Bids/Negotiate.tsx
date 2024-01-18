@@ -283,6 +283,7 @@ const NegotiateBid = ({
 
           <View className="flex-row justify-center items-center px-4">
             <TouchableOpacity
+              disabled={loading}
               className="bg-[#1E3A79] h-12 w-full mx-4 mt-6 flex-row justify-center items-center rounded-lg"
               onPress={() => {
                 negotiateBid()

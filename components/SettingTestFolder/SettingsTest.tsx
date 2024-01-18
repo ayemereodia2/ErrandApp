@@ -7,7 +7,7 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View
+  View,
 } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 import Toast from 'react-native-toast-message'
@@ -52,6 +52,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
     (state: RootState) => state.notificationPreferenceReducer,
   )
 
+
   const { loading } = useSelector(
     (state: RootState) => state.updateNotificationPreferenceReducer,
   )
@@ -61,10 +62,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
     (state: RootState) => state.currentUserDetailsReducer,
   )
 
-
-
   const updateUserProfile = async (userData: any) => {
-    
     setSmsLoading(true)
     try {
       const _rs = await _fetch({
@@ -73,7 +71,6 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
         body: userData,
       })
 
-      
       setSmsLoading(false)
       // Check if the response status code indicates an error
       if (!_rs.ok) {
@@ -85,19 +82,12 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
       dispatch(currentUserDetails({ user_id }))
 
       getUserId({ dispatch })
-      
-      return responseData
 
-      
-      
+      return responseData
     } catch (error) {
       throw error
     }
-   
   }
-
-  
-
 
   const toggleTheme = async (theme: boolean) => {
     // const theme = await AsyncStorage.getItem('theme')
@@ -125,11 +115,9 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
   }
 
   const handleAccountChange = async (value: any) => {
+    setSmsLoading(true) // Set loading to true when the switch is changed
 
-    setSmsLoading(true); // Set loading to true when the switch is changed
-
-      
-     await  dispatch(
+    await dispatch(
       updateNotificationPrefeference({
         ...preferences,
         dispatch,
@@ -137,38 +125,31 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
         account_update_notifications: value,
       }),
     )
-    
-      setSmsLoading(false); // Set loading back to false after the action (success or failure)
-   
-  };
+
+    setSmsLoading(false) // Set loading back to false after the action (success or failure)
+  }
 
   const handleNewsLetterChange = async (value: any) => {
-
-    setSmsLoading(true); // Set loading to true when the switch is changed
+    setSmsLoading(true) // Set loading to true when the switch is changed
 
     setNewsLetter(!newsLetter)
 
-     await   
-     dispatch(
-       updateNotificationPrefeference({
-         ...preferences,
-         dispatch,
-         Toast,
-         newsletter_notifications: value,
-       }),
-     )
- 
-      setSmsLoading(false); // Set loading back to false after the action (success or failure)
-   
-  };
+    await dispatch(
+      updateNotificationPrefeference({
+        ...preferences,
+        dispatch,
+        Toast,
+        newsletter_notifications: value,
+      }),
+    )
+
+    setSmsLoading(false) // Set loading back to false after the action (success or failure)
+  }
 
   const handlePromotionsChange = async (value: any) => {
+    setSmsLoading(true) // Set loading to true when the switch is changed
 
-    setSmsLoading(true); // Set loading to true when the switch is changed
-
-    
-
-     await   dispatch(
+    await dispatch(
       updateNotificationPrefeference({
         ...preferences,
         dispatch,
@@ -176,16 +157,14 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
         promotions_notifications: value,
       }),
     )
- 
-      setSmsLoading(false); // Set loading back to false after the action (success or failure)
-   
-  };
+
+    setSmsLoading(false) // Set loading back to false after the action (success or failure)
+  }
 
   const handleNewChange = async (value: any) => {
+    setSmsLoading(true) // Set loading to true when the switch is changed
 
-    setSmsLoading(true); // Set loading to true when the switch is changed
-
-     await    dispatch(
+    await dispatch(
       updateNotificationPrefeference({
         ...preferences,
         dispatch,
@@ -193,16 +172,17 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
         cat_errand_notifications: value,
       }),
     )
- 
-      setSmsLoading(false); // Set loading back to false after the action (success or failure)
-   
-  };
+
+    setSmsLoading(false) // Set loading back to false after the action (success or failure)
+  }
 
   const handleAreaChange = async (value: any) => {
+    setSmsLoading(true) // Set loading to true when the switch is changed
 
-    setSmsLoading(true); // Set loading to true when the switch is changed
+    console.log(">>>>>>location", value);
+    
 
-     await   dispatch(
+    await dispatch(
       updateNotificationPrefeference({
         ...preferences,
         dispatch,
@@ -210,16 +190,14 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
         location_errand_notifications: value,
       }),
     )
- 
-      setSmsLoading(false); // Set loading back to false after the action (success or failure)
-   
-  };
+
+    setSmsLoading(false) // Set loading back to false after the action (success or failure)
+  }
 
   const handleErrandBidsChange = async (value: any) => {
+    setSmsLoading(true) // Set loading to true when the switch is changed
 
-    setSmsLoading(true); // Set loading to true when the switch is changed
-
-     await    dispatch(
+    await dispatch(
       updateNotificationPrefeference({
         ...preferences,
         dispatch,
@@ -227,16 +205,14 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
         bid_notifications: value,
       }),
     )
- 
-      setSmsLoading(false); // Set loading back to false after the action (success or failure)
-   
-  };
+
+    setSmsLoading(false) // Set loading back to false after the action (success or failure)
+  }
 
   const handleErrandStatusChange = async (value: any) => {
+    setSmsLoading(true) // Set loading to true when the switch is changed
 
-    setSmsLoading(true); // Set loading to true when the switch is changed
-
-     await     dispatch(
+    await dispatch(
       updateNotificationPrefeference({
         ...preferences,
         dispatch,
@@ -244,14 +220,9 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
         errand_status_notifications: value,
       }),
     )
- 
-      setSmsLoading(false); // Set loading back to false after the action (success or failure)
-   
-  };
 
- 
-
- 
+    setSmsLoading(false) // Set loading back to false after the action (success or failure)
+  }
 
   return (
     <ScrollView>
@@ -361,7 +332,6 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
               <Switch
                 trackColor={{ false: '#767577', true: 'green' }}
                 onValueChange={(value: boolean) => {
-                  
                   // dispatch(
                   //   updateNotificationPrefeference({
                   //     ...preferences,
@@ -371,7 +341,6 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
                   //   }),
                   // )
                   handlePromotionsChange(value)
-                 
                 }}
                 value={preferences?.promotions_notifications}
                 style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
@@ -412,12 +381,9 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
            
           </View>
         </View> */}
-
-
-        
       </View>
 
-       <View className="mt-6 ml-4 ">
+      <View className="mt-6 ml-4 ">
         <Text
           style={{ color: textTheme }}
           className=" text-base font-bold leading-6"
@@ -453,23 +419,22 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
               // value={theme === 'light' ? true : false}
               onValueChange={
                 (value: boolean) =>
-                
-                   updateUserProfile({
-                  //    first_name: data.first_name,
-                  // last_name: data.last_name,
-                  //  bio: data.bio,
-                  //  email: data.email,
-                  //  dob: data.dob,
-                   preferred_theme: value === true ? 'light' : 'dark',
-                   })
-                  
+                  updateUserProfile({
+                    //    first_name: data.first_name,
+                    // last_name: data.last_name,
+                    //  bio: data.bio,
+                    //  email: data.email,
+                    //  dob: data.dob,
+                    preferred_theme: value === true ? 'light' : 'dark',
+                  })
+
                 // toggleTheme(value)
               }
               style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
             />
           </View>
         </View>
-      </View> 
+      </View>
 
       <View className="mt-6 ml-4 ">
         <Text
@@ -504,7 +469,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
             </Text>
             {/* <TouchableOpacity onPress={() => )}> */}
             <AntDesign
-              style={{color: theme ? 'white' : 'black'}}
+              style={{ color: theme ? 'white' : 'black' }}
               onPress={() => openVerifyModal()}
               name="edit"
               size={24}
@@ -571,24 +536,23 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
             >
               Errands within your area
             </Text>
-            
-              <Switch
-                trackColor={{ false: '#767577', true: 'green' }}
-                onValueChange={(value: boolean) => {
-                  // dispatch(
-                  //   updateNotificationPrefeference({
-                  //     ...preferences,
-                  //     dispatch,
-                  //     Toast,
-                  //     location_errand_notifications: value,
-                  //   }),
-                  // )
-                  handleAreaChange(value)
-                }}
-                value={preferences?.location_errand_notifications}
-                style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
-              />
-            
+
+            <Switch
+              trackColor={{ false: '#767577', true: 'green' }}
+              onValueChange={(value: boolean) => {
+                // dispatch(
+                //   updateNotificationPrefeference({
+                //     ...preferences,
+                //     dispatch,
+                //     Toast,
+                //     location_errand_notifications: value,
+                //   }),
+                // )
+                handleAreaChange(value)
+              }}
+              value={preferences?.location_errand_notifications}
+              style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
+            />
           </View>
           <Text style={{ color: textTheme }} className="text-sm font-light">
             Be in the know when we publish any information

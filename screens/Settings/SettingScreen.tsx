@@ -14,6 +14,7 @@ import {
   Image,
   Modal,
   Platform,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -36,6 +37,7 @@ import VerifyPassword from '../../components/VerifyPassword'
 import { _fetch } from '../../services/axios/http'
 import { notificationPreferences } from '../../services/notification/preferences'
 import { updateNotificationPrefeference } from '../../services/notification/updatePreference'
+import { getCategoryIntersts } from '../../services/settings/getCategoryInterests'
 import { RootState, useAppDispatch } from '../../services/store'
 import { getUserId } from '../../utils/helper'
 
@@ -49,6 +51,7 @@ const SettingScreen = ({ navigation }: any) => {
   const bottomSheetRef3 = useRef<BottomSheetModal>(null)
   const [deleteModal, setDeleteModal] = useState(false)
   const [deletingProfile, setDeletingProfile] = useState(false)
+  const [refreshing, setRefreshing] = React.useState(false)
 
   const renderBackdrop = useCallback(
     (props: any) => (
@@ -73,7 +76,7 @@ const SettingScreen = ({ navigation }: any) => {
   const { data: preferences } = useSelector(
     (state: RootState) => state.notificationPreferenceReducer,
   )
-  const [interests, setInterests] = useState([])
+  // const [interests, setInterests] = useState([])
 
   const dispatch = useAppDispatch()
   const [notifications, setNotifications] = useState({
@@ -120,6 +123,10 @@ const SettingScreen = ({ navigation }: any) => {
     textTheme,
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+   const {
+    data: interests
+  } = useSelector((state: RootState) => state.getCategoryInterstsReducer)
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
@@ -195,24 +202,38 @@ const SettingScreen = ({ navigation }: any) => {
     refetchOnMount: 'always',
   })
 
-  const getInterests = async () => {
-    await _fetch({
-      method: 'GET',
-      _url: `/user/category-interest`,
-    })
-      .then((rs) => rs.json())
-      .then((rs) => setInterests(rs.data))
-  }
+  // const getInterests = async () => {
+  //   await _fetch({
+  //     method: 'GET',
+  //     _url: `/user/category-interest`,
+  //   })
+  //     .then((rs) => rs.json())
+  //     .then((rs) => setInterests(rs.data))
+  // }
 
   useEffect(() => {
     dispatch(notificationPreferences())
+    dispatch(getCategoryIntersts())
   }, [])
 
   useEffect(() => {
-    getInterests()
+    // getInterests()
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
   }, [userId])
- 
+
+  const onRefresh = React.useCallback(() => {
+    // dispatch(myErrandList({ setSearchedErrand }))
+    getUserProfile()
+    // getInterests()
+    setRefreshing(true)
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 500)
+  }, [])
+
+  // console.log(">>>interests", interests);
+  
+
   if (isLoading) {
     return (
       <SafeAreaView
@@ -241,6 +262,9 @@ const SettingScreen = ({ navigation }: any) => {
           <ScrollView
             style={{ backgroundColor: backgroundTheme }}
             className="bg-[#F8F9FC]"
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
           >
             <StatusBar
               backgroundColor={backgroundTheme}
@@ -373,7 +397,7 @@ const SettingScreen = ({ navigation }: any) => {
                   </View>
                 </View>
 
-                <View className=" h-[44px] mt-5 border-b border-b-[#AAAAAA]">
+                {/* <View className=" h-[44px] mt-5 border-b border-b-[#AAAAAA]">
                   <View className="flex-row items-center justify-between">
                     <Text
                       style={{ color: textTheme }}
@@ -382,7 +406,7 @@ const SettingScreen = ({ navigation }: any) => {
                       Share Via Email
                     </Text>
                   </View>
-                </View>
+                </View> */}
 
                 <View className=" mt-5 border-b border-b-[#AAAAAA] bg-[#3F60AC] rounded-lg">
                   <Text className="text-[#FAFAFA] text-base font-light  px-5 py-4">

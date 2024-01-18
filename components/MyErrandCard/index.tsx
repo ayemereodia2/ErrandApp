@@ -201,7 +201,9 @@ const MyErrandCard = ({
                     : ' text-[#642B02]'
                 }`}
               >
-                {errand.status}
+                {errand.status === 'open' && errand.errand_type === 1
+                  ? 'Multi'
+                  : errand.status}
               </Text>
             </View>
 

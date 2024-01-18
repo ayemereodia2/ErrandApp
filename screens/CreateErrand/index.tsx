@@ -22,7 +22,6 @@ import {
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
-import PinModal from '../../components/VerificationModals/PinModal'
 import { createErrand } from '../../services/errands/createErrand'
 import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -45,6 +44,8 @@ const PostErrand = ({ navigation }: any) => {
   })
   const bottomSheetRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ['60%'], [])
+  const [remote, setRemote] = useState(false)
+
 
   function openPinModal() {
     bottomSheetRef.current?.present()
@@ -105,9 +106,9 @@ const PostErrand = ({ navigation }: any) => {
     (state: RootState) => state.createErrandReducer,
   )
 
-  const { data: images, loading: uploadingImages } = useSelector(
-    (state: RootState) => state.postFilesReducer,
-  )
+  // const { data: images, loading: uploadingImages } = useSelector(
+  //   (state: RootState) => state.postFilesReducer,
+  // )
 
   // console.log(">>>>>>images", images);
 
@@ -135,8 +136,7 @@ const PostErrand = ({ navigation }: any) => {
       if (parseAmount(text) < 500) {
         setFinanceError('Your errand budget has to be atleast ₦500')
       } else {
-       setFinanceError('')
-
+        setFinanceError('')
       }
     }
 
@@ -172,7 +172,7 @@ const PostErrand = ({ navigation }: any) => {
     setActiveStep(activeStep + 1)
   }
 
-  const  detailHandler = () => {
+  const detailHandler = () => {
     if (!postErrandData?.description) {
       setDetailError({
         desc: 'description is required',
@@ -187,7 +187,6 @@ const PostErrand = ({ navigation }: any) => {
     //   })
     // }
 
-
     setPostErrandData({
       ...postErrandData,
       categoryName,
@@ -199,13 +198,16 @@ const PostErrand = ({ navigation }: any) => {
     setActiveStep(activeStep + 1)
   }
 
+
   const locationHandler = () => {
-    console.log(">>>>>location", currentLocation, deliveryAddress);
-    
-    if (!currentLocation) {
-       return setLocationError("Please enter location to continue")
+    console.log('>>>>>location', currentLocation, deliveryAddress)
+
+
+    if (!currentLocation && !deliveryAddress && !remote) {
+      return setLocationError('Please enter a location to continue')
     }
-    setLocationError("")
+
+    setLocationError('')
     setPostErrandData({
       ...postErrandData,
       currentLocation,
@@ -226,8 +228,7 @@ const PostErrand = ({ navigation }: any) => {
     setActiveStep(activeStep + 1)
   }
 
-  console.log(">>>>>>postErrrandData", postErrandData);
-  
+  console.log('>>>>>>postErrrandData', postErrandData)
 
   const submitErrandhandler = () => {
     // const errandId = localStorage.getItem('errandId') || ''
@@ -246,6 +247,7 @@ const PostErrand = ({ navigation }: any) => {
       errandType,
       currentLocation,
       deliveryAddress,
+      images
     } = postErrandData
 
     const duration =
@@ -291,11 +293,13 @@ const PostErrand = ({ navigation }: any) => {
       Toast,
       has_insurance: insurance === 'Yes' ? true : false,
       insurance_amount: parseAmount(ins_amount.toString()) * 100,
-      pickup_text: currentLocation,
+      pickup_text: remote ? 'remote' : currentLocation,
       dropoff_text: deliveryAddress,
       dispatch,
     }
 
+    // console.log(">>>>>data", data);
+    
 
     dispatch(createErrand({ ...data }))
   }
@@ -373,6 +377,8 @@ const PostErrand = ({ navigation }: any) => {
           locationError={locationError}
           currentLocation={currentLocation}
           deliveryAddres={deliveryAddress}
+          remote={remote}
+          setRemote={setRemote}
         />
       )
     }
@@ -449,7 +455,6 @@ const PostErrand = ({ navigation }: any) => {
               <Text
                 className="text-white text-center  rounded-lg text-lg"
                 onPress={() => {
-
                   activeStep <= 1
                     ? categoryHandler()
                     : activeStep <= 2

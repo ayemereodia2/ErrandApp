@@ -68,7 +68,6 @@ const CategoryInterestModal = ({ setShowCategoryModal }: any) => {
       .filter((category) => selectedCategories[category.id])
       .map((category) => category.name)
 
-    console.log('>>>>selected', selectedCategoryNames)
 
     const categoryInterestData = {
       category_interest: selectedCategoryNames,

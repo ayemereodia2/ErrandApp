@@ -15,7 +15,6 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { walletAction } from '../../services/wallet/walletBalance'
 import { BidsProps } from '../../types'
 import { getCardTimeAgo } from '../../utils/helper'
-import ActionButton from '../ActionButtons'
 import AcceptBid from '../Modals/Bids/Accept'
 import BidHistory from '../Modals/Bids/BidHistory'
 import NegotiateBid from '../Modals/Bids/Negotiate'
@@ -103,6 +102,8 @@ const SenderBidCard = ({
 
   const lastNegotiatorIsSender = bid?.haggles.slice(-1)[0].source === 'sender'
 
+  const lastNegotiatorIsRunner = bid?.haggles.slice(-1)[0].source === 'runner'
+
   useEffect(() => {
     dispatch(externalUserDetails({ user_id: bid?.runner.id }))
     dispatch(walletAction({ request: 'wallet' }))
@@ -149,7 +150,9 @@ const SenderBidCard = ({
 
         {/*Second one */}
         <View className="mt-4">
-          <Text className="text-sm font-medium">{haggle?.description}</Text>
+          <Text className="text-base font-medium capitalize">
+            {haggle?.description}
+          </Text>
         </View>
 
         {/* <View>
@@ -185,9 +188,9 @@ const SenderBidCard = ({
             }}
             className=""
           >
-            <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-xl">
-              <Text className="text-xs text-center text-[#243763]">
-                Bid History
+            <View className="flex-row space-x-2 items-center border-[0.3px] p-1 px-3 rounded-2xl">
+              <Text className="text-base text-center text-[#243763]">
+                Chat History here
               </Text>
             </View>
           </TouchableOpacity>
@@ -228,7 +231,7 @@ const SenderBidCard = ({
                   dispatch(
                     getSubErrand({
                       errand_id: errand.id,
-                      runner_id: singleSubErrand?.runner_id
+                      runner_id: singleSubErrand?.runner_id,
                     }),
                   )
                 }}
@@ -321,8 +324,9 @@ const SenderBidCard = ({
         {user_id === errand.user_id && bid.state == 'accepted' && (
           <View className="mt-3">
             <Text className=" bg-[#c8e2e8] inline-block text-xs  p-2  rounded-2xl">
-              You have accepted this bid. Waiting for the runner to begin the
-              errand
+              You have accepted this bid. Waiting for the{' '}
+              <Text className="font-bold"> {bid?.runner?.first_name}</Text> to
+              begin the errand
             </Text>
 
             {/* <button
@@ -339,7 +343,20 @@ const SenderBidCard = ({
           lastNegotiatorIsSender && (
             <View className="flex justify-start items-center w-full space-x-3 mt-2">
               <Text className=" bg-[#c8e2e8] inline-block text-xs  p-2 px-4  rounded-2xl">
-                {`You have negotiated this bid, waiting for ${bid?.runner?.first_name} to respond`}
+                You have negotiated this bid, waiting for
+                <Text className="font-bold"> {bid?.runner?.first_name}</Text> to
+                respond
+              </Text>
+            </View>
+          )}
+
+        {user_id === errand.user_id &&
+          bid.state == 'open' &&
+          lastNegotiatorIsRunner && (
+            <View className="flex justify-start items-center w-full space-x-3 mt-2">
+              <Text className=" bg-[#c8e2e8] inline-block text-xs  p-2 px-4  rounded-2xl">
+                <Text className="font-bold">{bid.runner.first_name} </Text> have
+                negotiated this bid, and now waiting for you to respond
               </Text>
             </View>
           )}
@@ -360,9 +377,9 @@ const SenderBidCard = ({
               errand.status === 'open' &&
               // bid.state !== 'rejected' &&
               bid.state === 'open' && (
-                <View className="flex-row ml-1 mt-6 items-center justify-between">
-                  <View className="flex-row gap-2 flex-1 w-3/5">
-                    <ActionButton
+                <View className="flex-row ml-1 mt-1 items-center justify-between">
+                  <View className="flex-row gap-3 flex-1 w-3/5">
+                    {/* <ActionButton
                       onPress={() => {
                         toggleAcceptModal(true)
                         // setcurBid(bid)
@@ -370,21 +387,37 @@ const SenderBidCard = ({
                       name="checkmark"
                       iconColor="#33A532"
                       className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#33A532]"
-                    />
+                    /> */}
+                    <Text
+                      onPress={() => {
+                        toggleAcceptModal(true)
+                        // setcurBid(bid)
+                      }}
+                      className="text-[#33A532] text-base"
+                    >
+                      Accept
+                    </Text>
 
-                    <ActionButton
+                    <Text
                       onPress={() => toggleRejectModal(true)}
-                      name="x"
-                      iconColor="#FF0000"
-                      className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#FF0000]"
-                    />
+                      className="text-[#FF0000] text-base"
+                    >
+                      Reject
+                    </Text>
 
-                    <ActionButton
+                    <Text
+                      onPress={() => toggleNegotiateModal(true)}
+                      className="text-[#317ACF] text-base"
+                    >
+                      Negotiate
+                    </Text>
+
+                    {/* <ActionButton
                       onPress={() => toggleNegotiateModal(true)}
                       name="comment"
                       iconColor="#317ACF"
                       className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#317ACF]"
-                    />
+                    /> */}
                   </View>
 
                   {/* <TouchableOpacity

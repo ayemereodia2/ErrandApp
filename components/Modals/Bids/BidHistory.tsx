@@ -188,7 +188,7 @@ const BidHistory = ({ errand, bid, haggle, otherHaggles }: BidsProps) => {
   try {
     otherHaggles = bid.haggles
     if (someOtherHaggle.length > 0) {
-      someOtherHaggle.reverse()
+      someOtherHaggle
     }
   } catch (e) {
     console.log(e)

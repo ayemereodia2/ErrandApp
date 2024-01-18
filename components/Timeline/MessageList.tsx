@@ -196,7 +196,7 @@ const MessagesList = ({
                       <View className="bg-white text-black w-full rounded-lg px-4 py-10 ">
                         <View className={'grid place-content-center px-5 py-3'}>
                           <Text className={'mb-2 text-black text-center'}>
-                            Are you sure you want to update Errand Cost?
+                           Are you sure you want to accept the New Price?
                           </Text>
                         </View>
                         <View className="flex-row items-center justify-center">
@@ -210,7 +210,7 @@ const MessagesList = ({
                             className="text-sm text-[#21B06E] border-2 border-[#21B06E] ml-2 rounded-3xl flex justify-center font-NeueMontreal items-center p-1 px-4 bg-white"
                             onPress={() => respondToProposal('accept')}
                           >
-                            <Text>Post update</Text>
+                            <Text>Yes, please</Text>
                           </TouchableOpacity>
                         </View>
                         {/* </View> */}

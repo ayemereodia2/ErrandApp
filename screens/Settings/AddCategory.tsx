@@ -13,6 +13,7 @@ import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
 import { getCategoriesList } from '../../services/PostErrand/categories'
+import { getCategoryIntersts } from '../../services/settings/getCategoryInterests'
 import { RootState, useAppDispatch } from '../../services/store'
 
 type SelectedCategories = {
@@ -102,7 +103,6 @@ const CategoryInterest = ({ navigation }: any) => {
       .filter((category) => selectedCategories[category.id])
       .map((category) => category.name)
 
-    console.log('>>>>selected', selectedCategoryNames)
 
     const categoryInterestData = {
       category_interest: selectedCategoryNames,
@@ -117,10 +117,7 @@ const CategoryInterest = ({ navigation }: any) => {
         .then((rs) => rs.json())
         .then(async (rs) => {
           if (rs.success) {
-            await _fetch({
-              method: 'GET',
-              _url: `/user/category-interest`,
-            })
+            dispatch(getCategoryIntersts())
             Toast.show({
               type: 'success',
               text1: 'Categories has been added successfully',

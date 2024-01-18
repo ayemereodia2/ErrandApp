@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -6,11 +6,11 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  Switch,
   Text,
   View,
 } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
-import MapView, { Marker } from 'react-native-maps'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
 import { PostErrandData } from '../../types'
@@ -24,6 +24,8 @@ interface LocationProp {
   locationError: string
   currentLocation: string
   deliveryAddres: string
+  remote: boolean
+  setRemote: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 interface LatLng {
@@ -38,10 +40,11 @@ const CreateErrandLocation = ({
   setCurrentLocation,
   setDeliveryAddress,
   locationError,
+  remote,
+  setRemote,
 }: LocationProp) => {
   const [regionCoords, setRegion] = useState({ lat: 37.78825, lng: -122.4324 })
   const [marker, setMarker] = useState({ lat: 37.78825, lng: -122.4324 })
-
   const {
     data: currentUser,
     backgroundTheme,
@@ -98,6 +101,16 @@ const CreateErrandLocation = ({
     setMarker(details.geometry.location)
   }
 
+  const handleRemote = () => {}
+
+  useEffect(() => {
+    if (remote) {
+      setCurrentLocation('remote')
+    } else {
+      setCurrentLocation('')
+    }
+  }, [remote])
+
   return (
     <>
       <ScrollView keyboardShouldPersistTaps="always">
@@ -142,118 +155,68 @@ const CreateErrandLocation = ({
               <Text className="text-red-600">{locationError}</Text>
             </View>
 
-            {/* <View className="mt-4 px-4">
-              <Text style={{ color: textTheme }} className="text-[#243763]">
-                Pick Up Location
-              </Text>
+            {/* {remote ? null : ( */}
+            <View>
+              <View
+                style={{ marginBottom: 80, marginTop: 20 }}
+                className="mt-2 px-4"
+              >
+                <Text style={{ color: textTheme }} className="text-[#243763]">
+                  Pick Up Location
+                </Text>
 
-              <GooglePlacesAutocomplete
-                placeholder="Enter Delivery Address"
-              
-                // keepResultsAfterBlur={true}
-                keyboardShouldPersistTaps={'handled'}
-                onPress={(data, details) =>
-                  handleLocationSelect(data, details, 'currentLocation')
-                }
-                fetchDetails={true}
-                query={{
-                  key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
-                  language: 'en',
-                }}
-                styles={{
-                  // container: styles.googlePlacesContainer,
-                  // textInputContainer: styles.textInputContainer,
-                  textInput: styles.textInput,
-                  listView: styles.listView,
-                }}
-              />
-            </View> */}
+                <GooglePlacesAutocomplete
+                  placeholder="Enter Pickup Address"
+                  onPress={(data, details) =>
+                    handleLocationSelect(data, details, 'currentLocation')
+                  }
+                  fetchDetails={true}
+                  query={{
+                    key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
+                    language: 'en',
+                  }}
+                  styles={{
+                    container: styles.googlePlacesContainer,
+                    textInputContainer: styles.textInputContainer,
+                    textInput: styles.textInput,
+                    listView: styles.listView,
+                  }}
+                />
+              </View>
 
-            {/* <View style={styles.inputContainer} className="mt-20 px-4">
-              <Text style={{ color: textTheme }} className="text-[#243763]">
-                {' '}
-                Delivery/End Location
-              </Text>
-              <GooglePlacesAutocomplete
-                placeholder="Enter Delivery Address"
-                onPress={(data, details) =>
-                  handleLocationSelect(data, details, 'deliveryAddress')
-                }
-                fetchDetails={true}
-                query={{
-                  key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
-                  language: 'en',
-                }}
-                styles={{
-                  container: styles.googlePlacesContainer,
-                  textInputContainer: styles.textInputContainer,
-                  textInput: styles.textInput,
-                  listView: styles.listView,
-                }}
-              />
-            </View> */}
-
-            <View style={{ marginBottom: 80, marginTop:20 }} className="mt-2 px-4">
-              <Text style={{ color: textTheme }} className="text-[#243763]">
-                Pick Up Location
-              </Text>
-
-              <GooglePlacesAutocomplete
-                placeholder="Enter Pickup Address"
-                onPress={(data, details) =>
-                  handleLocationSelect(data, details, 'currentLocation')
-                }
-                fetchDetails={true}
-                query={{
-                  key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
-                  language: 'en',
-                }}
-                styles={{
-                  container: styles.googlePlacesContainer,
-                  textInputContainer: styles.textInputContainer,
-                  textInput: styles.textInput,
-                  listView: styles.listView,
-                }}
-              />
-
-              {/* <GooglePlacesAutocomplete
-                placeholder="Enter Delivery Address"
-                onPress={(data, details) =>
-                  handleLocationSelect(data, details, 'deliveryAddress')
-                }
-                fetchDetails={true}
-                query={{
-                  key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
-                  language: 'en',
-                }}
-                styles={{
-                  container: styles.googlePlacesContainer,
-                  textInputContainer: styles.textInputContainer,
-                  textInput: styles.textInput,
-                  listView: styles.listView,
-                }}
-              /> */}
+              <View style={{ marginBottom: 80 }} className="mt-2 px-4">
+                <Text style={{ color: textTheme }} className="text-[#243763]">
+                  Delivery/End Location
+                </Text>
+                <GooglePlacesAutocomplete
+                  placeholder="Enter Delivery Address"
+                  onPress={(data, details) =>
+                    handleLocationSelect(data, details, 'deliveryAddress')
+                  }
+                  fetchDetails={true}
+                  query={{
+                    key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
+                    language: 'en',
+                  }}
+                  styles={{
+                    container: styles.googlePlacesContainer,
+                    textInputContainer: styles.textInputContainer,
+                    textInput: styles.textInput,
+                    listView: styles.listView,
+                  }}
+                />
+              </View>
             </View>
-
-            <View style={{ marginBottom: 80 }} className="mt-2 px-4">
+            {/* )} */}
+            <View style={{ marginBottom: 80 }} className="mt-2 px-4 flex-row">
               <Text style={{ color: textTheme }} className="text-[#243763]">
-                Delivery/End Location
+                Remote
               </Text>
-              <GooglePlacesAutocomplete
-                placeholder="Enter Delivery Address"
-                onPress={(data, details) =>
-                  handleLocationSelect(data, details, 'deliveryAddress')
-                }
-                fetchDetails={true}
-                query={{
-                  key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
-                  language: 'en',
-                }}
-                styles={{
-                  container: styles.googlePlacesContainer,
-                  textInputContainer: styles.textInputContainer,
-                  textInput: styles.textInput,
-                  listView: styles.listView,
+
+              <Switch
+                value={remote}
+                onValueChange={(val: boolean) => {
+                  setRemote(val)
                 }}
               />
             </View>

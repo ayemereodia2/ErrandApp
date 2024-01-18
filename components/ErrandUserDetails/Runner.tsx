@@ -1,15 +1,18 @@
-import {
-  Entypo,
-  FontAwesome,
-  Ionicons,
-  MaterialIcons,
-} from '@expo/vector-icons'
+import { Entypo, FontAwesome, Ionicons } from '@expo/vector-icons'
+import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-view'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import { errandAction } from '../../services/errands/errandAction'
+import {
+  Image,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { useAppDispatch } from '../../services/store'
-import { Bids, MarketData, SingleSubErrand } from '../../types'
+import { MarketData, SingleSubErrand } from '../../types'
 import { formatDate, getAddress } from '../../utils/helper'
 import { ProfileInitials } from '../ProfileInitials'
 
@@ -32,6 +35,7 @@ export const RunnerDetails = ({
   const budgetInNaira = Number(errand?.budget / Number(100))
   const [address, setAddress] = useState('')
   const regex = /(<([^>]+)>)/gi
+  const [selectedImage, setSelectedImage] = useState('')
 
   const singleErrandRunner = errand.bids.find(
     (bid) => bid?.runner.id === errand.runner_id,
@@ -106,7 +110,7 @@ export const RunnerDetails = ({
               Description
             </Text>
             <Text className="text-sm pt-1 text-[#383737] font-md">
-             {errand.description.replace(regex, '')}
+              {errand.description.replace(regex, '')}
             </Text>
           </View>
           <View className="pt-6 ">
@@ -141,19 +145,29 @@ export const RunnerDetails = ({
 
             <View className="space-x-2 flex-row mt-6">
               <Text className=" text-[14px] text-[#999999] w-28 font-medium">
-                Location
+                Deadline
               </Text>
               <Text className=" text-sm text-[#000] w-60 font-semibold">
-                {!address ? errand.dropoff_address?.address_text : address}
+                <Ionicons name="calendar-outline" size={18} />
+                {formatDate(errand.expiry_date)}
               </Text>
             </View>
 
-            <View className="space-x-6 mt-6 flex-row">
-              <Text className=" text-[14px] text-[#999999] font-medium pb-2">
-                Requirements
+            <View className="space-x-2 flex-row mt-6">
+              <Text className=" text-[14px] text-[#999999] w-28 font-medium">
+                Location
               </Text>
-              <View className="flex-row space-x-3 w-60">
-                {errand?.restriction && (
+              <Text className=" text-sm text-[#000] w-60 font-semibold">
+                {!address ? errand?.pickup_address?.address_text : address}
+              </Text>
+            </View>
+
+            {errand?.has_insurance && (
+              <View className="space-x-6 mt-6 flex-row">
+                <Text className=" text-[14px] text-[#999999] font-medium pb-2">
+                  Requirements
+                </Text>
+                <View className="flex-row space-x-3 w-60">
                   <View className="w-20 h-[24px] bg-[#DAE1F1] justify-center  border-[#3F60AC] border rounded-2xl">
                     <Text className="text-center text-[#3F60AC] text-xs">
                       <FontAwesome
@@ -164,20 +178,32 @@ export const RunnerDetails = ({
                       Insurance
                     </Text>
                   </View>
-                )}
+                </View>
               </View>
-            </View>
+            )}
           </View>
-          <View className="pt-6 ">
-            <Text className=" font-bold text-base text-[#555555]">
-              Errand Images
-            </Text>
+          <Text className="pr-6 mt-8 font-bold text-base text-[#555555]">
+            Other Resources
+          </Text>
 
-            <View className="flex-row items-center">
-              <Text className="text-sm pt-1 text-[#383737] font-light">
-                No Images for this errand
-              </Text>
-            </View>
+          <View className="flex-row space-x-4 my-4">
+            {errand?.images?.map((image, index) => (
+              <View className="">
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => setSelectedImage(image)}
+                >
+                  <Image
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: 10,
+                    }}
+                    source={{ uri: image }}
+                  />
+                </TouchableOpacity>
+              </View>
+            ))}
           </View>
 
           {errand.user_id !== userId && errand.status === 'active' && (
@@ -201,11 +227,11 @@ export const RunnerDetails = ({
                     //     navigation,
                     //   }),
                     // )
-                      navigation.navigate('AbandonErrandModal', {
-                        errand,
-                        userId,
-                        singleSubErrand
-                       })
+                    navigation.navigate('AbandonErrandModal', {
+                      errand,
+                      userId,
+                      singleSubErrand,
+                    })
                   }}
                   className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
                 >
@@ -238,7 +264,7 @@ export const RunnerDetails = ({
                     //     navigation,
                     //   }),
                     // )
-                        navigation.navigate('AbandonErrandModal')
+                    navigation.navigate('AbandonErrandModal')
                   }}
                   className="bg-[#FA6B05] w-40 py-3  mt-8 rounded-lg shadow-lg "
                 >
@@ -251,6 +277,66 @@ export const RunnerDetails = ({
           )}
         </>
       )}
+
+      <Modal visible={selectedImage !== ''} transparent={true} animated>
+        <ReactNativeZoomableView
+          maxZoom={30}
+          contentWidth={300}
+          contentHeight={150}
+        >
+          <Image source={{ uri: selectedImage }} style={[styles.modalImage]} />
+        </ReactNativeZoomableView>
+
+        <TouchableOpacity
+          onPress={() => setSelectedImage('')}
+          style={styles.closeButton}
+        >
+          <Text style={styles.closeButtonText}>Close</Text>
+        </TouchableOpacity>
+        {/* </View> */}
+      </Modal>
     </ScrollView>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center', // Center vertically
+    alignItems: 'center', // Center horizontally
+    backgroundColor: '#0c1730',
+  },
+  image: {
+    width: 200,
+    height: 200,
+  },
+
+  _container: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  thumbnail: {
+    width: 100,
+    height: 100,
+    margin: 5,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  },
+  modalImage: {
+    width: '100%',
+    height: '100%',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+})

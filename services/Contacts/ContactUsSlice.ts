@@ -1,6 +1,7 @@
 // contactUsSlice.ts
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { ContactData } from '../../types';
+import { _fetch } from '../axios/http';
 
 
 // Define your async action (contactUs) and initial state here
@@ -9,12 +10,10 @@ export const contactUs = createAsyncThunk<void, ContactData, { rejectValue: stri
   async (data: ContactData, { rejectWithValue }) => {
     try {
       // Make an API request to submit the contact form data
-      const response = await fetch(`https://errand-app.herokuapp.com/user/send-enquiry`, {
+      const response = await _fetch({
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+        _url:`/users/send-enquiry`,
+        body: data
       });
 
       const result = await response.json();

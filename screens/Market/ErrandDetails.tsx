@@ -1,8 +1,5 @@
-import {
-  AbrilFatface_400Regular,
-  useFonts,
-} from '@expo-google-fonts/abril-fatface'
 import React, {
+  createRef,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -15,6 +12,7 @@ import React, {
 import {
   AntDesign,
   Entypo,
+  Feather,
   FontAwesome,
   Ionicons,
   MaterialIcons,
@@ -24,11 +22,14 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
+import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-view'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import Clipboard from '@react-native-community/clipboard'
 import he from 'he'
 import {
   ActivityIndicator,
-  Image,
+  Animated,
+  // Image,
   Modal,
   SafeAreaView,
   ScrollView,
@@ -39,6 +40,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import FastImage from 'react-native-fast-image'
+import { State } from 'react-native-gesture-handler'
+import { createImageProgress } from 'react-native-image-progress'
+import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import PlaceBidModal from '../../components/Modals/Errands/PlaceBidModal'
 import { ProfileInitials } from '../../components/ProfileInitials'
@@ -55,8 +60,41 @@ export default function ErrandDetails({ route, navigation }: any) {
   const [showBidBtn, setShowBidBtn] = useState(true)
   const [address, setAddress] = useState('')
   const [selectedImage, setSelectedImage] = useState('')
+  const [url, setUrl] = useState('')
+  const [panEnabled, setPanEnabled] = useState(false)
+
+  console.log('>>>>>selectedImage', selectedImage)
+
+  const pinchRef = createRef()
+  const panRef = createRef()
+
+  const scale = useRef(new Animated.Value(1)).current
+  const translateX = useRef(new Animated.Value(0)).current
+  const translateY = useRef(new Animated.Value(0)).current
+
+  const onPinchEvent = Animated.event(
+    [
+      {
+        nativeEvent: { scale },
+      },
+    ],
+    { useNativeDriver: true },
+  )
+
+  const onPanEvent = Animated.event(
+    [
+      {
+        nativeEvent: {
+          translationX: translateX,
+          translationY: translateY,
+        },
+      },
+    ],
+    { useNativeDriver: true },
+  )
 
   // const { snapToIndex, close } = useBottomSheet();
+  const Image = createImageProgress(FastImage)
 
   const {
     data: currentUser,
@@ -94,12 +132,6 @@ export default function ErrandDetails({ route, navigation }: any) {
     getAddress({ errand, setAddress })
   }, [])
 
-  const { errand_id, user_id } = route.params
-
-  let [fontsLoaded] = useFonts({
-    AbrilFatface_400Regular,
-  })
-
   const { data: user } = useSelector(
     (state: RootState) => state.externalUserDetailsReducer,
   )
@@ -111,6 +143,23 @@ export default function ErrandDetails({ route, navigation }: any) {
   const { data: errand, loading } = useSelector(
     (state: RootState) => state.errandDetailsReducer,
   )
+
+  console.log('>>>>>errandImages', errand.images)
+
+  const renderImage = ({ source, style }) => {
+    return (
+      <Image
+        source={{ uri: source, priority: 'high' }}
+        style={style}
+        resizeMode="contain"
+        indicator={renderLoading}
+      />
+    )
+  }
+
+  const renderLoading = () => {
+    return <ActivityIndicator color={'white'} size="large" />
+  }
 
   const budgetInNaira = Number(errand?.budget / Number(100))
 
@@ -143,18 +192,6 @@ export default function ErrandDetails({ route, navigation }: any) {
   const regex = /(<([^>]+)>)/gi
   const result = he.decode(errand.description.replace(regex, ''))
 
-  console.log('>>>>result', result)
-
-  // useEffect(() => {
-  //   navigation
-  //     .getParent()
-  //     ?.setOptions({ tabBarStyle: { display: 'none' }, tabBarVisible: false })
-  //   return () =>
-  //     navigation
-  //       .getParent()
-  //       ?.setOptions({ tabBarStyle: undefined, tabBarVisible: undefined })
-  // }, [navigation])
-
   const getUserId = async () => {
     const userId = (await AsyncStorage.getItem('user_id')) || ''
     setUserId(userId)
@@ -162,10 +199,55 @@ export default function ErrandDetails({ route, navigation }: any) {
 
   useEffect(() => {
     getUserId()
-    // dispatch(errandDetails({ errandId: errand_id }))
-    // dispatch(userDetails({ user_id }))
   }, [])
 
+  useEffect(() => {
+    const b_url = `${process.env.EXPO_PUBLIC_API_URL}`
+    const url = b_url.includes('staging')
+      ? 'https://staging.swave.ng'
+      : `https://swave.ng`
+    setUrl(url)
+  }, [])
+
+  const handleCopyToClipboard = async (url: string) => {
+    Clipboard.setString(url)
+    Toast.show({
+      type: 'success',
+      text1: 'errand link copied successfully',
+    })
+  }
+
+  const handlePinch = Animated.event([{ nativeEvent: { scale } }], {
+    useNativeDriver: true,
+  })
+
+  const handlePinchStateChange = ({ nativeEvent }) => {
+    // enabled pan only after pinch-zoom
+    if (nativeEvent.state === State.ACTIVE) {
+      setPanEnabled(true)
+    }
+
+    // when scale < 1, reset scale back to original (1)
+    const nScale = nativeEvent.scale
+    if (nativeEvent.state === State.END) {
+      if (nScale < 1) {
+        Animated.spring(scale, {
+          toValue: 1,
+          useNativeDriver: true,
+        }).start()
+        Animated.spring(translateX, {
+          toValue: 0,
+          useNativeDriver: true,
+        }).start()
+        Animated.spring(translateY, {
+          toValue: 0,
+          useNativeDriver: true,
+        }).start()
+
+        setPanEnabled(false)
+      }
+    }
+  }
   if (loading) {
     return (
       <SafeAreaView
@@ -307,6 +389,33 @@ export default function ErrandDetails({ route, navigation }: any) {
                         style={{ color: textTheme }}
                         className=" font-bold text-base text-[#555555]"
                       >
+                        Share Errand
+                      </Text>
+                      <View className="border-[1px] border-[#ccc] rounded-lg p-2 px-4 flex-row justify-between mt-1">
+                        <Text
+                          style={{ color: textTheme }}
+                          className="text-sm  text-[#383737] font-light"
+                        >
+                          {`${url}/errands?eId=${errand?.id}`}
+                        </Text>
+
+                        <Feather
+                          onPress={() =>
+                            handleCopyToClipboard(
+                              `${url}/errands?eId=${errand?.id}`,
+                            )
+                          }
+                          name="copy"
+                          size={18}
+                        />
+                      </View>
+                    </View>
+
+                    <View className="pt-6 ">
+                      <Text
+                        style={{ color: textTheme }}
+                        className=" font-bold text-base text-[#555555]"
+                      >
                         This errand pays
                       </Text>
 
@@ -354,8 +463,8 @@ export default function ErrandDetails({ route, navigation }: any) {
                           />
                           {formatDate(errand.created_at)}
                         </Text>
-                        </View>
-                        
+                      </View>
+
                       <View className="space-x-2 flex-row mt-6">
                         <Text
                           style={{ color: textTheme }}
@@ -461,100 +570,29 @@ export default function ErrandDetails({ route, navigation }: any) {
                       ))}
                     </View>
 
-                    {/* <View>
-                      <Text
-                        style={{ color: textTheme }}
-                        className="pr-6 mt-8 font-bold text-base text-[#555555]"
+                    <Modal
+                      visible={selectedImage !== ''}
+                      transparent={true}
+                      animated
+                    >
+                      <ReactNativeZoomableView
+                        maxZoom={30}
+                        contentWidth={300}
+                        contentHeight={150}
                       >
-                        Existing Bids
-                      </Text>
-
-                      {errand.bids.length === 0 && (
-                        <Text
-                          style={{ color: textTheme }}
-                          className="pr-6 text-base text-[#555555]"
-                        >
-                          No existing bids yet
-                        </Text>
-                      )}
-
-                      {errand.bids.map((bid) => {
-                        return (
-                          <View className=" mr-3 pb-3 mt-4 ">
-                            <View className="flex-row space-x-4">
-                              <ProfileInitials
-                                textClass="text-white text-2xl"
-                                firstName={bid?.runner?.first_name}
-                                lastName={bid?.runner?.last_name}
-                                className="w-14 h-14 bg-[#616161] rounded-full text-lg"
-                              />
-                              <View className="flex-row justify-between items-center">
-                                <View className="">
-                                  <Text
-                                    style={{ color: textTheme }}
-                                    className="text-[#000000] text-sm font-bold"
-                                  >
-                                    {bid?.runner.first_name}{' '}
-                                    {bid?.runner.last_name}
-                                  </Text>
-                                  <Text
-                                    style={{ color: textTheme }}
-                                    className="text-sm font-semibold"
-                                  >
-                                    1.5
-                                    <Text
-                                      style={{ color: textTheme }}
-                                      className="text-[14px] text-[#777777] font-medium"
-                                    >
-                                      {' '}
-                                      <Entypo
-                                        name="star"
-                                        size={16}
-                                        color="#FBB955"
-                                      />{' '}
-                                      ({sender.errands_completed}1
-                                      Errands Completed)
-                                    </Text>
-                                  </Text>
-                                </View>
-                              </View>
-                            </View>
-
-                            <Text
-                              style={{ color: textTheme }}
-                              className="text-sm pt-1 text-[#444444] font-light"
-                            >
-                              {bid.description}
-                            </Text>
-                            <View className="flex-row items-center mt-2">
-                              <View className="bg-[#FEE1CD] rounded-2xl py-2 px-3 mt-2 ">
-                                <Text className="text-[#642B02] text-base font-bold">
-                                  &#x20A6;{' '}
-                                  {(
-                                    bid?.haggles[0].amount / 100
-                                  ).toLocaleString()}
-                                </Text>
-                              </View>
-                            </View>
-                          </View>
-                        )
-                      })}
-                    </View> */}
-
-                    <Modal visible={selectedImage !== ''} transparent={true}>
-                      <View style={styles.modalContainer}>
                         <Image
                           source={{ uri: selectedImage }}
-                          style={styles.modalImage}
+                          style={[styles.modalImage]}
                         />
-                        <TouchableOpacity
-                          onPress={() => setSelectedImage('')}
-                          style={styles.closeButton}
-                        >
-                          {/* You can use a close icon or text */}
-                          <Text style={styles.closeButtonText}>Close</Text>
-                        </TouchableOpacity>
-                      </View>
+                      </ReactNativeZoomableView>
+
+                      <TouchableOpacity
+                        onPress={() => setSelectedImage('')}
+                        style={styles.closeButton}
+                      >
+                        <Text style={styles.closeButtonText}>Close</Text>
+                      </TouchableOpacity>
+                      {/* </View> */}
                     </Modal>
                   </View>
                 )}
@@ -644,12 +682,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalImage: {
-    width: '80%',
-    height: '80%',
-    resizeMode: 'contain',
+    width: '100%',
+    height: '100%',
   },
   closeButton: {
     position: 'absolute',

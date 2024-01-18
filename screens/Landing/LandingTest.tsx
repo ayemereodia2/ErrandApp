@@ -344,9 +344,9 @@ const LandingTest = ({ navigation }: any) => {
   })
 
   useEffect(() => {
-    checkPinIsVerified()
-    getNotifications()
-    getLocations()
+    // checkPinIsVerified()
+    // getNotifications()
+    // getLocations()
   }, [])
 
   // console.log('>>>>>selectedLga', selectedlga)

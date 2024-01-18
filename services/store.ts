@@ -29,6 +29,7 @@ import { walletActionReducer } from "./wallet/walletBalance";
 import darkModeReducer from './DarkMode/DarkMode';
 import modalSliceReducer from './Modal/ModalSlice';
 import audioReducer from './audio/audio';
+import { getCategoryInterstsReducer } from "./settings/getCategoryInterests";
 
 
 // "adaptiveIcon": {
@@ -64,7 +65,8 @@ export const store = configureStore({
     errandMarketListReducer,
     notificationPreferenceReducer,
     currentUserDetailsReducer,
-    updateNotificationPreferenceReducer
+    updateNotificationPreferenceReducer,
+    getCategoryInterstsReducer
     
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),

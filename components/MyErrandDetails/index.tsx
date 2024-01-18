@@ -66,6 +66,20 @@ const MyErrandDetails = ({ errand, user_id }: MyErrandDetailsProps) => {
         </View>
 
         <View className="space-x-2 flex-row mt-6">
+          <Text
+            className=" text-[14px] text-[#999999] w-28 font-medium"
+          >
+            Deadline
+          </Text>
+          <Text
+            className=" text-sm text-[#000] w-60 font-semibold"
+          >
+            <Ionicons name="calendar-outline" size={18}  />
+            {formatDate(errand.expiry_date)}
+          </Text>
+        </View>
+
+        <View className="space-x-2 flex-row mt-6">
           <Text className=" text-[14px] text-[#666] w-28 font-bold">
             Location
           </Text>

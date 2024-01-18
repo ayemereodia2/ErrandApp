@@ -1,15 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import { ScrollView, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
 import { PostErrandData } from '../../types'
 import { ImageViewer } from './Details'
-import RecordedSound from '../../components/RecordedSound'
 // import { selectRecordedAudioURI } from '../../services/audio/audio'
-// import { Audio } from 'expo-av'
-import { TouchableOpacity } from 'react-native'
-import { Image } from 'react-native'
-
 
 const playSound = '../../assets/images/play-sound.gif'
 const playingSound = '../../assets/images/playing.gif'
@@ -64,16 +59,11 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
   //   } catch (error) {}
   // }
 
-
-
-  
-
-
   return (
     <>
       {/* Header */}
 
-      <ScrollView className='px-2 mb-4'>
+      <ScrollView className="px-2 mb-4">
         <View className="flex-row mt-[38px] items-center justify-center">
           <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
             <Text className="text-black mx-auto">5</Text>
@@ -156,16 +146,19 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
           </Text>
         </View>
 
-        <View className='flex-row space-x-10 pt-4'>
+        <View className="flex-row space-x-10 pt-4">
           <Text
             style={{ color: textTheme }}
             className="font-md text-[14px] pl-4 w-28"
           >
             Images
           </Text>
-          <View className="pl-4 flex-row space-x-3 ">
+        
+          <ScrollView horizontal className="pl-4 flex-row space-x-3 ">
             {postErrandData?.images.length === 0 ? (
-              <Text className='font-light' style={{ color: textTheme }}>No Images</Text>
+              <Text className="font-light" style={{ color: textTheme }}>
+                No Images
+              </Text>
             ) : (
               <>
                 {postErrandData?.images.map((img, index) => {
@@ -179,7 +172,7 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
                 })}
               </>
             )}
-          </View>
+          </ScrollView>
         </View>
 
         {/* {recordedAudioURI ? (
@@ -218,7 +211,10 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
           ) : <Text style={{color: textTheme}} className='ml-4 mt-3'>No recorded audio</Text> } */}
 
         <View className="mx-4 mt-6 flex-row space-x-10  ">
-          <Text style={{ color: textTheme }} className="font-md text-[14px] w-28">
+          <Text
+            style={{ color: textTheme }}
+            className="font-md text-[14px] w-28"
+          >
             Budget
           </Text>
           <Text
@@ -229,20 +225,47 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
           </Text>
         </View>
 
-        <View className="mx-4 mt-6 flex-row space-x-10">
-          <Text style={{ color: textTheme }} className="font-md text-[14px] w-28">
-            Location
-          </Text>
-          <Text
-            style={{ color: textTheme }}
-            className="font-light text-sm text-[#333333] w-[200px]"
-          >
-            {postErrandData.currentLocation}
-          </Text>
-        </View>
+        {postErrandData.currentLocation ? (
+          <View className="mx-4 mt-6 flex-row space-x-10">
+            <Text
+              style={{ color: textTheme }}
+              className="font-md text-[14px] w-28"
+            >
+              Current Location
+            </Text>
+            <Text
+              style={{ color: textTheme }}
+              className="font-light text-sm text-[#333333] w-[200px]"
+            >
+              {postErrandData.currentLocation}
+            </Text>
+          </View>
+        ) : ''}
+
+        {postErrandData.deliveryAddress ? (
+          <View className="mx-4 mt-6 flex-row space-x-10">
+            <Text
+              style={{ color: textTheme }}
+              className="font-md text-[14px] w-28"
+            >
+              Delivery Location
+            </Text>
+            <Text
+              style={{ color: textTheme }}
+              className="font-light text-sm text-[#333333] w-[200px]"
+            >
+              {postErrandData.deliveryAddress}
+            </Text>
+          </View>
+        ) : (
+          ''
+        )}
 
         <View className="mx-4 mt-6 flex-row space-x-10">
-          <Text style={{ color: textTheme }} className="font-md text-[14px] w-28">
+          <Text
+            style={{ color: textTheme }}
+            className="font-md text-[14px] w-28"
+          >
             Insurance
           </Text>
           <Text
