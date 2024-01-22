@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-// import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/FontAwesome'
 import { useSelector } from 'react-redux'
 import Button from '../../components/Button'
 import InputField from '../../components/InputField'
@@ -180,11 +180,11 @@ export default function LoginScreen({navigation}: any) {
                     onPress={() => setShowPassword(!showPassword)}
                     className="absolute right-4 bottom-7"
                   >
-                    {/* <Icon
+                    <Icon
                       name={showPassword ? 'eye-slash' : 'eye'}
                       size={24}
                       color="gray"
-                    /> */}
+                    />
                   </TouchableOpacity>
                 </View>
 

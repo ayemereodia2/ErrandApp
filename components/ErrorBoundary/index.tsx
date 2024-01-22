@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
 // import AsyncStorage from '@react-native-community/async-storage'
-// import FontAwesome from 'react-native-vector-icons/Ionicons'
+import FontAwesome from 'react-native-vector-icons/Ionicons'
 import {Restart} from 'fiction-expo-restart';
 // import RNRestart from 'react-native-restart'
 // some stylesheet
@@ -57,11 +57,11 @@ export class ErrorBoundary extends React.Component<any, any> {
         <View>
           <View>
             <View className="flex-row items-center " style={{ width: '100%' }}>
-              {/* <FontAwesome
+              <FontAwesome
                 name="ios-information-circle-outline"
                 size={60}
                 color="red"
-              /> */}
+              />
               <Text style={{ fontSize: 22 }}>Oops, Something Went Wrong</Text>
             </View>
 

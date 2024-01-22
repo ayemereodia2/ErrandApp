@@ -15,11 +15,25 @@ const BusinessLogin = () => {
     const [countryCode, setCountryCode] = useState("NG")
     const [callingCode, setCallingCode] = useState("234")
     const [checked, setChecked] = useState(false)
+    const [igInput, setIgInput] = useState(false)
+    const [fbInput, setFbInput] = useState(false)
+    const [xInput, setXInput] = useState(false)
+
     const countries = ["Egypt", "Canada", "Australia", "Ireland"]
 
 
     const handleChecked = () => {
         setChecked(!checked)
+    }
+
+    const handleIG = () => {
+        setIgInput(true)
+    }
+    const handleFB = () => {
+        setIgInput(true)
+    }
+    const handleX = () => {
+        setIgInput(true)
     }
 
     const data = [
@@ -204,11 +218,50 @@ const BusinessLogin = () => {
 
         <View className='mt-8'>
             <Text className='text-[#393F42]' style={{fontFamily: 'Axiforma'}}>Link your social media accounts</Text>
-           <View className='flex-row items-center mt-3'>
-            <Text> <AntDesign name="instagram" size={24} color="black" /> </Text>
-            <Text> <Feather name="facebook" size={24} color="black" /> </Text>
-            <Text> <FontAwesome6 name="x-twitter" size={24} color="black" /> </Text>
+
+           <View className='flex-row items-center mt-3' style={{gap: 12, display: igInput||fbInput||xInput ? 'none' : 'flex'}}>
+           <TouchableOpacity onPress={handleIG}>
+           <Text> <AntDesign name="instagram" size={24} color="black" /> </Text>
+            </TouchableOpacity>
+
+           <TouchableOpacity onPress={handleFB}>
+             <Text> <Feather name="facebook" size={24} color="black" /> </Text>
+             </TouchableOpacity>
+
+           <TouchableOpacity onPress={handleX}>
+             <Text> <FontAwesome6 name="x-twitter" size={24} color="black" /> </Text>
+             </TouchableOpacity>
            </View>
+
+           <View>
+            <View className='relative' style={{display: igInput ? 'flex' : 'none'}}>
+            <TextInput 
+            className='border border-[#96A0A5] p-4 mt-3 rounded-[8px]'
+            />
+            <TouchableOpacity className='bg-[#09497D] rounded-[12px] w-28 h-8 absolute right-3 bottom-3' onPress={() => setIgInput(false)}>
+                <Text className='text-white text-center mt-1.5'>Enter</Text>
+            </TouchableOpacity>
+            </View>
+
+            <View className='relative' style={{display: fbInput ? 'flex' : 'none'}}>
+            <TextInput 
+            className='border border-[#96A0A5] p-4 mt-3 rounded-[8px]'
+            />
+            <TouchableOpacity className='bg-[#09497D] rounded-[12px] w-28 h-8 absolute right-3 bottom-3' onPress={() => setFbInput(false)}>
+                <Text className='text-white text-center mt-1.5'>Enter</Text>
+            </TouchableOpacity>
+            </View>
+
+            <View className='relative' style={{display: xInput ? 'flex' : 'none'}}>
+            <TextInput 
+            className='border border-[#96A0A5] p-4 mt-3 rounded-[8px]'
+            />
+            <TouchableOpacity className='bg-[#09497D] rounded-[12px] w-28 h-8 absolute right-3 bottom-3' onPress={() => setXInput(false)}>
+                <Text className='text-white text-center mt-1.5'>Enter</Text>
+            </TouchableOpacity>
+            </View>
+           </View>
+
         </View>
 
         <View className='flex-row items-center mt-8'>
