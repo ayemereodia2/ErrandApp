@@ -74,8 +74,8 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
       {/* Header */}
 
       <ScrollView className='px-2 mb-4'>
-        <View className="flex-row mt-[38px] items-center justify-center">
-          <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
+        <View className="flex-row mt-[20px] items-center justify-center">
+          {/* <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
             <Text className="text-black mx-auto">5</Text>
           </View>
           <Text
@@ -83,74 +83,92 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
             style={{ color: textTheme }}
           >
             Errand Review
-          </Text>
+          </Text> */}
         </View>
 
-        <View className="mx-auto items-center justify-center w-[309px] h-[48px] mt-5">
-          <Text
-            style={{ color: textTheme }}
-            className="text-[#777777] text-center "
-          >
-            In this section, you can set the location that you want the errand
-            to take place in.
-          </Text>
+        <View className='flex-row items-center w-[280px] h-[41px] mx-5 '>
+          <TouchableOpacity className='w-10 bg-[#09497D] h-[39px] rounded-full'>
+            <Text className='text-center text-white mt-3'>1</Text>
+          </TouchableOpacity>
+          <View className='w-10 h-[1px] bg-[#09497D]'></View>
+          <TouchableOpacity className='w-10 bg-[#09497D] h-[39px] rounded-full'>
+            <Text className='text-center text-white mt-3'>2</Text>
+          </TouchableOpacity>
+          <View className='w-10 h-[1px] bg-[#09497D]'></View>
+          <TouchableOpacity className='w-10 h-[39px] rounded-full bg-[#09497D]'>
+            <Text className='text-center text-white mt-3'>3</Text>
+          </TouchableOpacity>
+          <View className='w-10 h-[1px] bg-[#09497D]'></View>
+          <TouchableOpacity className='w-10 bg-[#09497D] h-[39px] rounded-full'>
+            <Text className='text-center text-white mt-3'>4</Text>
+          </TouchableOpacity>
+          <View className='w-10 h-[1px] bg-[#09497D]'></View>
+          <TouchableOpacity className='w-10 bg-[#09497D] h-[39px] rounded-full' disabled>
+            <Text className='text-center text-white mt-3'>5</Text>
+          </TouchableOpacity>
         </View>
 
-        <View className="border-b-[1px] px-4 pb-2 mt-10 border-[#EEEEEE]">
+        
+
+        <View className=" px-4 pb-2 mt-10 border-[#EEEEEE]">
           <Text
             style={{ color: textTheme }}
             className="text-[#243763] font-semibold text-base"
           >
-            Errand Category
+            Errand Review
           </Text>
         </View>
 
+        <View className='border py-4 rounded-[10px] border-[#E6E6E6] bg-white'>
         <View className="mx-4 mt-2 flex-row items-center space-x-10">
           <Text
-            style={{ color: textTheme }}
-            className="font-md text-[14px] w-28"
+            style={{ color: '#393F42', fontFamily: 'Axiforma' }}
+            className=" text-[16px] "
+            
           >
-            Category Type
+            Category Type:
           </Text>
           <Text
-            style={{ color: textTheme }}
-            className="font-light text-base text-[#333333] text-left w-[300px]"
+            style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            className=" text-base text-[#393F42] text-left w-[300px]"
           >
             {postErrandData.type}
           </Text>
         </View>
 
         <View className="mx-4 mt-4 flex-row items-center space-x-10">
-          <Text style={{ color: textTheme }} className="font-md text-base w-28">
-            Activity
+          <Text style={{ color: textTheme, fontFamily: 'Axiforma' }} className="text-[#393F42] text-base w-28">
+            Activity:
           </Text>
           <Text
-            style={{ color: textTheme }}
-            className="font-light text-sm text-[#333333] w-[300px]"
+            style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            className=" text-base text-[#393F42] w-[300px]"
           >
             {postErrandData.categoryName}
           </Text>
         </View>
+        </View>
 
-        <View className="border-b-[1px] px-4 pb-2 mt-8 border-[#EEEEEE]">
+        <View className="px-4 pb-2 mt-8 border-[#EEEEEE]">
           <Text
-            style={{ color: textTheme }}
-            className="text-[#243763] font-semibold text-sm"
+            style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            className="text-[#393F42] font-semibold text-base"
           >
             Errand Details
           </Text>
         </View>
 
+        <View className='border py-5 mb-3 border-[#E6E6E6] rounded-[10px] bg-white'>
         <View className="mx-4 mt-2 flex-row space-x-10 ">
           <Text
-            style={{ color: textTheme }}
-            className="font-md text-[14px] w-28"
+            style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            className="text-[#393F42] text-[16px] w-28"
           >
             Description
           </Text>
           <Text
-            style={{ color: textTheme }}
-            className="font-light text-sm text-[#333333] w-[200px]"
+            style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            className=" text-base text-[#333333] w-[200px]"
           >
             {postErrandData.description}
           </Text>
@@ -158,14 +176,14 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
 
         <View className='flex-row space-x-10 pt-4'>
           <Text
-            style={{ color: textTheme }}
-            className="font-md text-[14px] pl-4 w-28"
+            style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            className="text-[#393F42] text-[16px] pl-4 w-28"
           >
             Images
           </Text>
           <View className="pl-4 flex-row space-x-3 ">
             {postErrandData?.images.length === 0 ? (
-              <Text className='font-light' style={{ color: textTheme }}>No Images</Text>
+              <Text className='font-light, text-sm' style={{ color: textTheme, fontFamily: 'Axiforma' }}>No Images</Text>
             ) : (
               <>
                 {postErrandData?.images.map((img, index) => {
@@ -215,39 +233,39 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
                 />
               )}
             </View>
-          ) : <Text style={{color: textTheme}} className='ml-4 mt-3'>No recorded audio</Text> }
+          ) : <Text style={{color: textTheme, fontFamily: 'Axiforma'}} className='ml-4 mt-3'>No recorded audio</Text> }
 
         <View className="mx-4 mt-6 flex-row space-x-10  ">
-          <Text style={{ color: textTheme }} className="font-md text-[14px] w-28">
+          <Text style={{ color: textTheme, fontFamily: 'Axiforma' }} className="text-[#393F42] text-[16px] w-28">
             Budget
           </Text>
           <Text
-            style={{ color: textTheme }}
-            className="font-light text-light text-[#333333]"
+            style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            className="text-[#393F42] text-[16px] text-light "
           >
             &#x20A6; {postErrandData.budget}
           </Text>
         </View>
 
         <View className="mx-4 mt-6 flex-row space-x-10">
-          <Text style={{ color: textTheme }} className="font-md text-[14px] w-28">
+          <Text style={{ color: textTheme }} className="text-[#393F42] text-[16px] w-28">
             Location
           </Text>
           <Text
-            style={{ color: textTheme }}
-            className="font-light text-sm text-[#333333] w-[200px]"
+            style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            className="text-[#393F42] text-[16px]  w-[200px]"
           >
-            {postErrandData.currentLocation}
+            {postErrandData.currentLocation ? postErrandData.currentLocation : 'No Location Selected'}
           </Text>
         </View>
 
         <View className="mx-4 mt-6 flex-row space-x-10">
-          <Text style={{ color: textTheme }} className="font-md text-[14px] w-28">
+          <Text style={{ color: textTheme, fontFamily: 'Axiforma' }} className="text-[#393F42] text-[16px] w-28">
             Insurance
           </Text>
           <Text
-            style={{ color: textTheme }}
-            className="font-light text-sm text-[#333333]"
+            style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            className="text-[#393F42] text-[16px]"
           >
             {!postErrandData.insurance ? 'No' : postErrandData.insurance}
           </Text>
@@ -255,14 +273,14 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
 
         <View className="mx-4 mt-6 flex-row space-x-10">
           <Text
-            style={{ color: textTheme }}
-            className="font-md w-28 text-[14px]"
+            style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            className=" text-[#393F42] text-[16px]"
           >
             Insurance Amount
           </Text>
           <Text
             style={{ color: textTheme }}
-            className="font-light text-sm text-[#333333]"
+            className="text-[#393F42] text-[16px]"
           >
             {postErrandData.ins_amount.toLocaleString()}
           </Text>
@@ -270,14 +288,14 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
 
         <View className="mx-4 mt-6 flex-row space-x-10 ">
           <Text
-            style={{ color: textTheme }}
-            className="font-md text-[14px] w-28"
+            style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            className="text-[#393F42] text-[16px] w-28"
           >
             Restrict Errand by Qualification
           </Text>
           <Text
             style={{ color: textTheme }}
-            className="font-light text-sm text-[#333333]"
+            className="text-[#393F42] text-[16px] "
           >
             {postErrandData.res_by_qualification}
           </Text>
@@ -285,17 +303,18 @@ const ErrandReview = ({ setActiveStep, postErrandData }: ReviewProp) => {
 
         <View className="mx-4 mt-6 flex-row space-x-10">
           <Text
-            style={{ color: textTheme }}
-            className="font-md text-[14px] w-28"
+            style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            className="text-[#393F42] text-[16px] w-28"
           >
             Restrict Errand by Verification
           </Text>
           <Text
             style={{ color: textTheme }}
-            className="font-light text-sm text-[#333333]"
+            className="text-[#393F42] text-[16px]"
           >
             {postErrandData.res_by_verification}
           </Text>
+        </View>
         </View>
       </ScrollView>
     </>

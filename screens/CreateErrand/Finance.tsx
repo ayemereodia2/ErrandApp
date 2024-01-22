@@ -74,8 +74,8 @@ const CreateErrandFinance = ({
       {/* Header */}
 
       <ScrollView>
-        <View className="flex-row mt-[38px] items-center justify-center">
-          <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
+        <View className="flex-row mt-[20px] items-center justify-center">
+          {/* <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
             <Text className="text-black mx-auto">4</Text>
           </View>
           <Text
@@ -83,7 +83,29 @@ const CreateErrandFinance = ({
             className="font-semibold text-[#243763] text-base"
           >
             Errand Finance
-          </Text>
+          </Text> */}
+        </View>
+
+        <View className='flex-row items-center w-[280px] h-[41px] mx-5 '>
+          <TouchableOpacity className='w-10 bg-[#09497D] h-[39px] rounded-full'>
+            <Text className='text-center text-white mt-3'>1</Text>
+          </TouchableOpacity>
+          <View className='w-10 h-[1px] bg-[#09497D]'></View>
+          <TouchableOpacity className='w-10 bg-[#09497D] h-[39px] rounded-full'>
+            <Text className='text-center text-white mt-3'>2</Text>
+          </TouchableOpacity>
+          <View className='w-10 h-[1px] bg-[#09497D]'></View>
+          <TouchableOpacity className='w-10 h-[39px] rounded-full bg-[#09497D]'>
+            <Text className='text-center text-white mt-3'>3</Text>
+          </TouchableOpacity>
+          <View className='w-10 h-[1px] bg-[#09497D]'></View>
+          <TouchableOpacity className='w-10 bg-[#09497D] h-[39px] rounded-full' disabled>
+            <Text className='text-center text-white mt-3'>4</Text>
+          </TouchableOpacity>
+          <View className='w-10 h-[1px] bg-[#09497D]'></View>
+          <TouchableOpacity className='w-10 bg-[#888] h-[39px] rounded-full' disabled>
+            <Text className='text-center text-white mt-3'>5</Text>
+          </TouchableOpacity>
         </View>
 
         <View className="ml-4 w-[387px]  mt-5">

@@ -355,7 +355,7 @@ const CreateErrandDetails = ({
 
 
       <ScrollView className="">
-        <View className="flex-row mt-[38px] justify-center items-center">
+        <View className="flex-row mt-[20px] justify-center items-center">
           {/* <View className="mr-[92px] ml-4 bg-[#8098D1] b rounded-full">
             <TouchableOpacity onPress={() => setActiveStep(1)}>
               <Text className="">
@@ -364,15 +364,37 @@ const CreateErrandDetails = ({
             </TouchableOpacity>
           </View> */}
 
-          <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
+          {/* <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
             <Text className="text-black mx-auto">2</Text>
-          </View>
-          <Text
+          </View> */}
+          {/* <Text
             style={{ color: textTheme }}
             className="font-semibold text-[#243763] text-base"
           >
             Errand Details
-          </Text>
+          </Text> */}
+        </View>
+
+        <View className='flex-row items-center w-[280px] h-[41px] mx-5 '>
+          <TouchableOpacity className='w-10 bg-[#09497D] h-[39px] rounded-full'>
+            <Text className='text-center text-white mt-3'>1</Text>
+          </TouchableOpacity>
+          <View className='w-10 h-[1px] bg-[#09497D]'></View>
+          <TouchableOpacity className='w-10 bg-[#09497D] h-[39px] rounded-full'>
+            <Text className='text-center text-white mt-3'>2</Text>
+          </TouchableOpacity>
+          <View className='w-10 h-[1px] bg-[#09497D]'></View>
+          <TouchableOpacity className='w-10 bg-[#888] h-[39px] rounded-full' disabled>
+            <Text className='text-center text-white mt-3'>3</Text>
+          </TouchableOpacity>
+          <View className='w-10 h-[1px] bg-[#09497D]'></View>
+          <TouchableOpacity className='w-10 bg-[#888] h-[39px] rounded-full' disabled>
+            <Text className='text-center text-white mt-3'>4</Text>
+          </TouchableOpacity>
+          <View className='w-10 h-[1px] bg-[#09497D]'></View>
+          <TouchableOpacity className='w-10 bg-[#888] h-[39px] rounded-full' disabled>
+            <Text className='text-center text-white mt-3'>5</Text>
+          </TouchableOpacity>
         </View>
 
         <View className=" ml-4 items-center  w-[387px] mt-6">

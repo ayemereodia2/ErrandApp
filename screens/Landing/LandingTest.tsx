@@ -474,7 +474,9 @@ const LandingTest = ({ navigation }: any) => {
 <View className='bg-purple-200 h-[230px] w-screen shadow-md' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
   <SafeAreaView className='bg-[#09497D] h-[222px] pt-[26px] pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
             
-                 <Image 
+            <View className='flex-row items-center justify-between'>
+              
+            <Image 
               source={require('../../assets/images/swave-log-web.png')}
               
               alt={'logo'}
@@ -516,6 +518,9 @@ const LandingTest = ({ navigation }: any) => {
                     />
                   </Text>
                 </View>
+
+            </View>
+           
              
 
               <View>

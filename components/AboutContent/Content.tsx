@@ -43,7 +43,7 @@ const Content = ({navigation}:any) => {
 
     <Text className='text-[#09497D] text-[20px]' style={{fontFamily: 'Chillax'}}>Settings</Text>
 
-    <TouchableOpacity >
+    <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
     <Text className='text-[#09497D] text-base' style={{textDecorationLine: 'underline', fontFamily: 'Axiforma'}}>See all Settings</Text>
     </TouchableOpacity>
 

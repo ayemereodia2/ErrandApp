@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import Icon from 'react-native-vector-icons/FontAwesome'
+// import Icon from 'react-native-vector-icons/FontAwesome'
 import { useSelector } from 'react-redux'
 import Button from '../../components/Button'
 import InputField from '../../components/InputField'
@@ -67,9 +67,14 @@ export default function LoginScreen({navigation}: any) {
   const { loading } = useSelector((state: RootState) => state.login)
 
   const [checked, setChecked] = useState(false)
+  const [showBusiness, setShowBusiness] = useState(true)
 
   const handleChecked = () => {
     setChecked(!checked)
+  }
+
+  const handleShowBusiness = () => {
+    setShowBusiness(false)
   }
 
   return (
@@ -83,6 +88,21 @@ export default function LoginScreen({navigation}: any) {
           <View className="px-4">
             {/* <Logo /> */}
             <AuthLogo />
+
+            <View className='flex-row items-center justify-between py-4 mb-7 border px-4 rounded-[6px]  border-[#D4DEE2] bg-[#EEF2F3]' style={{display: showBusiness ? 'flex' : 'none'}}>
+              <View className=''>
+                <Text style={{fontFamily: 'Axiforma'}} className='text-[#09497D]'>Do you have a business?</Text>
+              </View>
+              <View className='flex-row items-center'>
+                <TouchableOpacity className='mr-5' onPress={() => navigation.navigate('BusinessLogin')}>
+                  <Text style={{fontFamily: 'Axiforma'}}>Yes</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity className='mr-2' onPress={handleShowBusiness}>
+                  <Text style={{fontFamily: 'Axiforma'}}>No</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
 
             <View className=" font-inter pb-4 ">
               {/* <Text className="font-semibold text-[24px] text-[#393F42]" style={{fontFamily: 'Chillax'}}> */}
@@ -160,11 +180,11 @@ export default function LoginScreen({navigation}: any) {
                     onPress={() => setShowPassword(!showPassword)}
                     className="absolute right-4 bottom-7"
                   >
-                    <Icon
+                    {/* <Icon
                       name={showPassword ? 'eye-slash' : 'eye'}
                       size={24}
                       color="gray"
-                    />
+                    /> */}
                   </TouchableOpacity>
                 </View>
 

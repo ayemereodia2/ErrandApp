@@ -44,6 +44,10 @@ import WalletAccount from '../screens/Wallets/WalletAccount'
 import { getAppVersion } from '../utils/helper'
 import { TabsNavigation } from './TabsNavigation'
 import RejectErrandModal from '../components/Modals/Errands/RejectErrandModal'
+import AccountStatement from '../screens/Wallets/AccountStatement'
+import WithdrawalScreen from '../screens/Wallets/WithdrawalScreen'
+import BusinessLogin from '../screens/BusinessAuth/BusinessLogin'
+import BusinessReview from '../screens/BusinessAuth/BusinessReview'
 
 const Stack = createNativeStackNavigator()
 
@@ -102,9 +106,18 @@ export const TabStack = () => {
       <Stack.Screen name="RecoverPassword" component={ForgotPassword} />
       <Stack.Screen name="VerifyQuestion" component={VerifyQuestion} />
       <Stack.Screen name="RecoverAccount" component={AccountRecoveryScreen} />
+      
       <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
       <Stack.Screen name="RejectErrand" component={RejectErrandScreen} />
       <Stack.Screen name="RejectErrands" component={RejectErrandModal} />
+      <Stack.Screen name="Settings" component={SettingScreen} />
+
+      <Stack.Screen name="AccountStatement" component={AccountStatement} />
+      <Stack.Screen name="WithdrawalScreen" component={WithdrawalScreen} />
+      <Stack.Screen name="BusinessLogin" component={BusinessLogin} />
+      <Stack.Screen name="BusinessReview" component={BusinessReview} />
+
+
 
       <Stack.Screen
         name="MyErrandDetails"
@@ -321,8 +334,14 @@ export function GuestStack() {
         <Stack.Screen name="SecurityQuestions" component={SecurityQuestion} />
         <Stack.Screen name="CreateAccount" component={CreateAccountScreen} />
         <Stack.Screen name="RecoverPassword" component={ForgotPassword} />
+        <Stack.Screen name="Settings" component={SettingScreen} />
+
         <Stack.Screen name="RejectErrand" component={RejectErrandScreen} />
         <Stack.Screen name="RejectErrands" component={RejectErrandModal} />
+        <Stack.Screen name="AccountStatement" component={AccountStatement} />
+        <Stack.Screen name="WithdrawalScreen" component={WithdrawalScreen} />
+        <Stack.Screen name="BusinessLogin" component={BusinessLogin} />
+        <Stack.Screen name="BusinessReview" component={BusinessReview} />
 
 
         <Stack.Screen
@@ -548,8 +567,14 @@ export const MainStack = () => {
       <Stack.Screen name="VerifyQuestion" component={VerifyQuestion} />
       <Stack.Screen name="RecoverAccount" component={AccountRecoveryScreen} />
       <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
+      <Stack.Screen name="Settings" component={SettingScreen} />
+
       <Stack.Screen name="RejectErrand" component={RejectErrandScreen} />
       <Stack.Screen name="RejectErrands" component={RejectErrandModal} />
+      <Stack.Screen name="AccountStatement" component={AccountStatement} />
+      <Stack.Screen name="WithdrawalScreen" component={WithdrawalScreen} />
+      <Stack.Screen name="BusinessLogin" component={BusinessLogin} />
+      <Stack.Screen name="BusinessReview" component={BusinessReview} />
 
 
       <Stack.Screen
