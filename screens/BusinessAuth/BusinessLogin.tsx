@@ -8,6 +8,7 @@ import Checkbox from 'expo-checkbox'
 import { useNavigation } from '@react-navigation/native'
 import BusinessDropdown from '../../components/BusinessDropdown/BusinessDropdown'
 import SelectDropdown from 'react-native-select-dropdown'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 const BusinessLogin = () => {
@@ -38,12 +39,12 @@ const BusinessLogin = () => {
 
     const data = [
         {key:'1', value:'Tutoring'},
-        {key:'2', value:'Appliances'},
-        {key:'3', value:'Cameras'},
-        {key:'4', value:'Computers', disabled:true},
-        {key:'5', value:'Vegetables'},
-        {key:'6', value:'Diary Products'},
-        {key:'7', value:'Drinks'},
+        {key:'2', value:'Vehicles'},
+        {key:'3', value:'Make Up'},
+        {key:'4', value:'Tech'},
+        {key:'5', value:'Food'},
+        {key:'6', value:'Others'}
+        
     ]
 
     const businessContact = [
@@ -60,27 +61,36 @@ const BusinessLogin = () => {
     const navigation = useNavigation()
 
   return (
-    <SafeAreaView className='mb-10 bg-[#FEFEFE]'>
+    <SafeAreaView className=' bg-[#FEFEFE]'>
         <ScrollView showsVerticalScrollIndicator={false} className='mx-4'>
+        <KeyboardAwareScrollView
+          style={{ flex: 1, marginTop: 52 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          enableOnAndroid={true}
+        >
 
-        <View className='mt-7'>
+        <View className=''>
         <TouchableOpacity className='' onPress={() => navigation.goBack()}>
               <Text> <AntDesign name="arrowleft" size={24} color="#888" /> </Text>
             </TouchableOpacity>
         </View>
+
         <View className='mt-[23px]'>
             <Text className='text-[24px] text-[#393F42] font-bold' style={{}}> Business Profile</Text>
         </View>
+
         <View className=''>
             <Text className='text-[#717E83] text-sm mt-3' style={{fontFamily: 'Axiforma'}}>Create your account profile by filling your details
              below.</Text>
         </View>
+
         <View className='mt-14'>
             <Text className='text-[#393F42]' style={{fontFamily: 'Axiforma'}}>What is your business name?</Text>
             <TextInput 
             className='border border-[#96A0A5] p-4 mt-3 rounded-[8px]'
             />
         </View>
+
         <View className='mt-8'>
             <Text className='text-[#393F42]' style={{fontFamily: 'Axiforma'}}>Select Business Category</Text>
             {/* <TextInput 
@@ -89,6 +99,7 @@ const BusinessLogin = () => {
             <BusinessDropdown data={data} />
             
         </View>
+
         <View className='mt-8'>
             <Text className='text-[#393F42]' style={{fontFamily: 'Axiforma'}}>Keywords for your business</Text>
 
@@ -117,6 +128,8 @@ const BusinessLogin = () => {
 
            </View>
         </View>
+
+
         <View className='mt-8'>
             <Text className='text-[#393F42]' style={{fontFamily: 'Axiforma'}}>Advertise your  message to customers (This message will be shown to your customers)</Text>
             <TextInput 
@@ -135,6 +148,7 @@ const BusinessLogin = () => {
             <Text className='text-center text-[#6D6D6D]' style={{fontFamily: 'Axiforma'}}>Upload pictures here</Text>
            </View>
         </View>
+
 
         <View className='mt-8'>
             <Text className='text-[#393F42]' style={{fontFamily: 'Axiforma'}}>Describe what you do in detail</Text>
@@ -228,7 +242,7 @@ const BusinessLogin = () => {
              <Text> <Feather name="facebook" size={24} color="black" /> </Text>
              </TouchableOpacity>
 
-           <TouchableOpacity onPress={handleX}>
+           <TouchableOpacity onPress={handleX}> 
              <Text> <FontAwesome6 name="x-twitter" size={24} color="black" /> </Text>
              </TouchableOpacity>
            </View>
@@ -275,11 +289,11 @@ const BusinessLogin = () => {
         </View>
 
         <View>
-            <TouchableOpacity className='h-14 bg-[#09497D] py-5 mt-8 rounded-lg items-center' disabled={checked ? false : true}>
+            <TouchableOpacity className='h-14 bg-[#09497D] py-5 mt-8 mb-5 rounded-lg items-center' disabled={checked ? false : true} onPress={() => navigation.navigate('BusinessReview')}>
                 <Text className='text-center items-center text-[#EEF2F3]' style={{fontFamily: 'Axiforma'}}>Review</Text>
             </TouchableOpacity>
         </View>
-
+    </KeyboardAwareScrollView>
         </ScrollView>
     </SafeAreaView>
   )

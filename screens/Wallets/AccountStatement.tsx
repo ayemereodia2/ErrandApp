@@ -1,6 +1,6 @@
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
-import { ImageBackground, Platform, Pressable, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ImageBackground, Platform, Pressable, Text, TouchableOpacity, View } from 'react-native'
 // import DatePicker from 'react-native-community/datetimepicker';
 import DateTimePicker from '@react-native-community/datetimepicker'
 import * as FileSystem from 'expo-file-system'
@@ -341,14 +341,15 @@ const AccountStatement = () => {
                   currentWalletAmount
                 })
               }}
-              className="w-[200px] h-[44px] mt-5 items-center justify-center border border-[#314B87] rounded-lg"
+              className="w-[200px] h-[44px] mt-5 flex-row items-center justify-center border border-[#314B87] rounded-lg"
             >
+              <Image source={require('../../assets/images/fund.jpg')}/>
               <Text
                 className="text-center text-base"
                 style={{ color: 'black' }}
               >
                 {' '}
-                + <Text>Fund Wallet</Text>
+                <Text>Fund Wallet</Text>
               </Text>
             </TouchableOpacity>
             </ImageBackground>

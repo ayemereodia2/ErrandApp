@@ -321,14 +321,15 @@ const WalletScreen = ({ navigation }: any) => {
                     currentWalletAmount,
                   })
                 }}
-                className="w-[200px] h-[44px] mt-5 items-center justify-center border border-[#314B87] rounded-lg"
+                className="w-[200px] h-[44px] mt-5 flex-row items-center justify-center border border-[#314B87] rounded-lg"
               >
+                <Image source={require('../../assets/images/fund.jpg')}/>
                 <Text
                   className="text-center text-base"
                   style={{ color: 'black' }}
                 >
                   {' '}
-                  + <Text>Fund Wallet</Text>
+                 <Text>Fund Wallet</Text>
                 </Text>
               </TouchableOpacity>
               </ImageBackground>
