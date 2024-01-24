@@ -21,13 +21,16 @@ const SettingsCategory = ({ navigation, interests }: any) => {
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-  const deleteCategoryInterest = async (interests: string[]) => {
+  const deleteCategoryInterest = async (category_interest: string[]) => {
     const _rs = await _fetch({
       method: 'PATCH',
       _url: `/user/update/category-interest`,
-      body: interests,
+      body: { category_interest },
     })
+
     const rs = await _rs.json()
+
+    console.log('>>>>', rs)
 
     if (rs.success === true) {
       dispatch(getCategoryIntersts())

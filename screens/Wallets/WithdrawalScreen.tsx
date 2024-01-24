@@ -284,7 +284,7 @@ const WithdrawalScreen = ({ toggleWithdrawaltModal }: WithdrawalProps) => {
         index={0}
         snapPoints={['50%']}
         containerStyle={{
-          marginHorizontal: 10,
+          marginHoriPzontal: 10,
         }}
         backdropComponent={renderBackdrop}
       >

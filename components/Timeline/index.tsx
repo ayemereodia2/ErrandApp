@@ -157,11 +157,7 @@ const Timeline = ({
               </Text>
             )}
 
-            {errand.status === 'abandoned' && (
-              <Text className="font-medium text-sm px-4">
-                This Errand has been abandoned
-              </Text>
-            )}
+          
 
             {errand.status === 'cancelled' ||
               (singleSubErrand?.status === 'cancelled' && (
@@ -170,9 +166,18 @@ const Timeline = ({
                 </Text>
               ))}
 
-            {errand.status === 'cancelled' && (
-              <Text className="font-medium text-sm px-4">
-                This Errand has been cancelled
+          
+          </View>
+
+          <TouchableOpacity className="h-[56px] bg-[#FEE1CD] mx-4 items-center justify-center border border-[#C85604] mt-4 rounded-lg"
+           style={{display: errand?.user_id !== user_id && errand.status === 'cancelled' || errand.status === 'abandoned' ? 'none' : 'flex'}}>
+
+            {errand?.user_id === user_id && errand.status === 'abandoned' && (
+              // <Text className="font-medium text-sm px-4">
+              //   This Errand has been abandoned
+              // </Text>
+              <Text className="font-medium text-base px-4">
+                Repost this errand
               </Text>
             )}
           </View> */}
@@ -211,6 +216,8 @@ const Timeline = ({
                   singleSubErrand?.status === 'cancelled'
                     ? singleSubErrand.status
                     : errand.status}
+                   
+                   
                 </Text>
               </View> */}
             </View>

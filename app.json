@@ -7,10 +7,6 @@
     "icon": "./assets/images/new-icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
-    "androidStatusBar": {
-      "backgroundColor": "#a9c1f8",
-      "translucent": false
-    },
     "splash": {
       "image": "./assets/images/app-1.png",
       "resizeMode": "cover",
@@ -23,6 +19,12 @@
             "ios": {
               "useFrameworks": "static"
             }
+          }
+        ],
+        [
+          "expo-font",
+          {
+            "fonts": ["path/to/file.ttf"]
           }
         ],
         [

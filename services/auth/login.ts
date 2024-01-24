@@ -7,6 +7,7 @@ import Toast from 'react-native-toast-message';
 import { _fetch } from '../../services/axios/http';
 import { ILogin } from '../../types';
 import { currentUserDetails } from './currentUserInfo';
+import { getNotifications } from '../notification';
 
 export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>("/users/sign-in", async ({ navigation, dispatch, ...rest }: ILogin, { rejectWithValue }) => {
   
@@ -34,14 +35,13 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
          await AsyncStorage.setItem('profile_pic', _rs.data.profile_picture)
       }
 
-      dispatch(currentUserDetails({user_id: _rs.data.id}))
+      dispatch(currentUserDetails({ user_id: _rs.data.id }))
+      dispatch(getNotifications({userId: _rs.data.id}))
 
       await AsyncStorage.setItem('isGuest', 'false')
      const pin = await AsyncStorage.setItem('pin', JSON.stringify(_rs.data.has_transaction_pin))
 
-      
-
-
+    
        Toast.show({
         type: 'success',
         text1: 'Login Successful',

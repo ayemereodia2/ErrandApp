@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { NotificationPreferenceResponse, NotificationPreferences } from '../../types';
 import { _fetch } from '../axios/http';
 import { notificationPreferences } from './preferences';
-import { ActivityIndicator } from 'react-native-paper';
 
 export const updateNotificationPrefeference = createAsyncThunk<NotificationPreferenceResponse, NotificationPreferences, { rejectValue: string }>(
   "updatePreference",

@@ -135,6 +135,7 @@ const PersonalId = ({ closePersonalId }: any) => {
         closePersonalId()
       } else {
         // Handle the case where the server responded with an error message
+        console.error('file update failed:', responseData.message)
 
         Toast.show({
           type: 'error',

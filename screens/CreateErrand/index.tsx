@@ -1,18 +1,11 @@
-import { Entypo, Ionicons } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   ScrollView,
@@ -22,6 +15,8 @@ import {
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
+import Content from '../../components/AboutContent/Content'
+import ScreenHeader from '../../components/ScreenHeader'
 import { createErrand } from '../../services/errands/createErrand'
 import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -46,13 +41,8 @@ const PostErrand = ({ navigation }: any) => {
   const snapPoints = useMemo(() => ['60%'], [])
   const [remote, setRemote] = useState(false)
 
-
-  function openPinModal() {
+  function openSettingsModal() {
     bottomSheetRef.current?.present()
-  }
-
-  function closePinModal() {
-    bottomSheetRef.current?.dismiss()
   }
 
   const renderBackdrop = useCallback(
@@ -198,11 +188,7 @@ const PostErrand = ({ navigation }: any) => {
     setActiveStep(activeStep + 1)
   }
 
-
   const locationHandler = () => {
-    console.log('>>>>>location', currentLocation, deliveryAddress)
-
-
     if (!currentLocation && !deliveryAddress && !remote) {
       return setLocationError('Please enter a location to continue')
     }
@@ -247,7 +233,7 @@ const PostErrand = ({ navigation }: any) => {
       errandType,
       currentLocation,
       deliveryAddress,
-      images
+      images,
     } = postErrandData
 
     const duration =
@@ -299,7 +285,6 @@ const PostErrand = ({ navigation }: any) => {
     }
 
     // console.log(">>>>>data", data);
-    
 
     dispatch(createErrand({ ...data }))
   }
@@ -323,23 +308,23 @@ const PostErrand = ({ navigation }: any) => {
   //       ?.setOptions({ tabBarStyle: undefined, tabBarVisible: undefined })
   // }, [navigation])
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      title: 'Create Errand',
-      headerTitleStyle: { color: textTheme },
-      headerStyle: { backgroundColor: backgroundTheme },
-      headerLeft: () => <></>,
-      headerRight: () => (
-        <TouchableOpacity
-          onPress={() => navigation.navigate('MarketTab')}
-          className="pr-3"
-        >
-          <Ionicons color={textTheme} name="close" size={24} />
-        </TouchableOpacity>
-      ),
-    })
-  }, [])
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerShown: true,
+  //     title: 'Create Errand',
+  //     headerTitleStyle: { color: textTheme },
+  //     headerStyle: { backgroundColor: backgroundTheme },
+  //     headerLeft: () => <></>,
+  //     headerRight: () => (
+  //       <TouchableOpacity
+  //         onPress={() => navigation.navigate('MarketTab')}
+  //         className="pr-3"
+  //       >
+  //         <Ionicons color={textTheme} name="close" size={24} />
+  //       </TouchableOpacity>
+  //     ),
+  //   })
+  // }, [])
 
   const showComponent = () => {
     if (activeStep === 1) {
@@ -402,6 +387,13 @@ const PostErrand = ({ navigation }: any) => {
 
   return (
     <BottomSheetModalProvider>
+      <ScreenHeader
+        screen="Create Errand"
+        navigation={navigation}
+        textTheme={textTheme}
+        openSettingsModal={openSettingsModal}
+      />
+
       <View style={{ flex: 1 }}>
         <ScrollView
           keyboardShouldPersistTaps="always"
@@ -478,19 +470,13 @@ const PostErrand = ({ navigation }: any) => {
       <BottomSheetModal
         ref={bottomSheetRef}
         index={0}
-        snapPoints={snapPoints}
+        snapPoints={['55%']}
         containerStyle={{
           marginHorizontal: 10,
         }}
         backdropComponent={renderBackdrop}
       >
-        {/* <PinModal
-          createErrand={true}
-          submitErrandhandler={submitErrandhandler}
-          closePinModal={closePinModal}
-          verifyPin={true}
-          makeWithdrawalHandler={() => {}}
-        /> */}
+        <Content navigation={navigation} />
       </BottomSheetModal>
     </BottomSheetModalProvider>
   )

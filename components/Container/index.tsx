@@ -15,7 +15,8 @@ const Container = ({ children }: ContainerProp) => {
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
   return (
-    <SafeAreaView style={{ backgroundColor: backgroundTheme, flex: 1 }}>
+    // <SafeAreaView style={{ backgroundColor: backgroundTheme, flex: 1 }}>
+    <SafeAreaView style={{ backgroundColor: 'bg-[#F2F2F2]', flex: 1 }}>
       <View
         style={{
           flexDirection: 'column-reverse',

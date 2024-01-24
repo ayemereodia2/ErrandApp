@@ -19,13 +19,18 @@ export interface MarketQueryParams {
 
 export const errandMarketList = createAsyncThunk<any, MarketQueryParams, { rejectValue: string }>(
   "errandMarketList/get",
-  async ({setSearchedErrand, minPrice, maxPrice, category, location, ...marketQueryParams}, { rejectWithValue }) => {
-  try {
-    // let url = `/errand/market?start=0&count=10${category ? `&category=${category}`: ""}${minPrice === 0 ? '' : `&minPrice=${minPrice}`}${maxPrice === 0 ? '' : `&maxPrice=${maxPrice}`}`;
+  async ({ setSearchedErrand, minPrice, maxPrice, category, location, ...marketQueryParams }, { rejectWithValue }) => {
+
+    try {
+    let url: string
+
+      if (minPrice === 0 && maxPrice === 0 && !category && !location) {
+      url = `/errand/market?start=0&count=10`; 
+    }
 
     // let url = `/custom/errands`
 
-    let url = `/custom/errands?${minPrice === undefined ? '' : `minPrice=${minPrice}`}${maxPrice === undefined ? '' : `&maxPrice=${maxPrice}`}${category === undefined ? '' : `&category=${category}`}${location === undefined ? '' : `&location=${location}`}`
+     url = `/custom/errands?${minPrice === undefined ? '' : `minPrice=${minPrice}`}${maxPrice === undefined ? '' : `&maxPrice=${maxPrice}`}${category === undefined ? '' : `&category=${category}`}${location === undefined ? '' : `&location=${location}`}`
 
     
 

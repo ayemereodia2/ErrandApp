@@ -6,6 +6,7 @@ import {
   FontAwesome5,
   Fontisto,
   Ionicons,
+  MaterialCommunityIcons,
   MaterialIcons,
   SimpleLineIcons,
 } from '@expo/vector-icons'
@@ -32,6 +33,7 @@ import {
   SetttingsStack,
   WalletStack,
 } from './StackNavigation'
+import PostErrand from '../screens/CreateErrand'
 
 const Header = (props: any) => {
   return (
@@ -159,11 +161,13 @@ export const TabsNavigation = ({ navigation }: any) => {
           backgroundColor: theme ? '#0c1730' : 'white',
           borderTopRightRadius: 10,
           borderTopLeftRadius: 10,
+          borderBottomStartRadius: 20,
           // borderRadius: 15,
-          height: 80,
+          height: 92,
           // width:100
           paddingTop: 0,
           ...styles.shadow,
+        
         },
         headerShown: false,
         tabBarHideOnKeyboard: true,
@@ -181,10 +185,10 @@ export const TabsNavigation = ({ navigation }: any) => {
                   <Entypo
                     name="home"
                     size={24}
-                    color={theme ? 'white' : 'black'}
+                    color={theme ? 'white' : '#09497D'}
                     style={{ marginLeft: 6 }}
                   />
-                  <Text style={{ color: textTheme }}>Home</Text>
+                  <Text className='mt-2'  style={{ color: textTheme }}>Home</Text>
                 </>
               ) : (
                 <>
@@ -194,7 +198,7 @@ export const TabsNavigation = ({ navigation }: any) => {
                     color={textTheme}
                     style={{ marginLeft: 6 }}
                   />
-                  <Text style={{ color: textTheme }}>Home</Text>
+                  <Text className='mt-2' style={{ color: textTheme }}>Home</Text>
                 </>
               )}
             </View>
@@ -209,26 +213,23 @@ export const TabsNavigation = ({ navigation }: any) => {
           unmountOnBlur: false,
           headerShown: false,
           tabBarIcon: ({ focused }: any) => (
-            <View>
+            <View style={{}}>
               {focused ? (
                 <>
-                  <FontAwesome
-                    name="search"
-                    size={24}
-                    color={textTheme}
-                    style={{ marginLeft: 6 }}
-                  />
-                  <Text style={{ color: textTheme }}>Market</Text>
+                  <Fontisto name="shopping-bag" size={24} 
+                   color={'#09497D'}
+                   style={{ textAlign: 'center'}}
+                   />
+                  <Text style={{ color: textTheme }}>Market Place</Text>
                 </>
               ) : (
                 <>
-                  <Feather
-                    name="search"
-                    size={24}
-                    color={textTheme}
-                    style={{ marginLeft: 6 }}
-                  />
-                  <Text style={{ color: textTheme }}>Market</Text>
+                 
+                   <Feather name="shopping-bag" size={24} 
+                   color={textTheme}
+                   style={{ textAlign: 'center'}}
+                   />
+                  <Text style={{ color: textTheme }}>Market Place</Text>
                 </>
               )}
             </View>
@@ -237,6 +238,20 @@ export const TabsNavigation = ({ navigation }: any) => {
         name="MarketTab"
         component={MarketStack}
       />
+       {/* <Tab.Screen
+        options={optionsHandler({
+          title: '',
+          unmountOnBlur: true,
+          headerShown: false,
+          tabBarIcon: ({ focused }: any) => (
+            <View style={{position: 'relative', bottom: 20,  borderBottomLeftRadius: 100, borderBottomRightRadius: 100, backgroundColor: 'black', width: 60, height: 40}}>
+            
+            </View>
+          ),
+        })}
+        name="curve"
+        component={PostErrand}
+      /> */}
       <Tab.Screen
         options={optionsHandler({
           title: 'My Errands',
@@ -247,23 +262,32 @@ export const TabsNavigation = ({ navigation }: any) => {
             <View>
               {focused ? (
                 <>
-                  <MaterialIcons
+                  {/* <MaterialIcons
                     name="run-circle"
                     size={30}
                     color={textTheme}
                     style={{ marginLeft: 8 }}
-                  />
-                  <Text style={{ color: textTheme }}>Errands</Text>
+                  /> */}
+                  <MaterialCommunityIcons name="clock-time-five" size={24} color="#09497D" style={{textAlign: 'center'}} />
+                  {/* <Feather name="clock" size={24} 
+                  color={textTheme}
+                  style={{textAlign: 'center'}}
+                   /> */}
+                  <Text className='mt-2'  style={{ color: textTheme }}>My Errands</Text>
                 </>
               ) : (
                 <>
-                  <FontAwesome5
+                  {/* <FontAwesome5
                     name="running"
                     size={24}
                     color={textTheme}
                     style={{ marginLeft: 8 }}
-                  />
-                  <Text style={{ color: textTheme }}>Errands</Text>
+                  /> */}
+                  <Feather name="clock" size={24} 
+                  color={textTheme}
+                  style={{textAlign: 'center'}}
+                   />
+                  <Text className='mt-2'  style={{ color: textTheme, textAlign: 'center' }}> My Errands</Text>
                 </>
               )}
             </View>
@@ -286,7 +310,7 @@ export const TabsNavigation = ({ navigation }: any) => {
                   <Entypo
                     name="wallet"
                     size={26}
-                    color={textTheme}
+                    color={'#09497D'}
                     style={{ marginLeft: 6 }}
                   />
                   <Text style={{ color: textTheme }}>Wallet</Text>
@@ -308,7 +332,7 @@ export const TabsNavigation = ({ navigation }: any) => {
         name="WalletTab"
         component={WalletStack}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         options={optionsHandler({
           title: 'Settings',
           unmountOnBlur: true,
@@ -342,7 +366,7 @@ export const TabsNavigation = ({ navigation }: any) => {
         })}
         name="SettingsTab"
         component={SetttingsStack}
-      />
+      /> */}
     </Tab.Navigator>
   )
 }

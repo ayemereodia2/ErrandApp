@@ -13,7 +13,6 @@ import {
   RefreshControl,
   SafeAreaView,
   ScrollView,
-  StatusBar,
   Text,
   TextInput,
   TouchableOpacity,
@@ -230,11 +229,6 @@ const ErrandScreen = ({ navigation }: any) => {
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
             >
-              <StatusBar
-                backgroundColor={backgroundTheme}
-                barStyle={theme ? 'light-content' : 'dark-content'}
-              />
-
               <View
                 className={
                   Platform.OS === 'android'

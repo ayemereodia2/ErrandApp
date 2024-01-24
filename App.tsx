@@ -3,16 +3,12 @@
 // import { SafeAreaProvider } from 'react-native-safe-area-context'
 // import { Provider } from 'react-redux'
 // import messaging from '@react-native-firebase/messaging'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import React, { useEffect, useState } from 'react'
-import { Image, View } from 'react-native'
-// import 'react-native-gesture-handler'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as NetInfo from '@react-native-community/netinfo'
 import { NavigationContainer } from '@react-navigation/native'
-import { Asset } from 'expo-asset'
-import * as SplashScreen from 'expo-splash-screen'
-import { StatusBar, useColorScheme } from 'react-native'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import React, { useEffect, useState } from 'react'
+import { Image, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Modal from 'react-native-modal'
 import { NetworkProvider } from 'react-native-offline'
@@ -21,11 +17,17 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
 import { ToastProvider } from 'react-native-toast-notifications'
 import { Provider } from 'react-redux'
+import UpdateAppScreen from './screens/UpdateAppScreen'
+// import {  useSelector} from 'react-redux'
+import { StatusBar, useColorScheme } from 'react-native'
 import ErrorBoundary from './components/ErrorBoundary'
+// import useColorScheme from './hooks/useColorScheme'
+import { Asset } from 'expo-asset'
+import { useFonts } from 'expo-font'
+import * as SplashScreen from 'expo-splash-screen'
 import { useOnlineManager } from './hooks/useOnlineManager'
 import MainNavigation from './navigation/MainNavigation'
 import { GuestStack, navigationRef } from './navigation/StackNavigation'
-import UpdateAppScreen from './screens/UpdateAppScreen'
 import { store } from './services/store'
 
 const queryClient = new QueryClient()
@@ -42,6 +44,18 @@ function cacheImages(images: any) {
 
 export default function App({ navigation }: any) {
   const [appIsReady, setAppIsReady] = useState(false)
+
+  const [loaded] = useFonts({
+    Roboto: require('./assets/fonts/Roboto-Regular.ttf'),
+    Poppins: require('./assets/fonts/Poppins-Regular.ttf'),
+    Axiforma: require('./assets/fonts/Axiforma-Regular.ttf'),
+    'Chillax-Regular': require('./assets/fonts/Chillax-Regular.otf'),
+    'Chillax-Light': require('./assets/fonts/Chill/Chillax-Light.otf'),
+    'Chillax-Extralight': require('./assets/fonts/Chill/Chillax-Extralight.otf'),
+    'Chillax-Semibold': require('./assets/fonts/Chill/Chillax-Semibold.otf'),
+    'Chillax-Medium': require('./assets/fonts/Chill/Chillax-Medium.otf'),
+  })
+
   // const versionCode = '1.0.3'
 
   const [showUpdateModal, setShowUpdateModal] = useState(false)
@@ -64,7 +78,7 @@ export default function App({ navigation }: any) {
   }
 
   useEffect(() => {
-    getAppVersion()
+    // getAppVersion()
     // check if user is authenticated
     checkAuthenticationStatus()
     // checks network availability
@@ -118,6 +132,10 @@ export default function App({ navigation }: any) {
     }
   }
 
+  if (!loaded) {
+    return null
+  }
+
   if (!appIsReady) {
     return null
   } else {
@@ -132,7 +150,7 @@ export default function App({ navigation }: any) {
                     <SafeAreaProvider>
                       <StatusBar
                         barStyle="light-content"
-                        backgroundColor="lightblue"
+                        backgroundColor="#09497D"
                       />
                       {/* <Navigation /> */}
                       <GestureHandlerRootView style={{ flex: 1 }}>

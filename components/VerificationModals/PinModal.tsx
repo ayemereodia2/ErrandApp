@@ -20,7 +20,7 @@ interface PinModalProps {
   closePinModal: (show:boolean) => void
   submitErrandhandler: () => void
   verifyPin?: boolean
-  makeWithdrawalHandler: () => void
+  makeWithdrawalHandler?: () => void
   withdraw?: boolean
 }
 
@@ -202,7 +202,7 @@ const PinModal = ({
         {createErrand ? 'Confirm Your Pin' : 'Set Your Pin'}
       </Text>
 
-      <View className="bg-white border text-xs rounded-lg  flex-row space-x-2 justify-center items-center h-14 mb-4">
+      <View className="bg-white mx-4 border-[#ccc] border text-base rounded-lg  flex-row space-x-2 justify-center items-center h-14 mb-4">
         <TextInput
           className="w-full px-2 text-lg "
           placeholder="Enter Your Pin"

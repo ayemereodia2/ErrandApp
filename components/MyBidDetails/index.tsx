@@ -220,7 +220,7 @@ const SenderBidCard = ({
           <View className="flex-row justify-between items-center mt-2">
             <View className="bg-[#ADF0D1] rounded-2xl py-1 px-3 mt-2 ">
               <Text className="text-[#115A38] capitalize text-sm font-md">
-                {bid.state}
+                {bid?.state}
               </Text>
             </View>
 
@@ -251,7 +251,7 @@ const SenderBidCard = ({
           <View className="flex-row justify-between items-center mt-2">
             <View className="bg-red-50 rounded-2xl py-1 px-3 mt-2 ">
               <Text className="text-red-700 capitalize text-sm font-md">
-                {bid.state}
+                {bid?.state}
               </Text>
             </View>
 
@@ -291,7 +291,7 @@ const SenderBidCard = ({
           <View className="flex-row justify-between items-center mt-2">
             <View className="bg-blue-50 rounded-2xl py-1 px-3 mt-2 ">
               <Text className="text-blue-800 capitalize text-sm font-md">
-                {bid.state}
+                {bid?.state}
               </Text>
             </View>
 

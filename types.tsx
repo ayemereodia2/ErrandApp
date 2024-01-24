@@ -556,19 +556,19 @@ export interface UserDetail {
   ci_location: string
 }
 
-export interface NotificationList extends CommonState {
-  data: NotificationProps[]
-}
+// export interface NotificationList extends CommonState {
+//   data: NotificationProps[]
+// }
 
-export interface NotificationProps {
-  id: string
-  user_id: string
-  type: string
-  title: string
-  message: string
-  link: string
-  created_at: string
-}
+// export interface NotificationProps {
+//   id: string
+//   user_id: string
+//   type: string
+//   title: string
+//   message: string
+//   link: string
+//   created_at: string
+// }
 
 export interface NotificationPreferenceResponse extends CommonState {
   data: NotificationPreferences
@@ -711,7 +711,6 @@ export interface BidsProps {
 }
 
 // PAYSTACK TYPES
-
 export type Currency = 'NGN' | 'GHS' | 'USD' | 'ZAR'
 
 export type PaymentChannels = 'bank' | 'card' | 'qr' | 'ussd' | 'mobile_money'
@@ -747,4 +746,26 @@ export interface PayStackProps {
 export interface PayStackRef {
   startTransaction: () => void
   endTransaction: () => void
+}
+
+export interface NotificationProps {
+  userId: string
+}
+
+export interface NotificationResponse {
+  created_at: string
+  description: string
+  id: string
+  is_read: boolean
+  item_id: string
+  link: string
+  title: string
+  type: number
+  type_desc: string
+  user_id: string
+}
+
+export interface Notifications extends CommonState {
+  notifications: NotificationResponse[]
+  preference: NotificationPreferenceResponse
 }

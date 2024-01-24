@@ -152,13 +152,13 @@ interface AddressProps {
   if (diffMinutes < 1) {
     return "just now";
   } else if (diffMinutes < 60) {
-    return diffMinutes + " mins ago";
+    return diffMinutes + "m ago";
   } else if (diffMinutes < 1440) {
     const diffHours = Math.floor(diffMinutes / 60);
-    return diffHours + " hours ago";
+    return diffHours + "h ago";
   } else {
     const diffDays = Math.floor(diffMinutes / 1440);
-    return diffDays + " days ago";
+    return diffDays + "d ago";
   }
  }
 

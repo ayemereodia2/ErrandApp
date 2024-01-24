@@ -17,11 +17,13 @@ import { RootState } from '../../services/store'
 
 interface Props {
   openPinModal: () => void
+  openConfirmPinModal: () => void
   closeVerifyModal: () => void
 }
 
 export default function VerifyPassword({
   closeVerifyModal,
+  openConfirmPinModal,
   openPinModal,
 }: Props) {
   const [password, setPassword] = useState('')
@@ -58,6 +60,7 @@ export default function VerifyPassword({
       return
     }
     closeVerifyModal()
+    openConfirmPinModal()
     openPinModal()
     Toast.show({
       text1: rs.message,

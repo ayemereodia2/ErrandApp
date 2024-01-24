@@ -34,7 +34,11 @@ export const errandAction = createAsyncThunk<
 
     const rs = await _rs.json()
 
+    console.log(">>>>>>rs", rs);
+    
+
     if (rs.success === true) {
+
       if (type === "complete") {
         navigation.navigate("Errands")
         dispatch(errandDetails({ errandId }))

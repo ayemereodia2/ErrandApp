@@ -1,9 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { SafeAreaView, ScrollView, Text, View } from 'react-native'
+import { Image, SafeAreaView, ScrollView, Text, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as yup from 'yup'
 import Button from '../../components/Button'
@@ -11,6 +11,7 @@ import InputField from '../../components/InputField'
 import { Logo } from '../../components/Logo'
 import { useAppDispatch } from '../../services/store'
 import { ICreateAccount } from '../../types'
+import Checkbox from 'expo-checkbox'
 
 export default function CreateAccountScreen() {
   const navigation = useNavigation()
@@ -62,6 +63,12 @@ export default function CreateAccountScreen() {
     navigation.navigate('SecurityQuestions')
   }
 
+  const [checked, setChecked] = useState(false)
+
+  const handleChecked = () => {
+    setChecked(!checked)
+  }
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -76,21 +83,28 @@ export default function CreateAccountScreen() {
           contentContainerStyle={{ flexGrow: 1 }}
           enableOnAndroid={true}
         >
-          <View className="px-4">
-            <Logo />
+          <View className="px-3">
+            {/* <Logo /> */}
+            <Image source={require('../../assets/images/authSwave.png')} className='mt-[29px] mx-1 mb-7'/>
 
-            <View className="text-[#333333] font-inter pb-4 space-y-1">
-              <Text className="font-semibold text-xl text-center">
-                Create an Account
-              </Text>
-              <Text className="text-sm text-center">
-                Let’s get started and create a Profile for you
+            <View className="text-[#333333] font-inter ">
+
+            <View className='border-b border-[#EEF0F1]'>
+            <Text className='text-[#09497D] ml-2 pb-2 mb-7' style={{fontFamily: 'Axiforma'}}>Step 3 of 4</Text>
+            </View>
+
+            <Text className='font-semibold text-[24px] text-[#393F42] mb-2' >Profile</Text>
+              <Text className="text-sm text-[#717E83] mb-8">
+              Create your account profile by filling your details below.
               </Text>
 
-              <View className="pt-2 space-y-4">
+              <View className="pt-3">
+
+                <View className='mb-7'>
+                  <Text className='text-[#393F42] text-sm font-medium' style={{fontFamily: 'Axiforma'}}>First Name</Text>
                 <InputField
-                  label="First Name"
-                  placeholder="Enter your Name"
+                  // label="First Name"
+                  // placeholder="Enter your Name"
                   keyboardType="default"
                   name="first_name"
                   control={control}
@@ -98,10 +112,14 @@ export default function CreateAccountScreen() {
                   errors={errors.first_name}
                   message={errors?.first_name?.message}
                 />
+                </View>
+
+                <View className='mb-7'>
+                <Text className='text-[#393F42] text-sm' style={{fontFamily: 'Axiforma'}}>Last Name</Text>
 
                 <InputField
-                  label="Last Name"
-                  placeholder="Enter your Name"
+                  // label="Last Name"
+                  // placeholder="Enter your Name"
                   keyboardType="default"
                   name="last_name"
                   control={control}
@@ -110,20 +128,32 @@ export default function CreateAccountScreen() {
                   message={errors?.last_name?.message}
                 />
 
+                </View>
+
+
+              <View className='mb-7'>
+              <Text className='text-[#393F42] text-sm' style={{fontFamily: 'Axiforma'}}>Email Address <Text className='text-[#717E83] text-xs' style={{fontWeight: '300'}}>(optional)</Text></Text>
+
                 <InputField
-                  label="Email"
-                  placeholder="Enter your email"
+                  // label="Email Address"
+                  placeholder="Enter your email addrss"
                   keyboardType="default"
-                  optional="optional"
+                  // optional="optional"
                   name="email"
                   control={control}
                   errors={errors.email}
                   message={errors?.email?.message}
                 />
+                </View>
+
+
+                <View className='mb-7'>
+
+                <Text className='text-[#393F42] text-sm' style={{fontFamily: 'Axiforma'}}>Password</Text>
 
                 <InputField
-                  label="Password"
-                  placeholder="Enter your Name"
+                  // label="Password"
+                  placeholder="***********"
                   keyboardType="visible-password"
                   name="password"
                   control={control}
@@ -131,10 +161,16 @@ export default function CreateAccountScreen() {
                   errors={errors.password}
                   message={errors?.password?.message}
                 />
+                </View>
+
+
+                <View className='mb-7'>
+
+                <Text className='text-[#393F42] text-sm' style={{fontFamily: 'Axiforma'}}>Confirm Password</Text>
 
                 <InputField
-                  label="Confirm Password"
-                  placeholder="re-enter password"
+                  // label="Confirm Password"
+                  placeholder="***********"
                   keyboardType="visible-password"
                   name="confirmPassword"
                   control={control}
@@ -142,25 +178,40 @@ export default function CreateAccountScreen() {
                   errors={errors.confirmPassword}
                   message={errors?.confirmPassword?.message}
                 />
+                </View>
+
+
+                <View className=''>
+
+                <Text className='text-[#393F42] text-sm' style={{fontFamily: 'Axiforma'}}>Referral Code <Text className='text-[#717E83] text-xs' style={{fontWeight: '300'}}>(optional)</Text></Text>
 
                 <InputField
-                  label="Referral Code"
-                  optional="optional"
-                  placeholder="Enter referral code"
+                  // label="Referral Code"
+                  // optional="optional"
+                  placeholder="Enter Invite Code"
                   control={control}
                   keyboardType="default"
                   name="referralCode"
                   errors={errors.referralCode}
                   message={errors.referralCode?.message}
                 />
+                </View>
+
+                <View className='flex-row items-center mt-7 mx-3'>
+                  <Checkbox 
+                  value={checked}
+                  onValueChange={handleChecked}
+                  className=''/>
+                  <Text className='ml-2 '>I Accept Privacy Policies, <Text className='text-[#09497D] font-medium '>Terms & Conditions</Text>  </Text>
+                </View>
 
                 <Button
                   style={{}}
-                  className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
-                  child="Create Account"
+                  className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-6 mb-6"
+                  child="Proceed"
                   onPress={handleSubmit(onSubmit)}
                 />
-                <Text className="text-black text-center pb-6">
+                {/* <Text className="text-black text-center pb-6">
                   Already Have an Account?{' '}
                   <Text
                     onPress={() => {
@@ -170,7 +221,7 @@ export default function CreateAccountScreen() {
                   >
                     Login
                   </Text>
-                </Text>
+                </Text> */}
               </View>
             </View>
           </View>

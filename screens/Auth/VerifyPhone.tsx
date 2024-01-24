@@ -6,6 +6,7 @@ import {
   Keyboard,
   SafeAreaView,
   Text,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
@@ -16,6 +17,12 @@ import InputField from '../../components/InputField'
 import { Logo } from '../../components/Logo'
 import { verifyPhone } from '../../services/auth/verify-phone'
 import { RootState, useAppDispatch } from '../../services/store'
+import AuthLogo from '../../components/AuthLogo'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import CountryPicker from 'react-native-country-picker-modal'
+import { AntDesign } from '@expo/vector-icons'
+import { Image } from 'react-native'
+
 // import {toast }from 'react-hot-toast'
 
 declare global {
@@ -42,6 +49,8 @@ export default function VerifyPhone({ navigation, route }: any) {
   const dispatch = useAppDispatch()
   const [error, setError] = useState('')
   const [showPhoneInput, setShowPhoneInput] = useState<boolean>(true)
+  const [countryCode, setCountryCode] = useState("NG")
+  const [callingCode, setCallingCode] = useState("234")
 
   const { comingFrom } = route.params
 
@@ -85,10 +94,28 @@ export default function VerifyPhone({ navigation, route }: any) {
   }
 
   return (
-    <SafeAreaView className="mt-24">
+    <SafeAreaView className="mt-20 ml-1 ">
+      
+      <KeyboardAwareScrollView
+          // style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          enableOnAndroid={true}
+        >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View className="px-4">
-          <Logo />
+          {/* <Logo /> */}
+
+          {comingFrom === 'forgotPassword' 
+            ?
+            <TouchableOpacity className=' mb-[76px]' onPress={() => navigation.goBack()}>
+              <Text> <AntDesign name="arrowleft" size={24} color="#888" /> </Text>
+            </TouchableOpacity>
+            :
+            (
+              <AuthLogo />
+            )
+          }
+          
 
           {/* <KeyboardAwareScrollView
             style={{ flex: 1 }}
@@ -96,19 +123,71 @@ export default function VerifyPhone({ navigation, route }: any) {
             enableOnAndroid={true}
           > */}
           <View className="text-[#333333] font-inter py-4 space-y-1">
-            <Text className="font-semibold text-lg text-center">
-              {comingFrom === 'forgotPassword'
-                ? 'Password Recovery'
-                : 'Phone Verification'}
-            </Text>
-            <Text className="text-sm text-center">
-              {comingFrom === 'forgotPassword'
-                ? 'Please supply the phone number used for registration'
-                : 'Enter your details to Verify your Phone'}
-            </Text>
 
-            <View className="pt-2 space-y-6">
-              <InputField
+          {comingFrom === 'forgotPassword' 
+            ?
+            <View className='mx-auto mb-7 shadow-sm'>
+            <Image source={require('../../assets/images/forgotPassword.png')} />
+            </View>
+            :
+            (
+              <View className=' mx-auto mb-7 '>
+            <Image source={require('../../assets/images/createAccount.png')} />
+            </View>
+            )
+          }
+
+            {comingFrom === 'forgotPassword' 
+            ?
+            ''
+            :
+            (
+              <View className='border-b border-[#EEF0F1]'>
+            <Text className='text-[#09497D] pb-2 mb-7' style={{fontFamily: 'Axiforma'}}>Step 1 of 4</Text>
+            </View>
+            )
+          }
+
+            
+            
+            
+              {comingFrom === 'forgotPassword'
+                ? 
+                (
+                  // <Text className="font-semibold text-[24px] mt-[45px] text-[#393F42]" style={{fontFamily: 'Chillax'}}>
+                  <Text className='mt-[45px]' style={{  fontWeight: 'bold', fontSize: 24, color: '#393F42' }}>
+
+                Forgot Password
+                </Text>
+                )
+                : 
+                (
+                  // <Text className='font-semibold text-[24px] mb-3 text-[#393F42]' style={{fontFamily: 'Chillax'}}>
+                  <Text className='mt-[45px] mb-3' style={{  fontWeight: 'bold', fontSize: 24, color: '#393F42' }}> 
+
+                    Create Account
+                    </Text>
+                
+                )
+              }
+            
+           
+              {comingFrom === 'forgotPassword'
+
+                ? 
+                (  <Text className="text-sm mt-1 text-[#5A6063]" style={{fontFamily: 'Axiforma'}}>
+                  Please enter your registered phone number
+                  </Text>
+                )
+                : 
+                (
+                <Text className='text-[14px] text-[#5A6063]' style={{fontFamily: 'Axiforma'}}>
+                Set up your account now to access financing.
+                </Text>) }
+            
+
+            <View className="pt-2 mt-8">
+              {/* <InputField
                 label="Phone Number"
                 placeholder="Enter your phone Number"
                 keyboardType="numeric"
@@ -117,25 +196,126 @@ export default function VerifyPhone({ navigation, route }: any) {
                 errors={errors.phone_number}
                 required
                 message={errors?.phone_number?.message}
-              />
+              /> */}
 
-              <Button
-                style={{ marginTop: 36 }}
-                className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-20 "
-                child={
+                  <Text className='mt-[26px] text-[#5E6366] text-sm' style={{fontFamily: 'Axiforma'}}>Phone Number</Text>
+
+                  <View className='flex-row items-center w-full'>
+
+
+                      <View className=' flex-row items-center mr-2 mt-1 px-[22px] py-[7px] w-[81px] border rounded-lg border-[#96A0A5]'>
+
+                      <CountryPicker
+                      withFilter
+                      countryCode={countryCode}
+                      withFlag
+                      withAlphaFilter={false}
+                      withCurrencyButton={false}
+                      withCallingCode
+                      onSelect={country => {
+                        console.log('country', country);
+                        const {cca2, callingCode} = country;
+                        setCountryCode(cca2)
+                        setCallingCode(callingCode[0]);
+                      }}
+                      containerButtonStyle={{
+                        alignItems: 'center',
+                        
+                        marginRight: 15
+                      }}
+                      />
+
+                      <Text className='mt-1'><AntDesign name="down" size={16} color="#130F26" /></Text>
+                      </View>
+
+                      <View className='w-[66.5vw]'>
+                      <InputField
+                      // label="Phone Number"
+                      placeholder="8023456789"
+                      keyboardType="numeric"
+                      name="phone_number"
+                      required={true}
+                      control={control}
+                      errors={errors.phone_number}
+                      message={'phone is required'}
+
+                      />
+                      </View>
+                      </View>
+
+                      {
+                        comingFrom === 'forgotPassword' ?
+                        ''
+                        :
+                        (
+                          <>
+                          <View className='flex-row items-center justify-between mt-6 mb-5'>
+                          <View className='bg-[#5F5F5F] border-[0.4px] w-[127px] h-[1px]'></View>
+        
+                          <View>
+                            <Text className='text-[#5F5F5F] text-[12px]' style={{fontFamily: 'Axiforma'}}>or Sign Up with</Text>
+                          </View>
+        
+                          <View className='bg-[#5F5F5F] border-[0.4px] w-[127px] h-[1px]'></View>
+                        </View>
+        
+                        <TouchableOpacity className='flex-row items-center justify-center py-4 mb-10 bg-[#FFF] border border-[#888] rounded-lg'>
+        
+                          <Image source={require('../../assets/images/googleLogo.png')} 
+                          className='mr-[6px] w-5 h-5'  
+                          />
+        
+                          <Text className='font-bold text-[#09497D]' style={{fontFamily: 'Axiforma', fontWeight: 'bold'}}>Sign Up</Text>
+                        </TouchableOpacity>
+                        </>
+                        
+        
+                        )
+                      }
+
+
+              <TouchableOpacity
+                style={{  }}
+                className="w-full text-white mt-5 bg-[#243763] flex-row justify-center items-start py-4 rounded-lg"
+                
+                onPress={handleSubmit(submitPhone)}>
+                  {
                   loading ? (
-                    <ActivityIndicator size="small" color="#00ff00" />
+                   <Text> <ActivityIndicator size="small" color="#00ff00" /> </Text> 
                   ) : (
-                    'Verify Phone'
+                    <Text className='text-base text-[#EEF2F3] font-semibold' style={{fontFamily: 'Axiforma'}}>Proceed</Text>
                   )
                 }
-                onPress={handleSubmit(submitPhone)}
-              />
+                </TouchableOpacity>
             </View>
+
+            <View className='flex-row justify-center items-center mb-8'>
+
+            <Text className="text-[#8E9DA4] mt-5" style={{fontFamily: 'Axiforma'}}>
+                  Have an account?
+                 
+                </Text>
+
+                <TouchableOpacity onPress={() => {
+                      navigation.navigate('Login', {
+                        comingFrom: 'createAccount',
+                      })
+                    }} className='ml-1'>
+                  <Text
+                    
+                    className="font-bold text-[#09497D] mt-5" style={{fontFamily: 'Axiforma'}}
+                  >
+                    
+                    Log In
+                  </Text>
+                  </TouchableOpacity>
+            </View>
+           
           </View>
-          {/* </KeyboardAwareScrollView> */}
+           
         </View>
       </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView> 
     </SafeAreaView>
   )
 }

@@ -1,8 +1,8 @@
 import { createNavigationContainerRef } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React, { useEffect } from 'react'
+import React from 'react'
 import FundWalletModal from '../components/Modals/Errands/FundWallet'
-import AboutSwave from '../screens/AboutSwave/AboutSwave'
+import AboutSwave from '../screens/AboutSwave'
 import AdsScreen from '../screens/AdsScreen'
 import AccountRecoveryScreen from '../screens/Auth/AccountRecovery'
 import CreateAccountScreen from '../screens/Auth/CreateAccountScreen'
@@ -12,16 +12,16 @@ import SecurityQuestion from '../screens/Auth/SecurityQuestionScreen'
 import VerifyOtpScreen from '../screens/Auth/VerifyOtp'
 import VerifyPhone from '../screens/Auth/VerifyPhone'
 import VerifyQuestion from '../screens/Auth/VerifyQuestion'
-import ContactUs from '../screens/Contact/ContactUs'
+import ContactUs from '../screens/Contact'
 import PostErrand from '../screens/CreateErrand'
-import EditProfileTitle from '../screens/EditProfile/EditProfileTitle'
+import EditProfileTitle from '../screens/EditProfile'
 import ErrorScreen from '../screens/Error'
-import GuestMarket from '../screens/Guest/GuestMarket'
+import GuestMarket from '../screens/Guest'
 import GuestMarketDetails from '../screens/Guest/GuestMarketDetails'
-import LandingForm from '../screens/Landing/LandingForm'
-import LandingTest from '../screens/Landing/LandingTest'
+import LandingTest from '../screens/Home'
+import LandingForm from '../screens/Home/QuickErrand'
+import MainScreen from '../screens/Market'
 import ErrandDetails from '../screens/Market/ErrandDetails'
-import MainScreen from '../screens/Market/MainScreen'
 import AbandonErrandModal from '../screens/Modal/AbandonErrandModal'
 import CancelErrandModal from '../screens/Modal/CancelErrandModal'
 import CompleteErrandModal from '../screens/Modal/CompleteErrandModal'
@@ -29,21 +29,21 @@ import ErrandScreen from '../screens/MyErrands'
 import ErrandUserDetails from '../screens/MyErrands/ErrandUserDetails'
 import MyErrandInfo from '../screens/MyErrands/MyErrandInfo'
 import RejectErrandScreen from '../screens/MyErrands/RejectErrandScreen'
-import NotificationScreen from '../screens/Notification/NotficationScreen'
-import OnboardingUi from '../screens/Onboarding/OnboardingUi'
-import PrivacyPolicy from '../screens/Privacy/PrivacyPolicy'
+import NotificationScreen from '../screens/Notification'
+import OnboardingUi from '../screens/Onboarding'
+import PrivacyPolicy from '../screens/Privacy'
 import AccountScreen from '../screens/Profile'
+import SettingScreen from '../screens/Settings'
 import CategoryInterest from '../screens/Settings/AddCategory'
-import SettingScreen from '../screens/Settings/SettingScreen'
-import TermsAndConditions from '../screens/Terms & Condition/TermsAndConditions'
+import TermsAndConditions from '../screens/Terms & Condition'
 import UpdateAppScreen from '../screens/UpdateAppScreen'
 import WalletScreen from '../screens/Wallets'
 import EscrowScreen from '../screens/Wallets/EscrowScreen'
 import TransactionScreen from '../screens/Wallets/TransactionScreen'
 import WalletAccount from '../screens/Wallets/WalletAccount'
 // import { getAppVersion } from '../utils/helper'
-import { TabsNavigation } from './TabsNavigation'
 import RejectErrandModal from '../components/Modals/Errands/RejectErrandModal'
+import { TabsNavigation } from './TabsNavigation'
 
 const Stack = createNativeStackNavigator()
 
@@ -288,7 +288,6 @@ export const TabStack = () => {
 }
 
 export function GuestStack() {
-
   return (
     <>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -323,7 +322,6 @@ export function GuestStack() {
         <Stack.Screen name="RecoverPassword" component={ForgotPassword} />
         <Stack.Screen name="RejectErrand" component={RejectErrandScreen} />
         <Stack.Screen name="RejectErrands" component={RejectErrandModal} />
-
 
         <Stack.Screen
           name="UpdateApp"
@@ -550,7 +548,6 @@ export const MainStack = () => {
       <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
       <Stack.Screen name="RejectErrand" component={RejectErrandScreen} />
       <Stack.Screen name="RejectErrands" component={RejectErrandModal} />
-
 
       <Stack.Screen
         name="MyErrandDetails"
@@ -802,6 +799,8 @@ export const LandingPageStack = () => {
         component={AdsScreen}
         options={{ headerShown: false }}
       />
+
+      <Stack.Screen name="Settings" component={SettingScreen} />
 
       <Stack.Screen name="MyErrands" component={ErrandScreen} />
       <Stack.Screen name="Market" component={MainScreen} />

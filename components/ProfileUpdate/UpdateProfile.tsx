@@ -1,10 +1,10 @@
+import { AntDesign } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
 import {
   ActivityIndicator,
-  Platform,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -19,7 +19,6 @@ import { useSelector } from 'react-redux'
 import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { RootState, useAppDispatch } from '../../services/store'
-import { FontAwesome } from '@expo/vector-icons'
 
 const UpdateProfile = ({ image, data }: any) => {
   const {
@@ -36,47 +35,31 @@ const UpdateProfile = ({ image, data }: any) => {
   const navigation = useNavigation()
   const [loading, setLoading] = useState(false)
 
+  const dob = data?.dob === '' ? 'No date of birth' : new Date(data?.dob)
+
   const [about, setAbout] = useState(data?.bio)
   const [lastName, setLastName] = useState(data?.last_name)
   const [firstName, setFirstName] = useState(data?.first_name)
   const [email, setEmail] = useState(data?.email)
   const [date, setDate] = useState(new Date())
   const [showPicker, setShowPicker] = useState(false)
-  const [dateOfBirth, setDateOfBirth] = useState(new Date(data?.dob))
+  const [dateOfBirth, setDateOfBirth] = useState(dob)
   const [occupation, setOccupation] = useState(data?.occupation)
 
   const [showDatePicker, setShowDatePicker] = useState(false)
-  const [myDate, setMytDate] = useState(new Date(data?.dob))
+  const [myDate, setMyDate] = useState(new Date())
 
+  console.log('>>>>>>daaaaa', dateOfBirth)
 
   const toggleDatepicker = () => {
     setShowPicker(!showPicker)
   }
 
-  // const onChange = ({ type }: any, selectedDate: any) => {
-  //   if (type == 'set') {
-  //     const currentDate = selectedDate
-  //     setDate(currentDate)
-
-  //     if (Platform.OS === 'android') {
-  //       toggleDatepicker()
-  //       setDateOfBirth(currentDate.toDateString())
-  //     }
-  //   } else {
-  //     toggleDatepicker()
-  //   }
-  // }
-
-  // const confirmIOSDate = () => {
-  //   setDateOfBirth(date.toDateString())
-  //   toggleDatepicker()
-  // }
-
- const onDateChange = (event, selectedDate) => {
-  const currentDate = selectedDate || dateOfBirth;
-  setShowDatePicker(false);
-  setDateOfBirth(currentDate);
-};
+  const onDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || dateOfBirth
+    setShowDatePicker(false)
+    setDateOfBirth(currentDate)
+  }
 
   const updateUserProfile = async (userData: any) => {
     setLoading(true)
@@ -87,7 +70,6 @@ const UpdateProfile = ({ image, data }: any) => {
         body: userData,
       })
 
-      // Check if the response status code indicates an error
       if (!_rs.ok) {
         const errorResponse = await _rs.json()
         throw new Error(`Server error: ${errorResponse.message}`)
@@ -97,7 +79,6 @@ const UpdateProfile = ({ image, data }: any) => {
       dispatch(currentUserDetails({ user_id }))
 
       setLoading(false)
-
 
       return responseData
     } catch (error) {
@@ -153,7 +134,7 @@ const UpdateProfile = ({ image, data }: any) => {
               Bio
             </Text>
             <TextInput
-              className="w-full mt-2 b rounded-md h-[120px] pl-3 pb-[70px] mx-auto bg-[#E6E6E6] text-sm"
+              className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
               placeholder={data?.bio ? data.bio : 'Enter a message'}
               value={about}
               onChangeText={(text) => setAbout(text)}
@@ -169,7 +150,7 @@ const UpdateProfile = ({ image, data }: any) => {
               First Name
             </Text>
             <TextInput
-              className="w-full mt-2 b rounded-md h-[60px] pl-3 items-center mx-auto bg-[#E6E6E6] text-sm"
+              className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
               placeholder={'Enter your First Name'}
               value={firstName}
               onChangeText={(text) => setFirstName(text)}
@@ -185,7 +166,7 @@ const UpdateProfile = ({ image, data }: any) => {
               Last Name
             </Text>
             <TextInput
-              className="w-full mt-2 b rounded-md h-[60px] pl-3 items-center mx-auto bg-[#E6E6E6] text-sm"
+              className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
               placeholder={' Enter your last name'}
               value={lastName}
               onChangeText={(text) => setLastName(text)}
@@ -201,7 +182,7 @@ const UpdateProfile = ({ image, data }: any) => {
               Occupation
             </Text>
             <TextInput
-              className="w-full mt-2 b rounded-md h-[60px] pl-3 items-center mx-auto bg-[#E6E6E6] text-sm"
+              className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
               placeholder={' Enter your occupation'}
               value={occupation}
               onChangeText={(text) => setOccupation(text)}
@@ -217,7 +198,7 @@ const UpdateProfile = ({ image, data }: any) => {
               Email Address
             </Text>
             <TextInput
-              className="w-full mt-2 b rounded-md h-[60px] pl-3 items-center mx-auto bg-[#E6E6E6] text-sm"
+              className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
               placeholder={'Enter your email Address'}
               value={email}
               onChangeText={(text) => setEmail(text)}
@@ -273,32 +254,33 @@ const UpdateProfile = ({ image, data }: any) => {
             )}
           </View> */}
 
-    <View className="h-24 mt-8">
-           
-              {/* <FontAwesome
+          <View className="h-24 mt-8">
+            {/* <FontAwesome
                 className="mr-2"
                 name="calendar"
                 size={20}
                 color={textTheme}
               /> */}
-               <Text
+            <Text
               className="font-medium text-lg text-[#1E3A79]"
               style={{ color: textTheme }}
             >
               Date Of Birth
             </Text>
-           
-            <View className="mt-2">
 
-            <Pressable
-              onPress={() => setShowDatePicker(true)}
-              className="text-center flex-row items-center space-x-1 "
-            >
-              <View className='w-full bg-[#E6E6E6] rounded-md h-[60px] pl-3  py-4'>
-              <Text style={{color: textTheme}}> {dateOfBirth.toString().slice(0, 15)}</Text>
-              </View>
-              
-               </Pressable>
+            <View className="mt-2">
+              <Pressable
+                onPress={() => setShowDatePicker(true)}
+                className="text-center flex-row items-center space-x-1 border border-[#ccc] rounded-lg "
+              >
+                <View className="w-full bg-[#E6E6E6] text-base rounded-md  px-3  py-3 flex-row justify-between">
+                  <Text style={{ color: textTheme }}>
+                    {dateOfBirth.toString().slice(0, 15)}
+                  </Text>
+
+                  <AntDesign name="edit" size={24} />
+                </View>
+              </Pressable>
               {showDatePicker && (
                 <DateTimePicker
                   value={myDate}
@@ -309,8 +291,6 @@ const UpdateProfile = ({ image, data }: any) => {
               )}
             </View>
           </View>
-
-
 
           <TouchableOpacity
             className=" mt-[52px] mb-[180px] rounded-lg"

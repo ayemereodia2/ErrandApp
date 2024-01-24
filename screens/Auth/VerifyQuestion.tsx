@@ -3,8 +3,10 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
+  Image,
   Keyboard,
   SafeAreaView,
+  ScrollView,
   Text,
   TextInput,
   TouchableWithoutFeedback,
@@ -14,6 +16,10 @@ import Toast from 'react-native-toast-message'
 import Button from '../../components/Button'
 import { Logo } from '../../components/Logo'
 import { _fetch } from '../../services/axios/http'
+import AuthLogo from '../../components/AuthLogo'
+import { TouchableOpacity } from 'react-native'
+import { AntDesign } from '@expo/vector-icons'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function PasswordQuestions({ route }: any) {
   const navigation = useNavigation()
@@ -84,51 +90,79 @@ export default function PasswordQuestions({ route }: any) {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className='mt-[70px]'>
+
+      <KeyboardAwareScrollView
+                // style={{ flex: 1 }}
+                contentContainerStyle={{ flexGrow: 1 }}
+                enableOnAndroid={true}
+              >
+      <ScrollView>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View className="px-4">
-          <Logo />
+          {/* <Logo /> */}
 
-          <View className="text-[#333333] font-inter py-4 space-y-1">
-            <Text className="font-semibold text-lg text-center">
-              Password Recovery
+            <TouchableOpacity className=' mb-[50px]' onPress={() => navigation.goBack()}>
+              <Text> <AntDesign name="arrowleft" size={24} color="#888" /> </Text>
+            </TouchableOpacity>
+           
+
+          <View>
+            <Image source={require('../../assets/images/securityQuestion.png')} className='mx-auto shadow-sm'/>
+          </View>
+
+          <View className="text-[#333333] font-inter mt-[90px]">
+          <Text className="font-semibold text-[24px] text-[#393F42]">
+            Security Question
             </Text>
 
-            <Text className="text-base text-center">
+            <Text className="text-sm text-[#5A6063] mt-2" style={{fontFamily: 'Axiforma'}}>
               Please supply the answer to the security question which you
               created during your registration
             </Text>
 
-            <View className="pt-4 space-y-4 mt-4">
-              <Text className="text-[#243763] mt-4 text-center text-base mb-2">
-                {question ? question : 'No Security Question'}
-              </Text>
+            <View className='mt-5'>
+              <Text className='text-sm text-[#393F42]' style={{fontFamily: 'Axiforma'}}>Security Question</Text>
+            </View>
+
+            <View className='flex-row items-center justify-between mt-3 border rounded-[8px] border-[#96A0A5] py-[16px] px-[13px]'>
+              <Text className='text-[#444]' style={{fontFamily: 'Axiforma'}}>{question ? question : 'No Security Question'}</Text>
+              <Text> <AntDesign name="lock" size={16} color="black" /> </Text>
+            </View>
+
+
+            <View className='mt-5 mb-3'>
+              <Text className='text-sm text-[#393F42]' style={{fontFamily: 'Axiforma'}}>Answer</Text>
+            </View>
+
 
               <TextInput
                 keyboardType="default"
                 onChangeText={(text) => setAnswer(text)}
                 value={answer}
                 placeholder="Enter Your Answer"
-                className="border border-[#ccc] p-4 pt-1 rounded-lg w-full text-base"
+                className="border border-[#ccc] p-4 px-2 rounded-lg w-full text-base"
               />
 
               <Button
-                style={{ marginTop: 20 }}
-                className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-20"
+                style={{ marginTop: 30 }}
+                className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg "
                 child={
                   loading ? (
                     <ActivityIndicator size="small" color="#00ff00" />
                   ) : (
-                    'Submit Answer'
+                    'Proceed'
                   )
                 }
                 onPress={submitQuestion}
               />
-            </View>
+            
           </View>
           {/* </KeyboardAwareScrollView> */}
         </View>
       </TouchableWithoutFeedback>
+      </ScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   )
 }

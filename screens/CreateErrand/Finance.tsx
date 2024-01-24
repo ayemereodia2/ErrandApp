@@ -1,12 +1,6 @@
+import Checkbox from 'expo-checkbox'
 import React, { useEffect, useState } from 'react'
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import { Dropdown } from 'react-native-element-dropdown'
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -34,9 +28,15 @@ const CreateErrandFinance = ({
   const dispatch = useAppDispatch()
   const [currentWalletAmount, setCurrentWalletAmount] = useState(0)
 
+  const [clicked, setClicked] = useState(false)
+
   const { data, loading } = useSelector(
     (state: RootState) => state.walletActionReducer,
   )
+
+  const handleClicked = () => {
+    setClicked(!clicked)
+  }
 
   const {
     data: currentUser,
@@ -73,18 +73,21 @@ const CreateErrandFinance = ({
           </Text>
         </View>
 
-        <View className="mx-auto items-center justify-center w-[309px] h-[48px] mt-5">
+        <View className="px-4  mt-5">
           <Text
-            style={{ color: textTheme }}
-            className="text-[#777777] text-center"
+            style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            className="text-[#6D6D6D] text-base "
           >
-            In this section, you can set the financial plan for this request
-            regarding the budget of the request
+            Kindly provide the financial plan for this request regarding the
+            budget of the request
           </Text>
         </View>
 
-        <View className="mt-[41px] ml-4">
-          <Text style={{ color: textTheme }} className="text-[#243763]">
+        <View className="mt-5 ml-4">
+          <Text
+            style={{ color: '#393F42', fontFamily: 'Axiforma' }}
+            className="text-[#243763] text-base"
+          >
             What is your budget for this errand?
           </Text>
 
@@ -114,31 +117,33 @@ const CreateErrandFinance = ({
           keyboardType="number-pad"
           defaultValue={postErrandData.budget.toString()}
         /> */}
-        <TouchableOpacity
+        <View className="flex-row items-center justify-between mr-4">
+          <View className="flex-row items-center">
+            <View className="border py-1 border-amber-50 shadow-lg bg-slate-300 ml-4 rounded-md mt-2 mr-2 ">
+              <Text className="ml-4  pr-2" style={{ color: textTheme }}>
+                Fund Wallet
+              </Text>
+            </View>
+
+            <Text style={{ color: textTheme }} className="text-sm pt-2 font-md">
+              ( ₦
+              {Number(data?.balance) === 0
+                ? '0.00'
+                : (Number(data?.balance) / 100).toLocaleString()}
+              )
+            </Text>
+          </View>
+
+          {/* <TouchableOpacity
           onPress={() => {
             setCurrentWalletAmount(Number(data?.balance) / 100)
             navigation.navigate('FundWalletModal', [currentWalletAmount])
           }}
           className="flex-row items-center"
         >
-          <View className='border py-1 border-amber-50 shadow-lg bg-slate-300 ml-4 rounded-md mt-2 mr-2 '>
-            <Text className="ml-4  pr-2" style={{ color: textTheme }}>
-              Fund Wallet
-            </Text>
-          </View>
-
-          <Text style={{ color: textTheme }} className="text-sm pt-2 font-md">
-            ({' '}
-            <Text style={{ color: textTheme }} className="font-bold">
-              Balance:
-            </Text>{' '}
-            ₦
-            {Number(data?.balance) === 0
-              ? '0.00'
-              : (Number(data?.balance) / 100).toLocaleString()}
-            )
-          </Text>
-        </TouchableOpacity>
+          <Text className='text-[#09497D] text-sm' style={{fontFamily: 'Axiforma'}}>Fund Wallet</Text>
+        </TouchableOpacity> */}
+        </View>
 
         {/* <View className="mt-4 ml-4">
           <Text
@@ -150,31 +155,43 @@ const CreateErrandFinance = ({
           </Text>
         </View> */}
 
-        <View className="mt-10 ml-4">
+        <View className="flex-row items-center mt-10 ml-4">
+          <Checkbox
+            value={clicked}
+            onValueChange={handleClicked}
+            className="mr-2"
+          />
+
           <Text
-            className="text-[#243763] font-semibold text-[20px]"
-            style={{ color: textTheme }}
+            className="text-[16px]"
+            style={{ color: '#0C426F', fontFamily: 'Axiforma' }}
           >
             Insurance
           </Text>
-          {/* <Text className='text-red-500'>*{financeError}</Text> */}
         </View>
-        <View className="px-4 mt-4">
+
+        <View
+          className="px-4 mt-4"
+          style={{ display: clicked ? 'flex' : 'none' }}
+        >
           <Text
-            style={{ color: textTheme }}
-            className="text-[#243763] overflow-auto font-normal leading-[24px] text-sm"
+            style={{ color: '#393F42', fontFamily: 'Axiforma' }}
+            className=" overflow-auto font-normal leading-[24px] text-base"
           >
-            Setting an Insurance value on your errand forces bidders to have
+            Setting an insurance value on your errand forces bidders to have
             that value in their wallet before they can bid for your errand. The
             value is then held by SWAVE until the errand is completed in order
-            to secure your valuables.. Use this option carefully as it will
-            likely limit the number of bids you receive on this errand
+            to secure your valuables. Use this option carefully as it will
+            likely limit the number of bids you receive on this errand.
           </Text>
         </View>
 
         <View className="px-4">
-          <View className="mt-[40px]">
-            <Text style={{ color: textTheme }}>
+          <View className="mt-[25px]">
+            <Text
+              style={{ color: '#393F42', fontFamily: 'Axiforma' }}
+              className="text-base"
+            >
               Restrict Errand by Insurance
             </Text>
           </View>

@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { SelectList } from 'react-native-dropdown-select-list'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
@@ -103,7 +102,6 @@ const CategoryInterest = ({ navigation }: any) => {
       .filter((category) => selectedCategories[category.id])
       .map((category) => category.name)
 
-
     const categoryInterestData = {
       category_interest: selectedCategoryNames,
     }
@@ -121,8 +119,8 @@ const CategoryInterest = ({ navigation }: any) => {
             Toast.show({
               type: 'success',
               text1: 'Categories has been added successfully',
-            }),
-              navigation.navigate('Settings')
+            })
+            navigation.navigate('Settings')
           }
         })
     } catch (error) {}

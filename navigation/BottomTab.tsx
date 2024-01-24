@@ -2,11 +2,11 @@ import { AntDesign, FontAwesome5, Fontisto, Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
-import MainScreen from '../screens/Market/MainScreen'
+import MainScreen from '../screens/Market'
 import ErrandScreen from '../screens/MyErrands'
 // import PostErrand from '../screens/CreateErrand'
 import PostErrand from '../screens/CreateErrand'
-import SettingScreen from '../screens/Settings/SettingScreen'
+import SettingScreen from '../screens/Settings'
 import WalletScreen from '../screens/Wallets'
 
 const Tab = createBottomTabNavigator()

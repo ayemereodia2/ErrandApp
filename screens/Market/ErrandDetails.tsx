@@ -1,21 +1,13 @@
-import React, {
-  createRef,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 // import AppLoading from 'expo-app-loading';
 import {
   AntDesign,
   Entypo,
   Feather,
-  FontAwesome,
   Ionicons,
   MaterialIcons,
+  SimpleLineIcons,
 } from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
@@ -28,33 +20,32 @@ import Clipboard from '@react-native-community/clipboard'
 import he from 'he'
 import {
   ActivityIndicator,
-  Animated,
-  // Image,
+  Image,
   Modal,
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableNativeFeedback,
   TouchableOpacity,
   View,
 } from 'react-native'
-import FastImage from 'react-native-fast-image'
-import { State } from 'react-native-gesture-handler'
-import { createImageProgress } from 'react-native-image-progress'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
+import Content from '../../components/AboutContent/Content'
 import PlaceBidModal from '../../components/Modals/Errands/PlaceBidModal'
 import { ProfileInitials } from '../../components/ProfileInitials'
+import ScreenHeader from '../../components/ScreenHeader'
 import { userDetails } from '../../services/auth/userInfo'
 import { RootState, useAppDispatch } from '../../services/store'
-import { formatDate, getAddress } from '../../utils/helper'
+import { formatDate, getAddress, getCardTimeAgo } from '../../utils/helper'
 
 export default function ErrandDetails({ route, navigation }: any) {
   const dispatch = useAppDispatch()
   const [showBid, setShowBid] = useState(false)
   const bottomSheetRef = useRef<BottomSheetModal>(null)
+  const bottomSheetRef2 = useRef<BottomSheetModal>(null)
+
   const snapPoints = useMemo(() => ['74%'], [])
   const [userId, setUserId] = useState('')
   const [showBidBtn, setShowBidBtn] = useState(true)
@@ -63,45 +54,15 @@ export default function ErrandDetails({ route, navigation }: any) {
   const [url, setUrl] = useState('')
   const [panEnabled, setPanEnabled] = useState(false)
 
-  console.log('>>>>>selectedImage', selectedImage)
+  function openSettingsModal() {
+    bottomSheetRef2.current?.present()
+  }
 
-  const pinchRef = createRef()
-  const panRef = createRef()
+  const [checked, setChecked] = useState(false)
 
-  const scale = useRef(new Animated.Value(1)).current
-  const translateX = useRef(new Animated.Value(0)).current
-  const translateY = useRef(new Animated.Value(0)).current
-
-  const onPinchEvent = Animated.event(
-    [
-      {
-        nativeEvent: { scale },
-      },
-    ],
-    { useNativeDriver: true },
+  const { data: currentUser, backgroundTheme, textTheme } = useSelector(
+    (state: RootState) => state.currentUserDetailsReducer,
   )
-
-  const onPanEvent = Animated.event(
-    [
-      {
-        nativeEvent: {
-          translationX: translateX,
-          translationY: translateY,
-        },
-      },
-    ],
-    { useNativeDriver: true },
-  )
-
-  // const { snapToIndex, close } = useBottomSheet();
-  const Image = createImageProgress(FastImage)
-
-  const {
-    data: currentUser,
-    backgroundTheme,
-    textTheme,
-    landingPageTheme,
-  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
@@ -121,12 +82,19 @@ export default function ErrandDetails({ route, navigation }: any) {
         {...props}
         appearsOnIndex={0}
         disappearsOnIndex={-1}
-        onPress={() => closePlaceBid()}
+        onPress={() => {
+          closePlaceBid()
+          bottomSheetRef2.current?.dismiss()
+        }}
         // onChange={handleSheetChanges}
       />
     ),
     [],
   )
+
+  const handleChecked = () => {
+    setChecked(!checked)
+  }
 
   useEffect(() => {
     getAddress({ errand, setAddress })
@@ -144,50 +112,11 @@ export default function ErrandDetails({ route, navigation }: any) {
     (state: RootState) => state.errandDetailsReducer,
   )
 
-  console.log('>>>>>errandImages', errand.images)
-
-  const renderImage = ({ source, style }) => {
-    return (
-      <Image
-        source={{ uri: source, priority: 'high' }}
-        style={style}
-        resizeMode="contain"
-        indicator={renderLoading}
-      />
-    )
-  }
-
-  const renderLoading = () => {
-    return <ActivityIndicator color={'white'} size="large" />
-  }
-
   const budgetInNaira = Number(errand?.budget / Number(100))
 
   const toggleShowBid = () => {
     setShowBid(!showBid)
   }
-
-  // const reachedScreen = async () => {
-  //   await AsyncStorage.setItem("errandDetail")
-  // }
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-
-      headerTitleStyle: { color: textTheme },
-      headerLeft: () => (
-        <TouchableOpacity
-          className="flex-row items-center justify-between mx-0 py-3 mr-6"
-          onPress={() => navigation.goBack()}
-        >
-          <AntDesign name="arrowleft" size={24} color={textTheme} />
-        </TouchableOpacity>
-      ),
-      headerStyle: { backgroundColor: backgroundTheme, color: textTheme },
-      title: 'Errand Details',
-    })
-  }, [navigation])
 
   const regex = /(<([^>]+)>)/gi
   const result = he.decode(errand.description.replace(regex, ''))
@@ -217,37 +146,6 @@ export default function ErrandDetails({ route, navigation }: any) {
     })
   }
 
-  const handlePinch = Animated.event([{ nativeEvent: { scale } }], {
-    useNativeDriver: true,
-  })
-
-  const handlePinchStateChange = ({ nativeEvent }) => {
-    // enabled pan only after pinch-zoom
-    if (nativeEvent.state === State.ACTIVE) {
-      setPanEnabled(true)
-    }
-
-    // when scale < 1, reset scale back to original (1)
-    const nScale = nativeEvent.scale
-    if (nativeEvent.state === State.END) {
-      if (nScale < 1) {
-        Animated.spring(scale, {
-          toValue: 1,
-          useNativeDriver: true,
-        }).start()
-        Animated.spring(translateX, {
-          toValue: 0,
-          useNativeDriver: true,
-        }).start()
-        Animated.spring(translateY, {
-          toValue: 0,
-          useNativeDriver: true,
-        }).start()
-
-        setPanEnabled(false)
-      }
-    }
-  }
   if (loading) {
     return (
       <SafeAreaView
@@ -258,27 +156,21 @@ export default function ErrandDetails({ route, navigation }: any) {
           backgroundColor: backgroundTheme,
         }}
       >
-        {/* <Image
-          style={styles.image}
-          className="mx-auto"
-          source={require(loaderGif)}
-        /> */}
         <ActivityIndicator color={theme ? 'white' : 'blue'} size="large" />
       </SafeAreaView>
     )
   }
 
+  console.log(errand)
+
   return (
     <BottomSheetModalProvider>
+      <ScreenHeader openSettingsModal={openSettingsModal} screen="" textTheme={textTheme} navigation={navigation} />
+
       <SafeAreaView
         style={{ flex: 1, backgroundColor: backgroundTheme }}
         className="bg-[#F8F9FC]"
       >
-        <StatusBar
-          backgroundColor={backgroundTheme}
-          barStyle={theme ? 'light-content' : 'dark-content'}
-        />
-
         <View
           style={{
             flexDirection: 'column-reverse',
@@ -287,7 +179,7 @@ export default function ErrandDetails({ route, navigation }: any) {
         >
           <ScrollView
             scrollEventThrottle={16}
-            className={!showBidBtn ? 'mb-10' : ''}
+            className={!showBidBtn ? 'mb-4' : ''}
           >
             <TouchableNativeFeedback
               onPress={() => {
@@ -313,9 +205,9 @@ export default function ErrandDetails({ route, navigation }: any) {
                             className="w-20 h-20 bg-[#616161] rounded-full text-2xl"
                           />
                           <View className="pt-2">
-                            <View className="flex-row space-x-2 items-center justify-center">
+                            <View className="flex-row text-[18px] space-x-2 items-center justify-center">
                               <Text
-                                style={{ color: textTheme }}
+                                style={{ color: '#09497D' }}
                                 className="text-center text-base font-semibold"
                               >
                                 {user?.first_name} {user?.last_name}
@@ -351,10 +243,11 @@ export default function ErrandDetails({ route, navigation }: any) {
                           <View className="flex-row items-center">
                             {/* {showStars(data.rating)} */}
                             <Text style={{ color: textTheme }}>
-                              {user?.rating}
                               <Entypo name="star" size={16} color="#FBB955" />
+                              {user?.rating} |{' '}
+                              <Text> {getCardTimeAgo(user?.updated_at)} </Text>
                             </Text>
-                            <Text
+                            {/* <Text
                               style={{ color: textTheme }}
                               className="text-[#6D6D6D] text-sm"
                             >
@@ -363,22 +256,22 @@ export default function ErrandDetails({ route, navigation }: any) {
                                 ? 'errands'
                                 : 'errand'}
                               Completed)
-                            </Text>
+                            </Text> */}
                           </View>
                         </View>
                       </View>
                     </View>
 
-                    <View className="pt-6 ">
-                      <Text
+                    <View className="mt-2 ">
+                      {/* <Text
                         style={{ color: textTheme }}
                         className=" font-bold text-base text-[#555555]"
                       >
                         Description
-                      </Text>
+                      </Text> */}
                       <Text
-                        style={{ color: textTheme }}
-                        className="text-sm pt-1 text-[#383737] font-light"
+                        style={{ color: textTheme, fontFamily: 'Axiforma' }}
+                        className="text-base text-center text-[#717171] font-normal"
                       >
                         {result}
                       </Text>
@@ -411,7 +304,16 @@ export default function ErrandDetails({ route, navigation }: any) {
                       </View>
                     </View>
 
-                    <View className="pt-6 ">
+                    <View className="pt-6 mx-1">
+                      <Text
+                        className="text-[#0C426E] text-[24px] font-bold leading-6"
+                        style={{ fontFamily: 'Axiforma' }}
+                      >
+                        &#x20A6; {budgetInNaira.toLocaleString()}
+                      </Text>
+                    </View>
+
+                    {/* <View className="pt-6 ">
                       <Text
                         style={{ color: textTheme }}
                         className=" font-bold text-base text-[#555555]"
@@ -426,9 +328,143 @@ export default function ErrandDetails({ route, navigation }: any) {
                           </Text>
                         </View>
                       </View>
+                    </View> */}
+
+                    <View className=" px-5 pt-5 pb-4 rounded-[15px] bg-white mt-5  shadow-lg">
+                      <View className="mb-5 border-b border-[#DBD6D6]">
+                        <Text
+                          className="mb-2 text-[20px] text-[#09497D] font-medium"
+                          style={{ fontFamily: 'Chillax' }}
+                        >
+                          Details
+                        </Text>
+                      </View>
+
+                      <View className="flex-row justify-between items-center mb-5">
+                        <Text
+                          className="text-base text-[#888]"
+                          style={{ fontFamily: 'Axiforma' }}
+                        >
+                          Bid
+                        </Text>
+                        <Text
+                          className="text-base text-[#09497D]"
+                          style={{ fontFamily: 'Axiforma' }}
+                        >
+                          {' '}
+                          <AntDesign
+                            name="arrowup"
+                            size={18}
+                            color="#888888"
+                          />{' '}
+                          {errand.total_bids}{' '}
+                          {errand.total_bids > 1 ? 'Bids' : 'Bid'}
+                        </Text>
+                      </View>
+
+                      <View className="flex-row justify-between items-center mb-5">
+                        <Text
+                          className="text-base text-[#888]"
+                          style={{ fontFamily: 'Axiforma' }}
+                        >
+                          Status
+                        </Text>
+                        <Text
+                          className="text-base text-[#09497D]"
+                          style={{ fontFamily: 'Axiforma' }}
+                        >
+                          <SimpleLineIcons
+                            name="share-alt"
+                            size={16}
+                            color="#888888"
+                          />{' '}
+                          {errand?.status}
+                        </Text>
+                      </View>
+
+                      <View className="flex-row justify-between items-center mb-5">
+                        <Text
+                          className="text-base text-[#888]"
+                          style={{ fontFamily: 'Axiforma' }}
+                        >
+                          Date
+                        </Text>
+                        <Text
+                          className="text-base text-[#09497D]"
+                          style={{ fontFamily: 'Axiforma' }}
+                        >
+                          <Ionicons
+                            name="calendar-outline"
+                            size={18}
+                            color={'#888888'}
+                          />{' '}
+                          {formatDate(errand.expiry_date)}
+                        </Text>
+                      </View>
                     </View>
 
-                    <View className="space-y-3 mt-3">
+                    <View className=" h-[120px] px-3 pt-5 pb-4 rounded-[15px] bg-white mt-5 ">
+                      <View className="mb-5 border-b border-[#DBD6D6]">
+                        <Text
+                          className="mb-2 text-[20px] text-[#09497D] font-medium"
+                          style={{ fontFamily: 'Chillax' }}
+                        >
+                          Requirements
+                        </Text>
+                      </View>
+
+                      <View className="flex-row items-center mr-1 space-x-2 ">
+                        <View className="flex-row items-center border-[0.5px]  border-[#888] bg-[#E2EAF0] rounded-lg  p-1.5">
+                          <Text
+                            className="text-xs text-[#09497D] mr-[6px]"
+                            style={{ fontFamily: 'Axiforma' }}
+                          >
+                            <AntDesign name="checkcircleo" size={12} />
+                          </Text>
+                          <Text
+                            className="text-xs text-[#09497D]"
+                            style={{ fontFamily: 'Axiforma' }}
+                          >
+                            {' '}
+                            Insurance{' '}
+                          </Text>
+                        </View>
+
+                        <View className="flex-row items-center border-[0.5px]  border-[#888] bg-[#E2EAF0] rounded-lg p-1.5">
+                          <Text
+                            className="text-xs text-[#09497D] mr-[6px]"
+                            style={{ fontFamily: 'Axiforma' }}
+                          >
+                            <AntDesign name="checkcircleo" size={12} />
+                          </Text>
+                          <Text
+                            className="text-xs text-[#09497D]"
+                            style={{ fontFamily: 'Axiforma' }}
+                          >
+                            {' '}
+                            Qualification
+                          </Text>
+                        </View>
+
+                        <View className="flex-row items-center border-[0.5px]  border-[#888] bg-[#E2EAF0] rounded-lg p-1.5">
+                          <Text
+                            className="text-xs text-[#09497D] mr-[6px]"
+                            style={{ fontFamily: 'Axiforma' }}
+                          >
+                            <AntDesign name="checkcircleo" size={12} />
+                          </Text>
+                          <Text
+                            className="text-xs text-[#09497D]"
+                            style={{ fontFamily: 'Axiforma' }}
+                          >
+                            {' '}
+                            Verification{' '}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+
+                    {/* <View className="space-y-3 mt-3">
                       <View className="space-x-2 flex-row mt-6">
                         <Text
                           style={{ color: textTheme }}
@@ -541,18 +577,23 @@ export default function ErrandDetails({ route, navigation }: any) {
                           )}
                         </View>
                       </View>
+                    </View> */}
+
+                    <View className="mt-10 flex-row items-center">
+                      <Text
+                        style={{ fontFamily: 'Axiforma' }}
+                        className="pr-6 font-bold text-lg text-[#0C426F]"
+                      >
+                        Other Resources
+                      </Text>
                     </View>
 
-                    <Text
-                      style={{ color: textTheme }}
-                      className="pr-6 mt-8 font-bold text-base text-[#555555]"
+                    <View
+                      className="flex-row space-x-4 mt-5 "
+                      // style={{ display: checked ? 'flex' : 'none' }}
                     >
-                      Other Resources
-                    </Text>
-
-                    <View className="flex-row space-x-4 mt-4">
                       {errand?.images?.map((image, index) => (
-                        <View className="">
+                        <View className="rounded-2xl">
                           <TouchableOpacity
                             key={index}
                             onPress={() => setSelectedImage(image)}
@@ -580,19 +621,18 @@ export default function ErrandDetails({ route, navigation }: any) {
                         contentWidth={300}
                         contentHeight={150}
                       >
+                        <AntDesign
+                          onPress={() => setSelectedImage('')}
+                          name="closecircle"
+                          color="white"
+                          size={30}
+                          className="top-20"
+                        />
                         <Image
                           source={{ uri: selectedImage }}
                           style={[styles.modalImage]}
                         />
                       </ReactNativeZoomableView>
-
-                      <TouchableOpacity
-                        onPress={() => setSelectedImage('')}
-                        style={styles.closeButton}
-                      >
-                        <Text style={styles.closeButtonText}>Close</Text>
-                      </TouchableOpacity>
-                      {/* </View> */}
                     </Modal>
                   </View>
                 )}
@@ -616,6 +656,17 @@ export default function ErrandDetails({ route, navigation }: any) {
                 navigation={navigation}
                 onSubmit={closePlaceBid}
               />
+            </BottomSheetModal>
+            <BottomSheetModal
+              ref={bottomSheetRef2}
+              index={0}
+              snapPoints={['80%']}
+              containerStyle={{
+                marginHorizontal: 10,
+              }}
+              backdropComponent={renderBackdrop}
+            >
+              <Content navigation={navigation} />
             </BottomSheetModal>
           </ScrollView>
         </View>

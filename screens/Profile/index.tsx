@@ -1,12 +1,5 @@
-import { AntDesign, Feather, MaterialIcons } from '@expo/vector-icons'
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState
-} from 'react'
+import { MaterialIcons } from '@expo/vector-icons'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import {
   ActivityIndicator,
@@ -15,7 +8,7 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native'
 
 import UserProfile from '../../components/UsersProfile/UserProfile'
@@ -25,11 +18,13 @@ import { _fetch } from '../../services/axios/http'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
-  BottomSheetModalProvider
+  BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Restart } from 'fiction-expo-restart'
 import { useSelector } from 'react-redux'
+import Content from '../../components/AboutContent/Content'
+import ScreenHeader from '../../components/ScreenHeader'
 import EmailModal from '../../components/VerificationModals/EmailModal'
 import GuarantorModal from '../../components/VerificationModals/GuarantorModal'
 import OfficeAddressModal from '../../components/VerificationModals/OfficeAddressModal'
@@ -51,9 +46,14 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
   const bottomSheetRef1 = useRef<BottomSheetModal>(null)
   const bottomSheetRef2 = useRef<BottomSheetModal>(null)
   const bottomSheetRef3 = useRef<BottomSheetModal>(null)
+  const bottomSheetRef4 = useRef<BottomSheetModal>(null)
 
   function openEmailModal() {
     bottomSheetRef.current?.present()
+  }
+
+   function openSettingsModal() {
+    bottomSheetRef4.current?.present()
   }
 
   function closeEmailModal() {
@@ -81,6 +81,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
           bottomSheetRef1.current?.dismiss()
           bottomSheetRef2.current?.dismiss()
           bottomSheetRef3.current?.dismiss()
+          bottomSheetRef4.current?.dismiss()
         }}
         // onChange={handleSheetChanges}
       />
@@ -125,33 +126,6 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
     setProfile(false)
   }
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      headerTitleStyle: { color: textTheme },
-      title: 'My Profile',
-      headerStyle: { backgroundColor: backgroundTheme },
-      headerLeft: () => (
-        <TouchableOpacity
-          className="flex-row items-center justify-between mx-0 py-3 mr-6"
-          onPress={() => navigation.goBack()}
-        >
-          <AntDesign name="arrowleft" size={24} color={textTheme} />
-        </TouchableOpacity>
-      ),
-      headerRight: () => (
-        <View className="flex-row items-center justify-between mx-3 py-3 space-x-3 ">
-          <Feather
-            onPress={() => navigation.navigate('Contact')}
-            color={textTheme}
-            size={24}
-            name="help-circle"
-          />
-        </View>
-      ),
-    })
-  }, [])
-
   const handleVerification = () => {
     setProfile(true)
   }
@@ -167,20 +141,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
       _url: `/user/profile`,
     })
     const data = await _rs.json()
-
-    // console.log(">>>>>>>>>hello", data)
-
-    // setIsLoading(false)
-
-    // setData(data)
   }
-
-  // const { isLoading, isError, data } = useQuery({
-  //   queryKey: ['user-profile'],
-  //   queryFn: getUserProfile,
-  //   refetchOnMount: 'always',
-  // })
-  // console.log(data)
 
   const onRefresh = React.useCallback(() => {
     getUserProfile()
@@ -224,230 +185,258 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
   }
 
   return (
-    <SafeAreaView
-      style={{ backgroundColor: backgroundTheme }}
-      className="h-screen"
-    >
-      <BottomSheetModalProvider>
-        <ScrollView
-          style={{ backgroundColor: backgroundTheme }}
-          className="bg-white"
-        >
-          {/* Top Profile */}
+    <>
+      <ScreenHeader
+        navigation={navigation}
+        textTheme={textTheme}
+        screen={'Profile'}
+        openSettingsModal={openSettingsModal}
+      />
 
-          {data?.profile_picture ? (
-            <View className="mt-8 mx-auto">
-              <Image
-                source={{ uri: data?.profile_picture }}
-                className="b rounded-full w-[100px] h-[100px]"
-              />
-            </View>
-          ) : (
-            <View className="bg-gray-700 w-[80px] h-[80px] rounded-full items-center justify-center mx-auto mt-8">
-              <Text className="text-white font-bold text-center text-2xl">
-                {data?.first_name.charAt(0)}
-                {data?.last_name.charAt(0)}
-              </Text>
-            </View>
-          )}
+      <SafeAreaView
+        style={{ backgroundColor: backgroundTheme }}
+        className="h-screen"
+      >
+        <BottomSheetModalProvider>
+          <ScrollView
+            style={{ backgroundColor: backgroundTheme }}
+            className="bg-white"
+          >
+            {/* Top Profile */}
 
-          <View>
-            <View className="flex-row justify-center items-center mt-5">
-              <Text
-                style={{ color: textTheme }}
-                className="text-[18px] font-bold leading-6"
-              >
-                {data?.first_name} {data?.last_name}{' '}
-              </Text>
-
-              {data?.verification === 100 ? (
-                <Text>
-                  <MaterialIcons name="verified" size={20} color="green" />
-                </Text>
-              ) : null}
-            </View>
-
-            <Text
-              style={{ color: textTheme }}
-              className="text-center mt-3 text-base font-medium"
-            >
-              {data?.occupation ? data?.occupation : 'Swave User'}
-            </Text>
-
-            <View className="flex-row mt-5 mx-auto">
-              <View className="ml-3">
-                <Text
-                  style={{ color: textTheme }}
-                  className="text-center mb-1 font-bold"
-                >
-                  {data?.errands_posted}
-                </Text>
-                <Text
-                  style={{ color: textTheme }}
-                  className="text-center font-light"
-                >
-                  Total Errands{' '}
-                </Text>
+            {data?.profile_picture ? (
+              <View className="mt-8 mx-auto">
+                <Image
+                  source={{ uri: data?.profile_picture }}
+                  className="b rounded-full w-[100px] h-[100px]"
+                />
               </View>
-
-              <View className="ml-3">
-                <Text
-                  style={{ color: textTheme }}
-                  className="text-center mb-1 font-bold"
-                >
-                  {data?.errands_completed}
-                </Text>
-                <Text
-                  style={{ color: textTheme }}
-                  className="text-center font-light"
-                >
-                  Errands Completed{' '}
-                </Text>
-              </View>
-
-              <View className="ml-3 ">
-                <Text
-                  style={{ color: textTheme }}
-                  className="text-center mb-1 font-bold"
-                >
-                  {data?.errands_cancelled}
-                </Text>
-                <Text
-                  style={{ color: textTheme }}
-                  className="text-center font-light"
-                >
-                  Errands Cancelled{' '}
-                </Text>
-              </View>
-            </View>
-
-            {/* Edit BUtton */}
-            <View className=" mt-[30px] flex-row justify-center space-x-6">
-              <TouchableOpacity
-                style={{
-                  backgroundColor: theme ? '#1E3A79' : 'white',
-                }}
-                onPress={() => navigation.navigate('EditProfile', { data })}
-                className="w-[140px] h-[40px] bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-md"
-              >
-                <Text
-                  style={{ color: textTheme }}
-                  className="text-base font-medium text-center items-center"
-                >
-                  {' '}
-                  Edit Profile{' '}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('Default')
-                  clearStorage()
-                }}
-                className="w-[140px] h-[40px] bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-md"
-                style={{
-                  backgroundColor: theme ? '#1E3A79' : 'white',
-                }}
-              >
-                <Text
-                  style={{ color: textTheme }}
-                  className="text-base font-medium text-center items-center"
-                >
-                  {' '}
-                  Logout{' '}
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View className="flex-row mr-[16px] mt-8 ml-[16px] md:w-[398px] mx-auto ">
-              <TouchableOpacity onPress={handleVerification}>
-                <View
-                  className="w-[199px] h-[52px] border-b items-center justify-center "
-                  style={{
-                    borderBottomColor: profile ? '#3F60AC' : '#243763',
-                    borderBottomWidth: profile ? 2 : 1,
-                  }}
-                >
-                  <Text
-                    className="text-center font-medium"
-                    style={{ color: profile ? '#3F60AC' : '#243763' }}
-                  >
-                    Profile information
-                  </Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={handleProfile}>
-                <View
-                  className="w-[190px] h-[52px] border-b items-center justify-center "
-                  style={{
-                    borderBottomColor: profile ? '#243763' : '#3F60AC',
-                    borderBottomWidth: profile ? 1 : 2,
-                  }}
-                >
-                  <Text
-                    className="text-center font-medium"
-                    style={{ color: profile ? '#243763' : '#3F60AC' }}
-                  >
-                    User verification
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-
-            {profile ? (
-              <UserProfile />
             ) : (
-              <UserVerification
-                openEmailModal={openEmailModal}
-                openGuarantorModal={openGuarantorModal}
-                openOfficeModal={openOfficeModal}
-                openPersonalId={openPersonalId}
-                data={data}
-              />
+              <View className="bg-gray-700 w-[80px] h-[80px] rounded-full items-center justify-center mx-auto mt-8">
+                <Text className="text-white font-bold text-center text-2xl">
+                  {data?.first_name.charAt(0)}
+                  {data?.last_name.charAt(0)}
+                </Text>
+              </View>
             )}
-          </View>
-        </ScrollView>
 
-        <BottomSheetModal
-          ref={bottomSheetRef}
-          index={0}
-          snapPoints={snapPoints}
-          containerStyle={{ marginHorizontal: 10 }}
-          backdropComponent={renderBackdrop}
-        >
-          <EmailModal closeEmailModal={closeEmailModal} />
-        </BottomSheetModal>
+            <View>
+              <View className="flex-row justify-center items-center mt-5">
+                <Text
+                  style={{ color: '#09497D' }}
+                  className="text-[18px] font-bold leading-6"
+                >
+                  {data?.first_name} {data?.last_name}{' '}
+                </Text>
 
-        <BottomSheetModal
-          ref={bottomSheetRef1}
-          index={0}
-          snapPoints={snapPoints1}
-          containerStyle={{ marginHorizontal: 10 }}
-          backdropComponent={renderBackdrop}
-        >
-          <PersonalId closePersonalId={closePersonalId} />
-        </BottomSheetModal>
-        <BottomSheetModal
-          ref={bottomSheetRef2}
-          index={0}
-          snapPoints={snapPoints2}
-          containerStyle={{ marginHorizontal: 10 }}
-          backdropComponent={renderBackdrop}
-        >
-          <OfficeAddressModal closeOfficeModal={closeOfficeModal} />
-        </BottomSheetModal>
+                {data?.verification === 100 ? (
+                  <Text>
+                    <MaterialIcons name="verified" size={20} color="green" />
+                  </Text>
+                ) : null}
+              </View>
 
-        <BottomSheetModal
-          ref={bottomSheetRef3}
-          index={0}
-          snapPoints={snapPoints3}
-          containerStyle={{ marginHorizontal: 10 }}
-          backdropComponent={renderBackdrop}
-        >
-          <GuarantorModal closeGuarantorModal={closeGuarantorModal} />
-        </BottomSheetModal>
-      </BottomSheetModalProvider>
-    </SafeAreaView>
+              <Text
+                style={{ color: '#6D6D6D', fontFamily: 'Axiforma' }}
+                className="text-center mt-3 text-base font-medium"
+              >
+                {data?.occupation ? data?.occupation : 'Swave User'}
+              </Text>
+
+              <Text
+                style={{ color: '#6D6D6D', fontFamily: 'Axiforma' }}
+                className="text-center mt-3 text-base font-medium"
+              >
+                {data?.phone_number}
+              </Text>
+
+              <View className="flex-row mt-5 mx-auto">
+                <View className="ml-3">
+                  <Text
+                    style={{ color: textTheme }}
+                    className="text-center mb-1 font-bold"
+                  >
+                    {data?.errands_posted}
+                  </Text>
+                  <Text
+                    style={{ color: textTheme }}
+                    className="text-center font-light"
+                  >
+                    Total Errands{' '}
+                  </Text>
+                </View>
+
+                <View className="ml-3">
+                  <Text
+                    style={{ color: textTheme }}
+                    className="text-center mb-1 font-bold"
+                  >
+                    {data?.errands_completed}
+                  </Text>
+                  <Text
+                    style={{ color: textTheme }}
+                    className="text-center font-light"
+                  >
+                    Errands Completed{' '}
+                  </Text>
+                </View>
+
+                <View className="ml-3 ">
+                  <Text
+                    style={{ color: textTheme }}
+                    className="text-center mb-1 font-bold"
+                  >
+                    {data?.errands_cancelled}
+                  </Text>
+                  <Text
+                    style={{ color: textTheme }}
+                    className="text-center font-light"
+                  >
+                    Errands Cancelled{' '}
+                  </Text>
+                </View>
+              </View>
+
+              {/* Edit BUtton */}
+              <View className=" mt-[30px] flex-row justify-center space-x-6">
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: theme ? '#1E3A79' : 'white',
+                  }}
+                  onPress={() => navigation.navigate('EditProfile', { data })}
+                  className="w-[140px] h-[40px] bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-md"
+                >
+                  <Text
+                    style={{ color: textTheme }}
+                    className="text-base font-medium text-center items-center"
+                  >
+                    {' '}
+                    Edit Profile{' '}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('Default')
+                    clearStorage()
+                  }}
+                  className="w-[140px] h-[40px] bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-md"
+                  style={{
+                    backgroundColor: theme ? '#1E3A79' : 'white',
+                  }}
+                >
+                  <Text
+                    style={{ color: textTheme }}
+                    className="text-base font-medium text-center items-center"
+                  >
+                    {' '}
+                    Logout{' '}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              <View className="flex-row mr-[16px] mt-8 ml-[16px] md:w-[398px] mx-auto ">
+                <TouchableOpacity onPress={handleVerification}>
+                  <View
+                    className="w-[199px] h-[52px] border-b items-center justify-center "
+                    style={{
+                      borderBottomColor: profile ? '#3F60AC' : '#243763',
+                      borderBottomWidth: profile ? 2 : 1,
+                    }}
+                  >
+                    <Text
+                      className="text-center font-medium"
+                      style={{ color: profile ? '#3F60AC' : '#243763' }}
+                    >
+                      Profile information
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={handleProfile}>
+                  <View
+                    className="w-[190px] h-[52px] border-b items-center justify-center "
+                    style={{
+                      borderBottomColor: profile ? '#243763' : '#3F60AC',
+                      borderBottomWidth: profile ? 1 : 2,
+                    }}
+                  >
+                    <Text
+                      className="text-center font-medium"
+                      style={{ color: profile ? '#243763' : '#3F60AC' }}
+                    >
+                      User verification
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+
+              {profile ? (
+                <UserProfile />
+              ) : (
+                <UserVerification
+                  openEmailModal={openEmailModal}
+                  openGuarantorModal={openGuarantorModal}
+                  openOfficeModal={openOfficeModal}
+                  openPersonalId={openPersonalId}
+                  data={data}
+                />
+              )}
+            </View>
+          </ScrollView>
+
+          <BottomSheetModal
+            ref={bottomSheetRef}
+            index={0}
+            snapPoints={snapPoints}
+            containerStyle={{ marginHorizontal: 10 }}
+            backdropComponent={renderBackdrop}
+          >
+            <EmailModal closeEmailModal={closeEmailModal} />
+          </BottomSheetModal>
+
+          <BottomSheetModal
+            ref={bottomSheetRef1}
+            index={0}
+            snapPoints={snapPoints1}
+            containerStyle={{ marginHorizontal: 10 }}
+            backdropComponent={renderBackdrop}
+          >
+            <PersonalId closePersonalId={closePersonalId} />
+          </BottomSheetModal>
+          <BottomSheetModal
+            ref={bottomSheetRef2}
+            index={0}
+            snapPoints={snapPoints2}
+            containerStyle={{ marginHorizontal: 10 }}
+            backdropComponent={renderBackdrop}
+          >
+            <OfficeAddressModal closeOfficeModal={closeOfficeModal} />
+          </BottomSheetModal>
+
+          <BottomSheetModal
+            ref={bottomSheetRef4}
+            index={0}
+            snapPoints={['70%']}
+            containerStyle={{
+              marginHorizontal: 10,
+            }}
+            backdropComponent={renderBackdrop}
+          >
+            <Content navigation={navigation} />
+          </BottomSheetModal>
+
+          <BottomSheetModal
+            ref={bottomSheetRef3}
+            index={0}
+            snapPoints={snapPoints3}
+            containerStyle={{ marginHorizontal: 10 }}
+            backdropComponent={renderBackdrop}
+          >
+            <GuarantorModal closeGuarantorModal={closeGuarantorModal} />
+          </BottomSheetModal>
+        </BottomSheetModalProvider>
+      </SafeAreaView>
+    </>
   )
 }
 
