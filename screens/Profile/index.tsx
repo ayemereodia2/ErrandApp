@@ -105,7 +105,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
     bottomSheetRef3.current?.dismiss()
   }
 
-  const snapPoints = useMemo(() => ['76%'], [])
+  const snapPoints = useMemo(() => ['60%'], [])
   const snapPoints1 = useMemo(() => ['88%'], [])
   const snapPoints2 = useMemo(() => ['90%'], [])
   const snapPoints3 = useMemo(() => ['77%'], [])
