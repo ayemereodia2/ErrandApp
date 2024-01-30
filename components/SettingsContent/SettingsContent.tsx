@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
 import { AntDesign, Feather, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 
-const Content = ({navigation}:any) => {
+const SettingsContent = ({navigation}:any) => {
     const {
         data: currentUser,
         backgroundTheme,
@@ -16,40 +16,10 @@ const Content = ({navigation}:any) => {
       const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   return (
-    <View style={{backgroundColor: '#E6E6E6'}} className=' px-4 pt-4'>
+    <View style={{}} className=' px-4 pt-4'>
 
-   
-   {/* <TouchableOpacity className='mb-2 mt-4 w-[300px] border rounded-full py-4 mx-auto' onPress={()=> navigation.navigate('Profile')} style={{borderColor: textTheme}}>
-   <Text style={{color: textTheme}} className='text-center text-base'> My Profile </Text>
-   </TouchableOpacity>
 
-   <TouchableOpacity className='mb-2 mt-2 w-[300px] border rounded-full py-4 mx-auto' style={{borderColor: textTheme}} onPress={()=> navigation.navigate('About')}>
-   <Text className='text-center text-base' style={{color: textTheme}}> About Swave</Text>
-   </TouchableOpacity>
-
-   <TouchableOpacity className='mt-2 w-[300px] border rounded-full py-4 mx-auto' onPress={()=> navigation.navigate('Contact')} style={{borderColor: textTheme}}>
-   <Text  className='text-center text-base' style={{color: textTheme}}> Contact Us </Text>
-   </TouchableOpacity>
-
-   <TouchableOpacity className=' mt-3' onPress={()=> navigation.navigate('Terms')} >
-   <Text style={{color: textTheme}} className='text-center text-base'> Terms and Conditions</Text>
-   </TouchableOpacity>
-
-   <TouchableOpacity className='mb-4 mt-2 ' onPress={()=> navigation.navigate('Privacy')}>
-   <Text style={{color: textTheme}} className='text-center text-base'> Privacy Policy</Text>
-   </TouchableOpacity> */}
-
-   <View className='flex-row items-center justify-between'>
-
-    <Text className='text-[#09497D] text-[20px]' style={{fontFamily: 'Chillax'}}>Settings</Text>
-
-    <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-    <Text className='text-[#09497D] text-base' style={{textDecorationLine: 'underline', fontFamily: 'Axiforma'}}>See all Settings</Text>
-    </TouchableOpacity>
-
-   </View>
-
-   <View className='mt-[41px]'>
+   <View className='mt-[14px]'>
     <Text className='text-base text-[#444]' style={{fontFamily: 'Axiforma'}}>Helpful Links</Text>
    </View>
 
@@ -88,7 +58,7 @@ const Content = ({navigation}:any) => {
         </TouchableOpacity>
 
 
-        <TouchableOpacity className='flex-row items-center justify-between mt-[25px] mx-2' onPress={()=> navigation.navigate('Privacy')}>
+        <TouchableOpacity className='flex-row items-center justify-between mt-[25px] mx-2 ' onPress={()=> navigation.navigate('Privacy')}>
 
         <View className='flex-row items-center'>
         <Text className='mr-2 '> <MaterialCommunityIcons name="shield-alert-outline" size={12} color="black" /> </Text>
@@ -108,4 +78,4 @@ const Content = ({navigation}:any) => {
   )
 }
 
-export default Content
+export default SettingsContent

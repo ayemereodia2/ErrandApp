@@ -226,9 +226,9 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
 
   return (
     <>
-    <View>
-    <View className='bg-purple-200 h-[160px] w-screen shadow-md' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
-      <View className='bg-[#09497D] h-[150px] pt-[70px] px-6 pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+    <View  className='bg-[#FEFEFE]'>
+    <View className='bg-purple-200 h-[150px] w-screen shadow-md' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+      <View className='bg-[#09497D] h-[145px] pt-[70px] px-6 pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
                   <View
                     className={
                       Platform.OS === 'android'
@@ -301,8 +301,8 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
     >
       <BottomSheetModalProvider>
         <ScrollView
-          style={{ backgroundColor: backgroundTheme }}
-          className="bg-white"
+          style={{ backgroundColor: '#FEFEFE' }}
+          
         >
           {/* Top Profile */}
 
@@ -355,7 +355,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
             <View className="flex-row mt-5 mx-auto">
               <View className="ml-3">
                 <Text
-                  style={{ color: textTheme }}
+                  style={{ color: '#09497D' }}
                   className="text-center mb-1 font-bold"
                 >
                   {data?.errands_posted}
@@ -370,7 +370,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
 
               <View className="ml-3">
                 <Text
-                  style={{ color: textTheme }}
+                  style={{ color: '#09497D' }}
                   className="text-center mb-1 font-bold"
                 >
                   {data?.errands_completed}
@@ -406,10 +406,10 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
                   backgroundColor: theme ? '#1E3A79' : 'white',
                 }}
                 onPress={() => navigation.navigate('EditProfile', { data })}
-                className="w-[140px] h-[40px] bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-md"
+                className="px-8 py-3 bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-[50px]"
               >
                 <Text
-                  style={{ color: textTheme }}
+                  style={{ color: '#09497D' }}
                   className="text-base font-medium text-center items-center"
                 >
                   {' '}
@@ -417,26 +417,22 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('Default')
-                  clearStorage()
-                }}
-                className="w-[140px] h-[40px] bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-md"
+               
+                className="px-8 py-3 bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-[50px]"
                 style={{
                   backgroundColor: theme ? '#1E3A79' : 'white',
                 }}
               >
                 <Text
-                  style={{ color: textTheme }}
+                  style={{ color: '#09497D' }}
                   className="text-base font-medium text-center items-center"
                 >
-                  {' '}
-                  Logout{' '}
+                 View Full profile
                 </Text>
               </TouchableOpacity>
             </View>
 
-            <View className="flex-row mr-[16px] mt-8 ml-[16px] md:w-[398px] mx-auto ">
+            {/* <View className="flex-row mr-[16px] mt-8 ml-[16px] md:w-[398px] mx-auto ">
               <TouchableOpacity onPress={handleVerification}>
                 <View
                   className="w-[199px] h-[52px] border-b items-center justify-center "
@@ -470,9 +466,9 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
                   </Text>
                 </View>
               </TouchableOpacity>
-            </View>
+            </View> */}
 
-            {profile ? (
+            {/* {profile ? (
               <UserProfile />
             ) : (
               <UserVerification
@@ -482,7 +478,14 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
                 openPersonalId={openPersonalId}
                 data={data}
               />
-            )}
+            )} */}
+             <UserVerification
+                openEmailModal={openEmailModal}
+                openGuarantorModal={openGuarantorModal}
+                openOfficeModal={openOfficeModal}
+                openPersonalId={openPersonalId}
+                data={data}
+              />
           </View>
         </ScrollView>
 

@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
 import { postFiles } from '../../services/errands/postFiles'
 import { RootState, useAppDispatch } from '../../services/store'
+import { RadioButton } from 'react-native-paper'
 
 interface ImageViewerProp {
   placeholderImageSource: any
@@ -154,18 +155,22 @@ const PersonalId = ({ closePersonalId }: any) => {
 
   return (
     <SafeAreaView>
-      <ScrollView showsHorizontalScrollIndicator={false}>
-        <Text className="text-lg text-center font-semibold">
-          Personal Identification
+      <ScrollView className='mx-3' showsHorizontalScrollIndicator={false}>
+        <Text className="text-base ml-3 mt-3 font-semibold" style={{fontFamily: 'Axiforma'}}>
+          Kindly upload your personal ID for verification
         </Text>
 
-        <View className="px-4 mt-6">
+        {/* <View className="px-4 mt-6">
           <Text className="text-sm text-[#243763] font-semibold">
             In other to validate your personal information, Please upload the
             relevant documents. Valid documents include International passport,
             National ID or Voters card. Images must be either PNG, JPG or JPEG
             format
           </Text>
+        </View> */}
+
+        <View>
+          <RadioButton value="first" color='black'/>
         </View>
 
         {/* <View className="w-[398px] h-[38px] mx-auto mt-10 ml-4"></View> */}

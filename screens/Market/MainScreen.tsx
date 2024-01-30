@@ -322,22 +322,70 @@ export default function MainScreen() {
               // </View>
 
       <View className=''>   
-      <View className='bg-purple-200 h-[150px] w-screen shadow-md mb-3' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
-        <View className='bg-[#09497D] h-[145px] pt-[80px] px-6 pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+      <View className='bg-purple-200 h-[259px] w-screen shadow-md mb-3' style={{}}>
+        <View className='bg-[#09497D] h-[259px] pt-[80px] px-6 pb-3 pl-[27px]' style={{}}>
               
-          <View className='flex-row items-center'> 
-          <Image 
+          <View className='flex-row items-center' style={{gap: 12}}> 
+          {/* <Image 
               source={require('../../assets/images/swave-log-web.png')}
               
               alt={'logo'}
-              />
+              /> */}
+               {!loading && (
+                    <View
+                      className="mt-2 border border-[#F2F2F2] pt-[10px] pb-[9px] pl-[29px] pr-[23.5px] rounded-[15px] flex-row items-center justify-between bg-white"
+                      style={{ backgroundColor: theme ? '#1E3A79' : 'white' }}
+                    >
+                      <View className='flex-row items-center gap-1'>
+                      <EvilIcons
+                        name="search"
+                        size={22}
+                        className="w-1/12"
+                        color={theme ? 'white' : '#808080'}
+                      />
+                      <TextInput
+                        style={{ color: theme ? 'white' : '#808080' }}
+                        className=" w-7/12 pl-1"
+                        placeholder="Search for errands"
+                        placeholderTextColor={theme ? 'white' : 'black'}
+                        value={searchValue}
+                        onChangeText={(text) => setSearchValue(text)}
+                      />
+
+                      {searchValue ? (
+                        <AntDesign
+                          onPress={() => setSearchValue('')}
+                          name="close"
+                          size={20}
+                          color={theme ? 'white' : 'black'}
+                        />
+                      ) : (
+                        ''
+                      )}
+                      </View>
+                      
+
+                      <Pressable onPress={handleFilter}>
+                        <View className=" mr-1 b rounded-md w-[38px]">
+                          <Text className="p-2 text-center">
+                          
+
+                            <MaterialCommunityIcons 
+                            name="tune-variant" 
+                            size={18} 
+                            color="black" />
+                          </Text>
+                        </View>
+                      </Pressable>
+                    </View>
+                  )}
 
        
                
-         </View>
+         
          
 
-                <View className="items-center flex-row gap-3">
+                <View className="items-center flex-row" style={{gap: 6}}>
                  
                   <TouchableOpacity
                     onPress={
@@ -370,9 +418,27 @@ export default function MainScreen() {
              
 
              
-             
+                </View>
+
+                <View className='mt-5 flex-row items-center justify-center mr-5' style={{gap: 20}}>
+                  <TouchableOpacity className='px-5 py-2 bg-[#FAFAFA] border border-[#B3B3B3] rounded-[20px]'>
+                  <Text className='text-center'>
+                  Errand Market
+                  </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity className='px-5 py-2 bg-[#FAFAFA] border border-[#B3B3B3] rounded-[20px]'>
+                  <Text className='text-center'>
+                  Business Market
+                  </Text>
+                  </TouchableOpacity>
+                  
 
                 </View>
+
+                </View>
+
+                
 
                 </View>
                 </View> 
@@ -425,58 +491,7 @@ export default function MainScreen() {
                 }}
               >
                 <View className="mx-4">
-                  {!loading && (
-                    <View
-                      className="mt-2 mb-6 border border-[#F2F2F2] pt-[10px] pb-[9px] pl-[29px] pr-[23.5px] rounded-[15px] flex-row items-center justify-between bg-white"
-                      style={{ backgroundColor: theme ? '#1E3A79' : 'white' }}
-                    >
-                      <View className='flex-row items-center gap-1'>
-                      <EvilIcons
-                        name="search"
-                        size={22}
-                        className="w-1/12"
-                        color={theme ? 'white' : '#808080'}
-                      />
-                      <TextInput
-                        style={{ color: theme ? 'white' : '#808080' }}
-                        className=" w-7/12 pl-1"
-                        placeholder="Search for errands"
-                        placeholderTextColor={theme ? 'white' : 'black'}
-                        value={searchValue}
-                        onChangeText={(text) => setSearchValue(text)}
-                      />
-
-                      {searchValue ? (
-                        <AntDesign
-                          onPress={() => setSearchValue('')}
-                          name="close"
-                          size={20}
-                          color={theme ? 'white' : 'black'}
-                        />
-                      ) : (
-                        ''
-                      )}
-                      </View>
-                      
-
-                      <Pressable onPress={handleFilter}>
-                        <View className=" mr-1 b rounded-md w-[38px]">
-                          <Text className="p-2 text-center">
-                            {/* <Ionicons
-                              name="md-filter-outline"
-                              size={18}
-                              color="white"
-                            /> */}
-
-                            <MaterialCommunityIcons 
-                            name="tune-variant" 
-                            size={18} 
-                            color="black" />
-                          </Text>
-                        </View>
-                      </Pressable>
-                    </View>
-                  )}
+                 
 
                       <View className='flex-row items-center mb-4 mx-4'>
                       <TouchableOpacity className='px-3 md:px-5 py-2 rounded-[20px] border border-[#888] bg-[#09497D] mr-4'>

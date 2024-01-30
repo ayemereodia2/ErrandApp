@@ -220,16 +220,18 @@ export const TabsNavigation = ({ navigation }: any) => {
                    color={'#09497D'}
                    style={{ textAlign: 'center'}}
                    />
+                   
                   <Text style={{ color: textTheme }}>Market Place</Text>
                 </>
               ) : (
                 <>
                  
-                   <Feather name="shopping-bag" size={24} 
-                   color={textTheme}
-                   style={{ textAlign: 'center'}}
-                   />
-                  <Text style={{ color: textTheme }}>Market Place</Text>
+                 <SimpleLineIcons
+                    name="bag" size={24} 
+                    color="#09497D" 
+                    style={{ textAlign: 'center'}}
+                    />
+                  <Text className='mt-1' style={{ color: textTheme }}>Market Place</Text>
                 </>
               )}
             </View>
@@ -268,7 +270,12 @@ export const TabsNavigation = ({ navigation }: any) => {
                     color={textTheme}
                     style={{ marginLeft: 8 }}
                   /> */}
-                  <MaterialCommunityIcons name="clock-time-five" size={24} color="#09497D" style={{textAlign: 'center'}} />
+                 
+                 <FontAwesome5 name="running" 
+                   size={24}
+                   style={{textAlign: 'center'}}
+                    color="#243763" />
+                  
                   {/* <Feather name="clock" size={24} 
                   color={textTheme}
                   style={{textAlign: 'center'}}
@@ -283,10 +290,19 @@ export const TabsNavigation = ({ navigation }: any) => {
                     color={textTheme}
                     style={{ marginLeft: 8 }}
                   /> */}
-                  <Feather name="clock" size={24} 
+                  {/* <Feather name="clock" size={24} 
                   color={textTheme}
                   style={{textAlign: 'center'}}
-                   />
+                   /> */}
+                   
+               
+                    <MaterialCommunityIcons 
+                   name="run" 
+                   size={24} 
+                   style={{textAlign: 'center'}}
+                   color="#484C52"
+                    />
+                  
                   <Text className='mt-2'  style={{ color: textTheme, textAlign: 'center' }}> My Errands</Text>
                 </>
               )}
