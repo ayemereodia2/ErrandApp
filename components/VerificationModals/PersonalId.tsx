@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
 import { postFiles } from '../../services/errands/postFiles'
 import { RootState, useAppDispatch } from '../../services/store'
+import { RadioButton } from 'react-native-paper'
 
 interface ImageViewerProp {
   placeholderImageSource: any
@@ -153,19 +154,49 @@ const PersonalId = ({ closePersonalId }: any) => {
   }
 
   return (
-    <SafeAreaView>
-      <ScrollView showsHorizontalScrollIndicator={false}>
-        <Text className="text-lg text-center font-semibold">
-          Personal Identification
+    <SafeAreaView className='mx-3 mb-48'>
+      <ScrollView  showsHorizontalScrollIndicator={false}>
+        <Text className="text-base ml-3 mt-3 font-semibold" style={{fontFamily: 'Axiforma'}}>
+          Kindly upload your personal ID for verification
         </Text>
 
-        <View className="px-4 mt-6">
+        {/* <View className="px-4 mt-6">
           <Text className="text-sm text-[#243763] font-semibold">
             In other to validate your personal information, Please upload the
             relevant documents. Valid documents include International passport,
             National ID or Voters card. Images must be either PNG, JPG or JPEG
             format
           </Text>
+        </View> */}
+
+        <View className='mx-3 mt-4 mb-4'>
+          <TouchableOpacity className='flex-row mt-4 mb-4 items-center justify-between px-3 py-4 rounded-[10px] bg-white border-0.5 border-[#666]'>
+              <Text className='text-[#040708] text-sm' style={{fontFamily: 'Axiforma'}}>National Identification Number (NIN)</Text>
+              <Text>
+                <RadioButton value='National Identification Number' />
+              </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity className='flex-row items-center justify-between mt-3 mb-4 px-3 py-4 rounded-[10px] bg-white border-0.5 border-[#666]'>
+              <Text className='text-[#040708] text-sm' style={{fontFamily: 'Axiforma'}}>Driver’s License</Text>
+              <Text>
+                <RadioButton value='National Identification Number' />
+              </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity className='flex-row items-center justify-between px-3 mt-3 mb-4 py-4 rounded-[10px] bg-white border-0.5 border-[#666]'>
+              <Text className='text-[#040708] text-sm' style={{fontFamily: 'Axiforma'}}>International Passport</Text>
+              <Text>
+                <RadioButton value='National Identification Number' />
+              </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity className='flex-row items-center justify-between px-3 mt-3 mb-4 py-4 rounded-[10px] bg-white border-0.5 border-[#666]'>
+              <Text className='text-[#040708] text-sm' style={{fontFamily: 'Axiforma'}}>Permanent Voter’s card (PVC)</Text>
+              <Text>
+                <RadioButton value='National Identification Number' />
+              </Text>
+          </TouchableOpacity>
         </View>
 
         {/* <View className="w-[398px] h-[38px] mx-auto mt-10 ml-4"></View> */}
@@ -184,11 +215,11 @@ const PersonalId = ({ closePersonalId }: any) => {
                 className=""
               >
                 <Text className="mx-auto mt-8">
-                  <Feather name="image" size={40} color="#3F60AC" />
+                  {/* <Feather name="image" size={40} color="#3F60AC" /> */}
+                  <Feather name="upload" size={40} color="#3F60AC" />
                 </Text>
-                <Text className="mx-auto text-[#808080]">
-                  Select images or{' '}
-                  <Text className="text-[#3F60AC] font-semibold">Browse</Text>
+                <Text className="mx-auto mt-3 text-[#6D6D6D] text-base" style={{fontFamily: 'Axiforma'}}>
+                 Upload your file here
                 </Text>
                 {/* <Text className="mx-auto text-[#808080]">3 images maximum</Text> */}
               </TouchableOpacity>

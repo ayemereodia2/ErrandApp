@@ -1,7 +1,9 @@
-import { AntDesign } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { useNavigation } from '@react-navigation/native'
+import CountryPicker from 'react-native-country-picker-modal'
+
+import { AntDesign, Feather } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import {
   ActivityIndicator,
@@ -19,6 +21,7 @@ import { useSelector } from 'react-redux'
 import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { RootState, useAppDispatch } from '../../services/store'
+import BusinessDropdown from '../BusinessDropdown/BusinessDropdown'
 
 const UpdateProfile = ({ image, data }: any) => {
   const {
@@ -47,7 +50,44 @@ const UpdateProfile = ({ image, data }: any) => {
   const [occupation, setOccupation] = useState(data?.occupation)
 
   const [showDatePicker, setShowDatePicker] = useState(false)
-  const [myDate, setMyDate] = useState(new Date())
+  const [myDate, setMytDate] = useState(new Date(data?.dob))
+  const [countryCode, setCountryCode] = useState('NG')
+  const [callingCode, setCallingCode] = useState('234')
+
+  const countries = ['Egypt', 'Canada', 'Australia', 'Ireland']
+  const [igInput, setIgInput] = useState(false)
+  const [fbInput, setFbInput] = useState(false)
+  const [xInput, setXInput] = useState(false)
+
+  const handleIG = () => {
+    setIgInput(true)
+  }
+  const handleFB = () => {
+    setIgInput(true)
+  }
+  const handleX = () => {
+    setIgInput(true)
+  }
+
+  const businessCategoryData = [
+    { key: '1', value: 'Tutoring' },
+    { key: '2', value: 'Vehicles' },
+    { key: '3', value: 'Make Up' },
+    { key: '4', value: 'Tech' },
+    { key: '5', value: 'Food' },
+    { key: '6', value: 'Others' },
+  ]
+
+  const businessContact = [
+    { key: '1', value: 'Email address' },
+    { key: '2', value: 'Phone number' },
+  ]
+
+  const businessHours = [
+    { key: '1', value: '24/7' },
+    { key: '2', value: 'Daily' },
+    { key: '3', value: 'Weekly' },
+  ]
 
   console.log('>>>>>>daaaaa', dateOfBirth)
 
@@ -123,31 +163,64 @@ const UpdateProfile = ({ image, data }: any) => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="bg-[#FEFEFE]">
       <ScrollView className="px-4">
         <View className="mt-10">
-          <View>
+          <View className="mt-8">
             <Text
-              className="font-medium text-lg text-[#1E3A79]"
-              style={{ color: textTheme }}
+              className="font-medium text-sm text-[#393F42]"
+              style={{ color: textTheme, fontFamily: 'Axiforma' }}
             >
-              Bio
+              First Name
             </Text>
             <TextInput
-              className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
-              placeholder={data?.bio ? data.bio : 'Enter a message'}
-              value={about}
-              onChangeText={(text) => setAbout(text)}
+              className="w-full mt-2 rounded-md p-5 pl-3 items-center mx-auto border border-[#96A0A5] text-sm"
+              style={{ fontFamily: 'Axiforma' }}
+              placeholder={'Enter your First Name'}
+              value={firstName}
+              onChangeText={(text) => setFirstName(text)}
               placeholderTextColor={'#B3B3B3'}
-            ></TextInput>
+            />
           </View>
 
           <View className="mt-8">
             <Text
-              className="font-medium text-lg text-[#1E3A79]"
+              className="font-medium text-sm text-[#393F42]"
+              style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            >
+              Last Name
+            </Text>
+            <TextInput
+              className="w-full mt-2 rounded-md p-5 pl-3 items-center mx-auto border border-[#96A0A5] text-sm"
+              placeholder={' Enter your last name'}
+              value={lastName}
+              onChangeText={(text) => setLastName(text)}
+              placeholderTextColor={'#B3B3B3'}
+            />
+          </View>
+
+          <View className="mt-8">
+            <Text
+              className="font-medium text-sm text-[#393F42]"
               style={{ color: textTheme }}
             >
-              First Name
+              Email Address
+            </Text>
+            <TextInput
+              className="w-full mt-2 rounded-md p-5 pl-3 items-center mx-auto border border-[#96A0A5] text-sm"
+              placeholder={'Enter your email Address'}
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+              placeholderTextColor={'#B3B3B3'}
+            />
+          </View>
+
+          <View className="mt-8">
+            <Text
+              className="font-medium text-sm text-[#393F42]"
+              style={{ color: textTheme }}
+            >
+              Type of Account
             </Text>
             <TextInput
               className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
@@ -160,10 +233,10 @@ const UpdateProfile = ({ image, data }: any) => {
 
           <View className="mt-8">
             <Text
-              className="font-medium text-lg text-[#1E3A79]"
+              className="font-medium text-sm text-[#393F42]"
               style={{ color: textTheme }}
             >
-              Last Name
+              What is your business name?
             </Text>
             <TextInput
               className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
@@ -176,7 +249,203 @@ const UpdateProfile = ({ image, data }: any) => {
 
           <View className="mt-8">
             <Text
-              className="font-medium text-lg text-[#1E3A79]"
+              className="font-medium text-sm text-[#393F42]"
+              style={{ color: textTheme }}
+            >
+              Select Business Category
+            </Text>
+            <TextInput
+              className="w-full mt-2 rounded-md p-5 pl-3 items-center mx-auto border border-[#96A0A5] text-sm"
+              placeholder={'Exemplar Group'}
+              placeholderTextColor={'#B3B3B3'}
+            />
+          </View>
+
+          <View className="mt-8">
+            <Text
+              className="font-medium text-sm text-[#393F42]"
+              style={{ color: textTheme }}
+            >
+              Keywords for your business
+            </Text>
+            <TextInput
+              className="w-full mt-2 rounded-md p-5 pl-3 items-center mx-auto border border-[#96A0A5] text-sm"
+              placeholder={'Exemplar Group'}
+              placeholderTextColor={'#B3B3B3'}
+            />
+          </View>
+
+          <View className="mt-8">
+            <Text
+              className="font-medium text-sm text-[#393F42]"
+              style={{ color: textTheme }}
+            >
+              Advertise your message to customers (This message will be shown to
+              your customers)
+            </Text>
+            <TextInput
+              className="w-full mt-2 rounded-md p-5 pl-3 items-center mx-auto border border-[#96A0A5] text-sm"
+              placeholder={
+                'Advertise your  message to customers (This message will be shown to your customers). Advertise your  message to customers (This message will be shown to your customers).Advertise your  message to customers (This message will be shown to your customers)'
+              }
+              placeholderTextColor={'#B3B3B3'}
+            />
+          </View>
+
+          <View className="mt-8">
+            <Text
+              className="font-medium text-sm text-[#393F42]"
+              style={{ color: textTheme }}
+            >
+              Describe what you do in detail
+            </Text>
+            <TextInput
+              className="w-full mt-2 rounded-md p-5 pl-3 items-center mx-auto border border-[#96A0A5] text-sm"
+              placeholder={
+                'Advertise your  message to customers (This message will be shown to your customers). Advertise your  message to customers (This message will be shown to your customers).Advertise your  message to customers (This message will be shown to your customers)'
+              }
+              placeholderTextColor={'#B3B3B3'}
+            />
+          </View>
+
+          <View className="mt-8">
+            <Text className="text-[#393F42]" style={{ fontFamily: 'Axiforma' }}>
+              What is your business address?
+            </Text>
+            <TextInput className="border border-[#96A0A5] p-4 mt-3 rounded-[8px]" />
+          </View>
+
+          <View className="mt-8">
+            <Text className="text-[#5E6366]" style={{ fontFamily: 'Axiforma' }}>
+              Phone Number
+            </Text>
+
+            <View className="flex-row items-center w-full">
+              <View className=" flex-row items-center mr-3 mt-1 px-[22px] py-[7px] w-[81px] border rounded-lg border-[#96A0A5]">
+                <CountryPicker
+                  withFilter
+                  countryCode={countryCode}
+                  withFlag
+                  withAlphaFilter={false}
+                  withCurrencyButton={false}
+                  withCallingCode
+                  onSelect={(country) => {
+                    console.log('country', country)
+                    const { cca2, callingCode } = country
+                    setCountryCode(cca2)
+                    setCallingCode(callingCode[0])
+                  }}
+                  containerButtonStyle={{
+                    alignItems: 'center',
+
+                    marginRight: 15,
+                  }}
+                />
+
+                <Text className="mt-1">
+                  <AntDesign name="down" size={16} color="#130F26" />
+                </Text>
+              </View>
+
+              <View className="w-[67vw]">
+                <TextInput className="border border-[#96A0A5] p-4 mt-[5px] rounded-[8px] h-14" />
+              </View>
+            </View>
+          </View>
+
+          <View className="mt-8">
+            <Text className="text-[#393F42]" style={{ fontFamily: 'Axiforma' }}>
+              What is the best way to contact your business?
+            </Text>
+            <BusinessDropdown data={businessContact} />
+          </View>
+
+          <View className="mt-8">
+            <Text className="text-[#393F42]" style={{ fontFamily: 'Axiforma' }}>
+              When can your customers reach you?
+            </Text>
+            <BusinessDropdown data={businessHours} />
+          </View>
+
+          <View className="mt-8">
+            <Text className="text-[#393F42]" style={{ fontFamily: 'Axiforma' }}>
+              Link your social media accounts
+            </Text>
+
+            <View
+              className="flex-row items-center mt-3"
+              style={{
+                gap: 12,
+                display: igInput || fbInput || xInput ? 'none' : 'flex',
+              }}
+            >
+              <TouchableOpacity onPress={handleIG}>
+                <Text>
+                  {' '}
+                  <AntDesign name="instagram" size={24} color="black" />{' '}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={handleFB}>
+                <Text>
+                  {' '}
+                  <Feather name="facebook" size={24} color="black" />{' '}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={handleX}>
+                <Text>
+                  {' '}
+                  {/* <FontAwesome name="x-twitter" size={24} color="black" />{' '} */}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View>
+              <View
+                className="relative"
+                style={{ display: igInput ? 'flex' : 'none' }}
+              >
+                <TextInput className="border border-[#96A0A5] p-4 mt-3 rounded-[8px]" />
+                <TouchableOpacity
+                  className="bg-[#09497D] rounded-[12px] w-28 h-8 absolute right-3 bottom-3"
+                  onPress={() => setIgInput(false)}
+                >
+                  <Text className="text-white text-center mt-1.5">Enter</Text>
+                </TouchableOpacity>
+              </View>
+
+              <View
+                className="relative"
+                style={{ display: fbInput ? 'flex' : 'none' }}
+              >
+                <TextInput className="border border-[#96A0A5] p-4 mt-3 rounded-[8px]" />
+                <TouchableOpacity
+                  className="bg-[#09497D] rounded-[12px] w-28 h-8 absolute right-3 bottom-3"
+                  onPress={() => setFbInput(false)}
+                >
+                  <Text className="text-white text-center mt-1.5">Enter</Text>
+                </TouchableOpacity>
+              </View>
+
+              <View
+                className="relative"
+                style={{ display: xInput ? 'flex' : 'none' }}
+              >
+                <TextInput className="border border-[#96A0A5] p-4 mt-3 rounded-[8px]" />
+                <TouchableOpacity
+                  className="bg-[#09497D] rounded-[12px] w-28 h-8 absolute right-3 bottom-3"
+                  onPress={() => setXInput(false)}
+                >
+                  <Text className="text-white text-center mt-1.5">Enter</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+
+          <View className="mt-8">
+            <Text
+              className="font-medium text-sm text-[#393F42]"
               style={{ color: textTheme }}
             >
               Occupation
@@ -190,12 +459,12 @@ const UpdateProfile = ({ image, data }: any) => {
             />
           </View>
 
-          <View className="mt-8">
+          <View>
             <Text
-              className="font-medium text-lg text-[#1E3A79]"
+              className="font-medium text-sm mt-5 text-[#393F42]"
               style={{ color: textTheme }}
             >
-              Email Address
+              Bio
             </Text>
             <TextInput
               className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
@@ -203,7 +472,7 @@ const UpdateProfile = ({ image, data }: any) => {
               value={email}
               onChangeText={(text) => setEmail(text)}
               placeholderTextColor={'#B3B3B3'}
-            />
+            ></TextInput>
           </View>
 
           {/* <View className="mt-8">
@@ -298,7 +567,7 @@ const UpdateProfile = ({ image, data }: any) => {
           >
             <View className="w-[300px] h-[50px] bg-[#243763]  mx-auto items-center justify-center rounded-lg">
               <Text className="text-white text-center items-center">
-                {loading ? <ActivityIndicator /> : 'Save'}
+                {loading ? <ActivityIndicator /> : 'Save changes'}
               </Text>
             </View>
           </TouchableOpacity>

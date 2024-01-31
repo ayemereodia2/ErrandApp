@@ -228,12 +228,12 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
     <ScrollView>
       <View className="mt-6 ml-4 ">
         <Text
-          style={{ color: textTheme }}
+          style={{ color: '#444444' }}
           className=" text-base font-bold leading-6"
         >
           GENERAL NOTIFICATIONS
         </Text>
-        <Text style={{ color: textTheme }} className="text-[14px] font-md">
+        <Text style={{ color: '#787C82', fontFamily: 'Axiforma' }} className="text-[14px] ">
           Notifications on all general activities on Swave
         </Text>
       </View>
@@ -245,7 +245,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
         className=" bg-[#ECF0F8] mt-5 rounded-lg pb-4"
       >
         <View
-          className=" h-[63px] ml-4 mt-5 border-b border-b-[#AAAAAA]"
+          className=" h-[63px] ml-4 mt-5 border-b border-b-[#C6C3D8]"
           style={{ backgroundColor: theme ? '#152955' : 'white' }}
         >
           <View className="flex-row items-center justify-between">
@@ -257,7 +257,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
             </Text>
             <TouchableWithoutFeedback>
               <Switch
-                trackColor={{ false: '#767577', true: 'green' }}
+                trackColor={{ false: '#767577', true: '#09497D' }}
                 onValueChange={(value: boolean) => {
                   // dispatch(
                   //   updateNotificationPrefeference({
@@ -274,13 +274,13 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
               />
             </TouchableWithoutFeedback>
           </View>
-          <Text style={{ color: textTheme }} className="text-sm font-light">
+          <Text style={{ color: '#787C82', fontFamily: 'Axiforma' }} className="text-sm">
             You will be notified when an update is available
           </Text>
         </View>
 
         <View
-          className=" h-[63px] ml-4 mt-5 border-b pb-2 border-b-[#AAAAAA]"
+          className=" h-[63px] ml-4 mt-5 border-b pb-2 border-b-[#C6C3D8]"
           style={{ backgroundColor: theme ? '#152955' : 'white' }}
         >
           <View className="flex-row items-center justify-between">
@@ -293,7 +293,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
             <TouchableWithoutFeedback>
               <>
                 <Switch
-                  trackColor={{ false: '#767577', true: 'green' }}
+                  trackColor={{ false: '#767577', true: '#09497D' }}
                   onValueChange={(value: boolean) => {
                     // setNewsLetter(!newsLetter)
                     // dispatch(
@@ -312,13 +312,13 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
               </>
             </TouchableWithoutFeedback>
           </View>
-          <Text style={{ color: textTheme }} className="text-sm font-light">
+          <Text style={{  color: '#787C82', fontFamily: 'Axiforma' }} className="text-sm font-light">
             Be in the know when we publish any information
           </Text>
         </View>
 
         <View
-          className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]"
+          className=" h-[63px] ml-4 mt-5  border-b-[#C6C3D8]"
           style={{ backgroundColor: theme ? '#152955' : 'white' }}
         >
           <View className="flex-row items-center justify-between">
@@ -330,7 +330,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
             </Text>
             <TouchableWithoutFeedback>
               <Switch
-                trackColor={{ false: '#767577', true: 'green' }}
+                trackColor={{ false: '#767577', true: '#09497D' }}
                 onValueChange={(value: boolean) => {
                   // dispatch(
                   //   updateNotificationPrefeference({
@@ -347,7 +347,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
               />
             </TouchableWithoutFeedback>
           </View>
-          <Text style={{ color: textTheme }} className="text-sm font-light">
+          <Text style={{  color: '#787C82', fontFamily: 'Axiforma' }} className="text-sm font-light">
             Stay informed about our amazing offers
           </Text>
         </View>
@@ -390,7 +390,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
         >
           DISPLAY
         </Text>
-        <Text style={{ color: textTheme }} className="text-[14px] font-md">
+        <Text style={{  color: '#787C82', fontFamily: 'Axiforma' }} className="text-[14px]">
           Change display settings of swave app
         </Text>
       </View>
@@ -400,7 +400,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
         className=" bg-[#ECF0F8] mt-5 rounded-lg pb-3"
       >
         <View
-          className=" h-[63px] ml-4 mt-5  border-b-[#AAAAAA]"
+          className=" h-[45px] ml-4 mt-5  border-b-[#AAAAAA]"
           style={{ backgroundColor: theme ? '#152955' : 'white' }}
         >
           <View
@@ -414,7 +414,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
               Dark Mode
             </Text>
             <Switch
-              trackColor={{ false: '#767577', true: 'green' }}
+              trackColor={{ false: '#767577', true: '#09497D' }}
               value={data?.preferred_theme === 'light' ? true : false}
               // value={theme === 'light' ? true : false}
               onValueChange={
@@ -454,7 +454,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
         className=" bg-[#ECF0F8] mt-5 rounded-lg pb-3"
       >
         <View
-          className=" h-[63px] mx-4 mt-5  border-b-[#AAAAAA]"
+          className=" h-[45px] mx-4 mt-5  border-b-[#AAAAAA]"
           style={{ backgroundColor: theme ? '#152955' : 'white' }}
         >
           <View
@@ -506,7 +506,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
             </Text>
             <TouchableWithoutFeedback>
               <Switch
-                trackColor={{ false: '#767577', true: 'green' }}
+                trackColor={{ false: '#767577', true: '#09497D' }}
                 onValueChange={(value: boolean) => {
                   // dispatch(
                   //   updateNotificationPrefeference({
@@ -523,7 +523,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
               />
             </TouchableWithoutFeedback>
           </View>
-          <Text style={{ color: textTheme }} className="text-sm font-light">
+          <Text style={{ color: '#787C82', fontFamily: 'Axiforma' }} className="text-sm font-light">
             You will be notified when an update is available
           </Text>
         </View>
@@ -554,7 +554,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
               style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
             />
           </View>
-          <Text style={{ color: textTheme }} className="text-sm font-light">
+          <Text style={{ color: '#787C82', fontFamily: 'Axiforma' }} className="text-sm font-light">
             Be in the know when we publish any information
           </Text>
         </View>
@@ -569,7 +569,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
             </Text>
             <TouchableWithoutFeedback>
               <Switch
-                trackColor={{ false: '#767577', true: 'green' }}
+                trackColor={{ false: '#767577', true: '#09497D' }}
                 onValueChange={(value: boolean) => {
                   // dispatch(
                   //   updateNotificationPrefeference({
@@ -586,7 +586,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
               />
             </TouchableWithoutFeedback>
           </View>
-          <Text style={{ color: textTheme }} className="text-sm font-light">
+          <Text style={{ color: '#787C82', fontFamily: 'Axiforma' }} className="text-sm font-light">
             Stay informed about our amazing offers
           </Text>
         </View>
@@ -601,7 +601,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
             </Text>
             <TouchableOpacity>
               <Switch
-                trackColor={{ false: '#767577', true: 'green' }}
+                trackColor={{ false: '#767577', true: '#09497D' }}
                 value={preferences?.errand_status_notifications}
                 onValueChange={(value: boolean) => {
                   // dispatch(
@@ -618,7 +618,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
               />
             </TouchableOpacity>
           </View>
-          <Text style={{ color: textTheme }} className="text-sm font-light">
+          <Text style={{ color: '#787C82', fontFamily: 'Axiforma' }} className="text-sm font-light">
             Stay informed about our amazing offers
           </Text>
         </View>

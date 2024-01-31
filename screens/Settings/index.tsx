@@ -1,4 +1,10 @@
-import { AntDesign, Entypo, FontAwesome } from '@expo/vector-icons'
+import {
+  AntDesign,
+  FontAwesome,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -11,7 +17,6 @@ import { Restart } from 'fiction-expo-restart'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
-  Image,
   Modal,
   Platform,
   RefreshControl,
@@ -26,9 +31,8 @@ import {
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
-import Container from '../../components/Container'
 import LoadingModal from '../../components/MainLoader/LoadingModal'
-import { ProfileInitials } from '../../components/ProfileInitials'
+import SettingsContent from '../../components/SettingsContent/SettingsContent'
 import SettingsCategory from '../../components/SettingTestFolder/SettingsCategory'
 import SettingsTest from '../../components/SettingTestFolder/SettingsTest'
 import ConfirmPinModal from '../../components/VerificationModals/ConfirmPin'
@@ -260,8 +264,87 @@ const SettingScreen = ({ navigation }: any) => {
   }
 
   return (
-    <Container>
+    <>
       <BottomSheetModalProvider>
+        <View>
+          <View
+            className="bg-purple-200 h-[160px] w-screen shadow-md"
+            style={{ borderBottomLeftRadius: 70, borderBottomRightRadius: 70 }}
+          >
+            <View
+              className="bg-[#09497D] h-[150px] pt-[70px] px-6 pb-3 pl-[27px]"
+              style={{
+                borderBottomLeftRadius: 70,
+                borderBottomRightRadius: 70,
+              }}
+            >
+              <View
+                className={
+                  Platform.OS === 'android'
+                    ? 'flex-row items-center justify-between '
+                    : 'flex-row items-center justify-between'
+                }
+              >
+                <View className="flex-row items-center mt-2">
+                  <TouchableOpacity
+                    className=" items-center justify-between mr-8 py-3 "
+                    onPress={() => navigation.goBack()}
+                  >
+                    <Ionicons
+                      name="chevron-back-outline"
+                      size={24}
+                      color="white"
+                    />
+                  </TouchableOpacity>
+
+                  <Text
+                    className="text-white text-xl font-medium"
+                    style={{ fontFamily: 'Chillax' }}
+                  >
+                    Settings
+                  </Text>
+                </View>
+
+                {/* <Text
+                  className="font-bold text-[20px] leading-7"
+                  style={{ color: textTheme }}
+                >
+                  Welcome, {currentUser?.first_name}
+                </Text> */}
+
+                <View className="items-center flex-row gap-2">
+                  <TouchableOpacity
+                  // onPress={
+                  //   // navigation.navigate('Contact')
+                  //   openMoreModal
+                  // }
+                  >
+                    <Text style={{ color: textTheme }}>
+                      <Ionicons
+                        name="settings-outline"
+                        size={22}
+                        color={'white'}
+                        style={{ marginLeft: 7 }}
+                      />
+                    </Text>
+                  </TouchableOpacity>
+
+                  <Text style={{ color: textTheme }} className="mr-4">
+                    <FontAwesome
+                      name="bell-o"
+                      size={22}
+                      color={'white'}
+                      onPress={() => {
+                        navigation.navigate('Notification')
+                      }}
+                    />
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+
         <SafeAreaView>
           <ScrollView
             style={{ backgroundColor: backgroundTheme }}
@@ -273,11 +356,11 @@ const SettingScreen = ({ navigation }: any) => {
             <View
               className={
                 Platform.OS === 'android'
-                  ? 'flex-row items-center justify-between mt-6'
+                  ? 'flex-row items-center justify-between '
                   : 'flex-row items-center justify-between'
               }
             >
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => navigation.navigate('Profile')}
                 style={{ marginLeft: 20 }}
                 className="flex-row items-center justify-between my-3"
@@ -290,19 +373,19 @@ const SettingScreen = ({ navigation }: any) => {
                   width={30}
                   height={30}
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
               <LoadingModal visible={smsLoading} />
-
+              {/* 
               <Text
                 className="font-bold text-[20px] leading-7"
                 style={{ color: textTheme }}
               >
                 Settings
-              </Text>
+              </Text> */}
 
               <View className="items-center flex-row gap-4 mr-2">
-                <Text style={{ color: textTheme }}>
+                {/* <Text style={{ color: textTheme }}>
                   <FontAwesome
                     name="bell-o"
                     size={24}
@@ -310,20 +393,20 @@ const SettingScreen = ({ navigation }: any) => {
                       navigation.navigate('Notification')
                     }}
                   />
-                </Text>
-                <TouchableOpacity onPress={openMoreModal}>
+                </Text> */}
+                {/* <TouchableOpacity onPress={openMoreModal}>
                   <Text style={{ color: textTheme }}>
                     <Entypo name="dots-three-vertical" size={24} />
                   </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </View>
 
             <View className=" mt-6 px-4">
-              <View className=" h-[88px] mt-1 border-b-[#CCCCCC] border-b-[1px]">
-                <View className="flex-row justify-between items-center">
-                  <View className="flex-row space-x-4 ">
-                    {data?.data?.profile_picture ? (
+              {/* <View className=" h-[88px] mt-1 border-b-[#CCCCCC] border-b-[1px]"> */}
+              <View className="flex-row justify-between items-center">
+                <View className="flex-row space-x-4 ">
+                  {/* {data?.data?.profile_picture ? (
                       <View className="mx-auto">
                         <Image
                           source={{ uri: data?.data?.profile_picture }}
@@ -337,8 +420,8 @@ const SettingScreen = ({ navigation }: any) => {
                           {data?.data?.last_name.charAt(0)}
                         </Text>
                       </View>
-                    )}
-                    <View className="mt-2">
+                    )} */}
+                  {/* <View className="mt-2">
                       <Text
                         style={{ color: textTheme }}
                         className="font-semibold text-base"
@@ -353,10 +436,13 @@ const SettingScreen = ({ navigation }: any) => {
                           ? 'Email address not available'
                           : data?.data?.email}
                       </Text>
-                    </View>
-                  </View>
+                    </View> */}
                 </View>
+
+                {/* </View> */}
               </View>
+
+              <SettingsContent navigation={navigation} />
 
               <SettingsTest
                 openVerifyModal={openVerifyModal}
@@ -374,7 +460,32 @@ const SettingScreen = ({ navigation }: any) => {
                 </Text>
               </View>
 
-              <View
+              <View className="flex-row items-center py-3 pl-2 pr-2 mx-2 bg-[#fefefe] rounded-[10px]">
+                <TouchableOpacity
+                  className="bg-[#f3f3f3] flex-row items-center py-2 pl-3 pr-4 rounded-[10px]"
+                  style={{ gap: 14 }}
+                  onPress={() => copyToClipboard(data?.data?.referral_code)}
+                >
+                  <Text
+                    className="text-sm text-[#09497D]"
+                    style={{ fontFamily: 'Axiforma' }}
+                  >
+                    {data?.data?.referral_code}
+                  </Text>
+                  <Text
+                    className="text-[#888686] text-xs"
+                    style={{ fontFamily: 'Axiforma' }}
+                  >
+                    Tap to copy code
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity className="ml-6 bg-[#09497D] py-2 px-2 rounded-[15px]">
+                  <Text className="text-white">Share</Text>
+                </TouchableOpacity>
+              </View>
+
+              {/* <View
                 style={{ backgroundColor: theme ? '#152955' : 'white' }}
                 className="h-[350px] bg-[#ECF0F8] mt-5 rounded-md pb-4 px-3"
               >
@@ -405,7 +516,9 @@ const SettingScreen = ({ navigation }: any) => {
                       Share Via Email
                     </Text>
                   </View>
-                </View> */}
+                </View>
+
+               
 
                 <View className=" mt-5 border-b border-b-[#AAAAAA] bg-[#3F60AC] rounded-lg">
                   <Text className="text-[#FAFAFA] text-base font-light  px-5 py-4">
@@ -417,14 +530,14 @@ const SettingScreen = ({ navigation }: any) => {
                     automatically.
                   </Text>
                 </View>
-              </View>
+              </View> */}
 
               <View className="mt-10 ml-4">
                 <Text
                   style={{ color: textTheme }}
                   className="pb-2 text-base font-bold leading-6"
                 >
-                  NOTIFICATIONS
+                  Email Notifications
                 </Text>
               </View>
 
@@ -440,10 +553,9 @@ const SettingScreen = ({ navigation }: any) => {
                     >
                       Send Email notifications
                     </Text>
-                  </View>
-                  <View className=" mt-2 py-1 flex-row items-center justify-between rounded-lg">
+
                     <Switch
-                      trackColor={{ false: '#767577', true: 'green' }}
+                      trackColor={{ false: '#767577', true: '#09497D' }}
                       value={preferences?.email_notifications}
                       onValueChange={(value: boolean) => {
                         setLoading(true)
@@ -461,7 +573,9 @@ const SettingScreen = ({ navigation }: any) => {
                         transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }],
                       }}
                     />
+                  </View>
 
+                  <View className=" mt-2 py-1 w-[80px] rounded-lg">
                     <View
                       className={
                         preferences?.email_notifications
@@ -469,7 +583,7 @@ const SettingScreen = ({ navigation }: any) => {
                           : ' bg-red-300 rounded-lg p-1 mb-1'
                       }
                     >
-                      <Text className="text-xs">
+                      <Text className="text-xs text-center">
                         {preferences?.email_notifications
                           ? 'Enabled'
                           : 'Disabled'}{' '}
@@ -484,29 +598,87 @@ const SettingScreen = ({ navigation }: any) => {
                   style={{ color: textTheme }}
                   className="pb-2 text-base font-bold leading-6"
                 >
-                  ACCOUNT
+                  Actions
                 </Text>
               </View>
 
               <View
                 style={{ backgroundColor: theme ? '#152955' : 'white' }}
-                className=" h-[100px] bg-[#ECF0F8] px-4 mt-5 rounded-md pb-4 mb-20"
+                className="  bg-[#ECF0F8] px-4 rounded-md pb-8 mb-48"
               >
-                <View className=" h-[63px]  mt-5 ">
-                  <View className=" mt-2 py-1 flex-row items-center justify-between rounded-lg">
-                    <Text style={{ color: textTheme }} className="">
-                      Delete My Account
-                    </Text>
-                    <View>
-                      <AntDesign
-                        onPress={() => setDeleteModal(true)}
-                        name="delete"
-                        color="red"
-                        size={24}
+                <TouchableOpacity className="flex-row items-center justify-between mt-4">
+                  <View className="flex-row items-center">
+                    <Text
+                      className="text-base text-[#444444] mr-3"
+                      style={{ fontFamily: 'Axiforma' }}
+                    >
+                      <MaterialCommunityIcons
+                        name="flag-outline"
+                        size={20}
+                        color="black"
                       />
+                    </Text>
+                    <Text
+                      className="text-base text-[#444444]"
+                      style={{ fontFamily: 'Axiforma' }}
+                    >
+                      Report a problem
+                    </Text>
+                  </View>
+
+                  <View>
+                    <AntDesign name="right" size={20} color="black" />
+                  </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  className=" h-[63px]  mt-4"
+                  onPress={() => setDeleteModal(true)}
+                >
+                  <View className=" mt-2 py-1 flex-row items-center justify-between rounded-lg">
+                    <View className="flex-row items-center">
+                      <AntDesign name="delete" color="red" size={24} />
+
+                      <Text
+                        className="text-base text-[#444444] ml-3"
+                        style={{ fontFamily: 'Axiforma' }}
+                      >
+                        Delete My Account
+                      </Text>
+                    </View>
+
+                    <View>
+                      <AntDesign name="right" size={24} color="black" />
                     </View>
                   </View>
-                </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  className="flex-row items-center justify-between"
+                  onPress={() => {
+                    navigation.navigate('Default')
+                    clearStorage()
+                  }}
+                >
+                  <View className="flex-row items-center">
+                    <Text
+                      className="text-base text-[#444444] mr-3"
+                      style={{ fontFamily: 'Axiforma' }}
+                    >
+                      <MaterialIcons name="logout" size={20} color="black" />
+                    </Text>
+                    <Text
+                      className="text-base text-[#444444]"
+                      style={{ fontFamily: 'Axiforma' }}
+                    >
+                      Log out
+                    </Text>
+                  </View>
+
+                  <View>
+                    <AntDesign name="right" size={20} color="black" />
+                  </View>
+                </TouchableOpacity>
               </View>
             </View>
 
@@ -622,7 +794,7 @@ const SettingScreen = ({ navigation }: any) => {
           />
         </BottomSheetModal>
       </BottomSheetModalProvider>
-    </Container>
+    </>
   )
 }
 

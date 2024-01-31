@@ -87,25 +87,24 @@ const EmailModal = ({closeEmailModal}:any) => {
 
 
   return (
-    <View className="py-4 pb-10">
+    <View className="py-4">
      
 
-      <Text className="text-lg text-center font-semibold">Verify Your Email</Text>
-
       <View className="px-4 mt-6">
-        <Text className="text-sm text-[#243763] font-semibold">Please verify your email address</Text>
+        <Text className="text-base text-[#6D6D6D] font-semibold" style={{fontFamily: 'Axiforma'}}>Kindly enter your email for verification</Text>
 
       </View>
 
       <View className="px-4 mt-5">
-        <Text className="text-sm font-semibold text-[#243763]"> Email Address</Text>
+        <Text className="text-base font-semibold text-[#393F42]" style={{fontFamily: 'Axiforma'}}> Email Address</Text>
 
         <View className="w-full border bg-[#F5F5F5] border-[#E6E6E6] text-sm py-2 mt-2 rounded-lg px-3">
           <BottomSheetTextInput
             className={
-              'w-full border bg-[#CBD5EC] border-[#E6E6E6] text-sm py-2 mt-2 rounded-lg px-3'
+              'w-full border  border-[#96A0A5]  text-sm py-2 mt-2 rounded-lg px-3'
             }
             placeholder="Enter Your Email Address.."
+            placeholderTextColor={'#6D6D6D'}
             onChangeText={(e) => setEmail(e)}
             value={email}
             multiline={true}

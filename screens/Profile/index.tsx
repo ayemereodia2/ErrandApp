@@ -11,7 +11,6 @@ import {
   View,
 } from 'react-native'
 
-import UserProfile from '../../components/UsersProfile/UserProfile'
 import UserVerification from '../../components/UsersProfile/UserVerification'
 import { _fetch } from '../../services/axios/http'
 
@@ -52,7 +51,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
     bottomSheetRef.current?.present()
   }
 
-   function openSettingsModal() {
+  function openSettingsModal() {
     bottomSheetRef4.current?.present()
   }
 
@@ -105,7 +104,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
     bottomSheetRef3.current?.dismiss()
   }
 
-  const snapPoints = useMemo(() => ['76%'], [])
+  const snapPoints = useMemo(() => ['60%'], [])
   const snapPoints1 = useMemo(() => ['88%'], [])
   const snapPoints2 = useMemo(() => ['90%'], [])
   const snapPoints3 = useMemo(() => ['77%'], [])
@@ -198,10 +197,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
         className="h-screen"
       >
         <BottomSheetModalProvider>
-          <ScrollView
-            style={{ backgroundColor: backgroundTheme }}
-            className="bg-white"
-          >
+          <ScrollView style={{ backgroundColor: '#FEFEFE' }}>
             {/* Top Profile */}
 
             {data?.profile_picture ? (
@@ -253,7 +249,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
               <View className="flex-row mt-5 mx-auto">
                 <View className="ml-3">
                   <Text
-                    style={{ color: textTheme }}
+                    style={{ color: '#09497D' }}
                     className="text-center mb-1 font-bold"
                   >
                     {data?.errands_posted}
@@ -268,7 +264,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
 
                 <View className="ml-3">
                   <Text
-                    style={{ color: textTheme }}
+                    style={{ color: '#09497D' }}
                     className="text-center mb-1 font-bold"
                   >
                     {data?.errands_completed}
@@ -304,10 +300,10 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
                     backgroundColor: theme ? '#1E3A79' : 'white',
                   }}
                   onPress={() => navigation.navigate('EditProfile', { data })}
-                  className="w-[140px] h-[40px] bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-md"
+                  className="px-8 py-3 bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-[50px]"
                 >
                   <Text
-                    style={{ color: textTheme }}
+                    style={{ color: '#09497D' }}
                     className="text-base font-medium text-center items-center"
                   >
                     {' '}
@@ -315,72 +311,74 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Default')
-                    clearStorage()
-                  }}
-                  className="w-[140px] h-[40px] bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-md"
+                  className="px-8 py-3 bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-[50px]"
                   style={{
                     backgroundColor: theme ? '#1E3A79' : 'white',
                   }}
                 >
                   <Text
-                    style={{ color: textTheme }}
+                    style={{ color: '#09497D' }}
                     className="text-base font-medium text-center items-center"
                   >
-                    {' '}
-                    Logout{' '}
+                    View Full profile
                   </Text>
                 </TouchableOpacity>
               </View>
 
-              <View className="flex-row mr-[16px] mt-8 ml-[16px] md:w-[398px] mx-auto ">
-                <TouchableOpacity onPress={handleVerification}>
-                  <View
-                    className="w-[199px] h-[52px] border-b items-center justify-center "
-                    style={{
-                      borderBottomColor: profile ? '#3F60AC' : '#243763',
-                      borderBottomWidth: profile ? 2 : 1,
-                    }}
+              {/* <View className="flex-row mr-[16px] mt-8 ml-[16px] md:w-[398px] mx-auto ">
+              <TouchableOpacity onPress={handleVerification}>
+                <View
+                  className="w-[199px] h-[52px] border-b items-center justify-center "
+                  style={{
+                    borderBottomColor: profile ? '#3F60AC' : '#243763',
+                    borderBottomWidth: profile ? 2 : 1,
+                  }}
+                >
+                  <Text
+                    className="text-center font-medium"
+                    style={{ color: profile ? '#3F60AC' : '#243763' }}
                   >
-                    <Text
-                      className="text-center font-medium"
-                      style={{ color: profile ? '#3F60AC' : '#243763' }}
-                    >
-                      Profile information
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+                    Profile information
+                  </Text>
+                </View>
+              </TouchableOpacity>
 
-                <TouchableOpacity onPress={handleProfile}>
-                  <View
-                    className="w-[190px] h-[52px] border-b items-center justify-center "
-                    style={{
-                      borderBottomColor: profile ? '#243763' : '#3F60AC',
-                      borderBottomWidth: profile ? 1 : 2,
-                    }}
+              <TouchableOpacity onPress={handleProfile}>
+                <View
+                  className="w-[190px] h-[52px] border-b items-center justify-center "
+                  style={{
+                    borderBottomColor: profile ? '#243763' : '#3F60AC',
+                    borderBottomWidth: profile ? 1 : 2,
+                  }}
+                >
+                  <Text
+                    className="text-center font-medium"
+                    style={{ color: profile ? '#243763' : '#3F60AC' }}
                   >
-                    <Text
-                      className="text-center font-medium"
-                      style={{ color: profile ? '#243763' : '#3F60AC' }}
-                    >
-                      User verification
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
+                    User verification
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View> */}
 
-              {profile ? (
-                <UserProfile />
-              ) : (
-                <UserVerification
-                  openEmailModal={openEmailModal}
-                  openGuarantorModal={openGuarantorModal}
-                  openOfficeModal={openOfficeModal}
-                  openPersonalId={openPersonalId}
-                  data={data}
-                />
-              )}
+              {/* {profile ? (
+              <UserProfile />
+            ) : (
+              <UserVerification
+                openEmailModal={openEmailModal}
+                openGuarantorModal={openGuarantorModal}
+                openOfficeModal={openOfficeModal}
+                openPersonalId={openPersonalId}
+                data={data}
+              />
+            )} */}
+              <UserVerification
+                openEmailModal={openEmailModal}
+                openGuarantorModal={openGuarantorModal}
+                openOfficeModal={openOfficeModal}
+                openPersonalId={openPersonalId}
+                data={data}
+              />
             </View>
           </ScrollView>
 
