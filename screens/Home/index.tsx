@@ -1,15 +1,14 @@
 import {
-  Feather,
   FontAwesome,
   FontAwesome5,
   Ionicons,
   MaterialCommunityIcons,
-  MaterialIcons
+  MaterialIcons,
 } from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
-  BottomSheetModalProvider
+  BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
@@ -23,10 +22,11 @@ import {
   Pressable,
   RefreshControl,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native'
 import Swiper from 'react-native-deck-swiper'
 import { SelectList } from 'react-native-dropdown-select-list'
@@ -37,13 +37,14 @@ import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
 
 import { NotificationCard } from '../../components/Notifications'
-import PostErrandButton from '../../components/PostErrandBtn'
+import QuickButtons from '../../components/QuickButtons'
 import UrgentErrandCard from '../../components/UrgentErrandCard'
 import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { getDraftErrand } from '../../services/errands/getDraftErrand'
 import { getNotifications } from '../../services/notification'
 import { RootState, useAppDispatch } from '../../services/store'
+import colors from '../../utils/colors'
 import CategoryInterestModal from '../Modal/CategoryInterestModal'
 
 type LocationProp = {
@@ -82,7 +83,7 @@ const Home = ({ navigation }: any) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null)
   const bottomSheetRef1 = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ['50%'], [])
-  const snapPoints1 = useMemo(() => ['80%'], [])
+  const snapPoints1 = useMemo(() => ['60%'], [])
   const [verifiedPin, setVerifiedPin] = useState(true)
   const [refreshing, setRefreshing] = React.useState(false)
   const flatListRef = useRef<any>(0)
@@ -149,6 +150,10 @@ const Home = ({ navigation }: any) => {
     queryKey: ['get-market'],
     queryFn: getMarket,
   })
+
+  function openSettingsModal() {
+    bottomSheetRef.current?.present()
+  }
 
   const getCategory = async () => {
     const _rs = await _fetch({
@@ -389,100 +394,113 @@ const Home = ({ navigation }: any) => {
 
   return (
     <>
-      <View className="bg-[#F2F2F2]">
-        <View
-          className="bg-purple-200 h-[185px] w-screen shadow-md"
-          style={{ borderBottomLeftRadius: 70, borderBottomRightRadius: 70 }}
-        >
-          <SafeAreaView
-            className="bg-[#09497D] h-[180px] pt-[26px] px-6"
+      <StatusBar barStyle="light-content" backgroundColor="#09497D" />
+      <BottomSheetModalProvider>
+        <View className="">
+          <View
+            className="bg-purple-200 h-[185px] w-screen shadow-md"
             style={{ borderBottomLeftRadius: 70, borderBottomRightRadius: 70 }}
           >
-            <View className="flex-row justify-between items-center">
-              <Image
-                source={require('../../assets/images/swave-log-web.png')}
-                alt={'logo'}
-              />
+            <SafeAreaView
+              className="h-[180px] pt-[26px] px-6"
+              style={{
+                borderBottomLeftRadius: 70,
+                borderBottomRightRadius: 70,
+                backgroundColor: colors.DARK_BLUE,
+              }}
+            >
+              <View className="flex-row justify-between items-center">
+                <Image
+                  source={require('../../assets/images/swave-log-web.png')}
+                  alt={'logo'}
+                />
 
-              <View className="items-center flex-row gap-4">
-                <TouchableOpacity
-                  onPress={
-                    // navigation.navigate('Contact')
-                    openMoreModal
-                  }
-                >
-                  <Text style={{ color: textTheme }}>
-                    <Ionicons
-                      name="settings-outline"
+                <View className="items-center flex-row gap-4">
+                  <TouchableOpacity
+                    onPress={
+                      // navigation.navigate('Contact')
+                      openMoreModal
+                    }
+                  >
+                    <Text style={{ color: textTheme }}>
+                      <Ionicons
+                        name="settings-outline"
+                        size={22}
+                        color={'white'}
+                        style={{ marginLeft: 7 }}
+                      />
+                    </Text>
+                  </TouchableOpacity>
+
+                  <Text style={{ color: textTheme }} className="">
+                    <FontAwesome
+                      name="bell-o"
                       size={22}
                       color={'white'}
-                      style={{ marginLeft: 7 }}
+                      onPress={() => {
+                        navigation.navigate('Notification')
+                      }}
                     />
-                  </Text>
-                </TouchableOpacity>
-
-                <Text style={{ color: textTheme }} className="">
-                  <FontAwesome
-                    name="bell-o"
-                    size={22}
-                    color={'white'}
-                    onPress={() => {
-                      navigation.navigate('Notification')
-                    }}
-                  />
-                </Text>
-              </View>
-            </View>
-
-            <View className="mt-10">
-              <View className="flex-row items-center ">
-                {currentUser?.profile_picture !== null ? (
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('Profile')}
-                  >
-                    <Image
-                      source={{ uri: currentUser.profile_picture }}
-                      className="h-[60px] w-[60px] rounded-[60px]"
-                      alt={'logo'}
-                    />
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('Profile')}
-                  >
-                    <View className="bg-white h-[60px] w-[60px] rounded-[60px] flex-row justify-center items-center">
-                      <Text className="text-black text-4xl ">
-                        {currentUser.first_name.charAt(0).toUpperCase()}
-                        {currentUser.last_name.charAt(0).toUpperCase()}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                )}
-
-                <View className="ml-4">
-                  <Text
-                    style={{ fontFamily: 'Chillax-Medium' }}
-                    className="text-white text-[22px] leading-[38.4px]"
-                  >
-                    Welcome!
-                  </Text>
-
-                  <Text
-                    className="font-normal text-[14px] capitalize  leading-[25px] text-white"
-                    // style={{ color: textTheme }}
-                    style={{ fontFamily: 'Axiforma' }}
-                  >
-                    {currentUser?.first_name} {currentUser?.last_name} 👋
                   </Text>
                 </View>
               </View>
-            </View>
-          </SafeAreaView>
-        </View>
-      </View>
 
-      <View className="w-screen flex-1 h-[100%] bg-[#F2F2F2]">
-        <BottomSheetModalProvider>
+              <View className="mt-10">
+                <View className="flex-row items-center ">
+                  {currentUser?.profile_picture !== undefined ? (
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('Profile')}
+                    >
+                      <Image
+                        source={{ uri: currentUser.profile_picture }}
+                        className="h-[60px] w-[60px] rounded-[60px]"
+                        alt={'logo'}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('Profile')}
+                    >
+                      <View className="bg-white h-[60px] w-[60px] rounded-[60px] flex-row justify-center items-center">
+                        <Text
+                          style={{
+                            fontFamily: 'Chillax-Medium',
+                            color: colors.DARK_BLUE,
+                          }}
+                          className="text-4xl pt-2 "
+                        >
+                          {currentUser.first_name.charAt(0).toUpperCase()}
+                          {currentUser.last_name.charAt(0).toUpperCase()}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  )}
+
+                  <View className="ml-4">
+                    <Text
+                      style={{ fontFamily: 'Chillax-Medium' }}
+                      className="text-white text-[22px] leading-[38.4px]"
+                    >
+                      Welcome!
+                    </Text>
+
+                    <Text
+                      className="font-normal text-[14px] capitalize  leading-[25px] text-white"
+                      // style={{ color: textTheme }}
+                      style={{ fontFamily: 'Axiforma' }}
+                    >
+                      {currentUser?.first_name} {currentUser?.last_name} 👋
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </SafeAreaView>
+          </View>
+        </View>
+
+        <QuickButtons navigation={navigation} />
+
+        <View className="w-screen flex-1 ">
           <View
             style={{
               flexDirection: 'column-reverse',
@@ -496,14 +514,17 @@ const Home = ({ navigation }: any) => {
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
             >
-              <View className="flex-row items-center justify-center mt-7 space-x-4">
+              {/* <View className="flex-row items-center justify-center mt-7 space-x-4">
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Market')}
-                  className="border-[0.6px] p-1.5 rounded-3xl px-5 shadow-xl shadow-[#09497D1A] border-[#09497D80] "
+                  onPress={() => navigation.navigate('Market', {
+                    screen: 'Home',
+                    initial: true
+                  })}
+                  className="border-[0.6px] p-2 rounded-3xl px-5 shadow-xl shadow-[#575656] border-[#09497D80] "
                   style={{ backgroundColor: '#fff' }}
                 >
                   <Text
-                    className="text-[12px] text-[#09497D] text-center items-center"
+                    className="text-[14px] text-[#09497D] text-center items-center"
                     style={{ fontFamily: 'Axiforma' }}
                   >
                     Find an errand <Feather name="arrow-up-right" size={14} />
@@ -512,163 +533,167 @@ const Home = ({ navigation }: any) => {
 
                 <TouchableOpacity
                   onPress={() => navigation.navigate('MyErrands')}
-                  className="border-[0.6px] p-1.5 rounded-3xl px-5 shadow-xl shadow-[#575656] border-[#09497D80]"
+                  className="border-[0.6px] p-2 rounded-3xl px-5 shadow-xl shadow-[#575656] border-[#09497D80]"
                   style={{ backgroundColor: '#fff' }}
                 >
                   <Text
-                    className="text-[12px] text-[#09497D]"
+                    className="text-[14px] text-[#09497D]"
                     style={{ fontFamily: 'Axiforma' }}
                   >
-                    Find a Business <Feather name="arrow-up-right" size={14} />
+                    Manage Errand <Feather name="arrow-up-right" size={14} />
                   </Text>
                 </TouchableOpacity>
-              </View>
+              </View> */}
 
               <View className="mt-10">
                 <Text
-                  className=" text-[18px] text-[#061737] mb-5 leading-normal ml-6 "
+                  className=" text-[20px] text-[#061737] mb-5 leading-normal ml-6 "
                   style={{ fontFamily: 'Chillax-Medium' }}
                 >
                   Errand Categories
                 </Text>
 
-                <View className="flex-row items-center flex-wrap ml-6">
-                  {data
-                    ? data.data
-                        .filter((category) => category.name !== 'Any Errand')
-                        .map((category: any) => (
-                          <>
-                            <View key={category.id} className="w-1/4 mb-4 ">
-                              <View className="">
-                                <TouchableOpacity
-                                  className="border-[#aaa] h-[68px] shadow-2xl shadow-[#505050]  w-[68px] justify-center rounded-[20px]  bg-white"
-                                  style={{
-                                    backgroundColor: 'white',
-                                  }}
-                                  onPress={() => {
-                                    dispatch(getDraftErrand())
-                                    navigation.navigate('LandingForm', {
-                                      category,
-                                    })
-                                  }}
-                                  key={category.id}
-                                >
+                {isLoading ? (
+                  <ActivityIndicator color="blue" size="large" />
+                ) : (
+                  <View className="flex-row items-center flex-wrap ml-6">
+                    {data
+                      ? data.data
+                          .filter((category) => category.name !== 'Any Errand')
+                          .map((category: any) => (
+                            <>
+                              <View key={category.id} className="w-1/4 mb-4 ">
+                                <View className="">
+                                  <TouchableOpacity
+                                    className="border-[#aaa] h-[68px] shadow-2xl shadow-[#505050]  w-[68px] justify-center rounded-[20px]  bg-white"
+                                    style={{
+                                      backgroundColor: 'white',
+                                    }}
+                                    onPress={() => {
+                                      dispatch(getDraftErrand())
+                                      navigation.navigate('LandingForm', {
+                                        category,
+                                      })
+                                    }}
+                                    key={category.id}
+                                  >
+                                    {category.name ===
+                                    'Market / Groceries Shopping' ? (
+                                      <Image
+                                        source={require('../../assets/images/shopping2.png')}
+                                        alt="cart"
+                                        className="w-[36px] h-[36px] mx-auto"
+                                      />
+                                    ) : category.name === 'Laundry service' ? (
+                                      <Image
+                                        source={require('../../assets/images/detergent.png')}
+                                        alt="cart"
+                                        className="w-[36px] h-[36px] mx-auto"
+                                      />
+                                    ) : category.name === 'Delivery' ? (
+                                      <Image
+                                        source={require('../../assets/images/delivery2.png')}
+                                        alt="cart"
+                                        className="w-[36px] h-[36px] mx-auto"
+                                      />
+                                    ) : category.name ===
+                                      'Cleaning/home service' ? (
+                                      <Image
+                                        source={require('../../assets/images/cleaning2.png')}
+                                        alt="cart"
+                                        className="w-[36px] h-[36px] mx-auto"
+                                      />
+                                    ) : category.name === 'General Labour' ? (
+                                      <Image
+                                        source={require('../../assets/images/labour.jpg')}
+                                        alt="cart"
+                                        className="w-[36px] h-[36px] mx-auto"
+                                      />
+                                    ) : category.name ===
+                                      'Photo / Video Production ' ? (
+                                      <Image
+                                        source={require('../../assets/images/photo2.png')}
+                                        alt="cart"
+                                        className="w-[36px] h-[36px] mx-auto"
+                                      />
+                                    ) : category.name === 'Home Teacher' ? (
+                                      <Image
+                                        source={require('../../assets/images/tutor2.png')}
+                                        alt="cart"
+                                        className="w-[36px] h-[36px] mx-auto"
+                                      />
+                                    ) : category.name === 'Any Errand' ? (
+                                      <Text
+                                        className="text-center"
+                                        style={{
+                                          color: theme ? 'white' : '#3F60AC',
+                                        }}
+                                      >
+                                        <MaterialCommunityIcons
+                                          name="run-fast"
+                                          size={40}
+                                        />
+                                      </Text>
+                                    ) : null}
+                                  </TouchableOpacity>
+
                                   {category.name ===
                                   'Market / Groceries Shopping' ? (
-                                    <Image
-                                      source={require('../../assets/images/shopping2.png')}
-                                      alt="cart"
-                                      className="w-[36px] h-[36px] mx-auto"
-                                    />
+                                    <CategeryText name="Shopping" />
                                   ) : category.name === 'Laundry service' ? (
-                                    <Image
-                                      source={require('../../assets/images/detergent.png')}
-                                      alt="cart"
-                                      className="w-[36px] h-[36px] mx-auto"
-                                    />
+                                    <CategeryText name="Laundry" />
                                   ) : category.name === 'Delivery' ? (
-                                    <Image
-                                      source={require('../../assets/images/delivery2.png')}
-                                      alt="cart"
-                                      className="w-[36px] h-[36px] mx-auto"
-                                    />
+                                    <CategeryText name="Delivery" />
                                   ) : category.name ===
                                     'Cleaning/home service' ? (
-                                    <Image
-                                      source={require('../../assets/images/cleaning2.png')}
-                                      alt="cart"
-                                      className="w-[36px] h-[36px] mx-auto"
-                                    />
+                                    <CategeryText name="Cleaning" />
                                   ) : category.name === 'General Labour' ? (
-                                    <Image
-                                      source={require('../../assets/images/labour.jpg')}
-                                      alt="cart"
-                                      className="w-[36px] h-[36px] mx-auto"
-                                    />
+                                    <CategeryText name="Labour" />
                                   ) : category.name ===
                                     'Photo / Video Production ' ? (
-                                    <Image
-                                      source={require('../../assets/images/photo2.png')}
-                                      alt="cart"
-                                      className="w-[36px] h-[36px] mx-auto"
-                                    />
+                                    <CategeryText name="Photo" />
                                   ) : category.name === 'Home Teacher' ? (
-                                    <Image
-                                      source={require('../../assets/images/tutor2.png')}
-                                      alt="cart"
-                                      className="w-[36px] h-[36px] mx-auto"
-                                    />
-                                  ) : category.name === 'Any Errand' ? (
-                                    <Text
-                                      className="text-center"
-                                      style={{
-                                        color: theme ? 'white' : '#3F60AC',
-                                      }}
-                                    >
-                                      <MaterialCommunityIcons
-                                        name="run-fast"
-                                        size={40}
-                                      />
-                                    </Text>
+                                    <CategeryText name="Tutor" />
                                   ) : null}
-                                </TouchableOpacity>
-
-                                {category.name ===
-                                'Market / Groceries Shopping' ? (
-                                  <CategeryText name="Shopping" />
-                                ) : category.name === 'Laundry service' ? (
-                                  <CategeryText name="Laundry" />
-                                ) : category.name === 'Delivery' ? (
-                                  <CategeryText name="Delivery" />
-                                ) : category.name ===
-                                  'Cleaning/home service' ? (
-                                  <CategeryText name="Cleaning" />
-                                ) : category.name === 'General Labour' ? (
-                                  <CategeryText name="Labour" />
-                                ) : category.name ===
-                                  'Photo / Video Production ' ? (
-                                  <CategeryText name="Photo" />
-                                ) : category.name === 'Home Teacher' ? (
-                                  <CategeryText name="Tutor" />
-                                ) : null}
+                                </View>
                               </View>
-                            </View>
-                          </>
-                        ))
-                    : null}
+                            </>
+                          ))
+                      : null}
 
-                  <View className="w-1/4 mb-4">
-                    <TouchableOpacity
-                      className="border-[#aaa] h-[68px] shadow-2xl shadow-[#505050]  w-[68px] justify-center rounded-[20px]  bg-white"
-                      onPress={() => {
-                        navigation.navigate('CreateErrand')
-                      }}
-                    >
-                      <Text
-                        className="text-center"
-                        style={{ color: '#3F60AC' }}
+                    <View className="w-1/4 mb-4">
+                      <TouchableOpacity
+                        className="border-[#aaa] h-[68px] shadow-2xl shadow-[#505050]  w-[68px] justify-center rounded-[20px]  bg-white"
+                        onPress={() => {
+                          navigation.navigate('CreateErrand')
+                        }}
                       >
-                        <MaterialCommunityIcons
-                          name="dots-horizontal-circle"
-                          color={'#787C82'}
-                          size={30}
-                        />
-                      </Text>
-                    </TouchableOpacity>
-                    <CategeryText name="More" />
+                        <Text
+                          className="text-center"
+                          style={{ color: '#3F60AC' }}
+                        >
+                          <MaterialCommunityIcons
+                            name="dots-horizontal-circle"
+                            color={colors.DARK_BLUE}
+                            size={40}
+                          />
+                        </Text>
+                      </TouchableOpacity>
+                      <CategeryText name="More" />
+                    </View>
                   </View>
-                </View>
+                )}
               </View>
 
               <View className="mt-10 mb-14">
                 <Text
-                  className="ml-6 text-[18px] font-medium text-[#061737] mb-5 leading-normal"
+                  className="ml-6 text-[20px] font-medium text-[#061737] mb-2 leading-normal"
                   style={{ fontFamily: 'Chillax-Medium' }}
                 >
                   Urgent Errands
                 </Text>
 
-                <View className="mx-5 mb-28">
+                <View className=" mb-28">
                   <Swiper
                     cards={marketData ? marketData?.data : []}
                     cardIndex={index}
@@ -684,18 +709,19 @@ const Home = ({ navigation }: any) => {
                     stackScale={12}
                     stackSeparation={10}
                     cardHorizontalMargin={0}
-                    cardVerticalMargin={0}
+                    cardVerticalMargin={10}
                     disableTopSwipe
                     disableBottomSwipe
                     infinite={true}
                     backgroundColor="transparent"
+                    verticalSwipe={false}
                   />
                 </View>
               </View>
 
               <View className="mt-48 mb-6 px-6 flex-row justify-between  ">
                 <Text
-                  className=" text-[18px] font-medium text-[#061737] leading-normal"
+                  className=" text-[20px] font-medium text-[#061737] leading-normal"
                   style={{ fontFamily: 'Chillax-Medium' }}
                 >
                   You may have missed
@@ -818,9 +844,8 @@ const Home = ({ navigation }: any) => {
               <Content navigation={navigation} />
             </BottomSheetModal>
           </View>
-        </BottomSheetModalProvider>
-      </View>
-      {!loading && <PostErrandButton className="bottom-20 right-3" />}
+        </View>
+      </BottomSheetModalProvider>
     </>
   )
 }

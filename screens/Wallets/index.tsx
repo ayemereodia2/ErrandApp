@@ -4,7 +4,6 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, {
   useCallback,
   useEffect,
@@ -14,10 +13,12 @@ import React, {
 } from 'react'
 import {
   ActivityIndicator,
+  Image,
   ImageBackground,
   RefreshControl,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -28,14 +29,11 @@ import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
 import EscrowDetails from '../../components/Transactions/EscrowDetails'
 import TransactionDetails from '../../components/Transactions/TransactionDetails'
-import PinModal from '../../components/VerificationModals/PinModal'
 import { _fetch } from '../../services/axios/http'
 import { RootState, useAppDispatch } from '../../services/store'
 import { walletAction } from '../../services/wallet/walletBalance'
 import { Transaction } from '../../types'
 import { getUserId } from '../../utils/helper'
-import AccountStatement from './AccountStatement'
-import WithdrawalScreen from './WithdrawalScreen'
 
 const balanceLayer = '../../assets/images/balance-bg.png'
 
@@ -46,12 +44,12 @@ const WalletScreen = ({ navigation }: any) => {
     textTheme,
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
-  const [showPinModal, setShowPinModal] = useState(false)
 
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [profilePic, setProfilePic] = useState('')
   const [userId, setUserId] = useState('')
+  const bottomSheetRef1 = useRef<BottomSheetModal>(null)
 
   const walletBalanceSvg = '../../assets/images/walletbalance.svg'
 
@@ -60,8 +58,6 @@ const WalletScreen = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
   const [refreshing, setRefreshing] = React.useState(false)
   const bottomSheetRef = useRef<BottomSheetModal>(null)
-  const bottomSheetRef1 = useRef<BottomSheetModal>(null)
-
   const pinSheetRef = useRef<BottomSheetModal>(null)
 
   const statementRef = useRef<BottomSheetModal>(null)
@@ -139,21 +135,6 @@ const WalletScreen = ({ navigation }: any) => {
     }
   }
 
-  const checkPinIsVerified = async () => {
-    const isPinVerified = await AsyncStorage.getItem('pin')
-    const user_id = (await AsyncStorage.getItem('user_id')) || ''
-
-    console.log('>>>>>helllo', currentUser)
-
-    // dispatch(currentUserDetails({ user_id }))
-    if (currentUser.has_transaction_pin === false) {
-      console.log('>>>>>helllo---', currentUser.has_transaction_pin)
-
-      // pinSheetRef.current?.present()
-      setShowPinModal(true)
-    }
-  }
-
   function openMoreModal() {
     bottomSheetRef1.current?.present()
   }
@@ -183,10 +164,6 @@ const WalletScreen = ({ navigation }: any) => {
   }, [])
 
   useEffect(() => {
-    // pinSheetRef.current?.present()
-    console.log('--------------')
-
-    checkPinIsVerified()
     getUserId({ setFirstName, setLastName, setProfilePic, dispatch, setUserId })
   }, [])
 
@@ -209,13 +186,18 @@ const WalletScreen = ({ navigation }: any) => {
 
   return (
     <>
+      <StatusBar
+        backgroundColor={backgroundTheme}
+        barStyle={theme ? 'light-content' : 'dark-content'}
+      />
+
       <BottomSheetModalProvider>
         <ScrollView
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           className="bg-[#e4eaf7] h-full mb-20"
-          style={{ backgroundColor: backgroundTheme }}
+          style={{ backgroundColor: 'whitesmoke' }}
           showsVerticalScrollIndicator={false}
         >
           <View className="relatvie mb-48">
@@ -333,20 +315,87 @@ const WalletScreen = ({ navigation }: any) => {
                             currentWalletAmount,
                           })
                         }}
-                        className="w-[200px] h-[44px] mt-5 items-center justify-center border border-[#314B87] rounded-lg"
+                        className="w-[200px] h-[44px] mt-5 flex-row items-center justify-center border border-[#314B87] rounded-lg"
                       >
+                        <Image
+                          source={require('../../assets/images/fund.jpg')}
+                        />
                         <Text
                           className="text-center text-base"
                           style={{ color: 'black' }}
                         >
                           {' '}
-                          + <Text>Fund Wallet</Text>
+                          <Text>Fund Wallet</Text>
                         </Text>
                       </TouchableOpacity>
                     </ImageBackground>
                   </View>
                 </ImageBackground>
               </View>
+            </View>
+          </View>
+
+          <View className=" mt-5 mb-2 flex-row items-center justify-around">
+            <TouchableOpacity
+              className="bg-white p-[10px] rounded-[20px] shadow-2xl"
+              onPress={() => navigation.navigate('AccountStatement')}
+            >
+              <Image source={require('../../assets/images/statement.png')} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className="bg-white p-[10px] rounded-[20px] shadow-2xl"
+              onPress={() => navigation.navigate('WithdrawalScreen')}
+            >
+              <Image source={require('../../assets/images/withdrawal.png')} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className="bg-white p-[10px] rounded-[20px] shadow-2xl"
+              onPress={() => navigation.navigate('WalletAccount')}
+            >
+              <Image source={require('../../assets/images/account.png')} />
+            </TouchableOpacity>
+          </View>
+
+          <View className="mb-4 flex-row  justify-around">
+            <View>
+              <Text
+                className="text-[#09497D] text-sm"
+                style={{ fontFamily: 'Axiforma' }}
+              >
+                Create Account
+              </Text>
+              <Text
+                className="text-[#09497D] text-sm ml-1"
+                style={{ fontFamily: 'Axiforma' }}
+              >
+                Statement
+              </Text>
+            </View>
+
+            <View>
+              <Text
+                className="text-[#09497D] text-sm"
+                style={{ fontFamily: 'Axiforma' }}
+              >
+                Make Withdrawal
+              </Text>
+              <Text
+                className="text-[#09497D] text-sm ml-1"
+                style={{ fontFamily: 'Axiforma' }}
+              >
+                Request
+              </Text>
+            </View>
+
+            <View>
+              <Text
+                className="text-[#09497D] text-sm"
+                style={{ fontFamily: 'Axiforma' }}
+              >
+                My Account
+              </Text>
             </View>
           </View>
 
@@ -440,7 +489,7 @@ const WalletScreen = ({ navigation }: any) => {
                   }}
                 >
                   <MenuOption
-                    onSelect={() => openPinModal()}
+                    onSelect={() => toggleAccountStatementModal(true)}
                     text="Generate Account Statement"
                     customStyles={{
                       optionWrapper: {
@@ -486,64 +535,129 @@ const WalletScreen = ({ navigation }: any) => {
             </View> */}
 
           <View className="px-4">
-            <View className="">
+            <View className="rounded-[20px]">
               <ImageBackground
-                source={require('../../assets/images/wallet2.png')}
+                source={require('../../assets/images/wallet22.png')}
                 className="bg-[#3F60AC] border mt-4 border-[#DAE1F1]  py-12 px-8 rounded-xl"
-                resizeMode="repeat"
+                resizeMode="cover"
               >
                 <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
                   <Text>
-                    <FontAwesome name="bank" size={24} color="#C85604" />
+                    <FontAwesome name="bank" size={24} color="#155283" />
                   </Text>
                 </View>
 
-                <Text className="mt-6 text-[#fff] text-base font-medium leading-[24px]">
+                <Text
+                  className="mt-6 text-[#fff] text-[20px] font-medium"
+                  style={{ fontFamily: 'Chillax' }}
+                >
                   Escrow Account
                 </Text>
-                <Text className="font-bold text-[32px] text-white mt-2">
-                  ₦
-                  {Number(data?.escrow) === 0
-                    ? '0.00'
-                    : (Number(data?.escrow) / 100).toLocaleString()}
-                </Text>
+
+                <View className="flex-row items-center justify-between">
+                  {showBalance ? (
+                    <Text className="font-bold text-white text-[32px] mt-2">
+                      {' '}
+                      ₦
+                      {Number(data?.escrow) === 0
+                        ? '0.00'
+                        : (Number(data?.escrow) / 100).toLocaleString()}
+                    </Text>
+                  ) : (
+                    <Text className="font-bold text-white text-[32px] mt-2">
+                      *********
+                    </Text>
+                  )}
+
+                  <TouchableOpacity
+                    onPress={() => setShowBalance(!showBalance)}
+                    className=""
+                  >
+                    <Icon
+                      name={showBalance ? 'eye-slash' : 'eye'}
+                      size={24}
+                      color="white"
+                    />
+                  </TouchableOpacity>
+                </View>
               </ImageBackground>
             </View>
 
             <View className=" ">
               <ImageBackground
-                source={require('../../assets/images/wallet1.png')}
-                className=" bg-black border mt-4 border-[#DAE1F1] rounded-xl  py-12 px-8"
-                resizeMode="repeat"
+                source={require('../../assets/images/wallet33.png')}
+                className=" bg-green-500 border mt-4 border-[#DAE1F1] rounded-xl  py-12 px-8"
+                resizeMode="cover"
               >
                 <View className="bg-[#FEE1CD] rounded-full h-[48px] w-[48px] justify-center items-center">
                   <Text>
-                    <FontAwesome name="bank" size={24} color="#C85604" />
+                    <FontAwesome name="bank" size={24} color="#49684C;" />
                   </Text>
                 </View>
 
-                <Text className="mt-6 text-white text-base font-medium leading-[24px]">
+                <Text
+                  className="mt-6 text-[#fff] text-[20px] font-medium"
+                  style={{ fontFamily: 'Chillax' }}
+                >
                   Incoming Funds
                 </Text>
-                <Text className="font-bold text-white text-[32px] mt-2">
+                {/* <Text className="font-bold text-white text-[32px] mt-2">
                   ₦
                   {Number(data?.incoming) === 0
                     ? '0.00'
                     : (Number(data?.incoming) / 100).toLocaleString()}
-                </Text>
+                </Text> */}
+
+                <View className="flex-row items-center justify-between">
+                  {showBalance ? (
+                    <Text className="font-bold text-white text-[32px] mt-2">
+                      {' '}
+                      ₦
+                      {Number(data?.incoming) === 0
+                        ? '0.00'
+                        : (Number(data?.incoming) / 100).toLocaleString()}
+                    </Text>
+                  ) : (
+                    <Text className="font-bold text-white text-[32px] mt-2">
+                      *********
+                    </Text>
+                  )}
+
+                  <TouchableOpacity
+                    onPress={() => setShowBalance(!showBalance)}
+                    className=""
+                  >
+                    <Icon
+                      name={showBalance ? 'eye-slash' : 'eye'}
+                      size={24}
+                      color="white"
+                    />
+                  </TouchableOpacity>
+                </View>
               </ImageBackground>
             </View>
           </View>
 
-          <View className="mt-[64px] mb-8 flex-row justify-between items-center mx-4">
-            <Text className="text-xl font-medium" style={{ color: textTheme }}>
+          <View className="mt-[40px] mb-8 flex-row justify-between items-center mx-4">
+            <Text
+              className="text-base font-medium"
+              // style={{ color: textTheme }}
+            >
               Transactions
             </Text>
             <TouchableOpacity
-              className="bg-[#3F60AC] w-[65px] h-[28px] items-center justify-center rounded-md"
+              className="w-[65px] h-[28px] items-center justify-center"
               onPress={() => navigation.navigate('TransactionScreen')}
             >
-              <Text className="text-white">View All</Text>
+              <Text
+                className="text-[#09497D] text-[18px]"
+                style={{
+                  fontFamily: 'Chillax',
+                  textDecorationLine: 'underline',
+                }}
+              >
+                See All
+              </Text>
             </TouchableOpacity>
           </View>
 
@@ -557,15 +671,23 @@ const WalletScreen = ({ navigation }: any) => {
           </View>
 
           <View className="mt-[64px] mb-8 flex-row justify-between items-center mx-4">
-            <Text className="text-xl font-medium" style={{ color: textTheme }}>
+            <Text
+              className="text-base font-medium"
+              style={{ color: textTheme }}
+            >
               Escrow Breakdown
             </Text>
 
             <TouchableOpacity
-              className="bg-[#3F60AC] w-[65px] h-[28px] items-center justify-center rounded-md"
+              className=" w-[65px] h-[28px] items-center justify-center "
               onPress={() => navigation.navigate('EscrowScreen')}
             >
-              <Text className="text-white">View All</Text>
+              <Text
+                className="text-[#09497D]"
+                style={{ textDecorationLine: 'underline' }}
+              >
+                See All
+              </Text>
             </TouchableOpacity>
           </View>
 
@@ -578,33 +700,33 @@ const WalletScreen = ({ navigation }: any) => {
             })}
           </View>
 
-          <BottomSheetModal
-            ref={bottomSheetRef}
-            index={0}
-            snapPoints={['60%']}
-            backdropComponent={renderBackdrop}
-          >
-            <WithdrawalScreen
-              closePinModal={closePinModal}
-              openPinModal={openPinModal}
-              toggleWithdrawaltModal={toggleWithdrawaltModal}
-            />
-          </BottomSheetModal>
+          {/* <BottomSheetModal
+          ref={bottomSheetRef}
+          index={0}
+          snapPoints={['60%']}
+          backdropComponent={renderBackdrop}
+        >
+          <WithdrawalScreen
+            closePinModal={closePinModal}
+            openPinModal={openPinModal}
+            toggleWithdrawaltModal={toggleWithdrawaltModal}
+          />
+        </BottomSheetModal> */}
 
-          <BottomSheetModal
-            ref={statementRef}
-            index={0}
-            snapPoints={['50%']}
-            backdropComponent={renderBackdrop}
-          >
-            <AccountStatement />
-          </BottomSheetModal>
+          {/* <BottomSheetModal
+          ref={statementRef}
+          index={0}
+          snapPoints={['50%']}
+          backdropComponent={renderBackdrop}
+        >
+          <AccountStatement />
+        </BottomSheetModal> */}
 
           <BottomSheetModal
             // backdropComponent={renderBackdrop}
             ref={bottomSheetRef1}
             index={0}
-            snapPoints={['65%']}
+            snapPoints={['55%']}
             backdropComponent={renderBackdrop}
           >
             <Content navigation={navigation} />
@@ -655,12 +777,6 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     textAlign: 'center',
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
   },
 })
 

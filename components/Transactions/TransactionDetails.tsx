@@ -5,6 +5,7 @@ import { Transaction } from '../../types'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
 import { formatDate } from '../../utils/helper'
+import { Feather } from '@expo/vector-icons'
 
 const TransactionDetails = (transaction: Transaction) => {
 
@@ -24,16 +25,41 @@ const TransactionDetails = (transaction: Transaction) => {
     // <SafeAreaView className="mx-4">
       <View className="mx-4 py-4 border-b border-[#CCCCCC]">
         <View className="flex-row justify-between items-center">
-          <Text className="text-base font-medium w-44" style={{color: textTheme}}>
-            {transaction?.description}
+          <View className='flex-row items-center'>
+
+            {
+              transaction.type === 'credit' ?
+              <Text className='mr-2'>
+            <Feather name="arrow-up-circle" size={33} color="#15D244" />
+            </Text>
+            :
+            <Text className='mr-2'>
+            <Feather name="arrow-down-circle" size={33} color="#C82332" />
+            </Text>
+            }
+            
+
+          <View>
+          <Text className="text-sm font-medium w-44" style={{color: textTheme, fontFamily: 'Axiforma'}}>
+          {transaction?.description}
           </Text>
+
+          <Text className="mt-2 text-xs font-medium text-[#888888]" style={{fontFamily: 'Axiforma'}}>
+          {date}
+        </Text>
+
+          </View>
+          
+
+          </View>
+          
           <Text
             className={`font-bold text-base ${
               transaction.type === 'credit' ? 'text-[#21B06E]' : 'text-red-500'
             }`}
             
           >
-            {transaction.type === 'credit' ? '+' : '-'} ₦
+             ₦
             {Number(transaction.amount) === 0
               ? '0.00'
               : (Number(transaction.amount) / 100).toLocaleString()}

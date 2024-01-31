@@ -34,6 +34,7 @@ export type InputProps = {
   message?: string
   secureTextEntry?: boolean
   optional?: string
+  country?: boolean
 }
 
 export type ButtonProps = {

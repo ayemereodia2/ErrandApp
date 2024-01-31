@@ -12,6 +12,9 @@ import { addAccount } from '../../services/wallet/addAccount'
 import { getAccounts } from '../../services/wallet/getAccount'
 import { Bank } from '../../types'
 import DropdownComponent from '../Picker/DropdownComponent'
+import { TextInput } from 'react-native'
+import { AntDesign } from '@expo/vector-icons'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 interface AddAccountProp {
   toggleAddAccountModal: (open: boolean) => void
@@ -104,16 +107,35 @@ const AddAccount = ({ toggleAddAccountModal }: AddAccountProp) => {
   }, [])
 
   return (
+    <KeyboardAwareScrollView
+          // style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          enableOnAndroid={true}
+        >
+
+       
     <View className="py-4 pb-10">
-      <Text className="text-lg text-center font-semibold">
-        Add Bank Account
+      <Text className="text-[#393F42] ml-4 font-semibold" style={{fontFamily: 'Axiforma'}}>
+      Kindly enter your bank details
       </Text>
 
+
+      <View className="px-4 mt-[37px]">
+        <Text className="text-sm font-semibold text-black" style={{fontFamily: 'Axiforma'}}> Choose Bank </Text>
+
+        <DropdownComponent
+          data={bankList}
+          value={selectedBank}
+          setValue={setSelectedBank}
+          placeHolder="Select Bank"
+        />
+      </View>
+
       <View className="px-4 mt-6">
-        <Text className="text-sm text-black font-semibold">Account Number</Text>
+        <Text className="text-sm text-black font-semibold ml-1" style={{fontFamily: 'Axiforma'}}>Account Number</Text>
 
         <View className="border border-[#E6E6E6] bg-[#F5F5F5]  text-xs py-4 mt-2 rounded-lg px-3 flex-row space-x-2">
-          <BottomSheetTextInput
+          <TextInput
             className="w-full"
             placeholder="Enter your Account Number"
             placeholderTextColor="#999"
@@ -124,26 +146,20 @@ const AddAccount = ({ toggleAddAccountModal }: AddAccountProp) => {
         </View>
       </View>
 
-      <View className="px-4 mt-4">
-        <Text className="text-sm font-semibold text-black"> Select Bank </Text>
-
-        <DropdownComponent
-          data={bankList}
-          value={selectedBank}
-          setValue={setSelectedBank}
-          placeHolder="Select a Bank"
-        />
-      </View>
-
       {accUser?.account_name ? (
         <View className="px-4 mt-4">
           <Text className="text-sm font-semibold text-black">
             {' '}
             Account Name{' '}
           </Text>
-          <Text className="pl-1 text-sm font-semibold text-black">
+          <View className='flex-row items-center justify-between py-3 mt-2 rounded-xl px-5 border border-[#96A0A5]'>
+          <Text className="pl-1 text-sm font-semibold text-[#444444]" style={{fontFamily: 'Axiforma'}}>
             {accUser.account_name}{' '}
           </Text>
+
+          <Text> <Text> <AntDesign name="lock" size={16} color="black" /> </Text></Text>
+          </View>
+          
         </View>
       ) : (
         ''
@@ -166,6 +182,7 @@ const AddAccount = ({ toggleAddAccountModal }: AddAccountProp) => {
         </TouchableOpacity>
       </View>
     </View>
+    </KeyboardAwareScrollView>
   )
 }
 

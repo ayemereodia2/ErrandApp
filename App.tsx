@@ -48,7 +48,10 @@ export default function App({ navigation }: any) {
   const [loaded] = useFonts({
     Roboto: require('./assets/fonts/Roboto-Regular.ttf'),
     Poppins: require('./assets/fonts/Poppins-Regular.ttf'),
+    'Poppins-Medium': require('./assets/fonts/Poppins-Medium.ttf'),
     Axiforma: require('./assets/fonts/Axiforma-Regular.ttf'),
+    'Axiforma-Medium': require('./assets/fonts/Axiforma-Medium.ttf'),
+    'Axiforma-SemiBold': require('./assets/fonts/Axiforma-SemiBold.ttf'),
     'Chillax-Regular': require('./assets/fonts/Chillax-Regular.otf'),
     'Chillax-Light': require('./assets/fonts/Chill/Chillax-Light.otf'),
     'Chillax-Extralight': require('./assets/fonts/Chill/Chillax-Extralight.otf'),
@@ -141,6 +144,8 @@ export default function App({ navigation }: any) {
   } else {
     return (
       <NetworkProvider>
+        <StatusBar barStyle="light-content" backgroundColor="#09497D" />
+
         <ErrorBoundary>
           <View style={{ flex: 1 }}>
             <ToastProvider>
@@ -148,10 +153,6 @@ export default function App({ navigation }: any) {
                 <MenuProvider>
                   <Provider store={store}>
                     <SafeAreaProvider>
-                      <StatusBar
-                        barStyle="light-content"
-                        backgroundColor="#09497D"
-                      />
                       {/* <Navigation /> */}
                       <GestureHandlerRootView style={{ flex: 1 }}>
                         {/* Conditionally render AuthStack or AppStack based on authentication status */}

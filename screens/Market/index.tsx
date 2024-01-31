@@ -5,6 +5,8 @@ import {
 import {
   AntDesign,
   EvilIcons,
+  FontAwesome,
+  Ionicons,
   MaterialCommunityIcons,
 } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
@@ -18,6 +20,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
   FlatList,
+  Platform,
   Pressable,
   RefreshControl,
   SafeAreaView,
@@ -33,15 +36,19 @@ import Content from '../../components/AboutContent/Content'
 import Container from '../../components/Container'
 import ErrandComp from '../../components/ErrandComponent'
 import Filter from '../../components/Filter/Filter'
-import PostErrandButton from '../../components/PostErrandBtn'
-import ScreenHeader from '../../components/ScreenHeader'
 import UserInfo from '../../components/UserInfo/UserInfo'
 import { _fetch } from '../../services/axios/http'
 import { errandMarketList, setLoading } from '../../services/errands/market'
 import { getCategoriesList } from '../../services/PostErrand/categories'
 import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
+import colors from '../../utils/colors'
 import { getUserId } from '../../utils/helper'
+import ScreenHeader from '../../components/ScreenHeader'
+
+type tabProps = {
+  selected: string
+}
 
 export default function Market() {
   const navigation = useNavigation()
@@ -66,6 +73,7 @@ export default function Market() {
   const [loadingMore, setLoadingMore] = useState(false)
   const [page, setPage] = useState(1)
   const [checkFilterToggle, setCheckFilterToggle] = useState(false)
+  const [selectedTab, setSelectedTab] = useState('All')
 
   function openSettingsModal() {
     bottomSheetRef2.current?.present()
@@ -183,7 +191,7 @@ export default function Market() {
     if (!loadingMore) {
       const rs = await _fetch({
         method: 'GET',
-        _url: `/errand/market?start=${page + 0}&count=10${
+        _url: `/custom/errand?start=${page + 0}&count=10${
           value ? `&category=${value}` : ''
         }${min === 0 ? '' : `&minPrice=${min}`}${
           max === 0 ? '' : `&maxPrice=${max}`
@@ -231,6 +239,32 @@ export default function Market() {
     AbrilFatface_400Regular,
   })
 
+  const tabs = ['All', 'Newest', 'Popular', 'Urgent']
+
+  const TabButtons = ({ selected }: tabProps) => {
+    return (
+      <TouchableOpacity
+        onPress={() => setSelectedTab(selected)}
+        className={
+          selectedTab === selected
+            ? 'px-3 py-2 border-b-2 border-white bg-[#09497D]'
+            : 'px-3 py-2  border-[#888] bg-[#09497D]'
+        }
+      >
+        <Text
+          className={
+            selectedTab === selected
+              ? 'text-white text-[16px]'
+              : 'text-[#D9D9D9] '
+          }
+          style={{ fontFamily: 'Chillax-Semibold' }}
+        >
+          {selected}
+        </Text>
+      </TouchableOpacity>
+    )
+  }
+
   if (loading) {
     return (
       <SafeAreaView
@@ -251,13 +285,106 @@ export default function Market() {
       {filterOn ? (
         ''
       ) : (
-        <ScreenHeader
-          navigation={navigation}
-          textTheme={textTheme}
-          screen={'logo'}
-          openSettingsModal={openSettingsModal}
-        />
+        // <ScreenHeader
+        //   navigation={navigation}
+        //   textTheme={textTheme}
+        //   screen={'logo'}
+        //   openSettingsModal={openSettingsModal}
+        // />
+        <View className="bg-[#09497D] h-[160px] w-screen shadow-md px-6">
+          <View
+            className={
+              Platform.OS === 'android'
+                ? 'flex-row justify-between items-center mt-6'
+                : 'flex-row items-center justify-between'
+            }
+          >
+            <View className="flex-row items-center mt-2">
+              <View
+                className="mt-2 border border-[#F2F2F2] py-2 px-2 rounded-[15px] flex-row items-center justify-between bg-white w-[260px]"
+                style={{ backgroundColor: theme ? '#1E3A79' : 'white' }}
+              >
+                <View className="flex-row items-center gap-1">
+                  <EvilIcons
+                    name="search"
+                    size={30}
+                    // className="w-1/12"
+                    color={theme ? 'white' : '#808080'}
+                  />
+                  <TextInput
+                    style={{
+                      color: theme ? 'white' : '#808080',
+                      fontFamily: 'Axiforma',
+                    }}
+                    className="w-[145px]"
+                    placeholder="Search for errands"
+                    placeholderTextColor={theme ? 'white' : 'black'}
+                    value={searchValue}
+                    onChangeText={(text) => setSearchValue(text)}
+                  />
+
+                  {searchValue ? (
+                    <View className="bg-[#ccc] rounded-full p-1">
+                      <AntDesign
+                        onPress={() => setSearchValue('')}
+                        name="close"
+                        size={10}
+                        color={theme ? 'white' : 'black'}
+                      />
+                    </View>
+                  ) : (
+                    ''
+                  )}
+                </View>
+
+                <Pressable onPress={handleFilter}>
+                  <View className=" p-1 border border-[#ccc] rounded-full">
+                    <Text className="text-center">
+                      <MaterialCommunityIcons
+                        name="tune-variant"
+                        size={18}
+                        color="black"
+                      />
+                    </Text>
+                  </View>
+                </Pressable>
+              </View>
+            </View>
+
+            <View className="items-center flex-row space-x-4 mt-4 ">
+              <TouchableOpacity onPress={() => openSettingsModal()}>
+                <Text style={{ color: textTheme }}>
+                  <Ionicons name="settings-outline" size={22} color={'white'} />
+                </Text>
+              </TouchableOpacity>
+
+              <Text style={{ color: textTheme }}>
+                <FontAwesome
+                  name="bell-o"
+                  size={22}
+                  color={'white'}
+                  onPress={() => {
+                    navigation.navigate('Notification')
+                  }}
+                />
+              </Text>
+            </View>
+          </View>
+
+          <View className="flex-row items-center justify-between pt-8 mb-4">
+            {tabs.map((tab) => {
+              return <TabButtons selected={tab} />
+            })}
+          </View>
+        </View>
       )}
+
+      {/* <ScreenHeader
+        navigation={navigation}
+        screen="Create Errand"
+        openSettingsModal={openSettingsModal}
+        textTheme={textTheme}
+      /> */}
       <Container>
         <BottomSheetModalProvider>
           <SafeAreaView style={{ backgroundColor: '#FEFEFE' }}>
@@ -299,7 +426,7 @@ export default function Market() {
                 }}
               >
                 <View className="mx-4">
-                  {!loading && (
+                  {/* {!loading && (
                     <View
                       className="mt-2 mb-6 border border-[#F2F2F2] pt-[10px] pb-[9px] pl-[29px] pr-[23.5px] rounded-[15px] flex-row items-center justify-between bg-white"
                       style={{ backgroundColor: theme ? '#1E3A79' : 'white' }}
@@ -335,12 +462,6 @@ export default function Market() {
                       <Pressable onPress={handleFilter}>
                         <View className=" mr-1 b rounded-md w-[38px]">
                           <Text className="p-2 text-center">
-                            {/* <Ionicons
-                              name="md-filter-outline"
-                              size={18}
-                              color="white"
-                            /> */}
-
                             <MaterialCommunityIcons
                               name="tune-variant"
                               size={18}
@@ -350,47 +471,14 @@ export default function Market() {
                         </View>
                       </Pressable>
                     </View>
-                  )}
+                  )} */}
 
-                  <View className="flex-row items-center mb-4 mx-4">
-                    <TouchableOpacity className="px-3 md:px-5 py-2 rounded-[20px] border border-[#888] bg-[#09497D] mr-4">
-                      <Text
-                        className="text-white"
-                        style={{ fontFamily: 'Chillax' }}
-                      >
-                        All
-                      </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity className="px-3 md:px-5 py-2 rounded-[20px] border border-[#888] mr-3">
-                      <Text
-                        className="text-[#09497D] text-center"
-                        style={{ fontFamily: 'Chillax' }}
-                      >
-                        Newest
-                      </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity className="px-3 md:px-5 py-2 rounded-[20px] border border-[#888] mr-3">
-                      <Text
-                        className="text-[#09497D] text-center"
-                        style={{ fontFamily: 'Chillax' }}
-                      >
-                        Popular
-                      </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity className="px-3 md:px-5 py-2 rounded-[20px] border border-[#888] mr-3">
-                      <Text
-                        className="text-[#09497D] text-center"
-                        style={{ fontFamily: 'Chillax' }}
-                      >
-                        Urgent
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-
-                  {searchedErrand?.length === 0 ? (
+                  {loading ? (
+                    <ActivityIndicator
+                      size={'large'}
+                      color={colors.DEFAULT_BLUE}
+                    />
+                  ) : errands?.length === 0 ? (
                     <View className="flex-row justify-center items-center mt-14">
                       <Text>There are no errands at the moment</Text>
                     </View>
@@ -490,7 +578,6 @@ export default function Market() {
           </BottomSheetModal>
         </BottomSheetModalProvider>
       </Container>
-      {!loading && <PostErrandButton className="bottom-20 right-3" />}
     </>
   )
 }

@@ -1,4 +1,3 @@
-import { AntDesign } from '@expo/vector-icons'
 import Checkbox from 'expo-checkbox'
 import React, { useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -11,7 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import CountryPicker from 'react-native-country-picker-modal'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { useSelector } from 'react-redux'
@@ -21,6 +19,7 @@ import InputField from '../../components/InputField'
 import { loginUser } from '../../services/auth/login'
 import { RootState, useAppDispatch } from '../../services/store'
 import { ILogin } from '../../types'
+import colors from '../../utils/colors'
 
 export default function LoginScreen({ navigation }: any) {
   // const navigation = useNavigation()
@@ -65,9 +64,14 @@ export default function LoginScreen({ navigation }: any) {
   const { loading } = useSelector((state: RootState) => state.login)
 
   const [checked, setChecked] = useState(false)
+  const [showBusiness, setShowBusiness] = useState(true)
 
   const handleChecked = () => {
     setChecked(!checked)
+  }
+
+  const handleShowBusiness = () => {
+    setShowBusiness(false)
   }
 
   return (
@@ -78,63 +82,49 @@ export default function LoginScreen({ navigation }: any) {
           contentContainerStyle={{ flexGrow: 1 }}
           enableOnAndroid={true}
         >
-          <View className="px-4">
+          <View className="px-6">
             {/* <Logo /> */}
             <AuthLogo />
 
-            <View className=" font-inter pb-4 ">
-              {/* <Text className="font-semibold text-[24px] text-[#393F42]" style={{fontFamily: 'Chillax'}}> */}
+            {/* <View className='flex-row items-center justify-between py-4 mb-7 border px-4 rounded-[6px]  border-[#D4DEE2] bg-[#EEF2F3]' style={{display: showBusiness ? 'flex' : 'none'}}>
+              <View className=''>
+                <Text style={{fontFamily: 'Axiforma'}} className='text-[#09497D]'>Do you have a business?</Text>
+              </View>
+              <View className='flex-row items-center'>
+                <TouchableOpacity className='mr-5' onPress={() => navigation.navigate('BusinessLogin')}>
+                  <Text style={{fontFamily: 'Axiforma'}}>Yes</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity className='mr-2' onPress={handleShowBusiness}>
+                  <Text style={{fontFamily: 'Axiforma'}}>No</Text>
+                </TouchableOpacity>
+              </View>
+            </View> */}
+
+            <View className="pb-4">
               <Text
-                style={{ fontWeight: 'bold', fontSize: 24, color: '#393F42' }}
+                style={{
+                  fontFamily: 'Chillax-Semibold',
+                  fontSize: 24,
+                  color: '#393F42',
+                }}
               >
                 Get Right Back In
               </Text>
               <Text
-                className="text-sm mt-3 text-[#717E83]"
+                className="text-sm mt-1 text-[#717E83]"
                 style={{ fontFamily: 'Axiforma' }}
               >
                 Input your password continue enjoying our services.
               </Text>
 
               <View className="mt-8">
-                <Text
-                  className="text-[#5E6366]"
-                  style={{ fontFamily: 'Axiforma' }}
-                >
-                  Phone Number
-                </Text>
-
                 <View className="flex-row items-center w-full">
-                  <View className=" flex-row items-center mr-3 mt-1 px-[22px] py-[7px] w-[81px] border rounded-lg border-[#96A0A5]">
-                    <CountryPicker
-                      withFilter
-                      countryCode={countryCode}
-                      withFlag
-                      withAlphaFilter={false}
-                      withCurrencyButton={false}
-                      withCallingCode
-                      onSelect={(country) => {
-                        console.log('country', country)
-                        const { cca2, callingCode } = country
-                        setCountryCode(cca2)
-                        setCallingCode(callingCode[0])
-                      }}
-                      containerButtonStyle={{
-                        alignItems: 'center',
-
-                        marginRight: 15,
-                      }}
-                    />
-
-                    <Text className="mt-1">
-                      <AntDesign name="down" size={16} color="#130F26" />
-                    </Text>
-                  </View>
-
-                  <View className="w-[67vw]">
+                  <View className="w-[255px]">
                     <InputField
-                      // label="Phone Number"
-                      placeholder="8023456789"
+                      label="Phone Number"
+                      country
+                      placeholder="08023456789"
                       keyboardType="numeric"
                       name="phone_number"
                       required={true}
@@ -146,15 +136,9 @@ export default function LoginScreen({ navigation }: any) {
                 </View>
 
                 <View className="relative mt-5 mb-5">
-                  <Text
-                    className="text-[#5E6366]"
-                    style={{ fontFamily: 'Axiforma' }}
-                  >
-                    Password
-                  </Text>
                   <InputField
-                    // label="Password"
-                    placeholder="********"
+                    label="Password"
+                    placeholder="Enter password"
                     keyboardType="default"
                     name="password"
                     required={true}
@@ -166,7 +150,7 @@ export default function LoginScreen({ navigation }: any) {
 
                   <TouchableOpacity
                     onPress={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 bottom-7"
+                    className="absolute right-4 bottom-4"
                   >
                     <Icon
                       name={showPassword ? 'eye-slash' : 'eye'}
@@ -176,13 +160,13 @@ export default function LoginScreen({ navigation }: any) {
                   </TouchableOpacity>
                 </View>
 
-                <View className="flex-row justify-between items-center mb-7">
+                <View className="flex-row justify-between items-center mt-3">
                   <View className="flex-row items-center">
                     <Checkbox value={checked} onValueChange={handleChecked} />
 
                     <Text
                       className="ml-3 text-[12px] text-[#717E83]"
-                      style={{ fontFamily: 'Axiforma' }}
+                      style={{ fontFamily: 'Axiforma-Medium' }}
                     >
                       Keep me logged in
                     </Text>
@@ -190,49 +174,24 @@ export default function LoginScreen({ navigation }: any) {
 
                   <View>
                     <Text
+                      style={{
+                        fontFamily: 'Axiforma-SemiBold',
+                        color: colors.DEFAULT_BLUE,
+                      }}
                       onPress={() => {
                         navigation.navigate('VerifyPhone', {
                           comingFrom: 'forgotPassword',
                         })
                       }}
-                      className="font-bold text-[#243763] mb-2"
+                      className="text-[12px] text-[#243763] mb-2"
                     >
                       Forgot Password?
                     </Text>
                   </View>
                 </View>
 
-                <View className="flex-row items-center justify-between mt-6 mb-5">
-                  <View className="bg-[#5F5F5F] border-[0.4px] w-[127px] h-[1px]"></View>
-
-                  <View>
-                    <Text
-                      className="text-[#5F5F5F] text-[12px]"
-                      style={{ fontFamily: 'Axiforma' }}
-                    >
-                      or continue with
-                    </Text>
-                  </View>
-
-                  <View className="bg-[#5F5F5F] border-[0.4px] w-[127px] h-[1px]"></View>
-                </View>
-
-                <TouchableOpacity className="flex-row items-center justify-center py-4 mb-10 bg-[#FFF] border border-[#888] rounded-lg">
-                  <Image
-                    source={require('../../assets/images/googleLogo.png')}
-                    className="mr-[6px] w-5 h-5"
-                  />
-
-                  <Text
-                    className="font-bold text-[#09497D]"
-                    style={{ fontFamily: 'Axiforma', fontWeight: 'bold' }}
-                  >
-                    Log In
-                  </Text>
-                </TouchableOpacity>
-
                 <Button
-                  className="w-full text-white bg-[#243763] mt-8 flex-row justify-center items-start py-4 rounded-lg mb-5"
+                  className="w-full text-white bg-[#09497D] mt-10 flex-row justify-center items-start py-3.5 rounded-lg mb-5"
                   child={
                     loading ? (
                       <ActivityIndicator size="small" color="white" />
@@ -241,8 +200,36 @@ export default function LoginScreen({ navigation }: any) {
                     )
                   }
                   onPress={handleSubmit(onSubmit)}
-                  // className="w-full text-white bg-[#243763] flex-row justify-center items-start py-4 rounded-lg mt-16"
                 />
+
+                <View className="flex-row items-center justify-between mt-2">
+                  <View className="bg-[#5F5F5F] border-[0.4px] w-[110px] h-[1px]"></View>
+
+                  <View>
+                    <Text
+                      className="text-[#5F5F5F] text-[12px]"
+                      style={{ fontFamily: 'Axiforma-Medium' }}
+                    >
+                      or continue with
+                    </Text>
+                  </View>
+
+                  <View className="bg-[#5F5F5F] border-[0.4px] w-[110px] h-[1px]"></View>
+                </View>
+
+                <TouchableOpacity className="flex-row items-center justify-center py-3 mt-6  bg-[#FFF] border border-[#888] rounded-lg">
+                  <Image
+                    source={require('../../assets/images/googleLogo.png')}
+                    className="mr-[6px] w-5 h-5"
+                  />
+
+                  <Text
+                    className="text-[#09497D] text-[12px]"
+                    style={{ fontFamily: 'Axiforma-Medium' }}
+                  >
+                    Log In
+                  </Text>
+                </TouchableOpacity>
 
                 {errorMessage && (
                   <Text style={{ color: 'red', textAlign: 'center' }}>
@@ -250,7 +237,10 @@ export default function LoginScreen({ navigation }: any) {
                   </Text>
                 )}
 
-                <Text className="text-[#8E9DA4] text-center pb-6 pt-3">
+                <Text
+                  style={{ fontFamily: 'Axiforma-Medium' }}
+                  className="text-[#8E9DA4] text-center text-[12px] pb-6 pt-3"
+                >
                   Don’t Have an account yet?
                   <Text
                     onPress={() => {
@@ -258,10 +248,12 @@ export default function LoginScreen({ navigation }: any) {
                         comingFrom: 'createAccount',
                       })
                     }}
-                    className="font-bold text-[#243763] text-sm"
-                    style={{ fontFamily: 'Axiforma' }}
+                    className="text-[#243763] text-[12px]"
+                    style={{
+                      fontFamily: 'Axiforma-SemiBold',
+                      color: colors.DEFAULT_BLUE,
+                    }}
                   >
-                    {' '}
                     Create Account
                   </Text>
                 </Text>

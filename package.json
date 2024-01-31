@@ -95,6 +95,7 @@
     "react-native-calendar-picker": "^6.1.5",
     "react-native-check-box": "^2.1.7",
     "react-native-country-picker-modal": "^2.0.0",
+    "react-native-curved-bottom-bar": "^3.2.6",
     "react-native-datepicker": "^1.7.2",
     "react-native-deck-swiper": "^2.0.16",
     "react-native-dropdown-select-list": "^2.0.5",

@@ -1,4 +1,5 @@
-import { EvilIcons, Feather, FontAwesome, Ionicons } from '@expo/vector-icons'
+import { EvilIcons, Feather } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 import { Audio } from 'expo-av'
 import * as ImagePicker from 'expo-image-picker'
 import React, { useRef, useState } from 'react'
@@ -10,7 +11,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native'
 import { Dropdown } from 'react-native-element-dropdown'
 import { useSelector } from 'react-redux'
@@ -21,10 +22,6 @@ const recordingGif = '../../assets/images/recoording.gif'
 const playSound = '../../assets/images/play-sound.gif'
 const playingSound = '../../assets/images/playing.gif'
 const stopSound = '../../assets/images/stop-sound.gif'
-import { setRecordedAudioURI } from '../../services/audio/audio'
-import { useDispatch } from 'react-redux'
-import { Platform } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
 
 interface DetailsProp {
   handleInputChange: any
@@ -103,8 +100,6 @@ const CreateErrandDetails = ({
   const [selectedTime, setSelectedTime] = useState('')
   const [durationNumber, setDurationNumber] = useState(1)
 
-  
- 
   console.log('>>>>>>>>durartion from dropdown', postErrandData)
 
   const adjustDuration = (dur: number, sign: string) => {
@@ -287,7 +282,7 @@ const CreateErrandDetails = ({
 
   return (
     <>
-    {/* <View>
+      {/* <View>
 <View className='bg-purple-200 h-[160px] w-screen shadow-md' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
   <View className='bg-[#09497D] h-[150px] pt-[70px] px-6 pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
               <View
@@ -351,9 +346,8 @@ const CreateErrandDetails = ({
                 </View>
              </View> */}
 
-
       <ScrollView className="">
-        <View className="flex-row mt-[38px] justify-center items-center">
+        <View className="flex-row mt-[20px] justify-center items-center">
           {/* <View className="mr-[92px] ml-4 bg-[#8098D1] b rounded-full">
             <TouchableOpacity onPress={() => setActiveStep(1)}>
               <Text className="">
@@ -362,32 +356,59 @@ const CreateErrandDetails = ({
             </TouchableOpacity>
           </View> */}
 
-          <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
+          {/* <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
             <Text className="text-black mx-auto">2</Text>
-          </View>
-          <Text
+          </View> */}
+          {/* <Text
             style={{ color: textTheme }}
             className="font-semibold text-[#243763] text-base"
           >
             Errand Details
-          </Text>
+          </Text> */}
         </View>
+
+        {/* <View className='flex-row items-center w-[280px] h-[41px] mx-5 '>
+          <TouchableOpacity className='w-10 bg-[#09497D] h-[39px] rounded-full'>
+            <Text className='text-center text-white mt-3'>1</Text>
+          </TouchableOpacity>
+          <View className='w-10 h-[1px] bg-[#09497D]'></View>
+          <TouchableOpacity className='w-10 bg-[#09497D] h-[39px] rounded-full'>
+            <Text className='text-center text-white mt-3'>2</Text>
+          </TouchableOpacity>
+          <View className='w-10 h-[1px] bg-[#09497D]'></View>
+          <TouchableOpacity className='w-10 bg-[#888] h-[39px] rounded-full' disabled>
+            <Text className='text-center text-white mt-3'>3</Text>
+          </TouchableOpacity>
+          <View className='w-10 h-[1px] bg-[#09497D]'></View>
+          <TouchableOpacity className='w-10 bg-[#888] h-[39px] rounded-full' disabled>
+            <Text className='text-center text-white mt-3'>4</Text>
+          </TouchableOpacity>
+          <View className='w-10 h-[1px] bg-[#09497D]'></View>
+          <TouchableOpacity className='w-10 bg-[#888] h-[39px] rounded-full' disabled>
+            <Text className='text-center text-white mt-3'>5</Text>
+          </TouchableOpacity>
+        </View> */}
 
         <View className="px-4 mt-6">
           <Text
             style={{ color: '#6D6D6D', fontFamily: 'Axiforma' }}
             className="text-[#777777] text-base"
           >
-           Kindly provide the information about the errand you wish to post
+            Kindly provide the information about the errand you wish to post
           </Text>
         </View>
 
         <View className="mt-5 px-4">
-          <View className=" flex-row">
-            <Text style={{ color: '#393F42', fontFamily: 'Axiforma' }} className='text-base'>
+          <View className="">
+            <Text
+              style={{ color: '#393F42', fontFamily: 'Axiforma' }}
+              className="text-base"
+            >
               Explain exactly what you need
             </Text>
-            <Text className="text-red-600">*{detailError.desc}</Text>
+            <Text style={{ fontFamily: 'Axiforma' }} className="text-red-600 text-[12px]">
+              *{detailError.desc}
+            </Text>
           </View>
           <TextInput
             className="w-full border bg-[#FFF] border-[#96A0A5] text-sm py-3.5 mt-2 rounded-lg px-3"
@@ -405,7 +426,10 @@ const CreateErrandDetails = ({
             ) : (
               <View className="w-full">
                 <View className="mt-[40px]">
-                  <Text style={{ color: '#393F42', fontFamily: 'Axiforma' }} className='text-base'>
+                  <Text
+                    style={{ color: '#393F42', fontFamily: 'Axiforma' }}
+                    className="text-base"
+                  >
                     When do you need this done ?
                   </Text>
                 </View>
@@ -489,8 +513,11 @@ const CreateErrandDetails = ({
           <View className="flex-row">
             <View className="w-full">
               <View className="pt-6 pb-2">
-                <Text style={{ color: '#393F42', fontFamily: 'Axiforma' }} className='text-base'>
-                How many people do you need running this errand?
+                <Text
+                  style={{ color: '#393F42', fontFamily: 'Axiforma' }}
+                  className="text-base"
+                >
+                  How many people do you need running this errand?
                 </Text>
               </View>
               {/* <SelectDropdown
@@ -691,8 +718,6 @@ const CreateErrandDetails = ({
               }}
             />
           </View> */}
-
-         
         </View>
       </ScrollView>
     </>

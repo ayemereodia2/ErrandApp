@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
+import Checkbox from 'expo-checkbox'
 import React, { useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Image, SafeAreaView, ScrollView, Text, View } from 'react-native'
@@ -8,10 +9,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import * as yup from 'yup'
 import Button from '../../components/Button'
 import InputField from '../../components/InputField'
-import { Logo } from '../../components/Logo'
 import { useAppDispatch } from '../../services/store'
 import { ICreateAccount } from '../../types'
-import Checkbox from 'expo-checkbox'
+import colors from '../../utils/colors'
 
 export default function CreateAccountScreen() {
   const navigation = useNavigation()
@@ -83,126 +83,137 @@ export default function CreateAccountScreen() {
           contentContainerStyle={{ flexGrow: 1 }}
           enableOnAndroid={true}
         >
-          <View className="px-3">
+          <View className="px-6">
             {/* <Logo /> */}
-            <Image source={require('../../assets/images/authSwave.png')} className='mt-[29px] mx-1 mb-7'/>
+            <Image
+              source={require('../../assets/images/authSwave.png')}
+              className="mt-[29px] mx-1 mb-7"
+            />
 
             <View className="text-[#333333] font-inter ">
+              <View className="border-b border-[#EEF0F1]">
+                <Text
+                  className="text-[#09497D] pb-2 mb-7"
+                  style={{ fontFamily: 'Axiforma' }}
+                >
+                  Step 3 of 4
+                </Text>
+              </View>
 
-            <View className='border-b border-[#EEF0F1]'>
-            <Text className='text-[#09497D] ml-2 pb-2 mb-7' style={{fontFamily: 'Axiforma'}}>Step 3 of 4</Text>
-            </View>
-
-            <Text className='font-semibold text-[24px] text-[#393F42] mb-2' >Profile</Text>
-              <Text className="text-sm text-[#717E83] mb-8">
-              Create your account profile by filling your details below.
+              <Text
+                style={{
+                  fontFamily: 'Chillax-Semibold',
+                  color: colors.DEFAULT_BLUE,
+                }}
+                className="text-[24px] text-[#393F42] mb-2"
+              >
+                Profile
+              </Text>
+              <Text
+                style={{
+                  fontFamily: 'Axiforma',
+                }}
+                className="text-sm text-[#717E83] mb-8"
+              >
+                Create your account profile by filling your details below.
               </Text>
 
               <View className="pt-3">
-
-                <View className='mb-7'>
-                  <Text className='text-[#393F42] text-sm font-medium' style={{fontFamily: 'Axiforma'}}>First Name</Text>
-                <InputField
-                  // label="First Name"
-                  // placeholder="Enter your Name"
-                  keyboardType="default"
-                  name="first_name"
-                  control={control}
-                  required
-                  errors={errors.first_name}
-                  message={errors?.first_name?.message}
-                />
+                <View className="mb-7">
+                  <InputField
+                    label="First Name"
+                    placeholder="Enter First Name"
+                    keyboardType="default"
+                    name="first_name"
+                    control={control}
+                    required
+                    errors={errors.first_name}
+                    message={errors?.first_name?.message}
+                  />
                 </View>
 
-                <View className='mb-7'>
-                <Text className='text-[#393F42] text-sm' style={{fontFamily: 'Axiforma'}}>Last Name</Text>
-
-                <InputField
-                  // label="Last Name"
-                  // placeholder="Enter your Name"
-                  keyboardType="default"
-                  name="last_name"
-                  control={control}
-                  required
-                  errors={errors.last_name}
-                  message={errors?.last_name?.message}
-                />
-
+                <View className="mb-7">
+                  <InputField
+                    label="Last Name"
+                    placeholder="Enter your Name"
+                    keyboardType="default"
+                    name="last_name"
+                    control={control}
+                    required
+                    errors={errors.last_name}
+                    message={errors?.last_name?.message}
+                  />
                 </View>
 
-
-              <View className='mb-7'>
-              <Text className='text-[#393F42] text-sm' style={{fontFamily: 'Axiforma'}}>Email Address <Text className='text-[#717E83] text-xs' style={{fontWeight: '300'}}>(optional)</Text></Text>
-
-                <InputField
-                  // label="Email Address"
-                  placeholder="Enter your email addrss"
-                  keyboardType="default"
-                  // optional="optional"
-                  name="email"
-                  control={control}
-                  errors={errors.email}
-                  message={errors?.email?.message}
-                />
+                <View className="mb-7">
+                  <InputField
+                    label="Email Address"
+                    placeholder="Enter your email addrss"
+                    keyboardType="default"
+                    optional="optional"
+                    name="email"
+                    control={control}
+                    errors={errors.email}
+                    message={errors?.email?.message}
+                  />
                 </View>
 
-
-                <View className='mb-7'>
-
-                <Text className='text-[#393F42] text-sm' style={{fontFamily: 'Axiforma'}}>Password</Text>
-
-                <InputField
-                  // label="Password"
-                  placeholder="***********"
-                  keyboardType="visible-password"
-                  name="password"
-                  control={control}
-                  required
-                  errors={errors.password}
-                  message={errors?.password?.message}
-                />
+                <View className="mb-7">
+                  <InputField
+                    label="Password"
+                    placeholder="***********"
+                    keyboardType="visible-password"
+                    name="password"
+                    control={control}
+                    required
+                    errors={errors.password}
+                    message={errors?.password?.message}
+                  />
                 </View>
 
-
-                <View className='mb-7'>
-
-                <Text className='text-[#393F42] text-sm' style={{fontFamily: 'Axiforma'}}>Confirm Password</Text>
-
-                <InputField
-                  // label="Confirm Password"
-                  placeholder="***********"
-                  keyboardType="visible-password"
-                  name="confirmPassword"
-                  control={control}
-                  required
-                  errors={errors.confirmPassword}
-                  message={errors?.confirmPassword?.message}
-                />
+                <View className="mb-7">
+                  <InputField
+                    label="Confirm Password"
+                    placeholder="***********"
+                    keyboardType="visible-password"
+                    name="confirmPassword"
+                    control={control}
+                    required
+                    errors={errors.confirmPassword}
+                    message={errors?.confirmPassword?.message}
+                  />
                 </View>
 
-
-                <View className=''>
-
-                <Text className='text-[#393F42] text-sm' style={{fontFamily: 'Axiforma'}}>Referral Code <Text className='text-[#717E83] text-xs' style={{fontWeight: '300'}}>(optional)</Text></Text>
-
-                <InputField
-                  // label="Referral Code"
-                  // optional="optional"
-                  placeholder="Enter Invite Code"
-                  control={control}
-                  keyboardType="default"
-                  name="referralCode"
-                  errors={errors.referralCode}
-                  message={errors.referralCode?.message}
-                />
+                <View className="">
+                  <InputField
+                    label="Referral Code"
+                    optional="optional"
+                    placeholder="Enter Invite Code"
+                    control={control}
+                    keyboardType="default"
+                    name="referralCode"
+                    errors={errors.referralCode}
+                    message={errors.referralCode?.message}
+                  />
                 </View>
 
-                <View className='flex-row items-center mt-7 mx-3'>
-                  <Checkbox 
-                  value={checked}
-                  onValueChange={handleChecked}
-                  className=''/>
-                  <Text className='ml-2 '>I Accept Privacy Policies, <Text className='text-[#09497D] font-medium '>Terms & Conditions</Text>  </Text>
+                <View className="flex-row items-center mt-7">
+                  <Checkbox
+                    value={checked}
+                    onValueChange={handleChecked}
+                    className=""
+                  />
+                  <Text
+                    style={{
+                      fontFamily: 'Axiforma',
+                    }}
+                    className="ml-2 text-[12px] text-[#5A6063]"
+                  >
+                    I Accept Privacy Policies,{' '}
+                    <Text className="text-[#09497D] font-medium ">
+                      Terms & Conditions
+                    </Text>{' '}
+                  </Text>
                 </View>
 
                 <Button

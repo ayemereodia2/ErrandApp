@@ -2,17 +2,17 @@ import {
   AbrilFatface_400Regular,
   useFonts,
 } from '@expo-google-fonts/abril-fatface'
-import { useNavigation } from '@react-navigation/native'
 import React, { useLayoutEffect } from 'react'
 import {
   ImageBackground,
   SafeAreaView,
+  StatusBar,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native'
 
-export default function HomeScreen({navigation}: any) {
+export default function HomeScreen({ navigation }: any) {
   // const navigation = useNavigation()
 
   let [fontsLoaded] = useFonts({

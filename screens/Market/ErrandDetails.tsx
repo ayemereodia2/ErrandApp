@@ -33,12 +33,33 @@ import {
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
+import Button from '../../components/Button'
 import PlaceBidModal from '../../components/Modals/Errands/PlaceBidModal'
 import { ProfileInitials } from '../../components/ProfileInitials'
 import ScreenHeader from '../../components/ScreenHeader'
 import { userDetails } from '../../services/auth/userInfo'
 import { RootState, useAppDispatch } from '../../services/store'
+import colors from '../../utils/colors'
 import { formatDate, getAddress, getCardTimeAgo } from '../../utils/helper'
+
+const Requirement = ({ name }: any) => {
+  return (
+    <View className="flex-row items-center border-[0.5px]  border-[#888] bg-[#E2EAF0] rounded-lg  p-1.5">
+      <Text
+        className="text-xs text-[#09497D] mr-[6px]"
+        style={{ fontFamily: 'Axiforma' }}
+      >
+        <AntDesign name="checkcircleo" size={12} />
+      </Text>
+      <Text
+        className="text-xs text-[#09497D]"
+        style={{ fontFamily: 'Axiforma' }}
+      >
+        {name}
+      </Text>
+    </View>
+  )
+}
 
 export default function ErrandDetails({ route, navigation }: any) {
   const dispatch = useAppDispatch()
@@ -165,7 +186,12 @@ export default function ErrandDetails({ route, navigation }: any) {
 
   return (
     <BottomSheetModalProvider>
-      <ScreenHeader openSettingsModal={openSettingsModal} screen="" textTheme={textTheme} navigation={navigation} />
+      <ScreenHeader
+        openSettingsModal={openSettingsModal}
+        screen="Errand Details"
+        textTheme={textTheme}
+        navigation={navigation}
+      />
 
       <SafeAreaView
         style={{ flex: 1, backgroundColor: backgroundTheme }}
@@ -174,7 +200,6 @@ export default function ErrandDetails({ route, navigation }: any) {
         <View
           style={{
             flexDirection: 'column-reverse',
-            marginBottom: 60,
           }}
         >
           <ScrollView
@@ -194,55 +219,53 @@ export default function ErrandDetails({ route, navigation }: any) {
                   </View>
                 ) : (
                   <View className="p-4 px-6">
-                    <View className="p-4 px-6 mt-2">
-                      <View className="">
-                        <View className="items-center justify-center">
-                          <ProfileInitials
-                            textClass="text-white text-2xl"
-                            firstName={user.first_name}
-                            lastName={user.last_name}
-                            profile_pic={user.profile_picture}
-                            className="w-20 h-20 bg-[#616161] rounded-full text-2xl"
-                          />
-                          <View className="pt-2">
-                            <View className="flex-row text-[18px] space-x-2 items-center justify-center">
-                              <Text
-                                style={{ color: '#09497D' }}
-                                className="text-center text-base font-semibold"
-                              >
-                                {user?.first_name} {user?.last_name}
-                              </Text>
-                              {user?.verification === 100 ? (
-                                <Text>
-                                  <MaterialIcons
-                                    name="verified"
-                                    color="green"
-                                    size={20}
-                                  />
-                                </Text>
-                              ) : null}
-                            </View>
-                            {/* <Text
-                              style={{ color: textTheme }}
-                              className="text-center text-base font-semibold"
+                    <View className="px-5  rounded-[15px] bg-white mt-5 shadow-lg flex-row  ">
+                      <View className="border-r border-[#DBD6D6] w-4/12 py-3">
+                        <ProfileInitials
+                          textClass="text-white text-3xl"
+                          firstName={user.first_name}
+                          lastName={user.last_name}
+                          profile_pic={user.profile_picture}
+                          className="w-20 h-20 bg-[#616161] rounded-full text-2xl"
+                        />
+                      </View>
+                      <View className="rounded-lg pl-4 flex-row items-center">
+                        <View className="">
+                          <View className=" flex-row">
+                            <Text
+                              style={{
+                                color: '#09497D',
+                                fontFamily: 'Chillax-Semibold',
+                              }}
+                              className="text-lg"
                             >
                               {user?.first_name} {user?.last_name}
-                            </Text> */}
-                            {/* <MaterialIcons
-                              name="verified"
-                              color="green"
-                              size={20}
-                            /> */}
+                            </Text>
+                            {user?.verification === 100 ? (
+                              <Text>
+                                <MaterialIcons
+                                  name="verified"
+                                  color="green"
+                                  size={20}
+                                />
+                              </Text>
+                            ) : null}
                           </View>
                           <Text
-                            style={{ color: textTheme }}
-                            className="text-[#555555] text-center py-2 text-base font-semibold"
+                            style={{
+                              fontFamily: 'Chillax-Medium',
+                            }}
+                            className="text-[#767575] text-[14px]"
                           >
                             {user.occupation ? user.occupation : 'Swave User'}
                           </Text>
-                          <View className="flex-row items-center">
-                            {/* {showStars(data.rating)} */}
-                            <Text style={{ color: textTheme }}>
+                          <View className="flex-row items-center pt-1">
+                            <Text
+                              style={{
+                                fontFamily: 'Chillax-Medium',
+                              }}
+                              className="text-[#767575] text-[14px]"
+                            >
                               <Entypo name="star" size={16} color="#FBB955" />
                               {user?.rating} |{' '}
                               <Text> {getCardTimeAgo(user?.updated_at)} </Text>
@@ -262,31 +285,140 @@ export default function ErrandDetails({ route, navigation }: any) {
                       </View>
                     </View>
 
-                    <View className="mt-2 ">
-                      {/* <Text
-                        style={{ color: textTheme }}
-                        className=" font-bold text-base text-[#555555]"
-                      >
-                        Description
-                      </Text> */}
-                      <Text
-                        style={{ color: textTheme, fontFamily: 'Axiforma' }}
-                        className="text-base text-center text-[#717171] font-normal"
-                      >
-                        {result}
-                      </Text>
+                    <View className=" px-5 pt-5 pb-4 rounded-[15px] bg-white mt-5  shadow-lg">
+                      <View className="mb-2 border-b border-[#DBD6D6]">
+                        <Text
+                          className="mb-2 text-[16px] text-[#09497D] font-medium"
+                          style={{ fontFamily: 'Chillax-Medium' }}
+                        >
+                          Description
+                        </Text>
+                      </View>
+                      <View className="rounded-lg flex-row justify-between mt-1">
+                        <Text
+                          style={{ color: textTheme, fontFamily: 'Axiforma' }}
+                          className="text-sm  text-[#383737] font-light"
+                        >
+                          {result}
+                        </Text>
+                      </View>
                     </View>
 
-                    <View className="pt-6 ">
-                      <Text
-                        style={{ color: textTheme }}
-                        className=" font-bold text-base text-[#555555]"
-                      >
-                        Share Errand
-                      </Text>
-                      <View className="border-[1px] border-[#ccc] rounded-lg p-2 px-4 flex-row justify-between mt-1">
+                    <View className=" px-5 pt-5 pb-4 rounded-[15px] bg-white mt-5  shadow-lg">
+                      <View className="mb-2 border-b border-[#DBD6D6]">
                         <Text
-                          style={{ color: textTheme }}
+                          className="mb-2 text-[16px] text-[#09497D] font-medium"
+                          style={{ fontFamily: 'Chillax-Medium' }}
+                        >
+                          Price
+                        </Text>
+                      </View>
+                      <View className="rounded-lg flex-row justify-between mt-1">
+                        <Text
+                          style={{ color: textTheme, fontFamily: 'Axiforma' }}
+                          className="text-sm  font-light"
+                        >
+                          &#x20A6; {budgetInNaira.toLocaleString()}
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View className=" px-5 pt-5 pb-4 rounded-[15px] bg-white mt-5  shadow-lg">
+                      <View className="mb-5 border-b border-[#DBD6D6]">
+                        <Text
+                          className="mb-2 text-[16px] text-[#09497D] font-medium"
+                          style={{ fontFamily: 'Chillax-Medium' }}
+                        >
+                          Details
+                        </Text>
+                      </View>
+
+                      <View className="flex-row justify-between items-center mb-5">
+                        <Text
+                          className="text-[14px] text-[#888]"
+                          style={{ fontFamily: 'Axiforma' }}
+                        >
+                          Bid
+                        </Text>
+                        <View className="text-[14px] text-[#09497D] flex-row items-center justify-center">
+                          <AntDesign name="arrowup" size={18} color="#888888" />
+
+                          <Text
+                            style={{
+                              fontFamily: 'Axiforma-Medium',
+                              color: colors.DEFAULT_BLUE,
+                            }}
+                          >
+                            {' '}
+                            {errand.total_bids}{' '}
+                            {errand.total_bids > 1 ? 'Bids' : 'Bid'}
+                          </Text>
+                        </View>
+                      </View>
+
+                      <View className="flex-row justify-between items-center mb-5">
+                        <Text
+                          className="text-[14px] text-[#888]"
+                          style={{ fontFamily: 'Axiforma' }}
+                        >
+                          Status
+                        </Text>
+                        <View className="text-[14px] text-[#09497D] flex-row items-center justify-center">
+                          <SimpleLineIcons
+                            name="share-alt"
+                            size={16}
+                            color="#888888"
+                          />
+                          <Text
+                            className="pl-2"
+                            style={{
+                              fontFamily: 'Axiforma-Medium',
+                              color: colors.DEFAULT_BLUE,
+                            }}
+                          >
+                            {errand?.status}
+                          </Text>
+                        </View>
+                      </View>
+
+                      <View className="flex-row justify-between items-center mb-5">
+                        <Text
+                          className="text-[14px] text-[#888]"
+                          style={{ fontFamily: 'Axiforma' }}
+                        >
+                          Date
+                        </Text>
+                        <View className="text-[14px] text-[#09497D] flex-row items-center justify-center">
+                          <Ionicons
+                            name="calendar-outline"
+                            size={18}
+                            color={'#888888'}
+                          />
+                          <Text
+                            className="pl-2"
+                            style={{
+                              fontFamily: 'Axiforma-Medium',
+                              color: colors.DEFAULT_BLUE,
+                            }}
+                          >
+                            {formatDate(errand.expiry_date)}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+
+                    <View className=" px-5 pt-5 pb-4 rounded-[15px] bg-white mt-5  shadow-lg">
+                      <View className="mb-2 border-b border-[#DBD6D6]">
+                        <Text
+                          className="mb-2 text-[16px] text-[#09497D] font-medium"
+                          style={{ fontFamily: 'Chillax-Medium' }}
+                        >
+                          Share Errand
+                        </Text>
+                      </View>
+                      <View className="rounded-lg flex-row justify-between mt-1">
+                        <Text
+                          style={{ color: textTheme, fontFamily: 'Axiforma' }}
                           className="text-sm  text-[#383737] font-light"
                         >
                           {`${url}/errands?eId=${errand?.id}`}
@@ -304,163 +436,20 @@ export default function ErrandDetails({ route, navigation }: any) {
                       </View>
                     </View>
 
-                    <View className="pt-6 mx-1">
-                      <Text
-                        className="text-[#0C426E] text-[24px] font-bold leading-6"
-                        style={{ fontFamily: 'Axiforma' }}
-                      >
-                        &#x20A6; {budgetInNaira.toLocaleString()}
-                      </Text>
-                    </View>
-
-                    {/* <View className="pt-6 ">
-                      <Text
-                        style={{ color: textTheme }}
-                        className=" font-bold text-base text-[#555555]"
-                      >
-                        This errand pays
-                      </Text>
-
-                      <View className="flex-row items-center">
-                        <View className="bg-[#FEE1CD] rounded-2xl py-2 px-3 mt-2 ">
-                          <Text className="text-[#642B02] text-base font-bold">
-                            &#x20A6; {budgetInNaira.toLocaleString()}
-                          </Text>
-                        </View>
-                      </View>
-                    </View> */}
-
-                    <View className=" px-5 pt-5 pb-4 rounded-[15px] bg-white mt-5  shadow-lg">
-                      <View className="mb-5 border-b border-[#DBD6D6]">
-                        <Text
-                          className="mb-2 text-[20px] text-[#09497D] font-medium"
-                          style={{ fontFamily: 'Chillax' }}
-                        >
-                          Details
-                        </Text>
-                      </View>
-
-                      <View className="flex-row justify-between items-center mb-5">
-                        <Text
-                          className="text-base text-[#888]"
-                          style={{ fontFamily: 'Axiforma' }}
-                        >
-                          Bid
-                        </Text>
-                        <Text
-                          className="text-base text-[#09497D]"
-                          style={{ fontFamily: 'Axiforma' }}
-                        >
-                          {' '}
-                          <AntDesign
-                            name="arrowup"
-                            size={18}
-                            color="#888888"
-                          />{' '}
-                          {errand.total_bids}{' '}
-                          {errand.total_bids > 1 ? 'Bids' : 'Bid'}
-                        </Text>
-                      </View>
-
-                      <View className="flex-row justify-between items-center mb-5">
-                        <Text
-                          className="text-base text-[#888]"
-                          style={{ fontFamily: 'Axiforma' }}
-                        >
-                          Status
-                        </Text>
-                        <Text
-                          className="text-base text-[#09497D]"
-                          style={{ fontFamily: 'Axiforma' }}
-                        >
-                          <SimpleLineIcons
-                            name="share-alt"
-                            size={16}
-                            color="#888888"
-                          />{' '}
-                          {errand?.status}
-                        </Text>
-                      </View>
-
-                      <View className="flex-row justify-between items-center mb-5">
-                        <Text
-                          className="text-base text-[#888]"
-                          style={{ fontFamily: 'Axiforma' }}
-                        >
-                          Date
-                        </Text>
-                        <Text
-                          className="text-base text-[#09497D]"
-                          style={{ fontFamily: 'Axiforma' }}
-                        >
-                          <Ionicons
-                            name="calendar-outline"
-                            size={18}
-                            color={'#888888'}
-                          />{' '}
-                          {formatDate(errand.expiry_date)}
-                        </Text>
-                      </View>
-                    </View>
-
                     <View className=" h-[120px] px-3 pt-5 pb-4 rounded-[15px] bg-white mt-5 ">
                       <View className="mb-5 border-b border-[#DBD6D6]">
                         <Text
-                          className="mb-2 text-[20px] text-[#09497D] font-medium"
-                          style={{ fontFamily: 'Chillax' }}
+                          className="mb-2 text-[16px] text-[#09497D] "
+                          style={{ fontFamily: 'Chillax-Medium' }}
                         >
                           Requirements
                         </Text>
                       </View>
 
-                      <View className="flex-row items-center mr-1 space-x-2 ">
-                        <View className="flex-row items-center border-[0.5px]  border-[#888] bg-[#E2EAF0] rounded-lg  p-1.5">
-                          <Text
-                            className="text-xs text-[#09497D] mr-[6px]"
-                            style={{ fontFamily: 'Axiforma' }}
-                          >
-                            <AntDesign name="checkcircleo" size={12} />
-                          </Text>
-                          <Text
-                            className="text-xs text-[#09497D]"
-                            style={{ fontFamily: 'Axiforma' }}
-                          >
-                            {' '}
-                            Insurance{' '}
-                          </Text>
-                        </View>
-
-                        <View className="flex-row items-center border-[0.5px]  border-[#888] bg-[#E2EAF0] rounded-lg p-1.5">
-                          <Text
-                            className="text-xs text-[#09497D] mr-[6px]"
-                            style={{ fontFamily: 'Axiforma' }}
-                          >
-                            <AntDesign name="checkcircleo" size={12} />
-                          </Text>
-                          <Text
-                            className="text-xs text-[#09497D]"
-                            style={{ fontFamily: 'Axiforma' }}
-                          >
-                            {' '}
-                            Qualification
-                          </Text>
-                        </View>
-
-                        <View className="flex-row items-center border-[0.5px]  border-[#888] bg-[#E2EAF0] rounded-lg p-1.5">
-                          <Text
-                            className="text-xs text-[#09497D] mr-[6px]"
-                            style={{ fontFamily: 'Axiforma' }}
-                          >
-                            <AntDesign name="checkcircleo" size={12} />
-                          </Text>
-                          <Text
-                            className="text-xs text-[#09497D]"
-                            style={{ fontFamily: 'Axiforma' }}
-                          >
-                            {' '}
-                            Verification{' '}
-                          </Text>
-                        </View>
+                      <View className="flex-row items-center justify-between space-x-2 ">
+                        <Requirement name="Insurance" />
+                        <Requirement name="Qualification" />
+                        <Requirement name="Verification" />
                       </View>
                     </View>
 
@@ -611,28 +600,53 @@ export default function ErrandDetails({ route, navigation }: any) {
                       ))}
                     </View>
 
+                    {errand.user_id !== userId &&
+                    errand?.status !== 'completed' ? (
+                      <Button
+                        className="w-full text-white bg-[#09497D] mt-10 flex-row justify-center items-start py-3.5 rounded-lg mb-5"
+                        child={
+                          loading ? (
+                            <ActivityIndicator size="small" color="white" />
+                          ) : (
+                            'I can do this'
+                          )
+                        }
+                        onPress={() => {
+                          openPlaceBid()
+                          dispatch(userDetails({ user_id: userId }))
+                          setShowBidBtn(false)
+                        }}
+                      />
+                    ) : (
+                      ''
+                    )}
+
                     <Modal
                       visible={selectedImage !== ''}
                       transparent={true}
                       animated
                     >
-                      <ReactNativeZoomableView
-                        maxZoom={30}
-                        contentWidth={300}
-                        contentHeight={150}
-                      >
-                        <AntDesign
-                          onPress={() => setSelectedImage('')}
-                          name="closecircle"
-                          color="white"
-                          size={30}
-                          className="top-20"
-                        />
-                        <Image
-                          source={{ uri: selectedImage }}
-                          style={[styles.modalImage]}
-                        />
-                      </ReactNativeZoomableView>
+                      <>
+                        <View className='flex-row justify-end pr-6'>
+                          <AntDesign
+                            onPress={() => setSelectedImage('')}
+                            name="closecircle"
+                            color="black"
+                            size={40}
+                            className=""
+                          />
+                        </View>
+                        <ReactNativeZoomableView
+                          maxZoom={30}
+                          contentWidth={300}
+                          contentHeight={150}
+                        >
+                          <Image
+                            source={{ uri: selectedImage }}
+                            style={[styles.modalImage]}
+                          />
+                        </ReactNativeZoomableView>
+                      </>
                     </Modal>
                   </View>
                 )}
@@ -660,7 +674,7 @@ export default function ErrandDetails({ route, navigation }: any) {
             <BottomSheetModal
               ref={bottomSheetRef2}
               index={0}
-              snapPoints={['80%']}
+              snapPoints={['55%']}
               containerStyle={{
                 marginHorizontal: 10,
               }}
@@ -671,20 +685,7 @@ export default function ErrandDetails({ route, navigation }: any) {
           </ScrollView>
         </View>
 
-        {errand.user_id !== userId && errand?.status !== 'completed' ? (
-          <TouchableOpacity
-            className="w-full h-[60px] absolute bottom-0 flex-row justify-center items-center bg-[#1E3A79]"
-            onPress={() => {
-              openPlaceBid()
-              dispatch(userDetails({ user_id: userId }))
-              setShowBidBtn(false)
-            }}
-          >
-            <Text className="text-white text-lg font-medium">
-              I can do this
-            </Text>
-          </TouchableOpacity>
-        ) : errand.user_id !== userId && errand?.status === 'completed' ? (
+        {errand.user_id !== userId && errand?.status === 'completed' ? (
           <TouchableOpacity
             className="w-full h-[70px] absolute bottom-0 flex-row justify-center items-center bg-[#d8f8e9]"
             disabled={true}
@@ -736,8 +737,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalImage: {
-    width: '100%',
-    height: '100%',
+    width: '80%',
+    height: '80%',
   },
   closeButton: {
     position: 'absolute',

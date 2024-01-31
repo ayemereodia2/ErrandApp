@@ -1,5 +1,5 @@
 // import { fetchMyErrands } from '@app/lib/errand/api'
-import { AntDesign, Entypo, EvilIcons, FontAwesome } from '@expo/vector-icons'
+import { AntDesign, EvilIcons } from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -9,13 +9,11 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
-  Platform,
   RefreshControl,
   SafeAreaView,
   ScrollView,
   Text,
   TextInput,
-  TouchableOpacity,
   useWindowDimensions,
   View,
 } from 'react-native'
@@ -24,8 +22,7 @@ import Content from '../../components/AboutContent/Content'
 import MyErrandCard from '../../components/MyErrandCard'
 import { MyErrandEmptyState } from '../../components/MyErrandEmptyState'
 import MyErrandToggle from '../../components/MyErrandToggle'
-import PostErrandButton from '../../components/PostErrandBtn'
-import { ProfileInitials } from '../../components/ProfileInitials'
+import ScreenHeader from '../../components/ScreenHeader'
 import UserInfo from '../../components/UserInfo/UserInfo'
 import { myErrandList } from '../../services/errands/myErrands'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -73,6 +70,10 @@ const ErrandScreen = ({ navigation }: any) => {
     (state: RootState) => state.myErrandReducer,
   )
 
+  function openSettingsModal() {
+    bottomSheetRef1.current?.present()
+  }
+
   const renderBackdrop = useCallback(
     (props: any) => (
       <BottomSheetBackdrop
@@ -98,7 +99,9 @@ const ErrandScreen = ({ navigation }: any) => {
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
-  const { data: errand } = useSelector((state: RootState) => state.errandDetailsReducer)
+  const { data: errand } = useSelector(
+    (state: RootState) => state.errandDetailsReducer,
+  )
 
   const [userData, setUserData] = useState(null)
   const userInfoRef = useRef<BottomSheetModal>(null)
@@ -229,7 +232,7 @@ const ErrandScreen = ({ navigation }: any) => {
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
             >
-              <View
+              {/* <View
                 className={
                   Platform.OS === 'android'
                     ? 'flex-row items-center justify-between mt-6'
@@ -274,7 +277,14 @@ const ErrandScreen = ({ navigation }: any) => {
                     </Text>
                   </TouchableOpacity>
                 </View>
-              </View>
+              </View> */}
+
+              <ScreenHeader
+                screen="My Errands"
+                textTheme={textTheme}
+                openSettingsModal={openSettingsModal}
+                navigation={navigation}
+              />
 
               <View
                 style={{ backgroundColor: backgroundTheme }}
@@ -435,8 +445,6 @@ const ErrandScreen = ({ navigation }: any) => {
           </BottomSheetModal>
         </BottomSheetModalProvider>
       </SafeAreaView>
-
-      <PostErrandButton className="bottom-20 right-3" />
     </>
   )
 }

@@ -1,3 +1,5 @@
+import { AntDesign } from '@expo/vector-icons'
+import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-view'
 import { useState } from 'react'
 import {
   Image,
@@ -175,19 +177,27 @@ export const LastHaggleComponent = ({
           </View>
 
           <Modal visible={selectedImage !== ''} transparent={true}>
-            <View style={styles.modalContainer}>
-              <Image
-                source={{ uri: selectedImage }}
-                style={styles.modalImage}
-              />
-              <TouchableOpacity
-                onPress={() => setSelectedImage('')}
-                style={styles.closeButton}
+            <>
+              <View className="flex-row justify-end pr-6">
+                <AntDesign
+                  onPress={() => setSelectedImage('')}
+                  name="closecircle"
+                  color="black"
+                  size={40}
+                  className=""
+                />
+              </View>
+              <ReactNativeZoomableView
+                maxZoom={30}
+                contentWidth={300}
+                contentHeight={150}
               >
-                {/* You can use a close icon or text */}
-                <Text style={styles.closeButtonText}>Close</Text>
-              </TouchableOpacity>
-            </View>
+                <Image
+                  source={{ uri: selectedImage }}
+                  style={[styles.modalImage]}
+                />
+              </ReactNativeZoomableView>
+            </>
           </Modal>
         </>
       )}

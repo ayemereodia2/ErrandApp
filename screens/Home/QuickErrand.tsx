@@ -231,7 +231,7 @@ const QuickErrand = ({ navigation, route }: any) => {
                   </Text>
                 </View>
 
-                <View className="flex-row justify-between pl-3 py-2 pr-5 border border-[#96A0A5] mt-2 rounded-lg">
+                <View className="flex-row bg-white justify-between pl-3 py-2 pr-5 border border-[#96A0A5] mt-2 rounded-lg">
                   <Text
                     className="text-[16px] font-normal text-[#6D6D6D]"
                     style={{ fontFamily: 'Axiforma' }}
@@ -252,7 +252,7 @@ const QuickErrand = ({ navigation, route }: any) => {
                   Description
                 </Text>
 
-                <View className="w-full border border-[#96A0A5] text-sm mt-2 rounded-lg">
+                <View className="w-full bg-white border border-[#96A0A5] text-sm mt-2 rounded-lg">
                   <TextInput
                     className={'w-full text-[14px] mt-2 rounded-lg px-3'}
                     placeholder="Give the full details of what you need help with"
@@ -278,7 +278,7 @@ const QuickErrand = ({ navigation, route }: any) => {
                   Amount
                 </Text>
 
-                <View className="border border-[#96A0A5]  text-[14px] py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
+                <View className="border border-[#96A0A5] bg-white text-[14px] py-2 mt-2 rounded-lg px-3 flex-row space-x-2">
                   {/* <Text className="text-lg ">&#x20A6;</Text> */}
                   <Text
                     style={{ fontFamily: 'Axiforma' }}
@@ -334,7 +334,7 @@ const QuickErrand = ({ navigation, route }: any) => {
               </View>
             </View>
 
-            <View style={{ display: 'flex' }} className="mt-4 px-6 pb-[100px]">
+            <View style={{ display: 'flex' }} className="mt-4 px-6 pb-[50px]">
               <Text
                 style={{ fontFamily: 'Axiforma' }}
                 className="text-base font-normal text-[16px] text-[#0C426F]"
@@ -394,7 +394,7 @@ const QuickErrand = ({ navigation, route }: any) => {
             <View className="flex-row justify-center w-full mb-20">
               <TouchableOpacity
                 onPress={() => submitErrandhandler()}
-                className="bg-[#09497D] py-2 w-[340px] flex-row justify-center items-center rounded-lg "
+                className="bg-[#09497D] py-3 w-[350px] flex-row justify-center items-center rounded-lg "
               >
                 {creatingErrand ? (
                   <ActivityIndicator size="small" color="blue" />
@@ -461,7 +461,7 @@ const styles = StyleSheet.create({
     borderColor: '#96A0A5',
     paddingHorizontal: 14,
     marginTop: 10,
-    backgroundColor: 'transparent',
+    backgroundColor: '#fff',
   },
   listView: {
     paddingHorizontal: 2,

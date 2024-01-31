@@ -20,12 +20,11 @@ export function NotificationCard({ data, isLoading }) {
     return (
       <SafeAreaView className="pt-20 bg-gray-200 w-screen h-[40vh] mt-5">
         {/* <Text className='m-auto'><EvilIcons name="spinner" size={28} color="black" /></Text> */}
-        <ActivityIndicator color="black" size="large" />
+        <ActivityIndicator color="blue" size="large" />
       </SafeAreaView>
     )
   }
 
-  console.log('>>>>>>data', data)
 
   return (
     <>

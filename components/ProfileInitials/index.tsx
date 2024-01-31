@@ -11,7 +11,7 @@ interface Props {
   height?: number
 }
 
-export function  ProfileInitials({
+export function ProfileInitials({
   firstName,
   lastName,
   className = '',
@@ -38,13 +38,18 @@ export function  ProfileInitials({
             }}
             alt="okay"
             // src={profile_pic}
-            source={{uri: profile_pic}}
+            source={{ uri: profile_pic }}
           />
         </View>
       ) : (
         <View className={componentClasses}>
           <View style={styles.headline} className="uppercase items-center">
-            <Text className={textClass}>
+            <Text
+              className={textClass}
+              style={{
+                fontFamily: 'Chillax-Semibold',
+              }}
+            >
               {firstName && lastName
                 ? firstName.charAt(0).toUpperCase() +
                   lastName.charAt(0).toUpperCase()

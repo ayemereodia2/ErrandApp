@@ -1,6 +1,15 @@
+import { AntDesign } from '@expo/vector-icons'
 import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet'
+import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-view'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {
+  Image,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { externalUserDetails } from '../../services/auth/externalUserInfo'
@@ -24,6 +33,7 @@ export const HaggleComponent = ({
   toggleUserInfoModal,
 }: BidsProps) => {
   const negotiateRef = useRef<BottomSheetModal>(null)
+  const [selectedImage, setSelectedImage] = useState('')
 
   // Handles show reply
 
@@ -176,6 +186,26 @@ export const HaggleComponent = ({
             <Text className="text-[#642B02] text-base font-bold inline-block">
               &#x20A6;{(haggle?.amount / 100).toLocaleString()}
             </Text>
+          </View>
+
+          <View className="flex-row space-x-4 mt-4">
+            {haggle?.image_url?.map((image, index) => (
+              <View className="">
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => setSelectedImage(image)}
+                >
+                  <Image
+                    style={{
+                      width: 100,
+                      height: 100,
+                      borderRadius: 10,
+                    }}
+                    source={{ uri: image }}
+                  />
+                </TouchableOpacity>
+              </View>
+            ))}
           </View>
 
           {bid.state === 'rejected' && (
@@ -338,6 +368,30 @@ export const HaggleComponent = ({
           </View>
         </View> */}
 
+        <Modal visible={selectedImage !== ''} transparent={true}>
+          <>
+            <View className="flex-row justify-end pr-6">
+              <AntDesign
+                onPress={() => setSelectedImage('')}
+                name="closecircle"
+                color="black"
+                size={40}
+                className=""
+              />
+            </View>
+            <ReactNativeZoomableView
+              maxZoom={30}
+              contentWidth={300}
+              contentHeight={150}
+            >
+              <Image
+                source={{ uri: selectedImage }}
+                style={[styles.modalImage]}
+              />
+            </ReactNativeZoomableView>
+          </>
+        </Modal>
+
         <BottomSheetModal
           backdropComponent={renderBackdrop}
           ref={negotiateRef}
@@ -369,19 +423,6 @@ export const HaggleComponent = ({
             user_id={user_id}
           />
         </BottomSheetModal>
-
-        {negotiatorIsRunner &&
-        user_id !== errand.user_id &&
-        bid.state !== 'active' &&
-        bid.state !== 'completed' &&
-        bid.state !== 'cancelled' ? (
-          <View className="bg-[#c8e2e8] flex-row justify-center items-center rounded-lg mt-2 w-48 px-1 ">
-           
-           
-          </View>
-        ) : (
-          ''
-        )}
       </View>
     </>
   )
@@ -392,6 +433,10 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
     backgroundColor: 'grey',
+  },
+  modalImage: {
+    width: '80%',
+    height: '80%',
   },
   textInput: {
     alignSelf: 'stretch',

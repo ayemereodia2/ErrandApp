@@ -1,6 +1,6 @@
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import React from 'react'
-import { Image, Platform, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Platform, StatusBar, Text, TouchableOpacity, View } from 'react-native'
 
 type HeaderProp = {
   navigation: any
@@ -18,6 +18,7 @@ const ScreenHeader = ({
   const logo = '../../assets/images/logo-check.png'
   return (
     <View>
+       <StatusBar barStyle="light-content" backgroundColor="#09497D" />
       {screen === 'logo' ? (
         <View className="bg-purple-200 h-[135px] w-screen shadow-md rounded-bl-[80px] rounded-br-[80px]">
           <View className="bg-[#09497D] h-[130px] pt-[20px] px-6 pb-3 rounded-bl-[80px] rounded-br-[80px]">
@@ -71,7 +72,7 @@ const ScreenHeader = ({
               <View className="flex-row items-center mt-2">
                 <TouchableOpacity
                   className=" items-center justify-between mr-8 py-3 "
-                  onPress={() => navigation.goBack()}
+                  onPress={() => navigation.navigate('LandingPage')}
                 >
                   <Ionicons
                     name="chevron-back-outline"
@@ -82,7 +83,7 @@ const ScreenHeader = ({
 
                 <Text
                   className="text-white text-xl font-medium"
-                  style={{ fontFamily: 'Chillax' }}
+                  style={{ fontFamily: 'Chillax-Medium' }}
                 >
                   {screen}
                 </Text>

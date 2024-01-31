@@ -102,6 +102,10 @@ const PostErrand = ({ navigation }: any) => {
 
   // console.log(">>>>>>images", images);
 
+  function openSettingsModal() {
+    bottomSheetRef.current?.present()
+  }
+
   const [postErrandData, setPostErrandData] = useState<PostErrandData>({
     errandType: 'One Person',
     description: '',
@@ -388,10 +392,10 @@ const PostErrand = ({ navigation }: any) => {
   return (
     <BottomSheetModalProvider>
       <ScreenHeader
-        screen="Create Errand"
         navigation={navigation}
-        textTheme={textTheme}
+        screen="Create Errand"
         openSettingsModal={openSettingsModal}
+        textTheme={textTheme}
       />
 
       <View style={{ flex: 1 }}>

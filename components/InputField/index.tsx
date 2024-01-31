@@ -1,6 +1,8 @@
+import { AntDesign } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { Controller } from 'react-hook-form'
 import { Text, TextInput, View } from 'react-native'
+import CountryPicker from 'react-native-country-picker-modal'
 import { InputProps } from '../../types'
 
 export default function InputField({
@@ -16,51 +18,66 @@ export default function InputField({
   className,
   secureTextEntry,
   optional,
+  country,
 }: InputProps): JSX.Element {
-  // const { control, handleSubmit, formState: { errors } } = useForm({
-  //   defaultValues: {
-  //     firstName: '',
-  //     lastName: ''
-  //   }
-  // });
-
-  // console.log(">>>eorrrso", errors);
-
-  const [countryCode, setCountryCode] = useState("NG")
-  const [callingCode, setCallingCode] = useState("234")
-
+  const [countryCode, setCountryCode] = useState('NG')
+  const [callingCode, setCallingCode] = useState('234')
   return (
     <View className="">
-      <Text className="text-[#393F42] font-medium text-sm">
-        {label} {optional && <Text className="text-[#aaa7a7] pl-3">({optional})</Text>}
+      <Text className="text-[#5E6366] pb-2" style={{ fontFamily: 'Axiforma' }}>
+        {label}{' '}
+        {optional && <Text className="text-[#aaa7a7] pl-3">({optional})</Text>}
       </Text>
-      {/* <TextInput
-        className="w-full border border-[#E6E6E6] text-xs py-3.5 mt-2 rounded-lg px-3"
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        keyboardType={keyboardType}
-      /> */}
-      <Controller
-        control={control}
-        rules={{
-          required,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
 
-          
-          <TextInput
-            className="w-full border border-[#96A0A5] text-sm mb-3 py-3.5 h-[53px] rounded-lg px-3 "
-            placeholder={placeholder}
-            placeholderTextColor={'#AABDC5'}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            secureTextEntry={secureTextEntry}
-            keyboardType={keyboardType}
-          />
+      <View className="flex-row items-center  w-full">
+        {country ? (
+          <View className=" flex-row items-center mr-2 px-[22px] py-[9px] w-[81px] border rounded-lg border-[#96A0A5]">
+            <CountryPicker
+              withFilter
+              countryCode={countryCode}
+              withFlag
+              withAlphaFilter={false}
+              withCurrencyButton={false}
+              withCallingCode
+              onSelect={(country) => {
+                const { cca2, callingCode } = country
+                setCountryCode(cca2)
+                setCallingCode(callingCode[0])
+              }}
+              containerButtonStyle={{
+                alignItems: 'center',
+                marginRight: 18,
+              }}
+            />
+
+            <Text className="mt-1">
+              <AntDesign name="down" size={16} color="#130F26" />
+            </Text>
+          </View>
+        ) : (
+          ''
         )}
-        name={name}
-      />
+        <Controller
+          control={control}
+          rules={{
+            required,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              className="w-full border border-[#96A0A5] text-[14px]  py-2.5 rounded-lg px-3 "
+              placeholder={placeholder}
+              placeholderTextColor={'#AABDC5'}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              secureTextEntry={secureTextEntry}
+              keyboardType={keyboardType}
+              style={{ fontFamily: 'Axiforma' }}
+            />
+          )}
+          name={name}
+        />
+      </View>
 
       {errors && <Text className="text-red-700 text-xs pt-2">{message}</Text>}
     </View>

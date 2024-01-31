@@ -1,4 +1,4 @@
-import { AntDesign, EvilIcons, FontAwesome } from '@expo/vector-icons'
+import { AntDesign, EvilIcons, FontAwesome, Ionicons } from '@expo/vector-icons'
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -58,22 +58,22 @@ const WalletAccount = ({ navigation }: any) => {
     (state: RootState) => state.getAccountsReducer,
   )
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      title: 'My Accounts',
-      headerStyle: { backgroundColor: backgroundTheme },
-      headerTitleStyle:{color: textTheme},
-      headerLeft: () => (
-        <TouchableOpacity
-          className="flex-row items-center justify-between mx-0 px-3 py-3"
-          onPress={() => navigation.goBack()}
-        >
-          <AntDesign name="arrowleft" size={24} color={textTheme} />
-        </TouchableOpacity>
-      ),
-    })
-  }, [])
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerShown: true,
+  //     title: 'My Accounts',
+  //     headerStyle: { backgroundColor: backgroundTheme },
+  //     headerTitleStyle:{color: textTheme},
+  //     headerLeft: () => (
+  //       <TouchableOpacity
+  //         className="flex-row items-center justify-between mx-0 px-3 py-3"
+  //         onPress={() => navigation.goBack()}
+  //       >
+  //         <AntDesign name="arrowleft" size={24} color={textTheme} />
+  //       </TouchableOpacity>
+  //     ),
+  //   })
+  // }, [])
 
   useEffect(() => {
     dispatch(getAccounts())
@@ -98,7 +98,80 @@ const WalletAccount = ({ navigation }: any) => {
 
 
   return (
+    <>
+      
+    <View>
+<   View className='bg-purple-200 h-[160px] w-screen shadow-md' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+   <View className='bg-[#09497D] h-[150px] pt-[70px] px-6 pb-3 pl-[27px]' style={{borderBottomLeftRadius: 70, borderBottomRightRadius: 70}}>
+              <View
+                className={
+                   'flex-row items-center justify-between'
+                }
+              >
+          <View className='flex-row items-center mt-2'> 
+      <TouchableOpacity
+          className=" items-center justify-between mr-8 py-3 "
+          onPress={() => navigation.goBack()}
+        >
+      <Ionicons name="chevron-back-outline" size={24} color="white" />
+         </TouchableOpacity>
+
+         <Text className='text-white text-xl font-medium' style={{fontFamily: 'Chillax'}}>Add Account</Text>
+               
+         </View>
+         
+            {/* <Text
+                  className="font-bold text-[20px] leading-7"
+                  style={{ color: textTheme }}
+                >
+                  Welcome, {currentUser?.first_name}
+                </Text> */}
+
+                <View className="items-center flex-row gap-2">
+                 
+                  <TouchableOpacity
+                    // onPress={
+                    //   // navigation.navigate('Contact')
+                    //   openMoreModal
+                    // }
+                  >
+                    <Text style={{ color: textTheme }}>
+                     
+                    <Ionicons
+                    name="settings-outline"
+                    size={22}
+                    color={'white'}
+                    style={{ marginLeft: 7 }}
+                  />
+                    </Text>
+                  </TouchableOpacity>
+
+                  <Text style={{ color: textTheme }} className='mr-4'>
+                    <FontAwesome
+                      name="bell-o"
+                      size={22}
+                      color={'white'}
+                      onPress={() => {
+                        navigation.navigate('Notification')
+                      }}
+                    />
+                  </Text>
+                </View>
+              </View>
+
+             
+             
+
+                </View>
+
+                </View>
+             </View>
+             
+
     <BottomSheetModalProvider>
+
+       
+
       <SafeAreaView style={{backgroundColor: backgroundTheme}}>
         <ScrollView className="mt-4 h-full" style={{backgroundColor: backgroundTheme}}>
           <View className="bg-[rgb(248,249,252)]">
@@ -175,7 +248,7 @@ const WalletAccount = ({ navigation }: any) => {
                 onPress={() => toggleAddAccountModal(true)}
               >
                 <Text className="text-white text-center font-medium">
-                  Add Account
+                   Add Account
                 </Text>
               </TouchableOpacity>
             </>
@@ -202,6 +275,7 @@ const WalletAccount = ({ navigation }: any) => {
         </ScrollView>
       </SafeAreaView>
     </BottomSheetModalProvider>
+    </>
   )
 }
 

@@ -87,7 +87,7 @@ const MainNavigation = () => {
         dispatch(errandMarketList({}))
       }
 
-       if (data.screen === 'Profile') {
+      if (data.screen === 'Profile') {
         navigation.navigate('Profile')
       }
     }
@@ -274,8 +274,7 @@ const MainNavigation = () => {
   return (
     <>
       {!isAuthenticated ? <MainStack /> : <TabStack />}
-
-      {/* {!isAuthenticated ? <MainStack/> : ''} */}
+      {/* {<MainStack />} */}
     </>
   )
 }
