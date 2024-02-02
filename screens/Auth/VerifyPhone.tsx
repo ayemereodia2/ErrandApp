@@ -82,15 +82,17 @@ export default function VerifyPhone({ navigation, route }: any) {
   })
 
   const submitPhone = (data: IData) => {
+    const phoneNumber = `+234${data.phone_number.substring(1)}`;
     dispatch(
       verifyPhone({
         navigation,
-        phone_number: `+234${data.phone_number.substring(1)}`,
+        phone_number: phoneNumber,
         intent:
           comingFrom === 'forgotPassword' ? 'forgot_pass' : 'create_account',
         from: comingFrom,
       }),
     )
+    
   }
 
   return (

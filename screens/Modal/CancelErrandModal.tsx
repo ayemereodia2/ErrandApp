@@ -1,4 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
+import axios from 'axios'
 import React, { useLayoutEffect, useState } from 'react'
 import {
   ActivityIndicator,
@@ -10,7 +12,6 @@ import {
   View,
 } from 'react-native'
 import Toast from 'react-native-toast-message'
-import { _fetch } from '../../services/axios/http'
 import { errandDetails } from '../../services/errands/errandDetails'
 import { useAppDispatch } from '../../services/store'
 
@@ -18,35 +19,50 @@ const CancelErrandModal = ({ route }: any) => {
   const navigation = useNavigation()
   const dispatch = useAppDispatch()
   const { errand, userId, singleSubErrand } = route.params
-  const [comment, setComment] = useState('')
+  const [reason, setReason] = useState('')
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const cancelErrand = async () => {
-    const _rs = await _fetch({
-      method: 'DELETE',
-      _url: `/errand/${errand.id}/cancel`,
-      body: { reason: comment },
-    })
+    setLoading(true)
 
-    const rs = await _rs.json()
+    // const _rs = await _fetch({
+    //   method: 'DELETE',
+    //   _url: `/errand/${errand.id}/cancel`,
+    //   body: { reason },
+    // })
 
-    console.log('>>>>cancel res', rs)
+    const token = await AsyncStorage.getItem('accessToken')
 
-    if (rs.success === true) {
+    const rs = await axios.delete(
+      `${process.env.EXPO_PUBLIC_API_URL}/errand/${errand.id}/cancel`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        data: {reason}
+      },
+    )
+
+    // const rs = await _rs.json()
+
+    console.log('>>>>cancel res', rs.data)
+
+    if (rs.data.success === true) {
       navigation.navigate('MyErrands')
 
       Toast.show({
         type: 'success',
-        text1: rs.message,
+        text1: rs.data.message,
       })
-      dispatch(errandDetails({ errandId: errand.id }))
+      // dispatch(errandDetails({ errandId: errand.id }))
     } else {
       setLoading(false)
 
       Toast.show({
         type: 'error',
-        text1: rs.message,
+        text1: rs.data.message,
       })
     }
   }
@@ -108,8 +124,8 @@ const CancelErrandModal = ({ route }: any) => {
                   <TextInput
                     className={'w-full  text-sm py-3.5 mt-2 rounded-lg px-3'}
                     placeholder="why do you want to abandon this errand ?"
-                    onChangeText={(e) => setComment(e)}
-                    value={comment}
+                    onChangeText={(e) => setReason(e)}
+                    value={reason}
                     multiline={true}
                     numberOfLines={10}
                     style={{ height: 100, textAlignVertical: 'top' }}

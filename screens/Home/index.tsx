@@ -398,11 +398,19 @@ const Home = ({ navigation }: any) => {
       <BottomSheetModalProvider>
         <View className="">
           <View
-            className="bg-purple-200 h-[185px] w-screen shadow-md"
+            className={
+              Platform.OS === 'android'
+                ? 'bg-purple-200 h-[185px] w-screen shadow-md'
+                : 'bg-purple-200 h-[220px] w-screen shadow-md'
+            }
             style={{ borderBottomLeftRadius: 70, borderBottomRightRadius: 70 }}
           >
             <SafeAreaView
-              className="h-[180px] pt-[26px] px-6"
+              className={
+                Platform.OS === 'android'
+                  ? 'h-[180px] pt-[26px] px-6'
+                  : 'h-[215px] pt-[16px] px-6'
+              }
               style={{
                 borderBottomLeftRadius: 70,
                 borderBottomRightRadius: 70,
@@ -498,8 +506,6 @@ const Home = ({ navigation }: any) => {
           </View>
         </View>
 
-        <QuickButtons navigation={navigation} />
-
         <View className="w-screen flex-1 ">
           <View
             style={{
@@ -544,6 +550,8 @@ const Home = ({ navigation }: any) => {
                   </Text>
                 </TouchableOpacity>
               </View> */}
+
+              <QuickButtons navigation={navigation} />
 
               <View className="mt-10">
                 <Text

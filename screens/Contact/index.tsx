@@ -12,6 +12,7 @@ import {
   View,
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import CountryPicker from 'react-native-country-picker-modal'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
@@ -46,6 +47,10 @@ const ContactUs = ({ navigation }: any) => {
   const [emailError, setEmailError] = useState('')
   const [phoneError, setPhoneError] = useState('')
   const [messageError, setMessageError] = useState('')
+  const [callingCode, setCallingCode] = useState('234')
+  const [countryCode, setCountryCode] = useState('NG')
+
+  const countries = ['Egypt', 'Canada', 'Australia', 'Ireland']
 
   const [error, setError] = useState('')
 
@@ -92,22 +97,7 @@ const ContactUs = ({ navigation }: any) => {
     bottomSheetRef.current?.present()
   }
 
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerShown: true,
-  //     title: 'Contact Us',
-  //     headerStyle: { backgroundColor: backgroundTheme },
-  //     headerTitleStyle: { color: textTheme },
-  //     headerLeft: () => (
-  //       <TouchableOpacity
-  //         className="flex-row items-center justify-between mx-0 px-3 py-3"
-  //         onPress={() => navigation.goBack()}
-  //       >
-  //         <AntDesign name="arrowleft" size={24} color={textTheme} />
-  //       </TouchableOpacity>
-  //     ),
-  //   })
-  // }, [])
+ 
 
   const ContactUs = async (userData: any) => {
 
@@ -273,18 +263,56 @@ textTheme={textTheme}
               </Text>
             )}
 
-            <View className="mt-[40px] font-medium text-sm">
-              <Text style={{ color: textTheme, fontFamily: 'Axiforma' }}>Phone Number </Text>
-            </View>
-            <TextInput
-              className="w-full mt-2 b rounded-md h-[50px] px-3  mx-auto bg-[#E6E6E6] text-sm"
-              style={{ backgroundColor: theme ? '#bbb' : '#E6E6E6' }}
+            
+           
+
+        <View className="mt-8">
+            <Text className="text-[#5E6366]" style={{ fontFamily: 'Axiforma' }}>
+              Phone Number
+            </Text>
+
+            <View className="flex-row items-center w-full">
+              <View className=" flex-row items-center mr-3 mt-1 px-[22px] py-[7px] w-[81px] border rounded-lg border-[#96A0A5]">
+                <CountryPicker
+                  withFilter
+                  countryCode={countryCode}
+                  withFlag
+                  withAlphaFilter={false}
+                  withCurrencyButton={false}
+                  withCallingCode
+                  onSelect={(country) => {
+                    console.log('country', country)
+                    const { cca2, callingCode } = country
+                    setCountryCode(cca2)
+                    setCallingCode(callingCode[0])
+                  }}
+                  containerButtonStyle={{
+                    alignItems: 'center',
+
+                    marginRight: 15,
+                  }}
+                />
+
+                <Text className="mt-1">
+                  <AntDesign name="down" size={16} color="#130F26" />
+                </Text>
+              </View>
+
+              <View className="w-[67vw]">
+                
+                <TextInput
+              className="w-full mt-[5px] border rounded-[8px] h-[50px] px-4 border-[#96A0A5] text-sm"
+              style={{ }}
               placeholder="Enter your Phone Number"
               keyboardType="numeric"
               value={phone}
               onChangeText={(text) => setPhone(text)}
               placeholderTextColor={'#000'}
             />
+              </View>
+            </View>
+          </View>
+
 
             {phoneError && (
               <Text className="ml-4" style={{ color: 'red' }}>
@@ -322,103 +350,7 @@ textTheme={textTheme}
             </View>
           </TouchableOpacity>
 
-          {/* <View
-            className="w-[95%] h-[350px]  mx-auto b rounded-md"
-            style={{ backgroundColor: backgroundTheme }}
-          >
-            <Text
-              className="ml-5 mt-5 leading-6 text-lg font-semibold"
-              style={{ color: theme ? 'white' : '#317ACF' }}
-            >
-              We're always Connected
-            </Text>
-
-            <Text
-              className="ml-5 mt-3 text-base font-normal"
-              style={{ color: theme ? 'white' : '#011E3E' }}
-            >
-              Looking to partner with us or explore business opportunities? Our
-              amazing team would love to hear from you.
-            </Text>
-
-            <Text
-              className="ml-5 mt-3 text-base font-bold text-[#317ACF]"
-              style={{ color: theme ? 'white' : '#317ACF' }}
-            >
-              <Feather name="mail" size={16} color="#317ACF" /> Send us a mail -
-              Swave Client Support
-            </Text>
-
-            <Text
-              className="ml-11 text-base font-normal text-[#3A3A3A]"
-              style={{ color: theme ? 'white' : '#011E3E' }}
-            >
-              support@swaveafrica.com
-            </Text>
-
-            <Text
-              className="ml-5 mt-3 text-base font-bold text-[#317ACF]"
-              style={{ color: theme ? 'white' : '#317ACF' }}
-            >
-              <Entypo name="phone" size={16} color="#317ACF" /> Give us a phone
-              call anytime
-            </Text>
-            <Text
-              className="ml-11 text-sm font-normal text-[]"
-              style={{ color: theme ? 'white' : '#3A3A3A' }}
-            >
-              +234 704 402 6192    +234 704 402 6328 
-            </Text>
-
-            <Text
-              className="ml-5 mt-3 text-base font-bold text-[#317ACF]"
-              style={{ color: theme ? 'white' : '#317ACF' }}
-            >
-              <FontAwesome5 name="whatsapp" size={16} color="#317ACF" /> We’re
-              on Whatsapp too!
-            </Text>
-            <Text
-              className="ml-11 text-sm font-normal text-[#3A3A3A]"
-              style={{ color: theme ? 'white' : '#3A3A3A' }}
-            >
-              +234 704 402 6745     +234 704 402 6987
-            </Text>
-          </View>
-
-
-          <View className=" items-center mt-5 mb-[200px]">
-            <Text
-              style={{ color: textTheme }}
-              className="text-base font-medium"
-            >
-              Catch and Chat Us on Social Media
-            </Text>
-            <View className="flex-row space-x-2.5 mt-2">
-              <TouchableOpacity onPress={handleFaceBook}>
-                <Text className="text-white">
-                  <AntDesign name="facebook-square" size={28} color="blue" />
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={handleTwitter}>
-                <Text>
-                  <Entypo name="twitter" size={28} color="lightblue" />
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={handleInstagram}>
-                <Text>
-                  <Entypo name="instagram" size={28} color="red" />
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={handleLinkedIn}>
-                <Text className="text-white">
-                  <AntDesign name="linkedin-square" size={28} color="blue" />
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>*/}
+          
 
           <View className='mx-4'>
             <Text className='text-[20px] font-medium' style={{fontFamily: 'Chillax'}}>Social Media</Text>

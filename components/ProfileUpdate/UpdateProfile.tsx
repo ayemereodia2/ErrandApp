@@ -3,7 +3,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import { useNavigation } from '@react-navigation/native'
 import CountryPicker from 'react-native-country-picker-modal'
 
-import { AntDesign, Feather } from '@expo/vector-icons'
+import { AntDesign, Feather, FontAwesome6 } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import {
   ActivityIndicator,
@@ -89,6 +89,12 @@ const UpdateProfile = ({ image, data }: any) => {
     { key: '3', value: 'Weekly' },
   ]
 
+  const businessType = [
+    { key: '1', value: 'Personal' },
+    { key: '2', value: 'Corporate' },
+    
+  ]
+
   console.log('>>>>>>daaaaa', dateOfBirth)
 
   const toggleDatepicker = () => {
@@ -163,7 +169,7 @@ const UpdateProfile = ({ image, data }: any) => {
   }
 
   return (
-    <SafeAreaView className="bg-[#FEFEFE]">
+    <SafeAreaView >
       <ScrollView className="px-4">
         <View className="mt-10">
           <View className="mt-8">
@@ -215,20 +221,13 @@ const UpdateProfile = ({ image, data }: any) => {
             />
           </View>
 
+        
+
           <View className="mt-8">
-            <Text
-              className="font-medium text-sm text-[#393F42]"
-              style={{ color: textTheme }}
-            >
-              Type of Account
+            <Text className="text-[#393F42]" style={{ fontFamily: 'Axiforma' }}>
+            Type of Account
             </Text>
-            <TextInput
-              className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
-              placeholder={'Enter your First Name'}
-              value={firstName}
-              onChangeText={(text) => setFirstName(text)}
-              placeholderTextColor={'#B3B3B3'}
-            />
+            <BusinessDropdown data={businessType} />
           </View>
 
           <View className="mt-8">
@@ -239,10 +238,8 @@ const UpdateProfile = ({ image, data }: any) => {
               What is your business name?
             </Text>
             <TextInput
-              className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
-              placeholder={' Enter your last name'}
-              value={lastName}
-              onChangeText={(text) => setLastName(text)}
+              className="w-full mt-2 rounded-md p-5 pl-3 items-center mx-auto border border-[#96A0A5] text-sm"
+              placeholder={'Exemplar Group'}
               placeholderTextColor={'#B3B3B3'}
             />
           </View>
@@ -254,11 +251,7 @@ const UpdateProfile = ({ image, data }: any) => {
             >
               Select Business Category
             </Text>
-            <TextInput
-              className="w-full mt-2 rounded-md p-5 pl-3 items-center mx-auto border border-[#96A0A5] text-sm"
-              placeholder={'Exemplar Group'}
-              placeholderTextColor={'#B3B3B3'}
-            />
+            <BusinessDropdown data={businessType} />
           </View>
 
           <View className="mt-8">
@@ -396,7 +389,7 @@ const UpdateProfile = ({ image, data }: any) => {
               <TouchableOpacity onPress={handleX}>
                 <Text>
                   {' '}
-                  {/* <FontAwesome name="x-twitter" size={24} color="black" />{' '} */}
+                  <FontAwesome6 name="x-twitter" size={24} color="black" />{' '}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -451,7 +444,7 @@ const UpdateProfile = ({ image, data }: any) => {
               Occupation
             </Text>
             <TextInput
-              className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
+              className="w-full mt-2 rounded-md p-5 pl-3 items-center mx-auto border border-[#96A0A5] text-sm"
               placeholder={' Enter your occupation'}
               value={occupation}
               onChangeText={(text) => setOccupation(text)}
@@ -467,10 +460,10 @@ const UpdateProfile = ({ image, data }: any) => {
               Bio
             </Text>
             <TextInput
-              className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
+              className="w-full mt-2 rounded-md p-5 pl-3 items-center mx-auto border border-[#96A0A5] text-sm"
               placeholder={'Enter your email Address'}
-              value={email}
-              onChangeText={(text) => setEmail(text)}
+              value={about}
+              onChangeText={(text) => setAbout(text)}
               placeholderTextColor={'#B3B3B3'}
             ></TextInput>
           </View>

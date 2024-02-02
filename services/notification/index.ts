@@ -18,7 +18,7 @@ export const getNotifications = createAsyncThunk<NotificationResponse[], Notific
 
       return rs.data
     } catch (e) {
-      return thunkAPI.rejectWithValue(e.message)
+      // return thunkAPI.rejectWithValue(e.message)
     }
   }
 )

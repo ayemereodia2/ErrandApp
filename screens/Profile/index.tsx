@@ -105,8 +105,8 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
   }
 
   const snapPoints = useMemo(() => ['60%'], [])
-  const snapPoints1 = useMemo(() => ['88%'], [])
-  const snapPoints2 = useMemo(() => ['90%'], [])
+  const snapPoints1 = useMemo(() => ['70%'], [])
+  const snapPoints2 = useMemo(() => ['75%'], [])
   const snapPoints3 = useMemo(() => ['77%'], [])
 
   const [refreshing, setRefreshing] = React.useState(false)
@@ -192,140 +192,136 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
         openSettingsModal={openSettingsModal}
       />
 
-      <SafeAreaView
-        style={{ backgroundColor: backgroundTheme }}
-        className="h-screen"
-      >
-        <BottomSheetModalProvider>
-          <ScrollView style={{ backgroundColor: '#FEFEFE' }}>
-            {/* Top Profile */}
+      <BottomSheetModalProvider>
+        <ScrollView>
+          {/* Top Profile */}
 
-            {data?.profile_picture ? (
-              <View className="mt-8 mx-auto">
-                <Image
-                  source={{ uri: data?.profile_picture }}
-                  className="b rounded-full w-[100px] h-[100px]"
-                />
-              </View>
-            ) : (
-              <View className="bg-gray-700 w-[80px] h-[80px] rounded-full items-center justify-center mx-auto mt-8">
-                <Text className="text-white font-bold text-center text-2xl">
-                  {data?.first_name.charAt(0)}
-                  {data?.last_name.charAt(0)}
+          {data?.profile_picture ? (
+            <View className="mt-8 mx-auto">
+              <Image
+                source={{ uri: data?.profile_picture }}
+                className="b rounded-full w-[100px] h-[100px]"
+              />
+            </View>
+          ) : (
+            <View className="bg-gray-700 w-[80px] h-[80px] rounded-full items-center justify-center mx-auto mt-8">
+              <Text className="text-white font-bold text-center text-2xl">
+                {data?.first_name.charAt(0)}
+                {data?.last_name.charAt(0)}
+              </Text>
+            </View>
+          )}
+
+          <View>
+            <View className="flex-row justify-center items-center mt-5">
+              <Text
+                style={{ color: '#09497D' }}
+                className="text-[18px] font-bold leading-6"
+              >
+                {data?.first_name} {data?.last_name}{' '}
+              </Text>
+
+              {data?.verification === 100 ? (
+                <Text>
+                  <MaterialIcons name="verified" size={20} color="green" />
                 </Text>
-              </View>
-            )}
+              ) : null}
+            </View>
 
-            <View>
-              <View className="flex-row justify-center items-center mt-5">
+            <Text
+              style={{ color: '#6D6D6D', fontFamily: 'Axiforma' }}
+              className="text-center mt-3 text-base font-medium"
+            >
+              {data?.occupation ? data?.occupation : 'Swave User'}
+            </Text>
+
+            <Text
+              style={{ color: '#6D6D6D', fontFamily: 'Axiforma' }}
+              className="text-center mt-3 text-base font-medium"
+            >
+              {data?.phone_number}
+            </Text>
+
+            <View className="flex-row mt-5 mx-auto">
+              <View className="ml-3">
                 <Text
                   style={{ color: '#09497D' }}
-                  className="text-[18px] font-bold leading-6"
+                  className="text-center mb-1 font-bold"
                 >
-                  {data?.first_name} {data?.last_name}{' '}
+                  {data?.errands_posted}
                 </Text>
-
-                {data?.verification === 100 ? (
-                  <Text>
-                    <MaterialIcons name="verified" size={20} color="green" />
-                  </Text>
-                ) : null}
-              </View>
-
-              <Text
-                style={{ color: '#6D6D6D', fontFamily: 'Axiforma' }}
-                className="text-center mt-3 text-base font-medium"
-              >
-                {data?.occupation ? data?.occupation : 'Swave User'}
-              </Text>
-
-              <Text
-                style={{ color: '#6D6D6D', fontFamily: 'Axiforma' }}
-                className="text-center mt-3 text-base font-medium"
-              >
-                {data?.phone_number}
-              </Text>
-
-              <View className="flex-row mt-5 mx-auto">
-                <View className="ml-3">
-                  <Text
-                    style={{ color: '#09497D' }}
-                    className="text-center mb-1 font-bold"
-                  >
-                    {data?.errands_posted}
-                  </Text>
-                  <Text
-                    style={{ color: textTheme }}
-                    className="text-center font-light"
-                  >
-                    Total Errands{' '}
-                  </Text>
-                </View>
-
-                <View className="ml-3">
-                  <Text
-                    style={{ color: '#09497D' }}
-                    className="text-center mb-1 font-bold"
-                  >
-                    {data?.errands_completed}
-                  </Text>
-                  <Text
-                    style={{ color: textTheme }}
-                    className="text-center font-light"
-                  >
-                    Errands Completed{' '}
-                  </Text>
-                </View>
-
-                <View className="ml-3 ">
-                  <Text
-                    style={{ color: textTheme }}
-                    className="text-center mb-1 font-bold"
-                  >
-                    {data?.errands_cancelled}
-                  </Text>
-                  <Text
-                    style={{ color: textTheme }}
-                    className="text-center font-light"
-                  >
-                    Errands Cancelled{' '}
-                  </Text>
-                </View>
-              </View>
-
-              {/* Edit BUtton */}
-              <View className=" mt-[30px] flex-row justify-center space-x-6">
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: theme ? '#1E3A79' : 'white',
-                  }}
-                  onPress={() => navigation.navigate('EditProfile', { data })}
-                  className="px-8 py-3 bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-[50px]"
+                <Text
+                  style={{ color: textTheme }}
+                  className="text-center font-light"
                 >
-                  <Text
-                    style={{ color: '#09497D' }}
-                    className="text-base font-medium text-center items-center"
-                  >
-                    {' '}
-                    Edit Profile{' '}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  className="px-8 py-3 bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-[50px]"
-                  style={{
-                    backgroundColor: theme ? '#1E3A79' : 'white',
-                  }}
-                >
-                  <Text
-                    style={{ color: '#09497D' }}
-                    className="text-base font-medium text-center items-center"
-                  >
-                    View Full profile
-                  </Text>
-                </TouchableOpacity>
+                  Total Errands{' '}
+                </Text>
               </View>
 
-              {/* <View className="flex-row mr-[16px] mt-8 ml-[16px] md:w-[398px] mx-auto ">
+              <View className="ml-3">
+                <Text
+                  style={{ color: '#09497D' }}
+                  className="text-center mb-1 font-bold"
+                >
+                  {data?.errands_completed}
+                </Text>
+                <Text
+                  style={{ color: textTheme }}
+                  className="text-center font-light"
+                >
+                  Errands Completed{' '}
+                </Text>
+              </View>
+
+              <View className="ml-3 ">
+                <Text
+                  style={{ color: textTheme }}
+                  className="text-center mb-1 font-bold"
+                >
+                  {data?.errands_cancelled}
+                </Text>
+                <Text
+                  style={{ color: textTheme }}
+                  className="text-center font-light"
+                >
+                  Errands Cancelled{' '}
+                </Text>
+              </View>
+            </View>
+
+            {/* Edit BUtton */}
+            <View className=" mt-[30px] flex-row justify-center space-x-6">
+              <TouchableOpacity
+                style={{
+                  backgroundColor: theme ? '#1E3A79' : 'white',
+                }}
+                onPress={() => navigation.navigate('EditProfile', { data })}
+                className="px-8 py-3 bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-[50px]"
+              >
+                <Text
+                  style={{ color: '#09497D' }}
+                  className="text-base font-medium text-center items-center"
+                >
+                  {' '}
+                  Edit Profile{' '}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                className="px-8 py-3 bg-[#E6E6E6] border border-[#CCC] items-center justify-center rounded-[50px]"
+                style={{
+                  backgroundColor: theme ? '#1E3A79' : 'white',
+                }}
+              >
+                <Text
+                  style={{ color: '#09497D' }}
+                  className="text-base font-medium text-center items-center"
+                >
+                  View Full profile
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* <View className="flex-row mr-[16px] mt-8 ml-[16px] md:w-[398px] mx-auto ">
               <TouchableOpacity onPress={handleVerification}>
                 <View
                   className="w-[199px] h-[52px] border-b items-center justify-center "
@@ -361,7 +357,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
               </TouchableOpacity>
             </View> */}
 
-              {/* {profile ? (
+            {/* {profile ? (
               <UserProfile />
             ) : (
               <UserVerification
@@ -372,68 +368,67 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
                 data={data}
               />
             )} */}
-              <UserVerification
-                openEmailModal={openEmailModal}
-                openGuarantorModal={openGuarantorModal}
-                openOfficeModal={openOfficeModal}
-                openPersonalId={openPersonalId}
-                data={data}
-              />
-            </View>
-          </ScrollView>
+            <UserVerification
+              openEmailModal={openEmailModal}
+              openGuarantorModal={openGuarantorModal}
+              openOfficeModal={openOfficeModal}
+              openPersonalId={openPersonalId}
+              data={data}
+            />
+          </View>
+        </ScrollView>
 
-          <BottomSheetModal
-            ref={bottomSheetRef}
-            index={0}
-            snapPoints={snapPoints}
-            containerStyle={{ marginHorizontal: 10 }}
-            backdropComponent={renderBackdrop}
-          >
-            <EmailModal closeEmailModal={closeEmailModal} />
-          </BottomSheetModal>
+        <BottomSheetModal
+          ref={bottomSheetRef}
+          index={0}
+          snapPoints={snapPoints}
+          containerStyle={{ marginHorizontal: 10 }}
+          backdropComponent={renderBackdrop}
+        >
+          <EmailModal closeEmailModal={closeEmailModal} />
+        </BottomSheetModal>
 
-          <BottomSheetModal
-            ref={bottomSheetRef1}
-            index={0}
-            snapPoints={snapPoints1}
-            containerStyle={{ marginHorizontal: 10 }}
-            backdropComponent={renderBackdrop}
-          >
-            <PersonalId closePersonalId={closePersonalId} />
-          </BottomSheetModal>
-          <BottomSheetModal
-            ref={bottomSheetRef2}
-            index={0}
-            snapPoints={snapPoints2}
-            containerStyle={{ marginHorizontal: 10 }}
-            backdropComponent={renderBackdrop}
-          >
-            <OfficeAddressModal closeOfficeModal={closeOfficeModal} />
-          </BottomSheetModal>
+        <BottomSheetModal
+          ref={bottomSheetRef1}
+          index={0}
+          snapPoints={snapPoints1}
+          containerStyle={{ marginHorizontal: 10 }}
+          backdropComponent={renderBackdrop}
+        >
+          <PersonalId closePersonalId={closePersonalId} />
+        </BottomSheetModal>
+        <BottomSheetModal
+          ref={bottomSheetRef2}
+          index={0}
+          snapPoints={snapPoints2}
+          containerStyle={{ marginHorizontal: 10 }}
+          backdropComponent={renderBackdrop}
+        >
+          <OfficeAddressModal closeOfficeModal={closeOfficeModal} />
+        </BottomSheetModal>
 
-          <BottomSheetModal
-            ref={bottomSheetRef4}
-            index={0}
-            snapPoints={['70%']}
-            containerStyle={{
-              marginHorizontal: 10,
-            }}
-            backdropComponent={renderBackdrop}
-          >
-            <Content navigation={navigation} />
-          </BottomSheetModal>
+        <BottomSheetModal
+          ref={bottomSheetRef4}
+          index={0}
+          snapPoints={['70%']}
+          containerStyle={{
+            marginHorizontal: 10,
+          }}
+          backdropComponent={renderBackdrop}
+        >
+          <Content navigation={navigation} />
+        </BottomSheetModal>
 
-          <BottomSheetModal
-            ref={bottomSheetRef3}
-            index={0}
-            snapPoints={snapPoints3}
-            containerStyle={{ marginHorizontal: 10 }}
-            backdropComponent={renderBackdrop}
-          >
-            <GuarantorModal closeGuarantorModal={closeGuarantorModal} />
-          </BottomSheetModal>
-        </BottomSheetModalProvider>
-      </SafeAreaView>
+        <BottomSheetModal
+          ref={bottomSheetRef3}
+          index={0}
+          snapPoints={snapPoints3}
+          containerStyle={{ marginHorizontal: 10 }}
+          backdropComponent={renderBackdrop}
+        >
+          <GuarantorModal closeGuarantorModal={closeGuarantorModal} />
+        </BottomSheetModal>
+      </BottomSheetModalProvider>
     </>
   )
 }

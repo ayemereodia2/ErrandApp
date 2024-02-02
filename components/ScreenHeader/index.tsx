@@ -26,7 +26,7 @@ const ScreenHeader = ({
               className={
                 Platform.OS === 'android'
                   ? 'flex-row items-center justify-between mt-6'
-                  : 'flex-row items-center justify-between'
+                  : 'flex-row items-center justify-between mt-10'
               }
             >
               <View className="flex-row items-center mt-2">
@@ -66,13 +66,13 @@ const ScreenHeader = ({
               className={
                 Platform.OS === 'android'
                   ? 'flex-row items-center justify-between mt-6'
-                  : 'flex-row items-center justify-between'
+                  : 'flex-row items-center justify-between mt-8'
               }
             >
               <View className="flex-row items-center mt-2">
                 <TouchableOpacity
                   className=" items-center justify-between mr-8 py-3 "
-                  onPress={() => navigation.navigate('LandingPage')}
+                  onPress={() => navigation.goBack()}
                 >
                   <Ionicons
                     name="chevron-back-outline"

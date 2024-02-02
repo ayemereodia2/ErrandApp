@@ -42,12 +42,14 @@ const RangeSlider = ({ low, setHigh, setLow, high, setMinCheck }: Prop) => {
 
   const handleMinInputChange = (text: any) => {
     setMinCheck(true)
-    setLow(text)
+    const formattedInput = text.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    setLow(formattedInput)
   }
 
   const handleMaxInputChange = (text: any) => {
     setMinCheck(true)
-    setHigh(text)
+    const formattedInput = text.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    setHigh(formattedInput)
   }
 
   const {
@@ -61,30 +63,38 @@ const RangeSlider = ({ low, setHigh, setLow, high, setMinCheck }: Prop) => {
 
   return (
     <>
-      <ScrollView className="mt-12">
+      <ScrollView className="mt-4">
         <Text className="font-medium text-base leading-6" style={{color: textTheme}}>Price Range</Text>
 
         <KeyboardAvoidingView
           behavior="padding"
           keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
         >
+          <View className='flex-row items-center mx-2 mt-2' style={{gap: 20}}>
+            <View>
+              <Text className='ml-2 text-[#393F42]' style={{fontFamily: 'Axiforma'}}>Min</Text>
           <TextInput
             placeholder="Minimum Range"
             keyboardType="numeric"
             placeholderTextColor={'#AAA'}
-            className="w-[320px] h-[44px] bg-white border-[0.5px] border-[#DDD] mx-auto mr-3 pl-2 mt-2 text-center"
+            className="w-[160px] h-[50px] bg-white border border-[#96A0A5] mx-auto  pl-2 mt-2 text-center"
             onChangeText={handleMinInputChange}
             value={low.toString()} // Bind the value to 'low'
           />
+          </View>
 
+        <View>
+        <Text className='ml-2 text-[#393F42]' style={{fontFamily: 'Axiforma'}}>Max</Text>
           <TextInput
             placeholder="Maximum Range"
             keyboardType="numeric"
             placeholderTextColor={'#AAA'}
-            className="w-[320px] h-[44px] bg-white border-[0.5px] border-[#DDD] mx-auto mr-3 pl-2 mt-2 text-center"
+            className="w-[160px] h-[50px] bg-white border border-[#96A0A5] mx-auto  pl-2 mt-2 text-center"
             onChangeText={handleMaxInputChange}
             value={high.toString()} // Bind the value to 'high'
           />
+          </View>
+          </View>
         </KeyboardAvoidingView>
       </ScrollView>
 
