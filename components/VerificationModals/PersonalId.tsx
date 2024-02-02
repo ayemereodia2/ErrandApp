@@ -154,7 +154,7 @@ const PersonalId = ({ closePersonalId }: any) => {
   }
 
   return (
-    <SafeAreaView className='mx-3 mb-48'>
+    <SafeAreaView className='mx-3'>
       <ScrollView  showsHorizontalScrollIndicator={false}>
         <Text className="text-base ml-3 mt-3 font-semibold" style={{fontFamily: 'Axiforma'}}>
           Kindly upload your personal ID for verification
@@ -169,7 +169,7 @@ const PersonalId = ({ closePersonalId }: any) => {
           </Text>
         </View> */}
 
-        <View className='mx-3 mt-4 mb-4'>
+        {/* <View className='mx-3 mt-4 mb-4'>
           <TouchableOpacity className='flex-row mt-4 mb-4 items-center justify-between px-3 py-4 rounded-[10px] bg-white border-0.5 border-[#666]'>
               <Text className='text-[#040708] text-sm' style={{fontFamily: 'Axiforma'}}>National Identification Number (NIN)</Text>
               <Text>
@@ -197,7 +197,7 @@ const PersonalId = ({ closePersonalId }: any) => {
                 <RadioButton value='National Identification Number' />
               </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         {/* <View className="w-[398px] h-[38px] mx-auto mt-10 ml-4"></View> */}
         <ScrollView className='px-4' >

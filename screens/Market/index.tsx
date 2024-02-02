@@ -44,7 +44,6 @@ import { RootState, useAppDispatch } from '../../services/store'
 import { MarketData } from '../../types'
 import colors from '../../utils/colors'
 import { getUserId } from '../../utils/helper'
-import ScreenHeader from '../../components/ScreenHeader'
 
 type tabProps = {
   selected: string
@@ -74,6 +73,7 @@ export default function Market() {
   const [page, setPage] = useState(1)
   const [checkFilterToggle, setCheckFilterToggle] = useState(false)
   const [selectedTab, setSelectedTab] = useState('All')
+  const [searching, setSearching] = useState(false)
 
   function openSettingsModal() {
     bottomSheetRef2.current?.present()
@@ -139,6 +139,8 @@ export default function Market() {
   )
 
   const errandSearchHandler = () => {
+    setSearching(true)
+
     const value = searchValue.toLowerCase()
     const searchResult = errands?.filter((errand) =>
       errand?.description?.toLowerCase().includes(value),
@@ -280,23 +282,25 @@ export default function Market() {
     )
   }
 
+  console.log('>>>>>>errrabd kebgth', searchedErrand.length, searching)
+
   return (
     <>
       {filterOn ? (
         ''
       ) : (
-        // <ScreenHeader
-        //   navigation={navigation}
-        //   textTheme={textTheme}
-        //   screen={'logo'}
-        //   openSettingsModal={openSettingsModal}
-        // />
-        <View className="bg-[#09497D] h-[160px] w-screen shadow-md px-6">
+        <View
+          className={
+            Platform.OS === 'android'
+              ? 'bg-[#09497D] h-[160px] w-screen shadow-md px-6'
+              : 'bg-[#09497D] h-[180px] w-screen shadow-md px-6'
+          }
+        >
           <View
             className={
               Platform.OS === 'android'
                 ? 'flex-row justify-between items-center mt-6'
-                : 'flex-row items-center justify-between'
+                : 'flex-row items-center justify-between mt-10'
             }
           >
             <View className="flex-row items-center mt-2">
@@ -378,13 +382,6 @@ export default function Market() {
           </View>
         </View>
       )}
-
-      {/* <ScreenHeader
-        navigation={navigation}
-        screen="Create Errand"
-        openSettingsModal={openSettingsModal}
-        textTheme={textTheme}
-      /> */}
       <Container>
         <BottomSheetModalProvider>
           <SafeAreaView style={{ backgroundColor: '#FEFEFE' }}>
@@ -473,15 +470,24 @@ export default function Market() {
                     </View>
                   )} */}
 
+                  {searchedErrand.length === 0 && searching ? (
+                    <View className="flex-row justify-center items-center mt-14">
+                      <Text
+                        style={{
+                          fontFamily: 'Chillax-Medium',
+                          color: colors.DARK_BLUE,
+                        }}
+                      >
+                        There are no errands for this search at the moment
+                      </Text>
+                    </View>
+                  ) : null}
+
                   {loading ? (
                     <ActivityIndicator
                       size={'large'}
                       color={colors.DEFAULT_BLUE}
                     />
-                  ) : errands?.length === 0 ? (
-                    <View className="flex-row justify-center items-center mt-14">
-                      <Text>There are no errands at the moment</Text>
-                    </View>
                   ) : (
                     <FlatList
                       refreshControl={

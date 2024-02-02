@@ -1,6 +1,13 @@
 import Checkbox from 'expo-checkbox'
 import React, { useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { Dropdown } from 'react-native-element-dropdown'
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -141,11 +148,19 @@ const CreateErrandFinance = ({
         /> */}
         <View className="flex-row items-center justify-between mr-4">
           <View className="flex-row items-center">
-            <View className="border py-1 border-amber-50 shadow-lg bg-slate-300 ml-4 rounded-md mt-2 mr-2 ">
+            <TouchableOpacity
+              onPress={() => {
+                setCurrentWalletAmount(Number(data?.balance) / 100)
+                navigation.navigate('FundWalletModal', {
+                  currentWalletAmount,
+                })
+              }}
+              className="border py-1 border-amber-50 shadow-lg bg-slate-300 ml-4 rounded-md mt-2 mr-2 "
+            >
               <Text className="ml-4  pr-2" style={{ color: textTheme }}>
                 Fund Wallet
               </Text>
-            </View>
+            </TouchableOpacity>
 
             <Text style={{ color: textTheme }} className="text-sm pt-2 font-md">
               ( ₦

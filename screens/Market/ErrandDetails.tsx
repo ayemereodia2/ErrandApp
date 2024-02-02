@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   AntDesign,
   Entypo,
+  EvilIcons,
   Feather,
   Ionicons,
   MaterialIcons,
@@ -405,6 +406,42 @@ export default function ErrandDetails({ route, navigation }: any) {
                           </Text>
                         </View>
                       </View>
+
+                      <View className="flex-row justify-between items-center mb-5">
+                        <Text
+                          className="text-[14px] text-[#888]"
+                          style={{ fontFamily: 'Axiforma' }}
+                        >
+                          Address
+                        </Text>
+                        <View className="text-[14px] text-[#09497D] flex-row items-center justify-center w-[220px]">
+                          <Text
+                            className="pl-2"
+                            style={{
+                              fontFamily: 'Axiforma-Medium',
+                              color: colors.DEFAULT_BLUE,
+                            }}
+                          >
+                            <Text className="text-sm leading-6 font-[14px]">
+                              <EvilIcons
+                                name="location"
+                                size={20}
+                                color="#FBB955"
+                              />
+                            </Text>
+                            {errand?.dropoff_address?.address_text ? (
+                              errand?.dropoff_address?.address_text
+                            ) : (
+                              <Text
+                                className="text-sm leading-6 font-[14px]"
+                                style={{ fontFamily: 'Axiforma' }}
+                              >
+                                No Location
+                              </Text>
+                            )}
+                          </Text>
+                        </View>
+                      </View>
                     </View>
 
                     <View className=" px-5 pt-5 pb-4 rounded-[15px] bg-white mt-5  shadow-lg">
@@ -447,9 +484,13 @@ export default function ErrandDetails({ route, navigation }: any) {
                       </View>
 
                       <View className="flex-row items-center justify-between space-x-2 ">
-                        <Requirement name="Insurance" />
-                        <Requirement name="Qualification" />
-                        <Requirement name="Verification" />
+                        {errand.has_insurance ? (
+                          <Requirement name="Insurance" />
+                        ) : null}
+
+                        {errand.restriction ? (
+                          <Requirement name="Qualification" />
+                        ) : null}
                       </View>
                     </View>
 
@@ -627,7 +668,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                       animated
                     >
                       <>
-                        <View className='flex-row justify-end pr-6'>
+                        <View className="flex-row justify-end pr-6">
                           <AntDesign
                             onPress={() => setSelectedImage('')}
                             name="closecircle"

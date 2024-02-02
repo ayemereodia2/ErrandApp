@@ -163,7 +163,7 @@ const UpdateProfile = ({ image, data }: any) => {
   }
 
   return (
-    <SafeAreaView className="bg-[#FEFEFE]">
+    <SafeAreaView >
       <ScrollView className="px-4">
         <View className="mt-10">
           <View className="mt-8">
