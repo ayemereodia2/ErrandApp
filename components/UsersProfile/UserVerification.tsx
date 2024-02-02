@@ -189,7 +189,7 @@ const UserVerification = ({
           ) : null}
         </TouchableOpacity>
 
-        {/* <TouchableOpacity
+        <TouchableOpacity
           className="flex-row justify-between items-center border py-4 px-3 border-[#E3E9EC] rounded-[8px] bg-[#FEFEFE] mx-4 mt-6"
           onPress={() => openOfficeModal()}
         >
@@ -245,7 +245,7 @@ const UserVerification = ({
           ) : (
             ''
           )}
-        </TouchableOpacity> */}
+        </TouchableOpacity>
 
         {/* <TouchableOpacity
             className="flex-row justify-between items-center mx-4 mt-6 mb-40"

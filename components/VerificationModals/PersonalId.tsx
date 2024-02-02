@@ -215,7 +215,7 @@ const PersonalId = ({ closePersonalId }: any) => {
                 className=""
               >
                 <Text className="mx-auto mt-8">
-                  {/* <Feather name="image" size={40} color="#3F60AC" /> */}
+                  
                   <Feather name="upload" size={40} color="#3F60AC" />
                 </Text>
                 <Text className="mx-auto mt-3 text-[#6D6D6D] text-base" style={{fontFamily: 'Axiforma'}}>

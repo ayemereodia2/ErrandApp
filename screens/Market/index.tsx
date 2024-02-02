@@ -45,6 +45,7 @@ import { MarketData } from '../../types'
 import colors from '../../utils/colors'
 import { getUserId } from '../../utils/helper'
 import ScreenHeader from '../../components/ScreenHeader'
+import NewFilter from '../../components/Filter/NewFilter'
 
 type tabProps = {
   selected: string
@@ -291,7 +292,7 @@ export default function Market() {
         //   screen={'logo'}
         //   openSettingsModal={openSettingsModal}
         // />
-        <View className="bg-[#09497D] h-[160px] w-screen shadow-md px-6">
+        <View className="bg-[#09497D] h-[160px] w-screen shadow-md mt-10 px-6">
           <View
             className={
               Platform.OS === 'android'
@@ -574,7 +575,29 @@ export default function Market() {
             }}
             backdropComponent={renderBackdrop}
           >
-            <Content navigation={navigation} />
+            {/* <Content navigation={navigation} /> */}
+            <NewFilter 
+             data={category}
+             value={value}
+             setValue={setValue}
+             onClose={handleFilter}
+             
+             low={low}
+             high={high}
+             setLow={setLow}
+             setHigh={setHigh}
+             filterMarketList={filterMarketList}
+             setMinCheck={setMinCheck}
+             setSearchedErrand={setSearchedErrand}
+             setCheckFilterToggle={setCheckFilterToggle}
+             navigation={navigation}
+             
+             firstName={firstName}
+             lastName={lastName}
+             profilePic={profilePic}
+             location={location}
+             setLocation={setLocation}
+            />
           </BottomSheetModal>
         </BottomSheetModalProvider>
       </Container>

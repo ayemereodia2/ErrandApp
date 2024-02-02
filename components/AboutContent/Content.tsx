@@ -66,7 +66,7 @@ const Content = ({navigation}:any) => {
    </TouchableOpacity>
 
 
-   <TouchableOpacity className='flex-row items-center justify-between mt-[25px] mx-2' onPress={()=> navigation.navigate('Profile')}>
+   <TouchableOpacity className='flex-row items-center justify-between mt-[25px] mx-2' onPress={()=> navigation.navigate('Contact')}>
 
       <View className='flex-row items-center'>
       <Text className='mr-2'> <Feather name="help-circle" size={12} color="black" /> </Text>

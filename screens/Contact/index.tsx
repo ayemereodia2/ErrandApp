@@ -1,7 +1,8 @@
 import { AntDesign, Entypo, Feather, FontAwesome5 } from '@expo/vector-icons'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import {
   ActivityIndicator,
+  Image,
   Linking,
   SafeAreaView,
   ScrollView,
@@ -15,6 +16,13 @@ import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { _fetch } from '../../services/axios/http'
 import { RootState, useAppDispatch } from '../../services/store'
+import ScreenHeader from '../../components/ScreenHeader'
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet'
+import Content from '../../components/AboutContent/Content'
 
 const ContactUs = ({ navigation }: any) => {
   const {
@@ -61,25 +69,49 @@ const ContactUs = ({ navigation }: any) => {
   const handleLinkedIn = () => {
     Linking.openURL(linkedInUrl)
   }
+  const renderBackdrop = useCallback(
+    (props) => (
+      <BottomSheetBackdrop
+        pressBehavior={'collapse'}
+        opacity={0.7}
+        {...props}
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+        // onChange={handleSheetChanges}
+      />
+    ),
+    [],
+  )
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      title: 'Contact Us',
-      headerStyle: { backgroundColor: backgroundTheme },
-      headerTitleStyle: { color: textTheme },
-      headerLeft: () => (
-        <TouchableOpacity
-          className="flex-row items-center justify-between mx-0 px-3 py-3"
-          onPress={() => navigation.goBack()}
-        >
-          <AntDesign name="arrowleft" size={24} color={textTheme} />
-        </TouchableOpacity>
-      ),
-    })
-  }, [])
+  const bottomSheetRef = useRef<BottomSheetModal>(null)
+  const snapPoints = useMemo(() => ['60%'], [])
+
+    
+
+  function openSettingsModal() {
+    bottomSheetRef.current?.present()
+  }
+
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     headerShown: true,
+  //     title: 'Contact Us',
+  //     headerStyle: { backgroundColor: backgroundTheme },
+  //     headerTitleStyle: { color: textTheme },
+  //     headerLeft: () => (
+  //       <TouchableOpacity
+  //         className="flex-row items-center justify-between mx-0 px-3 py-3"
+  //         onPress={() => navigation.goBack()}
+  //       >
+  //         <AntDesign name="arrowleft" size={24} color={textTheme} />
+  //       </TouchableOpacity>
+  //     ),
+  //   })
+  // }, [])
 
   const ContactUs = async (userData: any) => {
+
+    
     setLoading(true)
     setError('')
 
@@ -114,8 +146,13 @@ const ContactUs = ({ navigation }: any) => {
     }
 
     if (!name || !email || !message || !phone) {
-      return setError('Please, make sure you fill in the required fields')
+      setError('Please, make sure you fill in the required fields')
+      setTimeout(() => {
+        setError(' ')
+      }, 3000);
     }
+    
+   
 
     // Validation rules
     if (userMessage.name.trim() === '') {
@@ -164,12 +201,23 @@ const ContactUs = ({ navigation }: any) => {
   }
 
   return (
+    <>
+     
+<BottomSheetModalProvider> 
+
+<ScreenHeader
+
+navigation={navigation}
+screen="Help and Support"
+openSettingsModal={openSettingsModal}
+textTheme={textTheme}
+/>
     <SafeAreaView>
       {/* Header */}
 
       {/* End Of Header */}
       <ScrollView
-        className="h-screen"
+        className="h-full mx-2"
         style={{ backgroundColor: backgroundTheme }}
         showsVerticalScrollIndicator={false}
       >
@@ -184,19 +232,18 @@ const ContactUs = ({ navigation }: any) => {
             </Text>
           )}
 
+          <View className='mx-4 mb-5'>
+            <Text className='text-sm' style={{fontFamily: 'Axiforma'}}>If you have any inquiries, get in touch with us. We’ll be happy to help you.</Text>
+          </View>
+
           <View className="px-4">
-            <Text
-              className="mb-5 font-bold text-lg"
-              style={{ color: textTheme }}
-            >
-              Reach out to us directly
-            </Text>
+           
             <View className="">
               <Text style={{ color: textTheme }}>Full Name</Text>
             </View>
             <TextInput
-              className="w-full mt-2 b rounded-md h-[50px] px-3 items-center mx-auto bg-[#E6E6E6] text-sm"
-              style={{ backgroundColor: theme ? '#bbb' : '#E6E6E6' }}
+              className="w-full mt-2 b rounded-md h-[50px] px-3 items-center mx-auto border border-[#96A0A5] text-sm"
+              style={{  }}
               placeholder="Enter your Full Name"
               value={name}
               onChangeText={(text) => setName(text)}
@@ -212,8 +259,8 @@ const ContactUs = ({ navigation }: any) => {
               <Text style={{ color: textTheme }}>Email Address</Text>
             </View>
             <TextInput
-              className="w-full mt-2 px-3 rounded-md h-[50px] mx-auto bg-[#E6E6E6] text-sm"
-              style={{ backgroundColor: theme ? '#bbb' : '#E6E6E6' }}
+              className="w-full mt-2 b rounded-md h-[50px] px-3 items-center mx-auto border border-[#96A0A5] text-sm"
+              style={{ }}
               placeholder="Enter your Email Address"
               value={email}
               onChangeText={(text) => setEmail(text)}
@@ -226,8 +273,8 @@ const ContactUs = ({ navigation }: any) => {
               </Text>
             )}
 
-            <View className="mt-[40px] ">
-              <Text style={{ color: textTheme }}>Phone Number </Text>
+            <View className="mt-[40px] font-medium text-sm">
+              <Text style={{ color: textTheme, fontFamily: 'Axiforma' }}>Phone Number </Text>
             </View>
             <TextInput
               className="w-full mt-2 b rounded-md h-[50px] px-3  mx-auto bg-[#E6E6E6] text-sm"
@@ -245,12 +292,12 @@ const ContactUs = ({ navigation }: any) => {
               </Text>
             )}
 
-            <View className="mt-[30px]">
-              <Text style={{ color: textTheme }}>Your message</Text>
+            <View className="mt-[30px] font-medium text-sm">
+              <Text style={{ color: textTheme, fontFamily: 'Axiforma' }}>Your message</Text>
             </View>
             <TextInput
-              className="w-full mt-2 b rounded-md h-[120px] px-3 pb-[70px] mx-auto bg-[#E6E6E6] text-sm"
-              style={{ backgroundColor: theme ? '#bbb' : '#E6E6E6' }}
+              className="w-full mt-2 b rounded-md h-[120px] px-3 pb-[70px] border border-[#96A0A5] mx-auto text-sm"
+              style={{ }}
               placeholder="Enter your Message Here"
               value={message}
               onChangeText={(text) => setMessage(text)}
@@ -265,17 +312,17 @@ const ContactUs = ({ navigation }: any) => {
           )}
 
           <TouchableOpacity
-            className=" mt-5 mb-10 mx-4 rounded-lg"
+            className=" mt-6 mb-10 mx-4 rounded-lg"
             onPress={handleSubmit}
           >
             <View className="w-full h-[50px] bg-[#243763] items-center justify-center">
               <Text className="text-white text-center items-center">
-                {loading ? <ActivityIndicator /> : 'Send a message '}
+                {loading ? <ActivityIndicator /> : 'Send '}
               </Text>
             </View>
           </TouchableOpacity>
 
-          <View
+          {/* <View
             className="w-[95%] h-[350px]  mx-auto b rounded-md"
             style={{ backgroundColor: backgroundTheme }}
           >
@@ -338,17 +385,6 @@ const ContactUs = ({ navigation }: any) => {
             </Text>
           </View>
 
-          {/* Body */}
-
-          {/* <View
-            className="mx-auto bg-[] w-[382px] h-[40px] mt-5 items-center justify-center"
-            style={{ backgroundColor: theme ? '#243763' : '#FAFAFA' }}
-          >
-            <Text className="text-base">
-              <Feather name="mail" size={16} color="#317ACF" />{' '}
-              <Text style={{ color: textTheme }}>Subscribe</Text>
-            </Text>
-          </View> */}
 
           <View className=" items-center mt-5 mb-[200px]">
             <Text
@@ -382,10 +418,136 @@ const ContactUs = ({ navigation }: any) => {
                 </Text>
               </TouchableOpacity>
             </View>
+          </View>*/}
+
+          <View className='mx-4'>
+            <Text className='text-[20px] font-medium' style={{fontFamily: 'Chillax'}}>Social Media</Text>
           </View>
-        </KeyboardAwareScrollView>
+
+
+          <View className='flex-row items-center mt-6 mx-4' style={{gap: 12}}>
+
+            <View className=''>
+
+              <Text> <Feather name="mail" size={26} color="#317ACF" /> </Text>
+            </View>
+
+            <View>
+              <Text className='text-base' style={{fontFamily: 'Axiforma'}}>Send us a mail -
+              Swave Client Support</Text>
+              
+              <Text className='text-sm' style={{fontFamily: 'Axiforma'}}>support@swaveafrica.com</Text>
+            </View>
+           </View>
+
+
+           <View className='flex-row items-center mt-6 mx-4' style={{gap: 12}}>
+
+          <View className=''>
+
+            <Text> <Entypo name="phone" size={26} color="#317ACF" />  </Text>
+          </View>
+
+          <View>
+            <Text className='text-base' style={{fontFamily: 'Axiforma'}}> Give us a phone call anytime </Text>
+            
+            <Text className='text-sm' style={{fontFamily: 'Axiforma'}}>+234 704 402 6328 </Text>
+            <Text className='text-sm' style={{fontFamily: 'Axiforma'}}>+234 704 402 6328 </Text>
+          </View>
+          </View>
+
+
+
+          <View className='mx-4 mt-4 mb-40 px-5 border border-[#CCCCCC] py-8 bg-[#E6E6E666]'>
+
+            <TouchableOpacity onPress={handleFaceBook} className='flex-row items-center' style={{gap: 12}}>
+
+              <View className=''>
+             
+                <Image source={require('../../assets/images/facebook.png')} />
+              </View>
+
+              <View>
+                <Text className='text-base' style={{fontFamily: 'Axiforma'}}>Facebook</Text>
+                <Text className='text-xs' style={{fontFamily: 'Axiforma'}}>Drop us a message anytime.</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={handleLinkedIn} className='flex-row items-center mt-6 ' style={{gap: 12}}>
+
+              <View className=''>
+             
+                <Image source={require('../../assets/images/Linkedin.png')} />
+              </View>
+
+              <View>
+                <Text className='text-base' style={{fontFamily: 'Axiforma'}}>Linkedin</Text>
+                <Text className='text-xs' style={{fontFamily: 'Axiforma'}}>Drop us a message anytime.</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={handleInstagram} className='flex-row items-center mt-6' style={{gap: 12}}>
+
+              <View className=''>
+             
+                <Image source={require('../../assets/images/Instagram.png')} />
+              </View>
+
+              <View>
+                <Text className='text-base' style={{fontFamily: 'Axiforma'}}>Instagram</Text>
+                <Text className='text-xs' style={{fontFamily: 'Axiforma'}}>Drop us a message anytime.</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={handleTwitter} className='flex-row items-center mt-6' style={{gap: 12}}>
+
+              <View className=''>
+             
+                <Image source={require('../../assets/images/Twitter.png')} />
+              </View>
+
+              <View>
+                <Text className='text-base' style={{fontFamily: 'Axiforma'}}>X</Text>
+                <Text className='text-xs' style={{fontFamily: 'Axiforma'}}>Drop us a message anytime.</Text>
+              </View>
+            </TouchableOpacity>
+
+            <View className='flex-row items-center mt-6' style={{gap: 12}}>
+
+            <View className=''>
+
+              <Text><FontAwesome5 name="whatsapp" size={44} color="#317ACF" /></Text>
+            </View>
+
+            <View>
+              <Text className='text-base' style={{fontFamily: 'Axiforma'}}>Whatsapp</Text>
+              <Text className='text-xs' style={{fontFamily: 'Axiforma'}}>+234 704 402 6987</Text>
+              <Text className='text-xs' style={{fontFamily: 'Axiforma'}}>+234 704 402 6987</Text>
+            </View>
+           </View>
+
+            
+
+
+          </View>
+
+        </KeyboardAwareScrollView> 
       </ScrollView>
     </SafeAreaView>
+
+    <BottomSheetModal
+        ref={bottomSheetRef}
+        index={0}
+        snapPoints={['55%']}
+        containerStyle={{
+          marginHorizontal: 10,
+        }}
+        backdropComponent={renderBackdrop}
+      >
+        <Content navigation={navigation} />
+      </BottomSheetModal>
+    </BottomSheetModalProvider>
+    </>
   )
 }
 
