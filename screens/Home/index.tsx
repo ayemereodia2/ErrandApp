@@ -400,7 +400,7 @@ const Home = ({ navigation }: any) => {
           <View
             className={
               Platform.OS === 'android'
-                ? 'bg-purple-200 h-[185px] w-screen shadow-md'
+                ? 'bg-purple-200 h-[210px] w-screen shadow-md'
                 : 'bg-purple-200 h-[220px] w-screen shadow-md'
             }
             style={{ borderBottomLeftRadius: 70, borderBottomRightRadius: 70 }}
@@ -408,7 +408,7 @@ const Home = ({ navigation }: any) => {
             <SafeAreaView
               className={
                 Platform.OS === 'android'
-                  ? 'h-[180px] pt-[26px] px-6'
+                  ? 'h-[205px] pt-[26px] px-6'
                   : 'h-[215px] pt-[16px] px-6'
               }
               style={{

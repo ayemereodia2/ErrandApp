@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -37,6 +37,7 @@ const CreateErrandLocation = ({
   setActiveStep,
   handleInputChange,
   postErrandData,
+  currentLocation,
   setCurrentLocation,
   setDeliveryAddress,
   locationError,
@@ -51,8 +52,13 @@ const CreateErrandLocation = ({
     textTheme,
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+  const ref = useRef()
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
+
+  // useEffect(() => {
+  //   ref.current?.setAddressText('Some Text')
+  // }, [])
 
   const [
     currentLocationLatLng,
@@ -79,8 +85,6 @@ const CreateErrandLocation = ({
     const { lat, lng } = details.geometry.location
 
     if (locationType === 'currentLocation') {
-      console.log('>>>>>locaiton', data.description)
-
       setCurrentLocation(data.description)
       setCurrentLocationLatLng({ lat, lng })
     } else if (locationType === 'deliveryAddress') {
@@ -100,8 +104,6 @@ const CreateErrandLocation = ({
     setRegion(details.geometry.location)
     setMarker(details.geometry.location)
   }
-
-  const handleRemote = () => {}
 
   useEffect(() => {
     if (remote) {
@@ -155,7 +157,6 @@ const CreateErrandLocation = ({
               <Text className="text-red-600">{locationError}</Text>
             </View>
 
-            {/* {remote ? null : ( */}
             <View>
               <View
                 style={{ marginBottom: 80, marginTop: 20 }}
@@ -167,9 +168,15 @@ const CreateErrandLocation = ({
 
                 <GooglePlacesAutocomplete
                   placeholder="Enter Pickup Address"
-                  onPress={(data, details) =>
+                  textInputProps={{
+                    onChangeText: (text) => {
+                      setCurrentLocation(text)
+                    },
+                    defaultValue: postErrandData.currentLocation,
+                  }}
+                  onPress={(data, details) => {
                     handleLocationSelect(data, details, 'currentLocation')
-                  }
+                  }}
                   fetchDetails={true}
                   query={{
                     key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
@@ -181,6 +188,9 @@ const CreateErrandLocation = ({
                     textInput: styles.textInput,
                     listView: styles.listView,
                   }}
+                  // ref={(ref) => {
+                  //   ref?.setAddressText(currentLocation)
+                  // }}
                 />
               </View>
 
@@ -197,6 +207,12 @@ const CreateErrandLocation = ({
                   query={{
                     key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
                     language: 'en',
+                  }}
+                  textInputProps={{
+                    onChangeText: (text) => {
+                      setDeliveryAddress(text)
+                    },
+                    defaultValue: postErrandData.deliveryAddress,
                   }}
                   styles={{
                     container: styles.googlePlacesContainer,

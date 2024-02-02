@@ -174,12 +174,12 @@ const PostErrand = ({ navigation }: any) => {
       })
       return
     }
-    // if (!postErrandData?.dur_period || !postErrandData?.dur_value) {
-    //   return setDetailError({
-    //     desc: '',
-    //     value: 'duration value and period is required',
-    //   })
-    // }
+    if (!postErrandData?.dur_period || !postErrandData?.dur_value) {
+      return setDetailError({
+        desc: '',
+        value: 'duration value and period is required',
+      })
+    }
 
     setPostErrandData({
       ...postErrandData,
@@ -406,10 +406,6 @@ const PostErrand = ({ navigation }: any) => {
             marginBottom: 5,
             height: '80%',
           }}
-          style={{
-            backgroundColor: theme ? '#152955' : 'white',
-          }}
-          className="bg-white"
         >
           {showComponent()}
         </ScrollView>
