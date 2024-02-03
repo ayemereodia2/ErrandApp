@@ -311,6 +311,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
                 style={{
                   backgroundColor: theme ? '#1E3A79' : 'white',
                 }}
+                onPress={() => navigation.navigate('FullProfile', {data})}
               >
                 <Text
                   style={{ color: '#09497D' }}

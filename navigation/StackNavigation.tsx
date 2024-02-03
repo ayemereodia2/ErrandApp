@@ -48,6 +48,7 @@ import BusinessReview from '../screens/BusinessAuth/BusinessReview'
 import AccountStatement from '../screens/Wallets/AccountStatement'
 import WithdrawalScreen from '../screens/Wallets/WithdrawalScreen'
 import { TabsNavigation } from './TabsNavigation'
+import FullProfile from '../screens/Profile/FullProfile'
 
 const Stack = createNativeStackNavigator()
 
@@ -112,6 +113,7 @@ export const TabStack = () => {
       <Stack.Screen name="WithdrawalScreen" component={WithdrawalScreen} />
       <Stack.Screen name="BusinessLogin" component={BusinessLogin} />
       <Stack.Screen name="BusinessReview" component={BusinessReview} />
+      <Stack.Screen name="FullProfile" component={FullProfile} />
 
       <Stack.Screen
         name="MyErrandDetails"
@@ -320,6 +322,7 @@ export function GuestStack() {
         <Stack.Screen name="WithdrawalScreen" component={WithdrawalScreen} />
         <Stack.Screen name="BusinessLogin" component={BusinessLogin} />
         <Stack.Screen name="BusinessReview" component={BusinessReview} />
+        <Stack.Screen name="FullProfile" component={FullProfile} />
 
         <Stack.Screen
           name="UpdateApp"
@@ -548,6 +551,7 @@ export const MainStack = () => {
       <Stack.Screen name="WithdrawalScreen" component={WithdrawalScreen} />
       <Stack.Screen name="BusinessLogin" component={BusinessLogin} />
       <Stack.Screen name="BusinessReview" component={BusinessReview} />
+      <Stack.Screen name="FullProfile" component={FullProfile} />
 
       <Stack.Screen
         name="MyErrandDetails"

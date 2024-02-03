@@ -13,74 +13,85 @@ const UserProfile = () => {
   const theme = data?.preferred_theme === 'light' ? true : false
 
   return (
-    <SafeAreaView className="mt-6 h-screen">
-      <ScrollView>
-        <View className="w-[380px] mx-auto mt-6 ">
-          <View className="flex-row justify-between items-center ml-4 mr-4 ">
+    <SafeAreaView >
+      <ScrollView className="mt-6 h-full mb-40">
+        <View className="w-[380px] mx-auto mt-6 mb-5">
+          <View className="flex-row justify-between items-center ml-2 mr-4 ">
             <Text
-              style={{ color: textTheme }}
-              className="text-base  font-semibold pb-1"
+              style={{ color: textTheme, fontFamily: 'Axiforma-Medium' }}
+              className="text-base font-semibold pb-1"
             >
               Bio
             </Text>
           </View>
+          <View className='w-full mt-2 rounded-md py-3 pl-3 border border-[#96A0A5]'>
           <Text
-            style={{ color: textTheme }}
-            className=" font-light ml-4 pb-6 leading-6"
+            style={{ color: textTheme , fontFamily: 'Axiforma'}}
+            className=" text-sm  mt-2 leading-6"
           >
             {data.bio ? data?.bio : 'N/A'}
           </Text>
+          </View>
         </View>
 
         <View className="w-[380px] mx-auto ">
-          <View className="flex-row justify-between items-center ml-4 mr-4 ">
+          <View className="flex-row justify-between items-center ml-2 mr-4 ">
             <Text
-              style={{ color: textTheme }}
+              style={{ color: textTheme, fontFamily: 'Axiforma-Medium' }}
               className="text-base font-semibold pb-1"
             >
               Email address
             </Text>
           </View>
+         
+          <View className='w-full mt-2 rounded-md py-3 pl-3 border border-[#96A0A5]'>
           <Text
-            style={{ color: textTheme }}
-            className=" ml-4 leading-6  pb-6 font-light"
+            style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            className=" text-sm mt-2  "
           >
             {data.email ? data?.email : 'N/A'}
           </Text>
+          </View>
         </View>
 
-        <View className="w-[380px] mx-auto ">
-          <View className="flex-row justify-between items-center ml-4 mr-4 ">
+        <View className="w-[380px] mx-auto mt-5">
+          <View className="flex-row justify-between items-center ml-2 mr-4 ">
             <Text
-              style={{ color: textTheme }}
+              style={{ color: textTheme, fontFamily: 'Axiforma-Medium' }}
               className="text-base font-semibold pb-1"
             >
               Phone number
             </Text>
           </View>
+          
+          <View className='w-full mt-2 rounded-md py-3 pl-3 border border-[#96A0A5]'>
           <Text
-            style={{ color: textTheme }}
-            className=" ml-4 leading-6 pb-6 font-light"
+            style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            className=" mt-2 text-sm"
           >
             {data?.phone_number}
           </Text>
+          </View>
         </View>
 
         <View className="w-[380px] mx-auto">
-          <View className="flex-row justify-between items-center ml-4 mr-4 ">
+          <View className="flex-row justify-between items-center mt-5 ml-2 mr-4 ">
             <Text
-              style={{ color: textTheme }}
+              style={{ color: textTheme, fontFamily: 'Axiforma-Medium' }}
               className="text-base font-semibold pb-1"
             >
               Date of birth
             </Text>
           </View>
+          
+          <View className='w-full mt-2 rounded-md py-3 pl-3 border border-[#96A0A5]'>
           <Text
-            style={{ color: textTheme }}
-            className=" ml-4 leading-6 font-light  pb-6"
+            style={{ color: textTheme, fontFamily: 'Axiforma' }}
+            className="mt-2 text-sm"
           >
             {data.dob ? data?.dob.slice(0, 10) : 'N/A'}
           </Text>
+          </View>
         </View>
 
         {/* <View className="w-[380px] mx-auto">
