@@ -1,5 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigationHook } from "../../utils/helper";
+import ExpiredTokenModal from "../../screens/ExpiredToken/ExpiredTokenModal";
+import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+
 
 interface FetchProps {
   method: string
@@ -26,12 +30,35 @@ const {fetch: originalFetch} = window;
 
 // an interceptor handler to check if token has expires
 
+// export const pushOut = ({navigation}: any) => {
+//   window.fetch = async (...args) => {
+//     let [resource, config] = args;
+//     let response = await originalFetch(resource, config);
+
+//     if (!response.ok && response.status !== 404) {
+//       // 404 error handling
+//       return Promise.reject(response);
+//     }
+
+//     // console.log(">>>>>401", respins);
+    
+
+//     if (response.status === 401) {
+//         // RootNavigation.navigateToScreen('Default')
+//       navigation.navigate('Default')
+//         // navigationHook()
+//         clearStorage()
+//     }
+//     return response;
+//   };
+// }
+
 export const pushOut = ({navigation}: any) => {
   window.fetch = async (...args) => {
     let [resource, config] = args;
     let response = await originalFetch(resource, config);
 
-    if (!response.ok && response.status === 404) {
+    if (!response.ok && response.status !== 404) {
       // 404 error handling
       return Promise.reject(response);
     }
@@ -41,13 +68,53 @@ export const pushOut = ({navigation}: any) => {
 
     if (response.status === 401) {
         // RootNavigation.navigateToScreen('Default')
-      navigation.navigate('Default')
+      navigation.navigate('ExpiredToken')
         // navigationHook()
         clearStorage()
     }
     return response;
   };
 }
+
+
+
+
+
+// export const pushOut = ({ navigation }: any) => {
+//   const [isTokenExpiredModalVisible, setTokenExpiredModalVisible] = useState(false);
+
+
+//   window.fetch = async (...args) => {
+//     let [resource, config] = args;
+//     let response = await originalFetch(resource, config);
+
+//     if (!response.ok && response.status === 404) {
+//       return Promise.reject(response);
+//     }
+
+//     if (response.status !== 401) {
+//       setTokenExpiredModalVisible(true);
+//       clearStorage();
+//       // Additional logic if needed
+//     }
+//     return response;
+//   };
+
+//   return (
+//     <>
+      
+//        {/* ... (Your existing code) */}
+//        <ExpiredTokenModal
+//        visible={isTokenExpiredModalVisible}
+//        onClose={() => {
+//          setTokenExpiredModalVisible(false);
+//          navigation.navigate('Default'); // or any other navigation logic
+//        }}
+//      />
+//     </>
+//   );
+  
+// };
 
 
 
