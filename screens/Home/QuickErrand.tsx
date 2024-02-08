@@ -11,6 +11,7 @@ import {
   Keyboard,
   Platform,
   StyleSheet,
+  Switch,
   Text,
   TextInput,
   TouchableOpacity,
@@ -44,6 +45,7 @@ const QuickErrand = ({ navigation, route }: any) => {
   const [currentLocation, setCurrentLocation] = useState<string>('')
   const [deliveryLocation, setDeliveryLocation] = useState<string>('')
   const bottomSheetRef2 = useRef<BottomSheetModal>(null)
+  const [remote, setRemote] = useState(false)
 
   function openSettingsModal() {
     bottomSheetRef2.current?.present()
@@ -191,6 +193,14 @@ const QuickErrand = ({ navigation, route }: any) => {
     setCurrentWalletAmount(Number(data?.balance) / 100)
   }, [data?.balance])
 
+  useEffect(() => {
+    if (remote) {
+      setCurrentLocation('remote')
+    } else {
+      setCurrentLocation('')
+    }
+  }, [remote])
+
   return (
     <>
       <BottomSheetModalProvider>
@@ -334,59 +344,88 @@ const QuickErrand = ({ navigation, route }: any) => {
               </View>
             </View>
 
-            <View style={{ display: 'flex' }} className="mt-4 px-6 pb-[50px]">
+            <Text
+              style={{ fontFamily: 'Axiforma' }}
+              className="text-base font-normal text-[16px] text-[#0C426F] px-6 pt-4"
+            >
+              Add your address
+            </Text>
+            {!remote ? (
+              <View style={{ display: 'flex' }} className=" px-6 ">
+                <Text
+                  className="text-base text-[#393F42] mt-6 text-[16px]"
+                  style={{ fontFamily: 'Axiforma' }}
+                >
+                  Pick Up Location
+                </Text>
+                <GooglePlacesAutocomplete
+                  placeholder="Enter Pickup Address"
+                  onPress={(data, details) =>
+                    handleLocationSelect(data, details, 'currentLocation')
+                  }
+                  textInputProps={{
+                    onChangeText: (text) => {
+                      setCurrentLocation(text)
+                    },
+                    defaultValue: postErrandData.currentLocation,
+                  }}
+                  fetchDetails={true}
+                  query={{
+                    key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
+                    language: 'en',
+                  }}
+                  styles={{
+                    container: styles.googlePlacesContainer,
+                    textInputContainer: styles.textInputContainer,
+                    textInput: styles.textInput,
+                    listView: styles.listView,
+                  }}
+                />
+
+                <Text
+                  className="text-base text-[#393F42] mt-3"
+                  style={{ fontFamily: 'Axiforma' }}
+                >
+                  Delivery/ End Location
+                </Text>
+                <GooglePlacesAutocomplete
+                  placeholder="Enter Delivery Address"
+                  onPress={(data, details) =>
+                    handleLocationSelect(data, details, 'deliveryAddress')
+                  }
+                  textInputProps={{
+                    onChangeText: (text) => {
+                      setDeliveryLocation(text)
+                    },
+                    defaultValue: postErrandData.deliveryAddress,
+                  }}
+                  fetchDetails={true}
+                  query={{
+                    key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
+                    language: 'en',
+                  }}
+                  styles={{
+                    container: styles.googlePlacesContainer,
+                    textInputContainer: styles.textInputContainer,
+                    textInput: styles.textInput,
+                    listView: styles.listView,
+                  }}
+                />
+              </View>
+            ) : null}
+
+            <View className=" px-6 flex-row items-center pb-[50px] pt-2">
               <Text
                 style={{ fontFamily: 'Axiforma' }}
-                className="text-base font-normal text-[16px] text-[#0C426F]"
+                className="text-[#243763] pr-2"
               >
-                Add your address
+                Remote
               </Text>
 
-              <Text
-                className="text-base text-[#393F42] mt-6 text-[16px]"
-                style={{ fontFamily: 'Axiforma' }}
-              >
-                Pick Up Location
-              </Text>
-              <GooglePlacesAutocomplete
-                placeholder="Enter Pickup Address"
-                onPress={(data, details) =>
-                  handleLocationSelect(data, details, 'currentLocation')
-                }
-                fetchDetails={true}
-                query={{
-                  key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
-                  language: 'en',
-                }}
-                styles={{
-                  container: styles.googlePlacesContainer,
-                  textInputContainer: styles.textInputContainer,
-                  textInput: styles.textInput,
-                  listView: styles.listView,
-                }}
-              />
-
-              <Text
-                className="text-base text-[#393F42] mt-3"
-                style={{ fontFamily: 'Axiforma' }}
-              >
-                Delivery/ End Location
-              </Text>
-              <GooglePlacesAutocomplete
-                placeholder="Enter Delivery Address"
-                onPress={(data, details) =>
-                  handleLocationSelect(data, details, 'deliveryAddress')
-                }
-                fetchDetails={true}
-                query={{
-                  key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
-                  language: 'en',
-                }}
-                styles={{
-                  container: styles.googlePlacesContainer,
-                  textInputContainer: styles.textInputContainer,
-                  textInput: styles.textInput,
-                  listView: styles.listView,
+              <Switch
+                value={remote}
+                onValueChange={(val: boolean) => {
+                  setRemote(val)
                 }}
               />
             </View>
@@ -456,7 +495,7 @@ const styles = StyleSheet.create({
   textInput: {
     fontFamily: 'Axiforma',
     height: 45,
-    borderRadius:8,
+    borderRadius: 8,
     borderWidth: 1,
     borderColor: '#96A0A5',
     paddingHorizontal: 14,

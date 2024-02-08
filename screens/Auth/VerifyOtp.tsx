@@ -59,7 +59,7 @@ export default function VerifyOtpScreen({length, value, disabled, onChange, navi
   
 
 
-  const { comingFrom } = route.params
+  const { phone_number, comingFrom } = route.params;
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -203,7 +203,7 @@ export default function VerifyOtpScreen({length, value, disabled, onChange, navi
           <Text className="text-sm text-[#5A6063] mt-2" style={{fontFamily: 'Axiforma'}}>
           Kindly enter the 6-digits verification code sent to
           </Text>
-          <Text className="text-[#243763]">{phone_no}</Text>
+          <Text className="text-[#243763]">{phone_number}</Text>
 
           <Text className='text-[#393F42] text-sm mt-7 font-medium ml-1'>Code</Text>
 

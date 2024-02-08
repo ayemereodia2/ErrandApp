@@ -1,7 +1,5 @@
 import {
   AntDesign,
-  FontAwesome,
-  Ionicons,
   MaterialCommunityIcons,
   MaterialIcons,
 } from '@expo/vector-icons'
@@ -13,7 +11,6 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useQuery } from '@tanstack/react-query'
 import * as Clipboard from 'expo-clipboard'
-import { Restart } from 'fiction-expo-restart'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ActivityIndicator,
@@ -32,6 +29,7 @@ import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
 import LoadingModal from '../../components/MainLoader/LoadingModal'
+import ScreenHeader from '../../components/ScreenHeader'
 import SettingsContent from '../../components/SettingsContent/SettingsContent'
 import SettingsCategory from '../../components/SettingTestFolder/SettingsCategory'
 import SettingsTest from '../../components/SettingTestFolder/SettingsTest'
@@ -163,7 +161,7 @@ const SettingScreen = ({ navigation }: any) => {
       'profile_pic',
     ])
 
-    Restart()
+    // Restart()
   }
 
   const deleteProfile = async () => {
@@ -246,6 +244,10 @@ const SettingScreen = ({ navigation }: any) => {
     }, 500)
   }, [])
 
+  function openSettingsModal() {
+    bottomSheetRef4.current?.present()
+  }
+
   // console.log(">>>interests", interests);
 
   if (isLoading) {
@@ -265,8 +267,14 @@ const SettingScreen = ({ navigation }: any) => {
 
   return (
     <>
+      <ScreenHeader
+        navigation={navigation}
+        textTheme={textTheme}
+        screen={'Settings'}
+        openSettingsModal={openSettingsModal}
+      />
       <BottomSheetModalProvider>
-        <View>
+        {/* <View>
           <View
             className="bg-purple-200 h-[160px] w-screen shadow-md"
             style={{ borderBottomLeftRadius: 70, borderBottomRightRadius: 70 }}
@@ -305,20 +313,8 @@ const SettingScreen = ({ navigation }: any) => {
                   </Text>
                 </View>
 
-                {/* <Text
-                  className="font-bold text-[20px] leading-7"
-                  style={{ color: textTheme }}
-                >
-                  Welcome, {currentUser?.first_name}
-                </Text> */}
-
                 <View className="items-center flex-row gap-2">
-                  <TouchableOpacity
-                  // onPress={
-                  //   // navigation.navigate('Contact')
-                  //   openMoreModal
-                  // }
-                  >
+                  <TouchableOpacity>
                     <Text style={{ color: textTheme }}>
                       <Ionicons
                         name="settings-outline"
@@ -343,12 +339,12 @@ const SettingScreen = ({ navigation }: any) => {
               </View>
             </View>
           </View>
-        </View>
+        </View> */}
 
         <SafeAreaView>
           <ScrollView
             style={{ backgroundColor: backgroundTheme }}
-            className="bg-[#F8F9FC]"
+            className="bg-[#F8F9FC] mb-10"
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
@@ -656,7 +652,7 @@ const SettingScreen = ({ navigation }: any) => {
                 <TouchableOpacity
                   className="flex-row items-center justify-between"
                   onPress={() => {
-                    navigation.navigate('Default')
+                    navigation.navigate('Login')
                     clearStorage()
                   }}
                 >

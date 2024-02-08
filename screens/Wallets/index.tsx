@@ -186,10 +186,7 @@ const WalletScreen = ({ navigation }: any) => {
 
   return (
     <>
-      <StatusBar
-        backgroundColor={backgroundTheme}
-        barStyle={theme ? 'light-content' : 'dark-content'}
-      />
+      <StatusBar barStyle="light-content" backgroundColor="#09497D" />
 
       <BottomSheetModalProvider>
         <ScrollView

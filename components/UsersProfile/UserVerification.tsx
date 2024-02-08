@@ -70,7 +70,10 @@ const UserVerification = ({
     [],
   )
 
-  // console.log('........data.has_verified_location', data.has_verified_location)
+  // console.log(
+  //   '........data.has_verified_location',
+  //   data.has_verified_personal_id,
+  // )
 
   return (
     <View className="space-y-6 my-10">
@@ -137,19 +140,17 @@ const UserVerification = ({
           Basic Verification
         </Text>
 
-        {data.has_verified_personal_id === 0 ? (
-          <View className="flex-row items-center" style={{ gap: 4 }}>
-            <Text className="text-[#05AE2F]">
-              <Feather name="check" size={20} />
-            </Text>
-            <Text
-              className="text-[#05AE2F] text-sm"
-              style={{ fontFamily: 'Axiforma' }}
-            >
-              Completed
-            </Text>
-          </View>
-        ) : null}
+        <View className="flex-row items-center" style={{ gap: 4 }}>
+          <Text className="text-[#05AE2F]">
+            <Feather name="check" size={20} />
+          </Text>
+          <Text
+            className="text-[#05AE2F] text-sm"
+            style={{ fontFamily: 'Axiforma' }}
+          >
+            Completed
+          </Text>
+        </View>
       </TouchableOpacity>
 
       <TouchableOpacity

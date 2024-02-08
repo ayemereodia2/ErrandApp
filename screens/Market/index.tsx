@@ -16,15 +16,15 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   ActivityIndicator,
+  Dimensions,
   FlatList,
   Platform,
   Pressable,
   RefreshControl,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -33,9 +33,8 @@ import {
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import Content from '../../components/AboutContent/Content'
-import Container from '../../components/Container'
 import ErrandComp from '../../components/ErrandComponent'
-import Filter from '../../components/Filter/Filter'
+import NewFilter from '../../components/Filter/NewFilter'
 import UserInfo from '../../components/UserInfo/UserInfo'
 import { _fetch } from '../../services/axios/http'
 import { errandMarketList, setLoading } from '../../services/errands/market'
@@ -59,8 +58,8 @@ export default function Market() {
   const [lastName, setLastName] = useState('')
   const [profilePic, setProfilePic] = useState('')
   const [value, setValue] = useState('')
-  const [low, setLow] = useState(0)
-  const [high, setHigh] = useState(0)
+  const [low, setLow] = useState<any>(0)
+  const [high, setHigh] = useState<any>(0)
   const [minCheck, setMinCheck] = useState(false)
   const [refreshing, setRefreshing] = React.useState(false)
   // const [toggleView, setToggleView] = useState(true)
@@ -74,6 +73,7 @@ export default function Market() {
   const [checkFilterToggle, setCheckFilterToggle] = useState(false)
   const [selectedTab, setSelectedTab] = useState('All')
   const [searching, setSearching] = useState(false)
+  const { height } = Dimensions.get('window')
 
   function openSettingsModal() {
     bottomSheetRef2.current?.present()
@@ -91,6 +91,8 @@ export default function Market() {
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
+  const snapPoints = useMemo(() => ['60%', '100%'], [])
+
   const renderBackdrop = useCallback(
     (props: any) => (
       <BottomSheetBackdrop
@@ -103,6 +105,7 @@ export default function Market() {
           bottomSheetRef1.current?.dismiss()
           avatar.current?.dismiss()
           bottomSheetRef2.current?.dismiss()
+          filterModal.current?.dismiss()
         }}
 
         // onChange={handleSheetChanges}
@@ -114,6 +117,7 @@ export default function Market() {
   const avatar = useRef<BottomSheetModal>(null)
   const bottomSheetRef1 = useRef<BottomSheetModal>(null)
   const bottomSheetRef2 = useRef<BottomSheetModal>(null)
+  const filterModal = useRef<BottomSheetModal>(null)
 
   function toggleAvatarModal(open: boolean, user: any) {
     if (open) {
@@ -128,6 +132,9 @@ export default function Market() {
 
   function openMoreModal() {
     bottomSheetRef1.current?.present()
+  }
+  function openFilterModal() {
+    filterModal.current?.present()
   }
 
   const handleFilter = () => {
@@ -173,8 +180,24 @@ export default function Market() {
   const min = low * 100
 
   const filterMarketList = () => {
-    const max = high * 100
-    const min = low * 100
+ 
+
+    if (high === 0 || low === 0) {
+      dispatch(
+        errandMarketList({
+          setSearchedErrand,
+          category: value,
+          minPrice: 0,
+          maxPrice:0,
+          location,
+        }),
+      )
+      return
+    }
+
+    const max = parseInt(high.replace(/,/g, ''), 10) * 100
+    const min = parseInt(low.replace(/,/g, ''), 10) * 100
+
     dispatch(
       errandMarketList({
         setSearchedErrand,
@@ -286,144 +309,137 @@ export default function Market() {
 
   return (
     <>
-      {filterOn ? (
-        ''
-      ) : (
+      <View
+        className={
+          Platform.OS === 'android'
+            ? 'bg-[#09497D] h-[160px] w-screen shadow-md px-6'
+            : 'bg-[#09497D] h-[180px] w-screen shadow-md px-6'
+        }
+      >
         <View
           className={
             Platform.OS === 'android'
-              ? 'bg-[#09497D] h-[160px] w-screen shadow-md px-6'
-              : 'bg-[#09497D] h-[180px] w-screen shadow-md px-6'
+              ? 'flex-row justify-between items-center mt-6'
+              : 'flex-row items-center justify-between mt-10'
           }
         >
-          <View
-            className={
-              Platform.OS === 'android'
-                ? 'flex-row justify-between items-center mt-6'
-                : 'flex-row items-center justify-between mt-10'
-            }
-          >
-            <View className="flex-row items-center mt-2">
-              <View
-                className="mt-2 border border-[#F2F2F2] py-2 px-2 rounded-[15px] flex-row items-center justify-between bg-white w-[260px]"
-                style={{ backgroundColor: theme ? '#1E3A79' : 'white' }}
-              >
-                <View className="flex-row items-center gap-1">
-                  <EvilIcons
-                    name="search"
-                    size={30}
-                    // className="w-1/12"
-                    color={theme ? 'white' : '#808080'}
-                  />
-                  <TextInput
-                    style={{
-                      color: theme ? 'white' : '#808080',
-                      fontFamily: 'Axiforma',
-                    }}
-                    className="w-[145px]"
-                    placeholder="Search for errands"
-                    placeholderTextColor={theme ? 'white' : 'black'}
-                    value={searchValue}
-                    onChangeText={(text) => setSearchValue(text)}
-                  />
-
-                  {searchValue ? (
-                    <View className="bg-[#ccc] rounded-full p-1">
-                      <AntDesign
-                        onPress={() => setSearchValue('')}
-                        name="close"
-                        size={10}
-                        color={theme ? 'white' : 'black'}
-                      />
-                    </View>
-                  ) : (
-                    ''
-                  )}
-                </View>
-
-                <Pressable onPress={handleFilter}>
-                  <View className=" p-1 border border-[#ccc] rounded-full">
-                    <Text className="text-center">
-                      <MaterialCommunityIcons
-                        name="tune-variant"
-                        size={18}
-                        color="black"
-                      />
-                    </Text>
-                  </View>
-                </Pressable>
-              </View>
-            </View>
-
-            <View className="items-center flex-row space-x-4 mt-4 ">
-              <TouchableOpacity onPress={() => openSettingsModal()}>
-                <Text style={{ color: textTheme }}>
-                  <Ionicons name="settings-outline" size={22} color={'white'} />
-                </Text>
-              </TouchableOpacity>
-
-              <Text style={{ color: textTheme }}>
-                <FontAwesome
-                  name="bell-o"
-                  size={22}
-                  color={'white'}
-                  onPress={() => {
-                    navigation.navigate('Notification')
-                  }}
+          <View className="flex-row items-center mt-2">
+            <View
+              className="mt-2 border border-[#F2F2F2] py-2 px-2 rounded-[15px] flex-row items-center justify-between bg-white w-[260px]"
+              style={{ backgroundColor: theme ? '#1E3A79' : 'white' }}
+            >
+              <View className="flex-row items-center gap-1">
+                <EvilIcons
+                  name="search"
+                  size={30}
+                  color={theme ? 'white' : '#808080'}
                 />
-              </Text>
+                <TextInput
+                  style={{
+                    color: theme ? 'white' : '#808080',
+                    fontFamily: 'Axiforma',
+                  }}
+                  className="w-[145px]"
+                  placeholder="Search for errands"
+                  placeholderTextColor={theme ? 'white' : 'black'}
+                  value={searchValue}
+                  onChangeText={(text) => setSearchValue(text)}
+                />
+
+                {searchValue ? (
+                  <View className="bg-[#ccc] rounded-full p-1">
+                    <AntDesign
+                      onPress={() => setSearchValue('')}
+                      name="close"
+                      size={10}
+                      color={theme ? 'white' : 'black'}
+                    />
+                  </View>
+                ) : (
+                  ''
+                )}
+              </View>
+
+              <Pressable onPress={openFilterModal}>
+                <View className=" p-1 border border-[#ccc] rounded-full">
+                  <Text className="text-center">
+                    <MaterialCommunityIcons
+                      name="tune-variant"
+                      size={18}
+                      color="black"
+                    />
+                  </Text>
+                </View>
+              </Pressable>
             </View>
           </View>
 
-          <View className="flex-row items-center justify-between pt-8 mb-4">
-            {tabs.map((tab) => {
-              return <TabButtons selected={tab} />
-            })}
+          <View className="items-center flex-row space-x-4 mt-4 ">
+            <TouchableOpacity onPress={() => openSettingsModal()}>
+              <Text style={{ color: textTheme }}>
+                <Ionicons name="settings-outline" size={22} color={'white'} />
+              </Text>
+            </TouchableOpacity>
+
+            <Text style={{ color: textTheme }}>
+              <FontAwesome
+                name="bell-o"
+                size={22}
+                color={'white'}
+                onPress={() => {
+                  navigation.navigate('Notification')
+                }}
+              />
+            </Text>
           </View>
         </View>
-      )}
-      <Container>
-        <BottomSheetModalProvider>
-          <SafeAreaView style={{ backgroundColor: '#FEFEFE' }}>
-            <>
-              {/* {loading && <MainLoader />} */}
 
-              {filterOn && (
-                <ScrollView>
-                  <Filter
-                    data={category}
-                    value={value}
-                    setValue={setValue}
-                    onClose={handleFilter}
-                    filterOn={filterOn}
-                    low={low}
-                    high={high}
-                    setLow={setLow}
-                    setHigh={setHigh}
-                    filterMarketList={filterMarketList}
-                    setMinCheck={setMinCheck}
-                    setSearchedErrand={setSearchedErrand}
-                    setCheckFilterToggle={setCheckFilterToggle}
-                    navigation={navigation}
-                    openMoreModal={openMoreModal}
-                    firstName={firstName}
-                    lastName={lastName}
-                    profilePic={profilePic}
-                    location={location}
-                    setLocation={setLocation}
-                  />
-                </ScrollView>
-              )}
+        <View className="flex-row items-center justify-between pt-8 mb-4">
+          {tabs.map((tab) => {
+            return <TabButtons selected={tab} />
+          })}
+        </View>
+      </View>
+      <BottomSheetModalProvider>
+        <>
+          {/* {loading && <MainLoader />} */}
 
-              <View
-                className="bg-[#e4eaf7]"
-                style={{
-                  display: filterOn ? 'none' : 'flex',
-                  backgroundColor: backgroundTheme,
-                }}
-              >
-                <View className="mx-4">
-                  {/* {!loading && (
+          {/* {filterOn && (
+            <ScrollView>
+              <Filter
+                data={category}
+                value={value}
+                setValue={setValue}
+                onClose={handleFilter}
+                filterOn={filterOn}
+                low={low}
+                high={high}
+                setLow={setLow}
+                setHigh={setHigh}
+                filterMarketList={filterMarketList}
+                setMinCheck={setMinCheck}
+                setSearchedErrand={setSearchedErrand}
+                setCheckFilterToggle={setCheckFilterToggle}
+                navigation={navigation}
+                openMoreModal={openMoreModal}
+                firstName={firstName}
+                lastName={lastName}
+                profilePic={profilePic}
+                location={location}
+                setLocation={setLocation}
+              />
+            </ScrollView>
+          )} */}
+
+          <View
+            className="bg-[#e4eaf7]"
+            style={{
+              display: filterOn ? 'none' : 'flex',
+              backgroundColor: backgroundTheme,
+            }}
+          >
+            <View className="mx-4">
+              {/* {!loading && (
                     <View
                       className="mt-2 mb-6 border border-[#F2F2F2] pt-[10px] pb-[9px] pl-[29px] pr-[23.5px] rounded-[15px] flex-row items-center justify-between bg-white"
                       style={{ backgroundColor: theme ? '#1E3A79' : 'white' }}
@@ -470,64 +486,74 @@ export default function Market() {
                     </View>
                   )} */}
 
-                  {searchedErrand.length === 0 && searching ? (
-                    <View className="flex-row justify-center items-center mt-14">
-                      <Text
-                        style={{
-                          fontFamily: 'Chillax-Medium',
-                          color: colors.DARK_BLUE,
-                        }}
-                      >
-                        There are no errands for this search at the moment
-                      </Text>
-                    </View>
-                  ) : null}
+              {searchedErrand.length === 0 && minCheck ? (
+                <View className="flex-row justify-center items-center mt-14">
+                  <Text
+                    style={{
+                      fontFamily: 'Chillax-Medium',
+                      color: colors.DARK_BLUE,
+                    }}
+                  >
+                    There are no errands at the moment
+                  </Text>
+                </View>
+              ) : null}
 
-                  {loading ? (
-                    <ActivityIndicator
-                      size={'large'}
-                      color={colors.DEFAULT_BLUE}
+              {searchedErrand.length === 0 && searching && !minCheck ? (
+                <View className="flex-row justify-center items-center mt-14">
+                  <Text
+                    style={{
+                      fontFamily: 'Chillax-Medium',
+                      color: colors.DARK_BLUE,
+                    }}
+                  >
+                    Refreshing...
+                  </Text>
+                </View>
+              ) : null}
+
+              {loading ? (
+                <ActivityIndicator size={'large'} color={colors.DEFAULT_BLUE} />
+              ) : (
+                <FlatList
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={refreshing}
+                      onRefresh={onRefresh}
                     />
-                  ) : (
-                    <FlatList
-                      refreshControl={
-                        <RefreshControl
-                          refreshing={refreshing}
-                          onRefresh={onRefresh}
+                  }
+                  onEndReached={loadMoreData}
+                  onEndReachedThreshold={0.5}
+                  ListFooterComponent={renderListFooter}
+                  data={searchedErrand}
+                  renderItem={({ item, index }) => {
+                    return (
+                      <View>
+                        <ErrandComp
+                          errand={item}
+                          navigation={navigation}
+                          key={index}
+                          toggleAvatarModal={toggleAvatarModal}
                         />
-                      }
-                      onEndReached={loadMoreData}
-                      onEndReachedThreshold={0.5}
-                      ListFooterComponent={renderListFooter}
-                      data={searchedErrand}
-                      renderItem={({ item, index }) => {
-                        return (
-                          <View>
-                            <ErrandComp
-                              errand={item}
-                              navigation={navigation}
-                              key={index}
-                              toggleAvatarModal={toggleAvatarModal}
-                            />
 
-                            {/* <NewErrandComp
+                        {/* <NewErrandComp
                              
                               errand={item}
                               navigation={navigation}
                               key={index}
                               toggleAvatarModal={toggleAvatarModal}
                             /> */}
-                          </View>
-                        )
-                      }}
-                      contentContainerStyle={{
-                        paddingBottom: 150,
-                      }}
-                      keyExtractor={(item) => item.id}
-                      style={{ flexGrow: 0, height: 650 }}
-                    />
-                  )}
-                  {/* <ScrollView>
+                      </View>
+                    )
+                  }}
+                  contentContainerStyle={{
+                    paddingBottom: 150,
+                  }}
+                  keyExtractor={(item) => item.id}
+                  style={{ flexGrow: 0, height: 650 }}
+                />
+              )}
+              {/* <ScrollView>
                     <View className="pt-2">
                       {searchedErrand?.map(
                         (errand: MarketData, index: number) => {
@@ -547,43 +573,70 @@ export default function Market() {
                       )}
                     </View>
                   </ScrollView> */}
-                </View>
-              </View>
-            </>
-          </SafeAreaView>
+            </View>
+          </View>
+        </>
 
-          <BottomSheetModal
-            // backdropComponent={renderBackdrop}
-            ref={avatar}
-            index={0}
-            snapPoints={['70%']}
-            backdropComponent={renderBackdrop}
-          >
-            <UserInfo user={userData} navigation={navigation} />
-          </BottomSheetModal>
+        <BottomSheetModal
+          // backdropComponent={renderBackdrop}
+          ref={avatar}
+          index={0}
+          snapPoints={['70%']}
+          backdropComponent={renderBackdrop}
+        >
+          <UserInfo user={userData} navigation={navigation} />
+        </BottomSheetModal>
 
-          <BottomSheetModal
-            // backdropComponent={renderBackdrop}
-            ref={bottomSheetRef1}
-            index={0}
-            snapPoints={['67%']}
-            backdropComponent={renderBackdrop}
-          >
-            <Content navigation={navigation} />
-          </BottomSheetModal>
-          <BottomSheetModal
-            ref={bottomSheetRef2}
-            index={0}
-            snapPoints={['80%']}
-            containerStyle={{
-              marginHorizontal: 10,
-            }}
-            backdropComponent={renderBackdrop}
-          >
-            <Content navigation={navigation} />
-          </BottomSheetModal>
-        </BottomSheetModalProvider>
-      </Container>
+        <BottomSheetModal
+          // backdropComponent={renderBackdrop}
+          ref={bottomSheetRef1}
+          index={0}
+          snapPoints={['67%']}
+          backdropComponent={renderBackdrop}
+        >
+          <Content navigation={navigation} />
+        </BottomSheetModal>
+        <BottomSheetModal
+          ref={bottomSheetRef2}
+          index={0}
+          snapPoints={['80%']}
+          containerStyle={{
+            marginHorizontal: 10,
+          }}
+          backdropComponent={renderBackdrop}
+        >
+          <Content navigation={navigation} />
+        </BottomSheetModal>
+
+        <BottomSheetModal
+          ref={filterModal}
+          index={0}
+          snapPoints={snapPoints}
+          android_keyboardInputMode="adjustResize"
+          backdropComponent={renderBackdrop}
+        >
+          <NewFilter
+            data={category}
+            value={value}
+            setValue={setValue}
+            onClose={() => filterModal.current?.dismiss()}
+            low={low}
+            high={high}
+            setLow={setLow}
+            setHigh={setHigh}
+            filterMarketList={filterMarketList}
+            setMinCheck={setMinCheck}
+            setSearchedErrand={setSearchedErrand}
+            setCheckFilterToggle={setCheckFilterToggle}
+            navigation={navigation}
+            firstName={firstName}
+            lastName={lastName}
+            profilePic={profilePic}
+            location={location}
+            setLocation={setLocation}
+          />
+        </BottomSheetModal>
+      </BottomSheetModalProvider>
     </>
   )
 }

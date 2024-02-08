@@ -3,7 +3,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import { useNavigation } from '@react-navigation/native'
 import CountryPicker from 'react-native-country-picker-modal'
 
-import { AntDesign, Feather } from '@expo/vector-icons'
+import { AntDesign, Feather, FontAwesome6 } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import {
   ActivityIndicator,
@@ -24,6 +24,14 @@ import { RootState, useAppDispatch } from '../../services/store'
 import BusinessDropdown from '../BusinessDropdown/BusinessDropdown'
 
 const UpdateProfile = ({ image, data }: any) => {
+
+   const { loading: uploadingImages } = useSelector(
+    (state: RootState) => state.postFilesReducer,
+   )
+  
+  console.log(">>>>>imagges", image);
+  
+  
   const {
     loading: isLoading,
     data: currentUser,
@@ -89,7 +97,13 @@ const UpdateProfile = ({ image, data }: any) => {
     { key: '3', value: 'Weekly' },
   ]
 
-  console.log('>>>>>>daaaaa', dateOfBirth)
+  const businessType = [
+    { key: '1', value: 'Personal' },
+    { key: '2', value: 'Corporate' },
+    
+  ]
+
+  console.log('>>>>>>daaaaa', image, uploadingImages)
 
   const toggleDatepicker = () => {
     setShowPicker(!showPicker)
@@ -134,7 +148,7 @@ const UpdateProfile = ({ image, data }: any) => {
       email: email,
       dob: dateOfBirth,
       occupation: occupation,
-      profile_picture: image,
+      profile_picture: image[0],
     }
 
     try {
@@ -215,23 +229,16 @@ const UpdateProfile = ({ image, data }: any) => {
             />
           </View>
 
-          <View className="mt-8">
-            <Text
-              className="font-medium text-sm text-[#393F42]"
-              style={{ color: textTheme }}
-            >
-              Type of Account
-            </Text>
-            <TextInput
-              className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
-              placeholder={'Enter your First Name'}
-              value={firstName}
-              onChangeText={(text) => setFirstName(text)}
-              placeholderTextColor={'#B3B3B3'}
-            />
-          </View>
+        
 
-          <View className="mt-8">
+          {/* <View className="mt-8">
+            <Text className="text-[#393F42]" style={{ fontFamily: 'Axiforma' }}>
+            Type of Account
+            </Text>
+            <BusinessDropdown data={businessType} />
+          </View> */}
+
+          {/* <View className="mt-8">
             <Text
               className="font-medium text-sm text-[#393F42]"
               style={{ color: textTheme }}
@@ -239,29 +246,23 @@ const UpdateProfile = ({ image, data }: any) => {
               What is your business name?
             </Text>
             <TextInput
-              className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
-              placeholder={' Enter your last name'}
-              value={lastName}
-              onChangeText={(text) => setLastName(text)}
+              className="w-full mt-2 rounded-md p-5 pl-3 items-center mx-auto border border-[#96A0A5] text-sm"
+              placeholder={'Exemplar Group'}
               placeholderTextColor={'#B3B3B3'}
             />
-          </View>
+          </View> */}
 
-          <View className="mt-8">
+          {/* <View className="mt-8">
             <Text
               className="font-medium text-sm text-[#393F42]"
               style={{ color: textTheme }}
             >
               Select Business Category
             </Text>
-            <TextInput
-              className="w-full mt-2 rounded-md p-5 pl-3 items-center mx-auto border border-[#96A0A5] text-sm"
-              placeholder={'Exemplar Group'}
-              placeholderTextColor={'#B3B3B3'}
-            />
-          </View>
+            <BusinessDropdown data={businessType} />
+          </View> */}
 
-          <View className="mt-8">
+          {/* <View className="mt-8">
             <Text
               className="font-medium text-sm text-[#393F42]"
               style={{ color: textTheme }}
@@ -273,9 +274,9 @@ const UpdateProfile = ({ image, data }: any) => {
               placeholder={'Exemplar Group'}
               placeholderTextColor={'#B3B3B3'}
             />
-          </View>
+          </View> */}
 
-          <View className="mt-8">
+          {/* <View className="mt-8">
             <Text
               className="font-medium text-sm text-[#393F42]"
               style={{ color: textTheme }}
@@ -290,9 +291,9 @@ const UpdateProfile = ({ image, data }: any) => {
               }
               placeholderTextColor={'#B3B3B3'}
             />
-          </View>
+          </View> */}
 
-          <View className="mt-8">
+          {/* <View className="mt-8">
             <Text
               className="font-medium text-sm text-[#393F42]"
               style={{ color: textTheme }}
@@ -306,16 +307,16 @@ const UpdateProfile = ({ image, data }: any) => {
               }
               placeholderTextColor={'#B3B3B3'}
             />
-          </View>
+          </View> */}
 
-          <View className="mt-8">
+          {/* <View className="mt-8">
             <Text className="text-[#393F42]" style={{ fontFamily: 'Axiforma' }}>
               What is your business address?
             </Text>
             <TextInput className="border border-[#96A0A5] p-4 mt-3 rounded-[8px]" />
-          </View>
+          </View> */}
 
-          <View className="mt-8">
+          {/* <View className="mt-8">
             <Text className="text-[#5E6366]" style={{ fontFamily: 'Axiforma' }}>
               Phone Number
             </Text>
@@ -351,9 +352,9 @@ const UpdateProfile = ({ image, data }: any) => {
                 <TextInput className="border border-[#96A0A5] p-4 mt-[5px] rounded-[8px] h-14" />
               </View>
             </View>
-          </View>
+          </View> */}
 
-          <View className="mt-8">
+          {/* <View className="mt-8">
             <Text className="text-[#393F42]" style={{ fontFamily: 'Axiforma' }}>
               What is the best way to contact your business?
             </Text>
@@ -396,7 +397,7 @@ const UpdateProfile = ({ image, data }: any) => {
               <TouchableOpacity onPress={handleX}>
                 <Text>
                   {' '}
-                  {/* <FontAwesome name="x-twitter" size={24} color="black" />{' '} */}
+                  <FontAwesome6 name="x-twitter" size={24} color="black" />{' '}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -441,7 +442,7 @@ const UpdateProfile = ({ image, data }: any) => {
                 </TouchableOpacity>
               </View>
             </View>
-          </View>
+          </View> */}
 
           <View className="mt-8">
             <Text
@@ -451,7 +452,7 @@ const UpdateProfile = ({ image, data }: any) => {
               Occupation
             </Text>
             <TextInput
-              className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
+              className="w-full mt-2 rounded-md p-5 pl-3 items-center mx-auto border border-[#96A0A5] text-sm"
               placeholder={' Enter your occupation'}
               value={occupation}
               onChangeText={(text) => setOccupation(text)}
@@ -467,10 +468,10 @@ const UpdateProfile = ({ image, data }: any) => {
               Bio
             </Text>
             <TextInput
-              className="w-full mt-2 py-3 border border-[#ccc] rounded-lg px-3 bg-[#E6E6E6] text-base"
+              className="w-full mt-2 rounded-md p-5 pl-3 items-center mx-auto border border-[#96A0A5] text-sm"
               placeholder={'Enter your email Address'}
-              value={email}
-              onChangeText={(text) => setEmail(text)}
+              value={about}
+              onChangeText={(text) => setAbout(text)}
               placeholderTextColor={'#B3B3B3'}
             ></TextInput>
           </View>
@@ -564,6 +565,7 @@ const UpdateProfile = ({ image, data }: any) => {
           <TouchableOpacity
             className=" mt-[52px] mb-[180px] rounded-lg"
             onPress={handleUpdateProfile}
+            disabled={uploadingImages}
           >
             <View className="w-[300px] h-[50px] bg-[#243763]  mx-auto items-center justify-center rounded-lg">
               <Text className="text-white text-center items-center">

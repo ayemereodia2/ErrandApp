@@ -400,7 +400,7 @@ const Home = ({ navigation }: any) => {
           <View
             className={
               Platform.OS === 'android'
-                ? 'bg-purple-200 h-[210px] w-screen shadow-md'
+                ? 'bg-purple-200 h-[185px] w-screen shadow-md'
                 : 'bg-purple-200 h-[220px] w-screen shadow-md'
             }
             style={{ borderBottomLeftRadius: 70, borderBottomRightRadius: 70 }}
@@ -408,7 +408,7 @@ const Home = ({ navigation }: any) => {
             <SafeAreaView
               className={
                 Platform.OS === 'android'
-                  ? 'h-[205px] pt-[26px] px-6'
+                  ? 'h-[180px] pt-[26px] px-6'
                   : 'h-[215px] pt-[16px] px-6'
               }
               style={{
@@ -510,10 +510,11 @@ const Home = ({ navigation }: any) => {
           <View
             style={{
               flexDirection: 'column-reverse',
-              marginBottom: Platform.OS === 'android' ? 75 : 35,
+              marginBottom: Platform.OS === 'android' ? 30: 35,
             }}
           >
             <ScrollView
+              className=''
               keyboardShouldPersistTaps="handled"
               showsVerticalScrollIndicator={false}
               refreshControl={
@@ -558,7 +559,7 @@ const Home = ({ navigation }: any) => {
                   className=" text-[20px] text-[#061737] mb-5 leading-normal ml-6 "
                   style={{ fontFamily: 'Chillax-Medium' }}
                 >
-                  Errand Categories
+                  Select what you need
                 </Text>
 
                 {isLoading ? (

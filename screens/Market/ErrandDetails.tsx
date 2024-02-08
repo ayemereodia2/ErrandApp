@@ -68,7 +68,7 @@ export default function ErrandDetails({ route, navigation }: any) {
   const bottomSheetRef = useRef<BottomSheetModal>(null)
   const bottomSheetRef2 = useRef<BottomSheetModal>(null)
 
-  const snapPoints = useMemo(() => ['74%'], [])
+  const snapPoints = useMemo(() => ['100%'], [])
   const [userId, setUserId] = useState('')
   const [showBidBtn, setShowBidBtn] = useState(true)
   const [address, setAddress] = useState('')
@@ -414,7 +414,7 @@ export default function ErrandDetails({ route, navigation }: any) {
                         >
                           Address
                         </Text>
-                        <View className="text-[14px] text-[#09497D] flex-row items-center justify-center w-[220px]">
+                        <View className="text-[14px] text-[#09497D] flex-row items-center justify-end w-[220px]">
                           <Text
                             className="pl-2"
                             style={{
@@ -429,14 +429,14 @@ export default function ErrandDetails({ route, navigation }: any) {
                                 color="#FBB955"
                               />
                             </Text>
-                            {errand?.dropoff_address?.address_text ? (
-                              errand?.dropoff_address?.address_text
+                            {errand?.pickup_address?.address_text ? (
+                              errand?.pickup_address?.address_text
                             ) : (
                               <Text
                                 className="text-sm leading-6 font-[14px]"
                                 style={{ fontFamily: 'Axiforma' }}
                               >
-                                No Location
+                                {errand?.dropoff_address.address_text}
                               </Text>
                             )}
                           </Text>

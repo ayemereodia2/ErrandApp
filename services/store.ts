@@ -30,6 +30,8 @@ import modalSliceReducer from './Modal/ModalSlice';
 import audioReducer from './audio/audio';
 import { getCategoryInterstsReducer } from "./settings/getCategoryInterests";
 import notifications from "./notification/index"
+import mapReducer from "./map/mapslice"
+
 
 
 // "adaptiveIcon": {
@@ -47,7 +49,7 @@ export const store = configureStore({
     createAccount,
     login,
     verifyPhone,
-    
+    mapReducer,
     modals: modalsReducer,
     errandDetailsReducer,
     userDetailsReducer,

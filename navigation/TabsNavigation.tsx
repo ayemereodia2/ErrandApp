@@ -6,14 +6,11 @@ import {
   MaterialIcons,
 } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import {
-  getFocusedRouteNameFromRoute,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native'
-import React, { useEffect } from 'react'
+import { useNavigation } from '@react-navigation/native'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {
   Animated,
+  Keyboard,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -53,12 +50,14 @@ interface OptionsProps {
 const Tab = createBottomTabNavigator()
 export const TabsNavigation = ({ navigation }: any) => {
   const dispatch = useAppDispatch()
-  const [firstName, setFirstName] = React.useState('')
-  const [userId, setUserId] = React.useState('')
-  const [lastName, setLastName] = React.useState('')
-  const [profilePic, setProfilePic] = React.useState('')
+  const [firstName, setFirstName] = useState('')
+  const [userId, setUserId] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [profilePic, setProfilePic] = useState('')
   const navigate = useNavigation()
   const isConnected = useIsConnected()
+
+  const [keyboardStatus, setKeyboardStatus] = useState(false)
 
   // const navigation = useNavigation()
 
@@ -71,10 +70,20 @@ export const TabsNavigation = ({ navigation }: any) => {
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
-  const route = useRoute()
-  const nav = useNavigation()
+  // remove tabbar when keyboard shows
+  useLayoutEffect(() => {
+    const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardStatus(true)
+    })
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardStatus(false)
+    })
 
-  const routeName = getFocusedRouteNameFromRoute(route)
+    return () => {
+      showSubscription.remove()
+      hideSubscription.remove()
+    }
+  }, [])
 
   useEffect(() => {
     pushOut({ navigation })
@@ -196,12 +205,15 @@ export const TabsNavigation = ({ navigation }: any) => {
     // >
     <CurvedBottomBarExpo.Navigator
       type="DOWN"
-      style={styles.bottomBar}
       shadowStyle={styles.shawdow}
       height={65}
       circleWidth={60}
       bgColor="white"
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: { display: 'none' },
+      }}
+      style={{ display: keyboardStatus ? 'none' : 'flex' }}
       initialRouteName="Home"
       borderTopLeftRight
       renderCircle={() => (

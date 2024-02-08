@@ -15,43 +15,7 @@ module.exports = {
         "3xl": "0px 1px 16px 0px #1018281A",
       },
       colors: {
-        blackRussian: "#222222",
-        almostWhite: "#F3F3F3",
-        darkGreen: "#013332",
-        shadeBlue: "#667085",
-        lightAsh: "#808080",
-        ipcolor2: "#555555",
-        limeGreen: "#80B539",
-        tremor: {
-          brand: {
-            faint: "#eff6ff", // blue-50
-            muted: "#bfdbfe", // blue-200
-            subtle: "#60a5fa", // blue-400
-            DEFAULT: "#3b82f6", // blue-500
-            emphasis: "#1d4ed8", // blue-700
-            inverted: "#ffffff", // white
-          },
-          background: {
-            muted: "#f9fafb", // gray-50
-            subtle: "#f3f4f6", // gray-100
-            DEFAULT: "#ffffff", // white
-            emphasis: "#374151", // gray-700
-          },
-          border: {
-            DEFAULT: "#e5e7eb", // gray-200
-          },
-          ring: {
-            DEFAULT: "#e5e7eb", // gray-200
-            black: "#fff",
-          },
-          content: {
-            subtle: "#9ca3af", // gray-400
-            DEFAULT: "#6b7280", // gray-500
-            emphasis: "#374151", // gray-700
-            strong: "#111827", // gray-900
-            inverted: "#ffffff", // white
-          },
-        },
+        lightBlue: 'rgba(9, 73, 125, 0.1)'
       },
       borderRadius: {
         "tremor-small": "0.375rem",

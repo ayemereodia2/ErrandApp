@@ -46,9 +46,7 @@ const EmailModal = ({closeEmailModal}:any) => {
 
   const handleUpdateProfile = async () => {
     const updatedData = {
-     
       email: email,
-     
     }
 
     try {

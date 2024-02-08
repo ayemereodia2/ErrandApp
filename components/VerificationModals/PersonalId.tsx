@@ -13,10 +13,10 @@ import {
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
+import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { postFiles } from '../../services/errands/postFiles'
 import { RootState, useAppDispatch } from '../../services/store'
-import { RadioButton } from 'react-native-paper'
 
 interface ImageViewerProp {
   placeholderImageSource: any
@@ -43,6 +43,10 @@ export function ImageViewer({
 
 const PersonalId = ({ closePersonalId }: any) => {
   const dispatch = useAppDispatch()
+
+  const { data } = useSelector(
+    (state: RootState) => state.currentUserDetailsReducer,
+  )
 
   const [loading, setLoading] = useState(false)
 
@@ -89,13 +93,15 @@ const PersonalId = ({ closePersonalId }: any) => {
     }
   }
 
-  const updatePersonalId = async (PersonalData: any) => {
+  console.log('>>>>>>uploadFiles', uploadedFiles)
+
+  const updatePersonalId = async () => {
     setLoading(true)
     try {
       const _rs = await _fetch({
         method: 'PUT',
         _url: `/user/profile`,
-        body: PersonalData,
+        body: { personal_id_document: uploadedFiles[0] },
       })
 
       // Check if the response status code indicates an error
@@ -105,58 +111,75 @@ const PersonalId = ({ closePersonalId }: any) => {
       }
 
       setLoading(false)
+      const rs = await _rs.json()
 
-      const responseData = await _rs.json()
-
-      return responseData
-    } catch (error) {
-      throw error
-    }
-  }
-
-  const handleUpdateProfile = async () => {
-    const updatedData = {
-      personal_id_document:  uploadedFiles,
-    }
-
-    try {
-      const responseData = await updatePersonalId(updatedData)
-
-      // Checking if the response indicates success
-      if (responseData.success) {
-        // Handling a successful response from the server here
-
-        // Show a success message to the user.
+      if (rs.success) {
+        dispatch(currentUserDetails({ user_id: data.id }))
         Toast.show({
           type: 'success',
           text1:
             'Your file has been submitted successfully, you will be notified once your verification has been processed.',
         })
-
         closePersonalId()
       } else {
-        // Handle the case where the server responded with an error message
-        console.error('file update failed:', responseData.message)
-
         Toast.show({
           type: 'error',
-          text1: 'file update failed:' + responseData.message,
+          text1: 'file update failed:' + rs.message,
         })
       }
-    } catch (error) {
-      // Handle errors here, such as network errors or server-side errors
 
-      Toast.show({
-        type: 'error',
-        text1: 'Sorry, something went wrong',
-      })
+      return rs
+    } catch (error) {
+      throw error
     }
   }
 
+  // const handleUpdateProfile = async () => {
+  //   const updatedData = {
+  //     personal_id_document: uploadedFiles[0],
+  //   }
+
+  //   try {
+  //     const responseData = await updatePersonalId(updatedData)
+
+  //     // Checking if the response indicates success
+  //     if (responseData.success) {
+  //       // Handling a successful response from the server here
+
+  //       // Show a success message to the user.
+  //       Toast.show({
+  //         type: 'success',
+  //         text1:
+  //           'Your file has been submitted successfully, you will be notified once your verification has been processed.',
+  //       })
+
+  //       closePersonalId()
+  //     } else {
+  //       // Handle the case where the server responded with an error message
+  //       console.error('file update failed:', responseData.message)
+
+  //       Toast.show({
+  //         type: 'error',
+  //         text1: 'file update failed:' + responseData.message,
+  //       })
+  //     }
+  //   } catch (error) {
+  //     // Handle errors here, such as network errors or server-side errors
+
+  //     Toast.show({
+  //       type: 'error',
+  //       text1: 'Sorry, something went wrong',
+  //     })
+  //   }
+  // }
+
   return (
-    <SafeAreaView className='mx-3'>
-      <ScrollView  showsHorizontalScrollIndicator={false}>
-        <Text className="text-base ml-3 mt-3 font-semibold" style={{fontFamily: 'Axiforma'}}>
+    <SafeAreaView className="mx-3">
+      <ScrollView showsHorizontalScrollIndicator={false}>
+        <Text
+          className="text-base ml-3 mt-3 font-semibold"
+          style={{ fontFamily: 'Axiforma' }}
+        >
           Kindly upload your personal ID for verification
         </Text>
 
@@ -200,7 +223,7 @@ const PersonalId = ({ closePersonalId }: any) => {
         </View> */}
 
         {/* <View className="w-[398px] h-[38px] mx-auto mt-10 ml-4"></View> */}
-        <ScrollView className='px-4' >
+        <ScrollView className="px-4">
           <View className="w-full rounded-lg h-[150px] bg-[#FCFCFC] mx-auto mt-4 border-[0.5px] border-[#E6E6E6]">
             {uploadingImages ? (
               <View className="flex-row justify-center items-center mt-16 space-x-2">
@@ -215,11 +238,13 @@ const PersonalId = ({ closePersonalId }: any) => {
                 className=""
               >
                 <Text className="mx-auto mt-8">
-                  {/* <Feather name="image" size={40} color="#3F60AC" /> */}
                   <Feather name="upload" size={40} color="#3F60AC" />
                 </Text>
-                <Text className="mx-auto mt-3 text-[#6D6D6D] text-base" style={{fontFamily: 'Axiforma'}}>
-                 Upload your file here
+                <Text
+                  className="mx-auto mt-3 text-[#6D6D6D] text-base"
+                  style={{ fontFamily: 'Axiforma' }}
+                >
+                  Upload your file here
                 </Text>
                 {/* <Text className="mx-auto text-[#808080]">3 images maximum</Text> */}
               </TouchableOpacity>
@@ -257,7 +282,7 @@ const PersonalId = ({ closePersonalId }: any) => {
 
           <TouchableOpacity
             className="bg-[#1E3A79] h-12 w-[40%] mt-6 flex-row justify-center items-center rounded-lg"
-            onPress={() => handleUpdateProfile()}
+            onPress={() => updatePersonalId()}
           >
             <Text className="text-white text-base">
               {loading ? (

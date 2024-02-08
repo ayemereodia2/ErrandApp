@@ -60,6 +60,7 @@
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
+      "softwareKeyboardLayoutMode": "pan",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon-bg.png",
@@ -67,7 +68,7 @@
       },
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo"
+          "apiKey": "AIzaSyD08WNri8gRUo8FizodlORIFhHyrftu3nw"
         }
       },
       "package": "com.orj5.Swave",

@@ -6,8 +6,8 @@ import { deleteCookie } from 'cookies-next';
 import Toast from 'react-native-toast-message';
 import { _fetch } from '../../services/axios/http';
 import { ILogin } from '../../types';
-import { getNotifications } from '../notification';
 import { currentUserDetails } from './currentUserInfo';
+import { getNotifications } from '../notification';
 
 export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>("/users/sign-in", async ({ navigation, dispatch, ...rest }: ILogin, { rejectWithValue }) => {
   
@@ -20,16 +20,13 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
 
     const _rs = await rs.json()
 
-    // console.log(">>>>Login res", _rs);
+    console.log(">>>>Login res", _rs);
   
     if (_rs.success === true) {
-      console.log(">>>>>rs", _rs);
-
-      dispatch(currentUserDetails({ user_id: _rs.data.id }))
-      dispatch(getNotifications({userId: _rs.data.id}))
-      
-      await AsyncStorage.setItem('accessToken', _rs.data.access_token)
-      await AsyncStorage.setItem('refreshToken', _rs.data.refresh_token)
+      console.log(">>>>>rs from login", _rs);
+   
+      await AsyncStorage.setItem('accessToken', _rs?.data.access_token)
+      await AsyncStorage.setItem('refreshToken', _rs?.data.refresh_token)
       await AsyncStorage.setItem('user_id', _rs.data.id)
       await AsyncStorage.setItem("last_name", _rs.data.last_name)
       await AsyncStorage.setItem("first_name", _rs.data.first_name)
@@ -37,10 +34,12 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
          await AsyncStorage.setItem('profile_pic', _rs.data.profile_picture)
       }
 
+      dispatch(currentUserDetails({ user_id: _rs?.data.id }))
+      dispatch(getNotifications({userId: _rs?.data.id}))
+
       await AsyncStorage.setItem('isGuest', 'false')
      const pin = await AsyncStorage.setItem('pin', JSON.stringify(_rs.data.has_transaction_pin))
 
-    
        Toast.show({
         type: 'success',
         text1: 'Login Successful',
@@ -60,8 +59,9 @@ export const loginUser = createAsyncThunk<void, ILogin, { rejectValue: string }>
     return rejectWithValue(_rs)
 
   } catch (e: any) {
+    console.log(">>>>e", e);
+    
      if (e.response.status === 400) {
-      // toast.error("Invalid Login Credentials")
       return rejectWithValue(e.response.data.message)
      }
     if (e.response.status === 404) {

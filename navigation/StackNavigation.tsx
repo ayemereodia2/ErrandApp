@@ -43,8 +43,10 @@ import TransactionScreen from '../screens/Wallets/TransactionScreen'
 import WalletAccount from '../screens/Wallets/WalletAccount'
 // import { getAppVersion } from '../utils/helper'
 import RejectErrandModal from '../components/Modals/Errands/RejectErrandModal'
+import UserProfile from '../components/UsersProfile/UserProfile'
 import BusinessLogin from '../screens/BusinessAuth/BusinessLogin'
 import BusinessReview from '../screens/BusinessAuth/BusinessReview'
+import MapScreen from '../screens/CreateErrand/Map'
 import AccountStatement from '../screens/Wallets/AccountStatement'
 import WithdrawalScreen from '../screens/Wallets/WithdrawalScreen'
 import { TabsNavigation } from './TabsNavigation'
@@ -112,6 +114,7 @@ export const TabStack = () => {
       <Stack.Screen name="WithdrawalScreen" component={WithdrawalScreen} />
       <Stack.Screen name="BusinessLogin" component={BusinessLogin} />
       <Stack.Screen name="BusinessReview" component={BusinessReview} />
+      <Stack.Screen name="MapScreen" component={MapScreen} />
 
       <Stack.Screen
         name="MyErrandDetails"
@@ -271,6 +274,17 @@ export const TabStack = () => {
       />
 
       <Stack.Screen
+        name="UserProfile"
+        component={UserProfile}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+
+      <Stack.Screen
         name="EscrowScreen"
         component={EscrowScreen}
         options={{ headerShown: false }}
@@ -384,6 +398,17 @@ export function GuestStack() {
         <Stack.Screen
           name="Profile"
           component={AccountScreen}
+          options={{
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: '#F8F9FC',
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="UserProfile"
+          component={UserProfile}
           options={{
             headerShown: false,
             headerStyle: {
@@ -598,6 +623,16 @@ export const MainStack = () => {
         }}
       />
       <Stack.Screen
+        name="UserProfile"
+        component={UserProfile}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
+      <Stack.Screen
         name="About"
         component={AboutSwave}
         options={{
@@ -787,7 +822,7 @@ export const LandingPageStack = () => {
       <Stack.Screen
         name="LandingPage"
         component={LandingTest}
-        // options={{        
+        // options={{
         //   headerShown: false,
         //   title: '',
         //   headerStyle: {
@@ -835,6 +870,16 @@ export const LandingPageStack = () => {
         options={{ headerShown: false }}
       />
       {/* <Stack.Screen name="ErrandUserDetails" component={ErrandUserDetails} /> */}
+      <Stack.Screen
+        name="UserProfile"
+        component={UserProfile}
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: '#F8F9FC',
+          },
+        }}
+      />
     </Stack.Navigator>
   )
 }
@@ -899,34 +944,34 @@ export const WalletStack = () => {
 //   )
 // }
 
-export const SetttingsStack = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Settings" component={SettingScreen} />
-      <Stack.Screen
-        name="Notification"
-        component={NotificationScreen}
-        options={{
-          headerShown: false,
-          headerStyle: {
-            backgroundColor: '#F8F9FC',
-          },
-        }}
-      />
+// export const SetttingsStack = () => {
+//   return (
+//     <Stack.Navigator screenOptions={{ headerShown: false }}>
+//       <Stack.Screen name="Settings" component={SettingScreen} />
+//       <Stack.Screen
+//         name="Notification"
+//         component={NotificationScreen}
+//         options={{
+//           headerShown: false,
+//           headerStyle: {
+//             backgroundColor: '#F8F9FC',
+//           },
+//         }}
+//       />
 
-      {/* <Stack.Screen
-        name="Default"
-        component={AdsScreen}
-        options={{ headerShown: false }}
-      /> */}
-      {/* <Stack.Screen
-        name="CategoryInterest"
-        component={CategoryInterest}
-        options={{
-          title: 'Category Interest',
-          presentation: 'fullScreenModal',
-        }}
-      /> */}
-    </Stack.Navigator>
-  )
-}
+//       {/* <Stack.Screen
+//         name="Default"
+//         component={AdsScreen}
+//         options={{ headerShown: false }}
+//       /> */}
+//       {/* <Stack.Screen
+//         name="CategoryInterest"
+//         component={CategoryInterest}
+//         options={{
+//           title: 'Category Interest',
+//           presentation: 'fullScreenModal',
+//         }}
+//       /> */}
+//     </Stack.Navigator>
+//   )
+// }

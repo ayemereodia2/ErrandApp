@@ -8,11 +8,12 @@ import {
   StyleSheet,
   Switch,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../services/store'
+import { RootState, useAppDispatch } from '../../services/store'
 import { PostErrandData } from '../../types'
 
 interface LocationProp {
@@ -26,6 +27,7 @@ interface LocationProp {
   deliveryAddres: string
   remote: boolean
   setRemote: React.Dispatch<React.SetStateAction<boolean>>
+  navigation: any
 }
 
 interface LatLng {
@@ -43,6 +45,7 @@ const CreateErrandLocation = ({
   locationError,
   remote,
   setRemote,
+  navigation,
 }: LocationProp) => {
   const [regionCoords, setRegion] = useState({ lat: 37.78825, lng: -122.4324 })
   const [marker, setMarker] = useState({ lat: 37.78825, lng: -122.4324 })
@@ -53,6 +56,8 @@ const CreateErrandLocation = ({
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
   const ref = useRef()
+  const dispatch = useAppDispatch()
+  const [showDelivery, setShowDelivery] = useState(false)
 
   const theme = currentUser?.preferred_theme === 'light' ? true : false
 
@@ -120,112 +125,150 @@ const CreateErrandLocation = ({
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
           <Pressable onPress={() => Keyboard.dismiss()}>
-            <View className="flex-row mt-[38px] items-center justify-center">
+            <View className="flex-row mt-6 items-center justify-center">
               <View className="mr-2 w-[30px] h-[30px] bg-[#FFB536] b rounded-full justify-center items-center">
-                <Text className="text-black mx-auto">3</Text>
+                <Text
+                  style={{ fontFamily: 'Chillax-Medium' }}
+                  className="text-black mx-auto"
+                >
+                  3
+                </Text>
               </View>
               <Text
-                style={{ color: textTheme }}
+                style={{ fontFamily: 'Chillax-Medium' }}
                 className="font-semibold text-[#243763] text-base"
               >
                 Errand Location
               </Text>
             </View>
 
-            <View className="mx-auto items-center justify-center w-[309px] h-[48px] mt-5">
+            <TouchableOpacity
+              // onPress={() => setRemote(val)}
+              className="px-4 pt-4 mt-6"
+            >
               <Text
-                style={{ color: textTheme }}
-                className="text-[#777777] text-center"
+                style={{ fontFamily: 'Chillax-Medium' }}
+                className="text-red-600 pb-3"
               >
-                In this section, you can set the location that you want the
-                errand to take place in.
-              </Text>
-            </View>
-
-            <View className=" ml-4 w-[340px] mt-4">
-              <Text style={{ color: textTheme }} className="text-[#243763]">
-                <Text
-                  style={{ color: textTheme }}
-                  className="font-semibold text-sm"
-                >
-                  Request Location{' '}
-                </Text>
-                (Provide this if you have a separate Pickup Location or Delivery
-                Location)
+                {locationError}
               </Text>
 
-              <Text className="text-red-600">{locationError}</Text>
-            </View>
-
-            <View>
               <View
-                style={{ marginBottom: 80, marginTop: 20 }}
-                className="mt-2 px-4"
+                className={
+                  remote
+                    ? 'w-full space-x-3 flex-row bg-[#09497D] rounded-[60px] py-3 px-4 items-center'
+                    : 'w-full space-x-3 flex-row bg-[#dad8d8] rounded-[60px] py-3 px-4 items-center'
+                }
               >
-                <Text style={{ color: textTheme }} className="text-[#243763]">
-                  Pick Up Location
-                </Text>
-
-                <GooglePlacesAutocomplete
-                  placeholder="Enter Pickup Address"
-                  textInputProps={{
-                    onChangeText: (text) => {
-                      setCurrentLocation(text)
-                    },
-                    defaultValue: postErrandData.currentLocation,
+                <Switch
+                  value={remote}
+                  onValueChange={(val: boolean) => {
+                    setRemote(val)
                   }}
-                  onPress={(data, details) => {
-                    handleLocationSelect(data, details, 'currentLocation')
-                  }}
-                  fetchDetails={true}
-                  query={{
-                    key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
-                    language: 'en',
-                  }}
-                  styles={{
-                    container: styles.googlePlacesContainer,
-                    textInputContainer: styles.textInputContainer,
-                    textInput: styles.textInput,
-                    listView: styles.listView,
-                  }}
-                  // ref={(ref) => {
-                  //   ref?.setAddressText(currentLocation)
-                  // }}
                 />
-              </View>
-
-              <View style={{ marginBottom: 80 }} className="mt-2 px-4">
-                <Text style={{ color: textTheme }} className="text-[#243763]">
-                  Delivery/End Location
-                </Text>
-                <GooglePlacesAutocomplete
-                  placeholder="Enter Delivery Address"
-                  onPress={(data, details) =>
-                    handleLocationSelect(data, details, 'deliveryAddress')
+                <Text
+                  className={
+                    remote ? 'text-lg text-white' : 'text-lg text-[#a5a3a3]'
                   }
-                  fetchDetails={true}
-                  query={{
-                    key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
-                    language: 'en',
-                  }}
-                  textInputProps={{
-                    onChangeText: (text) => {
-                      setDeliveryAddress(text)
-                    },
-                    defaultValue: postErrandData.deliveryAddress,
-                  }}
-                  styles={{
-                    container: styles.googlePlacesContainer,
-                    textInputContainer: styles.textInputContainer,
-                    textInput: styles.textInput,
-                    listView: styles.listView,
-                  }}
-                />
+                  style={{ fontFamily: 'Chillax-Medium' }}
+                >
+                  Remote
+                </Text>
               </View>
-            </View>
-            {/* )} */}
-            <View style={{ marginBottom: 80 }} className="mt-2 px-4 flex-row">
-              <Text style={{ color: textTheme }} className="text-[#243763]">
+            </TouchableOpacity>
+
+            {!remote ? (
+              // <TouchableOpacity
+              //   onPress={() => navigation.navigate('MapScreen')}
+              //   className="px-4 "
+              // >
+              //   <Text
+              //     style={{ fontFamily: 'Chillax-Medium' }}
+              //     className="text-red-600 "
+              //   >
+              //     {locationError}
+              //   </Text>
+
+              //   <View className="w-full space-x-3 flex-row bg-[#dad8d8] rounded-[60px] py-3 px-4 items-center">
+              //     <Feather name="search" size={30} />
+
+              //     <Text
+              //       className="text-lg pl-4"
+              //       style={{ fontFamily: 'Chillax-Medium' }}
+              //     >
+              //       Enter pickup destination
+              //     </Text>
+              //   </View>
+              // </TouchableOpacity>
+              <>
+                <View className="flex-row items-center gap-1 mt-4 px-5">
+                  <GooglePlacesAutocomplete
+                    placeholder="Enter Pickup Address"
+                    textInputProps={{
+                      onChangeText: (text) => {
+                        setCurrentLocation(text)
+                      },
+                      defaultValue: postErrandData.currentLocation,
+                    }}
+                    onPress={(data, details) => {
+                      setShowDelivery(true)
+                      handleLocationSelect(data, details, 'currentLocation')
+                    }}
+                    fetchDetails={true}
+                    query={{
+                      key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
+                      language: 'en',
+                    }}
+                    styles={{
+                      // container: styles.googlePlacesContainer,
+                      textInputContainer: styles.textInputContainer,
+                      textInput: styles.textInput,
+                      fontFamily: 'Axiforma',
+                      listView: styles.listView,
+                      input: styles.input,
+                    }}
+                  />
+                </View>
+                {showDelivery ? (
+                  <View className="flex-row items-center gap-1 mt-4 px-5">
+                    <GooglePlacesAutocomplete
+                      placeholder="Enter Delivery Address"
+                      onPress={(data, details) =>
+                        handleLocationSelect(data, details, 'deliveryAddress')
+                      }
+                      textInputProps={{
+                        onChangeText: (text) => {
+                          setDeliveryAddress(text)
+                        },
+                        defaultValue: postErrandData.deliveryAddress,
+                      }}
+                      fetchDetails={true}
+                      query={{
+                        key: process.env.EXPO_PUBLIC_GOOGLE_KEY,
+                        language: 'en',
+                      }}
+                      styles={{
+                        // container: styles.googlePlacesContainer,
+                        textInputContainer: styles.textInputContainer,
+                        textInput: styles.textInput,
+                        fontFamily: 'Axiforma',
+                        listView: styles.listView,
+                        input: styles.input,
+                      }}
+                    />
+                  </View>
+                ) : null}
+              </>
+            ) : null}
+
+            {/* <View
+              style={{ marginBottom: 80 }}
+              className=" px-4 space-x-3 items-center flex-row"
+            >
+              <Text
+                style={{ fontFamily: 'Chillax-Medium' }}
+                className="text-[#243763]"
+              >
                 Remote
               </Text>
 
@@ -235,21 +278,7 @@ const CreateErrandLocation = ({
                   setRemote(val)
                 }}
               />
-            </View>
-
-            {/* <MapView
-              style={styles.map}
-              initialRegion={{
-                latitude: regionCoords.lat,
-                longitude: regionCoords.lng,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              }}
-            >
-              <Marker
-                coordinate={{ latitude: marker.lat, longitude: marker.lng }}
-              />
-            </MapView> */}
+            </View> */}
           </Pressable>
         </KeyboardAvoidingView>
       </ScrollView>
@@ -268,8 +297,8 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
-    padding: 8,
-    fontSize: 7,
+    padding: 10,
+    fontSize: 14,
   },
   googlePlacesContainer: {
     position: 'relative',
@@ -277,22 +306,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   textInputContainer: {
-    flex: 1,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
+    fontFamily: 'Axiforma',
   },
   textInput: {
-    height: 50,
-    borderWidth: 0,
-    paddingHorizontal: 8,
-    marginTop: 10,
-    backgroundColor: '#E6E6E6',
+    fontFamily: 'Axiforma',
+    backgroundColor: '#dad8d8',
+    height: 53,
+    borderRadius: 40,
+    // borderWidth: 0,
+    paddingHorizontal: 20,
+    // marginTop: 10,
+    // backgroundColor: '#E6E6E6',
   },
   listView: {
-    paddingHorizontal: 2,
-    marginTop: 50,
+    // paddingHorizontal: 2,
+    // marginTop: 50,
+    width: '100%',
+    fontFamily: 'Chillax-Medium',
   },
   map: {
     left: 0,

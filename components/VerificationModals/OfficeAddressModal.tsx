@@ -8,10 +8,11 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
+import { currentUserDetails } from '../../services/auth/currentUserInfo'
 import { _fetch } from '../../services/axios/http'
 import { postFiles } from '../../services/errands/postFiles'
 import { RootState, useAppDispatch } from '../../services/store'
@@ -41,6 +42,10 @@ export function ImageViewer({
 
 const OfficeAddressModal = ({ closeOfficeModal }: any) => {
   const dispatch = useAppDispatch()
+
+    const {
+    data
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
 
   const [loading, setLoading] = useState(false)
 
@@ -87,13 +92,13 @@ const OfficeAddressModal = ({ closeOfficeModal }: any) => {
     }
   }
 
-  const updateLocation = async (LocationData: any) => {
+  const updateLocation = async () => {
     setLoading(true)
     try {
       const _rs = await _fetch({
         method: 'PUT',
         _url: `/user/profile`,
-        body: LocationData,
+        body: { address_document: uploadedFiles[0] },
       })
 
       // Check if the response status code indicates an error
@@ -104,51 +109,64 @@ const OfficeAddressModal = ({ closeOfficeModal }: any) => {
 
       setLoading(false)
 
-      const responseData = await _rs.json()
+      const rs = await _rs.json()
 
-      return responseData
-    } catch (error) {
-      throw error
-    }
-  }
-
-  const handleLocation = async () => {
-    const updatedData = {
-      address_document: uploadedFiles,
-    }
-
-    try {
-      const responseData = await updateLocation(updatedData)
-
-      // Checking if the response indicates success
-      if (responseData.success) {
-        // Handling a successful response from the server here
-
-        // Show a success message to the user.
+      if (rs.success) {
+        dispatch(currentUserDetails({user_id: data.id}))
         Toast.show({
           type: 'success',
           text1:
             'Your file has been submitted successfully, you will be notified once your verification has been processed.',
         })
-
         closeOfficeModal()
       } else {
-        // Handle the case where the server responded with an error message
-
         Toast.show({
           type: 'error',
-          text1: 'Profile update failed:' + responseData.message,
+          text1: 'file update failed:' + rs.message,
         })
       }
-    } catch (error) {
-      // Handle errors here, such as network errors or server-side errors
 
-      Toast.show({
-        type: 'error',
-        text1: 'Sorry, something went wrong',
-      })
+      return rs
+    } catch (error) {
+      throw error
     }
   }
+
+  // const handleLocation = async () => {
+  //   const updatedData = {}
+
+  //   try {
+  //     const responseData = await updateLocation(updatedData)
+
+  //     // Checking if the response indicates success
+  //     if (responseData.success) {
+  //       // Handling a successful response from the server here
+
+  //       // Show a success message to the user.
+  //       Toast.show({
+  //         type: 'success',
+  //         text1:
+  //           'Your file has been submitted successfully, you will be notified once your verification has been processed.',
+  //       })
+
+  //       closeOfficeModal()
+  //     } else {
+  //       // Handle the case where the server responded with an error message
+
+  //       Toast.show({
+  //         type: 'error',
+  //         text1: 'Profile update failed:' + responseData.message,
+  //       })
+  //     }
+  //   } catch (error) {
+  //     // Handle errors here, such as network errors or server-side errors
+
+  //     Toast.show({
+  //       type: 'error',
+  //       text1: 'Sorry, something went wrong',
+  //     })
+  //   }
+  // }
 
   return (
     <View className="py-4 pb-10">
@@ -158,12 +176,13 @@ const OfficeAddressModal = ({ closeOfficeModal }: any) => {
 
       <View className="px-4 mt-6">
         <Text className="text-sm text-[#243763] font-semibold">
-         Please upload a picture of yourself holding the personal Identification document you have submitted to SWAVE
+          Please upload a picture of yourself holding the personal
+          Identification document you have submitted to SWAVE
         </Text>
       </View>
 
       {/* <View className="w-[398px] h-[38px] mx-auto mt-10 ml-4"></View> */}
-      <ScrollView className='px-4'>
+      <ScrollView className="px-4">
         <View className="w-full rounded-lg h-[150px] bg-[#FCFCFC] mx-auto mt-4 border-[0.5px] border-[#E6E6E6]">
           {uploadingImages ? (
             <View className="flex-row justify-center items-center mt-16 space-x-2">
@@ -220,7 +239,7 @@ const OfficeAddressModal = ({ closeOfficeModal }: any) => {
 
         <TouchableOpacity
           className="bg-[#1E3A79] h-12 w-[40%] mt-6 flex-row justify-center items-center rounded-lg"
-          onPress={() => handleLocation()}
+          onPress={() => updateLocation()}
         >
           <Text className="text-white text-base">
             {loading ? (

@@ -1,4 +1,4 @@
-import { Entypo, FontAwesome, Ionicons } from '@expo/vector-icons'
+import { AntDesign, Entypo, FontAwesome, Ionicons } from '@expo/vector-icons'
 import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-view'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
@@ -143,16 +143,16 @@ export const SenderDetails = ({
               Requirements
             </Text>
             <View className="flex-row space-x-3 w-60">
-                <View className="w-20 h-[24px] bg-[#DAE1F1] justify-center  border-[#3F60AC] border rounded-2xl">
-                  <Text className="text-center text-[#3F60AC] text-xs">
-                    <FontAwesome
-                      name="check-circle"
-                      size={12}
-                      color={'#3F60AC'}
-                    />{' '}
-                    Insurance
-                  </Text>
-                </View>
+              <View className="w-20 h-[24px] bg-[#DAE1F1] justify-center  border-[#3F60AC] border rounded-2xl">
+                <Text className="text-center text-[#3F60AC] text-xs">
+                  <FontAwesome
+                    name="check-circle"
+                    size={12}
+                    color={'#3F60AC'}
+                  />{' '}
+                  Insurance
+                </Text>
+              </View>
             </View>
           </View>
         )}
@@ -354,6 +354,16 @@ export const SenderDetails = ({
         )}
 
       <Modal visible={selectedImage !== ''} transparent={true} animated>
+        <View className="flex-row justify-end pr-6">
+          <AntDesign
+            onPress={() => setSelectedImage('')}
+            name="closecircle"
+            color="#999"
+            size={40}
+            className=""
+          />
+        </View>
+
         <ReactNativeZoomableView
           maxZoom={30}
           contentWidth={300}
@@ -362,12 +372,12 @@ export const SenderDetails = ({
           <Image source={{ uri: selectedImage }} style={[styles.modalImage]} />
         </ReactNativeZoomableView>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => setSelectedImage('')}
           style={styles.closeButton}
         >
           <Text style={styles.closeButtonText}>Close</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         {/* </View> */}
       </Modal>
     </ScrollView>

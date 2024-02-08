@@ -311,6 +311,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
                 style={{
                   backgroundColor: theme ? '#1E3A79' : 'white',
                 }}
+                onPress={() => navigation.navigate('UserProfile')}
               >
                 <Text
                   style={{ color: '#09497D' }}
@@ -410,7 +411,7 @@ const AccountScreen = ({ route, navigation }: AccountScreenProp) => {
         <BottomSheetModal
           ref={bottomSheetRef4}
           index={0}
-          snapPoints={['70%']}
+          snapPoints={['50%']}
           containerStyle={{
             marginHorizontal: 10,
           }}

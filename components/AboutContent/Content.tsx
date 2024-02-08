@@ -1,25 +1,28 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import {
+  AntDesign,
+  Feather,
+  Ionicons,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons'
 import React from 'react'
+import { Text, TouchableOpacity, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../services/store'
-import { AntDesign, Feather, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 
-const Content = ({navigation}:any) => {
-    const {
-        data: currentUser,
-        backgroundTheme,
-        textTheme,
-        landingPageTheme,
-        loading,
-      } = useSelector((state: RootState) => state.currentUserDetailsReducer)
-    
-      const theme = currentUser?.preferred_theme === 'light' ? true : false
+const Content = ({ navigation }: any) => {
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+    loading,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  const theme = currentUser?.preferred_theme === 'light' ? true : false
 
   return (
-    <View style={{backgroundColor: '#E6E6E6'}} className=' px-4 pt-4'>
-
-   
-   {/* <TouchableOpacity className='mb-2 mt-4 w-[300px] border rounded-full py-4 mx-auto' onPress={()=> navigation.navigate('Profile')} style={{borderColor: textTheme}}>
+    <View style={{ backgroundColor: '#E6E6E6', flex:1 }} className=" px-4 pt-4">
+      {/* <TouchableOpacity className='mb-2 mt-4 w-[300px] border rounded-full py-4 mx-auto' onPress={()=> navigation.navigate('Profile')} style={{borderColor: textTheme}}>
    <Text style={{color: textTheme}} className='text-center text-base'> My Profile </Text>
    </TouchableOpacity>
 
@@ -39,72 +42,131 @@ const Content = ({navigation}:any) => {
    <Text style={{color: textTheme}} className='text-center text-base'> Privacy Policy</Text>
    </TouchableOpacity> */}
 
-   <View className='flex-row items-center justify-between'>
+      <View className="flex-row items-center justify-between">
+        <Text
+          className="text-[#09497D] text-[20px]"
+          style={{ fontFamily: 'Axiforma' }}
+        >
+          Settings
+        </Text>
 
-    <Text className='text-[#09497D] text-[20px]' style={{fontFamily: 'Chillax'}}>Settings</Text>
-
-    <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-    <Text className='text-[#09497D] text-base' style={{textDecorationLine: 'underline', fontFamily: 'Axiforma'}}>See all Settings</Text>
-    </TouchableOpacity>
-
-   </View>
-
-   <View className='mt-[41px]'>
-    <Text className='text-base text-[#444]' style={{fontFamily: 'Axiforma'}}>Helpful Links</Text>
-   </View>
-
-   <View className='mt-4 bg-white pt-4 pl-[18px] pb-5 pr-6 rounded-[15px]'>
-
-   <TouchableOpacity className='flex-row items-center justify-between mx-2' onPress={()=> navigation.navigate('About')}>
-
-    <View className='flex-row items-center'>
-    <Text className='mr-2'> <AntDesign name="infocirlceo" size={12} color="black" /> </Text>
-    <Text className='text-base text-[#444]' style={{fontFamily: 'Axiforma'}}>About Swave</Text>
-    </View>
-    
-    <Text><AntDesign name="right" size={20} color="black" /></Text>
-   </TouchableOpacity>
-
-
-   <TouchableOpacity className='flex-row items-center justify-between mt-[25px] mx-2' onPress={()=> navigation.navigate('Profile')}>
-
-      <View className='flex-row items-center'>
-      <Text className='mr-2'> <Feather name="help-circle" size={12} color="black" /> </Text>
-      <Text className='text-base text-[#444]' style={{fontFamily: 'Axiforma'}}>Help & Support</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+          <Text
+            className="text-[#09497D] text-base"
+            style={{ textDecorationLine: 'underline', fontFamily: 'Axiforma' }}
+          >
+            See all Settings
+          </Text>
+        </TouchableOpacity>
       </View>
 
-      <Text><AntDesign name="right" size={20} color="black" /></Text>
-      </TouchableOpacity>
+      <View className="mt-[41px]">
+        <Text
+          className="text-base text-[#444]"
+          style={{ fontFamily: 'Axiforma' }}
+        >
+          Helpful Links
+        </Text>
+      </View>
 
+      <View className="mt-4 bg-white pt-4 pl-[18px] pb-5 pr-6 rounded-[15px]">
+        <TouchableOpacity
+          className="flex-row items-center justify-between mx-2"
+          onPress={() => navigation.navigate('About')}
+        >
+          <View className="flex-row items-center">
+            <Text className="mr-2">
+              {' '}
+              <AntDesign name="infocirlceo" size={12} color="black" />{' '}
+            </Text>
+            <Text
+              className="text-base text-[#444]"
+              style={{ fontFamily: 'Axiforma' }}
+            >
+              About Swave
+            </Text>
+          </View>
 
-      <TouchableOpacity className='flex-row items-center justify-between mt-[25px] mx-2' onPress={()=> navigation.navigate('Terms')}>
-
-        <View className='flex-row items-center'>
-        <Text className='mr-2'> <Ionicons name="information-circle-outline" size={11} color="black" /> </Text>
-        <Text className='text-base text-[#444]' style={{fontFamily: 'Axiforma'}}>Terms and Conditions</Text>
-        </View>
-
-        <Text><AntDesign name="right" size={20} color="black" /></Text>
+          <Text>
+            <AntDesign name="right" size={20} color="black" />
+          </Text>
         </TouchableOpacity>
 
+        <TouchableOpacity
+          className="flex-row items-center justify-between mt-[25px] mx-2"
+          onPress={() => navigation.navigate('Contact')}
+        >
+          <View className="flex-row items-center">
+            <Text className="mr-2">
+              {' '}
+              <Feather name="help-circle" size={12} color="black" />{' '}
+            </Text>
+            <Text
+              className="text-base text-[#444]"
+              style={{ fontFamily: 'Axiforma' }}
+            >
+              Help & Support
+            </Text>
+          </View>
 
-        <TouchableOpacity className='flex-row items-center justify-between mt-[25px] mx-2' onPress={()=> navigation.navigate('Privacy')}>
-
-        <View className='flex-row items-center'>
-        <Text className='mr-2 '> <MaterialCommunityIcons name="shield-alert-outline" size={12} color="black" /> </Text>
-        <Text className='text-base text-[#444]' style={{fontFamily: 'Axiforma'}}>Privacy Policy</Text>
-        </View>
-
-        <Text><AntDesign name="right" size={20} color="black" /></Text>
+          <Text>
+            <AntDesign name="right" size={20} color="black" />
+          </Text>
         </TouchableOpacity>
 
+        <TouchableOpacity
+          className="flex-row items-center justify-between mt-[25px] mx-2"
+          onPress={() => navigation.navigate('Terms')}
+        >
+          <View className="flex-row items-center">
+            <Text className="mr-2">
+              {' '}
+              <Ionicons
+                name="information-circle-outline"
+                size={11}
+                color="black"
+              />{' '}
+            </Text>
+            <Text
+              className="text-base text-[#444]"
+              style={{ fontFamily: 'Axiforma' }}
+            >
+              Terms and Conditions
+            </Text>
+          </View>
 
+          <Text>
+            <AntDesign name="right" size={20} color="black" />
+          </Text>
+        </TouchableOpacity>
 
-   </View>
+        <TouchableOpacity
+          className="flex-row items-center justify-between mt-[25px] mx-2"
+          onPress={() => navigation.navigate('Privacy')}
+        >
+          <View className="flex-row items-center">
+            <Text className="mr-2 ">
+              {' '}
+              <MaterialCommunityIcons
+                name="shield-alert-outline"
+                size={12}
+                color="black"
+              />{' '}
+            </Text>
+            <Text
+              className="text-base text-[#444]"
+              style={{ fontFamily: 'Axiforma' }}
+            >
+              Privacy Policy
+            </Text>
+          </View>
 
-
-   </View>
-
+          <Text>
+            <AntDesign name="right" size={20} color="black" />
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   )
 }
 

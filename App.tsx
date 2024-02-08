@@ -8,7 +8,7 @@ import * as NetInfo from '@react-native-community/netinfo'
 import { NavigationContainer } from '@react-navigation/native'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
-import { Image, View } from 'react-native'
+import { Image, KeyboardAvoidingView, Platform, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Modal from 'react-native-modal'
 import { NetworkProvider } from 'react-native-offline'
@@ -81,7 +81,7 @@ export default function App({ navigation }: any) {
   }
 
   useEffect(() => {
-    // getAppVersion()
+    getAppVersion()
     // check if user is authenticated
     checkAuthenticationStatus()
     // checks network availability
@@ -92,10 +92,10 @@ export default function App({ navigation }: any) {
           text1: 'Back Online',
         })
       }
-      Toast.show({
-        type: 'error',
-        text1: 'Sorry, you are offline, please check your network',
-      })
+      // Toast.show({
+      //   type: 'error',
+      //   text1: 'Sorry, you are offline, please check your network',
+      // })
       return <ErrorBoundary />
     })
     // Load any resources or data that you need before rendering the app
@@ -145,7 +145,6 @@ export default function App({ navigation }: any) {
     return (
       <NetworkProvider>
         <StatusBar barStyle="light-content" backgroundColor="#09497D" />
-
         <ErrorBoundary>
           <View style={{ flex: 1 }}>
             <ToastProvider>
@@ -153,24 +152,20 @@ export default function App({ navigation }: any) {
                 <MenuProvider>
                   <Provider store={store}>
                     <SafeAreaProvider>
-                      {/* <Navigation /> */}
-                      <GestureHandlerRootView style={{ flex: 1 }}>
-                        {/* Conditionally render AuthStack or AppStack based on authentication status */}
-
-                        {/* {isAuthenticated ? ( */}
-                        <NavigationContainer ref={navigationRef}>
-                          {isGuest === null ? (
-                            <GuestStack />
-                          ) : (
-                            <MainNavigation />
-                          )}
-                        </NavigationContainer>
-                        {/* ) : (
-                    <NavigationContainer>
-                      <GuestNavigator />
-                    </NavigationContainer>
-                  )} */}
-                      </GestureHandlerRootView>
+                      {/* <KeyboardAvoidingView
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                        style={{ flex: 1 }}
+                      > */}
+                        <GestureHandlerRootView style={{ flex: 1 }}>
+                          <NavigationContainer ref={navigationRef}>
+                            {isGuest === null ? (
+                              <GuestStack />
+                            ) : (
+                              <MainNavigation />
+                            )}
+                          </NavigationContainer>
+                        </GestureHandlerRootView>
+                      {/* </KeyboardAvoidingView> */}
                     </SafeAreaProvider>
                     <Toast />
                   </Provider>

@@ -30,6 +30,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
   const [accountUpdate, setAccountUpdate] = useState(false)
   const [newsLetter, setNewsLetter] = useState(false)
   const [smsLoading, setSmsLoading] = useState(false)
+  const [errandAreaValue, setErrandAreaValue] = useState(true)
 
   const dispatch = useAppDispatch()
 
@@ -178,6 +179,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
 
   const handleAreaChange = async (value: any) => {
     setSmsLoading(true) // Set loading to true when the switch is changed
+    setErrandAreaValue(!errandAreaValue);
 
     console.log(">>>>>>location", value);
     
@@ -383,7 +385,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
         </View> */}
       </View>
 
-      <View className="mt-6 ml-4 ">
+      {/* <View className="mt-6 ml-4 ">
         <Text
           style={{ color: textTheme }}
           className=" text-base font-bold leading-6"
@@ -434,7 +436,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
             />
           </View>
         </View>
-      </View>
+      </View> */}
 
       <View className="mt-6 ml-4 ">
         <Text
@@ -536,9 +538,9 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
             >
               Errands within your area
             </Text>
-
-            <Switch
-              trackColor={{ false: '#767577', true: 'green' }}
+            {errandAreaValue ? 
+              <Switch
+              trackColor={{ false: '#767577', true: '#09497D' }}
               onValueChange={(value: boolean) => {
                 // dispatch(
                 //   updateNotificationPrefeference({
@@ -553,6 +555,25 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
               value={preferences?.location_errand_notifications}
               style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
             />
+            :
+            <Switch
+              trackColor={{ false: '#767577', true: '#09497D' }}
+              onValueChange={(value: boolean) => {
+                // dispatch(
+                //   updateNotificationPrefeference({
+                //     ...preferences,
+                //     dispatch,
+                //     Toast,
+                //     location_errand_notifications: value,
+                //   }),
+                // )
+                handleAreaChange(value)
+              }}
+              value={!preferences?.location_errand_notifications}
+              style={{ transform: [{ scaleX: 0.6 }, { scaleY: 0.6 }] }}
+            />
+            }
+            
           </View>
           <Text style={{ color: '#787C82', fontFamily: 'Axiforma' }} className="text-sm font-light">
             Be in the know when we publish any information

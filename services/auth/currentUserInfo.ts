@@ -17,15 +17,17 @@ export const currentUserDetails = createAsyncThunk<UserDetailsResponse, UserProp
       });
       
       const rs = await _rs.json()
-        if (rs.success === true) {
-        return rs
+      if (rs.success === true) {
+          console.log('>>>>>rs from currnt usrt');
+          
+          return rs
         }
         }
          catch (e: any) {
-            if (e.response.status === 400) {
-            return rejectWithValue(e.response.data.message)
-            }
-            return rejectWithValue(e.response.data.message)
+            // if (e.response.status === 400) {
+            // return rejectWithValue(e.response.data.message)
+            // }
+            // return rejectWithValue(e.response.data.message)
         }
 })
 
@@ -68,7 +70,9 @@ const initialState: UserDetailsResponse = {
     preferred_theme: '',
     has_transaction_pin: false,
     errands_posted: 0,
-    referred_by: ''
+    referred_by: '',
+    category_interest: [],
+    ci_location: ''
   }
 }
 

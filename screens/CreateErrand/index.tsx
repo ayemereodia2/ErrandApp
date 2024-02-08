@@ -368,6 +368,7 @@ const PostErrand = ({ navigation }: any) => {
           deliveryAddres={deliveryAddress}
           remote={remote}
           setRemote={setRemote}
+          navigation={navigation}
         />
       )
     }

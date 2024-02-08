@@ -222,7 +222,7 @@ const PlaceBidModal = ({
               <View className="w-full border bg-white border-[#E6E6E6] text-sm py-2.5 mt-2 rounded-lg px-3">
                 <TextInput
                   className={'w-full  text-sm py-1.5 mt-2 rounded-lg px-3'}
-                  placeholder="Describe the issue that you need help with."
+                  placeholder="Sell your service and skills to the sender"
                   onChangeText={(e) => setComment(e)}
                   value={comment}
                   multiline={true}

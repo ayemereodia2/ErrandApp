@@ -6,6 +6,7 @@ import {
 import * as ImagePicker from 'expo-image-picker'
 import React, { useRef, useState } from 'react'
 import {
+  ActivityIndicator,
   Image,
   SafeAreaView,
   ScrollView,
@@ -16,7 +17,8 @@ import {
 import { useSelector } from 'react-redux'
 import UpdateProfile from '../../components/ProfileUpdate/UpdateProfile'
 import ScreenHeader from '../../components/ScreenHeader'
-import { RootState } from '../../services/store'
+import { postFiles } from '../../services/errands/postFiles'
+import { RootState, useAppDispatch } from '../../services/store'
 
 const EditProfileTitle = ({ navigation, route }: any) => {
   const {
@@ -26,6 +28,8 @@ const EditProfileTitle = ({ navigation, route }: any) => {
     landingPageTheme,
   } = useSelector((state: RootState) => state.currentUserDetailsReducer)
   const bottomSheetRef4 = useRef<BottomSheetModal>(null)
+  const dispatch = useAppDispatch()
+  const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
 
   const darkMode = useSelector((state: RootState) => state.darkMode.darkMode)
 
@@ -36,21 +40,39 @@ const EditProfileTitle = ({ navigation, route }: any) => {
     bottomSheetRef4.current?.present()
   }
 
+  const { loading: uploadingImages } = useSelector(
+    (state: RootState) => state.postFilesReducer,
+  )
+
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     })
 
     // console.log(result);
+    let localUri = result.assets[0].uri
+    let filename = localUri.split('/').pop() || ''
+    let match = /\.(\w+)$/.exec(filename)
+    let type = match ? `image/${match[1]}` : `image`
+    const fileObj = { uri: localUri, name: filename, type }
+
+    const formData = new FormData()
+    formData.append('files', fileObj)
+    formData.append('type', 'errand')
+
+    dispatch(postFiles({ formData, setUploadedFiles, uploadedFiles }))
 
     if (!result.canceled) {
       setImage(result.assets[0].uri)
     }
   }
+
+  console.log(">>>>images", uploadedFiles);
+  
 
   const { data } = route.params
 
@@ -90,6 +112,8 @@ const EditProfileTitle = ({ navigation, route }: any) => {
               </TouchableOpacity>
             </View>
 
+            {uploadingImages ? <ActivityIndicator size={'large'} /> : null}
+
             <View>
               {/* Name Area */}
 
@@ -125,7 +149,7 @@ const EditProfileTitle = ({ navigation, route }: any) => {
               </Text>
             </View>
 
-            <UpdateProfile image={image} data={data} />
+            <UpdateProfile image={uploadedFiles} data={data} />
           </ScrollView>
         </BottomSheetModalProvider>
       </SafeAreaView>

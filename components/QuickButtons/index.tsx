@@ -25,7 +25,7 @@ const QuickButtons = ({ navigation }: Props) => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate('MyErrands')}
+        onPress={() => navigation.navigate('Errands')}
         className="border-[0.6px] p-2 rounded-3xl px-5 shadow-xl shadow-[#575656] border-[#09497D80]"
         style={{ backgroundColor: '#fff' }}
       >

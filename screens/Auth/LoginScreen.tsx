@@ -1,8 +1,10 @@
+import { useFocusEffect } from '@react-navigation/native'
 import Checkbox from 'expo-checkbox'
 import React, { useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   ActivityIndicator,
+  BackHandler,
   Image,
   SafeAreaView,
   ScrollView,
@@ -73,6 +75,28 @@ export default function LoginScreen({ navigation }: any) {
   const handleShowBusiness = () => {
     setShowBusiness(false)
   }
+
+  const {
+    data: currentUser,
+    backgroundTheme,
+    textTheme,
+    landingPageTheme,
+  } = useSelector((state: RootState) => state.currentUserDetailsReducer)
+
+  useFocusEffect(() => {
+    const onBackPress = () => {
+      if (currentUser) {
+        return true // Prevent navigation back to the login screen
+      }
+      return false // Allow navigation back to the login screen
+    }
+
+    BackHandler.addEventListener('hardwareBackPress', onBackPress)
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', onBackPress)
+    }
+  })
 
   return (
     <SafeAreaView className="bg-[#FEFEFE] h-full">

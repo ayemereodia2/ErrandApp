@@ -25,7 +25,6 @@ export function NotificationCard({ data, isLoading }) {
     )
   }
 
-
   return (
     <>
       {data === null ? (
@@ -35,10 +34,10 @@ export function NotificationCard({ data, isLoading }) {
           </Text>
         </>
       ) : (
-        data?.map((notification: any) => (
-          <ScrollView className="px-4">
+        <ScrollView className="px-4 ">
+          {data?.map((notification: any) => (
             <View
-              className="py-2 mb-3 mt-2"
+              className="py-2  mt-2"
               // style={{ backgroundColor: theme ? '#152955' : 'white' }}
               key={notification.id}
             >
@@ -123,8 +122,8 @@ export function NotificationCard({ data, isLoading }) {
                 </Text>
               </View>
             </View>
-          </ScrollView>
-        ))
+          ))}
+        </ScrollView>
       )}
     </>
   )
