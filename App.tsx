@@ -143,10 +143,11 @@ export default function App({ navigation }: any) {
     return null
   } else {
     return (
+      
       <NetworkProvider>
         <StatusBar barStyle="light-content" backgroundColor="#09497D" />
         <ErrorBoundary>
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, backgroundColor: 'transparent' }}>
             <ToastProvider>
               <QueryClientProvider client={queryClient}>
                 <MenuProvider>

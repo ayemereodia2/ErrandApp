@@ -719,8 +719,9 @@ const Home = ({ navigation }: any) => {
                     stackSeparation={10}
                     cardHorizontalMargin={0}
                     cardVerticalMargin={10}
-                    disableTopSwipe
-                    disableBottomSwipe
+                    disableTopSwipe={true}
+                    disableBottomSwipe={true}
+                    
                     infinite={true}
                     backgroundColor="transparent"
                     verticalSwipe={false}
