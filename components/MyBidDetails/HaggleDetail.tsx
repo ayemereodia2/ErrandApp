@@ -17,8 +17,8 @@ import { bidAction } from '../../services/bids/bidsAction'
 import { getSubErrand } from '../../services/errands/subErrand'
 import { RootState, useAppDispatch } from '../../services/store'
 import { BidsProps } from '../../types'
-import ActionButton from '../ActionButtons'
 import NegotiateBid from '../Modals/Bids/Negotiate'
+import RejectBid from '../Modals/Bids/Reject'
 import BeginErrandModal from '../Modals/Errands/BeginErrand'
 
 export const HaggleComponent = ({
@@ -35,6 +35,9 @@ export const HaggleComponent = ({
   const negotiateRef = useRef<BottomSheetModal>(null)
   const [selectedImage, setSelectedImage] = useState('')
 
+  const rejectRef = useRef<BottomSheetModal>(null)
+
+
   // Handles show reply
 
   const beginErrandRef = useRef<BottomSheetModal>(null)
@@ -48,6 +51,10 @@ export const HaggleComponent = ({
 
   function toggleNegotiateModal(open: boolean) {
     open ? negotiateRef.current?.present() : negotiateRef.current?.dismiss()
+  }
+
+  function toggleRejectModal(open: boolean) {
+    open ? rejectRef.current?.present() : rejectRef.current?.dismiss()
   }
 
   const dispatch = useAppDispatch()
@@ -271,10 +278,32 @@ export const HaggleComponent = ({
             ) : (
               <>
                 {errand.status === 'open' && (
-                  <View className="flex-row space-x-2 w-3/5">
+                  <View className="flex-row space-x-4 w-3/5">
                     {negotiatorIsSender && (
                       <>
-                        <ActionButton
+                        <Text
+                          onPress={() =>
+                            dispatch(
+                              bidAction({
+                                method: 'PUT',
+                                errand_id: errand.id,
+                                image_url: [],
+                                description:
+                                  'This user has accepted the latest bid',
+                                source: 'runner',
+                                amount: Number(haggle?.amount),
+                                bid_id: bid.id,
+                                dispatch,
+                                toggleSuccessDialogue,
+                                Toast,
+                              }),
+                            )
+                          }
+                          className="text-[#33A532] text-base"
+                        >
+                          Accept
+                        </Text>
+                        {/* <ActionButton
                           onPress={() =>
                             dispatch(
                               bidAction({
@@ -295,20 +324,34 @@ export const HaggleComponent = ({
                           name="checkmark"
                           iconColor="#33A532"
                           className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#33A532]"
-                        />
+                        /> */}
 
-                        <ActionButton
+                        {/* <ActionButton
                           name="x"
                           iconColor="#FF0000"
                           className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-red-600"
-                        />
+                        /> */}
 
-                        <ActionButton
+                        <Text
+                          onPress={() => toggleRejectModal(true)}
+                          className="text-[#FF0000] text-base"
+                        >
+                          Reject
+                        </Text>
+
+                        <Text
+                          onPress={() => toggleNegotiateModal(true)}
+                          className="text-[#317ACF] text-base"
+                        >
+                          Negotiate
+                        </Text>
+
+                        {/* <ActionButton
                           onPress={() => toggleNegotiateModal(true)}
                           name="comment"
                           iconColor="#317ACF"
                           className="w-[30px] h-[30px] border-solid rounded-full border items-center justify-center border-[#317ACF]"
-                        />
+                        /> */}
                       </>
                     )}
                   </View>
@@ -421,6 +464,22 @@ export const HaggleComponent = ({
             bid={bid}
             errand={errand}
             user_id={user_id}
+          />
+        </BottomSheetModal>
+
+        <BottomSheetModal
+          backdropComponent={renderBackdrop}
+          ref={rejectRef}
+          index={0}
+          snapPoints={['40%']}
+        >
+          <RejectBid
+            toggleSuccessDialogue={toggleSuccessDialogue}
+            toggleRejectModal={toggleRejectModal}
+            bid={bid}
+            errand={errand}
+            user_id={user_id}
+            haggle={haggle}
           />
         </BottomSheetModal>
       </View>

@@ -171,7 +171,6 @@ const SettingScreen = ({ navigation }: any) => {
       _url: `/user/deleteprofile/${currentUser.id}`,
     })
     const rs = await _rs.json()
-    console.log('>>>>>rs', rs)
 
     if (rs.success === true) {
       setDeleteModal(false)

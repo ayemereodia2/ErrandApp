@@ -385,7 +385,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
         </View> */}
       </View>
 
-      {/* <View className="mt-6 ml-4 ">
+      <View className="mt-6 ml-4 ">
         <Text
           style={{ color: textTheme }}
           className=" text-base font-bold leading-6"
@@ -436,7 +436,7 @@ const SettingsTest = ({ openVerifyModal, loader }: Props) => {
             />
           </View>
         </View>
-      </View> */}
+      </View>
 
       <View className="mt-6 ml-4 ">
         <Text

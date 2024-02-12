@@ -69,7 +69,7 @@ export default function App({ navigation }: any) {
   useOnlineManager()
 
   const getAppVersion = async () => {
-    const versionCode = '9'
+    const versionCode = '11'
     await fetch(`${process.env.EXPO_PUBLIC_API_URL}/mobileversion`)
       .then((rs) => rs.json())
       .then((rs) => {

@@ -96,9 +96,9 @@ const currentUserDetailsSlice = createSlice({
       state.loading = false;
       state.error = "";
       state.data = action.payload.data
-      state.backgroundTheme = state.data.preferred_theme === 'light' ? '#0c1730' : '#e9ebf2'
-      state.textTheme = state.data.preferred_theme === 'light' ? 'white' : 'black'
-      state.landingPageTheme = state.data.preferred_theme === 'light' ? '#d2d8e4' : 'grey'
+      // state.backgroundTheme = state.data.preferred_theme === 'light' ? '#0c1730' : '#e9ebf2'
+      // state.textTheme = state.data.preferred_theme === 'light' ? 'white' : 'black'
+      // state.landingPageTheme = state.data.preferred_theme === 'light' ? '#d2d8e4' : 'grey'
     });
     builder.addCase(currentUserDetails.pending, (state, action) => {
       state.loading = true;
