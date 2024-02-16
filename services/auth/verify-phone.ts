@@ -21,30 +21,30 @@ export const verifyPhone = createAsyncThunk("/user/verifyPhone", async ({ naviga
 
     const _rs = await _fetch({ _url: '/user/verify-phone', method: 'POST', body: { phone_number, intent } })
     const rs = await _rs.json()
+    
 
     if (from === 'forgotPassword') {
       if (rs.success === false) {
           Toast.show({
               type: 'error',
-              text1: 'Sorry, This phone number already exist in our database ---',
+              text1: 'Sorry, This phone number already exist in our database',
             });
            
-        }
+        } else
       if (rs.success === true) {
             navigation.navigate('VerifyOtp', {comingFrom:'forgotPassword'})
             await AsyncStorage.setItem('phone', phone_number )
         }
-    } else 
+    } 
 
-      if (from === "createAccount") {      
+    if (from === "createAccount") {      
         if (rs.success === false) {
             Toast.show({
               type: 'error',
               text1: 'Sorry, This phone number already exist in our database',
             });
             return 
-        }
-      if (rs.success === true) {
+        } else if (rs.success === true) {
           await AsyncStorage.setItem('phone', phone_number )
           navigation.navigate('VerifyOtp', {comingFrom: 'createAccount'})
         }

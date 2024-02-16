@@ -92,10 +92,10 @@ export default function VerifyPhone({ navigation, route }: any) {
         from: comingFrom,
       }),
     )
-    navigation.navigate('VerifyOtp', {
-      phone_number: phoneNumber,
-      comingFrom: comingFrom,
-    });
+    // navigation.navigate('VerifyOtp', {
+    //   phone_number: phoneNumber,
+    //   comingFrom: comingFrom,
+    // });
   }
 
   return (

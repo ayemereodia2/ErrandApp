@@ -59,7 +59,7 @@ const Timeline = ({
 
   useEffect(() => {
     // for sender's profile data on timeline, for multi and single errand
-    dispatch(userDetails({ user_id: errand.user_id }))
+    // dispatch(userDetails({ user_id: errand.user_id }))
 
     if (errand.errand_type === 1) {
       // to get runner's profile data for a multi-errand

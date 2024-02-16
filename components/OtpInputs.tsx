@@ -28,8 +28,8 @@ const OtpInput = ({ onChangeText }) => {
         <TextInput
           key={index}
           style={{
-            width: 50, // Adjust width as needed
-            height: 50, // Adjust height as needed
+            width: 45, // Adjust width as needed
+            height: 45, // Adjust height as needed
             borderWidth: 1,
             textAlign: 'center',
            

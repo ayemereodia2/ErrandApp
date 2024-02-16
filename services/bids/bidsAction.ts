@@ -23,7 +23,7 @@ export const bidAction = createAsyncThunk<ErrandMarketResponse, BidActionPayload
           type: 'error',
          text1: rs.message,
        });
-      setShowFundWallet(true)
+      // setShowFundWallet(true)
       dispatch(setNegotiationLoaderToFalse(false))
       toggleAcceptModal && toggleAcceptModal(false)
     }
@@ -68,17 +68,16 @@ export const bidAction = createAsyncThunk<ErrandMarketResponse, BidActionPayload
         return rs.data
     }
 
-        return rs.data
+      return rs.data
 
   } catch (e: any) {
-    if (e.response.status === 400) {
-      if (e.response.data.success === false) {
+    if (e.status === 400) {
+      dispatch(setNegotiationLoaderToFalse(false))
          Toast.show({
           type: 'error',
-          text1: e.response.data.message,
+          text1: 'Insufficient funds. Kindly fund your wallet with 3250 to accept this bid',
         });
       }
-    }
   }
 })
 

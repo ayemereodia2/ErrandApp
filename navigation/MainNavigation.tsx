@@ -99,8 +99,6 @@ const MainNavigation = () => {
 
     // Handle push notifications when the app is in the foreground
     const handlePushNotification = async (remoteMessage: any) => {
-      console.log('>>>>>>=ermeote message', remoteMessage)
-
       if (remoteMessage.data.screen === 'MyErrandDetails') {
         dispatch(
           errandDetails({
