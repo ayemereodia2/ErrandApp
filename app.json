@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "Swave",
-    "slug": "Swave",
-    "version": "1.0.1",
+    "slug": "errand-app-by-swave",
+    "version": "1.0.7",
     "orientation": "portrait",
     "icon": "./assets/images/new-icon.png",
     "scheme": "myapp",
@@ -53,6 +53,7 @@
     },
     "ios": {
       "supportsTablet": true,
+      "buildNumber":"17.0",
       "config": {
         "googleMapsApiKey": "AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo"
       },
@@ -82,7 +83,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "67d2b98f-b0e0-49db-a3f4-4d46c6386ce3"
+        "projectId": "b7506e62-37fe-4929-b6c8-dde1a38b9139"
       }
     }
   }
