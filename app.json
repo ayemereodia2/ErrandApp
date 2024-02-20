@@ -17,7 +17,8 @@
           "expo-build-properties",
           {
             "ios": {
-              "useFrameworks": "static"
+              "useFrameworks": "static",
+              "deploymentTarget": "17.0"
             }
           }
         ],
@@ -53,7 +54,6 @@
     },
     "ios": {
       "supportsTablet": true,
-      "buildNumber":"17.0",
       "config": {
         "googleMapsApiKey": "AIzaSyDHfdBmUpWupA3f4Ld0lNTuQbbJQGJ4CSo"
       },
