@@ -7,7 +7,10 @@
       "env": {
         "EXPO_PUBLIC_API_URL": "https://apis.swave.ng/v1"
       },
-      "autoIncrement": true
+      "autoIncrement": true,
+      "ios":{
+        "image": "macos-ventura-13.6-xcode-15.0"
+      }
     },
 
     "internal": {
@@ -54,7 +57,7 @@
       "ios": {
         "appleId": "odiadavid2@gmail.com",
         "ascAppId": "6473091070",
-        "appleTeamId": "LB5YMG5W6W"
+        "appleTeamId": "LB5YMG5W6W",
       }
     }
   }
